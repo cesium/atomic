@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "field limits" do
+  describe "parameter limits" do
     describe "when account number is too long" do
       before { @user.account_number = 'a' * 11 }
       it { should_not be_valid }

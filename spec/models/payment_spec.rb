@@ -1,5 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+  before do
+    @user = FactoryGirl.create :member
+    @payment = @user.build_payment(date: Time.now, value: 7.50)
+    @new_payment = Payment.new(date: Time.now, value: 10.00)
+  end
+
+  subject { @payment }
+
+  describe "required fields" do
+    describe "when no date is specified" do
+      before { @payment.date = nil }
+      it { should_not be_valid }
+    end
+
+    describe "when no value is specified" do
+      before { @payment.value = nil }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "field limits" do
+    describe "when value is set to zero" do
+      before { @payment.value = 0 }
+      it { should_not be_valid }
+    end
+
+    describe "when value is less than zero" do
+      before { @payment.value = -1.0 }
+      it { should_not be_valid }
+    end
+
+    describe "when value is positive" do
+      before { @payment.value = 1 + rand(100) }
+      it { should be_valid }
+    end
+  end
+ end

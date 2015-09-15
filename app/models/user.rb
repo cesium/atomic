@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  scope :members, -> { where(type: :member) }
-  scope :buddies, -> { where(type: :buddy) }
+  scope :members, -> { where(type: "Member") }
+  scope :buddies, -> { where(type: "Buddy") }
 
   has_many :payments
 

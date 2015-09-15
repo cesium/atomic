@@ -12,9 +12,9 @@ FactoryGirl.define do
     birthdate Faker::Date.between(30.years.ago, 18.years.ago)
   end
 
-  factory :member, parent: :user do
+  factory :member, class: Member, parent: :user do
   end
 
-  factory :buddy, parent: :user do
+  factory :buddy, class: Buddy, parent: :user do
   end
 end
