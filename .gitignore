@@ -15,3 +15,8 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Vim
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
