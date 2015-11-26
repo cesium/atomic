@@ -10,10 +10,12 @@ FactoryGirl.define do
     sequence(:account_number)
     sequence(:student_id)
 
-    phone_number {Faker::Number.number(9) }
-    street {Faker::Address.street_address }
-    city {Faker::Address.city }
-    birthdate {Faker::Date.between(30.years.ago, 18.years.ago) }
+    phone_number { Faker::Number.number(9) }
+    city { Faker::Address.city }
+    birthdate { Faker::Date.between(30.years.ago, 18.years.ago) }
+
+    email { Faker::Internet.free_email(name) }
+    password { Faker::Internet.password }
   end
 
   factory :member, class: Member, parent: :user do

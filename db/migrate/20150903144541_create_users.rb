@@ -4,7 +4,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :account_number, limit: 10
       t.string :student_id, limit: 10
       t.string :name, limit: 75
-      t.string :street, limit: 100
       t.string :city, limit: 30
       t.string :phone_number, limit: 15
       t.date :birthdate
