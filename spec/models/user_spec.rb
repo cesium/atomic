@@ -23,23 +23,8 @@ RSpec.describe User, type: :model do
       it { should_not be_valid }
     end
 
-    describe "when street is blank" do
-      before { @user.street = "" }
-      it { should_not be_valid }
-    end
-
-    describe "when city is blank" do
-      before { @user.city = "" }
-      it { should_not be_valid }
-    end
-
     describe "when phone number is blank" do
       before { @user.phone_number = "" }
-      it { should_not be_valid }
-    end
-
-    describe "when birthdate is blank" do
-      before { @user.birthdate = nil }
       it { should_not be_valid }
     end
   end
@@ -60,11 +45,6 @@ RSpec.describe User, type: :model do
       it { should_not be_valid }
     end
 
-    describe "when street is too long" do
-      before { @user.street = 'a' * 101 }
-      it { should_not be_valid }
-    end
-
     describe "when city is too long" do
       before { @user.city = 'a' * 31 }
       it { should_not be_valid }
@@ -72,6 +52,18 @@ RSpec.describe User, type: :model do
 
     describe "when phone number is too long" do
       before { @user.phone_number = '9' * 16 }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "parameter validations" do
+    describe "with letters in phone number" do
+      before { @user.phone_number = 'aaa' }
+      it { should_not be_valid }
+    end
+
+    describe "with letters in account number" do
+      before { @user.account_number = 'aaa' }
       it { should_not be_valid }
     end
   end

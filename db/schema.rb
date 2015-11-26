@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903161508) do
+ActiveRecord::Schema.define(version: 20151010162218) do
 
   create_table "payments", force: :cascade do |t|
     t.date     "date"
@@ -22,19 +22,24 @@ ActiveRecord::Schema.define(version: 20150903161508) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "account_number", limit: 10
-    t.string   "student_id",     limit: 10
-    t.string   "name",           limit: 75
-    t.string   "street",         limit: 100
-    t.string   "city",           limit: 30
-    t.string   "phone_number",   limit: 15
+    t.string   "account_number",     limit: 10
+    t.string   "student_id",         limit: 10
+    t.string   "name",               limit: 75
+    t.string   "city",               limit: 30
+    t.string   "phone_number",       limit: 15
     t.date     "birthdate"
     t.string   "type"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "email"
+    t.string   "encrypted_password", limit: 128
+    t.string   "confirmation_token", limit: 128
+    t.string   "remember_token",     limit: 128
   end
 
   add_index "users", ["account_number"], name: "index_users_on_account_number", unique: true
+  add_index "users", ["email"], name: "index_users_on_email"
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
   add_index "users", ["student_id"], name: "index_users_on_student_id", unique: true
 
 end
