@@ -1,0 +1,43 @@
+<div id="clearance" class="sign-up">
+  <h2><%= t(".title") %></h2>
+
+  <%= form_for @user do |form| %>
+    <%= render partial: '/users/form', object: form %>
+
+    <%= form.label :account_number %>
+    <%= form.text_field :account_number %>
+
+    <br>
+
+    <%= form.label :student_id %>
+    <%= form.text_field :student_id %>
+
+    <br>
+
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+
+    <br>
+
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+
+    <br>
+
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number %>
+
+    <br>
+
+    <%= form.label :birthdate %>
+    <%= form.date_select :birthdate, prefix: :birthdate %>
+
+    <div class="submit-field">
+      <%= form.submit %>
+    </div>
+
+    <div class="other-links">
+      <%= link_to t(".sign_in"), sign_in_path %>
+    </div>
+  <% end %>
+</div>
