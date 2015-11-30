@@ -1,6 +1,8 @@
 FactoryGirl.define do
   factory :term do
-    year ""
+    user  nil
+    role  nil
+    board nil
   end
 
 end
