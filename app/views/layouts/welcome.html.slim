@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title Welcome CeSIUM
+
+    = stylesheet_link_tag 'welcome', media: 'all'
+    = csrf_meta_tag
+  body
+    = yield
+
+  = javascript_include_tag 'welcome'

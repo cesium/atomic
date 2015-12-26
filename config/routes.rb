@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'static#home'
+  root 'welcome#index'
 
   resources :users, only: [:index, :show]
 
