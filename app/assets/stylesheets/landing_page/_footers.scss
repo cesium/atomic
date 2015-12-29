@@ -1,0 +1,369 @@
+/************************************************* css for footers****************************************/
+
+/**footet dark**/
+#footer {
+
+    background: #111;
+    font-size: 0.9em;
+    padding: 80px 0 0;
+    position: relative;
+    clear: both;
+}
+
+.footer-col h3 {
+    color: #fff;
+    margin-bottom: 35px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-style: normal;
+}
+.footer-col h3:first-letter{
+    border-bottom: 1px solid #bbb;
+}
+.footer-col p{
+    color:#aeaeae;
+    font-size: 13px;
+}
+.contact p{
+    margin-bottom: 10px;
+}
+.contact strong{
+    margin-right: 10px;
+    font-weight: bold;
+}
+.contact strong i{
+    margin-right: 5px;
+}
+.contact a{
+    color:#777;
+}
+.contact a:hover{
+    color:$skincolor;
+}
+.f2-work li{
+    margin: 1px;
+    padding: 0px;
+}
+.f2-work li a{
+    display: block;
+}
+.f2-work li a img{
+    width:80px;
+    border:2px solid transparent;
+    @include transition (0.7s ease-in-out);
+}
+.f2-work li a:hover img{
+    border-color:$skincolor;
+
+}
+.footer-btm{
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #0c0c0c;
+    border-top-left-radius: 6px;
+    border-top-right-radius:6px; 
+}
+.news-form .form-control{
+    @include border-radius (3px);
+    height: 30px;
+}
+@media(max-width:767px){
+    .news-form{
+        text-align: center !important;
+    }
+    .news-form .form-control{
+        margin-bottom: 10px;
+    }
+}
+.footer-social li{
+    padding: 0px;
+}
+/****************footer 2****************/
+#footer-option {
+    background: #121214;
+    border-top: 4px solid #e1e1e1;
+    font-size: 0.9em;
+    padding: 80px 0 0;
+    position: relative;
+    clear: both;
+}
+#footer-option .footer-col h3{
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color:#fff;
+}
+#footer-option .footer-btm{
+    background-color: #0c0c0c;
+}
+#footer-option .contact a{
+    color:#777;
+}
+#footer-option .contact a:hover{
+    color:$skincolor;
+}
+/*******************footer 3********************/
+.footer-col.footer-3 h3{
+    text-transform: uppercase;
+    font-size: 35px;
+}
+/************twitter feed*****************/
+.tweet ul{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.tweet ul li{
+    color:#777;
+    font-weight: 600;
+    padding: 8px 0;
+    font-size: 15px;
+
+}
+.tweet ul li:before{
+    content: "\f099";
+    font-family: 'FontAwesome';
+    margin-right: 15px;
+    font-size: 16px;
+    color:$skincolor;
+}
+.tweet ul li .date{
+    padding: 3px 0;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+.tweet ul li img{
+    @include border-radius (50%);
+    margin-right: 10px;
+}
+.tweet li a{
+    color:#fff;
+    font-size: 13px;
+}
+.tweet li a:hover{
+    color:$skincolor;
+}
+.latest-f-news li a{
+    display: block;
+    padding: 4px 0;
+    color:#777;
+}
+.latest-f-news li a i{
+    @include transition (0.4s ease-in-out);
+}
+.latest-f-news li a:hover i{
+    margin-left:5px;
+}
+.latest-f-news li a:hover{
+    color:#fff;
+}
+
+/**************************
+
+Footer light styles
+
+******************************/
+
+.footer-light-1{
+    h3{
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+        font-size: 20px;
+    }
+    padding-top: 60px;
+    background-color: #f4f4f4;
+    .menu-1{
+        li{
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 3px 0;
+            a{
+                font-size: 14px;
+                text-transform: uppercase;
+
+            }
+        }
+    }
+    .media{
+        img{
+            margin-top: 5px;
+        }
+        .media-body{
+            p{
+                line-height: 20px;
+                font-size: 13px;
+                margin-bottom: 0px;
+            }
+        }
+        .media-heading{
+            font-size: 15px;
+            text-transform: capitalize;
+            margin-bottom: 0px;
+            font-weight: 600;
+        }
+    }
+    .f2-work li a img{
+        height: 70px;
+    }
+    .info li{
+        padding-bottom: 10px;
+        i{
+            color:$skincolor;
+            margin-right: 10px;
+        }
+    }
+    .subscribe-form .form-control{
+        height: 49px;
+    }
+}
+.download-app li{
+    padding: 0px;
+    a{
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        display: block;
+        font-size: 35px;
+    }
+}
+.footer-copyright{
+    font-size: 13px;
+    color:#999;
+    padding: 20px 15px;
+    background-color: #ddd;
+}
+
+
+/****footer light option 2*****/
+.footer-light-2{
+    padding-top: 60px;
+    padding-bottom: 0px;
+    background-color: #f5f5f5;
+    h3{
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #000;
+        margin-bottom: 23px;
+        font-size: 18px;
+    }
+    p{
+
+        color:#777;
+    }
+    .footer-work{
+        clear:both;
+        a{
+            display: block;
+            width: 80px;
+            margin: 0px;
+            float: left;
+            margin: 1px;
+        }
+    }
+    .find-us{
+        p{
+
+            margin-top: 0px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    }
+    .footer-news{
+        li a{
+            display: block;
+            margin-bottom: 10px;
+            &:before{
+                content: "\f105";
+                font-family: "FontAwesome";
+                margin-right: 10px;
+            }
+        }
+    }
+    .footer-bottom{
+        padding-top: 30px;
+        background-color: #eee;
+        h3{
+            margin-bottom: 30px;
+        }
+        ul{
+            margin-bottom: 30px;
+            padding: 0px;
+        }
+        p{
+            font-size: 12px;
+            font-weight: 400;
+            margin-top: 0px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+
+
+/****footer light option 3*****/
+.footer-light-3{
+    padding-top: 60px;
+    padding-bottom: 0px;
+    background-color: #f5f5f5;
+    h3{
+        text-transform: uppercase;
+        font-weight: 700;
+        color:#666;
+        margin-bottom: 20px;
+    }
+    p{
+
+        color:#777;
+    }
+    .find-us{
+        p{
+
+            margin-top: 0px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            strong{
+                font-weight: 700;
+                display: inline-block;
+                margin-right: 5px;
+            }
+        }
+    }
+    .quick-links{
+        padding-right: 40px;
+        li{
+            padding: 6px 0;
+            a{
+                 font-size: 14px;
+    text-transform: capitalize;
+            }
+        }
+    }
+    .form-control{
+        min-height: 45px;
+        color:#999;
+        text-transform: uppercase;
+        font-size: 16px;
+    }
+}
+.footer-bottom{
+    padding-top: 30px;
+    background-color: #eee;
+    h3{
+        margin-bottom: 30px;
+    }
+    ul{
+        margin-bottom: 30px;
+        padding: 0px;
+    }
+    p{
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 0px;
+        text-transform: capitalize;
+    }
+}
+
+

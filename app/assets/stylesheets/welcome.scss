@@ -1,3 +1,21 @@
-// Place all the styles related to the welcome controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// SASS GEMS
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "animate";
+@import "owl.carousel";
+@import "owl.theme";
+
+/// CSS PLUGINS IN VENDOR/ASSETS
+@import "landing_page/flexslider/flexslider";
+@import "landing_page/rs-plugin/settings";
+@import "landing_page/cubeportfolio/cubeportfolio";
+
+// CUSTOM SASS
+@import "landing_page/style";
+@import "landing_page/rev-style";
+
+.img-event{
+  height: 100%;
+}

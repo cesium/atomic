@@ -11,6 +11,6 @@ Rails.application.config.assets.version = '1.0'
 
 
 # JS/CSS de controllers que não necessitam de ser sempre carregados, adiciona-se aqui
-# %w( controller_name ).each do |controller|
-#   Rails.application.config.assets.precompile += ["#{controller}.js", "#{controller}.css"]
-# end
+%w( welcome ).each do |controller|
+   Rails.application.config.assets.precompile += ["#{controller}.js", "#{controller}.css"]
+end

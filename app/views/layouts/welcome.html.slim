@@ -6,6 +6,9 @@ html
     = stylesheet_link_tag 'welcome', media: 'all'
     = csrf_meta_tag
   body
+    = render 'layouts/lp/topbar'
+    = render 'layouts/lp/navbar'
     = yield
+    = render 'layouts/lp/footer'
 
   = javascript_include_tag 'welcome'

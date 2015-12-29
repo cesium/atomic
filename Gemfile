@@ -13,6 +13,15 @@ gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
+
+# landing page gems
+gem 'bootstrap-sass'
+gem 'font-awesome-sass'
+gem 'animate-rails'
+gem 'wow-rails'
+gem 'owlcarousel-rails'
+
+# atomic gems
 gem 'materialize-sass'
 
 group :development, :test do
