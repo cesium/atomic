@@ -5,6 +5,8 @@ include Clearance::User
   scope :buddies, -> { where(type: "Buddy") }
 
   has_many :payments
+  has_many :terms
+  has_many :roles, through: :term
 
   validates :account_number, presence: true, length: { maximum: 10 },
     numericality: { only_integer: true }
