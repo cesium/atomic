@@ -1,0 +1,29 @@
+.navbar.navbar-default.navbar-static-top.sticky role="navigation"
+  .container
+    .navbar-header
+      button.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href="index.html"
+        = image_tag("logo", alt: "cesium")
+
+    .navbar-collapse.collapse
+      ul.nav.navbar-nav.navbar-right
+        li.active
+          = link_to 'HOME', root_path
+        li
+          = link_to 'CESIUM'
+        li
+          = link_to 'EQUIPA'
+        li
+          = link_to 'NOTÍCIAS'
+        li
+          = link_to 'PARCERIAS'
+        li
+          = link_to 'GALERIA'
+        li
+          = link_to 'CONTACTO'
+
+

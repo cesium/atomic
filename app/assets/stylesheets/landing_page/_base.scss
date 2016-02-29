@@ -1,0 +1,424 @@
+body { 
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    color:#424242;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 24px;
+    background-color: #fff;
+    font-family: $primary-font;
+}
+
+/*
+/*-----------------------------------------------------------------------------------*/
+/*	RESET
+/*-----------------------------------------------------------------------------------*/
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+:focus {
+    outline: 0 !important
+}
+
+iframe {
+    border: none;
+    width:100%;
+}
+::selection {
+    background: #fefac7; /* Safari */
+    color: #555555;
+}
+::-moz-selection {
+    background: #fefac7; /* Firefox */
+    color: #555555;
+}
+strong,b{
+    font-family: $primary-font;
+    font-weight: 400;
+}
+input,
+button,
+select,
+textarea,label {
+    font-family: $primary-font;
+    font-size: 14px;
+    font-weight: 400;
+}
+hr {
+    background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2), transparent);
+    background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.2), transparent);
+    border: 0;
+    height: 1px;
+    margin: 22px 0 22px 0;
+}
+.badge{
+    font-weight: normal;
+    margin-left: 5px;
+    @include border-radius (0px);
+    background-color: $skincolor;
+    padding: 3px 6px;
+}
+a {
+    color: #333;
+    @include transition (all 200ms ease-in);
+}
+a:hover,
+a:focus {
+    color: $skincolor;
+    text-decoration: none;
+}
+.colored-text{
+    color:$skincolor;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #060606;
+    font-weight: 700;
+    margin: 0;
+    font-family: $primary-font;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 44px;
+    margin: 0 0 44px 0;
+}
+
+h2 {
+    font-size: 2.6em;
+    font-weight: 700;
+    line-height: 42px;
+    margin: 0 0 32px 0;
+}
+
+h3 {
+    font-size: 1.8em;
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: 24px;
+    margin-bottom: 15px;
+}
+/*use in section headings*/
+h3.heading{
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+    margin: 0 0 20px;
+    padding-bottom: 10px;
+    position: relative;
+    text-transform: capitalize;
+    overflow: hidden;
+    vertical-align: middle;
+    font-family: $primary-font;
+}
+h3.heading:after{
+    position: relative;
+    left: 18px;
+    content: "";
+    display: inline-block;
+    width: 200%;
+    vertical-align: middle;
+    height: .50em;
+    margin: 0 -200% 0 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+h4 {
+    font-size: 1.4em;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 27px;
+    margin: 0 0 14px 0;
+}
+
+h5 {
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 18px;
+    margin: 0 0 14px 0;
+}
+
+h6 {
+    color: #333;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 18px;
+    margin: 0 0 14px 0;
+}
+/*parahraphs*/
+p {
+    color: #555;
+    line-height: 24px;
+    margin: 0 0 20px;
+}
+p.sub-text{
+    font-style: normal;
+    font-size:16px;
+    line-height: 29px;
+    font-weight:300;
+    color:#555;
+}
+p.lead{
+    font-size: 16px;
+    font-weight: 400;
+}
+pre{
+    &:after, &:before{
+        clear: both;
+        display: table;
+        content:"";
+    }
+}
+/*******section heading**********/
+.center-heading{
+    text-align: center;
+    margin-bottom: 40px;
+}
+.center-heading h2{
+    margin-bottom: 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #333;
+    font-size: 25px;
+}
+.center-heading p{
+      font-size: 20px;
+    line-height: 35px;
+}
+.center-heading h2 strong{
+    font-weight: 700;
+}
+.center-line{
+    display: inline-block;
+    width: 70px;
+    height: 1px;
+    border-top: 1px solid #bbb;
+    /* border-bottom: 1px solid $skincolor; */
+    margin: auto;
+
+}
+.center-heading p{
+    margin-top: 10px;
+}
+.overflow-hidden{
+    overflow: hidden;
+}
+/*-----------------------------------------------------------------------------------*/
+/*	DIVIDERS
+/*-----------------------------------------------------------------------------------*/
+.divide0 {
+    width: 100%;
+    height: 0px;
+}
+.divide2 {
+    width: 100%;
+    height: 2px;
+}
+.divide3 {
+    width: 100%;
+    height: 3px;
+}
+.divide5 {
+    width: 100%;
+    height: 5px;
+}
+.divide10 {
+    width: 100%;
+    height: 10px;
+}
+.divide15 {
+    width: 100%;
+    height: 15px;
+}
+.divide20 {
+    width: 100%;
+    height: 20px;
+}
+.divide25 {
+    width: 100%;
+    height: 25px;
+}
+.divide30 {
+    width: 100%;
+    height: 30px;
+}
+.divide35 {
+    width: 100%;
+    height: 35px;
+}
+.divide40 {
+    width: 100%;
+    height: 40px;
+}
+.divide45 {
+    width: 100%;
+    height: 40px;
+}
+.divide50 {
+    width: 100%;
+    height: 50px;
+}
+.divide55 {
+    width: 100%;
+    height: 55px;
+}
+.divide60 {
+    width: 100%;
+    height: 60px;
+}
+.divide65 {
+    width: 100%;
+    height: 65px;
+}
+.divide70 {
+    width: 100%;
+    height: 70px;
+}
+.divide75 {
+    width: 100%;
+    height: 75px;
+}
+.divide80 {
+    width: 100%;
+    height: 80px;
+}
+.divide85 {
+    width: 100%;
+    height: 85px;
+}
+/*margins*/
+.margin10{
+    margin-bottom: 10px;
+}
+.margin20{
+    margin-bottom: 20px;
+}
+.margin30{
+    margin-bottom: 30px;
+}
+.margin40{
+    margin-bottom: 40px;
+}
+.no-padding{
+    padding: 0px;
+}
+.no-padding.gray{
+    background-color: #f5f5f5;
+}
+.no-padding-inner h3{
+    text-transform: uppercase;
+    font-weight: 900;
+    margin-bottom: 40px;
+}
+.no-padding-inner{
+    padding: 60px;
+}
+@media(max-width:568px){
+    .no-padding-inner{
+        padding: 15px;
+    }   
+}
+.margin-0{
+    margin: 0px !important;
+}
+
+/*************************************************************/
+/************************** Buttons **************************/
+/*************************************************************/
+
+.btn {
+    font-weight:400;
+    letter-spacing: 0px;
+    @include border-radius(2px);
+    font-size: 14px;
+    text-transform: uppercase;
+
+}
+.btn-default:hover, .btn-default:focus{
+    background-color: #333;
+    border-color: #333;
+    color:#fff;
+}
+.btn-lg {
+    padding: 14px 28px 13px 28px;
+    font-size: 13px;
+    font-weight: 400;
+}
+.btn:focus,.btn:hover{
+    outline: 0;
+    color:#fff;
+}
+.btn-xs{
+    font-size: 12px;
+}
+
+.btn-theme-bg{
+    border-color: $skincolor;
+    color: #fff;
+    background-color: $skincolor;
+}
+.btn i{
+    margin-right: 10px;
+}
+.btn-theme-bg:hover{
+    background-color: #333;
+    border-color: #333 ;
+}
+.btn-theme-dark{
+    background-color: #333;
+    color:#fff;
+}
+.btn-theme-dark:hover{
+    color:#fff;
+    background-color: $skincolor;
+}
+
+/*********border-buttons**********/
+.border-black{
+    border: 1px solid #333;
+    color:#000;
+    background-color: transparent;
+}
+.border-black:hover{
+    background-color: #000;
+    border-color: #000;
+    color:#fff;
+}
+
+.border-white{
+    border: 1px solid #fff;
+    color:#fff;
+}
+.border-white:hover{
+    background-color: #fff;
+    border-color: #fff;
+    color:#000;
+}
+.border-theme{
+    border: 1px solid $skincolor;
+    color:$skincolor;
+}
+.border-theme:hover{
+    background-color: $skincolor;
+    border-color: $skincolor;
+    color:#fff;
+}
+
+.btn-3d{
+    border-bottom: 3px solid rgba(0,0,0,0.3);
+}
+.btn-ico{
+    i{
+        margin-left: 5px;
+    }
+}

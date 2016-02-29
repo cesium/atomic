@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
+  body
+    #header
+      - if signed_in?
+        = button_to t(".sign_out"), sign_out_path, method: :delete
+      - else
+        = link_to t(".sign_in"), sign_in_path
+    #flash
+      - flash.each do |key, value|
+        |  <div id="flash_
+        = key
+        | ">
+        =h value
+    = yield
