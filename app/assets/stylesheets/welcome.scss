@@ -23,3 +23,43 @@
 .label {
   margin-right: 3px;
 }
+
+.post-header{
+    margin-bottom: 20px;
+    .tag{
+        display: block;
+        margin-bottom: 10px;
+        a{
+            text-transform: uppercase;
+            display: inline-block;
+            padding-bottom: 1px;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+        }
+    }
+    .post-title{
+        font-size:30px;
+        a{
+            color:#666;
+            &:hover{
+                color:#ddd;
+            }
+        }
+    }
+    .date{
+        color:#aeaeae;
+        font-size: 12px;
+        display: block;
+        font-weight: 400;
+        font-style: italic;
+    }
+}
+
+.grid-post{
+  .post-header{
+    margin-bottom:10px;
+    .post-title{
+      font-size: 22px;
+    }
+  }
+}
