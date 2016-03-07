@@ -1,0 +1,27 @@
+p#notice
+  = notice
+h1
+  | Listing articles
+table
+  thead
+    tr
+      th
+        | Title
+      th
+        | Body
+      th[colspan="3"]
+  tbody
+    - @articles.each do |article|
+      tr
+        td
+          = article.title
+        td
+          = article.body
+        td
+          = link_to 'Show', blog_article_path(article)
+        td
+          = link_to 'Edit', edit_blog_article_path(article)
+        td
+          = link_to 'Destroy', blog_article_path(article), method: :delete, data: { confirm: 'Are you sure?' }
+br
+= link_to 'New article', new_blog_article_path
