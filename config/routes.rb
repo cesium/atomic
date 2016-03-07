@@ -13,9 +13,14 @@ Rails.application.routes.draw do
   end
 
   namespace :blog do
-    resources :posts
-    resources :articles, path: 'news'
-   end
+    resources :posts do
+      resources :comments, only: [:create, :destroy]
+    end
+
+    resources :articles, path: 'news' do
+      resources :comments, only: [:create, :destroy]
+    end
+  end
 
   get "/sign_in" => "clearance/sessions#new", as: "sign_in"
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"

@@ -9,6 +9,7 @@ include Clearance::User
   has_many :roles, through: :term
 
   has_many :publications
+  has_many :comments
 
   validates :account_number, presence: true, length: { maximum: 10 },
     numericality: { only_integer: true }

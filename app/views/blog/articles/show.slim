@@ -11,3 +11,7 @@ p
 = link_to 'Edit', edit_blog_article_path(@article)
 |  |
 = link_to 'Back', blog_articles_path
+
+= render @article.comments
+
+= render 'blog/comments/form', publication: @article

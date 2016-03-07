@@ -11,3 +11,11 @@ p
 = link_to 'Edit', edit_blog_post_path(@post)
 |  |
 = link_to 'Back', blog_posts_path
+
+p
+  strong
+    | Comments:
+
+= render @post.comments
+
+= render 'blog/comments/form', publication: @post
