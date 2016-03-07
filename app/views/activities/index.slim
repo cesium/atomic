@@ -1,0 +1,12 @@
+h1 activities
+
+- @activities.each do |a|
+  .row
+    .col.s6
+      = image_tag @a.poster.url
+    .col.s6
+      p = "Account number: #{a.name}"
+      p = "Student id: #{a.description}"
+      p = "Member Cost: #{a.member_cost}"
+      p = "Guest Cost: #{a.guest_cost}"
+      p = "Date: #{a.start_date} - #{a.end_date}"

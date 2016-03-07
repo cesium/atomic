@@ -10,6 +10,7 @@ class CreateActivities < ActiveRecord::Migration
       t.date :start_date
       t.date :end_date
       t.boolean :coffee_break
+      t.attachment :poster
 
       t.references :activity,   index: true, foreign_key: true
       t.references :department, index: true, foreign_key: true

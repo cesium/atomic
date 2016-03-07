@@ -23,6 +23,7 @@ gem 'owlcarousel-rails'
 
 # atomic gems
 gem 'materialize-sass'
+gem "paperclip", "~> 4.3"
 
 group :development, :test do
   gem 'thin'
@@ -42,4 +43,3 @@ group :development, :test do
 
   gem 'sqlite3'
 end
-

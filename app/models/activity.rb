@@ -4,7 +4,7 @@ class Activity < ActiveRecord::Base
   has_many :activities, class_name: "Activity",
                         foreign_key: "parent_id"
   belongs_to :parent, class_name: "Activity"
-  belongs_to :departament
+  belongs_to :department
 
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true
@@ -13,4 +13,6 @@ class Activity < ActiveRecord::Base
   validates :guest_cost,  presence: true, numericality: true
   validates :start_date, presence: true
   validates :end_date, presence: true
+  has_attached_file :poster, default_url: "/images/:style/missing.png"
+ validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
 end

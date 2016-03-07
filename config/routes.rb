@@ -29,4 +29,7 @@ Rails.application.routes.draw do
   get '/about' => 'welcome#about'
   get '/team' => 'welcome#team'
   get '/contact' => 'welcome#contact'
+  get '/news' => 'welcome#news'
+  get '/log' => 'welcome#log'
+  resources :activities
 end
