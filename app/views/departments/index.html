@@ -1,0 +1,4 @@
+<h1>Departments</h1>
+<% @departments.each do |department| %>
+<p><%= link_to department.title, department_path(department) %></p>
+<% end %>

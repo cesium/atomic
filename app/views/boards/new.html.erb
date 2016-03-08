@@ -1,0 +1,10 @@
+<%= form_for :board, url: boards_path do |b| %>
+  <p>
+    <%= b.label :year %><br>
+    <%= b.text_field :year %>
+  </p>
+
+  <p>
+    <%= b.submit %>
+  </p>
+<% end %>

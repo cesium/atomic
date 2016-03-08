@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010162218) do
+ActiveRecord::Schema.define(version: 20151010171846) do
+
+  create_table "boards", force: :cascade do |t|
+    t.integer  "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "payments", force: :cascade do |t|
     t.date     "date"
@@ -21,10 +33,28 @@ ActiveRecord::Schema.define(version: 20151010162218) do
     t.datetime "updated_at",                         null: false
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "department_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "roles", ["department_id"], name: "index_roles_on_department_id"
+
+  create_table "terms", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.integer  "board_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "account_number",     limit: 10
     t.string   "student_id",         limit: 10
     t.string   "name",               limit: 75
+    t.string   "street",             limit: 100
     t.string   "city",               limit: 30
     t.string   "phone_number",       limit: 15
     t.date     "birthdate"
