@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   get "/sign_up" => "users#new", as: "sign_up"
   resources :boards
   resources :departments
+  resources :roles
 end

@@ -1,0 +1,23 @@
+<%= form_for :role, url: roles_path do |r| %>
+  <p>
+    <%= r.label :title %><br/>
+    <%= r.text_field :title %><br/>
+  </p>
+
+  <p>
+    ID Departamento<br/>
+    <%= r.text_field :department_id %>
+  </p>
+
+  <p>
+    ID Direção<br/>
+    <%= r.text_field :board_id %>
+  </p>
+
+  <p>
+    ID Utilizador<br/>
+    <%= r.text_field :user_id %>
+  </p>
+
+  <%= r.submit %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= form_for :department, url: departments_path do |d| %>
+  <p>
+    <%= d.label :title %><br>
+    <%= d.text_field :title %><br>
+  </p>
+
+  <p>
+    <%= d.submit %>
+  </p>
+<% end %>

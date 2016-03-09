@@ -1,0 +1,10 @@
+<h1><%= @department.title %></h1>
+<hr/>
+<h3>Roles</h3>
+<% @department.roles.each do |role| %>
+  <p>
+    <%= role.title %> : <%= role.terms.first.user.name %>
+  </p>
+<% end %>
+<hr/>
+<%= link_to "Voltar", departments_path %>
