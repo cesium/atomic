@@ -16,4 +16,19 @@ class BoardsController < ApplicationController
     @board.save
     redirect_to @board
   end
+
+  def destroy
+    terms = Term.where(board_id: params[:id])
+    board = Board.find(params[:id])
+    board.destroy
+
+    # Destroy associated terms.
+    terms.each do |t|
+      # Destroy associated role.
+      Role.find(t.role_id).destroy
+      t.destroy
+    end
+
+    redirect_to boards_path
+  end
 end

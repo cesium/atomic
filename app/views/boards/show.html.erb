@@ -2,7 +2,11 @@
 <hr/>
 <ul>
   <% @board.terms.each do |term| %>
-  <li><%= User.find(term.user_id).name %></li>
+    <li>
+      <%= User.find(term.user_id).name %>
+    </li>
   <% end %>
 </ul>
 <%= link_to "Voltar", boards_path %>
+<%= link_to 'Apagar', board_path(@board),
+  method: :delete, data: { confirm: "Tens a certeza?" } %>
