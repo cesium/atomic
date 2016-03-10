@@ -3,4 +3,11 @@ class WelcomeController < ApplicationController
 
   def index
   end
+
+  def news
+  end
+
+  # in future, replace this method by a controller
+  def log
+  end
 end
