@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   get "/sign_up" => "users#new", as: "sign_up"
 
   get '/news' => 'welcome#news'
+  get '/log' => 'welcome#log'
 end

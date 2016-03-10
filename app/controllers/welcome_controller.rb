@@ -6,4 +6,8 @@ class WelcomeController < ApplicationController
 
   def news
   end
+
+  # in future, replace this method by a controller
+  def log
+  end
 end
