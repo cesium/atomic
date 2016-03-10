@@ -1,0 +1,30 @@
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Equipa
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Equipa
+
+.divide80
+.container
+  ul.filter.list-inline
+    li
+      a.active data-filter="*" href="#"  Mostrar todos
+    li
+      a data-filter=".direcao" href="#"  Direção
+    li
+      a data-filter=".caos" href="#"  CAOS
+    li
+      a data-filter=".com" href="#"  Comunicação
+    li
+      a data-filter=".drep" href="#"  DREP
+    li
+      a data-filter=".img" href="#"  Imagem
+    li
+      a data-filter=".pedg" href="#"  Pedagógico
+    li
+      a data-filter=".recreativo" href="#"  Recreativo
