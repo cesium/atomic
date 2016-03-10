@@ -1,0 +1,17 @@
+p#notice
+  = notice
+p
+  strong
+    | Title:
+  = @article.title
+p
+  strong
+    | Body:
+  = @article.body
+= link_to 'Edit', edit_blog_article_path(@article)
+|  |
+= link_to 'Back', blog_articles_path
+
+= render @article.comments
+
+= render 'blog/comments/form', publication: @article

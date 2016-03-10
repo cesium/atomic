@@ -11,7 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010162218) do
+ActiveRecord::Schema.define(version: 20160307225648) do
+
+  create_table "boards", force: :cascade do |t|
+    t.integer  "year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "publication_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "comments", ["publication_id"], name: "index_comments_on_publication_id"
+
+  create_table "departments", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "payments", force: :cascade do |t|
     t.date     "date"
@@ -19,6 +41,31 @@ ActiveRecord::Schema.define(version: 20151010162218) do
     t.integer  "user_id"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+  end
+
+  create_table "publications", force: :cascade do |t|
+    t.string   "title"
+    t.text     "body"
+    t.string   "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "department_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "roles", ["department_id"], name: "index_roles_on_department_id"
+
+  create_table "terms", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.integer  "board_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

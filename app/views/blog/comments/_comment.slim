@@ -1,0 +1,8 @@
+p
+  strong User:
+  = comment.user.name
+p
+  strong Comment:
+  = comment.body
+
+= link_to 'Destroy', [:blog, comment.publication, comment], method: :delete, data: { confirm: 'Are you sure?' }
