@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
+  resources :activities
   resources :users, only: [:index, :show]
 
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
@@ -31,5 +32,4 @@ Rails.application.routes.draw do
   get '/contact' => 'welcome#contact'
   get '/news' => 'welcome#news'
   get '/log' => 'welcome#log'
-  resources :activities
 end

@@ -18,16 +18,16 @@
   = form.text_field :guest_cost
   br
   = form.label :start_date
-  = form.date_select :start_date
+  = form.datetime_select :start_date
   br
   = form.label :end_date
-  = form.date_select :end_date
+  = form.datetime_select :end_date
   br
   = form.label :coffee_break
   = form.select :coffee_break, options_for_select([['Yes', true], ['No', false]])
   br
   = form.label :activity
-  = form.select :activity_id, options_for_select(Activity.all.map{|a|[a.name, a.id]}.push(['None', nil]), selected: 'None')
+  = form.select :activity_id, options_for_select(Activity.all.map{|a|[a.name, a.id]}), {include_blank: 'None'}
   br
   = form.label :department
   = form.select :department_id, options_for_select(Department.all.map{|d|[d.title, d.id]})

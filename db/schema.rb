@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20160316115405) do
     t.integer  "total_rating"
     t.decimal  "member_cost",                    precision: 5, scale: 2
     t.decimal  "guest_cost",                     precision: 5, scale: 2
-    t.date     "start_date"
-    t.date     "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.boolean  "coffee_break"
     t.string   "poster_file_name"
     t.string   "poster_content_type"

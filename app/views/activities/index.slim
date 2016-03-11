@@ -1,12 +1,89 @@
-h1 activities
-
-- @activities.each do |activity|
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Atividades
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Atividades
+.divide80
+.container.blog-left-img
   .row
-    .col.s6
-      = image_tag activity.poster.url if activity.poster
-    .col.s6
-      p = "Account number: #{activity.name}"
-      p = "Student id: #{activity.description}"
-      p = "Member Cost: #{activity.member_cost}"
-      p = "Guest Cost: #{activity.guest_cost}"
-      p = "Date: #{activity.start_date} - #{activity.end_date}"
+    .col-md-8
+    - @activities.each do |activity|
+      .blog-post
+        .row
+          - if activity.poster.exists?
+            .col-md-6.margin20
+              a href="#"
+              .item-img-wrap
+                = image_tag activity.poster.url
+            .col-md-6
+          - else
+            .col-md-12
+          ul.list-inline.post-detail
+            - if activity.start_date.strftime("%Y-%m-%d") == activity.end_date.strftime("%Y-%m-%d")
+              li
+                i.fa.fa-calendar
+                | #{activity.start_date.strftime("%a %d, %b %Y")}
+              li
+                i.fa.fa-clock-o
+                | #{activity.start_date.strftime("%H:%M")} - #{activity.end_date.strftime("%H:%M")}
+            - else
+              li
+                i.fa.fa-calendar
+                | #{activity.start_date.strftime("%d %b %Y %H:%M")}
+              li
+                i.fa.fa-calendar
+                | #{activity.end_date.strftime("%d %b %Y %H:%M")}
+            li
+              i.fa.fa-tag
+              a href="#"  #{activity.department.title}
+          h2
+            | #{activity.name}
+          p
+            | #{activity.description}
+
+    ul.pagination
+      li
+        a href="#"  «
+      li.active
+        a href="#"  1
+      li
+        a href="#"  2
+      li
+        a href="#"  3
+      li
+        a href="#"  »
+
+    .col-md-3.col-md-offset-1
+      .sidebar-box.margin40
+        h4 Pesquisa
+        form.search-widget role="form"
+          input.form-control type="text" /
+          i.fa.fa-search
+      /! sidebar-box
+      .sidebar-box.margin40
+        h4 Categorias
+        ul.list-unstyled.cat-list
+          li
+            a href="#"  Geral
+            i.fa.fa-angle-right
+          li
+            a href="#"  Recreativo
+            i.fa.fa-angle-right
+          li
+            a href="#"  Imagem
+            i.fa.fa-angle-right
+
+      /! sidebar-box
+      .sidebar-box.margin40
+        h4 #Hashtags
+        .tag-list
+          a href="#"  Linux
+          a href="#"  C
+          a href="#"  Ruby
+          a href="#"  Coderdojo
+          a href="#"  MiEI
