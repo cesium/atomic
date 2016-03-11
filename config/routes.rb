@@ -27,9 +27,12 @@ Rails.application.routes.draw do
 
   get '/news' => 'welcome#news'
   get '/log' => 'welcome#log'
+<<<<<<< 01a193414125f158c84149eb4433f069a3d04a05
   get '/about' => 'welcome#about'
   get '/team' => 'welcome#team'
   get '/contact' => 'welcome#contact'
   get '/news' => 'welcome#news'
   get '/log' => 'welcome#log'
+=======
+>>>>>>> Improve index view with welcome layout
 end
