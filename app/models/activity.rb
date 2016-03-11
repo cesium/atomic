@@ -13,6 +13,6 @@ class Activity < ActiveRecord::Base
   validates :guest_cost,  presence: true, numericality: true
   validates :start_date, presence: true
   validates :end_date, presence: true
-  has_attached_file :poster, default_url: "/images/:style/missing.png"
+  has_attached_file :poster, default_url: "/images/logo.png"
  validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
 end

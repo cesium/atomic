@@ -34,7 +34,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
-  gem 'pry'
+  gem 'pry-rails'
   gem 'pry-byebug'
 
   gem 'binding_of_caller'

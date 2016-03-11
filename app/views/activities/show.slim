@@ -8,3 +8,5 @@ p = "Start Date: #{@activity.start_date}"
 p = "End Date: #{@activity.end_date}"
 p = "Coffee Break: #{@activity.coffee_break}"
 = image_tag @activity.poster.url
+
+= link_to 'Edit', edit_activity_path(@activity)

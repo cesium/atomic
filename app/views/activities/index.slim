@@ -1,12 +1,12 @@
 h1 activities
 
-- @activities.each do |a|
+- @activities.each do |activity|
   .row
     .col.s6
-      = image_tag @a.poster.url
+      = image_tag activity.poster.url if activity.poster
     .col.s6
-      p = "Account number: #{a.name}"
-      p = "Student id: #{a.description}"
-      p = "Member Cost: #{a.member_cost}"
-      p = "Guest Cost: #{a.guest_cost}"
-      p = "Date: #{a.start_date} - #{a.end_date}"
+      p = "Account number: #{activity.name}"
+      p = "Student id: #{activity.description}"
+      p = "Member Cost: #{activity.member_cost}"
+      p = "Guest Cost: #{activity.guest_cost}"
+      p = "Date: #{activity.start_date} - #{activity.end_date}"

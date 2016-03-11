@@ -1,0 +1,38 @@
+= form_for @activity, html: {multipart: true} do |form|
+  = form.label :name
+  = form.text_field :name
+  br
+  = form.label :location
+  = form.text_field :location
+  br
+  = form.label :description
+  = form.text_field :description
+  br
+  = form.label :total_rating
+  = form.text_field :total_rating
+  br
+  = form.label :member_cost
+  = form.text_field :member_cost
+  br
+  = form.label :guest_cost
+  = form.text_field :guest_cost
+  br
+  = form.label :start_date
+  = form.date_select :start_date
+  br
+  = form.label :end_date
+  = form.date_select :end_date
+  br
+  = form.label :coffee_break
+  = form.select :coffee_break, options_for_select([['Yes', true], ['No', false]])
+  br
+  = form.label :activity
+  = form.select :activity_id, options_for_select(Activity.all.map{|a|[a.name, a.id]}.push(['None', nil]), selected: 'None')
+  br
+  = form.label :department
+  = form.select :department_id, options_for_select(Department.all.map{|d|[d.title, d.id]})
+  br
+  = form.label :poster
+  = form.file_field :poster
+  .submit-field
+    = form.submit
