@@ -11,10 +11,10 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.new(params.require(:board).permit(:year))
+    @board = Board.new(params.require(:board).permit(:year, :start))
 
     @board.save
-    redirect_to @board
+    redirect_to boards_path
   end
 
   def destroy

@@ -1,0 +1,17 @@
+<h1>Novo Mandato</h1>
+<hr/>
+<%= form_for :term, url: board_terms_path do |r| %>
+  <p>
+    <%= r.label :user_id %><br>
+    <%= r.number_field :user_id %>
+  </p>
+
+  <p>
+    <%= r.label :role_id %><br>
+    <%= r.number_field :role_id %>
+  </p>
+
+  <p>
+    <%= r.submit %>
+  </p>
+<% end %>

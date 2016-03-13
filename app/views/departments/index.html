@@ -1,5 +1,5 @@
 <h1>Departmentos</h1>
 <hr/>
 <% @departments.each do |department| %>
-<p><%= link_to department.title, department_path(department) %></p>
+<p><%= link_to department.title, board_department_path(department) %></p>
 <% end %>

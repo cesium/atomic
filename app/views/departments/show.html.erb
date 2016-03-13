@@ -1,10 +1,12 @@
-<h1><%= @department.title %></h1>
-<hr/>
-<h3>Roles</h3>
-<% @department.roles.each do |role| %>
-  <p>
-    <%= role.title %> : <%= role.terms.first.user.name %>
-  </p>
+<% if @board_terms.count != 0 do %>
+  <h2>Direção <%= @board.year %>/<%= @board.year + 1%> | <%= @department.title %></h2>
+  <hr/>
+  <h3>Roles</h3>
+  <% @board_terms.each do |term| %>
+    <p><%= "#{User.find(term.user_id).name} - #{Role.find(term.role_id).title}" %>
+  <% end %>
+  <hr/>
+  <%= link_to "Voltar", board_departments_path %>
+<% else %>
+  <p>Este departamento não fez parte da direção <%= @board.year %>/<% @board.year + 1 %>.</p>
 <% end %>
-<hr/>
-<%= link_to "Voltar", departments_path %>
