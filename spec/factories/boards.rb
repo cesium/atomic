@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :board do
-    year 2010
+    start_date "2016-03-16"
+end_date "2016-03-16"
   end
 
 end

@@ -1,5 +1,5 @@
 class Department < ActiveRecord::Base
-  has_many :roles
+  has_many :terms
 
-  validates :title, presence: true, allow_nil: false, allow_blank: false
+  validates :title, presence: true
 end
