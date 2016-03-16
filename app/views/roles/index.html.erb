@@ -1,0 +1,15 @@
+<h2>CARGOS</h2>
+<hr/>
+<% if @roles.empty? %>
+  <p>Sem cargos para apresentar.</p>
+<% else %>
+  <ul>
+    <% @roles.each do |role| %>
+      <li><%= "#{role.title} - #{role.id}" %>
+      (<%= link_to 'Apagar', role_path(role), method: :delete,
+       data: { confirm: "Pretende eliminar este cargo?" } %>)
+    <% end %>
+  </ul>
+<% end %>
+<hr/>
+<%= link_to 'Novo Cargo', new_role_path %>

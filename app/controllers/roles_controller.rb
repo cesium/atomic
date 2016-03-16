@@ -1,13 +1,22 @@
 class RolesController < ApplicationController
+  def index
+    @roles = Role.all
+  end
+
   def new
   end
 
   def create
-    @role = Role.new(params.require(:role).permit(:title, :department_id))
+    @role = Role.new(params.require(:role).permit(:title))
     @role.save
 
-    Department.find(params[:department_id]).roles << @role
+    redirect_to roles_path
+  end
 
-    redirect_to boards_path
+  def destroy
+    role  = Role.find(params[:id])
+    role.destroy
+
+    redirect_to roles_path
   end
 end
