@@ -11,23 +11,23 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.new(params.require(:board).permit(:year, :start))
+    @board = Board.new(params.require(:board).permit(:start_date, :end_date))
 
     @board.save
     redirect_to boards_path
   end
 
   def destroy
-    terms = Term.where(board_id: params[:id])
     board = Board.find(params[:id])
-    board.destroy
+    terms = board.terms
 
-    # Destroy associated terms.
-    terms.each do |t|
-      # Destroy associated role.
-      Role.find(t.role_id).destroy
-      t.destroy
+    # Destroy board terms.
+    terms.each do |term|
+      term.destroy
     end
+
+    # Destroy board.
+    board.destroy
 
     redirect_to boards_path
   end

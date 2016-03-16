@@ -1,12 +1,12 @@
 <%= form_for :board, url: boards_path do |b| %>
   <p>
-    <%= b.label :year %><br>
-    <%= b.text_field :year %>
+    <%= b.label :start_date %><br>
+    <%= b.date_field :start_date %>
   </p>
 
   <p>
-    <%= b.label :start %><br>
-    <%= b.datetime_field :start %>
+    <%= b.label :end_date %><br>
+    <%= b.datetime_field :end_date %>
   </p>
 
   <p>

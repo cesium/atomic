@@ -46,11 +46,13 @@ ActiveRecord::Schema.define(version: 20160316115405) do
     t.integer  "board_id"
     t.integer  "department_id"
     t.integer  "role_id"
+    t.integer  "user_id"
   end
 
   add_index "terms", ["board_id"], name: "index_terms_on_board_id"
   add_index "terms", ["department_id"], name: "index_terms_on_department_id"
   add_index "terms", ["role_id"], name: "index_terms_on_role_id"
+  add_index "terms", ["user_id"], name: "index_terms_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "account_number",     limit: 10

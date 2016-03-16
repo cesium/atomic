@@ -1,10 +1,14 @@
-<h2>Direção <%= @board.year %>/<%= @board.year + 1%></h2>
+<h2>Direção <%= @board.start_date.year %>/<%= @board.start_date.year + 1%></h2>
 <hr/>
 <ul>
-  <% @board.terms.each do |term| %>
-    <li>
-      <%= User.find(term.user_id).name %>
-    </li>
+  <% if @board.terms.empty? %>
+    <p>Não existem mandatos para esta direção.</p>
+  <% else %>
+    <% @board.terms.each do |term| %>
+      <li>
+        <%= term.user.name %>
+      </li>
+    <% end %>
   <% end %>
 </ul>
 <%= link_to "Voltar", boards_path %>

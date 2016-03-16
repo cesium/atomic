@@ -1,9 +1,0 @@
-<h2>Direções</h2>
-<hr/>
-<ul>
-  <% @boards.each do |board| %>
-  <li>
-    <%= link_to "Direção de #{board.year}/#{board.year + 1}", board_path(board.id) %>
-  </li>
-  <% end %>
-</ul>
