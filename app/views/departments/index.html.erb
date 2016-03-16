@@ -1,0 +1,13 @@
+<h2>Departmentos</h2>
+<hr/>
+<% if @departments.empty? %>
+  <p>Não existe nenhum departamento na base de dados.</p>
+<% else %>
+  <ul>
+  <% @departments.each do |department| %>
+    <li><%= link_to "#{department.title}", department_path(department) %></li>
+  <% end %>
+  </ul>
+<% end %>
+<hr/>
+<%= link_to 'Novo Departmento', new_department_path %>

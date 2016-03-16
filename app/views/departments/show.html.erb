@@ -1,12 +1,16 @@
-<% if @board_terms.count != 0 do %>
-  <h2>Direção <%= @board.year %>/<%= @board.year + 1%> | <%= @department.title %></h2>
-  <hr/>
-  <h3>Roles</h3>
-  <% @board_terms.each do |term| %>
-    <p><%= "#{User.find(term.user_id).name} - #{Role.find(term.role_id).title}" %>
-  <% end %>
-  <hr/>
-  <%= link_to "Voltar", board_departments_path %>
+<h2><%= @department.title %></h2>
+<hr/>
+<% if @department.terms.empty? %>
+  <p>Nenhum membro fez parte deste departamento.</p>
 <% else %>
-  <p>Este departamento não fez parte da direção <%= @board.year %>/<% @board.year + 1 %>.</p>
+  <p>Membros que já fizeram parte do departamento</p>
+  <ul>
+    <% @department.terms.each do |term| %>
+      <li><%= term.user.name %></li>
+    <% end %>
+  </ul>
 <% end %>
+<hr/>
+<%= link_to 'Voltar', departments_path %>
+<%= link_to 'Apagar', department_path(@department),
+  method: :delete, data: { confirm: "Tem a certeza que quer apagar este departamento?" } %>

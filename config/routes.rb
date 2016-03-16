@@ -16,10 +16,8 @@ Rails.application.routes.draw do
   delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
   get "/sign_up" => "users#new", as: "sign_up"
 
-  resources :departments,   only: [:new, :create] do
-  end
-
-  resources :roles, only: [:new, :create, :destroy, :index]
+  resources :departments,   only: [:index, :show, :new, :create, :destroy]
+  resources :roles,         only: [:index, :new, :create, :destroy]
 
   resources :boards do
     resources :departments, only: [:show]
