@@ -23,4 +23,7 @@ Rails.application.routes.draw do
     resources :departments, only: [:show]
     resources :terms,       only: [:new, :create]
   end
+
+  get '/news' => 'welcome#news'
+  get '/log' => 'welcome#log'
 end
