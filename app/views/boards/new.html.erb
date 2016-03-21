@@ -1,15 +1,25 @@
-<%= form_for :board, url: boards_path do |b| %>
-  <p>
-    <%= b.label :start_date %><br>
-    <%= b.date_field :start_date %>
-  </p>
+<div class="container">
+  <h3>Criar uma nova direção</h3>
+  <br/>
+  <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <%= form_for :board, url: boards_path do |b| %>
+          <div>
+            <%= b.label :start_date %><br/>
+            <%= b.date_field :start_date %>
+          </div>
 
-  <p>
-    <%= b.label :end_date %><br>
-    <%= b.datetime_field :end_date %>
-  </p>
+          <p>
+            <%= b.label :end_date %><br>
+            <%= b.date_field :end_date %>
+          </p>
 
-  <p>
-    <%= b.submit %>
-  </p>
-<% end %>
+          <p>
+            <%= b.submit %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

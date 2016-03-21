@@ -1,16 +1,18 @@
-<h2>Direção <%= @board.start_date.year %>/<%= @board.start_date.year + 1%></h2>
-<hr/>
-<ul>
-  <% if @board.terms.empty? %>
-    <p>Não existem mandatos para esta direção.</p>
-  <% else %>
-    <% @board.terms.each do |term| %>
-      <li>
-        <%= term.user.name %>
-      </li>
+<div class="container">
+  <h3>Direção <%= @board.start_date.year %>/<%= @board.start_date.year + 1%></h3>
+  <hr/>
+  <ul>
+    <% if @board.terms.empty? %>
+      <p>Não existem mandatos para esta direção.</p>
+    <% else %>
+      <% @board.terms.each do |term| %>
+        <li>
+          <%= term.user.name %>
+        </li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
-<%= link_to "Voltar", boards_path %>
-<%= link_to 'Apagar', board_path(@board),
-  method: :delete, data: { confirm: "Pederá todos os dados desta direção. Tem a certeza?" } %>
+  </ul>
+    <%= link_to "Voltar", boards_path , class: "btn grey lighten-5 black-text" %>
+    <%= link_to "Apagar", board_path(@board), class: "btn red",
+      method: :delete, data: { confirm: "Pederá todos os dados desta direção. Tem a certeza?" } %>
+</div>
