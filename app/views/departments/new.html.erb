@@ -1,10 +1,14 @@
-<%= form_for :department, url: departments_path do |d| %>
-  <p>
-    <%= d.label :title %><br>
-    <%= d.text_field :title %><br>
-  </p>
+<div class="container">
+  <h3>Criar Novo Departamento</h2>
+  <br/>
+  <%= form_for :department, url: departments_path do |d| %>
+    <div>
+      <%= d.label :title %><br>
+      <%= d.text_field :title %><br>
+    </div>
 
-  <p>
-    <%= d.submit %>
-  </p>
-<% end %>
+    <div>
+      <%= d.submit 'Criar Novo Departamento', class: "btn" %>
+    </div>
+  <% end %>
+</div>

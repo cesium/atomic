@@ -1,17 +1,24 @@
-<h1>Novo Mandato</h1>
-<hr/>
-<%= form_for :term, url: board_terms_path do |r| %>
-  <p>
-    <%= r.label :user_id %><br>
-    <%= r.number_field :user_id %>
-  </p>
+<div class="container">
+  <h2>Novo Mandato</h2>
+  <br/>
+  <%= form_for :term, url: board_terms_path do |r| %>
+    <div>
+      <%= r.label :user_id %><br>
+      <%= r.number_field :user_id %>
+    </div>
 
-  <p>
-    <%= r.label :role_id %><br>
-    <%= r.number_field :role_id %>
-  </p>
+    <div>
+      <%= r.label :role_id %><br>
+      <%= r.number_field :role_id %>
+    </div>
 
-  <p>
-    <%= r.submit %>
-  </p>
-<% end %>
+    <div>
+      <%= r.label :department_id %><br>
+      <%= r.number_field :department_id %>
+    </div>
+
+    <div>
+      <%= r.submit 'Criar Novo Mandato', class: "btn" %>
+    </div>
+  <% end %>
+</div>

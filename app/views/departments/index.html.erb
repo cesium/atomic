@@ -1,13 +1,21 @@
-<h2>Departmentos</h2>
-<hr/>
-<% if @departments.empty? %>
-  <p>Não existe nenhum departamento na base de dados.</p>
-<% else %>
-  <ul>
-  <% @departments.each do |department| %>
-    <li><%= link_to "#{department.title}", department_path(department) %></li>
+<div class="container">
+  <h3>Departmentos</h3>
+  <hr/>
+  <br/>
+  <% if @departments.empty? %>
+    <p>Não existe nenhum departamento na base de dados.</p>
+  <% else %>
+    <% @departments.each do |department| %>
+      <%= link_to department_path(department), class: "white-text" do %>
+        <div class="card-panel orange darken-2">
+          <%= "#{department.title}" %>
+        </div>
+      <% end %>
+    <% end %>
   <% end %>
-  </ul>
-<% end %>
-<hr/>
-<%= link_to 'Novo Departmento', new_department_path %>
+  <br/>
+  <hr/>
+  <br/>
+  <%= link_to "+", new_department_path,
+    class: "btn-floating btn-large waves-effect waves-light" %>
+</div>

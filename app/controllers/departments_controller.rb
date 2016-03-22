@@ -4,7 +4,18 @@ class DepartmentsController < ApplicationController
   end
 
   def show
-    @department   = Department.find(params[:id])
+    @department = Department.find(params[:id])
+
+    if (params[:board_id] != nil) then
+      @board    = Board.find(params[:board_id])
+      @terms    = @board.terms
+
+      @terms.each do |term|
+        if !@department.terms.include?(term) then
+          @terms.delete(term)
+        end
+      end
+    end
   end
 
   def new

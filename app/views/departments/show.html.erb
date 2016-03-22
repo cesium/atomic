@@ -1,16 +1,40 @@
-<h2><%= @department.title %></h2>
-<hr/>
-<% if @department.terms.empty? %>
-  <p>Nenhum membro fez parte deste departamento.</p>
-<% else %>
-  <p>Membros que já fizeram parte do departamento</p>
-  <ul>
-    <% @department.terms.each do |term| %>
-      <li><%= term.user.name %></li>
-    <% end %>
-  </ul>
-<% end %>
-<hr/>
-<%= link_to 'Voltar', departments_path %>
-<%= link_to 'Apagar', department_path(@department),
-  method: :delete, data: { confirm: "Tem a certeza que quer apagar este departamento?" } %>
+<div class="container">
+  <% if @terms != nil then %>
+    <h2><%= "#{@department.title} - #{@terms.first.board.start_date.year}/#{@terms.first.board.start_date.year + 1}" %></h2>
+  <% else %>
+    <h2><%= @department.title %></h2>
+  <% end %>
+  <hr/>
+
+  <% if @department.terms.empty? %>
+    <p>Nenhum membro fez parte deste departamento.</p>
+  <% else %>
+    <ul>
+      <% if @terms != nil then %>
+        <% @terms.each do |term| %>
+          <li>
+            <%= link_to term.user.name, user_path(term.user) %>
+            <%= " - #{term.role.title}" %>
+          </li>
+        <% end %>
+      <% else %>
+        <% @department.terms.each do |term| %>
+          <li>
+            <%= link_to term.user.name, user_path(term.user) %>
+            <%= " - #{term.role.title}
+            [#{term.board.start_date.year}/#{term.board.start_date.year + 1}]" %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+  <hr/>
+
+  <% if @terms != nil %>
+    <%= link_to 'Voltar', board_path(@board), class: "btn grey lighten-5 black-text"  %>
+  <% else %>
+    <%= link_to 'Voltar', departments_path, class: "btn grey lighten-5 black-text"  %>
+    <%= link_to 'Apagar', department_path(@department), class: "btn red",
+      method: :delete, data: { confirm: "Tem a certeza que quer apagar este departamento?" } %>
+  <% end %>
+</div>

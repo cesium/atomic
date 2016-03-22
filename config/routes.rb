@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   resources :boards do
     resources :departments, only: [:show]
-    resources :terms,       only: [:new, :create]
+    resources :terms,       only: [:new, :create, :destroy]
   end
 
   get '/news' => 'welcome#news'
