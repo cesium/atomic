@@ -7,7 +7,16 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    @activities = Activity.all.paginate(page: params[:page], per_page: 2)
+    @activities = Activity.all.paginate(page: params[:page], per_page: 5)
+    if params[:department].present?
+      dep = Department.find_by(title: params[:department])
+      @activities = Activity.where(department_id: dep.id).paginate(page: params[:page], per_page: 5)
+    end
+  end
+
+  def department
+    department = Department.find_by(title: params[:department]).id
+    @activities = Activity.where(department_id: department).paginate(page: params[:page], per_page: 5)
   end
 
   def show

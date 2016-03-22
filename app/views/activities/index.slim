@@ -57,24 +57,10 @@
       .sidebar-box.margin40
         h4 Categorias
         ul.list-unstyled.cat-list
-          li
-            a href="#"  Geral
-            i.fa.fa-angle-right
-          li
-            a href="#"  Recreativo
-            i.fa.fa-angle-right
-          li
-            a href="#"  Imagem
-            i.fa.fa-angle-right
-
-      /! sidebar-box
-      .sidebar-box.margin40
-        h4 #Hashtags
-        .tag-list
-          a href="#"  Linux
-          a href="#"  C
-          a href="#"  Ruby
-          a href="#"  Coderdojo
-          a href="#"  MiEI
+          - Department.all.each do |department|
+            li
+              = link_to department.title, departments_path
+                =  department.title
+              i.fa.fa-angle-right
 
   = will_paginate @activities, renderer: BootstrapPagination::Rails
