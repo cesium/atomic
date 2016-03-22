@@ -1,8 +1,13 @@
-<%= form_for :role, url: roles_path do |r| %>
-  <p>
-    <%= r.label :title %><br/>
-    <%= r.text_field :title %><br/>
-  </p>
+<div class="container">
+  <h3>Criar Novo Cargo</h3>
+  <br/>
+  <%= form_for :role, url: roles_path do |r| %>
+    <div>
+      <%= r.label :title %><br/>
+      <%= r.text_field :title %><br/>
+    </div>
 
-  <%= r.submit %>
-<% end %>
+    <%= r.submit 'Criar', class: "btn" %>
+    <%= link_to 'Cancelar', roles_path, class: "btn red" %>
+  <% end %>
+</div>
