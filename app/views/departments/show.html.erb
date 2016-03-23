@@ -31,10 +31,10 @@
   <hr/>
 
   <% if @terms != nil %>
-    <%= link_to 'Voltar', board_path(@board), class: "btn grey lighten-5 black-text"  %>
+    <%= link_to 'Voltar', board_path(@board) %>
   <% else %>
-    <%= link_to 'Voltar', departments_path, class: "btn grey lighten-5 black-text"  %>
-    <%= link_to 'Apagar', department_path(@department), class: "btn red",
-      method: :delete, data: { confirm: "Tem a certeza que quer apagar este departamento?" } %>
+    <%= link_to 'Voltar', departments_path  %>
+    <%= link_to 'Apagar', department_path(@department), method: :delete,
+      data: { confirm: "Tem a certeza que quer apagar este departamento?" } %>
   <% end %>
 </div>

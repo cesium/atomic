@@ -19,8 +19,8 @@
       <% end %>
     <% end %>
   </ul>
-    <%= link_to "Voltar", boards_path , class: "btn grey lighten-5 black-text" %>
-    <%= link_to "Apagar", board_path(@board), class: "btn red",
-      method: :delete, data: {confirm: "Pederá todos os dados desta direção. Tem a certeza?"} %>
-    <%= link_to "Novo Mandato", new_board_term_path(@board), class: "btn" %>
+    <%= link_to "Voltar", boards_path %>
+    <%= link_to "Apagar", board_path(@board), method: :delete,
+      data: {confirm: "Pederá todos os dados desta direção. Tem a certeza?"} %>
+    <%= link_to "Novo Mandato", new_board_term_path(@board) %>
 </div>

@@ -6,8 +6,8 @@
     <p>Não existe nenhum departamento na base de dados.</p>
   <% else %>
     <% @departments.each do |department| %>
-      <%= link_to department_path(department), class: "white-text" do %>
-        <div class="card-panel orange darken-2">
+      <%= link_to department_path(department) do %>
+        <div>
           <%= "#{department.title}" %>
         </div>
       <% end %>
@@ -16,6 +16,5 @@
   <br/>
   <hr/>
   <br/>
-  <%= link_to "+", new_department_path,
-    class: "btn-floating btn-large waves-effect waves-light" %>
+  <%= link_to "Criar Novo Departamento", new_department_path %>
 </div>
