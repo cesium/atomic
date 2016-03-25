@@ -1,13 +1,17 @@
 = form_for :session, url: session_path do |form|
-  .text-field
+  .form-group
     = form.label :email
-    = form.text_field :email, type: 'email'
-  .password-field
+    = form.text_field :email, type: 'email', class: 'form-control', placeholder: 'Insere o email'
+  .form-group
     = form.label :password
-    = form.password_field :password
+    = form.password_field :password, class: 'form-control', placeholder: 'Insere a password'
+
   .submit-field
-    = form.submit
-  .other-links
-    - if Clearance.configuration.allow_sign_up?
-      = link_to t(".sign_up"), sign_up_path
-    = link_to t(".forgot_password"), new_password_path
+    = form.submit 'Entrar' , class: 'btn btn-theme-bg'
+    / = link_to 'Login With Facebook', class: 'btn btn-fb-login' do
+    /   i.fa.fa-facebook
+    /   | Login With Facebook
+    = link_to 'Esqueci-me da password', new_password_path
+
+  /   - if Clearance.configuration.allow_sign_up?
+  /     = link_to t(".sign_up"), sign_up_path
