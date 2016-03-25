@@ -1,11 +1,30 @@
-#clearance.password-reset
-  h2
-    = t(".title")
-  p
-    = t(".description")
-  = form_for :password, url: passwords_path do |form|
-    .text-field
-      = form.label :email
-      = form.text_field :email, type: 'email'
-    .submit-field
-      = form.submit
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Recuperar password
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li Recuperar password
+.divide80
+.container
+  .row
+    .col-md-8.col-sm-8.col-md-offset-2.col-sm-offset-2
+      .login-form
+        h3
+          = t(".title")
+          / span<
+          /   = link_to 'Ou Registar', sign_up_path
+        p
+          = t(".description")
+
+        = form_for :password, url: passwords_path do |form|
+          .form-group
+            = form.label :email
+            = form.text_field :email, type: 'email', class: 'form-control'
+          .submit-field
+            = form.submit 'Enviar', class: 'btn btn-theme-bg'
+
+.divide60

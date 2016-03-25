@@ -1,4 +1,23 @@
-#clearance.sign-in
-  h2
-    = t(".title")
-  = render partial: '/sessions/form'
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Login
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li Login
+.divide80
+.container
+  .row
+    .col-md-8.col-sm-8.col-md-offset-2.col-sm-offset-2
+      .login-form
+        h3
+          | Entrar
+          / span<
+          /   = link_to 'Ou Registar', sign_up_path
+        = render partial: '/sessions/form'
+
+.divide60
+

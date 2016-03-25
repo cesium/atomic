@@ -3,14 +3,26 @@
     .row
       .col-sm-8.text-left
         ul.list-inline.top-dark-right
-          li
-            = link_to sign_in_path
-              = icon('sign-in')
-              |  Entrar
-          li
-            = link_to sign_up_path
-              = icon('user-plus')
-              |  Registar
+
+
+          - if signed_in?
+            li
+              = link_to ''
+                = icon('user')
+                |  A Minha Conta
+            li
+              = link_to sign_out_path, method: :delete
+                = icon('sign-out')
+                |  Sair
+          - else
+            li
+              = link_to sign_in_path
+                = icon('sign-in')
+                |  Entrar
+            li
+              = link_to sign_up_path
+                = icon('user-plus')
+                |  Registar
       .col-sm-4
         .top-bar-socials
           = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
