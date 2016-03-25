@@ -18,4 +18,6 @@ Rails.application.routes.draw do
 
   get '/news' => 'welcome#news'
   get '/log' => 'welcome#log'
+  get '/about' => 'welcome#about'
+  get '/team' => 'welcome#team'
 end
