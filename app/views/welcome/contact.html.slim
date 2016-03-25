@@ -1,0 +1,104 @@
+#map-canvas
+.divide60
+.container
+  .row
+    .col-md-10.col-sm-offset-1.margin30.sky-form-columns.contact-sky-option
+      .row
+        .col-md-12
+          .center-heading
+            h2 Contactos
+            span.center-line
+            p
+      /! center heading row
+      .row.margin10
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-home
+            p
+              | Departamento de Informática - Sala 1.11
+              br/
+              | Campus de Gualtar
+              br/
+              | 4710-057 Braga
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-phone
+            p.contact-center
+              | +351 253 604 448
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-envelope
+            p.contact-center
+              | cesium@di.uminho.pt
+
+      .row.margin20
+        .col-md-12.text-center
+          ul.list-inline
+            li
+              = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-lg si-border si-facebook'
+                i.fa.fa-facebook
+                i.fa.fa-facebook
+            li
+              = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-lg si-border si-twitter'
+                i.fa.fa-twitter
+                i.fa.fa-twitter
+            li
+             = link_to 'https://plus.google.com/u/1/b/103218725392069843585/103218725392069843585/posts', class: 'social-icon-lg si-border si-g-plus'
+                i.fa.fa-google-plus
+                i.fa.fa-google-plus
+            li
+              = link_to 'https://www.instagram.com/cesiuminho', class: 'social-icon-lg si-border si-instagram'
+                i.fa.fa-instagram
+                i.fa.fa-instagram
+            li
+              = link_to 'ttps://github.com/orgs/cesium', class: 'social-icon-lg si-border si-github'
+                i.fa.fa-github
+                i.fa.fa-github
+
+          /   = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
+          /   i.fa.fa-facebook
+          /   i.fa.fa-facebook
+          / = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
+          /   i.fa.fa-twitter
+          /   i.fa.fa-twitter
+          / = link_to 'https://plus.google.com/u/1/b/103218725392069843585/103218725392069843585/posts', class: 'social-icon-sm si-gray si-soundcloud'
+          /   i.fa.fa-google-plus
+          /   i.fa.fa-google-plus
+          / = link_to 'https://github.com/orgs/cesium', class: 'social-icon-sm si-gray si-soundcloud'
+          /   i.fa.fa-github
+          /   i.fa.fa-github
+
+      p.margin30
+        | Entra em contacto connosco!
+      form#sky-form.sky-form.sky-form-columns action="mailto:cesium@di.uminho.pt" enctype="text/plain" method="post"
+        fieldset
+          .row
+            section.col.col-6
+              label.label Nome
+              label.input
+                i.icon-append.fa.fa-user
+                input#name name="name" type="text" /
+            section.col.col-6
+              label.label E-mail
+              label.input
+                i.icon-append.fa.fa-envelope-o
+                input#email name="email" type="email" /
+          section
+            label.label Assunto
+            label.input
+              i.icon-append.fa.fa-tag
+              input#subject name="subject" type="text" /
+          section
+            label.label Mensagem
+            label.textarea
+              i.icon-append.fa.fa-comment
+              textarea#message name="message" rows="4"
+        footer
+          button.btn.btn-theme-bg.btn-lg type="submit"  Enviar
+        .message
+          i.fa.fa-check
+          p Your message was successfully sent!
+
+.divide40
+
+= javascript_include_tag "http://maps.googleapis.com/maps/api/js"

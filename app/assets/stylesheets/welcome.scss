@@ -11,6 +11,7 @@
 @import "landing_page/flexslider/flexslider";
 @import "landing_page/rs-plugin/settings";
 @import "landing_page/cubeportfolio/cubeportfolio";
+@import "landing_page/sky-forms/sky-forms";
 
 // CUSTOM SASS
 @import "landing_page/style";
@@ -62,4 +63,9 @@
       font-size: 22px;
     }
   }
+}
+
+.contact-center {
+    vertical-align: middle;
+    padding: 24px;
 }
