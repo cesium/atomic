@@ -1,4 +1,4 @@
-body { 
+body {
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -158,7 +158,7 @@ h6 {
 p {
     color: #555;
     line-height: 24px;
-    margin: 0 0 20px;
+    //margin: 0 0 20px;
 }
 p.sub-text{
     font-style: normal;
@@ -326,7 +326,7 @@ pre{
 @media(max-width:568px){
     .no-padding-inner{
         padding: 15px;
-    }   
+    }
 }
 .margin-0{
     margin: 0px !important;

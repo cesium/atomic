@@ -16,4 +16,7 @@ class WelcomeController < ApplicationController
   # in future, replace this method by a controller
   def log
   end
+
+  def contact
+  end
 end

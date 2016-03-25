@@ -2961,9 +2961,12 @@ MULTI LEVEL DROPDOWN CSS
 }
 .contact-option-circle i{
     font-size: 35px;
-    color:#888;
+    color:$graycolor;
     display: block;
     margin-bottom: 10px;
+}
+.contact-option-circle:hover i{
+    color:$skincolor;
 }
 .sky-form-columns .sky-form fieldset + fieldset {
     border-top: 0px;
