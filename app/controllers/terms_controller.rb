@@ -18,6 +18,10 @@ class TermsController < ApplicationController
 
   def destroy
     @term = Term.find(params[:id])
+
+    @term.department.terms.delete(@term)
+    @term.role.terms.delete(@term)
+    @term.board.terms.delete(@term)
     @term.destroy
 
     redirect_to board_path(params[:board_id])

@@ -1,0 +1,14 @@
+.container
+  h3 Criar uma nova direção
+  br
+  = form_for :board, url: boards_path do |b|
+    div
+      = b.label :start_date
+      br
+      = b.date_field :start_date
+    div
+      = b.label :end_date
+      br
+      = b.date_field :end_date
+    div
+      = b.submit 'Criar Nova Direção'

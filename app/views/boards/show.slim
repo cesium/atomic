@@ -1,0 +1,21 @@
+.container
+  h3 Direção #{@board.start_date.year}/#{@board.start_date.year + 1}
+  hr
+  h4 Membros
+  - if @board.terms.empty?
+    p Não existem mandatos para esta direção.
+  - else
+    ul
+      - for term in @board.terms
+        li
+          = link_to term.user.name, user_path(term.user)
+          = " - #{term.role.title} "
+          = link_to "#{term.department.title} ", board_department_path(@board, term.department)
+          = link_to '(Remover mandato)', board_term_path(@board, term),
+            method: :delete, data: { confirm: 'Tem a certeza?' }
+  = link_to 'Voltar', boards_path
+  br
+  = link_to 'Apagar', board_path(@board), method: :delete,
+    data: { confirm: "Pederá todos os dados desta direção. Tem a certeza?" }
+  br
+  = link_to 'Novo Mandato', new_board_term_path(@board)
