@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :role do
-    title "Diretor"
-    # department FactoryGirl.create :department
+    title "MyString"
   end
 
 end

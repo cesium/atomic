@@ -1,0 +1,29 @@
+.container
+  - if @terms != nil
+    h2 #{@department.title} - #{@terms.first.board.start_date.year}/#{@terms.first.board.start_date.year + 1}
+  - else
+    h2 #{@department.title}
+  hr
+  - if @department.terms.empty?
+    p Nenhum membro fez parte deste departamento
+  - else
+    ul
+      - if @terms != nil
+        - for term in @terms
+          li
+            = link_to term.user.name, user_path(term.user)
+            = " - #{term.role.title}"
+      - else
+        - for term in @department.terms
+          li
+            = link_to term.user.name, user_path(term.user)
+            = " - #{term.role.title} [#{term.board.start_date.year}/#{term.board.start_date.year + 1}]"
+  hr
+
+  - if @terms != nil
+    = link_to 'Voltar', board_path(@board)
+  - else
+    = link_to 'Voltar', departments_path
+    br
+    = link_to 'Apagar', department_path(@department), method: :delete,
+      data: { confirm: "Tem a certeza que quer apagar este departamento?" }

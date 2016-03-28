@@ -1,0 +1,13 @@
+.container
+  h3 Cargos
+  - if @roles.empty?
+    p Sem cargos para apresentar.
+  - else
+    ul
+      - for role in @roles
+        li
+          = "#{role.title} - [id: #{role.id}] "
+          = link_to '(Apagar)', role_path(role), method: :delete,
+            data: { confirm: "Pretende eliminar o cargo '#{role.title}?'" }
+  hr
+  = link_to 'Criar Novo Cargo', new_role_path

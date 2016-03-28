@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :department do
-    title "Pedagógico"
+    title "MyString"
   end
 
 end

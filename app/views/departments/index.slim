@@ -1,0 +1,13 @@
+.containter
+  h3 Departamentos
+  hr
+  - if @departments.empty?
+    p Não existe nenhum departamento na base de dados.
+  - else
+    - for department in @departments
+      = link_to department_path(department) do
+        div
+          = "#{department.title}"
+  hr
+  br
+  = link_to 'Criar Novo Departamento', new_department_path
