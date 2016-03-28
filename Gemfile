@@ -23,6 +23,9 @@ gem 'owlcarousel-rails'
 
 # atomic gems
 gem 'materialize-sass'
+gem "paperclip", "~> 4.3"
+gem 'will_paginate', '~> 3.0.6'
+gem 'will_paginate-bootstrap'
 
 group :development, :test do
   gem 'thin'
@@ -33,7 +36,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
-  gem 'pry'
+  gem 'pry-rails'
   gem 'pry-byebug'
 
   gem 'binding_of_caller'
@@ -42,4 +45,3 @@ group :development, :test do
 
   gem 'sqlite3'
 end
-

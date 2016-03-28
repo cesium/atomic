@@ -1,0 +1,36 @@
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Atividades
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Atividades
+.divide80
+.container.blog-left-img
+  .row
+    .col-md-8
+      - if @activities.empty?
+        h4 Atividades não encontradas
+      - @activities.each do |activity|
+        = render partial: "shared/activity", object: activity
+
+
+    .col-md-3.col-md-offset-1
+      .sidebar-box.margin40
+        h4 Pesquisa
+        form.search-widget role="form"
+          input.form-control type="text" /
+          i.fa.fa-search
+      /! sidebar-box
+      .sidebar-box.margin40
+        h4 Categorias
+        ul.list-unstyled.cat-list
+          - Department.all.each do |department|
+            li
+              = link_to department.title, department_activities_path(department.title)
+              i.fa.fa-angle-right
+
+  = will_paginate @activities, renderer: BootstrapPagination::Rails

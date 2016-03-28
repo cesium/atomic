@@ -1,0 +1,7 @@
+h1
+  | Editing activity
+= render 'form'
+
+= link_to 'Show', activity_path(@activity)
+|  |
+= link_to 'Destroy', :activity, method: :delete, data: { confirm: 'Are you sure?' }
