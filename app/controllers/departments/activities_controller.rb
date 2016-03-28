@@ -1,4 +1,5 @@
 class Departments::ActivitiesController < ApplicationController
+  layout 'welcome'
 
   def index
     dep = Department.find_by(title: params[:department_id])
