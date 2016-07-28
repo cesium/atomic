@@ -1,0 +1,19 @@
+.col-md-2.col-sm-4.col-sm-offset-0.col-xs-8.col-xs-offset-2
+  .person-v2
+    = image_tag image, alt: name, class: ["img-responsive","img-circle"]
+    .person-desc-v2.text-center
+      h4 #{name}
+      em #{position}
+      ul.list-inline.top-social
+        li
+          = link_to github, class: ["social-icon-sm","si-dark","si-github"], target: "_blank"
+            i.fa.fa-github
+            i.fa.fa-github
+        li
+          = link_to twitter, class: ["social-icon-sm","si-dark","si-twitter"], target: "_blank"
+            i.fa.fa-twitter
+            i.fa.fa-twitter
+        li
+          = link_to twitter, class: ["social-icon-sm","si-dark","si-linkedin"], target: "_blank"
+            i.fa.fa-linkedin
+            i.fa.fa-linkedin

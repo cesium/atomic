@@ -9,365 +9,106 @@
             = link_to 'Home', root_path
           li.active Equipa
 
-.divide80
-/ .container
-/   ul.filter.list-inline
-/     li
-/       a.active data-filter="*" href="#"  Mostrar todos
-/     li
-/       a data-filter=".direcao" href="#"  Direção
-/     li
-/       a data-filter=".caos" href="#"  CAOS
-/     li
-/       a data-filter=".comun" href="#"  Comunicação
-/     li
-/       a data-filter=".drep" href="#"  DREP
-/     li
-/       a data-filter=".imagem" href="#"  Imagem
-/     li
-/       a data-filter=".pedg" href="#"  Pedagógico
-/     li
-/       a data-filter=".recr" href="#"  Recreativo
+
+.col-md-12
+  .divide80
+
+  .container
+    .row
+      .col-md-12
+        h3.heading Direção
+        .divide20
 
 .container
   .row
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/3854939.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Miguel Pinto
-          em Presidente
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+    = render 'team_member', name: "Miguel Pinto", position: "Presidente",
+      image: "team/miguel-pinto", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member', name: "Pedro Duarte", position: "Vice Presidente",
+      image: "team/pedro-duarte", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member', name: "Fernando Mendes", position: "Vice Presidente",
+      image: "team/fernando-mendes", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Sandra Ferreira", position: "Tesoureira",
+      image: "team/sandra-ferreira", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Patrícia Barros", position: "Secretária",
+      image: "team/patricia-barros", github: "#", twitter: "#", linkedin: "#"
 
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/4573159.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Pedro Duarte
-          em Vice Presidente
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/4325027.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Fernando Mendes
-          em Vice Presidente
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/5862248.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Sandra Ferreira
-          em Tesoureira
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
+.container
   .row
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/4881189.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Patrícia Barros
-          em Secretária
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+    .col-md-12
+      h3.heading CAOS
+      .divide20
 
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/7093119.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Martinho Aragão
-          em Diretor CAOS
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/11543529.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 André Gonçalves
-          em Co Diretor CAOS
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/9092681.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Paulo Sousa
-          em Diretor Pedagógico
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
+.container
   .row
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/6334322.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Adelino Costa
-          em Co Diretor Pedagógico
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+    = render 'team_member',  name: "Martinho Aragão", position: "Diretor CAOS",
+      image: "team/martinho-aragao", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "André Gonçalves", position: "Co Diretor CAOS",
+      image: "team/andre-goncalves", github: "#", twitter: "#", linkedin: "#"
 
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/12313801.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Gil Gonçalves
-          em Diretor Recreativo
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/11914253.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Ricardo Certo
-          em Co Diretor Recreativo
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/11059601.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 João Aleixo
-          em Co Diretor Recreativo
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
+.container
   .row
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/joana-arantes.jpg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Joana Arantes
-          em Diretora Comunicação
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+    .col-md-12
+      h3.heading Departamento Pedagógico
+      .divide20
 
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/12249707.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Célia Figueiredo
-          em Co Diretora Comunicação
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/jorge-simao.jpg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Jorge Simão
-          em Diretor Imagem
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/lisandro.jpg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Lisandro Alves
-          em Co Diretor Imagem
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+.container
   .row
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/unspecified.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Duarte Araújo
-          em Diretor DREP
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
-    .col-sm-3.text-center
-      .person-v2
-        = image_tag('team/10116142.jpeg', class: 'img-responsive', alt: '')
-        .person-desc-v2
-          h3 Paulo Cardoso
-          em Co Diretor DREP
-          ul.list-inline.top-social
-            li
-              a href="#"
-                i.fa.fa-github
-            li
-              a href="#"
-                i.fa.fa-twitter
-            li
-              a href="#"
-                i.fa.fa-linkedin
+    = render 'team_member',  name: "Paulo Sousa", position: "Diretor Pedagógico",
+      image: "team/paulo-sousa", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Adelino Costa", position: "Co-Diretor Pedagógico",
+      image: "team/adelino-costa", github: "#", twitter: "#", linkedin: "#"
 
-/ 1. O que é o CeSIUM?
+.container
+  .row
+    .col-md-12
+      h3.heading Departamento Recreativo
+      .divide20
 
-/ É o Centro de estudantes de Engenharia de Sistemas e Informática da Universidade do Minho – um grupo de estudantes, voluntários, que tem como objectivo representar e promover o curso.
+.container
+  .row
+    = render 'team_member',  name: "Gil Gonçalves", position: "Diretor Recreativo",
+      image: "team/gil-goncalves", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Ricardo Certo", position: "Co Diretor Recreativo",
+      image: "team/ricardo-certo", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "João Aleixo", position: "Co Diretor Recreativo",
+      image: "team/joao-aleixo", github: "#", twitter: "#", linkedin: "#"
 
-/ 2. Onde estamos?
+.container
+  .row
+    .col-md-12
+      h3.heading Departamento de Comunicação
+      .divide20
 
-/ Podes encontrar-nos no Departamento de Informática do campus de gualtar da Universidade do Minho. As nossas instalações encontram-se no 2º piso, sala 1.11.
+.container
+  .row
+    = render 'team_member',  name: "Joana Arantes", position: "Diretora Comunicação",
+      image: "team/joana-arantes", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Célia Figueiredo", position: "Co Diretora Comnuicação",
+      image: "team/celia-figueiredo", github: "#", twitter: "#", linkedin: "#"
 
-/ 3. O que fazemos?
+.container
+  .row
+    .col-md-12
+      h3.heading Departamento de Imagem
+      .divide20
 
-/ Procuramos organizar actividades de contéudo semelhante e complementar ao curso, assim como promover e divulgar acções de lazer e socialização entre estudantes e ex-alunos. Representamos ainda os interesses colectivos dos alunos da LESI / LEI junto dos orgãos ou instituições para que a sua carreira académica seja mais rica.
+.container
+  .row
+    = render 'team_member',  name: "Jorge Simão", position: "Diretor Imagem",
+      image: "team/jorge-simao", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Lisandro Alves", position: "Co Diretor Imagem",
+      image: "team/lisandro", github: "#", twitter: "#", linkedin: "#"
 
-/ 4. Como podes contribuir?
+.container
+  .row
+    .col-md-12
+      h3.heading DREP
+      .divide20
 
-/ Com ideias ou sugestões, se quiseres fazer parte da equipa do CeSIUM basta que te dirijas ao CeSIUM ou que nos contactes por email. Serás mais do que bem vindo.
+.container
+  .row
+    = render 'team_member',  name: "Duarte Araújo", position: "Diretor DREP",
+      image: "team/duarte-araujo", github: "#", twitter: "#", linkedin: "#"
+    = render 'team_member',  name: "Paulo Cardoso", position: "Co Diretor DREP",
+      image: "team/paulo-cardoso", github: "#", twitter: "#", linkedin: "#"
 
-/ 5. Como e porquê tornar Sócio?
-
-/ A inscrição de sócio é vitalícia, sendo sócio do CeSIUM tens descontos em eventos por nós organizados e aos produtos a eles associados. Só precisas de te dirigir ao CeSIUM durante o horário de atendimento. O valor da inscrição é de 7,50€.- A permanência de sócio não está sujeita a qualquer tipo de quota.
-
-/ - O que somos?
-/ O CeSIUM é um Centro de estudantes de Engenharia de Sistemas e Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional.
-
-/ - O que fazemos?
-/ Durante o ano lectivo, o CeSIUM organiza várias atividades como, por exemplo: torneios de Futsal e outros, palestras formativas (Latex, LIP, Bash Script, etc.), eventos com personalidades influentes no mundo da Informática, a Semana da LEI e ainda a revista /log/CeSIUM.
-
-/ - Quais são as vantagens de se ser sócio do CeSIUM?
-/ Tornando-te nosso associado, terás acesso a todos os eventos do CeSIUM (com descontos ou até de forma gratuita), poderás participar e ajudar a organizar inúmeras atividades e terás disponível uma sala onde podes fazer os teus trabalhos ou simplesmente conviver com os teus amigos, desfrutando da nossa XBOX ou de um café.
-
-/ - O que tenho de fazer para me tornar sócio do CeSIUM?
-/ Para pertenceres a esta grande família, basta dirigires-te à sala do CeSIUM (DI, sala 1.11) e por apenas 7.5€ tornas-te sócio vitalício e ainda recebes o novo kit que contém, entre outros brindes, a nova t-shirt do CeSIUM.
-/ É caso para dizer que 7.5€ podem mudar a tua vida académica para sempre.
