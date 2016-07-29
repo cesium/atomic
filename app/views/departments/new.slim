@@ -1,8 +1,11 @@
+.divide20
 .container
   h3 Criar Novo Departamento
+  hr
   = form_for :department, url: departments_path do |d|
-    div
-      = d.label :title
-      = d.text_field :title
-    div
-      = d.submit 'Criar Novo Departamento'
+    = d.label :title
+    br
+    = d.text_field :title
+    hr
+    = d.submit 'Criar Novo Departamento', class: "btn border-theme btn-lg"
+.divide20
