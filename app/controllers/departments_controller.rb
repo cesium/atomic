@@ -1,4 +1,6 @@
 class DepartmentsController < ApplicationController
+  layout 'welcome'
+
   def index
     @departments  = Department.all
   end

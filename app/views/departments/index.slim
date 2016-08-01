@@ -1,6 +1,15 @@
-.containter
-  h3 Departamentos
-  hr
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Departamentos
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Departamentos
+.divide20
+.container
   - if @departments.empty?
     p Não existe nenhum departamento na base de dados.
   - else
@@ -9,5 +18,7 @@
         div
           = "#{department.title}"
   hr
-  br
-  = link_to 'Criar Novo Departamento', new_department_path
+  .divide20
+    = link_to 'Criar Novo Departamento', new_department_path,
+      class: "btn border-theme btn-lg"
+.divide50

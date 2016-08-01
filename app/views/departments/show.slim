@@ -1,3 +1,4 @@
+.divide20
 .container
   - if @terms != nil
     h2 #{@department.title} - #{@terms.first.board.start_date.year}/#{@terms.first.board.start_date.year + 1}
@@ -21,9 +22,11 @@
   hr
 
   - if @terms != nil
-    = link_to 'Voltar', board_path(@board)
+    = link_to 'Voltar', board_path(@board), class: "btn border-theme btn-lg"
   - else
-    = link_to 'Voltar', departments_path
-    br
+    = link_to 'Voltar', departments_path, class: "btn border-theme btn-lg",
+      style: "margin-right: 1rem;"
     = link_to 'Apagar', department_path(@department), method: :delete,
+      class: "btn border-theme btn-lg",
       data: { confirm: "Tem a certeza que quer apagar este departamento?" }
+.divide20
