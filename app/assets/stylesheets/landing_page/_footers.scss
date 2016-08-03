@@ -39,7 +39,7 @@
     color:#777;
 }
 .contact a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .f2-work li{
     margin: 1px;
@@ -54,7 +54,7 @@
     @include transition (0.7s ease-in-out);
 }
 .f2-work li a:hover img{
-    border-color:$skincolor;
+    border-color:$color-skin;
 
 }
 .footer-btm{
@@ -101,7 +101,7 @@
     color:#777;
 }
 #footer-option .contact a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 /*******************footer 3********************/
 .footer-col.footer-3 h3{
@@ -126,7 +126,7 @@
     font-family: 'FontAwesome';
     margin-right: 15px;
     font-size: 16px;
-    color:$skincolor;
+    color:$color-skin;
 }
 .tweet ul li .date{
     padding: 3px 0;
@@ -143,7 +143,7 @@
     font-size: 13px;
 }
 .tweet li a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .latest-f-news li a{
     display: block;
@@ -210,7 +210,7 @@ Footer light styles
     .info li{
         padding-bottom: 10px;
         i{
-            color:$skincolor;
+            color:$color-skin;
             margin-right: 10px;
         }
     }

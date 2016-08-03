@@ -13,11 +13,11 @@
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
-    color: $skincolor;
+    color: $color-skin;
     background-color: transparent;
 }
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
-    color: $skincolor;
+    color: $color-skin;
     background-color: transparent;
 }
 .navbar-brand{
@@ -37,7 +37,7 @@
     font-family: $primary-font;
 }
 .navbar-default .navbar-nav>li>a:hover {
-    color: $skincolor;
+    color: $color-skin;
 
 }
 .navbar-brand img{
@@ -98,7 +98,7 @@ TOP BARS
 
 }
 .top-bar-light .top-dark-right li a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .top-bar-socials {
     line-height: 18px;
@@ -214,7 +214,7 @@ TOP BARS
 }
 .nav.mega-vertical-nav li a:hover{
     background-color:transparent;
-    color:$skincolor;
+    color:$color-skin;
 }
 .nav.mega-vertical-nav li a i{
     margin-right: 10px;
@@ -223,7 +223,7 @@ TOP BARS
     margin: 0;
 }
 .mega-contact i{
-    color:$skincolor;
+    color:$color-skin;
     margin-right: 5px;
 }
 /*navbar search form***/
@@ -282,11 +282,11 @@ TOP BARS
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
-    color: $skincolor;
+    color: $color-skin;
     background-color: transparent;
 }
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
-    color: $skincolor;
+    color: $color-skin;
     background-color: transparent;
 }
 .navbar-inverse .navbar-brand{
@@ -303,7 +303,7 @@ TOP BARS
     text-transform: uppercase;
 }
 .navbar-inverse .navbar-nav>li>a:hover {
-    color: $skincolor;
+    color: $color-skin;
 
 }
 #header-top.dark-header-top{

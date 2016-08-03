@@ -7,128 +7,70 @@
         /! MAIN IMAGE
         = carousel_image_tag('anniversary-banner.png')
       /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Torna-te Sócio") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('member-slide.png')
+        /! LAYER NR. 1
+        = slider_caption_title(start_second: 1200, x: 40, y: 110, title: "Entra na Comunidade")
+        /! LAYER NR. 2
+        = slider_check(start_second: 1600, x: 40, y: 170)
+        /! LAYER NR. 3
+        = slider_caption(start_second: 1600, x: 90, y: 170, caption: "Recebe o nosso kit de sócio")
+        /! LAYER NR. 4
+        = slider_check(start_second: 1800, x: 40, y: 220)
+        /! LAYER NR. 5
+        = slider_caption(start_second: 1800, x: 90, y: 220, caption: "Cartão de sócio vitalício")
+        /! LAYER NR. 6
+        = slider_check(start_second: 2000, x: 40, y: 270)
+        /! LAYER NR. 7
+        = slider_caption(start_second: 2000, x: 90, y: 270, caption: "Representação dos teus interesses")
+        /! LAYER NR. 8
+        = slider_check(start_second: 2200, x: 40, y: 320)
+        /! LAYER NR. 9
+        = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Acesso à sala do CeSIUM e seu material")
+        /! LAYER NR. 10
+        = slider_check(start_second: 2400, x: 40, y: 370)
+        /! LAYER NR. 11
+        = slider_caption(start_second: 2400, x: 90, y: 370, caption: "Participa gratuitamente em todos os eventos")
+      /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title="Atividades" data-transition="fade"
         /! MAIN IMAGE
         = carousel_image_tag('talk.jpg', data: { bgposition: "top-left" })
         /! LAYER NR. 1
-        .caption.left-tile-text.sfr.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="1200" data-x="40" data-y="110"
-          | Atividades
+        = slider_caption_title(start_second: 1200,x: 40,y: 110,title: "Atividades")
         /! LAYER NR. 2
-        .caption.medium_bg_darkblue.sfl.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="1600" data-x="40" data-y="170"
-          i.fa.fa-check
+        = slider_check(start_second: 1600, x: 40, y: 170)
         /! LAYER NR. 3
-        .caption.modern_big_redbg.sfb.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="1600" data-x="90" data-y="170"
-          | Palestras
+        = slider_caption(start_second: 1600, x: 90, y: 170, caption: "Palestras")
         /! LAYER NR. 4
-        .caption.medium_bg_darkblue.sfl.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="1800" data-x="40" data-y="220"
-          i.fa.fa-check
+        = slider_check(start_second: 1800, x: 40, y: 220)
         /! LAYER NR. 5
-        .caption.modern_big_redbg.sfb.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="1800" data-x="90" data-y="220"
-          | Workshops
+        = slider_caption(start_second: 1800, x: 90, y: 220, caption: "Workshops")
         /! LAYER NR. 6
-        .caption.medium_bg_darkblue.sfl.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="2000" data-x="40" data-y="270"
-          i.fa.fa-check
+        = slider_check(start_second: 2000, x: 40,y: 270)
         /! LAYER NR. 7
-        .caption.modern_big_redbg.sfb.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="2000" data-x="90" data-y="270"
-          | Torneios
+        = slider_caption(start_second: 2000, x: 90, y: 270, caption: "Torneios")
         /! LAYER NR. 8
-        .caption.medium_bg_darkblue.sfl.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="2200" data-x="40" data-y="320"
-          i.fa.fa-check
+        = slider_check(start_second: 2200, x: 40, y: 320)
         /! LAYER NR. 9
-        .caption.modern_big_redbg.sfb.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="2200" data-x="90" data-y="320"
-          | Desafios
+        = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Desafios")
         /! LAYER NR. 10
-        .caption.modern_big_redbg.sfb.medium.tp-resizeme data-end="9400" data-endspeed="600" data-speed="600" data-start="2400" data-x="40" data-y="370"
-          | E muito mais!
+        = slider_caption(start_second: 2400, x: 40, y: 370, caption: "E muito mais!")
 
-// LAST NEWS
-/ .divide60
-/ .container
-/   .row
-/     .col-md-12
-/       .center-heading
-/         h2
-/           strong Notícias
-/           |  Recentes
-/         span.center-line
-/   .row
-/     /! news col
-/     .col-sm-3.margin30
-/       .post.grid-post
-/         .post-header.text-center
-/           span.tag
-/             a href="#"
-/               i.fa.fa-tag
-/               |  Recreativo
-/           h3.post-title
-/             a href="#"  Lorem ipsum cogarts.
-/           span.date 8 Nov. 2015
-/         .post-entry
-/           p
-/             | Esistono innumerevoli variazioni dei passaggi del Lorem Ipsum, ma la maggior parte hanno subito delle variazioni del tempo, a causa dell’inserimento di passaggi ironici, o di sequenze casuali di caratteri palesemente poco verosimili.  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae quasi soluta, asperiores possimus ea ex dolorem...
-/         .post-button.text-center
-/           a.btn.btn-theme-dark.btn-xs href="#"  Ler mais
-/
-/     /! news col
-/     .col-sm-3.margin30
-/       .post.grid-post
-/         .post-header.text-center
-/           span.tag
-/             i.fa.fa-tag
-/             a< href="#" Recreativo
-/             a< href="#" Geral
-/           h3.post-title
-/             a href="#"  Lorem ipsum cogarts.
-/           span.date 8 Nov. 2015
-/         .post-entry
-/           p
-/             |  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate sed libero voluptatem omnis provident animi corporis quo, quis quidem nisi, aliquid, officia. Aperiam tempora quaerat repellat totam modi. Earum, error?
-/
-/
-/     /! news col
-/     .col-sm-3.margin30
-/       .post.grid-post
-/         .post-header.text-center
-/           span.tag
-/             a href="#"
-/               i.fa.fa-tag
-/               |  Recreativo
-/           h3.post-title
-/             a href="#"  Lorem ipsum cogarts.
-/           span.date 8 Nov. 2015
-/         .post-entry
-/           p
-/             |  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis magni nulla similique suscipit, beatae ratione numquam explicabo exercitationem quae pariatur adipisci? Cum iste illum voluptatum. Assumenda, molestiae modi soluta tenetur!
-/
-/     /! news col
-/     .col-sm-3.margin30
-/       .post.grid-post
-/         .post-header.text-center
-/           span.tag
-/             i.fa.fa-tag
-/             a< href="#" Recreativo
-/             a< href="#" Imagem
-/             a< href="#" Geral
-/             a< href="#" Recreativo
-/           h3.post-title
-/             a href="#"  Lorem ipsum cogarts.
-/           span.date 8 Nov. 2015
-/         .post-entry
-/           p
-/             |  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nemo explicabo soluta voluptates quaerat voluptate provident necessitatibus ea, molestias eveniet recusandae ab vero quidem, reiciendis, modi mollitia magnam fugit quae?  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio quibusdam quidem, praesentium commodi a? Quos...
-/         .post-button.text-center
-/           a.btn.btn-theme-dark.btn-xs href="#"  Ler mais
-
-
-
-/ .divide60
-section#cta-2
+section.cta-2
   .container
-    h2 JÁ ÉS SÓCIO?
-    p.lead Faz parte desta comunidade e usufrui de todos as vantagens!
-    a.btn.border-theme.btn-lg href="#"  Adere já!
-
-
+    .row
+      .col-md-4.col-md-offset-4
+        .center-heading
+          h2 JÁ ÉS SÓCIO?
+          span.center-line
+        p.lead A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
+          núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
+          possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
+          pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
+          enriquecedoras para a tua futura vida profissional.
+        .divide30
+        a.btn.border-theme.btn-lg href="#"  Adere já!
 
 // NEXT EVENT
 .divide70
@@ -233,103 +175,24 @@ section#cta-2
           |  &nbsp;
           a.btn.btn-theme-bg.btn-xs href="#"  Read more
 
-
-// LA
-.divide70
-/ .our-team-v-2
-/   .container
-/     .row
-/       .col-md-12
-/         .center-heading
-/           h2
-/             | Últimos
-/             strong  logs/
-/           span.center-line
-/
-/     .row
-/       .col-sm-3.margin30
-/         div
-/           a href="#"
-/           .item-img-wrap
-/             = image_tag('img-8.jpg', class: 'img-responsive', alt: 'news')
-/             .item-img-overlay
-/               span
-/           /! news link
-/           .news-desc
-/             span Sports
-/             h4
-/               a href="#"  Lorem ipsum dollor Sit amet
-/             span
-/               | By
-/               a href="#"  Author
-/               | on 24 july 2014
-/             span
-/               a href="#"  Read more...
-/           /! news desc
-/       /! news col
-/       .col-sm-3.margin30
-/         div
-/           a href="#"
-/           .item-img-wrap
-/             = image_tag('img-8.jpg', class: 'img-responsive', alt: 'news')
-/             .item-img-overlay
-/               span
-/           .news-desc
-/             span Sports
-/             h4
-/               a href="#"  Lorem ipsum dollor Sit amet
-/             span
-/               | By
-/               a href="#"  Author
-/               |  on 24 july 2014
-/             span
-/               a href="#"  Read more...
-/           /! news desc
-/       /! news col
-/       .col-sm-3.margin30
-/         div
-/           a href="#"
-/           .item-img-wrap
-/             = image_tag('img-8.jpg', class: 'img-responsive', alt: 'news')
-/             .item-img-overlay
-/               span
-/           /! news link
-/           .news-desc
-/             span Sports
-/             h4
-/               a href="#"  Lorem ipsum dollor Sit amet
-/             span
-/               | By
-/               a href="#"  Author
-/               |  on 24 july 2014
-/             span
-/               a href="#"  Read more...
-/       /! news col
-/       .col-sm-3.margin30
-/         div
-/           a href="#"
-/           .item-img-wrap
-/             = image_tag('img-8.jpg', class: 'img-responsive', alt: 'news')
-/             .item-img-overlay
-/               span
-/           /! news link
-/           .news-desc
-/             span Sports
-/             h4
-/               a href="#"  Lorem ipsum dollor Sit amet
-/             span
-/               | By
-/               a href="#"  Author
-/               |  on 24 july 2014
-/             span
-/               a href="#"  Read more...
-/
-/   .divide20
-/   .text-center
-/     a.btn.btn-theme-bg.btn-lg href="#"
-/       | Ver todos
-/
-/ #map-canvas
-/   .divide5
+// PARTNERS
+.divide80
+section.partners-carousel
+  .container
+    .row
+      .col-md-12
+        .center-heading
+          h2 Parcerias
+          span.center-line
+    .partners-slider
+      = partner_slide(image_file: "partners/megatronica", link: "http://www.megatronica.pt", alt: "Megatrónica")
+      = partner_slide(image_file: "partners/inmotion", link: "http://inmotion.pt", alt: "Inmotion")
+      = partner_slide(image_file: "partners/nuguelmusic", link: "http://www.nuguelmusic.pt", alt: "Nuguel Music")
+      = partner_slide(image_file: "partners/cmbraga", link: "https://www.cm-braga.pt/pt", alt: "Câmara Municipal de Braga")
+      = partner_slide(image_file: "partners/gnration", link: "http://www.gnration.pt", alt: "GNRation")
+      = partner_slide(image_file: "partners/aaum", link: "http://www.aaum.pt", alt: "AAUM")
+      = partner_slide(image_file: "partners/ipdj", link: "http://www.ipdj.pt", alt: "IPDJ")
+      = partner_slide(image_file: "partners/um", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
+      = partner_slide(image_file: "partners/startupbraga", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")
 
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js"

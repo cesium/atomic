@@ -1,10 +1,11 @@
 //some variables for ASSAN theme, you can create your own easily.
-$body-bg:#fff;
-$base-line-height:24px;
-$skincolor:#F6633D;//Theme default color code
-$lightcolor:#fff; //white color and background
-$graycolor:#777; //gray color for p tags
-$darkcolor:#333; //dark color for heading
-$primary-font:  'Lato', sans-serif; //default font family
-$alert-color:red; //alert color
+$color-white: #fff;
+$color-skin: #f6633d;               // Theme default color code
+$color-light: #fff;                 // white color and background
+$color-light-gray: #ddd;
+$color-gray: #777;                  // gray color for p tags
+$color-dark: #333;                  // dark color for heading
+$color-alert: red;                  // alert color
+$base-line-height: 24px;
+$primary-font: 'Lato', sans-serif;  // default font family
 

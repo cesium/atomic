@@ -60,7 +60,7 @@ hr {
     font-weight: normal;
     margin-left: 5px;
     @include border-radius (0px);
-    background-color: $skincolor;
+    background-color: $color-skin;
     padding: 3px 6px;
 }
 a {
@@ -69,11 +69,11 @@ a {
 }
 a:hover,
 a:focus {
-    color: $skincolor;
+    color: $color-skin;
     text-decoration: none;
 }
 .colored-text{
-    color:$skincolor;
+    color:$color-skin;
 }
 
 /* Headings */
@@ -203,7 +203,7 @@ pre{
     width: 70px;
     height: 1px;
     border-top: 1px solid #bbb;
-    /* border-bottom: 1px solid $skincolor; */
+    /* border-bottom: 1px solid $color-skin; */
     margin: auto;
 
 }
@@ -363,9 +363,9 @@ pre{
 }
 
 .btn-theme-bg{
-    border-color: $skincolor;
+    border-color: $color-skin;
     color: #fff;
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 .btn i{
     margin-right: 10px;
@@ -380,7 +380,7 @@ pre{
 }
 .btn-theme-dark:hover{
     color:#fff;
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 
 /*********border-buttons**********/
@@ -405,12 +405,12 @@ pre{
     color:#000;
 }
 .border-theme{
-    border: 1px solid $skincolor;
-    color:$skincolor;
+    border: 1px solid $color-skin;
+    color:$color-skin;
 }
 .border-theme:hover{
-    background-color: $skincolor;
-    border-color: $skincolor;
+    background-color: $color-skin;
+    border-color: $color-skin;
     color:#fff;
 }
 

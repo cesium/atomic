@@ -158,7 +158,7 @@ $(document).ready(function() {
 });
 //OWL CAROUSEL
 $(document).ready(function() {
-    $("#clients-slider").owlCarousel({
+    $(".partners-slider").owlCarousel({
         autoPlay: 3000,
         pagination: false,
         items: 4,

@@ -204,7 +204,7 @@ Carousel slider
     text-transform: uppercase;
     font-weight: 700;
     color:#fff;
-    background-color:$skincolor;
+    background-color:$color-skin;
     margin: 0px;
 }
 .carousel-item-content p{
@@ -262,7 +262,7 @@ a.carousel-control {
     @include box-shadow (none);
 }
 .main-flex-slider .flex-control-paging li a.flex-active{
-    background-color:$skincolor !important;
+    background-color:$color-skin !important;
 }
 .slider-overlay{
     background: rgba(0,0,0,.2);
@@ -399,7 +399,7 @@ a.carousel-control {
     -webkit-animation: blink 0.7s infinite;
     -moz-animation: blink 0.7s infinite;
     animation: blink 0.7s infinite;
-    color:$skincolor;
+    color:$color-skin;
 }
 @keyframes blink{
     0% { opacity:1; }
@@ -433,7 +433,7 @@ h1.typed-text{
     font-weight: 700;
 }
 .typed-text .element{
-    color:$skincolor;
+    color:$color-skin;
 }
 #home-parallax p{
     color:#fff;
@@ -470,7 +470,7 @@ h1.typed-text{
     height: 50px;
     line-height: 50px;
     text-align: center;
-    background-color: $skincolor;
+    background-color: $color-skin;
     color: #fff;
     font-size: 17px;
     @include border-radius (50%);
@@ -491,7 +491,7 @@ h1.typed-text{
     height: 85px;
     line-height:85px;
     text-align: center;
-    color:$skincolor;
+    color:$color-skin;
     font-size: 30px;
     background-color: #f7f9fa;
     @include border-radius (50%);
@@ -507,7 +507,7 @@ h1.typed-text{
 .service-box:hover i {
     @include transform (rotateY(360deg));
     color: #fff;
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 
 
@@ -531,7 +531,7 @@ h1.typed-text{
     margin-bottom: 5px;
 }
 .blue-bg{
-    background-color:$skincolor;
+    background-color:$color-skin;
     padding-top: 70px;
     padding-bottom: 40px;
 }
@@ -560,7 +560,7 @@ h1.typed-text{
 .special-feature i{
     font-size:65px;
     line-height:75px;
-    color:$skincolor;
+    color:$color-skin;
 }
 
 .special-feature h4{
@@ -648,14 +648,14 @@ h1.typed-text{
     @include transition (all 0.3s ease-out);
 }
 .service-ico i{
-    color:$skincolor;
+    color:$color-skin;
     font-size: 50px;
 }
 .service-box-4 .service-text{
     margin-left: 65px;
 }
 .service-text a{
-    color:$skincolor;
+    color:$color-skin;
 }
 .service-text a i{
     margin-left: 5px;
@@ -685,8 +685,8 @@ h1.typed-text{
     display: inline-block;
 }
 .colored-boxed.green i{
-    color: $skincolor;
-    border-color: $skincolor;
+    color: $color-skin;
+    border-color: $color-skin;
 }
 .colored-boxed.dark i{
     color: #333;
@@ -788,7 +788,7 @@ h3.heading-progress {
 }
 .progress-bar {
     line-height: 10px;
-    background:$skincolor;
+    background:$color-skin;
     @include box-shadow (none);
 }
 /*news and blogs*/
@@ -1017,7 +1017,7 @@ ul.post-desc li + li{
 }
 
 .timeline > li > .timeline-badge i:hover {
-    color: $skincolor;
+    color: $color-skin;
 }
 
 .timeline > li.timeline-inverted > .timeline-panel {
@@ -1185,11 +1185,11 @@ ul.post-desc li + li{
     font-family: $primary-font;
 }
 .testimonials  h4 i{
-    color:$skincolor;
+    color:$color-skin;
     margin-right: 5px;
 }
 .testimonials p{
-    color:$skincolor;
+    color:$color-skin;
     font-size: 25px;
     font-weight: 400;
     font-style: normal;
@@ -1232,7 +1232,7 @@ ul.post-desc li + li{
     font-style: italic;
 }
 .testi-slide i{
-    color:$skincolor;
+    color:$color-skin;
     margin-right: 10px;
 }
 .testi-slide h4{
@@ -1250,7 +1250,7 @@ ul.post-desc li + li{
 }
 .testi-slide .flex-control-paging li a.flex-active{
     background: transparent !important;
-    border: 2px solid $skincolor;
+    border: 2px solid $color-skin;
 }
 
 .quote{
@@ -1283,10 +1283,10 @@ ul.post-desc li + li{
     border-right: 0.86667em solid transparent;
 }
 .quote.green blockquote{
-    background-color:$skincolor;
+    background-color:$color-skin;
 }
 .quote.green blockquote:before{
-    border-top-color: $skincolor;
+    border-top-color: $color-skin;
 }
 .quote.dark blockquote{
     background-color: #555;
@@ -1332,7 +1332,7 @@ ul.post-desc li + li{
 }
 .panel-title i{
     margin-right: 10px;
-    color:$skincolor;
+    color:$color-skin;
 }
 
 
@@ -1397,7 +1397,7 @@ ul.post-desc li + li{
 /*purchase section*/
 .purchase-sec{
     padding: 30px 0;
-    background: $skincolor;
+    background: $color-skin;
 }
 .purchase-sec span{
     line-height: 40px;
@@ -1428,7 +1428,7 @@ ul.post-desc li + li{
 .facts-in h3 i{
     font-size: 40px;
     margin-right: 20px;
-    color:$skincolor;
+    color:$color-skin;
 }
 .facts-in h4{
     margin-bottom: 0px;
@@ -1451,7 +1451,7 @@ ul.post-desc li + li{
     filter: Alpha(Opacity=50);
     opacity: 0.5;
     @include border-radius (20px);
-    background: $skincolor !important;
+    background: $color-skin !important;
 }
 
 
@@ -1546,7 +1546,7 @@ ol.breadcrumb li a{
     line-height: 45px;
 }
 .highlight-list li i{
-    color:$skincolor;
+    color:$color-skin;
     margin-right: 10px;
 }
 
@@ -1646,7 +1646,7 @@ ol.breadcrumb li a{
                 border-bottom:0px;
             }
             i{
-                color:$skincolor;
+                color:$color-skin;
                 margin-right: 10px;
             }
         }
@@ -1705,7 +1705,7 @@ ol.breadcrumb li a{
         padding: 1px 12px;
         display: block;
         @include box-shadow(1px 2px 2px rgba(0,0,0,.2));
-        background-color: $skincolor;
+        background-color: $color-skin;
         @include transform (rotate(45deg));
     }
 }
@@ -1750,7 +1750,7 @@ ol.breadcrumb li a{
 }
 .me-hobbies h4 i{
     margin-right: 10px;
-    color:$skincolor;
+    color:$color-skin;
     font-size: 25px;
 }
 .services-me li{
@@ -1768,7 +1768,7 @@ ol.breadcrumb li a{
     border-bottom-right-radius: 3px;
     font-size: 15px;
     background-color: #e5e5e5;
-    color:$skincolor;
+    color:$color-skin;
 }
 .contact-me{
     background-color: #eee;
@@ -1781,7 +1781,7 @@ p.dropcap:first-letter{
     font-size: 50px;
     line-height: 51px;
     margin: -1px 8px -2px 0;
-    color:$skincolor;
+    color:$color-skin;
 }
 /*contact us*/
 
@@ -1875,7 +1875,7 @@ label span{
     margin-left: 5px;
 }
 .cat-list li a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .popular-post li{
     padding-bottom: 20px;
@@ -1902,7 +1902,7 @@ label span{
     font-size: 14px;
 }
 .popular-desc h5 a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .popular-desc h6{
     color: #777;
@@ -1921,7 +1921,7 @@ label span{
     background-color: #e5e5e5;
 }
 .tag-list a:hover{
-    background-color: $skincolor;
+    background-color: $color-skin;
     color:#fff;
 }
 /****************testimonials***********************/
@@ -2006,43 +2006,43 @@ label span{
 }
 
 
-/****clients***/
-#clients-carousel{
+/**** partners ***/
+.partners-carousel{
     background-color: #424242;
     padding: 90px 0;
 }
-#clients-carousel.light{
+.partners-carousel.light{
     background-color: #222;
 }
-#clients-carousel.light h3.heading{
+.partners-carousel.light h3.heading{
     color:#fff;
 }
-#clients-carousel .center-heading h2{
+.partners-carousel .center-heading h2{
     color:#fff;
 }
-#clients-carousel .item{
+.partners-carousel .item{
     text-align: center;
 }
-#clients-carousel p{
+.partners-carousel p{
     color:#bbb;
 }
-#cta-1{
+.cta-1{
     padding: 40px 0;
-    background-color: $skincolor;
+    background-color: $color-skin;
     text-align: center;
 }
-#cta-1 h1{
+.cta-1 h1{
     color: #fff;
     font-size: 26px;
     line-height: 30px;
     text-transform: uppercase;
 }
-#cta-2{
+.cta-2{
     padding: 30px 0;
     background-color: #f2f2f2;
     text-align: center;
 }
-#cta-2 h1{
+.cta-2 h1{
     color:#333;
     margin-bottom: 15px;
     font-weight: 400;
@@ -2099,17 +2099,17 @@ label span{
 
 .panel-ico.active:after {
     content: '\f068';
-    color:$skincolor;
+    color:$color-skin;
 }
 .panel-ico.active a{
-    color:$skincolor;
+    color:$color-skin;
 }
 
 /**primary tabs***/
 .panel-primary{
     border:0px;
     .panel-heading{
-        background: $skincolor;
+        background: $color-skin;
         @include border-radius (0px);
         border-color:rgba(0,0,0,0.1);
     }
@@ -2158,7 +2158,7 @@ label span{
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     border:0px;
-    background-color: $skincolor;
+    background-color: $color-skin;
     color:#fff;
 }
 .nav-tabs>li>a{
@@ -2275,13 +2275,13 @@ label span{
     margin-right: 4px;
 }
 .tabs .nav-tabs  li.active  a {
-    color: $skincolor;
+    color: $color-skin;
     border-left-color: #eee;
     border-right-color: #eee;
     background: #fff;
 }
 .tabs .nav-tabs  li.active  a:after {
-    background: $skincolor;
+    background: $color-skin;
 }
 .tabs .nav-tabs  li.active  a:before {
     background: #fff;
@@ -2411,7 +2411,7 @@ Version v1.1 css*
 
 }
 .latest-tweets .tweet li a{
-    color:$skincolor;
+    color:$color-skin;
 }
 /**********************sidenav*********************/
 .side-nav li{
@@ -2424,7 +2424,7 @@ Version v1.1 css*
     position: relative;
 }
 .side-nav li a.active{
-    color:$skincolor;
+    color:$color-skin;
 }
 .side-nav li a i{
     margin-right: 10px;
@@ -2444,7 +2444,7 @@ Version v1.1 css*
     margin-right: 5px;
 }
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 
 .jobs-row h4.panel-title{
@@ -2491,7 +2491,7 @@ span.results-number{
     margin-bottom: 0px;
 }
 .results-box h3  a{
-    color:$skincolor;
+    color:$color-skin;
 }
 .results-box h3  a:hover{
     text-decoration: underline;
@@ -2523,7 +2523,7 @@ span.results-number{
     font-size: 12px;
 }
 .link-ul li a:hover{
-    color:$skincolor;
+    color:$color-skin;
     text-decoration: underline;
 }
 .results-box p{
@@ -2536,7 +2536,7 @@ span.results-number{
 }
 .results-sidebar-box ul li a:hover{
     text-decoration: underline;
-    color:$skincolor;
+    color:$color-skin;
 }
 .results-sidebar-box h4{
     font-size: 14px;
@@ -2631,7 +2631,7 @@ span.results-number{
     @include transition (all 200ms ease-in);
 }
 .step:hover .icon-square i {
-    background-color: $skincolor;
+    background-color: $color-skin;
     color: #FFF;
 }
 .icon-square i:before {
@@ -2771,9 +2771,9 @@ body.invoice{
         color: #fff;
         cursor: default;
         background-color: #fff;
-        border-bottom-color:$skincolor;
-        background-color: $skincolor;
-        border-color: $skincolor;
+        border-bottom-color:$color-skin;
+        background-color: $color-skin;
+        border-color: $color-skin;
     }
     .nav-tabs>li>a {
         margin-right: 2px;
@@ -2792,7 +2792,7 @@ body.invoice{
         }
     }
     .nav-tabs>li>a:hover{
-        border-color: $skincolor;
+        border-color: $color-skin;
         background-color: transparent;
     }
 
@@ -2849,7 +2849,7 @@ body.invoice{
 }
 .dropdown-login-box h4 em{
     font-size: 12px;
-    color:$skincolor;
+    color:$color-skin;
     font-weight: 400;
 }
 .dropdown-login-box input[type=checkbox] {
@@ -2860,10 +2860,10 @@ body.invoice{
     margin: 0;
 }
 .dropdown-login-box p a{
-    color:$skincolor;
+    color:$color-skin;
 }
 .dropdown-login-box p a:hover{
-    color:$skincolor;
+    color:$color-skin;
     text-decoration: underline;
 }
 
@@ -2961,12 +2961,12 @@ MULTI LEVEL DROPDOWN CSS
 }
 .contact-option-circle i{
     font-size: 35px;
-    color:$graycolor;
+    color:$color-gray;
     display: block;
     margin-bottom: 10px;
 }
 .contact-option-circle:hover i{
-    color:$skincolor;
+    color:$color-skin;
 }
 .sky-form-columns .sky-form fieldset + fieldset {
     border-top: 0px;
@@ -2981,7 +2981,7 @@ MULTI LEVEL DROPDOWN CSS
     color:#bbb;
 }
 .navbar .dropdown-menu.dark-dropdown li a:hover{
-   color:$skincolor;
+   color:$color-skin;
    background-color: transparent;
 }
 .navbar .dropdown-menu.dark-dropdown, .navbar .dropdown-menu.dark-dropdown .yamm-content{
@@ -3030,7 +3030,7 @@ MULTI LEVEL DROPDOWN CSS
     font-weight: 700;
 }
 .intro-text-1 h4 strong{
-    color:$skincolor;
+    color:$color-skin;
     font-weight: 700;
 }
 .intro-text-1 p{
@@ -3096,7 +3096,7 @@ MULTI LEVEL DROPDOWN CSS
     padding: 3px 10px;
     font-size: 12px;
     @include border-radius (0px);
-    background: $skincolor;
+    background: $color-skin;
     filter: Alpha(Opacity=50);
     opacity: 0.5;
 }
@@ -3130,7 +3130,7 @@ MULTI LEVEL DROPDOWN CSS
     font-size: 18px;
     font-weight: 400;
     margin: 0 0 18px;
-    color: $skincolor;
+    color: $color-skin;
     margin-bottom: 6px;
     @include transition (all 0.6s ease-in-out);
     @include transform (translate3d(0, -400%, 0));
@@ -3154,7 +3154,7 @@ MULTI LEVEL DROPDOWN CSS
     width: 40px;
     height: 40px;
     @include border-radius (50%);
-    border: 1px solid $skincolor;
+    border: 1px solid $color-skin;
     text-align: center;
     margin: 0 5px;
     @include transform (translate3d(0, 400%, 0));
@@ -3162,7 +3162,7 @@ MULTI LEVEL DROPDOWN CSS
 
 .work-wrap .img-overlay .inner-overlay a i {
     font-size: 14px;
-    color: $skincolor;
+    color: $color-skin;
     line-height: 40px;
     @include transition (all 0.2s ease-in-out);
 }
@@ -3196,7 +3196,7 @@ MULTI LEVEL DROPDOWN CSS
     font-style: normal;
 }
 .fun-facts-bg{
-    background: $skincolor;
+    background: $color-skin;
 }
 
 /***theme features box***/
@@ -3280,7 +3280,7 @@ MULTI LEVEL DROPDOWN CSS
     padding: 6px 12px;
     display: inline-block;
     color:#fff;
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 .event-box p{
     font-size: 14px;
@@ -3378,8 +3378,8 @@ MULTI LEVEL DROPDOWN CSS
     margin-bottom: 30px;
 }
 .filter li a.active{
-    color:$skincolor;
-    border-color: $skincolor;
+    color:$color-skin;
+    border-color: $color-skin;
 }
 .filter li a{
     display: inline-block;
@@ -3394,8 +3394,8 @@ MULTI LEVEL DROPDOWN CSS
     @include border-radius (0px);
 }
 .filter li a:hover{
-    color:$skincolor;
-    border-color: $skincolor;
+    color:$color-skin;
+    border-color: $color-skin;
 }
 .col-2-space .project-post{
     width:50%;
@@ -3484,7 +3484,7 @@ MULTI LEVEL DROPDOWN CSS
     height: auto;
 }
 .img-icon-overlay p a:hover{
-    color:$skincolor;
+    color:$color-skin;
 }
 .img-icon:hover .img-icon-overlay{
     opacity: 1;
@@ -3554,28 +3554,28 @@ MULTI LEVEL DROPDOWN CSS
     font-size:15px;
 }
 .cube-masonry .cbp-l-filters-alignCenter .cbp-filter-item.cbp-filter-item-active {
-    color: $skincolor;
+    color: $color-skin;
 }
 .cube-masonry .cbp-l-filters-alignCenter .cbp-filter-item:hover {
-    color: $skincolor;
+    color: $color-skin;
 }
 .portfolio-cube .cbp-l-caption-buttonLeft, .portfolio-cube .cbp-l-caption-buttonRight{
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 .portfolio-cube .cbp-l-caption-buttonLeft:hover, .portfolio-cube .cbp-l-caption-buttonRight:hover{
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 .cube-masonry .cbp-l-filters-alignRight .cbp-filter-item.cbp-filter-item-active {
     color: #FFFFFF;
-    background-color: $skincolor;
-    border-color:$skincolor;
+    background-color: $color-skin;
+    border-color:$color-skin;
     cursor: default;
 }
 .cube-masonry .cbp-l-filters-alignRight .cbp-filter-counter{
-    background: $skincolor;
+    background: $color-skin;
 }
 .cube-masonry .cbp-l-filters-alignRight .cbp-filter-counter:before{
-    border-top-color: $skincolor;
+    border-top-color: $color-skin;
 }
 .btn-sweet-alert{
     margin: 5px;
@@ -3589,9 +3589,9 @@ MULTI LEVEL DROPDOWN CSS
     text-transform: uppercase;
 }
 .portfolio-cube .cbp-l-filters-button .cbp-filter-item.cbp-filter-item-active{
-    background-color: $skincolor;
+    background-color: $color-skin;
     color: #fff;
-    border-color: $skincolor;
+    border-color: $color-skin;
     cursor: default;
 }
 .portfolio-cube{
@@ -3618,7 +3618,7 @@ MULTI LEVEL DROPDOWN CSS
 }
 
 .pace .pace-progress {
-    background: $skincolor;
+    background: $color-skin;
     position: fixed;
     z-index: 99999;
     top: 0;
@@ -3633,7 +3633,7 @@ MULTI LEVEL DROPDOWN CSS
     right: 0px;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px $skincolor, 0 0 5px $skincolor;
+    box-shadow: 0 0 10px $color-skin, 0 0 5px $color-skin;
     opacity: 1.0;
     -webkit-transform: rotate(3deg) translate(0px, -4px);
     -moz-transform: rotate(3deg) translate(0px, -4px);
@@ -3651,8 +3651,8 @@ MULTI LEVEL DROPDOWN CSS
     width: 14px;
     height: 14px;
     border: solid 2px transparent;
-    border-top-color: $skincolor;
-    border-left-color: $skincolor;
+    border-top-color: $color-skin;
+    border-left-color: $color-skin;
     border-radius: 10px;
     -webkit-animation: pace-spinner 400ms linear infinite;
     -moz-animation: pace-spinner 400ms linear infinite;
@@ -4121,8 +4121,8 @@ body.coming-soon-full{
     font-weight: 400 !important;
 }
 .tp-caption.Gym-Button, .Gym-Button{
-    background-color: $skincolor;
+    background-color: $color-skin;
 }
 .new-label{
-    color:$skincolor;
+    color:$color-skin;
 }

@@ -35,21 +35,21 @@
             text-transform: uppercase;
             display: inline-block;
             padding-bottom: 1px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid $color-light-gray;
             font-size: 12px;
         }
     }
     .post-title{
         font-size:30px;
         a{
-            color:#666;
+            color: $color-gray;
             &:hover{
-                color:#ddd;
+                color: $color-light-gray;
             }
         }
     }
     .date{
-        color:#aeaeae;
+        color: $color-gray;
         font-size: 12px;
         display: block;
         font-weight: 400;
@@ -69,4 +69,13 @@
 .contact-center {
     vertical-align: middle;
     padding: 24px;
+}
+
+.quote {
+  font-size: 1.5em;
+  font-style: italic;
+}
+
+.about-header {
+  color: $color-skin;
 }
