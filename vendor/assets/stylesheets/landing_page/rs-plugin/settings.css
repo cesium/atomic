@@ -1558,7 +1558,10 @@ img.tp-slider-alternative-image	{	width:100%; height:auto;}
 /************************************
 		-	TP BANNER TIMER		-
 *************************************/
-.tp-bannertimer								{	width:100%; height:10px; background:url(../assets/timer.png);position:absolute; z-index:200;top:0px}
+.tp-bannertimer {
+	width:100%; height:10px;
+	background-image: asset-url("landing_page/rs-plugin/assets/timer.png");
+	position:absolute; z-index:200;top:0px}
 .tp-bannertimer.tp-bottom					{	bottom:0px;height:5px; top:auto}
 
 
@@ -2126,7 +2129,7 @@ img.tp-slider-alternative-image	{	width:100%; height:auto;}
 .tp-loader.spinner0 {
   width: 40px;
   height: 40px;
-  background:url(../assets/loader.gif) no-repeat center center;
+  background: asset-url("landing_page/rs-plugin/assets/loader.gif") no-repeat center center;
   background-color: #fff;
   box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
   -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
@@ -2157,7 +2160,7 @@ img.tp-slider-alternative-image	{	width:100%; height:auto;}
 
 
 
-.tp-loader.spinner5 	{	background:url(../assets/loader.gif) no-repeat 10px 10px;
+.tp-loader.spinner5 	{	background: asset-url("landing_page/rs-plugin/assets/loader.gif") no-repeat 10px 10px;
 							background-color:#fff;
 							margin:-22px -22px;
 							width:44px;height:44px;
@@ -2341,11 +2344,11 @@ zoom: 1;
 
 @font-face {
   font-family: 'revicons';
-  src: url('../font/revicons.eot?5510888');
-  src: url('../font/revicons.eot?5510888#iefix') format('embedded-opentype'),
-       url('../font/revicons.woff?5510888') format('woff'),
-       url('../font/revicons.ttf?5510888') format('truetype'),
-       url('../font/revicons.svg?5510888#revicons') format('svg');
+  src: asset-url('landing_page/rs-plugin/font/revicons.eot?5510888');
+  src: asset-url('landing_page/rs-plugin/font/revicons.eot?5510888#iefix') format('embedded-opentype'),
+       asset-url('landing_page/rs-plugin/font/revicons.woff?5510888') format('woff'),
+       asset-url('landing_page/rs-plugin/font/revicons.ttf?5510888') format('truetype'),
+       asset-url('landing_page/rs-plugin/font/revicons.svg?5510888#revicons') format('svg');
   font-weight: normal;
   font-style: normal;
 }

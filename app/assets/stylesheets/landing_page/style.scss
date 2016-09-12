@@ -5,7 +5,7 @@
     Version    : V2.0
 */
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,900);
-@import url(../assets/landing_page/pe-icons/Pe-icon-7-stroke.css);
+@import "landing_page/pe-icons/Pe-icon-7-stroke.css";
 @import "_mixins";
 @import "_variables";
 @import "_base.scss";
@@ -1506,7 +1506,7 @@ ul.post-desc li + li{
 /****************************breadcrumb***************************/
 .breadcrumb-wrap{
     padding: 30px 0;
-    background-image:url(../assets/shadow-bg.png);
+    background-image: image-url("shadow-bg.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #f6f6f6;

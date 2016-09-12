@@ -60,11 +60,11 @@
 section.cta-2
   .container
     .row
-      .col-md-4.col-md-offset-4
+      .col-md-10.col-md-offset-1
         .center-heading
           h2 JÁ ÉS SÓCIO?
           span.center-line
-        p.lead A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
+        p.lead.text-justify A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
           núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
           possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
           pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
@@ -72,111 +72,7 @@ section.cta-2
         .divide30
         a.btn.border-theme.btn-lg href="#"  Adere já!
 
-// NEXT EVENT
-.divide70
-.container
-  .row
-    .col-md-12
-      .center-heading
-        h2
-          | Próximos
-          strong  Eventos
-        span.center-line
-  .row
-    .col-md-6
-      .latest-new
-        .row
-          .col-md-6
-            = image_tag('img-8.jpg', class: 'img-event img-responsive', alt: 'news')
-
-          .col-md-6
-            .blog-date
-              span July
-              | 1
-
-            .l-news-desc
-              h3
-                a href="#"  Lorem ipsum dollor
-
-              ul.list-inline.post-desc
-                li
-                  i.fa.fa-tag
-                  a href="#"   Workshop
-                li
-                  i.fa.fa-comment
-                  a href="#"   6 Inscritos
-
-              p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum iusto voluptatem molestiae magni asperiores vitae et earum, eum laudantium facere itaque perferendis error consequuntur quod!
-
-              p
-                a.btn.border-theme.btn-sm href="#"  Read more
-                |  &nbsp;
-                a.btn.btn-theme-dark.btn-sm href="#"  Read more
-
-    .col-md-6
-      .media.latest-new
-        .media-left
-          a href="#"
-            = image_tag('img-8.jpg', class: 'media-object', alt: 'image', style: 'width: 90px; height: 110px;')
-        .media-body
-          h4.media-heading Event 1 do Luís Rego
-          ul.list-inline.post-desc
-            li
-              i.fa.fa-calendar
-              |  31st july 2014
-            li
-              i.fa.fa-tag
-              a href="#"   Workshop
-            li
-              i.fa.fa-comment
-              a href="#"   6 Inscritos
-
-          a.btn.btn-default.btn-ico.btn-xs href="#"  Read more
-          |  &nbsp;
-          a.btn.btn-theme-bg.btn-xs href="#"  Read more
-      .media.latest-new
-        .media-left
-          a href="#"
-            = image_tag('img-8.jpg', class: 'media-object', alt: 'image', style: 'width: 90px; height: 110px;')
-        .media-body
-          h4.media-heading Event 1 do Luís Rego
-          ul.list-inline.post-desc
-            li
-              i.fa.fa-calendar
-              |  31st july 2014
-            li
-              i.fa.fa-tag
-              a href="#"   Workshop
-            li
-              i.fa.fa-comment
-              a href="#"   6 Inscritos
-
-          a.btn.btn-default.btn-ico.btn-xs href="#"  Read more
-          |  &nbsp;
-          a.btn.btn-theme-bg.btn-xs href="#"  Read more
-      .media.latest-new
-        .media-left
-          a href="#"
-            = image_tag('img-8.jpg', class: 'media-object', alt: 'image', style: 'width: 90px; height: 110px;')
-        .media-body
-          h4.media-heading Event 1 do Luís Rego
-          ul.list-inline.post-desc
-            li
-              i.fa.fa-calendar
-              |  31st july 2014
-            li
-              i.fa.fa-tag
-              a href="#"   Workshop
-            li
-              i.fa.fa-comment
-              a href="#"   6 Inscritos
-
-          a.btn.btn-default.btn-ico.btn-xs href="#"  Read more
-          |  &nbsp;
-          a.btn.btn-theme-bg.btn-xs href="#"  Read more
-
 // PARTNERS
-.divide80
 section.partners-carousel
   .container
     .row
@@ -185,14 +81,14 @@ section.partners-carousel
           h2 Parcerias
           span.center-line
     .partners-slider
-      = partner_slide(image_file: "partners/megatronica", link: "http://www.megatronica.pt", alt: "Megatrónica")
-      = partner_slide(image_file: "partners/inmotion", link: "http://inmotion.pt", alt: "Inmotion")
-      = partner_slide(image_file: "partners/nuguelmusic", link: "http://www.nuguelmusic.pt", alt: "Nuguel Music")
-      = partner_slide(image_file: "partners/cmbraga", link: "https://www.cm-braga.pt/pt", alt: "Câmara Municipal de Braga")
-      = partner_slide(image_file: "partners/gnration", link: "http://www.gnration.pt", alt: "GNRation")
-      = partner_slide(image_file: "partners/aaum", link: "http://www.aaum.pt", alt: "AAUM")
-      = partner_slide(image_file: "partners/ipdj", link: "http://www.ipdj.pt", alt: "IPDJ")
-      = partner_slide(image_file: "partners/um", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
-      = partner_slide(image_file: "partners/startupbraga", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")
+      = partner_slide(image_file: "partners/megatronica.png", link: "http://www.megatronica.pt", alt: "Megatrónica")
+      = partner_slide(image_file: "partners/inmotion.png", link: "http://inmotion.pt", alt: "Inmotion")
+      = partner_slide(image_file: "partners/nuguelmusic.png", link: "http://www.nuguelmusic.pt", alt: "Nuguel Music")
+      = partner_slide(image_file: "partners/cmbraga.png", link: "https://www.cm-braga.pt/pt", alt: "Câmara Municipal de Braga")
+      = partner_slide(image_file: "partners/gnration.png", link: "http://www.gnration.pt", alt: "GNRation")
+      = partner_slide(image_file: "partners/aaum.png", link: "http://www.aaum.pt", alt: "AAUM")
+      = partner_slide(image_file: "partners/ipdj.png", link: "http://www.ipdj.pt", alt: "IPDJ")
+      = partner_slide(image_file: "partners/um.png", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
+      = partner_slide(image_file: "partners/startupbraga.png", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")
 
 = javascript_include_tag "http://maps.googleapis.com/maps/api/js"
