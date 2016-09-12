@@ -133,6 +133,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    pg (0.18.4)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -264,6 +265,7 @@ DEPENDENCIES
   materialize-sass
   owlcarousel-rails
   paperclip (~> 4.3)
+  pg
   pry-byebug
   pry-rails
   rails (= 4.2.3)
