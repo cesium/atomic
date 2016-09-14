@@ -22,6 +22,7 @@ gem 'wow-rails'
 gem 'owlcarousel-rails'
 
 # atomic gems
+gem 'pg'
 gem 'materialize-sass'
 gem "paperclip", "~> 4.3"
 gem 'will_paginate', '~> 3.0.6'
@@ -43,15 +44,10 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'better_errors'
   gem 'web-console', '~> 2.0'
-  gem 'sqlite3'
 
   # capistrano
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-bundler', '~> 1.1.2'
   gem 'capistrano-rails', '~> 1.1.1'
   gem 'capistrano-rbenv', github: "capistrano/rbenv"
-end
-
-group :production do
-  gem 'pg'
 end
