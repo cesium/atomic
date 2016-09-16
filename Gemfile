@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 
 gem 'rails', '4.2.3'
-gem 'therubyracer', platforms: :ruby
-gem 'libv8', '3.16.14.3'
 
 #gem 'turbolinks' - REKT
 
@@ -31,6 +29,7 @@ gem 'will_paginate-bootstrap'
 
 
 group :development, :test do
+  gem 'therubyracer', :platforms => :ruby
   gem 'thin'
 
   gem 'rspec-rails', '~> 3.0'
