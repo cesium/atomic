@@ -1,8 +1,12 @@
 # config valid only for Capistrano 3.1
 lock '3.4.1'
+require 'capistrano/ext/multistage'
 
 set :application, 'atomic'
 set :repo_url, 'git@github.com:cesium/atomic.git'
+
+set :stages, ["staging", "production"]
+set :default_stage, "staging"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
