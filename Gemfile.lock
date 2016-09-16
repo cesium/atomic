@@ -108,7 +108,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
-    libv8 (3.16.14.11)
+    libv8 (3.16.14.3)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -261,6 +261,7 @@ DEPENDENCIES
   faker
   font-awesome-sass
   jquery-rails
+  libv8 (= 3.16.14.3)
   materialize-sass
   owlcarousel-rails
   paperclip (~> 4.3)
