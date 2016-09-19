@@ -41,7 +41,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background: url("../assets/landing_page/cubeportfolio/img/cbp-loading.gif") no-repeat scroll center center transparent; }
+    background: url("../img/cbp-loading.gif") no-repeat scroll center center transparent; }
   .cbp > * {
     visibility: hidden; }
   .cbp .cbp-item {
