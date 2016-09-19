@@ -13,7 +13,7 @@ development:
   <<: *default
   encoding: unicode
   database: atomic_development
-  username: postgres
+  username: atomic 
   password:
   host: localhost
   port: 5432
