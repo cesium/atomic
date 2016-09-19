@@ -16,7 +16,7 @@
 }
 .sky-form header {
 	display: block;
-	padding: 20px 30px;
+	padding: 20px 30px;	
 	border-bottom: 1px solid rgba(0,0,0,.1);
 	background: rgba(248,248,248,.9);
 	font-size: 25px;
@@ -24,7 +24,7 @@
 	color: #232323;
 }
 .sky-form fieldset {
-	display: block;
+	display: block;	
 	padding: 25px 30px 5px;
 	border: none;
 	background: rgba(255,255,255,.9);
@@ -191,7 +191,7 @@
 	resize: none;
 }
 .sky-form .textarea-resizable textarea {
-	resize: vertical;
+	resize: vertical;	
 }
 .sky-form .textarea-expandable textarea {
 	height: 39px;
@@ -413,7 +413,7 @@
 	color: #fff;
 	-o-animation: blink 1s linear infinite;
 	-ms-animation: blink 1s linear infinite;
-	-moz-animation: blink 1s linear infinite;
+	-moz-animation: blink 1s linear infinite; 
 	-webkit-animation: blink 1s linear infinite;
 }
 @-o-keyframes blink
@@ -565,7 +565,7 @@
 }
 .sky-form .input input:focus + .tooltip,
 .sky-form .textarea textarea:focus + .tooltip {
-	opacity: 1;
+	opacity: 1;	
 }
 
 .sky-form .tooltip-top-right {
@@ -574,7 +574,7 @@
 }
 .sky-form .tooltip-top-right:after {
 	top: 100%;
-	right: 16px;
+	right: 16px;	
 	border-top: 4px solid rgba(0,0,0,0.9);
 	border-right: 4px solid transparent;
 	border-left: 4px solid transparent;
@@ -647,7 +647,7 @@
 }
 .sky-form .tooltip-bottom-right:after {
 	bottom: 100%;
-	right: 16px;
+	right: 16px;	
 	border-right: 4px solid transparent;
 	border-bottom: 4px solid rgba(0,0,0,0.9);
 	border-left: 4px solid transparent;
@@ -695,7 +695,7 @@
 	-webkit-transition: border-color 0.3s;
 }
 .sky-form .toggle i:before {
-	background-color: #2da5da;
+	background-color: #2da5da;	
 }
 .sky-form .rating label {
 	color: #ccc;
@@ -729,11 +729,11 @@
 .sky-form .checkbox:hover i,
 .sky-form .toggle:hover i,
 .sky-form .ui-slider-handle:hover {
-	border-color: #F6633D;
+	border-color: #8dc9e5;
 }
 .sky-form .rating input + label:hover,
 .sky-form .rating input + label:hover ~ label {
-	color: #F6633D;
+	color: #2da5da;
 }
 .sky-form .button:hover {
 	opacity: 1;
@@ -749,7 +749,7 @@
 .sky-form .radio input:focus + i,
 .sky-form .checkbox input:focus + i,
 .sky-form .toggle input:focus + i {
-	border-color: #F6633D;
+	border-color: #2da5da;
 }
 
 
@@ -757,7 +757,7 @@
 /* checked state */
 /**/
 .sky-form .radio input + i:after {
-	background-color: #2da5da;
+	background-color: #2da5da;	
 }
 .sky-form .checkbox input + i:after {
 	color: #2da5da;
@@ -765,10 +765,10 @@
 .sky-form .radio input:checked + i,
 .sky-form .checkbox input:checked + i,
 .sky-form .toggle input:checked + i {
-	border-color: #2da5da;
+	border-color: #2da5da;	
 }
 .sky-form .rating input:checked ~ label {
-	color: #2da5da;
+	color: #2da5da;	
 }
 
 
@@ -903,7 +903,7 @@
 	font-size: 15px;
 	line-height: 27px;
 }
-.ui-datepicker-prev,
+.ui-datepicker-prev, 
 .ui-datepicker-next {
 	position: absolute;
 	top: 0;
@@ -938,7 +938,7 @@
 	color: #404040;
 }
 .ui-datepicker-calendar a:hover {
-	background: rgba(0,0,0,.05);
+	background: rgba(0,0,0,.05);	
 }
 .ui-datepicker-calendar span {
 	color: #bfbfbf;
@@ -948,7 +948,7 @@
 }
 .ui-datepicker-calendar .ui-state-active {
 	background: rgba(0,0,0,.05);
-	cursor: default;
+	cursor: default;	
 }
 .ui-datepicker-inline {
 	border: 2px solid #e5e5e5;

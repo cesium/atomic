@@ -15,3 +15,16 @@ ERROR:  role "postgres" already exists
 STATEMENT:  CREATE ROLE postgres NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;
 ERROR:  database "atomic_test" already exists
 STATEMENT:  CREATE DATABASE "atomic_test" ENCODING = 'utf8'
+LOG:  database system was shut down at 2016-09-19 21:32:43 WEST
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
+ERROR:  database "atomic_test" already exists
+STATEMENT:  CREATE DATABASE "atomic_test" ENCODING = 'utf8'
+FATAL:  role "postgres" does not exist
+FATAL:  role "postgres" does not exist
