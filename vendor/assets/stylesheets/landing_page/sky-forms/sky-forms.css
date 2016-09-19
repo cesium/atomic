@@ -729,11 +729,11 @@
 .sky-form .checkbox:hover i,
 .sky-form .toggle:hover i,
 .sky-form .ui-slider-handle:hover {
-	border-color: #F6633D;
+	border-color: #8dc9e5;
 }
 .sky-form .rating input + label:hover,
 .sky-form .rating input + label:hover ~ label {
-	color: #F6633D;
+	color: #2da5da;
 }
 .sky-form .button:hover {
 	opacity: 1;
@@ -749,7 +749,7 @@
 .sky-form .radio input:focus + i,
 .sky-form .checkbox input:focus + i,
 .sky-form .toggle input:focus + i {
-	border-color: #F6633D;
+	border-color: #2da5da;
 }
 
 

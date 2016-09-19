@@ -15,8 +15,8 @@
 //= require landing_page/jquery.magnific-popup
 //= require landing_page/jquery.mb.YTPlayer
 //= require landing_page/rs-plugin/jquery.themepunch.tools.min
-//= require landing_page/rs-plugin/jquery.themepunch.revolution
-//= require landing_page/cubeportfolio/jquery.cubeportfolio
+//= require landing_page/rs-plugin/jquery.themepunch.revolution.min
+//= require landing_page/cubeportfolio/jquery.cubeportfolio.min
 //
 /// CUSTOM JS IN LANDING_PAGE FOLDER
 //= require landing_page/gmaps
