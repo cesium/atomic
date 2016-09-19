@@ -6,7 +6,6 @@ set :repo_url, 'git@github.com:cesium/atomic.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, "ma-deploy"
 
 # Default value for :scm is :git
 # set :scm, :git
