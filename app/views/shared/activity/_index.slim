@@ -1,0 +1,16 @@
+- if activity.poster.exists?
+  .row
+    .col-md-2
+      = image_tag activity.poster.url, class: "img-responsive activity-poster"
+    .col-md-10
+      h3.activity-title
+        = link_to "#{activity.name}", activity_path(activity)
+      span.center-line style="margin-bottom: 8px;"
+      = render partial: "shared/activity/description_date", locals: { activity: activity }
+- else
+  h3.activity-title
+    = link_to "#{activity.name}", activity_path(activity)
+  .row
+    .col-md-12
+      = render partial: "shared/activity/description_date", locals: { activity: activity }
+br

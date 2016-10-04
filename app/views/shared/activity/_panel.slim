@@ -1,0 +1,41 @@
+.panel-group
+
+  // Location
+  = render partial: "shared/activity/info",
+    locals: { icon: "map-marker", text: @activity.location }
+
+  // Date & Time
+  - if @activity.start_date.strftime("%Y-%m-%d") == @activity.end_date.strftime("%Y-%m-%d")
+    = render partial: "shared/activity/info",
+      locals: { \
+      icon: "calendar",
+      text: "#{@activity.start_date.strftime("%a %d, %b %Y, %H:%M")}" \
+      " - #{@activity.end_date.strftime("%H:%M")}" \
+      }
+  - else
+    = render partial: "shared/activity/info",
+      locals: { \
+      icon: "calendar",
+      text: "#{@activity.start_date.strftime("%a %d, %b %Y, %H:%M")}" \
+      " - #{@activity.end_date.strftime("%a %d, %b %Y, %H:%M")}" \
+      }
+
+  // Member Cost
+  - if @activity.member_cost != 0
+    = render partial: "shared/activity/info",
+      locals: { icon: "money", text: "#{@activity.member_cost}€ / Sócio" }
+
+  // Guest Cost
+  - if @activity.guest_cost != 0
+    = render partial: "shared/activity/info",
+      locals: { icon: "money", text: "#{@activity.guest_cost}€ / Não Sócio" }
+
+  // Coffe Break
+  - if @activity.coffee_break
+    = render partial: "shared/activity/info",
+      locals: { icon: "coffee", text: "Coffee Break" }
+
+  // Rating
+  - if @activity.total_rating != nil
+    = render partial: "shared/activity/info",
+      locals: { icon: "start", text: @activity.total_rating }

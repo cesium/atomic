@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316115405) do
+ActiveRecord::Schema.define(version: 20161006135237) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name",                limit: 75
@@ -31,13 +31,15 @@ ActiveRecord::Schema.define(version: 20160316115405) do
     t.integer  "department_id"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.string   "registration_link"
   end
 
   add_index "activities", ["activity_id"], name: "index_activities_on_activity_id"
   add_index "activities", ["department_id"], name: "index_activities_on_department_id"
 
   create_table "boards", force: :cascade do |t|
-    t.integer  "year"
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -65,20 +67,23 @@ ActiveRecord::Schema.define(version: 20160316115405) do
 
   create_table "roles", force: :cascade do |t|
     t.string   "title"
-    t.integer  "department_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "roles", ["department_id"], name: "index_roles_on_department_id"
-
-  create_table "terms", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.integer  "board_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "terms", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "board_id"
+    t.integer  "department_id"
+    t.integer  "role_id"
+    t.integer  "user_id"
+  end
+
+  add_index "terms", ["board_id"], name: "index_terms_on_board_id"
+  add_index "terms", ["department_id"], name: "index_terms_on_department_id"
+  add_index "terms", ["role_id"], name: "index_terms_on_role_id"
+  add_index "terms", ["user_id"], name: "index_terms_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "account_number",     limit: 10

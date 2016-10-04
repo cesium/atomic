@@ -85,6 +85,21 @@ section.team-photo
 section.section-divider
   = image_tag("cesium-outline.svg")
 
+// NEXT EVENT
+.divide70
+.container
+  .center-heading
+    h2
+      | Próximos
+      strong  Eventos
+    span.center-line
+  - if @activities.empty?
+      p.lead.text-center
+        | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
+  - else
+    - @activities.each do |activity|
+        = render partial: "shared/activity/homepage", locals: { activity: activity }
+
 // PARTNERS
 section.cta-2
   .container

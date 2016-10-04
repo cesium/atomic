@@ -1,0 +1,96 @@
+.activity-title {
+  margin-bottom: 5px;
+}
+
+.activity-poster {
+  @media only screen and (max-width: 786px) {
+    margin-bottom: 10px;
+  }
+}
+
+.activity-description {
+  margin-bottom: 5px;
+  width: auto;
+}
+
+input[type="text"].activity-form-field,
+input[type="number"].activity-form-field {
+  font-size: 1em;
+  color: black;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid $color-light-gray;
+  margin-bottom: 10px;
+}
+
+input[type="submit"].btn {
+  background-color: $color-white;
+
+  &:hover {
+    background-color: $color-skin;
+    color: $color-white;
+    transition: all 200ms ease-in;
+    -webkit-transition: all 200ms ease-in;
+    -moz-transition: all 200ms ease-in;
+  }
+}
+
+textarea.activity-form-field {
+  font-size: 1em;
+  color: black;
+  width: 100%;
+  height: 80px;
+  border: 0;
+  border-bottom: 1px solid $color-light-gray;
+  margin-bottom: 10px;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+  color: black;
+  border: 0;
+  border-bottom: 1px solid $color-light-gray;
+  margin-bottom: 10px;
+}
+
+a {
+  &:hover {
+    color: black;
+  }
+}
+
+.pagination {
+  .disabled > span {
+    background-color: $color-light-gray;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-light-gray;
+      color: $color-skin;
+      transition: all 200ms ease-in;
+    }
+  }
+
+  li {
+    a, span {
+      margin-right: 5px;
+
+      &:hover {
+        color: $color-skin;
+        transition: all 200ms ease-in;
+      }
+    }
+  }
+}
+
+.btn-delete {
+  float: right;
+}
+
+.btn-update {
+  margin-right: 10px;
+}
+

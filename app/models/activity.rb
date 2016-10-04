@@ -17,6 +17,11 @@ class Activity < ActiveRecord::Base
   has_attached_file :poster, default_url: "/images/logo.png"
   validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
 
+  scope :next_activities, -> {
+    order('start_date DESC').
+    limit(5).
+    where("activities.end_date >= ?", Time.now)
+  }
 
   def end_date_is_after_start_date
     if self.end_date < self.start_date

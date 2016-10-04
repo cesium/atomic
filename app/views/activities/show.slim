@@ -1,12 +1,29 @@
-p = "Activity name: #{@activity.name}"
-p = "Location: #{@activity.location}"
-p = "Description: #{@activity.description}"
-p = "Total Rating: #{@activity.total_rating}"
-p = "Member Cost: #{@activity.member_cost}"
-p = "Guest Cost: #{@activity.guest_cost}"
-p = "Start Date: #{@activity.start_date}"
-p = "End Date: #{@activity.end_date}"
-p = "Coffee Break: #{@activity.coffee_break}"
-= image_tag @activity.poster.url
+.divide20
+.container
+  h3.activity-title
+    | #{@activity.name}
+  span.center-line style="margin-bottom: 8px;"
 
-= link_to 'Edit', edit_activity_path(@activity)
+  .row
+    - if @activity.poster.exists?
+      .col-md-5
+        = image_tag @activity.poster.url, class: "img-responsive"
+        br
+      .col-md-7
+        = simple_format(@activity.description, class: "lead")
+        = render partial: "shared/activity/panel", object: @activity
+        = link_to "Inscrever-me!",
+          (@activity.registration_link != nil) ? @activity.registration_link : "#",
+          class: "btn btn-theme-dark btn-lg" + (@activity.end_date.past? ? " disabled": ""),
+          target: "_blank"
+    - else
+      .col-md-6
+        = simple_format(@activity.description, class: "lead")
+      .col-md-6
+        = render partial: "shared/activity/panel", object: @activity
+        - if @activity.end_date.future?
+          = link_to "Inscrever-me!",
+            (@activity.registration_link != nil) ? @activity.registration_link : "#",
+            class: "btn border-theme btn-lg", target: "_blank"
+.divide20
+

@@ -37,6 +37,13 @@
     }
 }
 
+.btn {
+  @media only screen and (max-width: 786px) {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
 .grid-post{
   .post-header{
     margin-bottom:10px;

@@ -1,7 +1,8 @@
-h1
-  | Editing activity
-= render 'form'
+.divide40
+.container
+  h3
+    | A editar: #{@activity.name}
+  span.center-line style="margin-bottom: 10px;"
+  = render 'form'
 
-= link_to 'Show', activity_path(@activity)
-|  |
-= link_to 'Destroy', :activity, method: :delete, data: { confirm: 'Are you sure?' }
+.divide40

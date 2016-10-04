@@ -2,6 +2,7 @@ require 'json'
 
 class WelcomeController < ApplicationController
   def index
+    @activities = Activity.next_activities
   end
 
   def news
