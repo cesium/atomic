@@ -3786,6 +3786,7 @@ SOCIAL BUTTONS
     @include transition (all .3s ease);
     line-height: 30px;
     position: relative;
+    color: $color-dark;
     &:last-child{
         color: #FFF!important;
     }
