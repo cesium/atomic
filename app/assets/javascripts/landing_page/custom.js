@@ -156,17 +156,6 @@ $(document).ready(function() {
         animation: "fade"
     });
 });
-//OWL CAROUSEL
-$(document).ready(function() {
-    $(".partners-slider").owlCarousel({
-        autoPlay: 3000,
-        pagination: false,
-        items: 4,
-        itemsDesktop: [1199, 3],
-        itemsDesktopSmall: [991, 2]
-    });
-});
-
 
 /*========tooltip and popovers====*/
 $(document).ready(function() {

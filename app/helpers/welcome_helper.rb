@@ -36,13 +36,13 @@ module WelcomeHelper
     )
   end
 
-  def partner_slide(image_file:, link:, alt:)
+  def partner(image_file:, link:, alt:)
     content_tag(
       :div,
       link_to(link, target: "_blank") do
-        image_tag(image_file, alt: alt, class: "img_responsive")
+        image_tag(image_file, alt: alt, class: "img-responsive")
       end,
-      class: "item"
+      class: "item",
     )
   end
 end
