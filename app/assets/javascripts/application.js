@@ -32,7 +32,6 @@
 //= require landing_page/cubeportfolio/jquery.cubeportfolio.min
 //
 /// CUSTOM JS IN LANDING_PAGE FOLDER
-//= require landing_page/gmaps
 //= require landing_page/custom
 //= require landing_page/revolution-custom
 //= require landing_page/cube-portfolio
