@@ -2006,6 +2006,16 @@ label span{
     }
 }
 
+.team-divider {
+  background-color: $color-feature;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+  }
+}
 
 /**** partners ***/
 
@@ -2021,11 +2031,10 @@ label span{
     margin: 20px;
     justify-content: center;
     img {
-      max-height: 80px;
+      max-height: 90px;
       margin: 0 auto;
     }
 }
-
 
 .cta-1{
     padding: 40px 0;
