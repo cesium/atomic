@@ -2008,6 +2008,16 @@ label span{
     }
 }
 
+.section-divider {
+  background-color: $color-feature;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+  }
+}
 
 /**** partners ***/
 .partners-carousel{
@@ -2029,6 +2039,17 @@ label span{
 .partners-carousel p{
     color:#bbb;
 }
+
+.partners .item {
+    width: 200px;
+    margin: 20px;
+    justify-content: center;
+    img {
+      max-height: 90px;
+      margin: 0 auto;
+    }
+}
+
 .cta-1{
     padding: 40px 0;
     background-color: $color-skin;
