@@ -1,6 +1,5 @@
 class ActivitiesController < ApplicationController
   before_action :set_activities, only: [:show, :edit, :update, :destroy]
-  layout 'welcome'
 
   def new
     @activity = Activity.new
