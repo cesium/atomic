@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.3'
 
-#gem 'turbolinks' - REKT
-
 gem 'clearance', '>= 1.11.0'
 
 gem 'sass-rails', '~> 5.0'
