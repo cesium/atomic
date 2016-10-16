@@ -3,6 +3,12 @@
   .tp-banner
     ul
       /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("CodeWeek") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('codeweek.png')
+        a href="http://cesium.github.io/codeweek16" target="_blank"
+          = slider_caption(start_second: 1200, x: 40, y: 400, caption:"Inscreve-te!")
+      /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title=("CeSIUM") data-transition="fade"
         /! MAIN IMAGE
         = carousel_image_tag('anniversary-banner.png')
