@@ -113,8 +113,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    materialize-sass (0.97.4)
-      sass (~> 3.3)
     method_source (0.8.2)
     mime-types (2.6.1)
     mimemagic (0.3.0)
@@ -261,7 +259,6 @@ DEPENDENCIES
   faker
   font-awesome-sass
   jquery-rails
-  materialize-sass
   owlcarousel-rails
   paperclip (~> 4.3)
   pg
@@ -281,4 +278,4 @@ DEPENDENCIES
   wow-rails
 
 BUNDLED WITH
-   1.11.2
+   1.13.2
