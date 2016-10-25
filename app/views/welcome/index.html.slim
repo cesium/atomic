@@ -65,36 +65,31 @@
 
 section.cta-2
   .container
-    .row
-      .col-md-10.col-md-offset-1
-        .center-heading
-          h2 JÁ ÉS SÓCIO?
-          span.center-line
-        p.lead.text-justify A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
-          núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
-          possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
-          pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
-          enriquecedoras para a tua futura vida profissional.
-        .divide30
-        a.btn.border-theme.btn-lg href="#"  Adere já!
+    .col-md-12
+      .center-heading
+        h2 JÁ ÉS SÓCIO?
+        span.center-line
+      p.lead.text-justify A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
+        núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
+        possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
+        pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
+        enriquecedoras para a tua futura vida profissional.
+      .divide30
+      a.btn.border-theme.btn-lg href="#"  Adere já!
+
+// PARALLAX
+section.team-divider
+  = image_tag("cesium-outline.svg")
 
 // PARTNERS
-section.partners-carousel
+section.cta-2
   .container
-    .row
-      .col-md-12
-        .center-heading
-          h2 Parcerias
-          span.center-line
-    .partners-slider
-      = partner_slide(image_file: "partners/megatronica.png", link: "http://www.megatronica.pt", alt: "Megatrónica")
-      = partner_slide(image_file: "partners/inmotion.png", link: "http://inmotion.pt", alt: "Inmotion")
-      = partner_slide(image_file: "partners/nuguelmusic.png", link: "http://www.nuguelmusic.pt", alt: "Nuguel Music")
-      = partner_slide(image_file: "partners/cmbraga.png", link: "https://www.cm-braga.pt/pt", alt: "Câmara Municipal de Braga")
-      = partner_slide(image_file: "partners/gnration.png", link: "http://www.gnration.pt", alt: "GNRation")
-      = partner_slide(image_file: "partners/aaum.png", link: "http://www.aaum.pt", alt: "AAUM")
-      = partner_slide(image_file: "partners/ipdj.png", link: "http://www.ipdj.pt", alt: "IPDJ")
-      = partner_slide(image_file: "partners/um.png", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
-      = partner_slide(image_file: "partners/startupbraga.png", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")
-
-= javascript_include_tag "http://maps.googleapis.com/maps/api/js"
+    .center-heading
+      h2 Parcerias
+      span.center-line
+    .partners
+      = partner(image_file: "partners/nuguelmusic.jpg", link: "http://www.nuguelmusic.pt", alt: "Nuguel Music")
+      = partner(image_file: "partners/aaum.png", link: "http://www.aaum.pt", alt: "AAUM")
+      = partner(image_file: "partners/ipdj.png", link: "http://www.ipdj.pt", alt: "IPDJ")
+      = partner(image_file: "partners/um.png", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
+      = partner(image_file: "partners/startupbraga.png", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")

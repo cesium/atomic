@@ -2,8 +2,7 @@
 
 /**footet dark**/
 #footer {
-
-    background: #111;
+    background: $color-dark;
     font-size: 0.9em;
     padding: 80px 0 0;
     position: relative;
@@ -15,11 +14,18 @@
     margin-bottom: 35px;
     font-size: 20px;
     text-transform: uppercase;
-    font-weight: 300;
+    font-weight: 500;
     font-style: normal;
 }
 .footer-col h3:first-letter{
     border-bottom: 1px solid #bbb;
+}
+.footer-col a{
+    color: $color-light;
+    font-size: 13px;
+}
+.footer-col a:hover{
+    color: $color-feature;
 }
 .footer-col p{
     color:#aeaeae;
@@ -58,11 +64,9 @@
 
 }
 .footer-btm{
-    margin-top: 30px;
     padding: 20px;
-    background-color: #0c0c0c;
-    border-top-left-radius: 6px;
-    border-top-right-radius:6px; 
+    background-color: #222533;
+    color: $color-light
 }
 .news-form .form-control{
     @include border-radius (3px);
@@ -365,5 +369,3 @@ Footer light styles
         text-transform: capitalize;
     }
 }
-
-
