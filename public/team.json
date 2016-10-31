@@ -1,0 +1,140 @@
+{
+  "Direção": [
+    {
+      "Martinho Aragão": {
+        "position": "Presidente",
+        "image": "team/martinhoaragao"
+      }},
+      {
+        "Adelino Costa": {
+          "position": "Vice-Presidente",
+          "image": "team/adelinocosta"
+        }},
+        {
+          "Paulo Cardoso": {
+            "position": "Vice-Presidente",
+            "image": "team/paulocardoso"
+          }},
+          {
+            "Gil Gonçalves": {
+              "position": "Tesoureiro",
+              "image": "team/gilgoncalves"
+            }},
+            {
+              "Adriana Guedes": {
+                "position": "Secretária",
+                "image": "team/adrianaguedes"
+              }}
+  ],
+  "CAOS (Centro de Apoio ao Open Source)": [
+    {
+      "André Gonçalves": {
+        "position": "Diretor",
+        "image": "team/andregoncalves"
+      }},
+      {
+        "Miguel Lobo": {
+          "position": "Co-Diretor",
+          "image": "team/miguellobo"
+        }}
+  ],
+  "Departamento Pedagógico": [
+    {
+      "Bruno Azevedo": {
+        "position": "Diretor",
+        "image": "team/brunoazevedo"
+      }},
+      {
+        "Dinis Peixoto": {
+          "position": "Co-Diretor",
+          "image": "team/dinispeixoto"
+        }}
+  ],
+  "Departamento Recreativo": [
+    {
+      "Ricardo Certo": {
+        "position": "Diretor",
+        "image": "team/ricardocerto"
+      }},
+      {
+        "Filipe Fortunato": {
+          "position": "Co-Diretor",
+          "image": "team/filipefortunato"
+        }},
+        {
+          "Pedro Almeida": {
+            "position": "Co-Diretor",
+            "image": "team/pedroalmeida"
+          }}
+  ],
+  "Departamento de Comunicação": [
+    {
+      "André Teixeira": {
+        "position": "Diretor",
+        "image": "team/andreteixeira"
+      }},
+      {
+        "Joana Arantes": {
+          "position": "Co-Diretora",
+          "image": "team/joanaarantes"
+        }}
+  ],
+  "Departamento de Imagem": [
+    {
+      "José Monteiro": {
+        "position": "Diretor",
+        "image": "team/josepedromonteiro"
+      }},
+      {
+        "Guilherme Guerreiro": {
+          "position": "Co-Diretor",
+          "image": "team/guilhermeguerreiro"
+        }}
+  ],
+  "DREP": [
+    {
+      "Pedro Fortes": {
+        "position": "Diretor",
+        "image": "team/pedrofortes"
+      }},
+      {
+        "Eduardo Semanas": {
+          "position": "Co-Diretor",
+          "image": "team/eduardosemanas"
+        }}
+  ],
+  "Vogais": [
+    {
+      "Luís Fonseca": {
+        "position": "Vogal",
+        "image": "team/luisfonseca"
+      }},
+      {
+        "Inês Sampaio": {
+          "position": "Vogal",
+          "image": "team/inessampaio"
+        }},
+      {
+        "Hugo Gonçalves": {
+          "position": "Vogal",
+          "image": "team/hugogoncalves"
+        }}
+  ],
+  "Asssembleia Geral": [
+    {
+      "Pedro Duarte": {
+        "position": "Presidente",
+        "image": "team/pedroduarte"
+      }},
+      {
+        "Bruno Cancelinha": {
+          "position": "Membro",
+          "image": "team/brunocancelinha"
+        }},
+      {
+        "Marcelo Miranda": {
+          "position": "Membro",
+          "image": "team/marcelomiranda"
+        }}
+  ]
+}

@@ -1,3 +1,5 @@
+require 'json'
+
 class WelcomeController < ApplicationController
   def index
   end
@@ -9,6 +11,7 @@ class WelcomeController < ApplicationController
   end
 
   def team
+    @team = JSON.parse(File.read('public/team.json'))
   end
 
   # in future, replace this method by a controller
