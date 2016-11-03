@@ -4,6 +4,9 @@ lock '3.4.1'
 set :application, 'atomic'
 set :repo_url, 'git@github.com:cesium/atomic.git'
 
+# If BRANCH is specified then deploy the specified branch otherwise deploy master
+set :branch, ENV['BRANCH'] if ENV['BRANCH']
+
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
