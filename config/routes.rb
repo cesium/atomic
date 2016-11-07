@@ -35,4 +35,5 @@ Rails.application.routes.draw do
   get '/contact' => 'welcome#contact'
   get '/news' => 'welcome#news'
   get '/log' => 'welcome#log'
+  get '/uminhocup' => redirect('https://cesium.typeform.com/to/mcF2UI')
 end
