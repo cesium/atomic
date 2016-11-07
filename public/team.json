@@ -1,5 +1,5 @@
 {
-  "Direção": [
+  "Presidência": [
     {
       "Martinho Aragão": {
         "position": "Presidente",
@@ -34,7 +34,7 @@
       }},
       {
       "Miguel Lobo": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/miguellobo.jpg"
       }}
   ],
@@ -46,7 +46,7 @@
       }},
       {
       "Dinis Peixoto": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/dinispeixoto.jpg"
       }}
   ],
@@ -58,12 +58,12 @@
       }},
       {
       "Filipe Fortunato": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/filipefortunato.jpg"
       }},
       {
       "Pedro Almeida": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/pedroalmeida.jpg"
       }}
   ],
@@ -75,7 +75,7 @@
       }},
       {
       "Joana Arantes": {
-        "position": "Co-Diretora",
+        "position": "Codiretora",
         "image": "team/joanaarantes.jpg"
       }}
   ],
@@ -87,7 +87,7 @@
       }},
       {
       "Guilherme Guerreiro": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/guilhermeguerreiro.jpg"
       }}
   ],
@@ -99,7 +99,7 @@
       }},
       {
       "Eduardo Semanas": {
-        "position": "Co-Diretor",
+        "position": "Codiretor",
         "image": "team/eduardosemanas.jpg"
       }}
   ],
