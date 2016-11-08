@@ -1,4 +1,4 @@
-require 'json'
+require 'yaml'
 
 class WelcomeController < ApplicationController
   def index
@@ -13,6 +13,10 @@ class WelcomeController < ApplicationController
 
   def team
     @team = JSON.parse(File.read('public/team.json'))
+  end
+
+  def partners
+    @partners = YAML.load_file('public/partners.yml')
   end
 
   # in future, replace this method by a controller

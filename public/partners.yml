@@ -1,0 +1,56 @@
+---
+Bachio:
+  image: partners/bachio.png
+  advantages:
+  - Diária de Pratos Portugueses a 3,50€
+  - Diárias de Pizza e Massa a 4€
+  link: https://www.facebook.com/pizzeriabachio/
+Vídeo Norte:
+  image: partners/videonorte.jpg
+  advantages:
+  - Desconto de 25% em todas as impressões a preto e branco (0,015€/folha)
+  link: https://www.facebook.com/pizzeriabachio/
+Carpe Noctem:
+  image: partners/carpenoctem.jpg
+  advantages:
+  - Baldes de Cerveja a 1€ diariamente das 12:00 às 00:00
+  - Baldes de Sangria a 1,5€ diariamente das 12:00 às 00:00
+  link: https://www.facebook.com/carpenoctembraga/
+Xixinha Kebab:
+  image: partners/xixinha.jpg
+  advantages:
+  - Oferta de sobremesa ou 0,50€ de desconto na compra de menu
+  - Menu Cachorro a 3,40€
+  - Menu Xixinha Kebab a 3,40€
+  - Menu Baguete Xixinha a 3,40€
+  link: https://www.facebook.com/xixinhakebab/?fref=ts
+Escola de Condução UM:
+  image: partners/escoladeconducaoum.jpg
+  advantages:
+  - Carta de Condução de Categoria B a 650€
+  link: "#"
+Nuguel Music:
+  image: partners/nuguelmusic.jpg
+  advantages:
+  - Desconto de 5€ em todas as atividades nas instalações da Nuguel Music
+  link: http://www.nuguelmusic.pt
+Disquete:
+  image: partners/disquete.jpg
+  advantages:
+  - 20% de desconto em reparações informáticas
+  - 10% de desconto em consumíveis, neste caso, tinteiros e toners
+  link: https://www.facebook.com/disquete.pt/
+Restaurante Colombo II:
+  image: partners/colombo.jpg
+  advantages:
+  - Diárias a 3,80€ com direito a escolha entre sopa, sobremesa ou café
+  link: "#"
+Tasquinha Bracarense:
+  image: partners/tasquinha.jpg
+  advantages:
+  - Sopa + Prato + Bebida de segunda a sexta-feira, para almoço na Tasquinha 3 ou
+    jantar em qualquer Tasquinha
+  - Finos a 0,50€ à quarta-feira à noite
+  - Desconto de 10% em compras superiores a 10€ na mercearia da Tasquinha Bracarense
+  link: https://www.facebook.com/tasquinhabracarensepagina
+

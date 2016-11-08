@@ -1,0 +1,26 @@
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Parcerias
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Parcerias
+
+.divide40
+.container
+  - @partners.each do |name, info|
+    .row
+      .col-md-2.col-sm-12
+        h4.partner-name
+          = link_to name, info["link"], target: "_blank"
+      .col-md-10.col-sm-12
+        ul
+          - info["advantages"].each do |advantage|
+            li.partners-list-item
+              = advantage
+        .divide20
+
+.divide40
