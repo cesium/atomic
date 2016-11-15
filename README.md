@@ -17,3 +17,25 @@ This project is the CeSIUM management platform.
 - Attend in events
 - Consult history of events attendance
 - Check other members profile
+
+## Deploying
+
+### Production
+
+If you wish to deploy the master branch to production use:
+
+`bin/deploy production`
+
+If, for some reason, you wish to deploy another branch other than master to production use:
+
+`bin/deploy production [BRANCH]`
+
+### Staging
+
+To deploy master to staging use:
+
+`bin/deploy`
+
+To deploy any other branch to staging use:
+
+`bin/deploy staging [BRANCH]`
