@@ -2,12 +2,9 @@
 .fullwidthbanner
   .tp-banner
     ul
-      /! SLIDE
-      li data-masterspeed="1000" data-slotamount="5" data-title=("CodeWeek") data-transition="fade"
+      li data-masterspeed="1000" data-slotamount="5" data-title=("UMinhoCup") data-transition="fade"
         /! MAIN IMAGE
-        = carousel_image_tag('codeweek.png')
-        a href="http://cesium.github.io/codeweek16" target="_blank"
-          = slider_caption(start_second: 1200, x: 40, y: 400, caption:"Inscreve-te!")
+        = carousel_image_tag('uminhocup.jpg')
       /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title=("CeSIUM") data-transition="fade"
         /! MAIN IMAGE
@@ -62,6 +59,10 @@
         = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Desafios")
         /! LAYER NR. 10
         = slider_caption(start_second: 2400, x: 40, y: 370, caption: "E muito mais!")
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("CodeWeek") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('codeweek.png')
 
 section.cta-2
   .container
