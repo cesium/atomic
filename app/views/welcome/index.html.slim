@@ -2,6 +2,13 @@
 .fullwidthbanner
   .tp-banner
     ul
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("SEI 17") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('sei17.jpg')
+        a href="http://seium.org" target="_blank"
+          = slider_caption(start_second: 1200, x: 40, y: 400, caption:"Sabe Mais!")
+      /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title=("UMinhoCup") data-transition="fade"
         /! MAIN IMAGE
         = carousel_image_tag('uminhocup.jpg')
@@ -86,19 +93,19 @@ section.section-divider
   = image_tag("cesium-outline.svg")
 
 // NEXT EVENT
-.divide70
-.container
-  .center-heading
-    h2
-      | Próximos
-      strong  Eventos
-    span.center-line
-  - if @activities.empty?
-      p.lead.text-center
-        | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
-  - else
-    - @activities.each do |activity|
-        = render partial: "shared/activity/homepage", locals: { activity: activity }
+// .divide70
+// .container
+//   .center-heading
+//     h2
+//       | Próximos
+//       strong  Eventos
+//     span.center-line
+//   - if @activities.empty?
+//       p.lead.text-center
+//         | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
+//   - else
+//     - @activities.each do |activity|
+//         = render partial: "shared/activity/homepage", locals: { activity: activity }
 
 // PARTNERS
 section.cta-2
