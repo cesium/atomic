@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.3'
 
-gem 'clearance', '>= 1.11.0'
-
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
@@ -23,7 +21,11 @@ gem "paperclip", "~> 4.3"
 gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
 
+# omniauth gems
+gem 'omniauth-facebook'
+
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'therubyracer', platforms: :ruby
   gem 'thin'
 

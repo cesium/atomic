@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006135237) do
+ActiveRecord::Schema.define(version: 20170220151120) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
     t.string   "name",                limit: 75
@@ -34,12 +37,11 @@ ActiveRecord::Schema.define(version: 20161006135237) do
     t.string   "registration_link"
   end
 
-  add_index "activities", ["activity_id"], name: "index_activities_on_activity_id"
-  add_index "activities", ["department_id"], name: "index_activities_on_department_id"
+  add_index "activities", ["activity_id"], name: "index_activities_on_activity_id", using: :btree
+  add_index "activities", ["department_id"], name: "index_activities_on_department_id", using: :btree
 
   create_table "boards", force: :cascade do |t|
-    t.date     "start_date"
-    t.date     "end_date"
+    t.integer  "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -67,43 +69,41 @@ ActiveRecord::Schema.define(version: 20161006135237) do
 
   create_table "roles", force: :cascade do |t|
     t.string   "title"
+    t.integer  "department_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "roles", ["department_id"], name: "index_roles_on_department_id", using: :btree
+
+  create_table "terms", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.integer  "board_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "terms", force: :cascade do |t|
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "board_id"
-    t.integer  "department_id"
-    t.integer  "role_id"
-    t.integer  "user_id"
-  end
-
-  add_index "terms", ["board_id"], name: "index_terms_on_board_id"
-  add_index "terms", ["department_id"], name: "index_terms_on_department_id"
-  add_index "terms", ["role_id"], name: "index_terms_on_role_id"
-  add_index "terms", ["user_id"], name: "index_terms_on_user_id"
-
   create_table "users", force: :cascade do |t|
-    t.string   "account_number",     limit: 10
-    t.string   "student_id",         limit: 10
-    t.string   "name",               limit: 75
-    t.string   "city",               limit: 30
-    t.string   "phone_number",       limit: 15
-    t.date     "birthdate"
-    t.string   "type"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "account_number",   limit: 10, default: ""
+    t.string   "student_id",       limit: 10
+    t.string   "name",             limit: 75
+    t.string   "city",             limit: 30
+    t.string   "phone_number",     limit: 15, default: ""
+    t.string   "user_type"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "email"
-    t.string   "encrypted_password", limit: 128
-    t.string   "confirmation_token", limit: 128
-    t.string   "remember_token",     limit: 128
+    t.boolean  "admin",                       default: false, null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.string   "image"
   end
 
-  add_index "users", ["account_number"], name: "index_users_on_account_number", unique: true
-  add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
-  add_index "users", ["student_id"], name: "index_users_on_student_id", unique: true
+  add_index "users", ["account_number"], name: "index_users_on_account_number", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["student_id"], name: "index_users_on_student_id", unique: true, using: :btree
 
 end

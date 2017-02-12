@@ -4,18 +4,10 @@ Rails.application.routes.draw do
   # resources :activities
   resources :users, only: [:index, :show]
 
-  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
-  resource :session, controller: "clearance/sessions", only: [:create]
-
-  resources :users, controller: "users", only: [:create] do
-    resource :password,
-      controller: "clearance/passwords",
-      only: [:create, :edit, :update]
-  end
-
-  get "/sign_in" => "clearance/sessions#new", as: "sign_in"
-  delete "/sign_out" => "clearance/sessions#destroy", as: "sign_out"
-  get "/sign_up" => "users#new", as: "sign_up"
+  get '/sign_in' , to: 'sessions#new', as: 'sign_in'
+  delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
+  get '/auth/failure', to: redirect('/')
+  get '/auth/:provider/callback', to: 'sessions#create'
 
   resources :departments,   only: [:index, :show, :new, :create, :destroy] do
     resources :activities,  only: [:index], controller: 'departments/activities'
@@ -28,13 +20,13 @@ Rails.application.routes.draw do
     resources :terms,       only: [:new, :create, :destroy]
   end
 
-  get '/news' => 'welcome#news'
-  get '/log' => 'welcome#log'
-  get '/about' => 'welcome#about'
-  get '/team' => 'welcome#team'
-  get '/contact' => 'welcome#contact'
-  get '/news' => 'welcome#news'
-  get '/log' => 'welcome#log'
-  get '/partners' => 'welcome#partners'
-  get '/uminhocup' => redirect('https://cesium.typeform.com/to/mcF2UI')
+  get '/news', to: 'welcome#news'
+  get '/log', to: 'welcome#log'
+  get '/about', to: 'welcome#about'
+  get '/team', to: 'welcome#team'
+  get '/contact', to: 'welcome#contact'
+  get '/news', to: 'welcome#news'
+  get '/log', to: 'welcome#log'
+  get '/partners', to: 'welcome#partners'
+  get '/uminhocup', to: redirect('https://cesium.typeform.com/to/mcF2UI')
 end
