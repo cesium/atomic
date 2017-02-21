@@ -1,0 +1,2 @@
+ENVIRONMENT=${1:-staging}
+bundle exec cap $ENVIRONMENT rails:console

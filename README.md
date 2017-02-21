@@ -39,3 +39,15 @@ To deploy master to staging use:
 To deploy any other branch to staging use:
 
 `bin/deploy staging [BRANCH]`
+
+## Remote Rails Console
+
+We use the [capistrano-rails-console](https://github.com/ydkn/capistrano-rails-console) gem to be able to run a remote rails console on the web app.
+
+To run a rails console on the staging app run:
+
+`bin/console`
+
+If you wish to run a rails console on the production app run:
+
+`bin/console production`
