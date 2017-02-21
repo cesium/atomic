@@ -1,3 +1,4 @@
-server 'storm.cesium.di.uminho.pt', user: 'atomic', roles: %w{web app}, port: 2345
+require 'dotenv/load'
 
+server ENV['SERVER_ADDR'], user: ENV['SERVER_USER'], roles: %w{web app}, port: ENV['SERVER_PORT']
 set :deploy_to, '/usr/share/nginx/atomic'
