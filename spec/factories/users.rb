@@ -17,10 +17,4 @@ FactoryGirl.define do
     email { Faker::Internet.free_email(name) }
     password { Faker::Internet.password }
   end
-
-  factory :member, class: Member, parent: :user do
-  end
-
-  factory :buddy, class: Buddy, parent: :user do
-  end
 end

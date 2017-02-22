@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220151120) do
+ActiveRecord::Schema.define(version: 20170301205015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,20 @@ ActiveRecord::Schema.define(version: 20170220151120) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "members", force: :cascade do |t|
+    t.integer  "member_id"
+    t.string   "address"
+    t.string   "email"
+    t.date     "birthdate"
+    t.string   "course"
+    t.boolean  "paid"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "account_number", default: ""
+    t.string   "student_id",     default: ""
+    t.boolean  "is_buddy"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.date     "date"
     t.decimal  "value",      precision: 8, scale: 2
@@ -85,16 +99,11 @@ ActiveRecord::Schema.define(version: 20170220151120) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "account_number",   limit: 10, default: ""
-    t.string   "student_id",       limit: 10
     t.string   "name",             limit: 75
-    t.string   "city",             limit: 30
     t.string   "phone_number",     limit: 15, default: ""
-    t.string   "user_type"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "email"
-    t.boolean  "admin",                       default: false, null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -102,8 +111,6 @@ ActiveRecord::Schema.define(version: 20170220151120) do
     t.string   "image"
   end
 
-  add_index "users", ["account_number"], name: "index_users_on_account_number", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
-  add_index "users", ["student_id"], name: "index_users_on_student_id", unique: true, using: :btree
 
 end
