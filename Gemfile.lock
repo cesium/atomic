@@ -140,6 +140,9 @@ GEM
       rack (>= 1.0, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-github (1.2.2)
+      omniauth (~> 1.4.0)
+      omniauth-oauth2 (>= 1.4.0, < 2.0)
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
@@ -281,6 +284,7 @@ DEPENDENCIES
   font-awesome-sass
   jquery-rails
   omniauth-facebook
+  omniauth-github
   owlcarousel-rails
   paperclip (~> 4.3)
   pg

@@ -23,6 +23,7 @@ gem 'will_paginate-bootstrap'
 
 # omniauth gems
 gem 'omniauth-facebook'
+gem 'omniauth-github'
 
 group :development, :test do
   gem 'dotenv-rails'
