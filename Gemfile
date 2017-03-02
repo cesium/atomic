@@ -26,6 +26,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 
+gem 'cancancan'
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'therubyracer', platforms: :ruby
