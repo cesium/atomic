@@ -24,6 +24,7 @@ gem 'will_paginate-bootstrap'
 # omniauth gems
 gem 'omniauth-facebook'
 gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
 
 group :development, :test do
   gem 'dotenv-rails'
