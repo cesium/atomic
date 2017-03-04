@@ -11,13 +11,20 @@
 .divide80
 .container
   .row
-    .col-md-8.col-sm-8.col-md-offset-2.col-sm-offset-2
+    .col-md-8.col-sm-8.col-md-offset-2.col-sm-offset-2.col-xs-12
       .login-form
-        h3
-          | Entrar
-          / span<
-          /   = link_to 'Ou Registar', sign_up_path
-        = render partial: '/sessions/form'
+        = link_to "/auth/facebook",
+          class: "btn btn-lg border-theme btn-update col-md-12 col-sm-12 col-xs-12" do
+          i.fa.fa-lg.fa-facebook aria-hidden="true"
+          | Facebook
+        = link_to "/auth/google_oauth2",
+          class: "btn btn-lg border-theme btn-update col-md-12 col-sm-12 col-xs-12" do
+          i.fa.fa-lg.fa-google aria-hidden="true"
+          | Gmail
+        = link_to "/auth/github",
+          class: "btn btn-lg border-theme btn-update col-md-12 col-sm-12 col-xs-12" do
+          i.fa.fa-lg.fa-github aria-hidden="true"
+          | Github
 
 .divide60
 

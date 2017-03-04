@@ -1981,27 +1981,12 @@ label span{
     font-weight: 700;
     display: block;
 }
+
 /***********************sign in or sign up css****************/
+
 .login-form{
-    padding: 20px;
-    background-color: #f5f5f8;
-}
-.login-form h3 span{
-    color:#777;
-    font-size: 15px;
-}
-.btn-fb-login{
-    background-color: #3b5998;
-    color:#fff;
-    @include border-radius (3px);
-}
-.login-form form a{
-    display: inline-block;
-    margin-left: 5px;
-}
-@media(max-width:320px){
-    .login-form form a{
-        margin-top: 10px;
+    a.btn {
+      margin-bottom: 20px;
     }
 }
 

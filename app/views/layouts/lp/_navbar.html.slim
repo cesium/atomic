@@ -26,3 +26,9 @@
           = link_to 'PARCERIAS', partners_path
         li
           = link_to 'CONTACTOS', contact_path
+        - if current_user
+          li
+            = link_to 'Log Out', sign_out_path, method: :delete
+        - else
+          li
+            = link_to 'Log In', sign_in_path
