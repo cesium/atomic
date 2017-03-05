@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  # resources :activities
+  resources :activities
+  scope module: 'activities' do
+    get 'activities/:id/register', to: 'registrations#create', as: 'activity_registration'
+  end
+
   resources :users, only: [:index, :show]
 
   get '/sign_in' , to: 'sessions#new', as: 'sign_in'

@@ -1,4 +1,5 @@
-.divide20
+= render partial: 'activities/activities_breadcrumb'
+.divide60
 .container
   h3.activity-title
     | #{@activity.name}
@@ -21,9 +22,13 @@
         = simple_format(@activity.description, class: "lead")
       .col-md-6
         = render partial: "shared/activity/panel", object: @activity
-        - if @activity.end_date.future?
-          = link_to "Inscrever-me!",
-            (@activity.registration_link != nil) ? @activity.registration_link : "#",
-            class: "btn border-theme btn-lg", target: "_blank"
+        - if @activity.registered?(current_user)
+          = link_to "Já te encontras inscrito na atividade", "#",
+            class: "btn btn-disabled btn-lg"
+        - else
+          - if @activity.end_date.future?
+            = link_to "Inscrever-me!",
+              activity_registration_path(@activity.id),
+              class: 'btn border-theme btn-lg'
 .divide20
 

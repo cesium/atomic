@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
     user
   end
 
+  def activity_admin?
+    self.member && self.member.activity_admin
+  end
+
   private
 
   def self.find_or_create_from_omniauth(auth)

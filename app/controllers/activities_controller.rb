@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activities, only: [:show, :edit, :update, :destroy]
+  before_action :set_activities, only: [:show, :edit, :update, :destroy, :register]
+  load_and_authorize_resource
 
   def new
     @activity = Activity.new

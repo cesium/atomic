@@ -382,6 +382,10 @@ pre{
     color:#fff;
     background-color: $color-skin;
 }
+.btn-disabled{
+    background-color: $color-dark;
+    color: $color-white;
+}
 
 /*********border-buttons**********/
 .border-black{

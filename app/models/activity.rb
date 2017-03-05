@@ -28,4 +28,8 @@ class Activity < ActiveRecord::Base
       errors.add(:end_date, "end_date must occur after start_date")
     end
   end
+
+  def registered?(user)
+    self.registrations.find_by(user_id: user.id)
+  end
 end

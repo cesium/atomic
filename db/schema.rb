@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301205015) do
+ActiveRecord::Schema.define(version: 20170306180325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20170301205015) do
     t.integer  "department_id"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.string   "registration_link"
   end
 
   add_index "activities", ["activity_id"], name: "index_activities_on_activity_id", using: :btree
@@ -59,11 +58,12 @@ ActiveRecord::Schema.define(version: 20170301205015) do
     t.date     "birthdate"
     t.string   "course"
     t.boolean  "paid"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "account_number", default: ""
     t.string   "student_id",     default: ""
     t.boolean  "is_buddy"
+    t.boolean  "activity_admin", default: false, null: false
   end
 
   create_table "payments", force: :cascade do |t|
@@ -109,8 +109,10 @@ ActiveRecord::Schema.define(version: 20170301205015) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.string   "image"
+    t.integer  "member_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
 
+  add_foreign_key "users", "members"
 end

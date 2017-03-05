@@ -1,14 +1,5 @@
-.breadcrumb-wrap
-  .container
-    .row
-      .col-sm-6
-        h4 Atividades
-      .col-sm-6.hidden-xs.text-right
-        ol.breadcrumb
-          li
-            = link_to 'Home', root_path
-          li.active Atividades
-.divide80
+= render partial: 'activities/activities_breadcrumb'
+.divide60
 .container.blog-left-img
   - if @activities.empty?
     h4 Atividades não encontradas
