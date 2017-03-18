@@ -7,6 +7,7 @@ gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
+gem 'google-analytics-rails', '1.1.0'
 
 gem 'puma'
 
