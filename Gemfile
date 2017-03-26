@@ -28,8 +28,9 @@ gem 'omniauth-google-oauth2'
 
 gem 'cancancan'
 
+gem 'dotenv-rails'
+
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'therubyracer', platforms: :ruby
   gem 'thin'
 
