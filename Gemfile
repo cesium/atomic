@@ -4,12 +4,12 @@ gem 'rails', '4.2.3'
 
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
-gem 'uglifier', '>= 1.3.0'
-
 gem 'jquery-rails'
 gem 'google-analytics-rails', '1.1.0'
 
 gem 'puma'
+gem 'uglifier', '>= 1.3.0'
+gem 'retina_tag'
 
 # landing page gems
 gem 'bootstrap-sass'

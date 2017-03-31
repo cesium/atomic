@@ -202,6 +202,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (11.2.2)
     ref (2.0.0)
+    retina_tag (1.4.1)
+      rails (>= 3.1)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -301,6 +303,7 @@ DEPENDENCIES
   pry-rails
   puma
   rails (= 4.2.3)
+  retina_tag
   rspec-its
   rspec-rails (~> 3.0)
   sass-rails (~> 5.0)
