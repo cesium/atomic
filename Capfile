@@ -8,6 +8,7 @@ require 'capistrano/rails'
 require 'capistrano/rails/console'
 
 require 'capistrano/rbenv'
+require 'capistrano/puma'
 set :rbenv_type, :user
 set :rbenv_ruby, '2.2.1'
 
