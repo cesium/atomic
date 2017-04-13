@@ -34,3 +34,5 @@
 //= require landing_page/custom
 //= require landing_page/revolution-custom
 //= require landing_page/cube-portfolio
+//
+//= require team.js
