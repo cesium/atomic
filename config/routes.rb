@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   resources :activities
   scope module: 'activities' do
-    get 'activities/:id/register', to: 'registrations#create', as: 'activity_registration'
+    get 'activities/:activity_id/register', to: 'registrations#create', as: 'activity_registration'
+    get 'activities/:activity_id/participants', to: 'registrations#index', as: 'activity_participants'
+    get 'activities/:activity_id/participants/:participant_id', to: 'registrations#update', as: 'confirm_participant'
   end
 
   resources :users, only: [:index, :show]

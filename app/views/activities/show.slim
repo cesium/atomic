@@ -31,4 +31,9 @@
               = link_to "Inscrever-me!",
                 activity_registration_path(@activity.id),
                 class: 'btn border-theme btn-lg'
+        hr
+        - if current_user.activity_admin?
+          = link_to "Participantes",
+            activity_participants_path(@activity.id),
+            class: 'btn border-theme btn-lg'
 .divide20

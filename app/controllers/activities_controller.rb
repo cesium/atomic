@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activities, only: [:show, :edit, :update, :destroy, :register]
+  before_action :set_activity, except: [:index]
   load_and_authorize_resource
 
   def new
@@ -41,7 +41,7 @@ class ActivitiesController < ApplicationController
       params.require(:activity).permit(:name, :location, :description, :total_rating, :member_cost, :guest_cost, :start_date, :end_date, :coffee_break, :poster, :department_id)
     end
 
-    def set_activities
+    def set_activity
       @activity = Activity.find(params[:id])
     end
 

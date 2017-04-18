@@ -24,12 +24,16 @@ class Activity < ActiveRecord::Base
   }
 
   def end_date_is_after_start_date
-    if self.end_date < self.start_date
+    if end_date < start_data
       errors.add(:end_date, "end_date must occur after start_date")
     end
   end
 
   def registered?(user)
-    self.registrations.find_by(user_id: user.id)
+    registrations.find_by(user_id: user.id)
+  end
+
+  def participants
+    registrations.flat_map(&:user)
   end
 end
