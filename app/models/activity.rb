@@ -1,6 +1,7 @@
 class Activity < ActiveRecord::Base
   has_many :registrations
-  has_many :users, through: :registrations
+  has_many :participants, through: :registrations,
+                          source: :user
   has_many :activities, class_name: "Activity",
                         foreign_key: "parent_id"
   belongs_to :parent, class_name: "Activity"
@@ -31,9 +32,5 @@ class Activity < ActiveRecord::Base
 
   def registered?(user)
     registrations.find_by(user_id: user.id)
-  end
-
-  def participants
-    registrations.flat_map(&:user)
   end
 end
