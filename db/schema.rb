@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419210057) do
+ActiveRecord::Schema.define(version: 20170820181334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,16 +31,17 @@ ActiveRecord::Schema.define(version: 20170419210057) do
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
     t.integer  "activity_id"
-    t.integer  "department_id"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.integer  "department_id"
   end
 
   add_index "activities", ["activity_id"], name: "index_activities_on_activity_id", using: :btree
   add_index "activities", ["department_id"], name: "index_activities_on_department_id", using: :btree
 
   create_table "boards", force: :cascade do |t|
-    t.integer  "year"
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -77,31 +78,34 @@ ActiveRecord::Schema.define(version: 20170419210057) do
   create_table "registrations", force: :cascade do |t|
     t.integer  "activity_id"
     t.integer  "user_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "confirmed",   default: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "roles", force: :cascade do |t|
     t.string   "title"
-    t.integer  "department_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "roles", ["department_id"], name: "index_roles_on_department_id", using: :btree
-
-  create_table "terms", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.integer  "board_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "terms", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "board_id"
+    t.integer  "department_id"
+    t.integer  "role_id"
+    t.integer  "user_id"
+  end
+
+  add_index "terms", ["board_id"], name: "index_terms_on_board_id", using: :btree
+  add_index "terms", ["department_id"], name: "index_terms_on_department_id", using: :btree
+  add_index "terms", ["role_id"], name: "index_terms_on_role_id", using: :btree
+  add_index "terms", ["user_id"], name: "index_terms_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "name",             limit: 75
     t.string   "phone_number",     limit: 15, default: ""
+    t.string   "type"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "email"
@@ -115,5 +119,7 @@ ActiveRecord::Schema.define(version: 20170419210057) do
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
 
+  add_foreign_key "activities", "activities"
+  add_foreign_key "activities", "departments"
   add_foreign_key "users", "members"
 end

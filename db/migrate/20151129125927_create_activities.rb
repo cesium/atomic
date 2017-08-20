@@ -13,7 +13,6 @@ class CreateActivities < ActiveRecord::Migration
       t.attachment :poster
 
       t.references :activity,   index: true, foreign_key: true
-      t.references :department, index: true, foreign_key: true
 
       t.timestamps null: false
     end
