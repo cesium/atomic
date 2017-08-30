@@ -24,8 +24,10 @@
         - if current_user
           = render partial: "shared/activity/panel", object: @activity
           - if @activity.registered?(current_user)
-            = link_to "Já te encontras inscrito na atividade", "#",
-              class: "btn btn-disabled btn-lg"
+            = link_to activity_registration_cancel_path(@activity.id),
+              class: "btn btn-disabled btn-lg" do
+              i.fa.fa-times.fa-fw
+              | Anular Inscrição
           - else
             - if @activity.end_date.future?
               = link_to "Inscrever-me!",
