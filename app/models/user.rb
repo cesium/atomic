@@ -20,6 +20,12 @@ class User < ActiveRecord::Base
     self.member && self.member.activity_admin
   end
 
+  def permissions
+    return :guest unless self.persisted?
+    return :user unless self.activity_admin?
+    return :activity_admin
+  end
+
   private
 
   def self.find_or_create_from_omniauth(auth)

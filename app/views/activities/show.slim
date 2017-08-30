@@ -13,30 +13,19 @@
       .col-md-7
         = simple_format(@activity.description, class: "lead")
         = render partial: "shared/activity/panel", object: @activity
-        = link_to "Inscrever-me!",
-          activity_registration_path(@activity) || "#",
-          class: "btn btn-theme-dark btn-lg" + (@activity.end_date.past? ? " disabled": ""),
-          target: "_blank"
+        = render partial: "registration", object: @activity
     - else
       .col-md-6
         = simple_format(@activity.description, class: "lead")
       .col-md-6
-        - if current_user
-          = render partial: "shared/activity/panel", object: @activity
-          - if @activity.registered?(current_user)
-            = link_to "Já te encontras inscrito na atividade", "#",
-              class: "btn btn-disabled btn-lg"
-          - else
-            - if @activity.end_date.future?
-              = link_to "Inscrever-me!",
-                activity_registration_path(@activity.id),
-                class: 'btn border-theme btn-lg'
-        hr
-        - if current_user && current_user.activity_admin?
-          = link_to "Participantes",
-            activity_participants_path(@activity.id),
-            class: 'btn border-theme btn-lg'
-        - if can? :edit, Activity
-          = link_to "Editar", edit_activity_path,
-            class: 'btn border-theme btn-lg btn-edit'
+        = render partial: "shared/activity/panel", object: @activity
+        = render partial: "registration", object: @activity
+
+  hr
+  - if can? :index, Registration
+    = link_to "Participantes", activity_participants_path(@activity.id),
+      class: 'btn border-theme btn-lg'
+  - if can? :edit, Activity
+    = link_to "Editar", edit_activity_path, class: 'btn border-theme btn-lg btn-edit'
+
 .divide20
