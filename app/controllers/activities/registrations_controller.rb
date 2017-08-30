@@ -15,11 +15,19 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def update
-    @activity
+    registration = @activity
       .registrations
       .find_by(user_id: registration_params[:participant_id])
-      .update_attributes(confirmed: true)
+    registration.update_attribute(:confirmed, !registration.confirmed)
+
     redirect_to activity_participants_path
+  end
+
+  def destroy
+    registration = Registration.find_by(activity_id: @activity.id, user_id: current_user.id)
+    registration.destroy
+
+    redirect_to @activity
   end
 
   private
