@@ -4,14 +4,17 @@
   h3.activity-title
     | Participantes
   span.center-line style="margin-bottom: 8px;"
-  
+
   .row
     - @participants.each_with_index do |participant, index|
       .col-md-10.col-sm-8.col-xs-12
         h3.lead = link_to participant.name, user_path(participant.id)
       .col-md-2.col-sm-4.col-xs-12
         - if @registrations[index].confirmed
-          button.btn.btn-disabled.pull-right Confirmado
+          = link_to confirm_participant_path(@activity.id, participant.id),
+            class: "btn btn-disabled" do
+            i.fa.fa-times.fa-fw
+            | Anular Confirmação
         - else
           = link_to 'Confirmar',
             confirm_participant_path(@activity.id, participant.id),
