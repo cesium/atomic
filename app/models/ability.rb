@@ -13,5 +13,8 @@ class Ability
     when :activity_admin
       can :manage, [Activity, Registration]
     end
+
+    can :destroy, :session if user.persisted?
+    can [:read, :create], :session unless user.persisted?
   end
 end

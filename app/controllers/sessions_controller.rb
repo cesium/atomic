@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  authorize_resource :class => false
+
   def create
     if request.env['omniauth.auth']
       user = User.from_omniauth(request.env['omniauth.auth'])
