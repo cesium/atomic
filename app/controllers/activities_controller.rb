@@ -1,5 +1,4 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activity, except: [:index]
   load_and_authorize_resource
 
   def new
@@ -12,6 +11,7 @@ class ActivitiesController < ApplicationController
   end
 
   def show
+    @activity = Activity.find(params[:id])
   end
 
   def create
@@ -24,6 +24,8 @@ class ActivitiesController < ApplicationController
   end
 
   def update
+    @activity = Activity.find(params[:id])
+
     if @activity.update(activity_params)
       redirect_to @activity
     else
@@ -32,17 +34,16 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
-    @activity.destroy
-    redirect_to @activity
+    Activity.find(params[:id]).try(:destroy)
+    redirect_to activities_path
   end
 
   private
-    def activity_params
-      params.require(:activity).permit(:name, :location, :description, :total_rating, :member_cost, :guest_cost, :start_date, :end_date, :coffee_break, :poster, :department_id)
-    end
 
-    def set_activity
-      @activity = Activity.find(params[:id])
-    end
+  def activity_params
+    params.require(:activity).permit(:name, :location, :description,
+      :total_rating, :member_cost, :guest_cost, :start_date, :end_date,
+      :coffee_break, :poster, :department_id)
+  end
 
 end

@@ -1,6 +1,12 @@
 = render partial: 'activities/activities_breadcrumb'
 .divide60
 .container.blog-left-img
+
+  - if can_create?
+    = link_to 'Criar Atividade', new_activity_path,
+      class: "btn btn-lg border-theme"
+    hr
+
   - if @activities.empty?
     h4 Atividades não encontradas
   - @activities.each do |activity|

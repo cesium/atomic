@@ -1,4 +1,11 @@
 = form_for @activity, html: {multipart: true} do |form|
+
+  - if @activity.errors.any?
+    div.alert class="alert-danger"
+      - error_messages(@activity).each do |msg|
+        li
+          = msg
+
   = form.label :name,
     class: "activity-form-label"
   br
@@ -27,12 +34,14 @@
     class: "activity-form-label"
   br
   = form.number_field :member_cost,
+    value: 0,
     class: "activity-form-field"
 
   = form.label :guest_cost,
     class: "activity-form-label"
   br
   = form.number_field :guest_cost,
+    value: 0,
     class: "activity-form-field"
 
   = form.label :start_date,
