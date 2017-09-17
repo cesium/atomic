@@ -1,22 +1,31 @@
-= render partial: 'activities/activities_breadcrumb'
+= render partial: "activities/activities_breadcrumb"
 .divide60
 .container
+  - if flash[:success]
+    .row
+      div.alert.alert-success
+        = flash[:success]
+  - elsif flash[:alert]
+    .row
+      div.alert.alert-warning
+        = flash[:alert]
+
   h3.activity-title
     | Participantes
   span.center-line style="margin-bottom: 8px;"
 
   .row
     - @participants.each_with_index do |participant, index|
-      .col-md-10.col-sm-8.col-xs-12
+      .col-md-8.col-sm-8.col-xs-12
         h3.lead = link_to participant.name, user_path(participant.id)
-      .col-md-2.col-sm-4.col-xs-12
+      .col-md-4.col-sm-4.col-xs-12
         - if @registrations[index].confirmed
           = link_to confirm_participant_path(@activity.id, participant.id),
-            class: "btn btn-disabled" do
+            class: "btn btn-disabled pull-right" do
             i.fa.fa-times.fa-fw
             | Anular Confirmação
         - else
-          = link_to 'Confirmar',
+          = link_to "Confirmar",
             confirm_participant_path(@activity.id, participant.id),
-            class: 'btn border-theme pull-right'
+            class: "btn border-theme pull-right pull-right"
 .divide20
