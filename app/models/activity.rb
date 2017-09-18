@@ -14,14 +14,18 @@ class Activity < ActiveRecord::Base
   validates :guest_cost,  presence: true, numericality: true
   validates :start_date, presence: true
   validates :end_date, presence: true
-  validate :end_date_is_after_start_date
+  validate :end_date_is_after_start_date, unless: :nil_dates?
   has_attached_file :poster, default_url: "/images/logo.png"
   validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
 
   scope :next_activities, -> {
-    order('start_date DESC').
-    limit(5).
-    where("activities.end_date >= ?", Time.now)
+    where('? < activities.end_date', DateTime.current).
+    order('start_date ASC')
+  }
+
+  scope :previous_activities, -> {
+    where('? > activities.end_date', DateTime.current).
+    order('start_date DESC')
   }
 
   def end_date_is_after_start_date
@@ -30,7 +34,17 @@ class Activity < ActiveRecord::Base
     end
   end
 
+  def already_happened?
+    end_date < DateTime.current
+  end
+
   def registered?(user)
     registrations.find_by(user_id: user.id)
+  end
+
+  private
+
+  def nil_dates?
+    start_date.nil? || end_date.nil?
   end
 end

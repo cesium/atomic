@@ -6,8 +6,13 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    @activities = Activity.all.order('start_date DESC')
-      .paginate(page: params[:page], per_page: 10)
+    if previous_activities_requested?
+      @activities = Activity.previous_activities
+    else
+      @activities = Activity.next_activities
+    end
+
+    @activities = @activities.paginate(page: params[:page], per_page: 5)
   end
 
   def show
@@ -46,4 +51,7 @@ class ActivitiesController < ApplicationController
       :coffee_break, :poster, :department_id)
   end
 
+    def previous_activities_requested?
+      params[:show] == "previous"
+    end
 end

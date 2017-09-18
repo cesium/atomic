@@ -1,16 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe activity, type: :model do
-  before do
-    @activity = FactoryGirl.create :member
-  end
-
-  subject { @activity }
-
+RSpec.describe Activity, type: :model do
   describe "required fields" do
+    before { @activity = FactoryGirl.create :activity }
+
+    subject { @activity }
 
     describe "when name is blank" do
       before { @activity.name = "" }
+      it { should_not be_valid }
+    end
+
+    describe "when name is too long" do
+      before { @activity.name = 'a'*100 }
       it { should_not be_valid }
     end
 
@@ -40,35 +42,35 @@ RSpec.describe activity, type: :model do
     end
   end
 
-  describe "parameter limits" do
-    describe "when account number is too long" do
-      before { @activity.account_number = 'a' * 11 }
-      it { should_not be_valid }
+  describe "next activities" do
+    before { FactoryGirl.create_list(:activity, 20) }
+
+    it "should end in the future" do
+      activities = Activity.next_activities
+      expect(activities.none?(&:already_happened?)).to be true
     end
 
-    describe "when student id is too long" do
-      before { @activity.student_id = 'a' * 11 }
-      it { should_not be_valid }
+    it "should be sorted by nearest date first" do
+      activities = Activity.next_activities
+      sorted_activities = activities.sort_by(&:end_date)
+
+      expect(activities).to eq(sorted_activities)
+    end
+  end
+
+  describe "previous activities" do
+    before { FactoryGirl.create_list(:activity, 20) }
+
+    it "should end in the past" do
+      activities = Activity.previous_activities
+      expect(activities.all?(&:already_happened?)).to be true
     end
 
-    describe "when name is too long" do
-      before { @activity.name = 'a' * 76 }
-      it { should_not be_valid }
-    end
+    it "should sorted by nearest date first" do
+      activities = Activity.previous_activities
+      sorted_activities = activities.sort_by(&:end_date).reverse!
 
-    describe "when street is too long" do
-      before { @activity.street = 'a' * 101 }
-      it { should_not be_valid }
-    end
-
-    describe "when city is too long" do
-      before { @activity.city = 'a' * 31 }
-      it { should_not be_valid }
-    end
-
-    describe "when phone number is too long" do
-      before { @activity.phone_number = '9' * 16 }
-      it { should_not be_valid }
+      expect(activities).to eq(sorted_activities)
     end
   end
 end
