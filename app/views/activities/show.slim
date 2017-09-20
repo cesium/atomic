@@ -36,4 +36,7 @@
           = link_to "Participantes",
             activity_participants_path(@activity.id),
             class: 'btn border-theme btn-lg'
+        - if can? :edit, Activity
+          = link_to "Editar", edit_activity_path,
+            class: 'btn border-theme btn-lg btn-edit'
 .divide20

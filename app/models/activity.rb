@@ -25,7 +25,7 @@ class Activity < ActiveRecord::Base
   }
 
   def end_date_is_after_start_date
-    if end_date < start_data
+    if end_date < start_date
       errors.add(:end_date, "end_date must occur after start_date")
     end
   end
