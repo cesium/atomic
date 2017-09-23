@@ -1,0 +1,10 @@
+- if current_user.present? && @activity.end_date.future?
+  - if @activity.registered?(current_user)
+    = link_to activity_registration_cancel_path(@activity.id),
+      class: "btn btn-disabled btn-lg" do
+      i.fa.fa-times.fa-fw
+      | Anular Inscrição
+  - else
+    = link_to "Inscrever-me!",
+      activity_registration_path(@activity) || "#",
+      class: "btn border-theme btn-lg" + (@activity.end_date.past? ? " disabled": "")
