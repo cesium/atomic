@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get 'activities/:activity_id/participants',
       to: 'registrations#index',
       as: 'activity_participants'
-    get 'activities/:activity_id/participants/:participant_id',
+    patch 'activities/:activity_id/participants/:participant_id',
       to: 'registrations#update',
       as: 'confirm_participant'
   end
