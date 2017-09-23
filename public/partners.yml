@@ -1,61 +1,60 @@
 ---
 Bachio:
   image: partners/bachio.png
-  advantages:
-  - Diária de Pratos Portugueses a 3,50€
-  - Diárias de Pizza e Massa a 4€
   link: https://www.facebook.com/pizzeriabachio/
-Vídeo Norte:
-  image: partners/videonorte.jpg
   advantages:
-  - Desconto de 25% em todas as impressões a preto e branco (0,015€/folha)
-  link: https://www.facebook.com/pizzeriabachio/
+    - Menu completo por 4€
+    - Pizza e bebida por 3,5€
 Carpe Noctem:
-  image: partners/carpenoctem.jpg
-  advantages:
-  - Baldes de Cerveja a 1€ diariamente das 12:00 às 00:00
-  - Baldes de Sangria a 1,5€ diariamente das 12:00 às 00:00
+  image: partners/carpenoctem.png
   link: https://www.facebook.com/carpenoctembraga/
-Xixinha Kebab:
-  image: partners/xixinha.jpg
   advantages:
-  - Oferta de sobremesa ou 0,50€ de desconto na compra de menu
-  - Menu Cachorro a 3,40€
-  - Menu Xixinha Kebab a 3,40€
-  - Menu Baguete Xixinha a 3,40€
-  link: https://www.facebook.com/xixinhakebab/?fref=ts
-Escola de Condução UM:
-  image: partners/escoladeconducaoum.jpg
-  advantages:
-  - Carta de Condução de Categoria B a 650€
-  link: "#"
-Nuguel Music:
-  image: partners/nuguelmusic.jpg
-  advantages:
-  - Desconto de 5€ em todas as atividades nas instalações da Nuguel Music
-  link: http://www.nuguelmusic.pt
-Disquete:
-  image: partners/disquete.jpg
-  advantages:
-  - 20% de desconto em reparações informáticas
-  - 10% de desconto em consumíveis, neste caso, tinteiros e toners
-  link: https://www.facebook.com/disquete.pt/
-Restaurante Colombo II:
-  image: partners/colombo.jpg
-  advantages:
-  - Diárias a 3,80€ com direito a escolha entre sopa, sobremesa ou café
-  link: "#"
-Tasquinha Bracarense:
-  image: partners/tasquinha.jpg
-  advantages:
-  - Sopa + Prato + Bebida por 3,5€ durante a semana, à hora de almoço na Tasquinha 3 ou
-    jantar em qualquer Tasquinha
-  - Finos a 0,50€ à quarta-feira à noite
-  - Desconto de 10% em compras superiores a 10€ na mercearia da Tasquinha Bracarense
-  link: https://www.facebook.com/tasquinhabracarensepagina
+    - Baldes de cerveja a 1€ entre as 12:00h às 00:00h
+    - Baldes de sangria a 1,5€ entre as 12:00h às 00:00h
 100 Montaditos:
-  image: partners/cemmontaditos.jpg
-  advantages:
-  - Oferta de Bebida em compras iguais ou superiores a 5€
+  image: partners/montaditos.png
   link: https://www.facebook.com/100MontaditosPortugal/
-
+  advantages:
+    - Oferta de bebida ou aperitivo em compras iguais ou superiores a 5€, exceto nos dias da euro mania.
+Disquete:
+  image: partners/disquete.png
+  link: https://www.facebook.com/disquete.pt/
+  advantages:
+    - Desconto de 20% em reparações informáticas
+    - Desconto de 10% em consumíveis, neste caso, tinteiros e toners
+Escola de Condução UM:
+  image: partners/escoladeconducaoum.png
+  link: https://www.facebook.com/EscolaDeConducaoUm
+  advantages:
+    - Carta de Condução de Categoria B a 650€
+Nuguel Music:
+  image: partners/nuguelmusic.png
+  link: http://www.nuguelmusic.pt
+  advantages:
+    - Desconto de 5€ em todas as atividades nas instalações da Nuguel Music
+Os Farias:
+  image: partners/osfarias.png
+  link: https://www.facebook.com/os.farias.3
+  advantages:
+    - Oferta de três emblemas adicionais na compra de traje
+    - Oferta de um emblema adicional na compra de quatro emblemas
+    - Meias para homem a 2,75€
+    - Meias para mulher a 1,50€
+Sapataria ValMiranda:
+  image: partners/sapatariavalmiranda.png
+  link: https://www.facebook.com/Sapataria-Valmiranda-Consertos-155767238232370/
+  advantages:
+    - Desconto de 10% em arranjos
+Tasquinha Bracarense:
+  image: partners/tasquinha.png
+  link: https://www.facebook.com/tasquinhabracarensepagina
+  advantages:
+    - Sopa + Prato + Bebida por 3,5€ durante a semana, à hora de almoço na Tasquinha 3 ou
+      jantar em qualquer Tasquinha
+    - Finos a 0,50€ durante Quarta-feira à noite
+    - Desconto de 10% em compras superiores a 10€ no talho Dona Rosa
+Vídeo Norte:
+  image: partners/videonorte.png
+  link: http://videonorte.pt/
+  advantages:
+    - Desconto de 30% em todas as impressões a Preto & Branco e Frente & Verso

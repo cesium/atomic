@@ -14,13 +14,16 @@
   - @partners.each do |name, info|
     .row
       .col-md-2.col-sm-12
+        = link_to image_tag(info["image"], class: "img-responsive activity-poster"),
+          info["link"], target: "_blank"
+
+      .col-md-10.col-sm-12
         h4.partner-name
           = link_to name, info["link"], target: "_blank"
-      .col-md-10.col-sm-12
-        ul
+        ul.partner-advantages
           - info["advantages"].each do |advantage|
             li.partners-list-item
               = advantage
-        .divide20
+    .divide60
 
 .divide40
