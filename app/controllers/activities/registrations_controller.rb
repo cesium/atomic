@@ -15,18 +15,18 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def update
-    registration = @activity
-      .registrations
-      .find_by(user_id: registration_params[:participant_id])
-    registration.update_attribute(:confirmed, !registration.confirmed)
+    registration = Registration.find(params[:registration_id])
 
-    if registration.confirmed
-      flash[:success] =
-        "Confirmed #{User.find(registration_params[:participant_id]).name}!"
-    else
+    if params[:confirmed] == "true"
+      registration.update_attribute(:confirmed, false)
       flash[:alert] =
-        "Canceled #{User.find(registration_params[:participant_id]).name} confirmation!"
+        "Confirmação de #{User.find(registration_params[:participant_id]).name} cancelada!"
+    else
+      registration.update_attribute(:confirmed, true)
+      flash[:success] =
+        "#{User.find(registration_params[:participant_id]).name} confirmado!"
     end
+
     redirect_to activity_participants_path
   end
 
