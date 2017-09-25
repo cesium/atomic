@@ -1,5 +1,5 @@
 class ActivitiesController < ApplicationController
-  before_action :set_activity, except: [:index]
+  before_action :set_activity, except: [:index, :new, :create]
   load_and_authorize_resource
 
   def new

@@ -1,9 +1,14 @@
 = render partial: 'activities/activities_breadcrumb'
 .divide60
+.container
+  = link_to 'Criar Atividade', new_activity_path, class: 'btn btn-lg btn-update border-theme'
+.divide60
 .container.blog-left-img
+
   - if @activities.empty?
-    h4 Atividades não encontradas
+    p.lead Sem Atividades.
   - @activities.each do |activity|
     = render partial: "shared/activity/index", locals: { activity: activity }
 
   = will_paginate @activities, renderer: BootstrapPagination::Rails
+.divide60

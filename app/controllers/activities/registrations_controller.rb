@@ -10,28 +10,28 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def index
-    @participants = @activity.participants
-    @registrations = @activity.registrations
+    @registrations = @activity.registrations.order('id')
   end
 
   def update
     registration = @activity
       .registrations
       .find_by(user_id: registration_params[:participant_id])
-    registration.update_attribute(:confirmed, !registration.confirmed)
+    registration.update_attribute(:confirmed, registration_params[:confirmed])
+    user = User.find(registration_params[:participant_id])
 
     if registration.confirmed
-      flash[:success] =
-        "Confirmed #{User.find(registration_params[:participant_id]).name}!"
+      flash[:success] ="#{user.name} confirmado!"
     else
-      flash[:alert] =
-        "Canceled #{User.find(registration_params[:participant_id]).name} confirmation!"
+      flash[:alert] = "#{user.name} cancelado!"
     end
+
     redirect_to activity_participants_path
   end
 
   def destroy
-    registration = Registration.find_by(activity_id: @activity.id, user_id: current_user.id)
+    registration = Registration.find_by(activity_id: @activity.id,
+      user_id: current_user.id)
     registration.destroy
 
     redirect_to @activity
@@ -40,7 +40,7 @@ class Activities::RegistrationsController < ApplicationController
   private
 
   def registration_params
-    params.permit(:activity_id, :participant_id)
+    params.permit(:activity_id, :participant_id, :confirmed)
   end
 
   def set_activity

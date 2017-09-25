@@ -15,17 +15,20 @@
   span.center-line style="margin-bottom: 8px;"
 
   .row
-    - @participants.each_with_index do |participant, index|
+    - @registrations.each do |registration|
+      - participant = registration.user
+
       .col-md-8.col-sm-8.col-xs-12
         h3.lead = link_to participant.name, user_path(participant.id)
       .col-md-4.col-sm-4.col-xs-12
-        - if @registrations[index].confirmed
-          = link_to confirm_participant_path(@activity.id, participant.id),
-            class: "btn btn-disabled pull-right" do
-            i.fa.fa-times.fa-fw
-            | Anular Confirmação
+        - if registration.confirmed
+          = link_to "Anular Confirmação",
+            confirm_participant_path(@activity.id, participant.id, confirmed: false),
+            method: :post,
+            class: "btn btn-disabled pull-right"
         - else
           = link_to "Confirmar",
-            confirm_participant_path(@activity.id, participant.id),
+            confirm_participant_path(@activity.id, participant.id, confirmed: true),
+            method: :post,
             class: "btn border-theme pull-right pull-right"
 .divide20

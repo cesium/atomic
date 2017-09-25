@@ -7,7 +7,7 @@ class Ability
       can :manage, [Activity, Registration]
     else
       can :read, Activity
-      can [:read, :create], Registration
+      can [:read, :create, :destroy], Registration
     end
   end
 
