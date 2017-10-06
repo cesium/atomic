@@ -18,12 +18,11 @@
       .col-md-6
         = simple_format(@activity.description, class: "lead")
       .col-md-6
-        - if current_user
-          = render partial: "shared/activity/panel", object: @activity
-          = render partial: "registration", object: @activity
+        = render partial: "shared/activity/panel", object: @activity
+        = render partial: "registration", object: @activity
 
   hr
-  - if current_user && current_user.activity_admin?
+  - if can? :index, Registration
     = link_to "Participantes", activity_participants_path(@activity.id),
       class: 'btn border-theme btn-lg'
   - if can? :edit, Activity
