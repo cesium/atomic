@@ -32,7 +32,7 @@ class Activities::RegistrationsController < ApplicationController
 
   def destroy
     registration = Registration.find_by(activity_id: @activity.id, user_id: current_user.id)
-    registration.destroy
+    registration.destroy unless registration.nil?
 
     redirect_to @activity
   end
