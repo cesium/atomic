@@ -9,7 +9,7 @@ class Ability
       can :read, Activity
     when :user
       can :read, Activity
-      can [:create, :destroy], Registration
+      can [:create, :destroy], Registration, user_id: user.id
     when :activity_admin
       can :manage, [Activity, Registration]
     end
