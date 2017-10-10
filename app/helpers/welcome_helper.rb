@@ -9,6 +9,14 @@ module WelcomeHelper
     image_tag(file, args)
   end
 
+  def slider_link(start_second:, x:, y:, title:, target:)
+    content_tag :a, href: "#{target}", target: '_blank' do
+      content_tag :div, "#{title}", 
+        class: ["caption", "modern_big_redbg", "sfb", "medium", "tp-resizeme"],
+        data: { end: 9400, endspeed: 600, speed: 600, start: start_second, x: x, y: y }
+      end
+  end
+
   def slider_caption_title(start_second:, x:, y:, title:)
     content_tag(
       :div,
