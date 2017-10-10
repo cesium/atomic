@@ -10,7 +10,7 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def index
-    @registrations = @activity.registrations
+    @registrations = @activity.registrations.sort_by { |r| r.user.name }
   end
 
   def update
@@ -22,13 +22,12 @@ class Activities::RegistrationsController < ApplicationController
       redirect_to activity_participants_path
     end
 
-    confirmed = params[:confirmed] == "true"
-    registration.update_attribute(:confirmed, !confirmed)
-
-    if confirmed 
+    if params[:confirmed] == 'true'
       flash[:alert] = "Confirmação de #{user.name} cancelada!"
+      registration.update_attribute(:confirmed, false)
     else
       flash[:success] = "#{user.name} confirmado!"
+      registration.update_attribute(:confirmed, true)
     end
 
     redirect_to activity_participants_path
