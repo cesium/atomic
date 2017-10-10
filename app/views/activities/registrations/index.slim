@@ -15,17 +15,17 @@
   span.center-line style="margin-bottom: 8px;"
 
   .row
-    - @participants.each_with_index do |participant, index|
+    - @registrations.each do |registration|
+      - participant = registration.user
+
       .col-md-8.col-sm-8.col-xs-12
         h3.lead = link_to participant.name, user_path(participant.id)
       .col-md-4.col-sm-4.col-xs-12
-        = form_for @registrations[index], 
+        = form_for registration,
           url: confirm_participant_path(@activity.id, participant.id) do |f|
 
-          = hidden_field_tag :registration_id, @registrations[index].id
-          = hidden_field_tag :confirmed, @registrations[index].confirmed
-
-          - if @registrations[index].confirmed
+          = hidden_field_tag :confirmed, registration.confirmed
+          - if registration.confirmed
             = f.button "Anular confirmação", class: "btn btn-disabled pull-right"
           - else
             = f.button "Confirmar", class: "btn border-theme pull-right pull-right"

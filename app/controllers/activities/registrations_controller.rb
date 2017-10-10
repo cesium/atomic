@@ -10,30 +10,35 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def index
-    @participants = @activity.participants
     @registrations = @activity.registrations
   end
 
   def update
-    registration = Registration.find(params[:registration_id])
+    user = User.find(registration_params[:participant_id])
+    registration = @activity.registrations.find_by(user_id: user.id)
 
-    if params[:confirmed] == "true"
-      registration.update_attribute(:confirmed, false)
-      flash[:alert] =
-        "Confirmação de #{User.find(registration_params[:participant_id]).name} cancelada!"
+    if registration.nil?
+      flash[:alert] = "#{user.name} não se encontra registado nesta atividade!"
+      redirect_to activity_participants_path
+    end
+
+    confirmed = params[:confirmed] == "true"
+    registration.update_attribute(:confirmed, !confirmed)
+
+    if confirmed 
+      flash[:alert] = "Confirmação de #{user.name} cancelada!"
     else
-      registration.update_attribute(:confirmed, true)
-      flash[:success] =
-        "#{User.find(registration_params[:participant_id]).name} confirmado!"
+      flash[:success] = "#{user.name} confirmado!"
     end
 
     redirect_to activity_participants_path
   end
 
   def destroy
-    registration = Registration.find_by(activity_id: @activity.id, user_id: current_user.id)
-    registration.destroy unless registration.nil?
+    registration = Registration
+      .find_by(activity_id: @activity.id, user_id: current_user.id)
 
+    registration.destroy unless registration.nil?
     redirect_to @activity
   end
 
