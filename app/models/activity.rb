@@ -15,7 +15,7 @@ class Activity < ActiveRecord::Base
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :end_date_is_after_start_date, unless: :nil_dates?
-  has_attached_file :poster, default_url: "/images/logo.png"
+  has_attached_file :poster, default_url: "poster_default.png"
   validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
 
   scope :next_activities, -> {

@@ -6,20 +6,13 @@
   span.center-line style="margin-bottom: 8px;"
 
   .row
-    - if @activity.poster.exists?
-      .col-md-5
-        = image_tag @activity.poster.url, class: "img-responsive"
-        br
-      .col-md-7
-        = simple_format(@activity.description, class: "lead")
-        = render partial: "shared/activity/panel", object: @activity
-        = render partial: "registration", object: @activity
-    - else
-      .col-md-6
-        = simple_format(@activity.description, class: "lead")
-      .col-md-6
-        = render partial: "shared/activity/panel", object: @activity
-        = render partial: "registration", object: @activity
+    .col-md-5
+      = image_tag @activity.poster.url, class: "img-responsive"
+      br
+    .col-md-7
+      = simple_format(@activity.description, class: "lead")
+      = render partial: "shared/activity/panel", object: @activity
+      = render partial: "registration", object: @activity
 
   hr
   - if can? :index, Registration
