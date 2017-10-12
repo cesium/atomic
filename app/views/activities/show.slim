@@ -1,4 +1,10 @@
 = render partial: 'activities/activities_breadcrumb'
+
+- content_for :head do
+  meta property='og:image' content='#{@activity.poster.url}'
+  meta property='og:title' content='#{@activity.name}'
+  meta property='og:description' content='#{truncate(@activity.description, length: 140)}'
+
 .divide60
 .container
   h3.activity-title
