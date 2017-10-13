@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170825233114) do
+ActiveRecord::Schema.define(version: 20171013085029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
-    t.string   "name",                limit: 75
+    t.string   "name",                 limit: 75
     t.string   "location"
     t.text     "description"
     t.integer  "total_rating"
-    t.decimal  "member_cost",                    precision: 5, scale: 2
-    t.decimal  "guest_cost",                     precision: 5, scale: 2
+    t.decimal  "member_cost",                     precision: 5, scale: 2
+    t.decimal  "guest_cost",                      precision: 5, scale: 2
     t.datetime "start_date"
     t.datetime "end_date"
     t.boolean  "coffee_break"
@@ -31,9 +31,11 @@ ActiveRecord::Schema.define(version: 20170825233114) do
     t.integer  "poster_file_size"
     t.datetime "poster_updated_at"
     t.integer  "activity_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
     t.integer  "department_id"
+    t.boolean  "allows_registrations",                                    default: true
+    t.string   "external_link",                                           default: ""
   end
 
   add_index "activities", ["activity_id"], name: "index_activities_on_activity_id", using: :btree

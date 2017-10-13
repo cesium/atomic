@@ -12,7 +12,8 @@
     .col-md-7
       = simple_format(@activity.description, class: "lead")
       = render partial: "shared/activity/panel", object: @activity
-      = render partial: "registration", object: @activity
+      - if @activity.end_date.future?
+        = render partial: "registration", object: @activity
 
   hr
   - if can? :index, Registration

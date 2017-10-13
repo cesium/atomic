@@ -5,16 +5,30 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     case user.permissions
-    when :guest
-      can :read, Activity
-    when :user
-      can :read, Activity
-      can [:create, :destroy], Registration, user_id: user.id
-    when :activity_admin
-      can :manage, [Activity, Registration]
+    when :guest then guest_permissions(user)
+    when :user then user_permissions(user)
+    when :activity_admin then activity_admin_permissions(user)
     end
 
+  end
+
+  private
+
+  def guest_permissions(user)
+    can :read, Activity
     can :destroy, :session if user.persisted?
     can [:read, :create], :session unless user.persisted?
+  end
+
+  def user_permissions(user)
+    guest_permissions(user)
+    can :destroy, Registration
+    can :create, Registration, activity: { allows_registrations: true }
+  end
+
+  def activity_admin_permissions(user)
+    user_permissions(user)
+    can :manage, Activity
+    can [:index, :update], Registration
   end
 end

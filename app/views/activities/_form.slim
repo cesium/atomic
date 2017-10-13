@@ -79,6 +79,20 @@
     {include_blank: 'None'}
   br
 
+  = form.label :external_link,
+    class: "activity-form-label"
+  br
+  = form.text_field :external_link,
+    class: "activity-form-field"
+  br
+
+  = form.label :allows_registrations,
+    class: "activity-form-label"
+  = form.check_box :allows_registrations,
+    class: "activity-form-field"
+  br
+  br
+
   = form.label :poster,
     class: "activity-form-label"
   br
