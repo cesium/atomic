@@ -408,11 +408,11 @@ pre{
     border-color: #fff;
     color:#000;
 }
-.border-theme{
+.border-theme, .border-theme:focus{
     border: 1px solid $color-skin;
     color:$color-skin;
 }
-.border-theme:hover{
+.border-theme-highlighted, .border-theme:hover{
     background-color: $color-skin;
     border-color: $color-skin;
     color:#fff;
