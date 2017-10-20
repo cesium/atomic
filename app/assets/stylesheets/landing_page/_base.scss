@@ -408,7 +408,7 @@ pre{
     border-color: #fff;
     color:#000;
 }
-.border-theme{
+.border-theme, .border-theme:focus{
     border: 1px solid $color-skin;
     color:$color-skin;
 }
