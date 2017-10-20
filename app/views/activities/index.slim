@@ -26,7 +26,7 @@
     hr
 
   - if @activities.empty?
-    h4 Atividades não encontradas
+    h4 Estamos a planear atividades para ti!
   - @activities.each do |activity|
     = render partial: "shared/activity/index", locals: { activity: activity }
     .divide20
