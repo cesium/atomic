@@ -1,12 +1,12 @@
 module ActivitiesHelper
   def next_activities_button
     theme = params[:show] != "previous" ? "border-theme-highlighted" : "border-theme"
-    "btn btn-lg " + theme
+    "btn " + theme
   end
 
   def previous_activities_button
     theme = params[:show] == "previous" ? "border-theme-highlighted" : "border-theme"
-    "btn btn-lg " + theme
+    "btn " + theme
   end
 
   def can_cancel_registratation?(activity)

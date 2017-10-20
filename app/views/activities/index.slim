@@ -3,7 +3,14 @@
 .divide40
 
 .container
-  .btn-group
+  .btn-group.btn-group-lg.hidden-xs
+    = link_to "Próximas atividades", activities_path(show: "next"),
+      class: next_activities_button
+
+    = link_to "Atividades realizadas", activities_path(show: "previous"),
+      class: previous_activities_button
+
+  .btn-group-vertical.visible-xs
     = link_to "Próximas atividades", activities_path(show: "next"),
       class: next_activities_button
 
