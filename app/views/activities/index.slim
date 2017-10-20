@@ -1,11 +1,13 @@
 = render partial: 'activities/activities_breadcrumb'
 
-.container.navbar.navbar-default
-  ul.nav.navbar-nav
-    li = link_to "Próximas atividades", activities_path(show: "next")
-    li = link_to "Atividades realizadas", activities_path(show: "previous")
+.divide40
 
-.divide60
+.container
+  .btn-group
+    = link_to "Próximas atividades", activities_path(show: "next"), class: "btn btn-lg border-theme"
+    = link_to "Atividades realizadas", activities_path(show: "previous"), class: "btn btn-lg border-theme"  
+
+.divide20
 .container.blog-left-img
 
   - if can_create?
