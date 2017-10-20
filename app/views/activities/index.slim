@@ -19,5 +19,6 @@
     h4 Atividades não encontradas
   - @activities.each do |activity|
     = render partial: "shared/activity/index", locals: { activity: activity }
+    .divide20
 
   = will_paginate @activities, renderer: BootstrapPagination::Rails
