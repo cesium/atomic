@@ -6,48 +6,53 @@
         "image": "team/martinhoaragao.jpg"
       }},
       {
-      "Adelino Costa": {
+      "Dinis Peixoto": {
         "position": "Vice-Presidente",
-        "image": "team/adelinocosta.jpg"
-      }},
-      {
-      "Paulo Cardoso": {
-        "position": "Vice-Presidente",
-        "image": "team/paulocardoso.jpg"
+        "image": "team/dinispeixoto.jpg"
       }},
       {
       "Gil Gonçalves": {
-        "position": "Tesoureiro",
+        "position": "Vice-Presidente",
         "image": "team/gilgoncalves.jpg"
       }},
       {
-      "Adriana Guedes": {
-        "position": "Secretária",
-        "image": "team/adrianaguedes.jpg"
-      }}
-  ],
-  "CAOS (Centro de Apoio ao Open Source)": [
-    {
-      "André Gonçalves": {
-        "position": "Diretor",
-        "image": "team/andregoncalves.jpg"
+      "Francisco Costa": {
+        "position": "Tesoureiro",
+        "image": "team/franciscocosta.jpg"
       }},
       {
-      "Miguel Lobo": {
+      "André Teixeira": {
+        "position": "Secretária",
+        "image": "team/andreteixeira.jpg"
+      }}
+  ],
+  "DevTeams": [
+    {
+      "Francisco Lira": {
+        "position": "Diretor",
+        "image": "team/franciscolira.jpg"
+      }},
+      {
+      "Diogo Couto": {
         "position": "Codiretor",
-        "image": "team/miguellobo.jpg"
+        "image": "team/diogocouto.jpg"
       }}
   ],
   "Departamento Pedagógico": [
     {
-      "Bruno Azevedo": {
+      "Ricardo Pereira": {
         "position": "Diretor",
-        "image": "team/brunoazevedo.jpg"
+        "image": "team/ricardopereira.jpg"
       }},
       {
-      "Dinis Peixoto": {
+      "Pedro Lima": {
         "position": "Codiretor",
-        "image": "team/dinispeixoto.jpg"
+        "image": "team/pedrolima.jpg"
+      }}
+      {
+      "Sérgio Costa": {
+        "position": "Codiretor",
+        "image": "team/sergiocosta.jpg"
       }}
   ],
   "Departamento Recreativo": [
@@ -57,74 +62,69 @@
         "image": "team/ricardocerto.jpg"
       }},
       {
-      "Filipe Fortunato": {
+      "Adriana Guedes": {
         "position": "Codiretor",
-        "image": "team/filipefortunato.jpg"
-      }},
-      {
-      "Pedro Almeida": {
-        "position": "Codiretor",
-        "image": "team/pedroalmeida.jpg"
+        "image": "team/adrianaguedes.jpg"
       }}
   ],
   "Departamento de Comunicação": [
     {
-      "André Teixeira": {
+      "Zé Nuno Macedo": {
         "position": "Diretor",
-        "image": "team/andreteixeira.jpg"
+        "image": "team/zenuno.jpg"
       }},
       {
-      "Joana Arantes": {
+      "João Vilaça": {
         "position": "Codiretora",
-        "image": "team/joanaarantes.jpg"
+        "image": "team/joaovilaca.jpg"
       }}
   ],
   "Departamento de Imagem": [
     {
-      "José Monteiro": {
+      "Rui Souto": {
         "position": "Diretor",
-        "image": "team/josepedromonteiro.jpg"
+        "image": "team/ruisouto.jpg"
       }},
       {
-      "Guilherme Guerreiro": {
+      "Tânia Esteves": {
         "position": "Codiretor",
-        "image": "team/guilhermeguerreiro.jpg"
+        "image": "team/taniaesteves.jpg"
       }}
   ],
   "DREP (Departamento de Relações Externas e Parcerias)": [
     {
-      "Pedro Fortes": {
+      "Eduardo Semanas": {
         "position": "Diretor",
-        "image": "team/pedrofortes.jpg"
+        "image": "team/eduardosemanas.jpg"
       }},
       {
-      "Eduardo Semanas": {
+      "José Bastos": {
         "position": "Codiretor",
-        "image": "team/eduardosemanas.jpg"
+        "image": "team/josebastos.jpg"
       }}
   ],
   "Vogais": [
     {
-      "Luís Fonseca": {
+      "Francisco Ribeiro": {
         "position": "Vogal",
-        "image": "team/luisfonseca.jpg"
+        "image": "team/franciscoribeiro.jpg"
       }},
       {
-      "Inês Sampaio": {
+      "Hugo Brandão": {
         "position": "Vogal",
-        "image": "team/inessampaio.jpg"
+        "image": "team/hugobrandao.jpg"
       }},
       {
-      "Hugo Gonçalves": {
+      "Luís Neto": {
         "position": "Vogal",
-        "image": "team/hugogoncalves.jpg"
+        "image": "team/luisneto.jpg"
       }}
   ],
   "Assembleia Geral": [
     {
-      "Pedro Duarte": {
+      "Inês Sampaio": {
         "position": "Presidente",
-        "image": "team/pedroduarte.jpg"
+        "image": "team/inessampaio.jpg"
       }},
       {
       "Bruno Cancelinha": {
@@ -134,9 +134,9 @@
   ],
   "Concelho Fiscal": [
     {
-      "Sandra Ferreira": {
+      "Maria Dias": {
         "position": "Presidente",
-        "image": "team/sandraferreira.jpg"
+        "image": "team/mariadias.jpg"
       }},
       {
       "Marcelo Miranda": {
