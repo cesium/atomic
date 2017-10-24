@@ -1,17 +1,18 @@
 p.lead.activity-description
   | #{truncate(activity.description, length: 140)}
+
 ul.list-inline
-  - if activity.start_date.strftime("%Y-%m-%d") == activity.end_date.strftime("%Y-%m-%d")
+  - if activity.start_date.to_date == activity.end_date.to_date
     li
       i.fa.fa-fw.fa-calendar
-      | #{activity.start_date.strftime("%a %d, %b %Y")}
+    = l activity.start_date.to_date
     li
       i.fa.fa-fw.fa-clock-o
-      | #{activity.start_date.strftime("%H:%M")} - #{activity.end_date.strftime("%H:%M")}
+      | #{l activity.start_date.time} - #{l activity.end_date.time}
   - else
     li
       i.fa.fa-fw.fa-calendar
-      | #{activity.start_date.strftime("%d %b %Y %H:%M")}
+    = l activity.start_date.to_date
     li
       i.fa.fa-fw.fa-calendar
-      | #{activity.end_date.strftime("%d %b %Y %H:%M")}
+    = l activity.end_date.to_date
