@@ -19,6 +19,16 @@ module ActivitiesHelper
     can?(:create, registration) && !activity.registered?(current_user)
   end
 
+  def activity_link(activity)
+    if current_user.nil?
+      sign_in_path
+    elsif activity.external_link.empty?
+      activity_registration_path(@activity)
+    else
+      @activity.external_link
+    end
+  end
+
   def can_create?
     can? :create, Activity
   end
