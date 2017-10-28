@@ -1,9 +1,10 @@
 = render partial: 'activities/activities_breadcrumb'
 
-.container.navbar.navbar-default
-  ul.nav.navbar-nav
-    li = link_to "Próximas atividades", activities_path(show: "next")
-    li = link_to "Atividades realizadas", activities_path(show: "previous")
+.navbar.navbar-default
+  .container
+    ul.nav.navbar-nav
+      li = link_to "Próximas atividades", activities_path(show: "next")
+      li = link_to "Atividades realizadas", activities_path(show: "previous")
 
 .divide60
 .container.blog-left-img
