@@ -171,6 +171,11 @@ p.lead{
     font-size: 16px;
     font-weight: 400;
 }
+
+p.bottom-space{
+    margin:2px;
+}
+
 pre{
     &:after, &:before{
         clear: both;
