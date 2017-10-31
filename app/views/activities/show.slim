@@ -3,7 +3,7 @@
 - content_for :head do
   meta property='og:image' content='#{@activity.poster.url}'
   meta property='og:title' content='#{@activity.name}'
-  meta property='og:description' content='#{truncate(plaintext(@activity.description, length: 140))}'
+  meta property='og:description' content='#{truncate(plaintext(@activity.description), length: 140)}'
 .divide60
 .container
   h3.activity-title
