@@ -17,6 +17,16 @@
   }
 }
 
+.activity-info {
+  .lead {
+    display: flex;
+    align-items: center;
+  }
+  i {
+    color: $color-skin;
+  }
+}
+
 .activity-description {
   margin-bottom: 5px;
   width: auto;
