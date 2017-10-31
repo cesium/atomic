@@ -16,7 +16,7 @@
       = image_tag @activity.poster.url, class: "img-responsive"
       br
     .col-md-7
-      = simple_format(@activity.description, class: "lead")
+      = simple_format(markdown(@activity.description), class: "lead")
       = render partial: "shared/activity/panel", object: @activity
       - if @activity.end_date.future?
         = render partial: "registration", object: @activity
