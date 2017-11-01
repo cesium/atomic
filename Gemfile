@@ -18,14 +18,13 @@ gem 'animate-rails'
 gem 'wow-rails'
 gem 'owlcarousel-rails'
 
-# markdown
-gem 'redcarpet'
 
 # atomic gems
 gem 'pg'
 gem "paperclip", "~> 4.3"
 gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
+gem 'redcarpet'
 
 # omniauth gems
 gem 'omniauth-github'

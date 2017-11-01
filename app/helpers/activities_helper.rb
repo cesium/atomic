@@ -1,3 +1,6 @@
+require 'redcarpet'
+require 'redcarpet/render_strip'
+
 module ActivitiesHelper
   def can_cancel_registratation?(activity)
     registration = activity.registrations.build
@@ -16,8 +19,6 @@ module ActivitiesHelper
   def error_messages(activity)
     activity.errors.full_messages
   end
-require 'redcarpet'
-require 'redcarpet/render_strip'
 
   def markdown(text)
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
@@ -25,11 +26,11 @@ require 'redcarpet/render_strip'
         fenced_code_blocks: true,
         disable_indented_code_blocks: true,
         autolink: true)
-    return markdown.render(text).html_safe
+    markdown.render(text).html_safe
   end
 
   def plaintext(markdown)
-    plaintext= Redcarpet::Markdown.new(Redcarpet::Render::StripDown )
-    return plaintext.render(markdown)
+    plaintext = Redcarpet::Markdown.new(Redcarpet::Render::StripDown)
+    plaintext.render(markdown)
   end
 end
