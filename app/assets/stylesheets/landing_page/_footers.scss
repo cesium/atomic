@@ -68,6 +68,10 @@
     background-color: $color-medium-blue;
     color: $color-light
 }
+  .fa-heart{
+    color: #ED4337;
+  }
+
 .news-form .form-control{
     @include border-radius (3px);
     height: 30px;
