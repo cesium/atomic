@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_from_omniauth(auth)
     find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |user|
-      user.name = auth['info']['name']
+      user.name = auth['info']['name'] || auth['info']['nickname']
       user.image = auth['info']['image']
       user.email = auth_email(auth)
     end
