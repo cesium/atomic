@@ -1,5 +1,5 @@
 p.lead.activity-description
-  = truncate(plaintext(activity.description), length: 140)
+  = truncate(to_plaintext(activity.description), length: 140)
 ul.list-inline
   - if activity.start_date.strftime("%Y-%m-%d") == activity.end_date.strftime("%Y-%m-%d")
     li

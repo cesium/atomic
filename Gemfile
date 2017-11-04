@@ -18,7 +18,6 @@ gem 'animate-rails'
 gem 'wow-rails'
 gem 'owlcarousel-rails'
 
-
 # atomic gems
 gem 'pg'
 gem "paperclip", "~> 4.3"

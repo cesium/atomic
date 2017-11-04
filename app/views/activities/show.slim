@@ -3,7 +3,7 @@
 - content_for :head do
   meta property='og:image' content='#{@activity.poster.url}'
   meta property='og:title' content='#{@activity.name}'
-  meta property='og:description' content='#{truncate(plaintext(@activity.description), length: 140)}'
+  meta property='og:description' content='#{truncate(to_plaintext(@activity.description), length: 140)}'
 .divide60
 .container
   h3.activity-title
@@ -16,7 +16,7 @@
       br
     .col-md-7
       .lead
-        = markdown(@activity.description)
+        = to_markdown(@activity.description)
       = render partial: "shared/activity/panel", object: @activity
       - if @activity.end_date.future?
         = render partial: "registration", object: @activity
