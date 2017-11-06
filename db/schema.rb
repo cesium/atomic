@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180430193811) do
+ActiveRecord::Schema.define(version: 20180501000058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180430193811) do
     t.string "name", limit: 75
     t.string "location"
     t.text "description"
+    t.string "speaker", limit: 75
     t.integer "total_rating"
     t.decimal "member_cost", precision: 5, scale: 2
     t.decimal "guest_cost", precision: 5, scale: 2
@@ -37,19 +38,15 @@ ActiveRecord::Schema.define(version: 20180430193811) do
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 
-  create_table "members", id: :serial, force: :cascade do |t|
-    t.integer "member_id"
-    t.string "address"
-    t.string "email"
-    t.date "birthdate"
-    t.string "course"
-    t.boolean "paid"
+  create_table "identifiers", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "account_number", default: ""
-    t.string "student_id", default: ""
-    t.boolean "is_buddy"
-    t.boolean "activity_admin", default: false, null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_identifiers_on_users_id"
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|
@@ -66,28 +63,26 @@ ActiveRecord::Schema.define(version: 20180430193811) do
 
   create_table "registrations", id: :serial, force: :cascade do |t|
     t.integer "activity_id"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "confirmed", default: false
+    t.bigint "users_id"
+    t.index ["users_id"], name: "index_registrations_on_users_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 75
-    t.string "phone_number", limit: 15, default: ""
-    t.string "type"
+    t.string "email", null: false
+    t.string "course"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email"
-    t.string "provider"
-    t.string "uid"
-    t.string "oauth_token"
-    t.datetime "oauth_expires_at"
+    t.string "cesium_id", default: ""
+    t.string "student_id", default: ""
+    t.boolean "activity_admin", default: false, null: false
+    t.string "phone_number", limit: 15, default: ""
+    t.string "name", limit: 75, null: false
+    t.string "hashname", null: false
     t.string "image"
-    t.integer "member_id"
-    t.index ["email"], name: "index_users_on_email"
   end
 
   add_foreign_key "activities", "activities"
-  add_foreign_key "users", "members"
 end
