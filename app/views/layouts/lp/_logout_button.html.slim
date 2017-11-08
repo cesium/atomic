@@ -1,0 +1,13 @@
+.dropdown.show
+  = link_to image_tag(current_user.image, class: 'img-circle navbar-user'), '#',
+    id: 'dropdownMenuLink',
+    class: 'btn dropdown-toggle navbar-signout',
+    aria: {haspopup: 'true'},
+    data: {toggle: 'dropdown'}
+  ul.dropdown-menu aria-labelledby='dropdownMenuLink'
+    li
+      = link_to 'Meu Perfil', user_path(current_user), class: 'dropdown-item'
+    li
+      .dropdown-divider
+    li
+      = link_to 'Sign Out', sign_out_path, class: 'dropdown-item', method: :delete

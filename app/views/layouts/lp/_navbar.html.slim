@@ -28,7 +28,7 @@
           = link_to 'CONTACTOS', contact_path
         - if current_user
           li
-            = link_to 'Log Out', sign_out_path, method: :delete
+            = render 'layouts/lp/logout_button'
         - else
           li
             = link_to 'Log In', sign_in_path,

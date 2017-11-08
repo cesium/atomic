@@ -38,11 +38,25 @@
 }
 .navbar-default .navbar-nav>li>a:hover {
     color: $color-skin;
-
 }
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: #eeeeee;
+  border-color: #f1f1f1;
+}
+
 .navbar-brand img{
-    width:150px;
+    width: 150px;
     height: auto;
+}
+
+.navbar-user {
+    height: 50px;
+}
+
+.navbar-signout {
+    padding: 0px;
+    margin-left: 20px;
 }
 
 .btn-login {
