@@ -1,15 +1,9 @@
-- if @activity.external_link.empty?
-  - if can_cancel_registratation?(@activity)
-    = link_to activity_registration_cancel_path(@activity.id),
-      class: "btn btn-disabled btn-lg" do
-      i.fa.fa-times.fa-fw
-      | Anular Inscrição
-  - elsif can_registrate?(@activity)
-    = link_to "Inscrever-me!",
-      activity_registration_path(@activity) || "#",
-      class: "btn border-theme btn-lg"
-- elsif can_registrate?(@activity)
+- if can_cancel_registratation?(@activity)
+  = link_to activity_registration_cancel_path(@activity.id),
+    class: "btn btn-disabled btn-lg" do
+    i.fa.fa-times.fa-fw
+    | Anular Inscrição
+- elsif current_user.nil? || can_registrate?(@activity)
   = link_to "Inscrever-me!",
-    @activity.external_link,
-    class: "btn border-theme btn-lg",
-    target: '_blank'
+    activity_link(@activity) || '#',
+    class: "btn border-theme btn-lg"

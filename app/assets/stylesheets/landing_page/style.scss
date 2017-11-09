@@ -2439,13 +2439,19 @@ Version v1.1 css*
     margin-top: 0px;
 }
 .pagination>li>a, .pagination>li>span{
-    background-color: #ccc;
+    background-color: #eee;
     padding: 3px 9px;
-    color:#fff;
-    border: 0px;
+    color:#777777;
+    border: 0;
 }
 .pagination>li>a{
     margin-right: 5px;
+}
+.pagination>.disabled>span,.pagination>.disabled>span:hover,.pagination>.disabled>span:focus,.pagination>.disabled>a,.pagination>.disabled>a:hover,.pagination>.disabled>a:focus {
+    background-color: #b3b1b2;
+    color:#fff;
+    border-color: 0;
+    cursor:not-allowed
 }
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
     background-color: $color-skin;

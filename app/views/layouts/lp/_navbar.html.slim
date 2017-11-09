@@ -14,8 +14,8 @@
           = link_to 'Sobre', about_path
         li
           = link_to 'Equipa', team_path
-        / li
-        /   = link_to 'NOTÍCIAS', news_path
+        li
+          = link_to 'NOTÍCIAS', 'http://cesium.di.uminho.pt/news'
         li
            = link_to 'ATIVIDADES', activities_path
         / li
@@ -31,4 +31,5 @@
             = link_to 'Log Out', sign_out_path, method: :delete
         - else
           li
-            = link_to 'Log In', sign_in_path
+            = link_to 'Log In', sign_in_path,
+              class: 'btn border-theme btn-login'

@@ -1,41 +1,52 @@
-.panel-group
-
+.row.activity-group-info
   // Location
-  = render partial: "shared/activity/info",
-    locals: { icon: "map-marker", text: @activity.location }
+  .col-md-12
+    = render partial: "shared/activity/info",
+      locals: { icon: "map-marker", text: @activity.location }
 
   // Date & Time
-  - if @activity.start_date.strftime("%Y-%m-%d") == @activity.end_date.strftime("%Y-%m-%d")
-    = render partial: "shared/activity/info",
-      locals: { \
-      icon: "calendar",
-      text: "#{@activity.start_date.strftime("%a %d, %b %Y, %H:%M")}" \
-      " - #{@activity.end_date.strftime("%H:%M")}" \
-      }
+  - if @activity.start_date.to_date == @activity.end_date.to_date
+    .col-md-6
+      = render partial: "shared/activity/info",
+        locals: { \
+        icon: "calendar",
+        text: "#{l @activity.start_date.to_date}" \
+        }
+    .col-md-6
+      = render partial: "shared/activity/info",
+        locals: { \
+        icon: "clock-o", \
+        text: "#{l @activity.start_date.time} - #{l @activity.end_date.time}" \
+        }
   - else
-    = render partial: "shared/activity/info",
-      locals: { \
-      icon: "calendar",
-      text: "#{@activity.start_date.strftime("%a %d, %b %Y, %H:%M")}" \
-      " - #{@activity.end_date.strftime("%a %d, %b %Y, %H:%M")}" \
-      }
+    .col-md-12
+      = render partial: "shared/activity/info",
+        locals: { \
+        icon: "calendar", \
+        text: "#{l @activity.start_date.to_date} - #{l @activity.end_date.to_date}"\
+        }
 
   // Member Cost
   - if @activity.member_cost != 0
-    = render partial: "shared/activity/info",
-      locals: { icon: "money", text: "#{@activity.member_cost}€ / Sócio" }
+    .col-md-5
+      = render partial: "shared/activity/info",
+        locals: { icon: "money", text: "#{@activity.member_cost}€ / Sócio" }
 
   // Guest Cost
   - if @activity.guest_cost != 0
-    = render partial: "shared/activity/info",
-      locals: { icon: "money", text: "#{@activity.guest_cost}€ / Não Sócio" }
+    .col-md-7
+      = render partial: "shared/activity/info",
+        locals: { icon: "money", text: "#{@activity.guest_cost}€ / Não Sócio" }
 
   // Coffe Break
   - if @activity.coffee_break
-    = render partial: "shared/activity/info",
-      locals: { icon: "coffee", text: "Coffee Break" }
+    .col-md-12
+
+      = render partial: "shared/activity/info",
+        locals: { icon: "coffee", text: "Coffee Break" }
 
   // Rating
   - if @activity.total_rating != nil
-    = render partial: "shared/activity/info",
-      locals: { icon: "start", text: @activity.total_rating }
+    .col-md-12
+      = render partial: "shared/activity/info",
+        locals: { icon: "start", text: @activity.total_rating }
