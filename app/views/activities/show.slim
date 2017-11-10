@@ -17,6 +17,7 @@
     .col-md-7
       .lead
         = to_markdown(@activity.description)
+      .divide20
       = render partial: "shared/activity/panel", object: @activity
       - if @activity.end_date.future?
         = render partial: "registration", object: @activity

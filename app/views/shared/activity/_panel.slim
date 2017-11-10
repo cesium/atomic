@@ -28,13 +28,13 @@
 
   // Member Cost
   - if @activity.member_cost != 0
-    .col-md-5
+    .col-md-6
       = render partial: "shared/activity/info",
         locals: { icon: "money", text: "#{@activity.member_cost}€ / Sócio" }
 
   // Guest Cost
   - if @activity.guest_cost != 0
-    .col-md-7
+    .col-md-6
       = render partial: "shared/activity/info",
         locals: { icon: "money", text: "#{@activity.guest_cost}€ / Não Sócio" }
 
