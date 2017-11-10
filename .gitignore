@@ -16,6 +16,7 @@
 !/log/.keep
 /tmp
 logfile
+/public/system
 
 # Vim
 *~
