@@ -1,6 +1,6 @@
-class Payment < ActiveRecord::Base
-  belongs_to :member
-  belongs_to :buddy
+class Payment < ApplicationRecord
+  belongs_to :member, optional: true
+  belongs_to :buddy, optional: true
 
   validates :date, presence: true
   validates :value, presence: true, :numericality => { greater_than: 0 }

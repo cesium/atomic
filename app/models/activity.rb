@@ -1,11 +1,11 @@
-class Activity < ActiveRecord::Base
+class Activity < ApplicationRecord
   has_many :registrations
   has_many :participants, through: :registrations,
                           source: :user
   has_many :activities, class_name: "Activity",
                         foreign_key: "parent_id"
-  belongs_to :parent, class_name: "Activity"
-  belongs_to :department
+  belongs_to :parent, class_name: "Activity", optional: true
+  belongs_to :department, optional: true
 
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true

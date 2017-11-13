@@ -10,7 +10,7 @@ require 'capistrano/rails/console'
 require 'capistrano/rbenv'
 require 'capistrano/puma'
 set :rbenv_type, :user
-set :rbenv_ruby, '2.2.1'
+set :rbenv_ruby, '2.4.2'
 
 # Includes tasks from other gems included in your Gemfile
 #

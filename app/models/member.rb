@@ -1,4 +1,4 @@
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   has_one :responsible_member, class_name: 'Member'
   has_one :user
   has_many :terms

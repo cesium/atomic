@@ -16,7 +16,7 @@ RSpec.describe ActivitiesController, type: :controller do
       it "assigns the correct variable" do
         activity = create(:activity)
 
-        get :show, id: activity.id
+        get :show, params: { id: activity.id }
 
         expect(assigns(:activity)).to eq(activity)
       end
@@ -40,7 +40,7 @@ RSpec.describe ActivitiesController, type: :controller do
       it "assigns all the previous activities" do
         create_list(:activity, 5, start_date: 4.days.ago, end_date: 3.days.ago)
 
-        get :index, show: "previous"
+        get :index, params: { show: "previous" }
 
         assigned_activities = assigns(:activities).sort
         sorted_activities = Activity.all.sort
@@ -55,14 +55,14 @@ RSpec.describe ActivitiesController, type: :controller do
         activity_params = attributes_for(:activity)
 
         expect do
-          post :create, activity: activity_params
+          post :create, params: { activity: activity_params }
         end.to change { Activity.count }.by(1)
       end
 
       it "redirects to the created activity page" do
         activity_params = attributes_for(:activity)
 
-        post :create, activity: activity_params
+        post :create, params: { activity: activity_params }
 
         activity = Activity.last
         expect(response).to redirect_to(activity_path(activity))
@@ -74,14 +74,14 @@ RSpec.describe ActivitiesController, type: :controller do
         activity_params = attributes_for(:activity, name: nil)
 
         expect do
-          post :create, activity: activity_params
+          post :create, params: { activity: activity_params }
         end.not_to change { Activity.count }
       end
 
       it "renders the correct template" do
         activity_params = attributes_for(:activity, name: nil)
 
-        post :create, activity: activity_params
+        post :create, params: { activity: activity_params }
 
         expect(response).to render_template("new")
       end
@@ -94,7 +94,7 @@ RSpec.describe ActivitiesController, type: :controller do
         activity = create(:activity)
         activity_params = { name: "A new name" }
 
-        put :update, activity: activity_params, id: activity.id
+        put :update, params: { activity: activity_params, id: activity.id }
 
         expect(activity.reload.name).to eq("A new name")
       end
@@ -103,7 +103,7 @@ RSpec.describe ActivitiesController, type: :controller do
         activity = create(:activity)
         activity_params = { name: "A new name" }
 
-        put :update, activity: activity_params, id: activity.id
+        put :update, params: { activity: activity_params, id: activity.id }
 
         expect(response).to redirect_to(activity_path(activity))
       end
@@ -114,7 +114,7 @@ RSpec.describe ActivitiesController, type: :controller do
         activity = create(:activity)
         activity_params = { name: nil }
 
-        put :update, activity: activity_params, id: activity.id
+        put :update, params: { activity: activity_params, id: activity.id }
 
         expect(activity.reload.name).to be
       end
@@ -123,7 +123,7 @@ RSpec.describe ActivitiesController, type: :controller do
         activity = create(:activity)
         activity_params = { name: nil }
 
-        put :update, activity: activity_params, id: activity.id
+        put :update, params: { activity: activity_params, id: activity.id }
 
         expect(response).to render_template("edit")
       end
@@ -133,7 +133,7 @@ RSpec.describe ActivitiesController, type: :controller do
       it "404s" do
         activity_params = { name: nil }
 
-        put :update, activity: activity_params, id: 1
+        put :update, params: { activity: activity_params, id: 1 }
 
         expect(response.status).to eq(404)
       end
@@ -146,14 +146,14 @@ RSpec.describe ActivitiesController, type: :controller do
         activity = create(:activity)
 
         expect do
-          delete :destroy, id: activity.id
+          delete :destroy, params: { id: activity.id }
         end.to change { Activity.count }.by(-1)
       end
 
       it "redirects to the index page" do
         activity = create(:activity)
 
-        delete :destroy, id: activity.id
+        delete :destroy, params: { id: activity.id }
 
         expect(response).to redirect_to(activities_path)
       end
@@ -162,12 +162,12 @@ RSpec.describe ActivitiesController, type: :controller do
     context "for an inexistant activity" do
       it "doesn't delete any activity" do
         expect do
-          delete :destroy, id: 1
+          delete :destroy, params: { id: 1 }
         end.not_to change { Activity.count }
       end
 
       it "redirects to the index page" do
-        delete :destroy, id: 1
+        delete :destroy, params: { id: 1 }
 
         expect(response).to redirect_to(activities_path)
       end

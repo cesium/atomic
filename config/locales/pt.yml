@@ -21,3 +21,7 @@ pt:
       default: "%H:%M"
       short: "%d %b %H:%M"
       long: "%a, %d de %b %Y - %H:%M"
+
+  will_paginate:
+    previous_label: "Anterior"
+    next_label: "Seguinte"
