@@ -25,29 +25,29 @@ gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
 gem 'redcarpet'
 
+gem "dotenv"
+gem "dotenv-rails"
+
 # omniauth gems
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
-
 gem 'cancancan'
 
-gem 'dotenv-rails'
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "web-console"
+end
 
 group :development, :test do
-  gem 'therubyracer', platforms: :ruby
-
-  gem 'rspec-rails', '~> 3.0'
-  gem 'rspec-its'
-
-  gem 'factory_girl_rails'
-  gem 'faker'
-
-  gem 'pry-rails'
-  gem 'pry-byebug'
-
-  gem 'binding_of_caller'
-  gem 'better_errors'
-  gem 'web-console', '~> 2.0'
+  gem "awesome_print"
+  gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "pry-remote"
+  gem "rspec-rails", "~> 3.5.1"
+  gem "rubocop", require: false
+  gem "scss_lint", require: false
 
   # capistrano
   gem 'capistrano', '~> 3.4.0'
@@ -56,4 +56,10 @@ group :development, :test do
   gem 'capistrano-rails', '~> 1.1.1'
   gem 'capistrano-rbenv', github: "capistrano/rbenv"
   gem 'capistrano-rails-console', require: false
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "rails-controller-testing"
+  gem "shoulda-matchers"
 end

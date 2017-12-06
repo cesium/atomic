@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Activity, type: :model do
   describe "required fields" do
-    before { @activity = FactoryGirl.create :activity }
+    before { @activity = FactoryBot.create :activity }
 
     subject { @activity }
 
@@ -43,7 +43,7 @@ RSpec.describe Activity, type: :model do
   end
 
   describe "next activities" do
-    before { FactoryGirl.create_list(:activity, 20) }
+    before { FactoryBot.create_list(:activity, 20) }
 
     it "should end in the future" do
       activities = Activity.next_activities
@@ -59,7 +59,7 @@ RSpec.describe Activity, type: :model do
   end
 
   describe "previous activities" do
-    before { FactoryGirl.create_list(:activity, 20) }
+    before { FactoryBot.create_list(:activity, 20) }
 
     it "should end in the past" do
       activities = Activity.previous_activities

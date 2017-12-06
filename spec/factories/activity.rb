@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :activity do
     name { Faker::BossaNova.song }
     location { Faker::Address.street_name }

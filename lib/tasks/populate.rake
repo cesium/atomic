@@ -8,13 +8,13 @@ namespace :db do
 
     print "Populating Members with #{MEMBER_COUNT} entries... "
 
-    MEMBER_COUNT.times { FactoryGirl.create :member }
+    MEMBER_COUNT.times { FactoryBot.create :member }
 
     puts "Done!"
 
     print "Populating Buddies with #{BUDDY_COUNT} entries... "
 
-    BUDDY_COUNT.times { FactoryGirl.create :buddy }
+    BUDDY_COUNT.times { FactoryBot.create :buddy }
 
     puts "Done!"
   end

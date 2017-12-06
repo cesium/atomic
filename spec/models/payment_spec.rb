@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
   before do
-    @user = FactoryGirl.create :member
+    @user = FactoryBot.create :member
     @payment = @user.build_payment(date: Time.now, value: 7.50)
     @new_payment = Payment.new(date: Time.now, value: 10.00)
   end

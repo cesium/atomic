@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    @user = FactoryGirl.create :member
+    @user = FactoryBot.create :member
   end
 
   subject { @user }
