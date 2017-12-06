@@ -30,21 +30,29 @@ class ActivitiesController < ApplicationController
   end
 
   def update
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find_by(id: params[:id])
 
-    if @activity.update(activity_params)
+    if @activity
+      update_activity(activity_params)
+    else
+      not_found
+    end
+  end
+
+  def destroy
+    Activity.find_by(id: params[:id]).try(:destroy)
+    redirect_to activities_path
+  end
+
+  private
+
+  def update_activity(params)
+    if @activity.update(params)
       redirect_to @activity
     else
       render :edit
     end
   end
-
-  def destroy
-    Activity.find(params[:id]).try(:destroy)
-    redirect_to activities_path
-  end
-
-  private
 
   def activity_params
     params.require(:activity).permit(:name, :location, :description,
