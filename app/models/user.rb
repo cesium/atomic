@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates :name,
     presence: true,
     length: { maximum: 75 }
+
   validates :phone_number,
     length: { maximum: 15 },
     format: { with: /[0-9]*/ }
@@ -37,6 +38,6 @@ class User < ActiveRecord::Base
   end
 
   def self.auth_email(auth)
-      auth['info']['email'] || "#{auth['uid']}@#{auth['provider']}.com"
+    auth['info']['email'] || "#{auth['uid']}@#{auth['provider']}.com"
   end
 end

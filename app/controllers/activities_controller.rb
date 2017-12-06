@@ -21,6 +21,7 @@ class ActivitiesController < ApplicationController
 
   def create
     @activity = Activity.new(activity_params)
+
     if @activity.save
       redirect_to @activity
     else
