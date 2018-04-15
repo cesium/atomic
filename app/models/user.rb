@@ -18,26 +18,26 @@ class User < ApplicationRecord
   end
 
   def activity_admin?
-    self.member && self.member.activity_admin
+    member&.activity_admin
   end
 
   def permissions
-    return :guest unless self.persisted?
-    return :user unless self.activity_admin?
-    return :activity_admin
+    return :guest unless persisted?
+    return :user unless activity_admin?
+    :activity_admin
   end
 
-  private
-
   def self.find_or_create_from_omniauth(auth)
-    find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |user|
-      user.name = auth['info']['name'] || auth['info']['nickname']
-      user.image = auth['info']['image']
+    find_or_create_by(uid: auth["uid"], provider: auth["provider"]) do |user|
+      user.name = auth["info"]["name"] || auth["info"]["nickname"]
+      user.image = auth["info"]["image"]
       user.email = auth_email(auth)
     end
   end
 
   def self.auth_email(auth)
-    auth['info']['email'] || "#{auth['uid']}@#{auth['provider']}.com"
+    auth["info"]["email"] || "#{auth['uid']}@#{auth['provider']}.com"
   end
+
+  private_class_method :find_or_create_from_omniauth, :auth_email
 end

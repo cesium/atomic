@@ -18,26 +18,24 @@ class Activity < ApplicationRecord
 
   has_attached_file :poster, default_url: "poster_default.png"
 
-  validates_attachment_content_type :poster, content_type: /\Aimage\/.*\Z/
+  validates_attachment_content_type :poster, content_type: %r{\Aimage\/.*\Z}
 
-  scope :next_activities, -> {
-    where('? < activities.end_date', DateTime.current).
-    order('start_date ASC')
+  scope :next_activities, lambda {
+    where("? < activities.end_date", Time.current)
+      .order("start_date ASC")
   }
 
-  scope :previous_activities, -> {
-    where('? > activities.end_date', DateTime.current).
-    order('start_date DESC')
+  scope :previous_activities, lambda {
+    where("? > activities.end_date", Time.current)
+      .order("start_date DESC")
   }
 
   def end_date_is_after_start_date
-    if end_date < start_date
-      errors.add(:end_date, "end_date must occur after start_date")
-    end
+    errors.add(:end_date, "end_date must occur after start_date") if end_date < start_date
   end
 
   def already_happened?
-    end_date < DateTime.current
+    end_date < Time.current
   end
 
   def registered?(user)

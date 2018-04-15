@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ActivitiesController, type: :controller do
   before { admin_sign_in }
@@ -75,7 +75,7 @@ RSpec.describe ActivitiesController, type: :controller do
 
         expect do
           post :create, params: { activity: activity_params }
-        end.not_to change { Activity.count }
+        end.not_to(change { Activity.count })
       end
 
       it "renders the correct template" do
@@ -163,7 +163,7 @@ RSpec.describe ActivitiesController, type: :controller do
       it "doesn't delete any activity" do
         expect do
           delete :destroy, params: { id: 1 }
-        end.not_to change { Activity.count }
+        end.not_to(change { Activity.count })
       end
 
       it "redirects to the index page" do

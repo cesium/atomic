@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Payment, type: :model do
   before do
@@ -33,8 +33,8 @@ RSpec.describe Payment, type: :model do
     end
 
     describe "when value is positive" do
-      before { @payment.value = 1 + rand(100) }
+      before { @payment.value = 1 }
       it { should be_valid }
     end
   end
- end
+end

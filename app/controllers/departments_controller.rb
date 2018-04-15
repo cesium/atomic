@@ -1,25 +1,21 @@
 class DepartmentsController < ApplicationController
   def index
-    @departments  = Department.all
+    @departments = Department.all
   end
 
   def show
+    return if params[:board_id].nil?
+
     @department = Department.find(params[:id])
+    @board = Board.find(params[:board_id])
+    @terms = @board.terms
 
-    if (params[:board_id] != nil) then
-      @board    = Board.find(params[:board_id])
-      @terms    = @board.terms
-
-      @terms.each do |term|
-        if !@department.terms.include?(term) then
-          @terms.delete(term)
-        end
-      end
+    @terms.each do |term|
+      @terms.delete(term) unless @department.terms.include?(term)
     end
   end
 
-  def new
-  end
+  def new; end
 
   def create
     @department = Department.new(params.require(:department).permit(:title))
@@ -29,7 +25,7 @@ class DepartmentsController < ApplicationController
   end
 
   def destroy
-    department  = Department.find(params[:id])
+    department = Department.find(params[:id])
     department.destroy
 
     redirect_to departments_path

@@ -4,7 +4,7 @@ class Activities::RegistrationsController < ApplicationController
 
   def create
     unless @activity.registered?(current_user)
-      registration = Registration.create(activity_id: @activity.id, user_id: current_user.id)
+      Registration.create(activity_id: @activity.id, user_id: current_user.id)
     end
     redirect_to @activity
   end
@@ -14,20 +14,13 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def update
-    user = User.find(registration_params[:participant_id])
-    registration = @activity.registrations.find_by(user_id: user.id)
+    registration = @activity.registrations .find_by(user_id: registration_params[:participant_id])
 
     if registration.nil?
-      flash[:alert] = "#{user.name} não se encontra registado nesta atividade!"
-      redirect_to activity_participants_path
-    end
-
-    if params[:confirmed] == 'true'
-      flash[:alert] = "Confirmação de #{user.name} cancelada!"
-      registration.update_attribute(:confirmed, false)
+      flash[:alert] = "O utilizador selecionado já não se encontra registado nesta atividade!"
     else
-      flash[:success] = "#{user.name} confirmado!"
-      registration.update_attribute(:confirmed, true)
+      msg_type, message = registration.toggle_confirmation(params[:confirmed])
+      flash[msg_type] = message
     end
 
     redirect_to activity_participants_path
@@ -37,7 +30,7 @@ class Activities::RegistrationsController < ApplicationController
     registration = Registration
       .find_by(activity_id: @activity.id, user_id: current_user.id)
 
-    registration.destroy unless registration.nil?
+    registration&.destroy
     redirect_to @activity
   end
 

@@ -1,4 +1,4 @@
-require 'redcarpet/render_strip'
+require "redcarpet/render_strip"
 
 module ActivitiesHelper
   def next_activities_button

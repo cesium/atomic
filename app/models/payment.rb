@@ -3,5 +3,5 @@ class Payment < ApplicationRecord
   belongs_to :buddy, optional: true
 
   validates :date, presence: true
-  validates :value, presence: true, :numericality => { greater_than: 0 }
+  validates :value, presence: true, numericality: { greater_than: 0 }
 end

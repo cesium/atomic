@@ -12,5 +12,5 @@ Department.create([
   { title: 'Comunicação' },
   { title: 'DREP' },
   { title: 'Recreativo' },
-  { title: 'Direção' },
+  { title: 'Direção' }
 ])

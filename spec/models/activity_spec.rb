@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Activity, type: :model do
   describe "required fields" do
@@ -12,7 +12,7 @@ RSpec.describe Activity, type: :model do
     end
 
     describe "when name is too long" do
-      before { @activity.name = 'a'*100 }
+      before { @activity.name = "a" * 100 }
       it { should_not be_valid }
     end
 

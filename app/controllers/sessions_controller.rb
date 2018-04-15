@@ -1,12 +1,12 @@
 class SessionsController < ApplicationController
-  authorize_resource :class => false
+  authorize_resource class: false
 
   def create
-    if request.env['omniauth.auth']
-      user = User.from_omniauth(request.env['omniauth.auth'])
-      session[:user_id] = user.id
-      redirect_to root_url
-    end
+    return unless request.env["omniauth.auth"]
+
+    user = User.from_omniauth(request.env["omniauth.auth"])
+    session[:user_id] = user.id
+    redirect_to root_url
   end
 
   def destroy

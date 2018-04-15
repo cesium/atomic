@@ -1,0 +1,43 @@
+AllCops:
+  Exclude:
+    - "db/**/*"
+    - "bin/**/*"
+    - "config/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+Style/MultilineBlockChain:
+  Exclude:
+    - "spec/**/*"
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames: x, y
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Metrics/LineLength:
+  Enabled: false

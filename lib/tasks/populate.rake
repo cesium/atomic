@@ -1,7 +1,7 @@
 namespace :db do
-  desc 'Erase database and fill a new one with fake data'
-  task :populate => [:environment, :drop, :migrate, :seed] do
-    require 'faker'
+  desc "Erase database and fill a new one with fake data"
+  task populate: %i[environment drop migrate seed] do
+    require "faker"
 
     MEMBER_COUNT = 50
     BUDDY_COUNT = 20

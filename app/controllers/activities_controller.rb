@@ -6,11 +6,11 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    if previous_activities_requested?
-      @activities = Activity.previous_activities
-    else
-      @activities = Activity.next_activities
-    end
+    @activities = if previous_activities_requested?
+                    Activity.previous_activities
+                  else
+                    Activity.next_activities
+                  end
 
     @activities = @activities.paginate(page: params[:page], per_page: 5)
   end
@@ -60,7 +60,7 @@ class ActivitiesController < ApplicationController
       :coffee_break, :poster, :department_id, :allows_registrations, :external_link)
   end
 
-    def previous_activities_requested?
-      params[:show] == "previous"
-    end
+  def previous_activities_requested?
+    params[:show] == "previous"
+  end
 end

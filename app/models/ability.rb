@@ -9,7 +9,6 @@ class Ability
     when :user then user_permissions(user)
     when :activity_admin then activity_admin_permissions(user)
     end
-
   end
 
   private
@@ -17,7 +16,7 @@ class Ability
   def guest_permissions(user)
     can :read, Activity
     can :destroy, :session if user.persisted?
-    can [:read, :create], :session unless user.persisted?
+    can %i[read create], :session unless user.persisted?
   end
 
   def user_permissions(user)
@@ -29,6 +28,6 @@ class Ability
   def activity_admin_permissions(user)
     user_permissions(user)
     can :manage, Activity
-    can [:index, :update], Registration
+    can %i[index update], Registration
   end
 end
