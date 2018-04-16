@@ -20,7 +20,7 @@ gem "owlcarousel-rails"
 gem "wow-rails"
 
 # atomic gems
-gem "paperclip", "~> 4.3"
+gem "paperclip", "~> 5.2"
 gem "pg", "~> 0.18"
 gem "redcarpet"
 gem "will_paginate", "~> 3.0.6"
