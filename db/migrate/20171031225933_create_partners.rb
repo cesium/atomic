@@ -1,4 +1,4 @@
-class CreatePartners < ActiveRecord::Migration
+class CreatePartners < ActiveRecord::Migration[4.2]
   def change
     create_table :partners do |t|
       t.string :name, limit: 75

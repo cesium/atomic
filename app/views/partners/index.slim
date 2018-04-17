@@ -14,17 +14,17 @@
   existentes
   - @partners.each do |partner|
     .row
-      - if can_create?
-        = link_to 'Editar', edit_partner_path(partner),
-          class: "btn btn-lg border-theme"
       .col-md-2.col-sm-12
         = link_to image_tag(partner.logo.url, class: "img-responsive activity-poster"), partner.link, target: "_blank"
-
-      .col-md-10.col-sm-12
+      .col-md-8.col-sm-12
         h4.partner-name
           = link_to partner.name, partner.link, target: "_blank"
         ul.partner-advantages
           .partners-list-item
             = to_markdown(partner.description)
+      - if can_create?
+        .col-md-2.col-sm-12
+          = link_to 'Editar', edit_partner_path(partner),
+            class: "btn btn-lg border-theme"
     .divide60
 .divide40

@@ -17,6 +17,7 @@ class Ability
     can :read, Activity
     can :destroy, :session if user.persisted?
     can %i[read create], :session unless user.persisted?
+    can :index, Partner
   end
 
   def user_permissions(user)
@@ -29,5 +30,6 @@ class Ability
     user_permissions(user)
     can :manage, Activity
     can %i[index update], Registration
+    can :manage, Partner
   end
 end

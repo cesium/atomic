@@ -68,23 +68,24 @@ ActiveRecord::Schema.define(version: 20171031225933) do
     t.boolean "activity_admin", default: false, null: false
   end
 
+  create_table "partners", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 75
+    t.string "description"
+    t.string "logo_file_name"
+    t.string "logo_content_type"
+    t.integer "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payments", id: :serial, force: :cascade do |t|
     t.date "date"
     t.decimal "value", precision: 8, scale: 2
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-
-  create_table "partners", force: :cascade do |t|
-    t.string   "name",              limit: 75
-    t.string   "description"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.string   "link"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
   end
 
   create_table "registrations", id: :serial, force: :cascade do |t|

@@ -1,5 +1,4 @@
 class PartnersController < ApplicationController
-  before_action :set_partner, only: [:edit, :create, :update, :destroy]
   load_and_authorize_resource
 
   def index
@@ -11,9 +10,12 @@ class PartnersController < ApplicationController
   end
 
   def edit
+    @partner = Partner.find(params[:id])
   end
 
   def create
+    @partner = Partner.new(partner_params)
+
     if @partner.save
       redirect_to partners_path
     else
@@ -22,6 +24,7 @@ class PartnersController < ApplicationController
   end
 
   def update
+    @partner = Partner.find(params[:id])
     if @partner.update(partner_params)
       redirect_to partners_path
     else
@@ -30,15 +33,11 @@ class PartnersController < ApplicationController
   end
 
   def destroy
-    @partner.try(:destroy)
+    Partner.find(params[:id]).try(:destroy)
     redirect_to partners_path
   end
 
   private
-  
-  def set_partner
-    @partner = Partner.find(params[:id])
-  end
 
   def partner_params
     params.require(:partner).permit(:name, :description, :logo, :link)
