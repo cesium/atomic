@@ -4,9 +4,10 @@ Rails.application.routes.draw do
   get '/about', to: 'welcome#about'
   get '/contact', to: 'welcome#contact'
   get '/log', to: 'welcome#log'
-  get '/partners', to: 'welcome#partners'
   get '/team', to: 'welcome#team'
 
+  resources :partners,      except: :show
+  
   resources :users, only: [:index, :show]
 
   get '/sign_in' , to: 'sessions#new', as: 'sign_in'

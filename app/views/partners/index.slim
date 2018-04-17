@@ -1,0 +1,30 @@
+= render partial: 'partners/partners_breadcrumb'
+
+.divide40
+.container
+
+  - if can_create?
+    = link_to 'Criar Parceria', new_partner_path,
+      class: "btn btn-lg border-theme"
+  hr
+
+  - if @partners.empty?
+    h4 De momento ainda não temos parcerias, volta aqui mais tarde
+
+  existentes
+  - @partners.each do |partner|
+    .row
+      - if can_create?
+        = link_to 'Editar', edit_partner_path(partner),
+          class: "btn btn-lg border-theme"
+      .col-md-2.col-sm-12
+        = link_to image_tag(partner.logo.url, class: "img-responsive activity-poster"), partner.link, target: "_blank"
+
+      .col-md-10.col-sm-12
+        h4.partner-name
+          = link_to partner.name, partner.link, target: "_blank"
+        ul.partner-advantages
+          .partners-list-item
+            = to_markdown(partner.description)
+    .divide60
+.divide40
