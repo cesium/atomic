@@ -22,12 +22,12 @@ module ActivitiesHelper
   end
 
   def activity_link(activity)
-    if current_user.nil?
+    if !activity.external_link.empty?
+      activity.external_link
+    elsif current_user.nil?
       sign_in_path
-    elsif activity.external_link.empty?
-      activity_registration_path(@activity)
     else
-      @activity.external_link
+      activity_registration_path(activity)
     end
   end
 
@@ -59,5 +59,9 @@ module ActivitiesHelper
     Redcarpet::Markdown
       .new(Redcarpet::Render::StripDown)
       .render(markdown)
+  end
+
+  def registrable(activity)
+    activity.allows_registrations && (current_user.nil? || can_registrate?(activity))
   end
 end

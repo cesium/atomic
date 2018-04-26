@@ -3,7 +3,7 @@
     class: "btn btn-disabled btn-lg" do
     i.fas.fa-times
     | Anular Inscrição
-- elsif current_user.nil? || can_registrate?(@activity)
+- elsif @activity.allows_registrations && (current_user.nil? || can_registrate?(@activity))
   = link_to "Inscrever-me!",
     activity_link(@activity) || '#',
     class: "btn border-theme btn-lg"
