@@ -16,6 +16,8 @@
       br
     .col-md-7
       .lead
+        = to_markdown(@activity.speaker)
+      .lead
         = to_markdown(@activity.description)
       .divide20
       = render partial: "shared/activity/panel", object: @activity
