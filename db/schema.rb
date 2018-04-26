@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031225933) do
+ActiveRecord::Schema.define(version: 20180430193811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20171031225933) do
     t.string "name", limit: 75
     t.string "location"
     t.text "description"
-    t.string "speaker", limit: 75
     t.integer "total_rating"
     t.decimal "member_cost", precision: 5, scale: 2
     t.decimal "guest_cost", precision: 5, scale: 2
@@ -33,24 +32,9 @@ ActiveRecord::Schema.define(version: 20171031225933) do
     t.integer "activity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "department_id"
     t.boolean "allows_registrations", default: true
     t.string "external_link", default: ""
     t.index ["activity_id"], name: "index_activities_on_activity_id"
-    t.index ["department_id"], name: "index_activities_on_department_id"
-  end
-
-  create_table "boards", id: :serial, force: :cascade do |t|
-    t.date "start_date"
-    t.date "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "departments", id: :serial, force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
@@ -68,51 +52,12 @@ ActiveRecord::Schema.define(version: 20171031225933) do
     t.boolean "activity_admin", default: false, null: false
   end
 
-  create_table "partners", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 75
-    t.string "description"
-    t.string "logo_file_name"
-    t.string "logo_content_type"
-    t.integer "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.string "link"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "payments", id: :serial, force: :cascade do |t|
-    t.date "date"
-    t.decimal "value", precision: 8, scale: 2
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "registrations", id: :serial, force: :cascade do |t|
     t.integer "activity_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "confirmed", default: false
-  end
-
-  create_table "roles", id: :serial, force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "terms", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "board_id"
-    t.integer "department_id"
-    t.integer "role_id"
-    t.integer "user_id"
-    t.index ["board_id"], name: "index_terms_on_board_id"
-    t.index ["department_id"], name: "index_terms_on_department_id"
-    t.index ["role_id"], name: "index_terms_on_role_id"
-    t.index ["user_id"], name: "index_terms_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -132,6 +77,5 @@ ActiveRecord::Schema.define(version: 20171031225933) do
   end
 
   add_foreign_key "activities", "activities"
-  add_foreign_key "activities", "departments"
   add_foreign_key "users", "members"
 end

@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  has_many :payments
   has_many :registrations
   belongs_to :member, optional: true
 

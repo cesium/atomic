@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
 
   resources :activities
-  resources :departments, only: [:index, :show, :new, :create, :destroy]
 
   scope module: 'activities' do
     get 'activities/:activity_id/register',

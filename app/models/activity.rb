@@ -1,11 +1,8 @@
 class Activity < ApplicationRecord
   has_many :registrations
-  has_many :participants, through: :registrations,
-                          source: :user
-  has_many :activities, class_name: "Activity",
-                        foreign_key: "parent_id"
+  has_many :participants, through: :registrations, source: :user
+  has_many :activities, class_name: "Activity", foreign_key: "parent_id"
   belongs_to :parent, class_name: "Activity", optional: true
-  belongs_to :department, optional: true
 
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true
@@ -18,7 +15,6 @@ class Activity < ApplicationRecord
   validate :end_date_is_after_start_date, unless: :nil_dates?
 
   has_attached_file :poster, default_url: "poster_default.png"
-
   validates_attachment_content_type :poster, content_type: %r{\Aimage\/.*\Z}
 
   scope :next_activities, lambda {

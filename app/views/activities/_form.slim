@@ -77,14 +77,6 @@
     {include_blank: 'None'}
   br
 
-  = form.label :department,
-    class: "activity-form-label"
-  br
-  = form.select :department_id,
-    options_for_select(Department.all.map{|d|[d.title, d.id]}),
-    {include_blank: 'None'}
-  br
-
   = form.label :external_link,
     class: "activity-form-label"
   br
