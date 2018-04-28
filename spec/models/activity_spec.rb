@@ -16,6 +16,11 @@ RSpec.describe Activity, type: :model do
       it { should_not be_valid }
     end
 
+    describe "when speaker's name is too long" do
+      before { @activity.speaker = "a" * 100 }
+      it { should_not be_valid }
+    end
+
     describe "when location is blank" do
       before { @activity.location = "" }
       it { should_not be_valid }

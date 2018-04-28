@@ -10,6 +10,7 @@ class Activity < ApplicationRecord
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true
   validates :description, presence: true
+  validates :speaker, length: { maximum: 75 }
   validates :member_cost, presence: true, numericality: true
   validates :guest_cost,  presence: true, numericality: true
   validates :start_date, presence: true
