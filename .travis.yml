@@ -1,0 +1,15 @@
+language: ruby
+cache: bundler
+
+addons:
+  postgresql: "9.3"
+
+services: postgresql
+
+install:
+  - bundle install --path vendor/bundle
+  - bin/setup
+
+script:
+  - bundle exec rubocop --parallel
+  - bundle exec rspec

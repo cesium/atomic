@@ -3,6 +3,7 @@ AllCops:
     - "db/**/*"
     - "bin/**/*"
     - "config/**/*"
+    - "vendor/bundle/**/*"
 
 Metrics/BlockLength:
   Exclude:
