@@ -6,9 +6,9 @@ cp .env.sample .env
 
 bundle check || bundle install
 
-bundle exec rake db:create || true
-bundle exec rake db:migrate
-bundle exec rake db:seed
-bundle exec rake db:test:prepare
+rails db:create || true
+rails db:migrate
+rails db:seed
+rails db:test:prepare
 
 echo "You're good to go. Run bin/server to get the app running."
