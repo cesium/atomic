@@ -5,12 +5,3 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Department.create([
-  { title: 'CAOS' },
-  { title: 'Pedagógico' },
-  { title: 'Imagem' },
-  { title: 'Comunicação' },
-  { title: 'DREP' },
-  { title: 'Recreativo' },
-  { title: 'Direção' }
-])
