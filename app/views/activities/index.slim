@@ -1,3 +1,7 @@
+- content_for :head do
+  meta property='og:image' content='#{image_url("cesium-thumb.png")}'
+  meta property='og:title' content='CeSIUM - Atividades'
+  meta property='og:description' content='O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional.'
 = render partial: 'activities/activities_breadcrumb'
 
 .divide40
