@@ -33,4 +33,4 @@ pt:
           attributes:
             number_participants:
               blank: "vazio"
-              not_a_number: "nao e um numero"
+              not_a_number: "não é um número"
