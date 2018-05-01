@@ -4,7 +4,7 @@ class Activities::RegistrationsController < ApplicationController
 
   def create
     Activity.transaction do
-      if not @activity.registered?(current_user) and @activity.can_register?
+      if !@activity.registered?(current_user) && @activity.can_register?
         Registration.create(activity_id: @activity.id, user_id: current_user.id)
       end
     end

@@ -41,7 +41,7 @@ class Activity < ApplicationRecord
   end
 
   def can_register?
-    number_participants == 0 || participants.count < number_participants
+    number_participants.zero? || participants.count < number_participants
   end
 
   private
