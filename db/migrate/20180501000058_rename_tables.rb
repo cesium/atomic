@@ -5,7 +5,7 @@ class RenameTables < ActiveRecord::Migration[5.1]
     remove_column :registrations, :user_id
 
     rename_table :members, :users
-    add_reference :identifiers, :users 
-    add_reference :registrations, :users
+    add_reference :identifiers, :user
+    add_reference :registrations, :user
   end
 end

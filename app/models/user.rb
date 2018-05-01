@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   validates :cesium_id,
     length: { maximum: 10 },
-    format: { with: /[0-9]*/ }
+    format: { with: /\A[0-9]*\z/ }
 
   validates :student_id,
     length: { maximum: 10 }

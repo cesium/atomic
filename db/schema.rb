@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20180501000058) do
     t.string "uid"
     t.string "oauth_token"
     t.datetime "oauth_expires_at"
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_identifiers_on_users_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_identifiers_on_user_id"
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 20180501000058) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "confirmed", default: false
-    t.bigint "users_id"
-    t.index ["users_id"], name: "index_registrations_on_users_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_registrations_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
