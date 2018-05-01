@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.string "name", limit: 75
     t.string "location"
     t.text "description"
+    t.string "speaker", limit: 75
     t.integer "total_rating"
     t.decimal "member_cost", precision: 5, scale: 2
     t.decimal "guest_cost", precision: 5, scale: 2
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.boolean "allows_registrations", default: true
     t.string "external_link", default: ""
     t.string "speaker", limit: 75
+    t.integer "number_participants"
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 

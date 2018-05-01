@@ -7,6 +7,7 @@ class Activity < ApplicationRecord
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true
   validates :description, presence: true
+  validates :number_participants, presence: true, numericality: true
   validates :speaker, length: { maximum: 75 }
   validates :member_cost, presence: true, numericality: true
   validates :guest_cost,  presence: true, numericality: true
@@ -39,9 +40,14 @@ class Activity < ApplicationRecord
     registrations.find_by(user_id: user.id)
   end
 
+  def can_register?
+    participants.count < number_participants
+  end
+
   private
 
   def nil_dates?
     start_date.nil? || end_date.nil?
   end
+
 end

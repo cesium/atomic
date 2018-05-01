@@ -30,10 +30,11 @@
   = form.text_field :speaker,
     class: "activity-form-field"
 
-  = form.label :total_rating,
+  = form.label :number_participants,
     class: "activity-form-label"
   br
-  = form.text_field :total_rating,
+  = form.number_field :number_participants,
+    value: 20,
     class: "activity-form-field"
 
   = form.label :member_cost,
