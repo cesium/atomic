@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20180501000058) do
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 
-  create_table "identifiers", id: :serial, force: :cascade do |t|
+  create_table "identities", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20180501000058) do
     t.string "oauth_token"
     t.datetime "oauth_expires_at"
     t.bigint "user_id"
-    t.index ["user_id"], name: "index_identifiers_on_user_id"
+    t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|

@@ -22,17 +22,17 @@ RSpec.describe User, type: :model do
     end
 
     describe "when name is too long" do
-      before { @user.name = "a"*76 }
+      before { @user.name = "a" * 76 }
       it { should_not be_valid }
     end
 
     describe "when phone_number is too long" do
-      before { @user.phone_number = "1"*16 }
+      before { @user.phone_number = "1" * 16 }
       it { should_not be_valid }
     end
 
     describe "when cesium_id is too long" do
-      before { @user.cesium_id = "1"*11 }
+      before { @user.cesium_id = "1" * 11 }
       it { should_not be_valid }
     end
 
@@ -42,7 +42,7 @@ RSpec.describe User, type: :model do
     end
 
     describe "when student_id is too long" do
-      before { @user.student_id = "1"*11 }
+      before { @user.student_id = "1" * 11 }
       it { should_not be_valid }
     end
   end
@@ -76,4 +76,3 @@ RSpec.describe User, type: :model do
     end
   end
 end
-

@@ -14,8 +14,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:account_number,
-      :student_id, :name, :city, :phone_number,
-      :birthdate, :email, :password)
+    params.require(:user).permit(:cesium_id, :student_id, :name,
+      :phone_number, :email, :course, :image)
   end
 end

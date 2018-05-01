@@ -25,3 +25,8 @@ pt:
   will_paginate:
     previous_label: "Anterior"
     next_label: "Seguinte"
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Muitas cenas"

@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def create
     return unless request.env["omniauth.auth"]
 
-    user = User.from_omniauth(request.env["omniauth.auth"])
+    user = Identity.from_omniauth(request.env["omniauth.auth"])
     session[:user_id] = user.id
     redirect_to root_url
   end
