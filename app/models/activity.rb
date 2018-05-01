@@ -49,5 +49,4 @@ class Activity < ApplicationRecord
   def nil_dates?
     start_date.nil? || end_date.nil?
   end
-
 end
