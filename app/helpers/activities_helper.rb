@@ -58,7 +58,7 @@ module ActivitiesHelper
   def to_plaintext(markdown)
     Redcarpet::Markdown
       .new(Redcarpet::Render::StripDown)
-      .render(markdown)
+      .render(markdown.to_s)
   end
 
   def registrable(activity)
