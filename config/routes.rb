@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get '/team', to: 'welcome#team'
 
   resources :partners,      except: :show
+
+  resources :articles
   
   resources :users, only: [:index, :show]
 

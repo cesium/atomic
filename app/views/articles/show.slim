@@ -1,0 +1,22 @@
+= render partial: 'articles/articles_breadcrumb'
+
+- content_for :head do
+  meta property='og:image' content='#{@article.poster.url}'
+  meta property='og:title' content='#{@article.name}'
+.divide60
+.container
+
+  .row
+    .col-md-5
+      = image_tag @article.poster.url, class: "img-responsive"
+    .col-md-7
+      h2.activity-title
+        | #{@article.name}
+  br
+  div
+    | #{to_markdown(@article.text)}
+  br
+  - if can? :edit, Article
+    = link_to 'Editar', edit_article_path, class: 'btn border-theme btn-lg btn-edit'
+
+.divide20

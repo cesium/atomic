@@ -1,0 +1,30 @@
+= form_for @article, html: {multipart: true} do |form|
+
+  = form.label :name,
+    class: "activity-form-label"
+  br
+  = form.text_field :name,
+    class: "activity-form-field"
+
+  = form.label :text,
+    class: "activity-form-label"
+  br
+  = form.text_area :text,
+    class: "activity-form-field"
+
+  = form.label :poster,
+    class: "activity-form-label"
+  br
+  = form.file_field :poster,
+    class: "activity-form-field"
+  br
+
+  .submit-field
+    = form.submit class: "btn btn-lg btn-update border-theme"
+    - if @article.id != nil
+      = link_to 'Cancel', article_path(@article),
+        data: { confirm: 'You will lose all modifications. Are you sure?' },
+        class: "btn btn-lg border-theme"
+      = link_to 'Destroy', :article, method: :delete,
+        data: { confirm: 'Are you sure you want to delete this article?' },
+        class: "btn btn-lg btn-delete border-theme"

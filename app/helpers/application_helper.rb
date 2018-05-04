@@ -18,4 +18,10 @@ module ApplicationHelper
       autolink: true
     }
   end
+
+  def to_plaintext(markdown)
+    Redcarpet::Markdown
+      .new(Redcarpet::Render::StripDown)
+      .render(markdown)
+  end
 end

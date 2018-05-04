@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503193938) do
+ActiveRecord::Schema.define(version: 20180504224459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180503193938) do
     t.string "name", limit: 75
     t.string "location"
     t.text "description"
+    t.string "speaker", limit: 75
     t.integer "total_rating"
     t.decimal "member_cost", precision: 5, scale: 2
     t.decimal "guest_cost", precision: 5, scale: 2
@@ -38,6 +39,32 @@ ActiveRecord::Schema.define(version: 20180503193938) do
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 
+  create_table "articles", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 75
+    t.text "text"
+    t.string "poster_file_name"
+    t.string "poster_content_type"
+    t.integer "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "position"
+    t.string "company"
+    t.string "location"
+    t.text "description"
+    t.string "link"
+    t.string "contact"
+    t.string "poster_file_name"
+    t.string "poster_content_type"
+    t.integer "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "members", id: :serial, force: :cascade do |t|
     t.integer "member_id"
     t.string "address"
@@ -50,7 +77,7 @@ ActiveRecord::Schema.define(version: 20180503193938) do
     t.string "account_number", default: ""
     t.string "student_id", default: ""
     t.boolean "is_buddy"
-    t.boolean "activity_admin", default: false, null: false
+    t.boolean "admin", default: false, null: false
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|

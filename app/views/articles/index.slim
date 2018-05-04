@@ -1,0 +1,18 @@
+= render partial: 'articles/articles_breadcrumb'
+
+.divide40
+
+.container
+  - if can_create_article?
+    .pull-right
+      = link_to 'Criar Artigo', new_article_path, class: "btn btn-lg border-theme"
+
+  .divide20
+
+  .blog-left-img
+    - @articles.each do |article|
+      = render partial: "shared/articles/index", locals: { article: article }
+      .divide20
+
+    = will_paginate @articles, renderer: BootstrapPagination::Rails
+
