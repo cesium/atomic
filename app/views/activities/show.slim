@@ -16,7 +16,8 @@
       br
     .col-md-7
       .lead
-        = to_markdown(@activity.speaker)
+        - if @activity.speaker
+          = to_markdown(@activity.speaker)
       .lead
         = to_markdown(@activity.description)
       .divide20

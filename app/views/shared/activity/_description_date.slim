@@ -1,5 +1,6 @@
 p.lead.activity-description
-  = to_plaintext(activity.speaker)
+  - if activity.speaker
+    = to_plaintext(activity.speaker)
 
 p.lead.activity-description
   = truncate(to_plaintext(activity.description), length: 140)
