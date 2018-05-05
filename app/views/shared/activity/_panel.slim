@@ -1,6 +1,15 @@
 .row.activity-group-info
+  // Speaker
+  - if @activity.speaker
+    .col-md-6
+      = render partial: "shared/activity/info",
+        locals: { \
+        icon: "user",
+        text: @activity.speaker \
+        }
+
   // Location
-  .col-md-12
+  .col-md-6
     = render partial: "shared/activity/info",
       locals: { icon: "map-marker", text: @activity.location }
 
