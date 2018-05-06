@@ -29,6 +29,7 @@
 //= require landing_page/rs-plugin/jquery.themepunch.tools.min
 //= require landing_page/rs-plugin/jquery.themepunch.revolution.min
 //= require landing_page/cubeportfolio/jquery.cubeportfolio.min
+//= require activity-form.js
 //
 /// CUSTOM JS IN LANDING_PAGE FOLDER
 //= require landing_page/custom

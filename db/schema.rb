@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180707004256) do
+ActiveRecord::Schema.define(version: 20180506230130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.string "external_link", default: ""
     t.string "speaker", limit: 75
     t.integer "number_participants"
+    t.boolean "limit_number_participants"
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 

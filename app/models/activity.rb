@@ -41,7 +41,7 @@ class Activity < ApplicationRecord
   end
 
   def has_sit_available?
-    number_participants.zero? || participants.count < number_participants
+    !limit_number_participants? || participants.count < number_participants
   end
 
   def user_registration(current_user)
