@@ -40,8 +40,16 @@ class Activity < ApplicationRecord
     registrations.find_by(user_id: user.id)
   end
 
-  def can_register?
+  def has_sit_available?
     number_participants.zero? || participants.count < number_participants
+  end
+
+  def user_registration(current_user)
+    Activity.transaction do
+      if !registered?(current_user) && has_sit_available?
+        Registration.create(activity_id: id, user_id: current_user.id)
+      end
+    end
   end
 
   private

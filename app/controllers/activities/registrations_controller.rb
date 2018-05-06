@@ -3,11 +3,7 @@ class Activities::RegistrationsController < ApplicationController
   load_and_authorize_resource
 
   def create
-    Activity.transaction do
-      if !@activity.registered?(current_user) && @activity.can_register?
-        Registration.create(activity_id: @activity.id, user_id: current_user.id)
-      end
-    end
+    @activity.user_registration(current_user)
     redirect_to @activity
   end
 
