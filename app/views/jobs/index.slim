@@ -1,0 +1,21 @@
+= render partial: 'jobs/jobs_breadcrumb'
+
+.divide40
+
+.container
+  - if can_create?
+    .pull-right
+      = link_to 'Criar Oferta', new_job_path, class: "btn btn-lg border-theme"
+
+  .divide20
+  .divide20
+
+  .blog-left-img
+    - if @jobs.empty?
+      h4 Sem oportunidades de emprego de momento.
+      br
+    - @jobs.each do |job|
+      = render partial: "shared/job/index", locals: { job: job }
+      .divide20
+
+    = will_paginate @jobs, renderer: BootstrapPagination::Rails
