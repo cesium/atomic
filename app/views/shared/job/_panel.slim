@@ -3,13 +3,15 @@
     = render partial: "shared/job/info",
       locals: { icon: "building", text: @job.company }
 
-    = render partial: "shared/job/info",
-      locals: { icon: "map-marker-alt", text: @job.location }
+    - if !@job.location.blank?
+      = render partial: "shared/job/info",
+        locals: { icon: "map-marker-alt", text: @job.location }
 
   .col-md-7
     = render partial: "shared/job/info",
       locals: { icon: "link", text: @job.link }
 
-  .col-md-7
-    = render partial: "shared/job/info",
-      locals: { icon: "envelope", text: @job.contact }
+  - if !@job.contact.blank?
+    .col-md-7
+      = render partial: "shared/job/info",
+        locals: { icon: "envelope", text: @job.contact }
