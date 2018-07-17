@@ -15,6 +15,7 @@ class Ability
 
   def guest_permissions(user)
     can :read, Activity
+    can :read, Job
     can :destroy, :session if user.persisted?
     can %i[read create], :session unless user.persisted?
     can :index, Partner
@@ -29,6 +30,7 @@ class Ability
   def activity_admin_permissions(user)
     user_permissions(user)
     can :manage, Activity
+    can :manage, Job
     can %i[index update], Registration
     can :manage, Partner
   end

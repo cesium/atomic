@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   get '/team', to: 'welcome#team'
 
   resources :partners,      except: :show
-  
+
   resources :users, only: [:index, :show]
+
+  resources :jobs
 
   get '/sign_in' , to: 'sessions#new', as: 'sign_in'
   delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
