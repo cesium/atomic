@@ -3,7 +3,7 @@ class Job < ApplicationRecord
   validates :company, presence: true
 
   validates :link, format: {
-    with: %r{(http|https):\/\/*/},
+    with: %r{\A(http|https)://.*\z},
     message: " is invalid, make sure your Link starts with http:// or https://"
   }
 
