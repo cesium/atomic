@@ -1,6 +1,6 @@
 .row.activity-group-info
   // Speaker
-  - if @activity.speaker
+  - if @activity.speaker?
     .col-md-6
       = render partial: "shared/activity/info",
         locals: { \

@@ -1,9 +1,11 @@
 p.lead.activity-description
   = truncate(to_plaintext(activity.description), length: 140)
 
-- if activity.speaker
-  i.far.fa-user
-    = " " + to_plaintext(activity.speaker)
+- if activity.speaker?
+  ul.list-inline
+    li
+      i.far.fa-user
+    = to_plaintext(activity.speaker)
 
 ul.list-inline
   - if activity.start_date.to_date == activity.end_date.to_date
