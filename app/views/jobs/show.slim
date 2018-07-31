@@ -8,9 +8,9 @@
 .container
   h3.post-title
     | #{@job.position}
-  span.center-line style="margin-bottom: 8px;"
+  span.center-line.padding-bottom
 
-  .row
+  .row.padding-bottom
     .col-md-5
       = image_tag @job.poster.url, class: "img-responsive"
       br

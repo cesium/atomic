@@ -44,8 +44,20 @@
   display: flex
 }
 
-.pad {
-  padding-right: 30px;
+.left-padding {
+  padding-left: 50px;
+}
+
+.small-right-padding {
+  padding-right: 25px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px
+}
+
+.padding-bottom {
+  padding-bottom: 40px
 }
 
 input[type="text"].form-field {

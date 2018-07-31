@@ -6,7 +6,7 @@ class JobsController < ApplicationController
   end
 
   def index
-    @jobs = Job.all
+    @jobs = Job.all.order("created_at DESC")
 
     @jobs = @jobs.paginate(page: params[:page], per_page: 5)
   end

@@ -1,10 +1,10 @@
 .row
-  .col-md-2
+  .col-md-2.margin-bottom
     = link_to image_tag(job.poster.url, class: "img-responsive poster"), job
-  .col-md-10
+  .col-md-10.margin-bottom
     h3.post-title
       = link_to job.position, job
-    span.center-line style="margin-bottom: 8px;"
+    span.center-line.margin-bottom
       = render partial: "shared/job/description", locals: { job: job }
 
 br
