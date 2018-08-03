@@ -15,11 +15,11 @@
     .post-info
       p.lead
         i class="fa fa-fw fa-link small-right-padding"
-        = link_to(@job.link, @job.link, :target => "_blank", :style => 'color:#0077cc;')
+        = link_to(@job.link, @job.link, :target => "_blank")
 
   - if !@job.contact.blank?
     .col-md-7
       .post-info
         p.lead
           i class="fa fa-fw fa-envelope small-right-padding"
-          = mail_to(@job.contact, @job.contact, :style => 'color:#0077cc;')
+          = mail_to(@job.contact, @job.contact)

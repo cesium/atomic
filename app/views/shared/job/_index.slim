@@ -4,8 +4,8 @@
   .col-md-10.margin-bottom
     h3.post-title
       = link_to job.position, job
-    span.center-line.margin-bottom
-      = render partial: "shared/job/description", locals: { job: job }
+    span.center-line
+    = render partial: "shared/job/description", locals: { job: job }
 
 br
 hr

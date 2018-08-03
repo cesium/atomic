@@ -1,12 +1,12 @@
 .divide20
 
 ul.list-inline.max
-  li
+  li.post-info
     i.far.fa-building
   = to_plaintext(job.company)
 
 - if !job.location.blank?
   ul.list-inline.max
-    li
+    li.post-info
       i.fas.fa-map-marker-alt
     = to_plaintext(job.location)
