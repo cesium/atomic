@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   resources :partners,      except: :show
 
+  resources :articles
+
   resources :users, only: [:index, :show]
 
   resources :jobs

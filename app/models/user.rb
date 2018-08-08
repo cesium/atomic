@@ -16,14 +16,14 @@ class User < ApplicationRecord
     user
   end
 
-  def activity_admin?
-    member&.activity_admin
+  def admin?
+    member&.admin
   end
 
   def permissions
     return :guest unless persisted?
-    return :user unless activity_admin?
-    :activity_admin
+    return :user unless admin?
+    :admin
   end
 
   def self.find_or_create_from_omniauth(auth)

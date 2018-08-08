@@ -7,7 +7,7 @@ class Ability
     case user.permissions
     when :guest then guest_permissions(user)
     when :user then user_permissions(user)
-    when :activity_admin then activity_admin_permissions(user)
+    when :admin then admin_permissions(user)
     end
   end
 
@@ -15,6 +15,7 @@ class Ability
 
   def guest_permissions(user)
     can :read, Activity
+    can :read, Article
     can :read, Job
     can :destroy, :session if user.persisted?
     can %i[read create], :session unless user.persisted?
@@ -27,11 +28,12 @@ class Ability
     can :create, Registration, activity: { allows_registrations: true }
   end
 
-  def activity_admin_permissions(user)
+  def admin_permissions(user)
     user_permissions(user)
     can :manage, Activity
     can :manage, Job
     can %i[index update], Registration
     can :manage, Partner
+    can :manage, Article
   end
 end
