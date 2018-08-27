@@ -2,24 +2,30 @@
   .col-md-12
     .post-info
       p.lead
-        i class="fa fa-fw fa-building small-right-padding"
+        i.fa.fa-fw.fa-building.small-right-padding
         = @job.company
 
     - if !@job.location.blank?
       .post-info
         p.lead
-          i class="fa fa-fw fa-map-marker-alt small-right-padding"
+          i.fa.fa-fw.fa-map-marker-alt.small-right-padding
           = @job.location
 
   .col-md-7
     .post-info
       p.lead
-        i class="fa fa-fw fa-link small-right-padding"
+        i.fa.fa-fw.fa-link.small-right-padding
         = link_to(@job.link, @job.link, :target => "_blank")
 
   - if !@job.contact.blank?
     .col-md-7
       .post-info
         p.lead
-          i class="fa fa-fw fa-envelope small-right-padding"
+          i.fa.fa-fw.fa-envelope.small-right-padding
           = mail_to(@job.contact, @job.contact)
+
+  .col-md-7
+    .post-info
+      p.lead
+        i.fa.fa-fw.fa-calendar.small-right-padding
+        = @job.created_at.to_date

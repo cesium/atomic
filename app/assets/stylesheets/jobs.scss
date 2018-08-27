@@ -1,3 +1,9 @@
+@import 'bootstrap-tokenfield';
+
+.tags-field {
+  display: flex;
+}
+
 .navbar-post {
   margin-top: 2em;
   font-weight: bold;
@@ -41,23 +47,53 @@
 }
 
 .same-line {
-  display: flex
+  display: inline-flex;
 }
 
-.left-padding {
-  padding-left: 50px;
+.margin-top {
+  margin-top: 50px
 }
 
-.small-right-padding {
-  padding-right: 25px;
-}
+.filters
+  .modal-content
+    .modal-title {
+      display: -webkit-inline-box;
+      font-size: initial;
+    }
 
-.margin-bottom {
-  margin-bottom: 20px
-}
+    .form-group
+      .rounded {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+      }
 
-.padding-bottom {
-  padding-bottom: 40px
+  .filter {
+    position: absolute;
+    right: 10%;
+    z-index: 1;
+    height: 50px;
+    width: 200px;
+  }
+
+.container
+  .left-padding {
+    padding-left: 50px;
+  }
+
+  .small-right-padding {
+    padding-right: 25px;
+  }
+
+  .margin-bottom {
+    margin-bottom: 20px
+  }
+
+  .padding-bottom {
+    padding-bottom: 40px
+  }
+
+.form {
+  margin-bottom: 30px;
 }
 
 input[type="text"].form-field {
@@ -108,30 +144,6 @@ a {
   }
 }
 
-.pagination {
-  .disabled > span {
-    background-color: $color-light-gray;
-    color: $color-white;
-
-    &:hover {
-      background-color: $color-light-gray;
-      color: $color-skin;
-      transition: all 200ms ease-in;
-    }
-  }
-
-  li {
-    a, span {
-      margin-right: 5px;
-
-      &:hover {
-        color: $color-skin;
-        transition: all 200ms ease-in;
-      }
-    }
-  }
-}
-
 .btn-delete {
   float: right;
 }
@@ -146,4 +158,15 @@ a {
 
 .btn.nohover:hover {
   cursor: default;
+}
+
+.border-grey{
+  border: 1px solid #6d6d6d;
+  color:#6d6d6d;
+  background-color: transparent;
+}
+.border-grey:hover{
+  background-color: #6d6d6d;
+  border-color: #6d6d6d;
+  color:#fff;
 }

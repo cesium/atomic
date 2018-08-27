@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require bootstrap-tokenfield
 //= require retina_tag
 //= require bootstrap-sprockets
 //= require wow
@@ -34,4 +36,5 @@
 //= require landing_page/custom
 //= require landing_page/revolution-custom
 //= require landing_page/cube-portfolio
-//= require activities.js
+//= require activities
+//= require jobs

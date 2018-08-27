@@ -6,50 +6,61 @@
         li
           = msg
 
-  = form.label :position,
-    class: "form-label"
-  br
-  = form.text_field :position,
-    class: "form-field"
+  .form
+    = form.label :position,
+      class: "form-label"
+    br
+    = form.text_field :position,
+      class: "form-field"
 
-  = form.label :company,
-    class: "form-label"
-  br
-  = form.text_field :company,
-    class: "form-field"
+  .form
+    = form.label :company,
+      class: "form-label"
+    br
+    = form.text_field :company,
+      class: "form-field"
 
-  = form.label :location,
-    class: "form-label"
-  br
-  = form.text_field :location,
-    class: "form-field"
+  .form
+    = form.label :location,
+      class: "form-label"
+    br
+    = form.text_field :location,
+      class: "form-field"
 
-  = form.label :description,
-    class: "form-label"
-  br
-  = form.text_area :description,
-    class: "form-field"
+  .form
+    = form.label :all_tags,
+      class: "form-label"
+    br
+    = form.text_field :all_tags,
+      class: "form-field"
 
-  = form.label :link,
-    class: "form-label"
-  br
-  = form.text_field :link,
-    class: "form-field"
+  .form
+    = form.label :description,
+      class: "form-label"
+    br
+    = form.text_area :description,
+      class: "form-field"
 
-  = form.label :contact,
-    class: "form-label"
-  br
-  = form.text_field :contact,
-    class: "form-field"
-  br
-  br
+  .form
+    = form.label :link,
+      class: "form-label"
+    br
+    = form.text_field :link,
+      class: "form-field"
 
-  = form.label :poster,
-    class: "form-label"
-  br
-  = form.file_field :poster,
-    class: "form-field"
-  br
+  .form
+    = form.label :contact,
+      class: "form-label"
+    br
+    = form.text_field :contact,
+      class: "form-field"
+
+  .form
+    = form.label :poster,
+      class: "form-label"
+    br
+    = form.file_field :poster,
+      class: "form-field"
 
   .submit-field
     = form.submit class: "btn btn-lg btn-update border-theme"
