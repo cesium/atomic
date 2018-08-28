@@ -1,18 +1,6 @@
-function hasCity(jobOfferCity, city) {
-    if (city != '') {
-        if (!jobOfferCity) {
-            return false
-        } else {
-            return jobOfferCity.includes(city);
-        }
-    }
-
-    return true;
-}
-
 function hasTags(jobOfferTags, tags) {
     for (let index = 0; index < tags.length; index++) {
-        if (!jobOfferTags.includes(tags[index])) {
+        if (tags[index] && !jobOfferTags.includes(tags[index])) {
             return false;
         }
     }
@@ -21,35 +9,39 @@ function hasTags(jobOfferTags, tags) {
 }
 
 function filterOffers($modal, $modal) {
-    tags     = $modal.find('#tags')    .val().replace(/\s/g, '').toLowerCase().split(',');
-    position = $modal.find('#position').val().toLowerCase();
-    company  = $modal.find('#company') .val().toLowerCase();
-    city     = $modal.find('#city')    .val().toLowerCase();
-    dateFrom = $modal.find('#dateFrom').val();
-    dateTo   = $modal.find('#dateTo')  .val();
+    var tags     = $modal.find('#tags')    .val().replace(/\s/g, '').toLowerCase().split(',');
+    var position = $modal.find('#position').val().toLowerCase();
+    var company  = $modal.find('#company') .val().toLowerCase();
+    var city     = $modal.find('#city')    .val().toLowerCase();
+    var dateFrom = $modal.find('#dateFrom').val();
+    var dateTo   = $modal.find('#dateTo')  .val();
 
     $('.jobs-container').find('.job-container').each(function () {
-        jobOfferTags     = $(this).find('.tags') .text().replace(/\s/g, '').toLowerCase().split(',');
-        jobOfferPosition = $(this).find('.post-title').text().toLowerCase();
-        jobOfferCompany  = $(this).find('.company')   .text().toLowerCase();
-        jobOfferDate     = $(this).find('.date')      .text();
-        cityText         = $(this).find('.city');
+        var jobOfferTags     = $(this).find('.tags')      .text().replace(/\s/g, '').toLowerCase().split(',');
+        var jobOfferPosition = $(this).find('.post-title').text().toLowerCase();
+        var jobOfferCompany  = $(this).find('.company')   .text().toLowerCase();
+        var jobOfferDate     = $(this).find('.date')      .text();
+        var cityText         = $(this).find('.city');
+        var jobOfferCity;
 
         if (cityText.length) {
-            var jobOfferCity = cityText.text().toLowerCase();
+            jobOfferCity = cityText.text().toLowerCase();
+        } else {
+            jobOfferCity = "";
         }
 
         if (
-            jobOfferPosition.includes(position) &&
             jobOfferDate >= dateFrom            &&
             jobOfferDate <= dateTo              &&
-            jobOfferCompany.includes(company)   &&
-            hasCity(jobOfferCity, city)         &&
+            jobOfferPosition.includes(position) &&
+            jobOfferCompany .includes(company)  &&
+            jobOfferCity    .includes(city)     &&
             hasTags(jobOfferTags, tags)
         ) {
             $(this).show();
         } else {
             $(this).hide();
+            debugger;
         }
     });
 

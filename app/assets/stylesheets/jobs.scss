@@ -160,12 +160,13 @@ a {
   cursor: default;
 }
 
-.border-grey{
+.border-grey {
   border: 1px solid #6d6d6d;
   color:#6d6d6d;
   background-color: transparent;
 }
-.border-grey:hover{
+
+.border-grey:hover {
   background-color: #6d6d6d;
   border-color: #6d6d6d;
   color:#fff;

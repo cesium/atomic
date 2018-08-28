@@ -40,17 +40,6 @@ ActiveRecord::Schema.define(version: 20180805180509) do
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
 
-  create_table "articles", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 75
-    t.text "text"
-    t.string "poster_file_name"
-    t.string "poster_content_type"
-    t.integer "poster_file_size"
-    t.datetime "poster_updated_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "job_taggings", force: :cascade do |t|
     t.bigint "job_id"
     t.bigint "tag_id"
