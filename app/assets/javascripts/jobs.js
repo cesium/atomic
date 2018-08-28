@@ -41,7 +41,6 @@ function filterOffers($modal, $modal) {
             $(this).show();
         } else {
             $(this).hide();
-            debugger;
         }
     });
 
@@ -50,9 +49,9 @@ function filterOffers($modal, $modal) {
 
 $(document).ready(function() {
     $('#dateFrom').datepicker({ dateFormat: 'yy-mm-dd' });
-    $('#dateTo').datepicker({ dateFormat: 'yy-mm-dd' });
+    $('#dateTo')  .datepicker({ dateFormat: 'yy-mm-dd' });
 
-    $('#job_all_tags').tokenfield();
+    $('#tags').tokenfield();
 
     $('#filter').on('show.bs.modal', function () {
         $modal  = $(this);
