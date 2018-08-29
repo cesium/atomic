@@ -51,7 +51,7 @@ $(document).ready(function() {
     $('#dateFrom').datepicker({ dateFormat: 'yy-mm-dd' });
     $('#dateTo')  .datepicker({ dateFormat: 'yy-mm-dd' });
 
-    $('#tags').tokenfield();
+    $('#tags').tokenfield({ createTokensOnBlur: true });
 
     $('#filter').on('show.bs.modal', function () {
         $modal  = $(this);
