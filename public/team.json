@@ -1,48 +1,48 @@
 {
   "Presidência": [
     {
-      "Martinho Aragão": {
-        "position": "Presidente",
-        "image": "team/martinhoaragao.jpg"
-      }},
-      {
-      "Dinis Peixoto": {
-        "position": "Vice-Presidente",
-        "image": "team/dinispeixoto.jpg"
-      }},
-      {
-      "Gil Gonçalves": {
-        "position": "Vice-Presidente",
-        "image": "team/gilgoncalves.jpg"
-      }},
-      {
       "Francisco Costa": {
-        "position": "Tesoureiro",
+        "position": "Presidente",
         "image": "team/franciscocosta.jpg"
       }},
       {
-      "André Teixeira": {
-        "position": "Secretário",
-        "image": "team/andreteixeira.jpg"
-      }}
-  ],
-  "DevTeams": [
-    {
+      "Sérgio Costa": {
+        "position": "Vice-Presidente",
+        "image": "team/sergiocosta.jpg"
+      }},
+      {
+      "Bruno Cancelinha": {
+        "position": "Vice-Presidente",
+        "image": "team/brunocancelinha.jpg"
+      }},
+      {
       "Francisco Lira": {
-        "position": "Diretor",
+        "position": "Tesoureiro",
         "image": "team/franciscolira.jpg"
       }},
       {
-      "Diogo Couto": {
+      "Jõao Vilaça": {
+        "position": "Secretário",
+        "image": "team/joaovilaca.jpg"
+      }}
+  ],
+  "CAOS": [
+    {
+      "Daniel Tinoco": {
+        "position": "Diretor",
+        "image": "danieltinoco.jpg"
+      }},
+      {
+      "José Resende": {
         "position": "Codiretor",
-        "image": "team/diogocouto.jpg"
+        "image": "team/joseresende.jpg"
       }}
   ],
   "Departamento Pedagógico": [
     {
-      "Ricardo Pereira": {
+      "Nelson Estevão": {
         "position": "Diretor",
-        "image": "team/ricardopereira.jpg"
+        "image": "team/nelsonestevao.jpg"
       }},
       {
       "Pedro Lima": {
@@ -50,69 +50,79 @@
         "image": "team/pedrolima.jpg"
       }},
       {
-      "Sérgio Costa": {
+      "Diogo Sobral": {
         "position": "Codiretor",
-        "image": "team/sergiocosta.jpg"
+        "image": "team/diogosobral.jpg"
       }}
   ],
   "Departamento Recreativo": [
     {
-      "Ricardo Certo": {
+      "Nuno Silva": {
         "position": "Diretor",
-        "image": "team/ricardocerto.jpg"
+        "image": "team/nunosilva.jpg"
       }},
       {
-      "Adriana Guedes": {
-        "position": "Codiretora",
-        "image": "team/adrianaguedes.jpg"
+      "Tiago Monteiro": {
+        "position": "Codiretor",
+        "image": "team/tiagomonteiro.jpg"
       }}
-  ],
+  ]
   "Departamento de Comunicação": [
     {
-      "Zé Nuno Macedo": {
-        "position": "Diretor",
-        "image": "team/zenuno.jpg"
+      "Catarina Machado": {
+        "position": "Diretora",
+        "image": "team/catarinamachado.jpg"
       }},
       {
-      "João Vilaça": {
+      "Eduardo Jorge Barbosa": {
         "position": "Codiretor",
-        "image": "team/joaovilaca.jpg"
+        "image": "team/eduardojorgebarbosa.jpg"
       }}
   ],
   "Departamento de Imagem": [
     {
-      "Rui Souto": {
-        "position": "Diretor",
-        "image": "team/ruisouto.jpg"
+      "Lúcia Abreu": {
+        "position": "Diretora",
+        "image": "team/luciaabreu.jpg"
       }},
       {
-      "Tânia Esteves": {
+      "Pedro Pinto": {
+        "position": "Codiretor",
+        "image": "team/pedropinto.jpg"
+      }},
+      {
+      "Maria Pires": {
         "position": "Codiretora",
-        "image": "team/taniaesteves.jpg"
+        "image": "team/mariapires.jpg"
       }}
   ],
   "Departamento de Relações Externas e Parcerias": [
     {
-      "Eduardo Semanas": {
+      "José Bastos": {
         "position": "Diretor",
-        "image": "team/eduardosemanas.jpg"
+        "image": "team/josebastos.jpg"
       }},
       {
-      "José Bastos": {
+      "Sara Pereira": {
+        "position": "Codiretora",
+        "image": "team/sarapereira.jpg"
+      }},
+    {
+      "Tiago Alves": {
         "position": "Codiretor",
-        "image": "team/josebastos.jpg"
+        "image": "team/tiagoalves.jpg"
       }}
   ],
   "Vogais": [
     {
-      "Francisco Ribeiro": {
+      "Ricardo Certo": {
         "position": "Vogal",
-        "image": "team/franciscoribeiro.jpg"
+        "image": "team/ricardocerto.jpg"
       }},
       {
-      "Hugo Brandão": {
+      "Maria Dias": {
         "position": "Vogal",
-        "image": "team/hugobrandao.jpg"
+        "image": "team/mariadias.jpg"
       }},
       {
       "Luís Neto": {
@@ -122,26 +132,26 @@
   ],
   "Assembleia Geral": [
     {
-      "Inês Sampaio": {
+      "João Coelho": {
         "position": "Presidente",
-        "image": "team/inessampaio.jpg"
+        "image": "team/joaocoelho.jpg"
       }},
       {
-      "Bruno Cancelinha": {
-        "position": "Secretário",
-        "image": "team/brunocancelinha.jpg"
+      "Adriana Guedes": {
+        "position": "Secretária",
+        "image": "team/adrianaguedes.jpg"
       }}
   ],
   "Conselho Fiscal": [
     {
-      "Maria Dias": {
+      "Luís Fernandes": {
         "position": "Presidente",
-        "image": "team/mariadias.jpg"
+        "image": "team/luisfernandes.jpg"
       }},
       {
-      "Marcelo Miranda": {
+      "Rui Oliveira": {
         "position": "Secretário",
-        "image": "team/marcelomiranda.jpg"
+        "image": "team/ruioliveira.jpg"
       }}
   ]
 }
