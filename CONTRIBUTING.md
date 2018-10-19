@@ -17,15 +17,7 @@ To enable authentication you need to generate OAuth keys on [github](https://dev
 Edit you `.env` with the generated keys and you're good to go. You're now able to authenticate yourself using github.
 
 ### Becoming admin
-
-We don't have a proper way to turn a user into an admin. You will have to launch `rails console` and type something along this lines:
-
-```
-usr = User.find(*your_user_id*)
-usr.build_member
-usr.member.activity_admin = true
-usr.member.save
-```
+Login once in the website and run the rake task __db:admin__.
 
 Congrats.
 
