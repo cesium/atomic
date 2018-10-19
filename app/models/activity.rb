@@ -70,17 +70,6 @@ class Activity < ApplicationRecord
     end
   end
 
-  def user_listing(current_user)
-    Activity.transaction do
-      if registered?(current_user)
-        registration = Registration.find_by!(activity_id: @activity.id, user_id: current_user.id)
-
-        registration&.destroy
-        Registration.destroy!(activity_id: id, user_id: current_user.id)
-      end
-    end
-  end
-
   private
 
   def nil_dates?
