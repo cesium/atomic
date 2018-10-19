@@ -3,7 +3,12 @@ class Activities::RegistrationsController < ApplicationController
   load_and_authorize_resource
 
   def create
-    @activity.user_registration(current_user)
+    begin
+      @activity.user_registration(current_user)
+    rescue ActiveRecord::RecordInvalid => exception
+      flash[:alert] = "O utilizador não pode ser registado nesta atividade!"
+    end
+
     redirect_to @activity
   end
 
@@ -12,23 +17,24 @@ class Activities::RegistrationsController < ApplicationController
   end
 
   def update
-    registration = @activity.registrations .find_by(user_id: registration_params[:participant_id])
-
-    if registration.nil?
-      flash[:alert] = "O utilizador selecionado já não se encontra registado nesta atividade!"
-    else
-      msg_type, message = registration.toggle_confirmation(params[:confirmed])
+    begin
+      msg_type, message = @activity
+        .user_registration_update(registration_params[:participant_id], params[:confirmed])
       flash[msg_type] = message
+    rescue ActiveRecord::RecordNotFound => exception
+      flash[:alert] = "O utilizador selecionado já não se encontra registado nesta atividade!"
     end
 
     redirect_to activity_participants_path
   end
 
   def destroy
-    registration = Registration
-      .find_by(activity_id: @activity.id, user_id: current_user.id)
+    begin
+    @activity.user_deregistration(current_user)
+    rescue ActiveRecord::RecordInvalid => exception
+      flash[:alert] = "O utilizador não pode ser eliminado desta atividade!"
+    end
 
-    registration&.destroy
     redirect_to @activity
   end
 
