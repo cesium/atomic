@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.datetime "updated_at", null: false
     t.boolean "allows_registrations", default: true
     t.string "external_link", default: ""
-    t.integer "number_participants"
     t.string "speaker", limit: 75
+    t.integer "number_participants"
     t.boolean "limit_number_participants"
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
