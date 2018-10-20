@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  toggle_registrations;
   toggle_registrations("activity_allows_registrations", "allows_registration");
   toggle_registrations("activity_limit_number_participants", "is-number-participants-limited");
 });
