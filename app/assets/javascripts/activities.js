@@ -1,6 +1,6 @@
-function toggleRegistrations(checkbox, detailsDiv){
-  var checkbox = document.getElementById(checkbox);
-  var detailsDiv = document.getElementById(detailsDiv);
+function toggleRegistrations(checkboxId, detailsDivId){
+  var checkbox = document.getElementById(checkboxId);
+  var detailsDiv = document.getElementById(detailsDivId);
 
   detailsDiv.hidden = !checkbox.checked;
   checkbox.onchange = function() {
