@@ -30,19 +30,6 @@
   = form.text_field :speaker,
     class: "activity-form-field"
 
-  = form.label :limit_number_participants,
-    class: "activity-form-label"
-  br
-  = form.check_box :limit_number_participants,
-    class: "activity-form-field"
-  br
-  div#is-number-participants-limited hidden=""
-    = form.label :number_participants,
-      class: "activity-form-label"
-    br
-    = form.number_field :number_participants,
-      value: 20,
-      class: "activity-form-field"
   = form.label :member_cost,
     class: "activity-form-label"
   br
@@ -93,16 +80,30 @@
 
   = form.label :allows_registrations,
     class: "activity-form-label"
+  br
   = form.check_box :allows_registrations,
     class: "activity-form-field"
   br
-  br
-
-  = form.label :poster,
-    class: "activity-form-label"
-  br
-  = form.file_field :poster,
-    class: "activity-form-field"
+  div#allows_registration hidden=""
+    = form.label :limit_number_participants,
+      class: "activity-form-label"
+    br
+    = form.check_box :limit_number_participants,
+      class: "activity-form-field"
+    br
+    div#is-number-participants-limited hidden=""
+      = form.label :number_participants,
+        class: "activity-form-label"
+      br
+      = form.number_field :number_participants,
+        value: 20,
+        class: "activity-form-field"
+    br
+    = form.label :poster,
+      class: "activity-form-label"
+    br
+    = form.file_field :poster,
+      class: "activity-form-field"
   br
 
   .submit-field

@@ -19,7 +19,7 @@
         = to_markdown(@activity.description)
       .divide20
       = render partial: "shared/activity/panel", object: @activity
-      - if @activity.end_date.future? and @activity.has_sit_available?
+      - if @activity.end_date.future? and @activity.sit_available?
         = render partial: "registration", object: @activity
 
   hr

@@ -53,7 +53,7 @@
       = render partial: "shared/activity/info",
         locals: { icon: "coffee", text: "Coffee Break" }
 
-  - if @activity.limit_number_participants
+  - if @activity.limit_number_participants and @activity.allows_registrations
     .col-md-6
       = render partial: "shared/activity/info",
         locals: { icon: "users", text: registrations_counter(@activity)}
