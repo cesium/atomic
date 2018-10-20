@@ -1,10 +1,10 @@
 $(document).ready(function(){
-  toggle_registrations;
-  toggle_registrations("activity_allows_registrations", "allows_registration");
-  toggle_registrations("activity_limit_number_participants", "is-number-participants-limited");
+  toggleRegistrations;
+  toggleRegistrations("activity_allows_registrations", "allows_registration");
+  toggleRegistrations("activity_limit_number_participants", "is-number-participants-limited");
 });
 
-function toggle_registrations(checkbox, detailsDiv){
+function toggleRegistrations(checkbox, detailsDiv){
   var checkbox = document.getElementById(checkbox);
   var detailsDiv = document.getElementById(detailsDiv);
 
