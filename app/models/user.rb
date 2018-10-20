@@ -22,7 +22,9 @@ class User < ApplicationRecord
 
   def permissions
     return :guest unless persisted?
+
     return :user unless admin?
+
     :admin
   end
 

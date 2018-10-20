@@ -5,7 +5,7 @@ class Activities::RegistrationsController < ApplicationController
   def create
     begin
       @activity.user_registration(current_user)
-    rescue ActiveRecord::RecordInvalid => exception
+    rescue ActiveRecord::RecordInvalid
       flash[:alert] = "O utilizador não pode ser registado nesta atividade!"
     end
 
@@ -21,7 +21,7 @@ class Activities::RegistrationsController < ApplicationController
       msg_type, message = @activity
         .user_registration_update(registration_params[:participant_id], params[:confirmed])
       flash[msg_type] = message
-    rescue ActiveRecord::RecordNotFound => exception
+    rescue ActiveRecord::RecordNotFound
       flash[:alert] = "O utilizador selecionado já não se encontra registado nesta atividade!"
     end
 
@@ -30,8 +30,8 @@ class Activities::RegistrationsController < ApplicationController
 
   def destroy
     begin
-    @activity.user_deregistration(current_user)
-    rescue ActiveRecord::RecordInvalid => exception
+      @activity.user_deregistration(current_user)
+    rescue ActiveRecord::RecordInvalid
       flash[:alert] = "O utilizador não pode ser eliminado desta atividade!"
     end
 

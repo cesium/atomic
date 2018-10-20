@@ -40,21 +40,21 @@ class Activity < ApplicationRecord
     registrations.find_by(user_id: user.id)
   end
 
-  def has_sit_available?
+  def sit_available?
     !limit_number_participants? || participants.count < number_participants
   end
 
   def user_registration(current_user)
     Activity.transaction do
-      if !registered?(current_user) && has_sit_available?
+      if !registered?(current_user) && sit_available?
         Registration.create!(activity_id: id, user_id: current_user.id)
       end
     end
   end
 
-  def user_registration_update(id, confirmed)
+  def user_registration_update(user_id, confirmed)
     Activity.transaction do
-      registration = registrations.find_by!(user_id: id)
+      registration = registrations.find_by!(user_id: user_id)
       return registration.toggle_confirmation(confirmed)
     end
   end
