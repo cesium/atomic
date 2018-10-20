@@ -42,4 +42,10 @@ module ActivitiesHelper
   def registrable(activity)
     activity.allows_registrations && (current_user.nil? || can_registrate?(activity))
   end
+
+  def registrations_counter(activity)
+    now = activity.registrations.count
+    limit = activity.number_participants
+    "#{now}/#{limit}"
+  end
 end

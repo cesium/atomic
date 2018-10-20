@@ -25,3 +25,12 @@ pt:
   will_paginate:
     previous_label: "Anterior"
     next_label: "Seguinte"
+
+  activerecord:
+    errors:
+      models:
+        activity:
+          attributes:
+            number_participants:
+              blank: "vazio"
+              not_a_number: "não é um número"

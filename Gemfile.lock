@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/capistrano/rbenv.git
+  remote: https://github.com/capistrano/rbenv.git
   revision: b8807f3bbb3f424ac42cc8838a38822e028d0aa3
   specs:
     capistrano-rbenv (2.1.4)
@@ -356,4 +356,4 @@ DEPENDENCIES
   wow-rails
 
 BUNDLED WITH
-   1.16.1
+   1.16.4

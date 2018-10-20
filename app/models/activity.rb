@@ -7,6 +7,7 @@ class Activity < ApplicationRecord
   validates :name, presence: true, length: { maximum: 75 }
   validates :location, presence: true
   validates :description, presence: true
+  validates :number_participants, presence: true, numericality: true
   validates :speaker, length: { maximum: 75 }
   validates :member_cost, presence: true, numericality: true
   validates :guest_cost,  presence: true, numericality: true
@@ -37,6 +38,36 @@ class Activity < ApplicationRecord
 
   def registered?(user)
     registrations.find_by(user_id: user.id)
+  end
+
+  def sit_available?
+    !limit_number_participants? || participants.count < number_participants
+  end
+
+  def user_registration(current_user)
+    Activity.transaction do
+      if !registered?(current_user) && sit_available?
+        Registration.create!(activity_id: id, user_id: current_user.id)
+      end
+    end
+  end
+
+  def user_registration_update(user_id, confirmed)
+    Activity.transaction do
+      registration = registrations.find_by!(user_id: user_id)
+      return registration.toggle_confirmation(confirmed)
+    end
+  end
+
+  def user_deregistration(current_user)
+    Activity.transaction do
+      if registered?(current_user)
+        registration = Registration
+          .find_by!(activity_id: id, user_id: current_user.id)
+
+        registration&.destroy!
+      end
+    end
   end
 
   private
