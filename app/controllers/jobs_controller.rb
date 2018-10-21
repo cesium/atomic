@@ -6,7 +6,16 @@ class JobsController < ApplicationController
   end
 
   def index
+    page = params[:page]
+
     @jobs = Job.all.order("created_at DESC")
+    @jobs = @jobs.filter_between(params[:filter_start_date], params[:filter_end_date]) if between?(params)
+
+    filtering_params(params).each do |key, value|
+      @jobs = @jobs.public_send(key, value) if value.present?
+    end
+
+    @jobs = @jobs.paginate(page: page, per_page: 5)
   end
 
   def show
@@ -55,5 +64,14 @@ class JobsController < ApplicationController
 
   def previous_jobs_requested?
     params[:show] == "previous"
+  end
+
+  def filtering_params(params)
+    params.slice(:filter_position, :filter_company, :filter_location)
+  end
+
+  def between?(params)
+    start_date = DateTime.parse params[:filter_start_date] rescue nil
+    end_date = DateTime.parse params[:filter_end_date] rescue nil
   end
 end

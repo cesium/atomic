@@ -1,72 +1,67 @@
-function hasTags(jobOfferTags, tags) {
-    for (let index = 0; index < tags.length; index++) {
-        if (tags[index] && !jobOfferTags.includes(tags[index])) {
-            return false;
+function setupInitialValues() {
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return decodeURI(results[1]) || 0;
         }
     }
 
-    return true;
+    $('#position').val($.urlParam('filter_position'));
+    $('#company').val($.urlParam('filter_company'));
+    $('#city').val($.urlParam('filter_location'));
+    $('#dateFrom').val($.urlParam('filter_start_date'));
+    $('#dateTo').val($.urlParam('filter_end_date'));
 }
 
-function filterOffers($modal, $modal) {
-    var tags     = $modal.find('#tags')    .val().replace(/\s/g, '').toLowerCase().split(',');
-    var position = $modal.find('#position').val().toLowerCase();
-    var company  = $modal.find('#company') .val().toLowerCase();
-    var city     = $modal.find('#city')    .val().toLowerCase();
-    var dateFrom = $modal.find('#dateFrom').val();
-    var dateTo   = $modal.find('#dateTo')  .val();
+function getParams() {
+    var params = {};
 
-    $('.jobs-container').find('.job-container').each(function () {
-        var jobOfferTags     = $(this).find('.tags')      .text().replace(/\s/g, '').toLowerCase().split(',');
-        var jobOfferPosition = $(this).find('.post-title').text().toLowerCase();
-        var jobOfferCompany  = $(this).find('.company')   .text().toLowerCase();
-        var jobOfferDate     = $(this).find('.date')      .text();
-        var cityText         = $(this).find('.city');
-        var jobOfferCity;
+    var position = $('#position').val();
+    if (position) params['filter_position'] = position;
 
-        if (cityText.length) {
-            jobOfferCity = cityText.text().toLowerCase();
-        } else {
-            jobOfferCity = "";
-        }
+    var company = $('#company').val();
+    if (company) params['filter_company'] = company;
 
-        if (
-            jobOfferDate >= dateFrom            &&
-            jobOfferDate <= dateTo              &&
-            jobOfferPosition.includes(position) &&
-            jobOfferCompany .includes(company)  &&
-            jobOfferCity    .includes(city)     &&
-            hasTags(jobOfferTags, tags)
-        ) {
-            $(this).show();
-        } else {
-            $(this).hide();
-        }
+    var city = $('#city').val();
+    if (city) params['filter_location'] = city;
+
+    var dateFrom = $('#dateFrom').val();
+    if (dateFrom) params['filter_start_date'] = dateFrom;
+
+    var dateTo = $('#dateTo').val();
+    if (dateTo) params['filter_end_date'] = dateTo;
+
+    return params;
+}
+
+function redirectTo() {
+    var url = window.location.origin + window.location.pathname;
+    var params = jQuery.param(getParams());
+
+    window.location.replace(url + "?" + params);
+}
+
+function setupFilter() {
+    $('#filter').on('show.bs.modal', function () {
+        $window = $(this).find('.modal-content');
+
+        $window.find('.btn-filter').click(function () {
+            redirectTo();
+        });
+
+        $window.find('.btn-reset').click(function () {
+            window.location.replace(window.location.origin + window.location.pathname);
+        });
     });
-
-    $modal.modal('hide');
 }
 
 $(document).ready(function() {
     $('#dateFrom').datepicker({ dateFormat: 'yy-mm-dd' });
-    $('#dateTo')  .datepicker({ dateFormat: 'yy-mm-dd' });
+    $('#dateTo').datepicker({ dateFormat: 'yy-mm-dd' });
 
-    $('#tags').tokenfield({ createTokensOnBlur: true });
-
-    $('#filter').on('show.bs.modal', function () {
-        $modal  = $(this);
-        $window = $modal.find('.modal-content');
-
-        $window.find('.btn-filter').click(function () {
-            filterOffers($window.find('.modal-body'), $modal);
-        });
-
-        $window.find('.btn-reset').click(function () {
-            $('.jobs-container').find('.job-container').each(function () {
-                $(this).show();
-            });
-
-            $modal.modal('hide');
-        });
-    });
+    setupInitialValues();
+    setupFilter();
 });

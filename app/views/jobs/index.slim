@@ -20,3 +20,5 @@
         .job-container
           = render partial: "shared/job/index", locals: { job: job }
           .divide20
+
+      = will_paginate @jobs, renderer: BootstrapPagination::Rails
