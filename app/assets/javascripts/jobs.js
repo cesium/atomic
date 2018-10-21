@@ -1,38 +1,42 @@
 function setupInitialValues() {
-    $.urlParam = function(name){
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null){
-           return null;
-        }
-        else{
-           return decodeURI(results[1]) || 0;
-        }
+    var searchParams = new URLSearchParams(window.location.search);
+
+    $("#position").val(searchParams.get("filter_position"));
+    $("#company").val(searchParams.get("filter_company"));
+    $("#city").val(searchParams.get("filter_location"));
+    $("#dateFrom").val(searchParams.get("filter_start_date"));
+    $("#dateTo").val(searchParams.get("filter_end_date"));
+}
+
+function addDates(params) {
+    var dateFrom = $("#dateFrom").val();
+    var dateTo = $("#dateTo").val();
+
+    params["filter_end_date"] = new Date().toLocaleDateString();
+    params["filter_start_date"] = "2018-01-01";
+
+    if (dateFrom) {
+        params["filter_start_date"] = dateFrom;
     }
 
-    $('#position').val($.urlParam('filter_position'));
-    $('#company').val($.urlParam('filter_company'));
-    $('#city').val($.urlParam('filter_location'));
-    $('#dateFrom').val($.urlParam('filter_start_date'));
-    $('#dateTo').val($.urlParam('filter_end_date'));
+    if (dateTo) {
+        params["filter_end_date"] = dateTo;
+    }
 }
 
 function getParams() {
     var params = {};
 
-    var position = $('#position').val();
-    if (position) params['filter_position'] = position;
+    var position = $("#position").val();
+    if (position) { params["filter_position"] = position; }
 
-    var company = $('#company').val();
-    if (company) params['filter_company'] = company;
+    var company = $("#company").val();
+    if (company) { params["filter_company"] = company; }
 
-    var city = $('#city').val();
-    if (city) params['filter_location'] = city;
+    var city = $("#city").val();
+    if (city) { params["filter_location"] = city; }
 
-    var dateFrom = $('#dateFrom').val();
-    if (dateFrom) params['filter_start_date'] = dateFrom;
-
-    var dateTo = $('#dateTo').val();
-    if (dateTo) params['filter_end_date'] = dateTo;
+    addDates(params);
 
     return params;
 }
@@ -45,22 +49,22 @@ function redirectTo() {
 }
 
 function setupFilter() {
-    $('#filter').on('show.bs.modal', function () {
-        $window = $(this).find('.modal-content');
+    $("#filter").on("show.bs.modal", function () {
+        var $window = $(this).find(".modal-content");
 
-        $window.find('.btn-filter').click(function () {
+        $window.find(".btn-filter").click(function () {
             redirectTo();
         });
 
-        $window.find('.btn-reset').click(function () {
+        $window.find(".btn-reset").click(function () {
             window.location.replace(window.location.origin + window.location.pathname);
         });
     });
 }
 
 $(document).ready(function() {
-    $('#dateFrom').datepicker({ dateFormat: 'yy-mm-dd' });
-    $('#dateTo').datepicker({ dateFormat: 'yy-mm-dd' });
+    $("#dateFrom").datepicker({ dateFormat: "yy-mm-dd" });
+    $("#dateTo").datepicker({ dateFormat: "yy-mm-dd" });
 
     setupInitialValues();
     setupFilter();
