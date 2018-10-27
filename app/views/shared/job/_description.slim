@@ -1,12 +1,28 @@
 .divide20
 
-ul.list-inline.max
-  li
+ul.list-inline.same-line.max
+  li.post-info
     i.far.fa-building
-  = to_plaintext(job.company)
+  .company
+    = to_plaintext(job.company)
 
-- if !job.location.blank?
-  ul.list-inline.max
-    li
+  - if !job.location.blank?
+    li.post-info.left-padding
       i.fas.fa-map-marker-alt
-    = to_plaintext(job.location)
+    .city
+      = to_plaintext(job.location)
+
+ul.list-inline.max.date
+  li.post-info
+    i.far.fa-calendar
+  = job.created_at.to_date
+
+- if !job.tags.empty?
+  ul.list-inline.tags-field
+    li.post-info
+      i.far.fa-bookmark
+    .tags
+      - job.tags.each_with_index do | tag, index |
+        - if index != 0
+          = ", "
+        = tag.name.strip

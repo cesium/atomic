@@ -4,6 +4,7 @@ gem "rails", "5.1.4"
 
 gem "google-analytics-rails", "1.1.0"
 gem "jquery-rails"
+gem "jquery-ui-rails"
 gem "listen"
 gem "sass-rails", "~> 5.0"
 gem "slim-rails"

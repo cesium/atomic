@@ -6,11 +6,11 @@
   meta property='og:description' content='#{truncate(to_plaintext(@job.description), length: 140)}'
 .divide60
 .container
-  h3.post-title
+  h3
     | #{@job.position}
-  span.center-line style="margin-bottom: 8px;"
+  span.center-line.padding-bottom
 
-  .row
+  .row.padding-bottom
     .col-md-5
       = image_tag @job.poster.url, class: "img-responsive"
       br

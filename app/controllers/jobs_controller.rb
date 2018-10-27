@@ -6,9 +6,11 @@ class JobsController < ApplicationController
   end
 
   def index
-    @jobs = Job.all
+    page = params[:page]
 
-    @jobs = @jobs.paginate(page: params[:page], per_page: 5)
+    @jobs = Job.all.order("created_at DESC")
+    @jobs = Job.filters(@jobs, params)
+    @jobs = @jobs.paginate(page: page, per_page: 5)
   end
 
   def show
@@ -52,7 +54,7 @@ class JobsController < ApplicationController
 
   def job_params
     params.require(:job).permit(:position, :company, :location, :description,
-      :email, :link, :contact, :poster)
+      :email, :link, :contact, :poster, :all_tags)
   end
 
   def previous_jobs_requested?

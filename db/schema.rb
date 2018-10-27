@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180707004256) do
+ActiveRecord::Schema.define(version: 20180805180509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "job_taggings", force: :cascade do |t|
+    t.bigint "job_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_job_taggings_on_job_id"
+    t.index ["tag_id"], name: "index_job_taggings_on_tag_id"
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.string "position"
     t.string "company"
@@ -79,6 +88,7 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.string "student_id", default: ""
     t.boolean "is_buddy"
     t.boolean "admin", default: false, null: false
+    t.boolean "activity_admin", default: false, null: false
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|
@@ -101,6 +111,12 @@ ActiveRecord::Schema.define(version: 20180707004256) do
     t.boolean "confirmed", default: false
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "name", limit: 75
     t.string "phone_number", limit: 15, default: ""
@@ -118,5 +134,7 @@ ActiveRecord::Schema.define(version: 20180707004256) do
   end
 
   add_foreign_key "activities", "activities"
+  add_foreign_key "job_taggings", "jobs"
+  add_foreign_key "job_taggings", "tags"
   add_foreign_key "users", "members"
 end

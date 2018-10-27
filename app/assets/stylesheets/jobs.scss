@@ -1,3 +1,7 @@
+.tags-field {
+  display: flex;
+}
+
 .navbar-post {
   margin-top: 2em;
   font-weight: bold;
@@ -8,7 +12,7 @@
 }
 
 .post-title {
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 }
 
 .post-poster {
@@ -41,11 +45,59 @@
 }
 
 .same-line {
-  display: flex
+  display: inline-flex;
 }
 
-.pad {
-  padding-right: 30px;
+.margin-top {
+  margin-top: 50px
+}
+
+.filters
+  .modal-content
+    .modal-title {
+      display: -webkit-inline-box;
+      font-size: initial;
+    }
+
+    .form-group
+      .rounded {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+      }
+
+      .form-group .tokenfield {
+        display: flex;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+      }
+
+  .filter {
+    position: absolute;
+    right: 10%;
+    z-index: 1;
+    height: 50px;
+    width: 200px;
+  }
+
+.container
+  .left-padding {
+    padding-left: 50px;
+  }
+
+  .small-right-padding {
+    padding-right: 25px;
+  }
+
+  .margin-bottom {
+    margin-bottom: 20px
+  }
+
+  .padding-bottom {
+    padding-bottom: 40px
+  }
+
+.form {
+  margin-bottom: 30px;
 }
 
 input[type="text"].form-field {
@@ -100,19 +152,16 @@ a {
   .disabled > span {
     background-color: $color-light-gray;
     color: $color-white;
-
-    &:hover {
+     &:hover {
       background-color: $color-light-gray;
       color: $color-skin;
       transition: all 200ms ease-in;
     }
   }
-
-  li {
+   li {
     a, span {
       margin-right: 5px;
-
-      &:hover {
+       &:hover {
         color: $color-skin;
         transition: all 200ms ease-in;
       }
@@ -134,4 +183,16 @@ a {
 
 .btn.nohover:hover {
   cursor: default;
+}
+
+.border-grey {
+  border: 1px solid #6d6d6d;
+  color:#6d6d6d;
+  background-color: transparent;
+}
+
+.border-grey:hover {
+  background-color: #6d6d6d;
+  border-color: #6d6d6d;
+  color:#fff;
 }
