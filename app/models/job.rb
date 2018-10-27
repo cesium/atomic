@@ -26,4 +26,25 @@ class Job < ApplicationRecord
   def all_tags
     tags.map(&:name).join(", ")
   end
+
+  def self.filters(jobs, params)
+    jobs = jobs.filter_between(params[:filter_start_date], params[:filter_end_date]) if Job.between?(params)
+
+    Job.filtering_params(params).each do |key, value|
+      jobs = jobs.public_send(key, value) if value.present?
+    end
+
+    jobs
+  end
+
+  def self.filtering_params(params)
+    params.slice(:filter_position, :filter_company, :filter_location)
+  end
+
+  def self.between?(params)
+    Date.parse params[:filter_start_date]
+    Date.parse params[:filter_end_date]
+  rescue ArgumentError, TypeError
+    false
+  end
 end
