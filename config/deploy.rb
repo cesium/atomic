@@ -5,6 +5,7 @@
 server 'storm.cesium.di.uminho.pt', port: 2345, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:cesium/atomic.git'
+set :branch,          ENV['BRANCH'] if ENV['BRANCH']
 set :application,     'atomic'
 set :user,            'atomic'
 set :puma_threads,    [4, 16]
