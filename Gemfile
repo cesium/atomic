@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 gem "rails", "5.1.4"
 
+gem "dotenv"
+gem "dotenv-rails", require: "dotenv/rails-now"
+
 gem "google-analytics-rails", "1.1.0"
 gem "jquery-rails"
 gem "jquery-ui-rails"
@@ -26,9 +29,6 @@ gem "pg", "~> 0.18"
 gem "redcarpet"
 gem "will_paginate", "~> 3.0.6"
 gem "will_paginate-bootstrap"
-
-gem "dotenv"
-gem "dotenv-rails"
 
 # omniauth gems
 gem "cancancan"
