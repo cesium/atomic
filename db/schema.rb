@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 20180805180509) do
     t.datetime "updated_at", null: false
     t.boolean "allows_registrations", default: true
     t.string "external_link", default: ""
-    t.integer "number_participants"
     t.string "speaker", limit: 75
+    t.integer "number_participants"
     t.boolean "limit_number_participants"
     t.index ["activity_id"], name: "index_activities_on_activity_id"
   end
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20180805180509) do
     t.string "student_id", default: ""
     t.boolean "is_buddy"
     t.boolean "admin", default: false, null: false
+    t.boolean "activity_admin", default: false, null: false
   end
 
   create_table "partners", id: :serial, force: :cascade do |t|
