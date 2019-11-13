@@ -12,16 +12,47 @@
 
 .col-md-12
   .divide80
-  - @team.each do |department, members|
+  .container
+    .row
+      .col-md-12
+        h2.heading ="Direção"
+  - @team["Direção"].each do |department|
+    - department.each do |name, members|
 
-    .container
-      .row
-        .col-md-12
-          h3.heading =department
-          .divide20
-    .container
-      .row
-        - members.each do |member|
-          - member.each do |name, info|
-            = render 'team_member', name: "#{name}", position: "#{info["position"]}",
-              image: "#{info["image"]}", github: "#", twitter: "#", linkedin: "#"
+      .container
+        .row
+          .col-md-12
+            h3.heading =name
+            .divide20
+      .container
+        .row
+          - members.each do |member|
+            - member.each do |name, info|
+              = render 'team_member', name: "#{name}", position: "#{info["position"]}",
+                image: "#{info["image"]}", github: "#", twitter: "#", linkedin: "#"
+
+  .divide80
+  .container
+    .row
+      .col-md-12
+        h2.heading ="Assembleia Geral"
+  .divide10
+  .container
+    .row
+      - @team["Assembleia Geral"].each do |member|
+        - member.each do |name, info|
+          = render 'team_member', name: "#{name}", position: "#{info["position"]}",
+            image: "#{info["image"]}", github: "#", twitter: "#", linkedin: "#"
+
+  .divide80
+  .container
+    .row
+      .col-md-12
+        h2.heading ="Conselho Fiscal"
+  .divide10
+  .container
+    .row
+      - @team["Conselho Fiscal"].each do |member|
+        - member.each do |name, info|
+          = render 'team_member', name: "#{name}", position: "#{info["position"]}",
+            image: "#{info["image"]}", github: "#", twitter: "#", linkedin: "#"
