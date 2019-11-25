@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "rails", "5.1.4"
 
@@ -53,7 +54,7 @@ group :development, :test do
 
   # capistrano
   gem "capistrano", "~> 3.4.0"
-  gem "capistrano-bundler", "~> 1.1.2"
+  gem "capistrano-bundler", "~> 1.6"
   gem "capistrano-rails", "~> 1.1.1"
   gem "capistrano-rails-console", require: false
   gem "capistrano-rbenv", github: "capistrano/rbenv"
