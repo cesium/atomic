@@ -1,8 +1,0 @@
-.row
-  .col-md-4
-    = link_to image_tag(article.poster.url, class: "img-responsive activity-poster"), article
-  .col-md-4
-    h3.activity-title
-      = link_to article.name, article
-    span.center-line style="margin-bottom: 8px;"
-    = render partial: "shared/articles/preview_date", locals: { article: article }

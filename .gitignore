@@ -7,21 +7,25 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
-logfile
-/public/system
+!/tmp/.keep
 
-# Vim
-*~
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
+# Ignore uploaded files in development.
+/storage/*
+!/storage/.keep
 
-# dotenv-rails
-.env
+/public/assets
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

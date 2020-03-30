@@ -1,0 +1,20 @@
+{
+  "name": "atomic",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.11.2",
+    "@fortawesome/free-solid-svg-icons": "5.11.2",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "4.2.2",
+    "animate.css": "^3.7.2",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
+    "stimulus": "^1.1.1"
+  },
+  "version": "0.1.0",
+  "devDependencies": {
+    "webpack-dev-server": "^3.10.3"
+  }
+}

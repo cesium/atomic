@@ -1,0 +1,15 @@
+//@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i");
+
+//@import "~bootstrap/scss/bootstrap";
+
+//fontawesome 5
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+//@import "~@fortawesome/fontawesome-free/css/all";
+
+// animate.css
+@import "~animate.css/source/_base";
+@import "~animate.css/source/attention_seekers/bounce";
