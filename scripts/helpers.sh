@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-function colorize() {
+function colorize {
   local color type=0
 
   case $1 in
@@ -48,26 +48,26 @@ function colorize() {
   echo -en "\\033[${type};${color}m"
 }
 
-function echo_error() {
+function echo_error {
   colorize red bold
   echo "ERROR:$(colorize reset)" "$@"
 }
 
-function echo_warning() {
+function echo_warning {
   colorize yellow bold
   echo "WARNING:$(colorize reset)" "$@"
 }
 
-function echo_done() {
+function echo_done {
   colorize green bold
   echo "DONE:$(colorize reset)" "$@"
 }
 
-function echo_info() {
+function echo_info {
   colorize cyan bold
   echo "INFO:$(colorize reset)" "$@"
 }
 
-function not_installed() {
+function not_installed {
   [ ! -x "$(command -v "$@")" ]
 }
