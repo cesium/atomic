@@ -17,4 +17,5 @@ production:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: atomic_test
+  adapter: postgresql
+  database: travis_ci_test
