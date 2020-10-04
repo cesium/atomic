@@ -1,14 +1,22 @@
 #!/usr/bin/env sh
 
 set -e
+. scripts/helpers.sh
 
-cp .env.sample .env
+if [ ! -f .env ]; then
+  cp .env.sample .env
+  echo_done "env file created, you might want to open .env and set the correct values..."
+else
+  echo_warning ".env file already exists, skipping..."
+fi
 
+echo_info "setup" "Installing dependencies..."
 bundle check || bundle install
 
+echo_info "setup" "Configuring database and running migrations..."
 bundle exec rake db:create || true
 bundle exec rake db:migrate
 bundle exec rake db:seed
 bundle exec rake db:test:prepare
 
-echo "You're good to go. Run bin/server to get the app running."
+echo_done "You're good to go. Run bin/server to get the app running."
