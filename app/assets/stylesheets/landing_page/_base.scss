@@ -8,6 +8,13 @@ body {
     line-height: 24px;
     background-color: #fff;
     font-family: $primary-font;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#content {
+    flex: 1;
 }
 
 /*
