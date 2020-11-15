@@ -3,9 +3,17 @@
 ## Setting up your environment
 
 ### Set up rails and the database
+
+## Postgres
+
+1. Install and run [Docker](https://docs.docker.com/get-docker/)
+2. `docker-compose up`
+
+## Rails
+
 1. Install the [ruby-version](https://github.com/cesium/atomic/blob/master/.ruby-version) used by our project. We recommend you using [rbenv](https://github.com/rbenv/rbenv) or [RVM](https://rvm.io/) to manage your ruby versions.
 2. Using our ruby version, install the bundler gem via `gem install bundler`.
-3. Install postgresql and nodejs.
+3. Install nodejs.
 4. In the project root project, execute `bin/setup`.
 
 ### Enabling authentication
