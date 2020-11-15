@@ -18,8 +18,9 @@ html
         = key
         | ">
 
-    = render 'layouts/lp/navbar'
-    = yield
+    #content
+      = render 'layouts/lp/navbar'
+      = yield
     = render 'layouts/lp/footer'
 
   = javascript_include_tag 'application'
