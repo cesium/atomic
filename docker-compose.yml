@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+
+  atomic_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+    ports:
+    - 5432:5432
