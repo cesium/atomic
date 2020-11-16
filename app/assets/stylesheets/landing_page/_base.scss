@@ -71,14 +71,18 @@ hr {
     background-color: $color-skin;
     padding: 3px 6px;
 }
+.link {
+    text-decoration: underline;
+}
 a {
-    color: #333;
+    color: #555;
     @include transition (all 200ms ease-in);
 }
 a:hover,
 a:focus {
     color: $color-feature;
     text-decoration: none;
+    cursor: pointer;
 }
 .colored-text{
     color:$color-skin;
@@ -174,7 +178,7 @@ p.sub-text{
     font-weight:300;
     color:#555;
 }
-p.lead{
+.lead{
     font-size: 16px;
     font-weight: 400;
 }

@@ -11,7 +11,7 @@
   // Location
   .col-md-6
     = render partial: "shared/activity/info",
-      locals: { icon: "map-marker", text: @activity.location }
+      locals: { icon: "map-marker-alt", text: @activity.location }
 
   // Date & Time
   - if @activity.start_date.to_date == @activity.end_date.to_date

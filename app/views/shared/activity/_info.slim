@@ -1,4 +1,10 @@
 .activity-info
-  p.lead
-    i class="fa fa-fw fa-2x fa-#{icon}"
-    = text
+  - if text.start_with?("https://")
+    a.lead href=text target='_blank'
+      i class="fa fa-fw fa-2x fa-#{icon}"
+      .link
+        = text
+  - else
+    p.lead
+      i class="fa fa-fw fa-2x fa-#{icon}"
+      = text
