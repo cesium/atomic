@@ -19,7 +19,7 @@
           }},
           {
           "Miguel Brandão": {
-            "position": "Tesoureiro",
+            "position": "Vice-Presidente",
             "image": "team/miguel_brandao.jpg"
           }},
           {
@@ -37,14 +37,14 @@
             "image": "team/pedro_ferreira.jpg"
           }},
           {
-          "Matilde Bravo": {
-            "position": "Codiretora",
-            "image": "team/matilde_bravo.jpg"
-          }},
-          {
           "João Correia": {
             "position": "Codiretor",
             "image": "team/joao_correia.jpg"
+          }},
+          {
+          "Matilde Bravo": {
+            "position": "Codiretora",
+            "image": "team/matilde_bravo.jpg"
           }}
       ]
     },
