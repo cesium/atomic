@@ -35,11 +35,11 @@
   .container
     .row
       .col-md-12
-        h2.heading ="Assembleia Geral"
+        h2.heading ="Mesa da Assembleia Geral"
   .divide10
   .container
     .row
-      - @team["Assembleia Geral"].each do |member|
+      - @team["Mesa da Assembleia Geral"].each do |member|
         - member.each do |name, info|
           = render 'team_member', name: "#{name}", position: "#{info["position"]}",
             image: "#{info["image"]}", github: "#", twitter: "#", linkedin: "#"
