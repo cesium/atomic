@@ -3,19 +3,15 @@
   .tp-banner
     ul
       /! SLIDE
-      li data-masterspeed="1000" data-slotamount="5" data-title=("Semana da Engenharia Informática 2018") data-transition="fade"
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Semana da Engenharia Informática 2021") data-transition="fade"
         /! MAIN IMAGE
-        = carousel_image_tag('sei.png')
-        = slider_link(start_second: 400, x: 1300, y: 400, title: "Ver mais", 
+        = carousel_image_tag('slider/sei2021.png')
+        = slider_link(start_second: 400, x: 1300, y: 250, title: "Ver mais",
           target: 'https://seium.org/')
-      /! SLIDE
-      li data-masterspeed="1000" data-slotamount="5" data-title=("Aniversário") data-transition="fade"
-        /! MAIN IMAGE
-        = carousel_image_tag('anniversary-banner.png')
       /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title=("Torna-te Sócio") data-transition="fade"
         /! MAIN IMAGE
-        = carousel_image_tag('member-slide.png')
+        = carousel_image_tag('slider/member-slide.png')
         /! LAYER NR. 1
         = slider_caption_title(start_second: 1200, x: 40, y: 110, title: "Entra na Comunidade")
         /! LAYER NR. 2
@@ -41,7 +37,7 @@
       /! SLIDE
       li data-masterspeed="1000" data-slotamount="5" data-title="Atividades" data-transition="fade"
         /! MAIN IMAGE
-        = carousel_image_tag('talk.jpg', data: { bgposition: "top-left" })
+        = carousel_image_tag('slider/talk.jpg', data: { bgposition: "top-left" })
         /! LAYER NR. 1
         = slider_caption_title(start_second: 1200,x: 40,y: 110,title: "Atividades")
         /! LAYER NR. 2
@@ -62,6 +58,12 @@
         = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Desafios")
         /! LAYER NR. 10
         = slider_caption(start_second: 2400, x: 40, y: 370, caption: "E muito mais!")
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Formulário de Problemas e Sugestões") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('slider/problemas.png')
+        = slider_link(start_second: 400, x: 800, y: 450, title: "Aceder",
+          target: 'https://cesium.link/f/feedback/')
 
 section.cta-2
   .container
@@ -82,19 +84,19 @@ section.section-divider
   = image_tag("cesium-outline.svg")
 
 // NEXT EVENT
-// .divide70
-// .container
-//   .center-heading
-//     h2
-//       | Próximos
-//       strong  Eventos
-//     span.center-line
-//   - if @activities.empty?
-//       p.lead.text-center
-//         | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
-//   - else
-//     - @activities.each do |activity|
-//         = render partial: "shared/activity/homepage", locals: { activity: activity }
+/ section.cta-2
+/   .container
+/     .center-heading
+/       h2
+/         | Próximos
+/         strong  Eventos
+/       span.center-line
+/     - if @activities.empty?
+/         p.lead.text-center
+/           | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
+/     - else
+/       - @activities.each do |activity|
+/           = render partial: "shared/activity/homepage", locals: { activity: activity }
 
 // PARTNERS
 section.cta-2
