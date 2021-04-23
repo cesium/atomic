@@ -6,6 +6,9 @@ gem "rails", "5.1.4"
 gem "dotenv"
 gem "dotenv-rails", require: "dotenv/rails-now"
 
+# Temporary fix
+gem "mimemagic", github: "mimemagicrb/mimemagic", ref: "01f92d86d15d85cfd0f20dabd025dcbd36a8a60f"
+
 gem "google-analytics-rails", "1.1.0"
 gem "jquery-rails"
 gem "jquery-ui-rails"
