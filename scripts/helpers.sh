@@ -1,73 +1,34 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-colorize () {
-  local color type=0
+set -Eeuo pipefail
 
-  case $1 in
-    black)
-      color=30
-      ;;
-    red)
-      color=31
-      ;;
-    green)
-      color=32
-      ;;
-    yellow)
-      color=33
-      ;;
-    blue)
-      color=34
-      ;;
-    magenta)
-      color=35
-      ;;
-    cyan)
-      color=36
-      ;;
-    white)
-      color=37
-      ;;
-    reset | *)
-      color=0
-      ;;
-  esac
+import() {
+  local -r SCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
 
-  case $2 in
-    bold | bright)
-      type=1
-      ;;
-    underline)
-      type=4
-      ;;
-    inverse)
-      type=7
-      ;;
-  esac
-
-  echo -en "\\033[${type};${color}m"
+  # shellcheck source=/dev/null
+  . "${SCRIPTS_DIR}/${1}"
 }
 
-echo_error () {
-  colorize red bold
-  echo "ERROR:$(colorize reset)" "$@"
+# shellcheck source=./colors.sh
+import colors.sh
+
+function display_version() {
+  local program="${2:-$(basename "$0")}"
+  local version=${1:?"You need to give a version number"}
+
+  if [ -x "$(command -v figlet)" ]; then
+    echo -n "${BLUE}${BOLD}"
+    figlet "${program} script"
+    echo -n "${RESET}"
+    echo "version ${version}"
+  else
+    echo "${program} script version ${version}"
+  fi
 }
 
-echo_warning () {
-  colorize yellow bold
-  echo "WARNING:$(colorize reset)" "$@"
+function help_title_section() {
+  local -r TITLE=$(echo "$@" | tr '[:lower:]' '[:upper:]')
+  echo -e "${BOLD}${TITLE}${RESET}"
 }
 
-echo_done () {
-  colorize green bold
-  echo "DONE:$(colorize reset)" "$@"
-}
-
-echo_info () {
-  colorize cyan bold
-  echo "INFO:$(colorize reset)" "$@"
-}
-
-not_installed () {
-  [ ! -x "$(command -v "$@")" ]
-}
+[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.4 || true

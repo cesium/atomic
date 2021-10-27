@@ -1,22 +1,33 @@
 #!/usr/bin/env sh
 
-set -e
-. scripts/helpers.sh
+set -Eeuo pipefail
 
+BASE_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
+cd "${BASE_DIR}/.." || exit 127
+
+# shellcheck source=../scripts/logging.sh
+. scripts/logging.sh
+# shellcheck source=../scripts/utils.sh
+. scripts/utils.sh
+
+log_info "setup" "Setting up the .env..."
 if [ ! -f .env ]; then
   cp .env.sample .env
-  echo_done "env file created, you might want to open .env and set the correct values..."
+  log_success ".env file created, you might want to open .env and set the
+    correct values. Make sure you export them into your environment before
+    runing this script again."
+  exit
 else
-  echo_warning ".env file already exists, skipping..."
+  log_warn ".env file already exists, skipping..."
 fi
 
-echo_info "setup" "Installing dependencies..."
+log_info "setup" "Installing dependencies..."
 bundle check || bundle install
 
-echo_info "setup" "Configuring database and running migrations..."
+log_info "setup" "Configuring database and running migrations..."
 bundle exec rake db:create || true
 bundle exec rake db:migrate
 bundle exec rake db:seed
 bundle exec rake db:test:prepare
 
-echo_done "You're good to go. Run bin/server to get the app running."
+log_info "You're good to go. Run bin/server to get the app running."
