@@ -4,9 +4,9 @@ FactoryBot.define do
     location { Faker::Address.street_name }
     description { Faker::Hacker.say_something_smart }
     speaker { Faker::Name.name }
-    member_cost 0
-    number_participants 0
-    guest_cost 0
+    member_cost { 0 }
+    number_participants { 0 }
+    guest_cost { 0 }
     start_date { Faker::Time.between(2.days.ago, 2.days.from_now, :all) }
     end_date { start_date + 1.hour }
   end

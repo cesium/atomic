@@ -19,10 +19,10 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames: x, y
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Style/TrailingCommaInArguments:
