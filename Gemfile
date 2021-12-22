@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "rails", "5.2.0"
+gem "rails", "6.0.0"
 
 gem "dotenv"
 gem "dotenv-rails", require: "dotenv/rails-now"
@@ -21,6 +21,7 @@ gem "retina_tag"
 gem "uglifier", ">= 1.3.0"
 
 gem 'bootsnap', '~> 1.9', '>= 1.9.3'
+gem 'webpacker'
 
 # landing page gems
 gem "animate-rails"
@@ -33,7 +34,7 @@ gem "wow-rails"
 gem "paperclip", "~> 5.2"
 gem "pg", "~> 0.18"
 gem "redcarpet"
-gem "will_paginate", "~> 3.0.6"
+gem 'will_paginate'
 gem "will_paginate-bootstrap"
 
 # omniauth gems
