@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   db:
-    image: postgres:9.4
+    image: postgres:14.1
     container_name: atomic_db
     env_file: .env
     environment:
