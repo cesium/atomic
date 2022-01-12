@@ -1,4 +1,6 @@
 {
+  "name": "atomic",
+  "private": true,
   "dependencies": {
     "@rails/webpacker": "5.4.3",
     "webpack": "^4.46.0",
