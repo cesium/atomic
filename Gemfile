@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "rails", "5.1.4"
+gem "rails", "7.0.0"
 
 gem "dotenv"
 gem "dotenv-rails", require: "dotenv/rails-now"
@@ -20,6 +20,9 @@ gem "puma"
 gem "retina_tag"
 gem "uglifier", ">= 1.3.0"
 
+gem 'bootsnap', '~> 1.9', '>= 1.9.3'
+gem 'webpacker'
+
 # landing page gems
 gem "animate-rails"
 gem "bootstrap-sass"
@@ -29,9 +32,9 @@ gem "wow-rails"
 
 # atomic gems
 gem "paperclip", "~> 5.2"
-gem "pg", "~> 0.18"
+gem "pg"
 gem "redcarpet"
-gem "will_paginate", "~> 3.0.6"
+gem 'will_paginate'
 gem "will_paginate-bootstrap"
 
 # omniauth gems
@@ -52,7 +55,8 @@ group :development, :test do
   gem "faker"
   gem "pry-remote"
   gem "rspec-rails", "~> 3.5.1"
-  gem "rubocop", require: false
+  gem 'rubocop', '~> 1.4'
+  gem 'rubocop-rspec', '~> 1.30', '>= 1.30.1'
   gem "scss_lint", require: false
 
   # capistrano
