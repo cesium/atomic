@@ -434,5 +434,8 @@ DEPENDENCIES
   will_paginate-bootstrap
   wow-rails
 
+RUBY VERSION
+   ruby 2.7.5p203
+
 BUNDLED WITH
-   2.3.0
+   2.3.5
