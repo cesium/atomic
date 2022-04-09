@@ -1,21 +1,4 @@
 ---
-Bachio:
-  image: partners/bachio.png
-  link: https://www.facebook.com/pizzeriabachio/
-  advantages:
-    - Menu completo por 4,5€
-    - Pizza e bebida por 3,5€
-Carpe Noctem:
-  image: partners/carpenoctem.png
-  link: https://www.facebook.com/carpenoctembraga/
-  advantages:
-    - Baldes de cerveja a 1€ entre as 12:00h e as 00:00h
-    - Baldes de sangria a 1,5€ entre as 12:00h e as 00:00h
-100 Montaditos:
-  image: partners/montaditos.png
-  link: https://www.facebook.com/100MontaditosPortugal/
-  advantages:
-    - Oferta de bebida ou aperitivo em compras iguais ou superiores a 5€, exceto nos dias da euro mania.
 Disquete:
   image: partners/disquete.png
   link: https://www.facebook.com/disquete.pt/
@@ -40,21 +23,40 @@ Os Farias:
     - Oferta de um emblema adicional na compra de quatro emblemas
     - Meias para homem a 2,75€
     - Meias para mulher a 1,50€
-Sapataria ValMiranda:
-  image: partners/sapatariavalmiranda.png
-  link: https://www.facebook.com/Sapataria-Valmiranda-Consertos-155767238232370/
+Sabor da Fruta:
+  image: partners/sabordafruta.png
+  link: https://www.facebook.com/Sabor-da-Fruta-193004494058283/
   advantages:
-    - Desconto de 10% em arranjos
-Tasquinha Bracarense:
-  image: partners/tasquinha.png
-  link: https://www.facebook.com/tasquinhabracarensepagina
+    - Prato e Água com oferta de café
+    - Prato e Refrigerante com oferta de café
+Pausa Útil:
+  image: partners/pausautil.png
+  link: https://www.facebook.com/Pausa-%C3%9Atil-296346960391077/
   advantages:
-    - Sopa + Prato + Bebida por 3,5€ durante a semana, à hora de almoço na Tasquinha 3 ou
-      jantar em qualquer Tasquinha
-    - Finos a 0,50€ às quarta-feiras à noite
-    - Desconto de 10% em compras superiores a 10€ no talho Dona Rosa
-Vídeo Norte:
-  image: partners/videonorte.png
-  link: http://videonorte.pt/
+    - Prato para o almoço ou jantar por 3.50€
+    - Sobremesa a 1.00€
+    - Café a 0.50€
+FitnessUp:
+  image: partners/fitnessup.png
+  link: https://www.fitnessup.pt
   advantages:
-    - Desconto de 30% em todas as impressões a Preto & Branco e Frente & Verso
+    - Oferta da Inscrição
+    - 6.80€ por semana
+    - Vantagens para familiares diretos
+Top-padle Braga:
+  image: partners/toppadle.png
+  link: https://www.facebook.com/toppadelbraga/
+  advantages:
+    - Oferta de raquetes
+    - Nos dias úteis das 7h às 17h desconto de 10% para acossiados que permanecerem por mais de uma hora e meia
+    - Nos dias úteis das 7h às 17h desconto de 15% para acossiados que permanecerem por mais de duas horas
+Braga Pizzaria Kebab:
+  image: partners/bragapizzariakebab.png
+  link: https://www.facebook.com/Braga-pizzaria-kebab-115323823260141/
+  advantages:
+    - Desconto de 0.50€ em todos os menus
+Industrial:
+  image: partners/industrial.png
+  link: https://www.instagram.com/industrial2421/
+  advantages:
+    - Desconto de 0.30€ em todos os menus
