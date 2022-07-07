@@ -1,0 +1,89 @@
+<!--
+button.btn.border-theme.filter data-toggle="modal" data-target="#filter" Filters
+
+div.modal.fade id="filter"
+  div.modal-dialog role="document"
+    div.modal-content
+      div.modal-header
+          h5.modal-title Filters
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+
+      div.modal-body
+        form.margin-bottom
+          .form-group.margin-bottom
+            label Posição:
+            input.form-control.rounded id="position"
+
+        form.margin-bottom
+          .form-group.margin-bottom
+            label Empresa:
+            input.form-control.rounded id="company"
+
+        form.margin-bottom
+          .form-group.margin-bottom
+            label Localização:
+            input.form-control.rounded id="city"
+
+        form
+          .form-group.small-right-padding
+            label From Date:
+            input.form-control.rounded id="dateFrom" value="2018-01-01" autocomplete="off"
+
+          .form-group.small-right-padding
+            label To Date:
+            input.form-control.rounded id="dateTo" value="#{Time.now.strftime('%Y-%m-%d')}" autocomplete="off"
+
+      div.modal-footer
+        button.btn.border-grey.btn-reset Reset
+        button.btn.border-theme.btn-filter Filter
+-->
+
+<button class="btn border-theme filter" data-target="#filter" data-toggle="modal">Filters
+</button>
+<div class="modal fade" id="filter">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Filters</h5>
+        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+          <span aria-hidden="true">&times;
+          </span>
+        </button></div>
+      <div class="modal-body">
+        <form class="margin-bottom">
+          <div class="form-group margin-bottom">
+            <label>Posição:</label>
+            <input class="form-control rounded" id="position" />
+          </div>
+        </form>
+        <form class="margin-bottom">
+          <div class="form-group margin-bottom">
+            <label>Empresa:</label>
+            <input class="form-control rounded" id="company" />
+          </div>
+        </form>
+        <form class="margin-bottom">
+          <div class="form-group margin-bottom">
+            <label>Localização:</label>
+            <input class="form-control rounded" id="city" />
+          </div>
+        </form>
+        <form>
+          <div class="form-group small-right-padding">
+            <label>From Date:</label>
+            <input autocomplete="off" class="form-control rounded" id="dateFrom" value="2018-01-01" />
+          </div>
+          <div class="form-group small-right-padding">
+            <label>To Date:</label>
+            <input autocomplete="off" class="form-control rounded" id="dateTo" value="<%= Time.now.strftime('%Y-%m-%d') %>" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn border-grey btn-reset">Reset</button>
+        <button class="btn border-theme btn-filter">Filter</button>
+      </div>
+    </div>
+  </div>
+</div>

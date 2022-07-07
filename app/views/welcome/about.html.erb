@@ -1,0 +1,160 @@
+<!--- content_for :head do
+  meta property='og:image' content='#{image_url("cesium-thumb.png")}'
+  meta property='og:title' content='Sobre'
+  meta property='og:site_name' content='CeSIUM'
+  meta property='og:type' content='website'
+  meta property='og:url' content='https://cesium.di.uminho.pt/about'
+  meta property='og:description' content='O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional.'
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Apresentação
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Apresentação
+
+.divide20
+.container
+  .row
+    .col-md-12
+      h2.page-header.text-center
+        | Centro de Estudantes de Engenharia Informática da Universidade do Minho
+  .divide20
+  .row
+    .col-md-12
+      p.quote
+        | "Decorria no ano de 1995, a Licenciatura em Engenharia de Sistemas e Informática
+        |  (LESI) da UM. (...) Foi neste contexto que um grupo de alunos do 3º ano pediu à Direção de
+        |  Curso (DC), que eu então dirigia, apoio para criar oficialmente um Centro de Estudantes.
+        |  (...) A partir desse momento iniciou-se o caminho deste núcleo estudantil que, 20 anos
+        |  depois, mantém o nome e sigla e mantém o propósito determinado na projeção da imagem
+        |  do curso e na defesa dos interesses dos seus associados."
+      p.lead.text-right
+        |  Pedro Rangel Henriques
+        br
+        |  Diretor do Departamento de Informática - 2017
+  .divide20
+
+  // SOBRE NÓS
+  .row
+    .col-md-12
+      .center-heading
+        h2 SOBRE NÓS
+        span.center-line
+    .divide20
+    .col-md-6
+      h3.about-header
+        | O que é o CeSIUM?
+      p.lead
+        | O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho
+        |  composto por alunos voluntários que têm como objectivo principal representar e promover
+        |  o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e
+        |  enriquecedoras para a tua futura vida profissional.
+    .col-md-6
+      h3.about-header
+        | O que fazemos?
+      p.lead
+        | Procuramos organizar actividades de contéudo semelhante e complementar ao curso,
+        |  assim como promover e divulgar acções de lazer e socialização entre estudantes e ex-alunos.
+        |  Representamos ainda os interesses colectivos dos alunos de Engenharia Informática junto
+        |  dos orgãos ou instituições para que a sua carreira académica seja mais rica.
+
+  .divide60
+
+-->
+
+<% content_for :head do
+ %><meta content="<%= image_url("cesium-thumb.png") %>" property="og:image" />
+<meta content="Sobre" property="og:title" />
+<meta content="CeSIUM" property="og:site_name" />
+<meta content="website" property="og:type" />
+<meta content="https://cesium.di.uminho.pt/about" property="og:url" />
+<meta content="O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional." property="og:description" />
+<% end %>
+<div class="breadcrumb-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h4>Apresentação</h4>
+      </div>
+      <div class="col-sm-6 hidden-xs text-right">
+        <ol class="breadcrumb">
+          <li>
+            <%= link_to 'Home', root_path %>
+          </li>
+          <li class="active">Apresentação
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="divide20">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="page-header text-center">
+        Centro de Estudantes de Engenharia Informática da Universidade do Minho
+      </h2>
+    </div>
+  </div>
+  <div class="divide20">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="quote">
+        "Decorria no ano de 1995, a Licenciatura em Engenharia de Sistemas e Informática
+        (LESI) da UM. (...) Foi neste contexto que um grupo de alunos do 3º ano pediu à Direção de
+        Curso (DC), que eu então dirigia, apoio para criar oficialmente um Centro de Estudantes.
+        (...) A partir desse momento iniciou-se o caminho deste núcleo estudantil que, 20 anos
+        depois, mantém o nome e sigla e mantém o propósito determinado na projeção da imagem
+        do curso e na defesa dos interesses dos seus associados."
+      </p>
+      <p class="lead text-right">
+        Pedro Rangel Henriques
+        <br />
+        Diretor do Departamento de Informática - 2017
+      </p>
+    </div>
+  </div>
+  <div class="divide20">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="center-heading">
+        <h2>SOBRE NÓS</h2>
+        <span class="center-line">
+        </span></div>
+    </div>
+    <div class="divide20">
+    </div>
+    <div class="col-md-6">
+      <h3 class="about-header">
+        O que é o CeSIUM?
+      </h3>
+      <p class="lead">
+        O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho
+        composto por alunos voluntários que têm como objectivo principal representar e promover
+        o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e
+        enriquecedoras para a tua futura vida profissional.
+      </p>
+    </div>
+    <div class="col-md-6">
+      <h3 class="about-header">
+        O que fazemos?
+      </h3>
+      <p class="lead">
+        Procuramos organizar actividades de contéudo semelhante e complementar ao curso,
+        assim como promover e divulgar acções de lazer e socialização entre estudantes e ex-alunos.
+        Representamos ainda os interesses colectivos dos alunos de Engenharia Informática junto
+        dos orgãos ou instituições para que a sua carreira académica seja mais rica.
+      </p>
+    </div>
+  </div>
+  <div class="divide60">
+  </div>
+</div>

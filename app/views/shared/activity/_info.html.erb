@@ -1,0 +1,27 @@
+<!--.activity-info
+  - if text.start_with?("https://")
+    a.lead href=text target='_blank'
+      i class="fa fa-fw fa-2x fa-#{icon}"
+      .link
+        = text
+  - else
+    p.lead
+      i class="fa fa-fw fa-2x fa-#{icon}"
+      = text
+-->
+
+<div class="activity-info">
+  <% if text.start_with?("https://")
+ %><a class="lead"<% _slim_codeattributes1 = text; if _slim_codeattributes1; if _slim_codeattributes1 == true %> href=""<% else %> href="<%= _slim_codeattributes1 %>"<% end; end %> target="_blank">
+    <i class="fa fa-fw fa-2x fa-<%= icon %>">
+    </i>
+    <div class="link">
+      <%= text %>
+    </div>
+  </a><% else
+ %>
+<p class="lead">
+  <i class="fa fa-fw fa-2x fa-<%= icon %>">
+  </i><%= text %>
+</p>
+<% end %></div>

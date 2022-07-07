@@ -1,0 +1,31 @@
+<!--
+.row
+  .col-md-2.margin-bottom
+    = link_to image_tag(job.poster.url, class: "img-responsive poster"), job
+  .col-md-10.margin-bottom
+    h3.post-title
+      = link_to job.position, job
+    span.center-line
+    = render partial: "shared/job/description", locals: { job: job }
+
+br
+hr
+.divide20
+-->
+
+<div class="row">
+  <div class="col-md-2 margin-bottom">
+    <%= link_to image_tag(job.poster.url, class: "img-responsive poster"), job %>
+  </div>
+  <div class="col-md-10 margin-bottom">
+    <h3 class="post-title">
+      <%= link_to job.position, job %>
+    </h3>
+    <span class="center-line">
+    </span><%= render partial: "shared/job/description", locals: { job: job } %>
+  </div>
+</div>
+<br />
+<hr />
+<div class="divide20">
+</div>

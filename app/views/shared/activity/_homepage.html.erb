@@ -1,0 +1,11 @@
+<!--h3.activity-title
+  = link_to "#{activity.name}", activity_path(activity)
+= render partial: "shared/activity/description_date", locals: { activity: activity }
+br
+-->
+
+<h3 class="activity-title">
+  <%= link_to "#{activity.name}", activity_path(activity) %>
+</h3>
+<%= render partial: "shared/activity/description_date", locals: { activity: activity } %>
+<br />

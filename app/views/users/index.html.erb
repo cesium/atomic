@@ -1,0 +1,32 @@
+<!--- @users.each do |u|
+  p = "Account number: #{u.account_number}"
+  p = "Student id: #{u.student_id}"
+  p = "Name: #{u.name}"
+  p = "Email: #{u.email}"
+  p = "City: #{u.city}"
+  p = "Phone number: #{u.phone_number}"
+  p = "Birthdate: #{u.birthdate}"
+  p = "Type: #{u.type}"
+  hr
+-->
+
+<% @users.each do |u|
+ %>
+<p><%= "Account number: #{u.account_number}" %>
+</p>
+<p><%= "Student id: #{u.student_id}" %>
+</p>
+<p><%= "Name: #{u.name}" %>
+</p>
+<p><%= "Email: #{u.email}" %>
+</p>
+<p><%= "City: #{u.city}" %>
+</p>
+<p><%= "Phone number: #{u.phone_number}" %>
+</p>
+<p><%= "Birthdate: #{u.birthdate}" %>
+</p>
+<p><%= "Type: #{u.type}" %>
+</p>
+<hr />
+<% end %>

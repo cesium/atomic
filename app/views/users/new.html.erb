@@ -1,0 +1,107 @@
+<!--.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        h4 Sign Up
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li
+            | Sign up
+.divide80
+
+.container
+  .row
+    .col-md-8.col-sm-8.col-md-offset-2.col-sm-offset-2
+      .login-form
+        h3
+          | Sign up
+
+        = form_for @user do |form|
+          = render partial: '/users/form', object: form
+          .form-group
+            = form.label :name
+            = form.text_field :name, class: 'form-control', placeholder: 'O teu nome'
+          .form-group
+            = form.label :account_number
+            = form.text_field :account_number, class: 'form-control', placeholder: 'Número de sócio'
+          .form-group
+            = form.label :student_id
+            = form.text_field :student_id, class: 'form-control', placeholder: 'Número de aluno'
+          .form-group
+            = form.label :city
+            = form.text_field :city, class: 'form-control', placeholder: 'Onde vives?'
+          .form-group
+            = form.label :phone_number
+            = form.text_field :phone_number, class: 'form-control'
+          .form-group
+            = form.label :birthdate
+            = form.date_select :birthdate, prefix: :birthdate
+
+          .submit-field
+            = form.submit 'Entrar' , class: 'btn btn-theme-bg'
+            = link_to 'Já estou registado', sign_in_path
+
+.divide60
+-->
+
+<div class="breadcrumb-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h4>Sign Up</h4>
+      </div>
+      <div class="col-sm-6 hidden-xs text-right">
+        <ol class="breadcrumb">
+          <li>
+            <%= link_to 'Home', root_path %>
+          </li>
+          <li>
+            Sign up
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="divide80">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+      <div class="login-form">
+        <h3>
+          Sign up
+        </h3>
+        <% _slim_controls1 = form_for @user do |form| %><% _slim_controls2 = ''; 
+; _slim_controls2 << ((render partial: '/users/form', object: form).to_s); 
+; _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :name).to_s); 
+; _slim_controls2 << ((form.text_field :name, class: 'form-control', placeholder: 'O teu nome').to_s); 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :account_number).to_s); 
+; _slim_controls2 << ((form.text_field :account_number, class: 'form-control', placeholder: 'Número de sócio').to_s); 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :student_id).to_s); 
+; _slim_controls2 << ((form.text_field :student_id, class: 'form-control', placeholder: 'Número de aluno').to_s); 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :city).to_s); 
+; _slim_controls2 << ((form.text_field :city, class: 'form-control', placeholder: 'Onde vives?').to_s); 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :phone_number).to_s); 
+; _slim_controls2 << ((form.text_field :phone_number, class: 'form-control').to_s); 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form-group".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.label :birthdate).to_s); 
+; _slim_controls2 << ((form.date_select :birthdate, prefix: :birthdate).to_s); 
+; 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("submit-field".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ((form.submit 'Entrar' , class: 'btn btn-theme-bg').to_s); 
+; _slim_controls2 << ((link_to 'Já estou registado', sign_in_path).to_s); 
+; 
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 %><% end %><%= _slim_controls1 %></div>
+    </div>
+  </div>
+</div>
+<div class="divide60">
+</div>

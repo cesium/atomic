@@ -1,0 +1,60 @@
+<!--p.lead.activity-description
+  = truncate(to_plaintext(activity.description), length: 140)
+
+- if activity.speaker?
+  ul.list-inline
+    li
+      i.far.fa-user
+    = to_plaintext(activity.speaker)
+
+ul.list-inline
+  - if activity.start_date.to_date == activity.end_date.to_date
+    li
+      i.far.fa-calendar
+    = l activity.start_date.to_date
+    li
+      i.fa.fa-fw.fa-clock-o
+      | #{l activity.start_date.time} - #{l activity.end_date.time}
+  - else
+    li
+      i.far.fa-calendar
+    = l activity.start_date.to_date
+    li
+      i.far.fa-calendar
+    = l activity.end_date.to_date
+-->
+
+<p class="lead activity-description">
+  <%= truncate(to_plaintext(activity.description), length: 140) %>
+</p>
+<% if activity.speaker?
+ %>
+<ul class="list-inline">
+  <li>
+    <i class="far fa-user">
+    </i></li>
+  <%= to_plaintext(activity.speaker) %>
+</ul>
+<% end %>
+<ul class="list-inline">
+  <% if activity.start_date.to_date == activity.end_date.to_date
+ %>
+  <li>
+    <i class="far fa-calendar">
+    </i></li>
+  <%= l activity.start_date.to_date %>
+  <li>
+    <i class="fa fa-fw fa-clock-o">
+    </i><%= l activity.start_date.time %> - <%= l activity.end_date.time %>
+  </li>
+<% else
+ %>
+<li>
+  <i class="far fa-calendar">
+  </i></li>
+<%= l activity.start_date.to_date %>
+<li>
+  <i class="far fa-calendar">
+  </i></li>
+<%= l activity.end_date.to_date %>
+<% end %></ul>

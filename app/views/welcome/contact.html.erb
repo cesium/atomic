@@ -1,0 +1,225 @@
+<!--- content_for :head do
+  meta property='og:image' content='#{image_url("cesium-thumb.png")}'
+  meta property='og:title' content='Contacto'
+  meta property='og:site_name' content='CeSIUM'
+  meta property='og:type' content='website'
+  meta property='og:url' content='https://cesium.di.uminho.pt/contact'
+  meta property='og:description' content='O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional.'
+= render partial: "shared/map"
+.container
+  .row
+    .col-md-10.col-sm-offset-1.margin30.sky-form-columns.contact-sky-option
+      .row
+        .col-md-12
+          .center-heading
+            h2 Contactos
+            span.center-line
+            p
+      /! center heading row
+      .row.margin10
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-home
+            p
+              | Departamento de Informática - Sala 1.11
+              br/
+              | Campus de Gualtar
+              br/
+              | 4710-057 Braga
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-phone
+            p.contact-center
+              | +351 253 604 448
+        .col-md-4.margin30
+          .contact-option-circle
+            i.fa.fa-envelope
+            p.contact-center
+              | cesium@di.uminho.pt
+
+      .row.margin20
+        .col-md-12.text-center
+          ul.list-inline
+            li
+              = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-lg si-border si-facebook'
+                i.fab.fa-facebook-f
+                i.fab.fa-facebook-f
+            li
+              = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-lg si-border si-twitter'
+                i.fab.fa-twitter
+                i.fab.fa-twitter
+            li
+              = link_to 'https://www.instagram.com/cesiuminho', class: 'social-icon-lg si-border si-instagram'
+                i.fab.fa-instagram
+                i.fab.fa-instagram
+            li
+              = link_to 'https://github.com/orgs/cesium', class: 'social-icon-lg si-border si-github'
+                i.fab.fa-github
+                i.fab.fa-github
+
+      p.margin30
+        | Entra em contacto connosco!
+      form#sky-form.sky-form.sky-form-columns action="mailto:cesium@di.uminho.pt" enctype="text/plain" method="post"
+        fieldset
+          .row
+            section.col.col-6
+              label.label Nome
+              label.input
+                i.icon-append.fa.fa-user
+                input#name name="name" type="text" /
+            section.col.col-6
+              label.label E-mail
+              label.input
+                i.icon-append.fa.fa-envelope-o
+                input#email name="email" type="email" /
+          section
+            label.label Assunto
+            label.input
+              i.icon-append.fa.fa-tag
+              input#subject name="subject" type="text" /
+          section
+            label.label Mensagem
+            label.textarea
+              i.icon-append.fa.fa-comment
+              textarea#message name="message" rows="4"
+        footer
+          button.btn.btn-theme-bg.btn-lg type="submit"  Enviar
+        .message
+          i.fa.fa-check
+          p Your message was successfully sent!
+
+.divide40
+-->
+
+<% content_for :head do
+ %><meta content="<%= image_url("cesium-thumb.png") %>" property="og:image" />
+<meta content="Contacto" property="og:title" />
+<meta content="CeSIUM" property="og:site_name" />
+<meta content="website" property="og:type" />
+<meta content="https://cesium.di.uminho.pt/contact" property="og:url" />
+<meta content="O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional." property="og:description" />
+<% end %><%= render partial: "shared/map" %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-sm-offset-1 margin30 sky-form-columns contact-sky-option">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="center-heading">
+            <h2>Contactos</h2>
+            <span class="center-line">
+            </span>
+            <p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--center heading row-->
+      <div class="row margin10">
+        <div class="col-md-4 margin30">
+          <div class="contact-option-circle">
+            <i class="fa fa-home">
+            </i>
+            <p>
+              Departamento de Informática - Sala 1.11
+              <br />
+              Campus de Gualtar
+              <br />
+              4710-057 Braga
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 margin30">
+          <div class="contact-option-circle">
+            <i class="fa fa-phone">
+            </i>
+            <p class="contact-center">
+              +351 253 604 448
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 margin30">
+          <div class="contact-option-circle">
+            <i class="fa fa-envelope">
+            </i>
+            <p class="contact-center">
+              cesium@di.uminho.pt
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row margin20">
+        <div class="col-md-12 text-center">
+          <ul class="list-inline">
+            <li>
+              <% _slim_controls1 = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-lg si-border si-facebook' do %><% _slim_controls2 = ''; 
+; _slim_controls2 << ("<i".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("fab".freeze); _slim_controls2 << (" ".freeze); _slim_controls2 << ("fa-facebook-f".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ("</i>".freeze); _slim_controls2 << ("<i".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("fab".freeze); _slim_controls2 << (" ".freeze); _slim_controls2 << ("fa-facebook-f".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze); 
+; _slim_controls2 << ("</i>".freeze); _slim_controls2 %><% end %><%= _slim_controls1 %></li>
+            <li>
+              <% _slim_controls3 = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-lg si-border si-twitter' do %><% _slim_controls4 = ''; 
+; _slim_controls4 << ("<i".freeze); _slim_controls4 << (" class=\"".freeze); _slim_controls4 << ("fab".freeze); _slim_controls4 << (" ".freeze); _slim_controls4 << ("fa-twitter".freeze); _slim_controls4 << ("\"".freeze); _slim_controls4 << (">".freeze); 
+; _slim_controls4 << ("</i>".freeze); _slim_controls4 << ("<i".freeze); _slim_controls4 << (" class=\"".freeze); _slim_controls4 << ("fab".freeze); _slim_controls4 << (" ".freeze); _slim_controls4 << ("fa-twitter".freeze); _slim_controls4 << ("\"".freeze); _slim_controls4 << (">".freeze); 
+; _slim_controls4 << ("</i>".freeze); _slim_controls4 %><% end %><%= _slim_controls3 %></li>
+            <li>
+              <% _slim_controls5 = link_to 'https://www.instagram.com/cesiuminho', class: 'social-icon-lg si-border si-instagram' do %><% _slim_controls6 = ''; 
+; _slim_controls6 << ("<i".freeze); _slim_controls6 << (" class=\"".freeze); _slim_controls6 << ("fab".freeze); _slim_controls6 << (" ".freeze); _slim_controls6 << ("fa-instagram".freeze); _slim_controls6 << ("\"".freeze); _slim_controls6 << (">".freeze); 
+; _slim_controls6 << ("</i>".freeze); _slim_controls6 << ("<i".freeze); _slim_controls6 << (" class=\"".freeze); _slim_controls6 << ("fab".freeze); _slim_controls6 << (" ".freeze); _slim_controls6 << ("fa-instagram".freeze); _slim_controls6 << ("\"".freeze); _slim_controls6 << (">".freeze); 
+; _slim_controls6 << ("</i>".freeze); _slim_controls6 %><% end %><%= _slim_controls5 %></li>
+            <li>
+              <% _slim_controls7 = link_to 'https://github.com/orgs/cesium', class: 'social-icon-lg si-border si-github' do %><% _slim_controls8 = ''; 
+; _slim_controls8 << ("<i".freeze); _slim_controls8 << (" class=\"".freeze); _slim_controls8 << ("fab".freeze); _slim_controls8 << (" ".freeze); _slim_controls8 << ("fa-github".freeze); _slim_controls8 << ("\"".freeze); _slim_controls8 << (">".freeze); 
+; _slim_controls8 << ("</i>".freeze); _slim_controls8 << ("<i".freeze); _slim_controls8 << (" class=\"".freeze); _slim_controls8 << ("fab".freeze); _slim_controls8 << (" ".freeze); _slim_controls8 << ("fa-github".freeze); _slim_controls8 << ("\"".freeze); _slim_controls8 << (">".freeze); 
+; 
+; _slim_controls8 << ("</i>".freeze); _slim_controls8 %><% end %><%= _slim_controls7 %></li>
+          </ul>
+        </div>
+      </div>
+      <p class="margin30">
+        Entra em contacto connosco!
+      </p>
+      <form action="mailto:cesium@di.uminho.pt" class="sky-form sky-form-columns" enctype="text/plain" id="sky-form" method="post">
+        <fieldset>
+          <div class="row">
+            <section class="col col-6">
+              <label class="label">Nome</label>
+              <label class="input">
+                <i class="icon-append fa fa-user">
+                </i><input id="name" name="name" type="text" />
+              </label></section>
+            <section class="col col-6">
+              <label class="label">E-mail</label>
+              <label class="input">
+                <i class="icon-append fa fa-envelope-o">
+                </i><input id="email" name="email" type="email" />
+              </label></section>
+          </div>
+          <section>
+            <label class="label">Assunto</label>
+            <label class="input">
+              <i class="icon-append fa fa-tag">
+              </i><input id="subject" name="subject" type="text" />
+            </label></section>
+          <section>
+            <label class="label">Mensagem</label>
+            <label class="textarea">
+              <i class="icon-append fa fa-comment">
+              </i>
+              <textarea id="message" name="message" rows="4">
+</textarea>
+            </label></section>
+        </fieldset>
+        <footer>
+          <button class="btn btn-theme-bg btn-lg" type="submit"> Enviar</button>
+        </footer>
+        <div class="message">
+          <i class="fa fa-check">
+          </i>
+          <p>Your message was successfully sent!
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="divide40">
+</div>

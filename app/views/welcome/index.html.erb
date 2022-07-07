@@ -1,0 +1,236 @@
+<!--// SLIDER
+
+- content_for :head do
+  meta property='og:image' content='#{image_url("cesium-thumb.png")}'
+  meta property='og:title' content='CeSIUM'
+  meta property='og:type' content='website'
+  meta property='og:url' content='https://cesium.di.uminho.pt/activities'
+  meta property='og:site_name' content='CeSIUM'
+  meta property='og:description' content='O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional.'
+
+.fullwidthbanner
+  .tp-banner
+    ul
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Semana da Engenharia Informática 2021") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('slider/sei2021.png')
+        = slider_link(start_second: 400, x: 1300, y: 250, title: "Ver mais",
+          target: 'https://seium.org/')
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Torna-te Sócio") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('slider/member-slide.png')
+        /! LAYER NR. 1
+        = slider_caption_title(start_second: 1200, x: 40, y: 110, title: "Entra na Comunidade")
+        /! LAYER NR. 2
+        = slider_check(start_second: 1600, x: 40, y: 170)
+        /! LAYER NR. 3
+        = slider_caption(start_second: 1600, x: 90, y: 170, caption: "Recebe o nosso kit de sócio")
+        /! LAYER NR. 4
+        = slider_check(start_second: 1800, x: 40, y: 220)
+        /! LAYER NR. 5
+        = slider_caption(start_second: 1800, x: 90, y: 220, caption: "Cartão de sócio vitalício")
+        /! LAYER NR. 6
+        = slider_check(start_second: 2000, x: 40, y: 270)
+        /! LAYER NR. 7
+        = slider_caption(start_second: 2000, x: 90, y: 270, caption: "Representação dos teus interesses")
+        /! LAYER NR. 8
+        = slider_check(start_second: 2200, x: 40, y: 320)
+        /! LAYER NR. 9
+        = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Acesso à sala do CeSIUM e seu material")
+        /! LAYER NR. 10
+        = slider_check(start_second: 2400, x: 40, y: 370)
+        /! LAYER NR. 11
+        = slider_caption(start_second: 2400, x: 90, y: 370, caption: "Participa gratuitamente em todos os eventos")
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title="Atividades" data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('slider/talk.jpg', data: { bgposition: "top-left" })
+        /! LAYER NR. 1
+        = slider_caption_title(start_second: 1200,x: 40,y: 110,title: "Atividades")
+        /! LAYER NR. 2
+        = slider_check(start_second: 1600, x: 40, y: 170)
+        /! LAYER NR. 3
+        = slider_caption(start_second: 1600, x: 90, y: 170, caption: "Palestras")
+        /! LAYER NR. 4
+        = slider_check(start_second: 1800, x: 40, y: 220)
+        /! LAYER NR. 5
+        = slider_caption(start_second: 1800, x: 90, y: 220, caption: "Workshops")
+        /! LAYER NR. 6
+        = slider_check(start_second: 2000, x: 40,y: 270)
+        /! LAYER NR. 7
+        = slider_caption(start_second: 2000, x: 90, y: 270, caption: "Torneios")
+        /! LAYER NR. 8
+        = slider_check(start_second: 2200, x: 40, y: 320)
+        /! LAYER NR. 9
+        = slider_caption(start_second: 2200, x: 90, y: 320, caption: "Desafios")
+        /! LAYER NR. 10
+        = slider_caption(start_second: 2400, x: 40, y: 370, caption: "E muito mais!")
+      /! SLIDE
+      li data-masterspeed="1000" data-slotamount="5" data-title=("Formulário de Problemas e Sugestões") data-transition="fade"
+        /! MAIN IMAGE
+        = carousel_image_tag('slider/problemas.png')
+        = slider_link(start_second: 400, x: 800, y: 450, title: "Aceder",
+          target: 'https://cesium.link/f/feedback/')
+
+section.cta-2
+  .container
+    .col-md-12
+      .center-heading
+        h2 JÁ ÉS SÓCIO?
+        span.center-line
+      p.lead.text-justify A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
+        núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
+        possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
+        pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
+        enriquecedoras para a tua futura vida profissional.
+      .divide30
+      a.btn.border-theme.btn-lg href="mailto:pedagogico@cesium.di.uminho.pt?subject=[Pedido] Adesão Sócio"  Adere já!
+
+// PARALLAX
+section.section-divider
+  = image_tag("cesium-outline.svg")
+
+// NEXT EVENT
+/ section.cta-2
+/   .container
+/     .center-heading
+/       h2
+/         | Próximos
+/         strong  Eventos
+/       span.center-line
+/     - if @activities.empty?
+/         p.lead.text-center
+/           | Estamos neste preciso momento a trabalhar ao máximo para organizar atividades para ti!
+/     - else
+/       - @activities.each do |activity|
+/           = render partial: "shared/activity/homepage", locals: { activity: activity }
+
+// PARTNERS
+section.cta-2
+  .container
+    .center-heading
+      h2 Parceiros Institucionais
+      span.center-line
+    .partners
+      = partner(image_file: "partners/um.png", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho")
+      = partner(image_file: "partners/ipdj.png", link: "http://www.ipdj.pt", alt: "IPDJ")
+      = partner(image_file: "partners/startupbraga.png", link: "http://www.investbraga.com/startup/", alt: "Startup Braga")
+-->
+
+<% content_for :head do
+ %><meta content="<%= image_url("cesium-thumb.png") %>" property="og:image" />
+<meta content="CeSIUM" property="og:title" />
+<meta content="website" property="og:type" />
+<meta content="https://cesium.di.uminho.pt/activities" property="og:url" />
+<meta content="CeSIUM" property="og:site_name" />
+<meta content="O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional." property="og:description" />
+<% end %>
+<div class="fullwidthbanner">
+  <div class="tp-banner">
+    <ul>
+      <!--SLIDE-->
+      <li data-masterspeed="1000" data-slotamount="5"<% _slim_codeattributes1 = ("Semana da Engenharia Informática 2021"); if _slim_codeattributes1; if _slim_codeattributes1 == true %> data-title=""<% else %> data-title="<%= _slim_codeattributes1 %>"<% end; end %> data-transition="fade">
+        <!--MAIN IMAGE-->
+        <%= carousel_image_tag('slider/sei2021.png') %>
+        <%= slider_link(start_second: 400, x: 1300, y: 250, title: "Ver mais",
+target: 'https://seium.org/') %>
+      </li>
+      <!--SLIDE-->
+      <li data-masterspeed="1000" data-slotamount="5"<% _slim_codeattributes2 = ("Torna-te Sócio"); if _slim_codeattributes2; if _slim_codeattributes2 == true %> data-title=""<% else %> data-title="<%= _slim_codeattributes2 %>"<% end; end %> data-transition="fade">
+        <!--MAIN IMAGE-->
+        <%= carousel_image_tag('slider/member-slide.png') %>
+        <!--LAYER NR. 1-->
+        <%= slider_caption_title(start_second: 1200, x: 40, y: 110, title: "Entra na Comunidade") %>
+        <!--LAYER NR. 2-->
+        <%= slider_check(start_second: 1600, x: 40, y: 170) %>
+        <!--LAYER NR. 3-->
+        <%= slider_caption(start_second: 1600, x: 90, y: 170, caption: "Recebe o nosso kit de sócio") %>
+        <!--LAYER NR. 4-->
+        <%= slider_check(start_second: 1800, x: 40, y: 220) %>
+        <!--LAYER NR. 5-->
+        <%= slider_caption(start_second: 1800, x: 90, y: 220, caption: "Cartão de sócio vitalício") %>
+        <!--LAYER NR. 6-->
+        <%= slider_check(start_second: 2000, x: 40, y: 270) %>
+        <!--LAYER NR. 7-->
+        <%= slider_caption(start_second: 2000, x: 90, y: 270, caption: "Representação dos teus interesses") %>
+        <!--LAYER NR. 8-->
+        <%= slider_check(start_second: 2200, x: 40, y: 320) %>
+        <!--LAYER NR. 9-->
+        <%= slider_caption(start_second: 2200, x: 90, y: 320, caption: "Acesso à sala do CeSIUM e seu material") %>
+        <!--LAYER NR. 10-->
+        <%= slider_check(start_second: 2400, x: 40, y: 370) %>
+        <!--LAYER NR. 11-->
+        <%= slider_caption(start_second: 2400, x: 90, y: 370, caption: "Participa gratuitamente em todos os eventos") %>
+      </li>
+      <!--SLIDE-->
+      <li data-masterspeed="1000" data-slotamount="5" data-title="Atividades" data-transition="fade">
+        <!--MAIN IMAGE-->
+        <%= carousel_image_tag('slider/talk.jpg', data: { bgposition: "top-left" }) %>
+        <!--LAYER NR. 1-->
+        <%= slider_caption_title(start_second: 1200,x: 40,y: 110,title: "Atividades") %>
+        <!--LAYER NR. 2-->
+        <%= slider_check(start_second: 1600, x: 40, y: 170) %>
+        <!--LAYER NR. 3-->
+        <%= slider_caption(start_second: 1600, x: 90, y: 170, caption: "Palestras") %>
+        <!--LAYER NR. 4-->
+        <%= slider_check(start_second: 1800, x: 40, y: 220) %>
+        <!--LAYER NR. 5-->
+        <%= slider_caption(start_second: 1800, x: 90, y: 220, caption: "Workshops") %>
+        <!--LAYER NR. 6-->
+        <%= slider_check(start_second: 2000, x: 40,y: 270) %>
+        <!--LAYER NR. 7-->
+        <%= slider_caption(start_second: 2000, x: 90, y: 270, caption: "Torneios") %>
+        <!--LAYER NR. 8-->
+        <%= slider_check(start_second: 2200, x: 40, y: 320) %>
+        <!--LAYER NR. 9-->
+        <%= slider_caption(start_second: 2200, x: 90, y: 320, caption: "Desafios") %>
+        <!--LAYER NR. 10-->
+        <%= slider_caption(start_second: 2400, x: 40, y: 370, caption: "E muito mais!") %>
+      </li>
+      <!--SLIDE-->
+      <li data-masterspeed="1000" data-slotamount="5"<% _slim_codeattributes3 = ("Formulário de Problemas e Sugestões"); if _slim_codeattributes3; if _slim_codeattributes3 == true %> data-title=""<% else %> data-title="<%= _slim_codeattributes3 %>"<% end; end %> data-transition="fade">
+        <!--MAIN IMAGE-->
+        <%= carousel_image_tag('slider/problemas.png') %>
+        <%= slider_link(start_second: 400, x: 800, y: 450, title: "Aceder",
+target: 'https://cesium.link/f/feedback/') %>
+      </li>
+    </ul>
+  </div>
+</div>
+<section class="cta-2">
+  <div class="container">
+    <div class="col-md-12">
+      <div class="center-heading">
+        <h2>JÁ ÉS SÓCIO?</h2>
+        <span class="center-line">
+        </span></div>
+      <p class="lead text-justify">A inscrição como sócio é vitalícia e, ao fazê-lo, podes participar em todos os eventos do
+        núcleo de forma gratuita, salvo eventos excepcionais. No entanto, mais do que isso, dá-te a
+        possibilidade de pertencer a um dos nossos departamentos. Uma presença mais ativa no CeSIUM
+        pode ajudar-te a desenvolver novas competências e proporcionar-te experiências únicas e
+        enriquecedoras para a tua futura vida profissional.</p>
+      <div class="divide30">
+      </div>
+      <a class="btn border-theme btn-lg" href="mailto:pedagogico@cesium.di.uminho.pt?subject=[Pedido] Adesão Sócio"> Adere já!
+      </a>
+    </div>
+  </div>
+</section>
+<section class="section-divider">
+  <%= image_tag("cesium-outline.svg") %>
+</section>
+<section class="cta-2">
+  <div class="container">
+    <div class="center-heading">
+      <h2>Parceiros Institucionais</h2>
+      <span class="center-line">
+      </span></div>
+    <div class="partners">
+      <%= partner(image_file: "partners/um.png", link: "https://www.uminho.pt/PT", alt: "Universidade do Minho") %>
+      <%= partner(image_file: "partners/ipdj.png", link: "http://www.ipdj.pt", alt: "IPDJ") %>
+      <%= partner(image_file: "partners/startupbraga.png", link: "http://www.investbraga.com/startup/", alt: "Startup Braga") %>
+    </div>
+  </div>
+</section>
