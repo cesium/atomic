@@ -1,0 +1,151 @@
+<! --
+= form_for @job, html: {multipart: true} do |form|
+
+  - if @job.errors.any?
+    div.alert class="alert-danger"
+      - error_messages(@job).each do |msg|
+        li
+          = msg
+
+  .form
+    = form.label :position,
+      class: "form-label"
+    br
+    = form.text_field :position,
+      class: "form-field"
+
+  .form
+    = form.label :company,
+      class: "form-label"
+    br
+    = form.text_field :company,
+      class: "form-field"
+
+  .form
+    = form.label :location,
+      class: "form-label"
+    br
+    = form.text_field :location,
+      class: "form-field"
+
+  .form
+    = form.label :all_tags,
+      class: "form-label"
+    br
+    = form.text_field :all_tags,
+      class: "form-field"
+
+  .form
+    = form.label :description,
+      class: "form-label"
+    br
+    = form.text_area :description,
+      class: "form-field"
+
+  .form
+    = form.label :link,
+      class: "form-label"
+    br
+    = form.text_field :link,
+      class: "form-field"
+
+  .form
+    = form.label :contact,
+      class: "form-label"
+    br
+    = form.text_field :contact,
+      class: "form-field"
+
+  .form
+    = form.label :poster,
+      class: "form-label"
+    br
+    = form.file_field :poster,
+      class: "form-field"
+
+  .submit-field
+    = form.submit class: "btn btn-lg btn-update border-theme"
+    - if @job.id != nil
+      = link_to 'Cancel', job_path(@job),
+        data: { confirm: 'You will lose all modifications. Are you sure?' },
+        class: "btn btn-lg border-theme"
+      = link_to 'Destroy', :job, method: :delete,
+        data: { confirm: 'Are you sure you want to delete this job offer?' },
+        class: "btn btn-lg btn-delete border-theme"
+
+-- >
+
+<% _slim_controls1 = form_for @job, html: {multipart: true} do |form| %><% _slim_controls2 = '';
+;
+; if @job.errors.any?
+; _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("alert".freeze); _slim_controls2 << (" ".freeze); _slim_controls2 << ("alert-danger".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; error_messages(@job).each do |msg|
+; _slim_controls2 << ("<li".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((msg).to_s);
+;
+; _slim_controls2 << ("</li>".freeze); end; _slim_controls2 << ("</div>".freeze); end; _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :position,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :position,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :company,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :company,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :location,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :location,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :all_tags,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :all_tags,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :description,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_area :description,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :link,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :link,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :contact,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :contact,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("form".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.label :poster,
+class: "form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.file_field :poster,
+class: "form-field").to_s);
+;
+; _slim_controls2 << ("</div>".freeze); _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("submit-field".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.submit class: "btn btn-lg btn-update border-theme").to_s);
+; if @job.id != nil
+; _slim_controls2 << ((link_to 'Cancel', job_path(@job),
+data: { confirm: 'You will lose all modifications. Are you sure?' },
+class: "btn btn-lg border-theme").to_s);
+; _slim_controls2 << ((link_to 'Destroy', :job, method: :delete,
+data: { confirm: 'Are you sure you want to delete this job offer?' },
+class: "btn btn-lg btn-delete border-theme").to_s);
+; end; _slim_controls2 << ("</div>".freeze); _slim_controls2 %><% end %><%= _slim_controls1 %>

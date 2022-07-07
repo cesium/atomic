@@ -1,0 +1,70 @@
+<! --
+= render partial: 'jobs/jobs_breadcrumb'
+
+- content_for :head do
+  meta property='og:image' content='#{@job.poster.url}'
+  meta property='og:title' content='#{@job.position}'
+  meta property='og:description' content='#{truncate(to_plaintext(@job.description), length: 140)}'
+.divide60
+.container
+  h3
+    | #{@job.position}
+  span.center-line.padding-bottom
+
+  .row.padding-bottom
+    .col-md-5
+      = image_tag @job.poster.url, class: "img-responsive"
+      br
+    .col-md-7
+      .divide20
+      = render partial: "shared/job/panel", object: @job
+
+  .row
+    br
+    .lead
+      = to_markdown(@job.description)
+
+  hr
+  - if can? :edit, Job
+    = link_to "Editar", edit_job_path, class: 'btn border-theme btn-lg btn-edit'
+
+.divide20
+-- >
+
+<%= render partial: 'jobs/jobs_breadcrumb' %>
+<% content_for :head do
+ %><meta content="<%= @job.poster.url %>" property="og:image" />
+<meta content="<%= @job.position %>" property="og:title" />
+<meta content="<%= truncate(to_plaintext(@job.description), length: 140) %>" property="og:description" />
+<% end %>
+<div class="divide60">
+</div>
+<div class="container">
+  <h3>
+    <%= @job.position %>
+  </h3>
+  <span class="center-line padding-bottom">
+  </span>
+  <div class="row padding-bottom">
+    <div class="col-md-5">
+      <%= image_tag @job.poster.url, class: "img-responsive" %>
+      <br />
+    </div>
+    <div class="col-md-7">
+      <div class="divide20">
+      </div>
+      <%= render partial: "shared/job/panel", object: @job %>
+    </div>
+  </div>
+  <div class="row">
+    <br />
+    <div class="lead">
+      <%= to_markdown(@job.description) %>
+    </div>
+  </div>
+  <hr />
+  <% if can? :edit, Job
+ %><%= link_to "Editar", edit_job_path, class: 'btn border-theme btn-lg btn-edit' %>
+<% end %></div>
+<div class="divide20">
+</div>

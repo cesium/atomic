@@ -1,0 +1,97 @@
+<! --
+.top-bar-dark
+  .container.hidden-xs
+    .row
+      .col-sm-8.text-left
+        ul.list-inline.top-dark-right
+          - if signed_in?
+            li
+              = link_to ''
+                = icon('user')
+                |  A Minha Conta
+            li
+              = link_to sign_out_path, method: :delete
+                = icon('sign-out')
+                |  Sair
+          - else
+            li
+              = link_to sign_in_path
+                = icon('sign-in')
+                |  Entrar
+            li
+              = link_to sign_up_path
+                = icon('user-plus')
+                |  Registar
+      .col-sm-4
+        .top-bar-socials
+          = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
+            i.fab.fa-facebook-f
+            i.fab.fa-facebook-f
+          = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
+            i.fab.fa-twitter
+            i.fab.fa-twitter
+          = link_to 'https://plus.google.com/u/1/b/103218725392069843585/103218725392069843585/posts', class: 'social-icon-sm si-gray si-soundcloud'
+            i.fab.fa-google-plus-g
+            i.fab.fa-google-plus-g
+          = link_to 'https://www.instagram.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud'
+            i.fab.fa-instagram
+            i.fab.fa-instagram
+          = link_to 'https://github.com/orgs/cesium', class: 'social-icon-sm si-gray si-soundcloud'
+            i.fab.fa-github
+            i.fab.fa-github
+-- >
+
+
+<div class="top-bar-dark">
+  <div class="container hidden-xs">
+    <div class="row">
+      <div class="col-sm-8 text-left">
+        <ul class="list-inline top-dark-right">
+          <% if signed_in?
+ %>
+          <li>
+            <% _slim_controls1 = link_to '' do %><% _slim_controls2 = '';
+; _slim_controls2 << ((icon('user'.to_s);
+; _slim_controls2 << (" A Minha Conta".freeze);
+; _slim_controls2 %><% end %><%= _slim_controls1 %></li>
+          <li>
+            <% _slim_controls3 = link_to sign_out_path, method: :delete do %><% _slim_controls4 = '';
+; _slim_controls4 << ((icon('sign-out'.to_s);
+; _slim_controls4 << (" Sair".freeze);
+; _slim_controls4 %><% end %><%= _slim_controls3 %></li>
+        <% else
+ %>
+        <li>
+          <% _slim_controls5 = link_to sign_in_path do %><% _slim_controls6 = '';
+; _slim_controls6 << ((icon('sign-in'.to_s);
+; _slim_controls6 << (" Entrar".freeze);
+; _slim_controls6 %><% end %><%= _slim_controls5 %></li>
+        <li>
+          <% _slim_controls7 = link_to sign_up_path do %><% _slim_controls8 = '';
+; _slim_controls8 << ((icon('user-plus'.to_s);
+; _slim_controls8 << (" Registar".freeze);
+; _slim_controls8 %><% end %><%= _slim_controls7 %></li>
+      <% end %></ul>
+  </div>
+  <div class="col-sm-4">
+    <div class="top-bar-socials">
+      <% _slim_controls9 = link_to 'https://www.facebook.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud' do %><% _slim_controls10 = '';
+; _slim_controls10 << ("<i".freeze); _slim_controls10 << (" class=\"".freeze); _slim_controls10 << ("fab".freeze); _slim_controls10 << (" ".freeze); _slim_controls10 << ("fa-facebook-f".freeze); _slim_controls10 << ("\"".freeze); _slim_controls10 << (">".freeze);
+; _slim_controls10 << ("</i>".freeze); _slim_controls10 << ("<i".freeze); _slim_controls10 << (" class=\"".freeze); _slim_controls10 << ("fab".freeze); _slim_controls10 << (" ".freeze); _slim_controls10 << ("fa-facebook-f".freeze); _slim_controls10 << ("\"".freeze); _slim_controls10 << (">".freeze);
+; _slim_controls10 << ("</i>".freeze); _slim_controls10 %><% end %><%= _slim_controls9 %><% _slim_controls11 = link_to 'https://twitter.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud' do %><% _slim_controls12 = '';
+; _slim_controls12 << ("<i".freeze); _slim_controls12 << (" class=\"".freeze); _slim_controls12 << ("fab".freeze); _slim_controls12 << (" ".freeze); _slim_controls12 << ("fa-twitter".freeze); _slim_controls12 << ("\"".freeze); _slim_controls12 << (">".freeze);
+; _slim_controls12 << ("</i>".freeze); _slim_controls12 << ("<i".freeze); _slim_controls12 << (" class=\"".freeze); _slim_controls12 << ("fab".freeze); _slim_controls12 << (" ".freeze); _slim_controls12 << ("fa-twitter".freeze); _slim_controls12 << ("\"".freeze); _slim_controls12 << (">".freeze);
+; _slim_controls12 << ("</i>".freeze); _slim_controls12 %><% end %><%= _slim_controls11 %><% _slim_controls13 = link_to 'https://plus.google.com/u/1/b/103218725392069843585/103218725392069843585/posts', class: 'social-icon-sm si-gray si-soundcloud' do %><% _slim_controls14 = '';
+; _slim_controls14 << ("<i".freeze); _slim_controls14 << (" class=\"".freeze); _slim_controls14 << ("fab".freeze); _slim_controls14 << (" ".freeze); _slim_controls14 << ("fa-google-plus-g".freeze); _slim_controls14 << ("\"".freeze); _slim_controls14 << (">".freeze);
+; _slim_controls14 << ("</i>".freeze); _slim_controls14 << ("<i".freeze); _slim_controls14 << (" class=\"".freeze); _slim_controls14 << ("fab".freeze); _slim_controls14 << (" ".freeze); _slim_controls14 << ("fa-google-plus-g".freeze); _slim_controls14 << ("\"".freeze); _slim_controls14 << (">".freeze);
+; _slim_controls14 << ("</i>".freeze); _slim_controls14 %><% end %><%= _slim_controls13 %><% _slim_controls15 = link_to 'https://www.instagram.com/cesiuminho', class: 'social-icon-sm si-gray si-soundcloud' do %><% _slim_controls16 = '';
+; _slim_controls16 << ("<i".freeze); _slim_controls16 << (" class=\"".freeze); _slim_controls16 << ("fab".freeze); _slim_controls16 << (" ".freeze); _slim_controls16 << ("fa-instagram".freeze); _slim_controls16 << ("\"".freeze); _slim_controls16 << (">".freeze);
+; _slim_controls16 << ("</i>".freeze); _slim_controls16 << ("<i".freeze); _slim_controls16 << (" class=\"".freeze); _slim_controls16 << ("fab".freeze); _slim_controls16 << (" ".freeze); _slim_controls16 << ("fa-instagram".freeze); _slim_controls16 << ("\"".freeze); _slim_controls16 << (">".freeze);
+; _slim_controls16 << ("</i>".freeze); _slim_controls16 %><% end %><%= _slim_controls15 %><% _slim_controls17 = link_to 'https://github.com/orgs/cesium', class: 'social-icon-sm si-gray si-soundcloud' do %><% _slim_controls18 = '';
+; _slim_controls18 << ("<i".freeze); _slim_controls18 << (" class=\"".freeze); _slim_controls18 << ("fab".freeze); _slim_controls18 << (" ".freeze); _slim_controls18 << ("fa-github".freeze); _slim_controls18 << ("\"".freeze); _slim_controls18 << (">".freeze);
+; _slim_controls18 << ("</i>".freeze); _slim_controls18 << ("<i".freeze); _slim_controls18 << (" class=\"".freeze); _slim_controls18 << ("fab".freeze); _slim_controls18 << (" ".freeze); _slim_controls18 << ("fa-github".freeze); _slim_controls18 << ("\"".freeze); _slim_controls18 << (">".freeze);
+; _slim_controls18 << ("</i>".freeze); _slim_controls18 %><% end %><%= _slim_controls17 %></div>
+  </div>
+</div>
+</div>
+</div>

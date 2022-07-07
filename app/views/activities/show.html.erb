@@ -1,0 +1,76 @@
+<! --
+= render partial: 'activities/activities_breadcrumb'
+
+- content_for :head do
+  meta property='og:image' content='#{@activity.poster.url}'
+  meta property='og:title' content='#{@activity.name}'
+  meta property='og:description' content='#{truncate(to_plaintext(@activity.description), length: 140)}'
+.divide60
+.container
+  h3.activity-title
+    | #{@activity.name}
+  span.center-line style="margin-bottom: 8px;"
+
+  .row
+    .col-md-5
+      = image_tag @activity.poster.url, class: "img-responsive"
+      br
+    .col-md-7
+      .lead
+        = to_markdown(@activity.description)
+      .divide20
+      = render partial: "shared/activity/panel", object: @activity
+      - if @activity.end_date.future? and @activity.sit_available?
+        = render partial: "registration", object: @activity
+
+  hr
+  - if can? :index, Registration
+    = link_to "Participantes", activity_participants_path(@activity.id),
+      class: 'btn border-theme btn-lg'
+  - if can? :edit, Activity
+    = link_to "Editar", edit_activity_path, class: 'btn border-theme btn-lg btn-edit'
+
+.divide20
+
+-- >
+
+
+<%= render partial: 'activities/activities_breadcrumb' %>
+<% content_for :head do
+ %><meta content="<%= @activity.poster.url %>" property="og:image" />
+<meta content="<%= @activity.name %>" property="og:title" />
+<meta content="<%= truncate(to_plaintext(@activity.description), length: 140) %>" property="og:description" />
+<% end %>
+<div class="divide60">
+</div>
+<div class="container">
+  <h3 class="activity-title">
+    <%= @activity.name %>
+  </h3>
+  <span class="center-line" style="margin-bottom: 8px;">
+  </span>
+  <div class="row">
+    <div class="col-md-5">
+      <%= image_tag @activity.poster.url, class: "img-responsive" %>
+      <br />
+    </div>
+    <div class="col-md-7">
+      <div class="lead">
+        <%= to_markdown(@activity.description) %>
+      </div>
+      <div class="divide20">
+      </div>
+      <%= render partial: "shared/activity/panel", object: @activity %>
+      <% if @activity.end_date.future? and @activity.sit_available?
+ %><%= render partial: "registration", object: @activity %>
+    <% end %></div>
+</div>
+<hr />
+<% if can? :index, Registration
+ %><%= link_to "Participantes", activity_participants_path(@activity.id),
+class: 'btn border-theme btn-lg' %>
+<% end; if can? :edit, Activity
+ %><%= link_to "Editar", edit_activity_path, class: 'btn border-theme btn-lg btn-edit' %>
+<% end %></div>
+<div class="divide20">
+</div>

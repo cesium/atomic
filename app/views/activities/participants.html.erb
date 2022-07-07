@@ -1,0 +1,51 @@
+<! --
+= render partial: 'activities/activities_breadcrumb'
+.divide60
+.container
+  h3.activity-title
+    | Participantes
+  span.center-line style="margin-bottom: 8px;"
+  
+  .row
+    - @participants.each_with_index do |participant, index|
+      .col-md-10.col-sm-8.col-xs-12
+        h3.lead = link_to participant.name, user_path(participant.id)
+      .col-md-2.col-sm-4.col-xs-12
+        - if @registrations[index].confirmed
+          button.btn.btn-disabled.pull-right Confirmado
+        - else
+          = link_to 'Confirmar',
+            confirm_participant_path(@activity.id, participant.id),
+            class: 'btn border-theme pull-right'
+.divide20
+
+-- >
+
+<%= render partial: 'activities/activities_breadcrumb' %>
+<div class="divide60">
+</div>
+<div class="container">
+  <h3 class="activity-title">
+    Participantes
+  </h3>
+  <span class="center-line" style="margin-bottom: 8px;">
+  </span>
+  <div class="row">
+    <% @participants.each_with_index do |participant, index|
+ %>
+    <div class="col-md-10 col-sm-8 col-xs-12">
+      <h3 class="lead"><%= link_to participant.name, user_path(participant.id) %>
+      </h3>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-12">
+      <% if @registrations[index].confirmed
+ %><button class="btn btn-disabled pull-right">Confirmado</button>
+    <% else
+ %><%= link_to 'Confirmar',
+confirm_participant_path(@activity.id, participant.id),
+class: 'btn border-theme pull-right' %>
+  <% end %></div>
+<% end %></div>
+</div>
+<div class="divide20">
+</div>

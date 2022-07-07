@@ -1,0 +1,32 @@
+<! --
+.breadcrumb-wrap
+  .container
+    .row
+      .col-sm-6
+        = link_to jobs_path do
+          h4 Ofertas de Emprego
+      .col-sm-6.hidden-xs.text-right
+        ol.breadcrumb
+          li
+            = link_to 'Home', root_path
+          li.active Ofertas de Emprego
+-- >
+
+<div class="breadcrumb-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <% _slim_controls1 = link_to jobs_path do %><% _slim_controls2 = '';
+; _slim_controls2 << ("<h4".freeze); _slim_controls2 << (">".freeze); _slim_controls2 << ("Ofertas de Emprego".freeze); _slim_controls2 << ("</h4>".freeze);
+; _slim_controls2 %><% end %><%= _slim_controls1 %></div>
+      <div class="col-sm-6 hidden-xs text-right">
+        <ol class="breadcrumb">
+          <li>
+            <%= link_to 'Home', root_path %>
+          </li>
+          <li class="active">Ofertas de Emprego</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

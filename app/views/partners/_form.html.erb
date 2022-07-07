@@ -1,0 +1,89 @@
+<! --
+= form_for @partner, html: {multipart: true} do |form|
+
+  - if @partner.errors.any?
+    div.alert class="alert-danger"
+      - error_messages(@partner).each do |msg|
+        li
+          = msg
+
+  = form.label :nome,
+    class: "partner-form-label"
+  br
+  = form.text_field :name,
+    class: "partner-form-field"
+  br
+  = form.label :vantagens,
+    class: "partner-form-label"
+  br
+  = form.text_area :description,
+    class: "partner-form-field"
+  br
+  = form.label :link,
+    class: "partner-form-label"
+  br
+  = form.text_area :link,
+    class: "partner-form-field"
+  br
+  = form.label :logo,
+    class: "partner-form-label"
+  br
+  = form.file_field :logo,
+    class: "partner-form-field"
+  br
+
+  .submit-field
+    = form.submit class: "btn btn-lg btn-update border-theme"
+    - if @partner.id != nil
+      = link_to 'Cancel', partners_path,
+        data: { confirm: 'You will lose all modifications. Are you sure?' },
+        class: "btn btn-lg border-theme"
+      = link_to 'Destroy', :partner, method: :delete,
+        data: { confirm: 'Are you sure you want to delete this partner?' },
+        class: "btn btn-lg btn-delete border-theme"
+        -- >
+
+
+<% _slim_controls1 = form_for @partner, html: {multipart: true} do |form| %><% _slim_controls2 = '';
+;
+; if @partner.errors.any?
+; _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("alert".freeze); _slim_controls2 << (" ".freeze); _slim_controls2 << ("alert-danger".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; error_messages(@partner).each do |msg|
+; _slim_controls2 << ("<li".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((msg).to_s);
+;
+; _slim_controls2 << ("</li>".freeze); end; _slim_controls2 << ("</div>".freeze); end; _slim_controls2 << ((form.label :nome,
+class: "partner-form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_field :name,
+class: "partner-form-field").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.label :vantagens,
+class: "partner-form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_area :description,
+class: "partner-form-field").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.label :link,
+class: "partner-form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.text_area :link,
+class: "partner-form-field").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.label :logo,
+class: "partner-form-label").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+; _slim_controls2 << ((form.file_field :logo,
+class: "partner-form-field").to_s);
+; _slim_controls2 << ("<br".freeze); _slim_controls2 << (" />".freeze);
+;
+; _slim_controls2 << ("<div".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("submit-field".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ((form.submit class: "btn btn-lg btn-update border-theme").to_s);
+; if @partner.id != nil
+; _slim_controls2 << ((link_to 'Cancel', partners_path,
+data: { confirm: 'You will lose all modifications. Are you sure?' },
+class: "btn btn-lg border-theme").to_s);
+; _slim_controls2 << ((link_to 'Destroy', :partner, method: :delete,
+data: { confirm: 'Are you sure you want to delete this partner?' },
+class: "btn btn-lg btn-delete border-theme").to_s);
+; end; _slim_controls2 << ("</div>".freeze); _slim_controls2 %><% end %><%= _slim_controls1 %>

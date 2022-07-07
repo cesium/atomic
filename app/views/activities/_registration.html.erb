@@ -1,0 +1,23 @@
+<! --
+- if can_cancel_registratation?(@activity)
+  = link_to activity_registration_cancel_path(@activity.id),
+    class: "btn btn-disabled btn-lg" do
+    i.fas.fa-times
+    | Anular Inscrição
+- elsif @activity.allows_registrations && (current_user.nil? || can_registrate?(@activity))
+  = link_to "Inscrever-me!",
+    activity_link(@activity) || '#',
+    class: "btn border-theme btn-lg"
+
+-- >
+
+<% if can_cancel_registratation?(@activity)
+_slim_controls1 = link_to activity_registration_cancel_path(@activity.id),
+class: "btn btn-disabled btn-lg" do %><% _slim_controls2 = '';
+; _slim_controls2 << ("<i".freeze); _slim_controls2 << (" class=\"".freeze); _slim_controls2 << ("fas".freeze); _slim_controls2 << (" ".freeze); _slim_controls2 << ("fa-times".freeze); _slim_controls2 << ("\"".freeze); _slim_controls2 << (">".freeze);
+; _slim_controls2 << ("</i>".freeze); _slim_controls2 << ("Anular Inscrição".freeze);
+; _slim_controls2 %><% end %><%= _slim_controls1 %><% elsif @activity.allows_registrations && (current_user.nil? || can_registrate?(@activity
+ %><%= link_to "Inscrever-me!",
+activity_link(@activity) || '#',
+class: "btn border-theme btn-lg" %>
+<% end %>
