@@ -25,8 +25,8 @@
 -- >
 
 <%= render partial: 'articles/articles_breadcrumb' %>
-<% content_for :head do
- %><meta content="<%= @article.poster.url %>" property="og:image" />
+<% content_for :head do %>
+<meta content="<%= @article.poster.url %>" property="og:image" />
 <meta content="<%= @article.name %>" property="og:title" />
 <% end %>
 <div class="divide60">
@@ -47,8 +47,9 @@
     <%= to_markdown(@article.text) %>
   </div>
   <br />
-  <% if can? :edit, Article
- %><%= link_to 'Editar', edit_article_path, class: 'btn border-theme btn-lg btn-edit' %>
-<% end %></div>
+  <% if can? :edit, Article %>
+<%= link_to 'Editar', edit_article_path, class: 'btn border-theme btn-lg btn-edit' %>
+<% end %>
+</div>
 <div class="divide20">
 </div>

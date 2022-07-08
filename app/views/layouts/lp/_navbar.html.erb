@@ -77,13 +77,11 @@
         <li>
           <%= link_to 'CONTACTOS', contact_path %>
         </li>
-        <% if current_user
- %>
+        <% if current_user %>
         <li>
           <%= render 'layouts/lp/logout_button' %>
         </li>
-      <% else
- %>
+      <% else %>
       <li>
         <%= link_to 'Log In', sign_in_path,
 class: 'btn border-theme btn-login' %>

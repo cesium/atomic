@@ -40,12 +40,10 @@ html
  %><%= yield(:head) %>
   <% end %></head><body>
   <div id="flash">
-    <% flash.each do |key, value|
- %>
-    <div id="flash_
-<%= key %>
-">
-    <% end %></div>
+    <% flash.each do |key, value| %>
+    <div id="flash_ <%= key %> ">
+    <% end %>
+    </div>
   <div id="content">
     <%= render 'layouts/lp/navbar' %>
     <%= yield %>

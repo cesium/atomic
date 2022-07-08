@@ -16,9 +16,8 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
-        <% _slim_controls1 = link_to jobs_path do %><% _slim_controls2 = '';
-; _slim_controls2 << ("<h4".freeze); _slim_controls2 << (">".freeze); _slim_controls2 << ("Ofertas de Emprego".freeze); _slim_controls2 << ("</h4>".freeze);
-; _slim_controls2 %><% end %><%= _slim_controls1 %></div>
+        <%= link_to jobs_path do %>
+          <h4>Ofertas de Emprego</h4>
       <div class="col-sm-6 hidden-xs text-right">
         <ol class="breadcrumb">
           <li>

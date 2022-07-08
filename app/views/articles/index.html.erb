@@ -32,10 +32,11 @@
 <div class="divide20">
 </div>
 <div class="blog-left-img">
-  <% @articles.each do |article|
- %><%= render partial: "shared/articles/index", locals: { article: article } %>
+  <% @articles.each do |article| %>
+<%= render partial: "shared/articles/index", locals: { article: article } %>
   <div class="divide20">
   </div>
-<% end %><%= will_paginate @articles, renderer: BootstrapPagination::Rails %>
+  <% end %>
+  <%= will_paginate @articles, renderer: BootstrapPagination::Rails %>
 </div>
 </div>

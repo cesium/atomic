@@ -45,48 +45,50 @@
 -- >
 
 
-<% content_for :head do
- %><meta content="<%= image_url("cesium-thumb.png") %>" property="og:image" />
-<meta content="Atividades" property="og:title" />
-<meta content="CeSIUM" property="og:site_name" />
-<meta content="website" property="og:type" />
-<meta content="https://cesium.di.uminho.pt" property="og:url" />
-<meta content="O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional." property="og:description" />
-<% end %><%= render partial: 'activities/activities_breadcrumb' %>
-<div class="divide40">
-</div>
-<div class="container">
-  <div class="btn-group btn-group-lg hidden-xs">
-    <%= link_to "Próximas atividades", activities_path(show: "next"),
-class: next_activities_button %>
-    <%= link_to "Atividades realizadas", activities_path(show: "previous"),
-class: previous_activities_button %>
+<% content_for :head do %>
+  <meta content="<%= image_url("cesium-thumb.png") %>" property="og:image" />
+  <meta content="Atividades" property="og:title" />
+  <meta content="CeSIUM" property="og:site_name" />
+  <meta content="website" property="og:type" />
+  <meta content="https://cesium.di.uminho.pt" property="og:url" />
+  <meta content="O CeSIUM é um Centro de estudantes de Engenharia Informática da Universidade do Minho composto por alunos voluntários que têm como objectivo principal representar e promover o curso. É um núcleo unido e dinâmico capaz de proporcionar experiências únicas e enriquecedoras para a tua futura vida profissional." property="og:description" />
+  <% end %><%= render partial: 'activities/activities_breadcrumb' %>
+  <div class="divide40">
   </div>
-  <div class="btn-group-vertical visible-xs">
-    <%= link_to "Próximas atividades", activities_path(show: "next"),
-class: next_activities_button %>
-    <%= link_to "Atividades realizadas", activities_path(show: "previous"),
-class: previous_activities_button %>
+  <div class="container">
+    <div class="btn-group btn-group-lg hidden-xs">
+      <%= link_to "Próximas atividades", activities_path(show: "next"),
+  class: next_activities_button %>
+      <%= link_to "Atividades realizadas", activities_path(show: "previous"),
+  class: previous_activities_button %>
+    </div>
+    <div class="btn-group-vertical visible-xs">
+      <%= link_to "Próximas atividades", activities_path(show: "next"),
+  class: next_activities_button %>
+      <%= link_to "Atividades realizadas", activities_path(show: "previous"),
+  class: previous_activities_button %>
+    </div>
+    <% if can_create?
+   %>
+    <div class="pull-right">
+      <%= link_to 'Criar Atividade', new_activity_path, class: "btn btn-lg border-theme" %>
+    </div>
+  <% end %>
+  <div class="divide20">
   </div>
-  <% if can_create?
- %>
-  <div class="pull-right">
-    <%= link_to 'Criar Atividade', new_activity_path, class: "btn btn-lg border-theme" %>
+  <hr />
+  <div class="divide20">
   </div>
-<% end %>
-<div class="divide20">
-</div>
-<hr />
-<div class="divide20">
-</div>
-<div class="blog-left-img">
-  <% if @activities.empty?
- %>
-  <h4>Estamos a planear atividades para ti!</h4>
-<% end; @activities.each do |activity|
- %><%= render partial: "shared/activity/index", locals: { activity: activity } %>
-<div class="divide20">
-</div>
-<% end %><%= will_paginate @activities, renderer: BootstrapPagination::Rails %>
-</div>
-</div>
+  <div class="blog-left-img">
+    <% if @activities.empty?  %>
+    <h4>Estamos a planear atividades para ti!</h4>
+     <% end %>
+    <% @activities.each do |activity| %>
+  <%= render partial: "shared/activity/index", locals: { activity: activity } %>
+  <div class="divide20">
+  </div>
+  <% end %>
+<%= will_paginate @activities, renderer: BootstrapPagination::Rails %>
+  </div>
+  </div>
+<% end %>  
