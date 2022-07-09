@@ -1,127 +1,59 @@
-<!--
-.row.activity-group-info
-  // Speaker
-  - if @activity.speaker?
-    .col-md-6
-      = render partial: "shared/activity/info",
+<div class="row activity-group-info">
+  <% if @activity.speaker?%>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
         locals: { \
         icon: "user",
         text: @activity.speaker \
-        }
-
-  // Location
-  .col-md-6
-    = render partial: "shared/activity/info",
-      locals: { icon: "map-marker-alt", text: @activity.location }
-
-  // Date & Time
-  - if @activity.start_date.to_date == @activity.end_date.to_date
-    .col-md-6
-      = render partial: "shared/activity/info",
-        locals: { \
-        icon: "calendar",
-        text: "#{l @activity.start_date.to_date}" \
-        }
-    .col-md-6
-      = render partial: "shared/activity/info",
+        } %>
+  </div>
+  <% end %>
+  <div class="col-md-6">
+  <%= render partial: "shared/activity/info",
+      locals: { icon: "map-marker-alt", text: @activity.location } %>
+  </div>
+  <% if @activity.start_date.to_date == @activity.end_date.to_date%>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
+      locals: { \
+      icon: "calendar",
+      text: "#{l @activity.start_date.to_date}" \
+      } %>
+  </div>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
         locals: { \
         icon: "clock", \
         text: "#{l @activity.start_date.time} - #{l @activity.end_date.time}" \
-        }
-  - else
-    .col-md-12
-      = render partial: "shared/activity/info",
+        } %>
+  </div>
+  <% else%>
+  <div class="col-md-12">
+    <%= render partial: "shared/activity/info",
         locals: { \
         icon: "calendar-alt", \
         text: "#{l @activity.start_date.to_date} - #{l @activity.end_date.to_date}"\
-        }
-
-  // Member Cost
-  - if @activity.member_cost != 0
-    .col-md-6
-      = render partial: "shared/activity/info",
-        locals: { icon: "money-bill-alt ", text: "#{@activity.member_cost}€ / Sócio" }
-
-  // Guest Cost
-  - if @activity.guest_cost != 0
-    .col-md-6
-      = render partial: "shared/activity/info",
-        locals: { icon: "money-bill-alt", text: "#{@activity.guest_cost}€ / Não Sócio" }
-
-  // Coffe Break
-  - if @activity.coffee_break
-    .col-md-6
-      = render partial: "shared/activity/info",
-        locals: { icon: "coffee", text: "Coffee Break" }
-
-  - if @activity.limit_number_participants and @activity.allows_registrations
-    .col-md-6
-      = render partial: "shared/activity/info",
-        locals: { icon: "users", text: registrations_counter(@activity)}
--->
-
-<div class="row activity-group-info">
-  <% if @activity.speaker?
- %>
+        } %>
+  </div>
+  <% end; if @activity.member_cost != 0%>
   <div class="col-md-6">
     <%= render partial: "shared/activity/info",
-locals: { \
-icon: "user",
-text: @activity.speaker \
-} %>
+        locals: { icon: "money-bill-alt ", text: "#{@activity.member_cost}€ / Sócio" } %>
   </div>
-<% end %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { icon: "map-marker-alt", text: @activity.location } %>
+  <% end; if @activity.guest_cost != 0%>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
+        locals: { icon: "money-bill-alt", text: "#{@activity.guest_cost}€ / Não Sócio" } %>
+  </div>
+  <% end; if @activity.coffee_break%>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
+        locals: { icon: "coffee", text: "Coffee Break" } %>
+  </div>
+  <% end; if @activity.limit_number_participants and @activity.allows_registrations%>
+  <div class="col-md-6">
+    <%= render partial: "shared/activity/info",
+        locals: { icon: "users", text: registrations_counter(@activity)} %>
+  </div>
+  <% end %>
 </div>
-<% if @activity.start_date.to_date == @activity.end_date.to_date
- %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { \
-icon: "calendar",
-text: "#{l @activity.start_date.to_date}" \
-} %>
-</div>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { \
-icon: "clock", \
-text: "#{l @activity.start_date.time} - #{l @activity.end_date.time}" \
-} %>
-</div>
-<% else
- %>
-<div class="col-md-12">
-  <%= render partial: "shared/activity/info",
-locals: { \
-icon: "calendar-alt", \
-text: "#{l @activity.start_date.to_date} - #{l @activity.end_date.to_date}"\
-} %>
-</div>
-<% end; if @activity.member_cost != 0
- %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { icon: "money-bill-alt ", text: "#{@activity.member_cost}€ / Sócio" } %>
-</div>
-<% end; if @activity.guest_cost != 0
- %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { icon: "money-bill-alt", text: "#{@activity.guest_cost}€ / Não Sócio" } %>
-</div>
-<% end; if @activity.coffee_break
- %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { icon: "coffee", text: "Coffee Break" } %>
-</div>
-<% end; if @activity.limit_number_participants and @activity.allows_registrations
- %>
-<div class="col-md-6">
-  <%= render partial: "shared/activity/info",
-locals: { icon: "users", text: registrations_counter(@activity)} %>
-</div>
-<% end %></div>

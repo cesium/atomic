@@ -1,19 +1,10 @@
-<!--
-p.lead.activity-description
-  = truncate(to_plaintext(article.text), length: 140)
-
-ul.list-inline
-    li
-      i.far.fa-calendar
-    = l article.created_at.to_date
--->
-
 <p class="lead activity-description">
   <%= truncate(to_plaintext(article.text), length: 140) %>
 </p>
 <ul class="list-inline">
   <li>
     <i class="far fa-calendar">
-    </i></li>
+    </i>
+  </li>
   <%= l article.created_at.to_date %>
 </ul>

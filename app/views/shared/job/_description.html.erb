@@ -1,69 +1,43 @@
-<!--
-.divide20
-
-ul.list-inline.same-line.max
-  li.post-info
-    i.far.fa-building
-  .company
-    = to_plaintext(job.company)
-
-  - if !job.location.blank?
-    li.post-info.left-padding
-      i.fas.fa-map-marker-alt
-    .city
-      = to_plaintext(job.location)
-
-ul.list-inline.max.date
-  li.post-info
-    i.far.fa-calendar
-  = job.created_at.to_date
-
-- if !job.tags.empty?
-  ul.list-inline.tags-field
-    li.post-info
-      i.far.fa-bookmark
-    .tags
-      - job.tags.each_with_index do | tag, index |
-        - if index != 0
-          = ", "
-        = tag.name.strip
--->
-
 <div class="divide20">
 </div>
 <ul class="list-inline same-line max">
   <li class="post-info">
     <i class="far fa-building">
-    </i></li>
+    </i>
+  </li>
   <div class="company">
     <%= to_plaintext(job.company) %>
   </div>
-  <% if !job.location.blank?
- %>
+  <% if !job.location.blank?%>
   <li class="post-info left-padding">
     <i class="fas fa-map-marker-alt">
-    </i></li>
+    </i>
+  </li>
   <div class="city">
     <%= to_plaintext(job.location) %>
   </div>
-<% end %></ul>
+  <% end %>
+</ul>
 <ul class="list-inline max date">
   <li class="post-info">
     <i class="far fa-calendar">
-    </i></li>
+    </i>
+  </li>
   <%= job.created_at.to_date %>
 </ul>
-<% if !job.tags.empty?
- %>
+<% if !job.tags.empty?%>
 <ul class="list-inline tags-field">
   <li class="post-info">
     <i class="far fa-bookmark">
-    </i></li>
+    </i>
+  </li>
   <div class="tags">
-    <% job.tags.each_with_index do | tag, index |
-if index != 0
- %><%= ", " %>
-  <% end %><%= tag.name.strip %>
-<% end %></div>
+    <%job.tags.each_with_index do | tag, index |
+      if index != 0%>
+      <%= ", " %>
+    <% end %>
+    <%= tag.name.strip %>
+    <% end %>
+  </div>
 </ul>
 <% end %>
