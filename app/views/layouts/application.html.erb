@@ -1,32 +1,3 @@
-<! --
-doctype html
-html
-  head
-    = stylesheet_link_tag 'application', media: 'all'
-    = csrf_meta_tag
-    = favicon_link_tag
-    meta name="viewport" content="width=device-width, initial-scale=1"
-
-    title CeSIUM Centro de Estudantes
-    = analytics_init if GoogleAnalytics.valid_tracker?
-
-    - if content_for?(:head)
-      = yield(:head)
-  body
-    #flash
-      - flash.each do |key, value|
-        |  <div id="flash_
-        = key
-        | ">
-
-    #content
-      = render 'layouts/lp/navbar'
-      = yield
-    = render 'layouts/lp/footer'
-
-  = javascript_include_tag 'application'
--- >
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -34,20 +5,26 @@ html
     <%= csrf_meta_tag %>
     <%= favicon_link_tag %>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>CeSIUM Centro de Estudantes</title>
+    <title>CeSIUM · Centro de Estudantes de Engenharia Informática</title>
     <%= analytics_init if GoogleAnalytics.valid_tracker? %>
-    <% if content_for?(:head)
- %><%= yield(:head) %>
-  <% end %></head><body>
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% end %>
+  </head>
+  <body>
   <div id="flash">
     <% flash.each do |key, value| %>
-    <div id="flash_ <%= key %> ">
+      <div id="flash_ <%= key %> ">
     <% end %>
-    </div>
+  </div>
+
   <div id="content">
     <%= render 'layouts/lp/navbar' %>
     <%= yield %>
   </div>
+
   <%= render 'layouts/lp/footer' %>
-</body><%= javascript_include_tag 'application' %>
+
+  <%= javascript_include_tag 'application' %>
+  </body>
 </html>
