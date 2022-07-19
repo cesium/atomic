@@ -1,32 +1,3 @@
-<! --
-= render partial: 'jobs/jobs_breadcrumb'
-
-.divide40
-
-.filters
-  = render partial: "shared/filter/filter"
-
-.container
-  - if can_create?
-      = link_to 'Criar Oferta', new_job_path, class: "btn btn-lg border-theme"
-
-  .divide60
-
-  .jobs-container id="jobs"
-    .blog-left-img
-      - if @jobs.empty?
-        h4 Sem oportunidades de emprego de momento.
-        br
-      - @jobs.each do |job|
-        .job-container
-          = render partial: "shared/job/index", locals: { job: job }
-          .divide20
-
-      = will_paginate @jobs, renderer: BootstrapPagination::Rails
-
--- >
-
-
 <%= render partial: 'jobs/jobs_breadcrumb' %>
 <div class="divide40">
 </div>

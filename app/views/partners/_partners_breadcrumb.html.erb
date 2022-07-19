@@ -1,23 +1,11 @@
-<! --
-.breadcrumb-wrap
-  .container
-    .row
-      .col-sm-6
-        = link_to partners_path do
-          h4 Parcerias
-      .col-sm-6.hidden-xs.text-right
-        ol.breadcrumb
-          li
-            = link_to 'Home', root_path
-          li.active Parcerias
--- >
-
 <div class="breadcrumb-wrap">
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
         <%= link_to partners_path do %>
           <h4>Parcerias</h4>
+        <% end %>
+      </div>
       <div class="col-sm-6 hidden-xs text-right">
         <ol class="breadcrumb">
           <li>

@@ -1,39 +1,3 @@
-<! --
-= render partial: "activities/activities_breadcrumb"
-.divide60
-.container
-  - if flash[:success]
-    .row
-      div.alert.alert-success
-        = flash[:success]
-  - elsif flash[:alert]
-    .row
-      div.alert.alert-warning
-        = flash[:alert]
-
-  h3.activity-title
-    | Participantes (#{@activity.participants.count})
-  span.center-line style="margin-bottom: 8px;"
-
-  .row
-    - @registrations.each do |registration|
-      - participant = registration.user
-
-      .col-md-8.col-sm-8.col-xs-12
-        h3.lead = link_to participant.name, user_path(participant.id)
-      .col-md-4.col-sm-4.col-xs-12
-        = form_for registration,
-          url: confirm_participant_path(@activity.id, participant.id) do |f|
-
-          = hidden_field_tag :confirmed, registration.confirmed
-          - if registration.confirmed
-            = f.button "Anular confirmação", class: "btn btn-disabled pull-right"
-          - else
-            = f.button "Confirmar", class: "btn border-theme pull-right pull-right"
-.divide20
--- >
-
-
 <%= render partial: "activities/activities_breadcrumb" %>
 <div class="divide60">
 </div>
