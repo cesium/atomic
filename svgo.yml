@@ -1,6 +1,0 @@
-plugins:
-  # custom options
-  - convertTransform:
-      convertToShorts: false
-  - sortAttrs
-  - removeDimensions
