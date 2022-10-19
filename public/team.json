@@ -49,7 +49,7 @@
           }
         },
         {
-                "Tiago Pereira" : {
+          "Tiago Pereira" : {
             "position": "Codiretor",
             "image": "team/tiago-pereira.jpg"
                 }
@@ -161,26 +161,28 @@
                 }
         }
       ]
-    }
-  ],
-  "Vogais": [
+    },
     {
-      "Gabriela Prata": {
-        "position": "Vogal",
-        "image": "team/gabriela-prata.jpg"
-      },
-      "Jéssica Fernandes": {
-        "position": "Vogal",
-        "image": "team/jessica-fernandes.jpg"
-      },
-      "José Ferreira": {
-        "position": "Vogal",
-        "image": "team/jose-ferreira.jpg"
-      },
-      "Matilde Bravo": {
-        "position": "Vogal",
-        "image": "team/matilde-bravo.jpg"
-      }
+      "Vogais": [
+        {
+          "Gabriela Prata": {
+            "position": "Vogal",
+            "image": "team/gabriela-prata.jpg"
+          },
+          "Jéssica Fernandes": {
+            "position": "Vogal",
+            "image": "team/jessica-fernandes.jpg"
+          },
+          "José Ferreira": {
+            "position": "Vogal",
+            "image": "team/jose-ferreira.jpg"
+          },
+          "Matilde Bravo": {
+            "position": "Vogal",
+            "image": "team/matilde-bravo.jpg"
+          }
+        }
+      ]
     }
   ],
   "Mesa da Assembleia Geral": [
