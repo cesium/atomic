@@ -49,17 +49,17 @@
           }
         },
         {
-          "Tiago Pereira" : {
+          "Tiago Pereira": {
             "position": "Codiretor",
             "image": "team/tiago-pereira.jpg"
-                }
+          }
         },
         {
           "Enzo Vieira": {
-                  "position": "Codiretor",
+            "position": "Codiretor",
             "image": "team/enzo-vieira.jpg"
           }
-        }	
+        }
       ]
     },
     {
@@ -77,19 +77,19 @@
           }
         },
         {
-                "Ricardo Lucena": {
-                  "position": "Codiretor",
+          "Ricardo Lucena": {
+            "position": "Codiretor",
             "image": "team/ricardo-lucena.jpg"
-                }
-              },
-        {
-                "Alexandre Neves": {
-                  "position": "Codiretor",
-            "image": "team/alexandre-neves.jpg"
-                }
+          }
         },
         {
-                "Lara Pereira": {
+          "Alexandre Neves": {
+            "position": "Codiretor",
+            "image": "team/alexandre-neves.jpg"
+          }
+        },
+        {
+          "Lara Pereira": {
             "position": "Codiretora",
             "image": "team/lara-pereira.jpg"
           }
@@ -114,7 +114,7 @@
           "Inês Marinho": {
             "position": "Codiretora",
             "image": "team/ines-marinho.jpg"
-                }
+          }
         }
       ]
     },
@@ -156,9 +156,9 @@
         },
         {
           "Martim Ferreira": {
-                  "position": "Codiretor",
+            "position": "Codiretor",
             "image": "team/martim-ferreira.jpg"
-                }
+          }
         }
       ]
     },
