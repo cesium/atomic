@@ -1,0 +1,41 @@
+<h1>Show Activity</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
+    <.live_component
+      module={AtomicWeb.ActivityLive.FormComponent}
+      id={@activity.id}
+      title={@page_title}
+      action={@live_action}
+      activity={@activity}
+      return_to={Routes.activity_show_path(@socket, :show, @activity)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @activity.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @activity.description %>
+  </li>
+
+  <li>
+    <strong>Minimum entries:</strong>
+    <%= @activity.minimum_entries %>
+  </li>
+
+  <li>
+    <strong>Maximum entries:</strong>
+    <%= @activity.maximum_entries %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.activity_show_path(@socket, :edit, @activity), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
