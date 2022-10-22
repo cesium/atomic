@@ -52,4 +52,4 @@ function log_info() {
   __log "${LABEL}" "$CYAN" "$@"
 }
 
-[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.4 || true
+[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.5 || true

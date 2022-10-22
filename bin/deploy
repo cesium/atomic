@@ -1,3 +1,0 @@
-ENVIRONMENT=${1:-staging}
-BRANCH=${2:-master}
-bundle exec cap $ENVIRONMENT deploy BRANCH=$BRANCH

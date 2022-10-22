@@ -52,8 +52,4 @@ function ensure_confirmation() {
   fi
 }
 
-function get_elixir_project_version() {
-  grep '@version ' mix.exs | cut -d '"' -f2
-}
-
-[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.4 || true
+[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.5 || true
