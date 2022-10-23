@@ -35,7 +35,16 @@
     <%= @activity.maximum_entries %>
   </li>
 
+  <li>
+    <strong>Sessions:</strong>
+    <%= for session <- @activity.activity_sessions do %>
+      <%= session.start %>
+      <%= session.finish %>
+    <% end %>
+  </li>
+
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.activity_show_path(@socket, :edit, @activity), class: "button" %></span> |
+<span><%= live_patch "Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button" %></span> |
+<span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] %></span> |
 <span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>

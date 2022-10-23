@@ -13,7 +13,14 @@ defmodule AtomicWeb.ActivityLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:activity, Activities.get_activity!(id))}
+     |> assign(:activity, Activities.get_activity!(id, [:activity_sessions]))}
+  end
+
+  @impl true
+  def handle_event("delete", _payload, socket) do
+    {:ok, _} = Activities.delete_activity(socket.assigns.activity)
+
+    {:noreply, push_redirect(socket, to: Routes.activity_index_path(socket, :index))}
   end
 
   defp page_title(:show), do: "Show Activity"

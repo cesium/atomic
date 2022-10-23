@@ -20,4 +20,19 @@ defmodule Atomic.ActivitiesFixtures do
 
     activity
   end
+
+  @doc """
+  Generate a session.
+  """
+  def session_fixture(attrs \\ %{}) do
+    {:ok, session} =
+      attrs
+      |> Enum.into(%{
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-22 20:00:00]
+      })
+      |> Atomic.Activities.create_session()
+
+    session
+  end
 end

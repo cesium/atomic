@@ -20,12 +20,9 @@ defmodule AtomicWeb.Router do
     get "/", PageController, :index
 
     live "/activities", ActivityLive.Index, :index
-    live "/activities/new", ActivityLive.Index, :new
-    live "/activities/:id/edit", ActivityLive.Index, :edit
-
+    live "/activities/new", ActivityLive.New, :new
+    live "/activities/:id/edit", ActivityLive.Edit, :edit
     live "/activities/:id", ActivityLive.Show, :show
-    live "/activities/:id/show/edit", ActivityLive.Show, :edit
-
   end
 
   # Other scopes may use custom stacks.

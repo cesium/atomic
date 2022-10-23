@@ -24,7 +24,21 @@
     <%= label f, :maximum_entries %>
     <%= number_input f, :maximum_entries %>
     <%= error_tag f, :maximum_entries %>
-  
+
+    <button phx-click="add-session" phx-target={@myself}>
+      New Session
+    </button>
+    <%= label f, :activity_sessions %>
+    <%= inputs_for f, :activity_sessions, fn fs -> %>
+      <%= datetime_local_input(fs, :start) %>
+      <%= error_tag(fs, :start) %>
+      
+      <%= datetime_local_input(fs, :finish) %>
+      <%= error_tag(fs, :finish) %>
+
+      <%= checkbox(fs, :delete, id: fs.data.id) %>
+    <% end %>
+    
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>

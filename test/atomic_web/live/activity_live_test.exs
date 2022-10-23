@@ -4,8 +4,18 @@ defmodule AtomicWeb.ActivityLiveTest do
   import Phoenix.LiveViewTest
   import Atomic.ActivitiesFixtures
 
-  @create_attrs %{description: "some description", maximum_entries: 42, minimum_entries: 42, title: "some title"}
-  @update_attrs %{description: "some updated description", maximum_entries: 43, minimum_entries: 43, title: "some updated title"}
+  @create_attrs %{
+    description: "some description",
+    maximum_entries: 42,
+    minimum_entries: 42,
+    title: "some title"
+  }
+  @update_attrs %{
+    description: "some updated description",
+    maximum_entries: 43,
+    minimum_entries: 43,
+    title: "some updated title"
+  }
   @invalid_attrs %{description: nil, maximum_entries: nil, minimum_entries: nil, title: nil}
 
   defp create_activity(_) do

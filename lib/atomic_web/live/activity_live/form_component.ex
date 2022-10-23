@@ -2,6 +2,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
+  alias Atomic.Activities.Session
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
@@ -25,6 +26,37 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   def handle_event("save", %{"activity" => activity_params}, socket) do
     save_activity(socket, socket.assigns.action, activity_params)
+  end
+
+  def handle_event("add-session", _, socket) do
+    existing_sessions =
+      Map.get(
+        socket.assigns.changeset.changes,
+        :activity_sessions,
+        socket.assigns.activity.activity_sessions
+      )
+
+    sessions =
+      existing_sessions
+      |> Enum.concat([Activities.change_session(%Session{})])
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_assoc(:activity_sessions, sessions)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event("rm-session", %{"index" => index}, socket) do
+    new_sessions =
+      Map.get(socket.assigns.changeset.changes, :activity_sessions)
+      |> List.delete_at(String.to_integer(index))
+
+    changeset =
+      socket.assigns.changeset
+      |> Ecto.Changeset.put_assoc(:activity_sessions, new_sessions)
+
+    {:noreply, assign(socket, changeset: changeset)}
   end
 
   defp save_activity(socket, :edit, activity_params) do
