@@ -6,6 +6,7 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
       add :id, :binary_id, primary_key: true
       add :start, :naive_datetime
       add :finish, :naive_datetime
+      add :location, :map
 
       add :activity_id,
           references(:activities, on_delete: :delete_all, type: :binary_id)

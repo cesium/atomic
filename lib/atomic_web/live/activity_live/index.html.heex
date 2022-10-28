@@ -4,10 +4,9 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Description</th>
-      <th>Minimum entries</th>
-      <th>Maximum entries</th>
       <th>Date</th>
+      <th>Location</th>
+      <th>Maximum entries</th>
 
       <th></th>
     </tr>
@@ -16,8 +15,8 @@
     <%= for activity <- @activities do %>
       <tr id={"activity-#{activity.id}"}>
         <td><%= activity.title %></td>
-        <td><%= activity.description %></td>
-        <td><%= activity.minimum_entries %></td>
+        <td><%= hd(activity.activity_sessions).start %></td>
+        <td><%= hd(activity.activity_sessions).location.name %></td>
         <td><%= activity.maximum_entries %></td>
 
         <td>

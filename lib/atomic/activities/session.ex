@@ -4,11 +4,17 @@ defmodule Atomic.Activities.Session do
   """
   use Atomic.Schema
 
-  alias Eegs.Activities.Activity
+  alias Atomic.Activities.Activity
+  alias Atomic.Activities.Location
+
+  @required_fields ~w(start finish)a
+  @optional_fields ~w(delete)a
 
   schema "sessions" do
-    field :finish, :naive_datetime
     field :start, :naive_datetime
+    field :finish, :naive_datetime
+
+    embeds_one :location, Location, on_replace: :delete
 
     field :delete, :boolean, virtual: true
 
@@ -20,9 +26,15 @@ defmodule Atomic.Activities.Session do
   @doc false
   def changeset(session, attrs) do
     session
-    |> cast(attrs, [:start, :finish, :delete])
-    |> validate_required([:start, :finish])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> validate_location()
     |> maybe_mark_for_deletion()
+  end
+
+  defp validate_location(changeset) do
+    changeset
+    |> cast_embed(:location, with: &Location.changeset/2)
   end
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset

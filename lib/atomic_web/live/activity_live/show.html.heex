@@ -37,9 +37,29 @@
 
   <li>
     <strong>Sessions:</strong>
-    <%= for session <- @activity.activity_sessions do %>
-      <%= session.start %>
-      <%= session.finish %>
+    <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
+      <ul>
+      <strong><%= "Session #{index}" %></strong>
+      <li>
+        <strong>Start:</strong>
+        <%= session.start %>
+      </li>
+      <li>
+        <strong>Finnish:</strong>
+        <%= session.finish %>
+      </li>
+      <li>
+        <strong>Location:</strong>
+        <%= session.location.name %>
+      </li>
+      <li>
+        <strong>url:</strong>
+        <%= if session.location.url do %>
+          <%= session.location.url %>
+        <% end %>
+      </li>
+
+      </ul>
     <% end %>
   </li>
 
