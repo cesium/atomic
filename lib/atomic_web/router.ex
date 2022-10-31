@@ -18,6 +18,11 @@ defmodule AtomicWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/activities", ActivityLive.Index, :index
+    live "/activities/new", ActivityLive.New, :new
+    live "/activities/:id/edit", ActivityLive.Edit, :edit
+    live "/activities/:id", ActivityLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
