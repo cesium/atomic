@@ -35,4 +35,16 @@ defmodule Atomic.ActivitiesFixtures do
 
     session
   end
+
+  @doc """
+  Generate a enrollment.
+  """
+  def enrollment_fixture(attrs \\ %{}) do
+    {:ok, enrollment} =
+      attrs
+      |> Enum.into(%{})
+      |> Atomic.Activities.create_enrollment()
+
+    enrollment
+  end
 end

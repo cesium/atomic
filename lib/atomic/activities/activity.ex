@@ -4,6 +4,7 @@ defmodule Atomic.Activities.Activity do
   """
   use Atomic.Schema
 
+  alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
 
   schema "activities" do
@@ -11,12 +12,15 @@ defmodule Atomic.Activities.Activity do
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :title, :string
+    field :enrolled, :integer, virtual: true
 
     has_many :activity_sessions, Session,
       on_delete: :delete_all,
       on_replace: :delete_if_exists,
       foreign_key: :activity_id,
       preload_order: [asc: :start]
+
+    has_many :enrollments, Enrollment, foreign_key: :activity_id
 
     timestamps()
   end

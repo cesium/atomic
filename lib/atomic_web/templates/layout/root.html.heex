@@ -20,6 +20,7 @@
             <% end %>
             <li><%= live_redirect "Activities", to: Routes.activity_index_path(@conn, :index) %></li>
           </ul>
+          <%= render "_user_menu.html", assigns %>
         </nav>
         <a href="https://phoenixframework.org/" class="phx-logo">
           <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
