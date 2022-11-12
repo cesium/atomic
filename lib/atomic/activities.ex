@@ -234,7 +234,7 @@ defmodule Atomic.Activities do
   def get_enrollment!(id), do: Repo.get!(Enrollment, id)
 
   @doc """
-  Creates a enrollment.
+  Creates an enrollment.
 
   ## Examples
 
