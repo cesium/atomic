@@ -4,6 +4,7 @@ defmodule Atomic.Activities do
   """
   use Atomic.Context
 
+  alias Atomic.Accounts.User
   alias Atomic.Activities.Activity
 
   @doc """
@@ -199,5 +200,147 @@ defmodule Atomic.Activities do
   """
   def change_session(%Session{} = session, attrs \\ %{}) do
     Session.changeset(session, attrs)
+  end
+
+  alias Atomic.Activities.Enrollment
+
+  @doc """
+  Returns the list of enrollments.
+
+  ## Examples
+
+      iex> list_enrollments()
+      [%Enrollment{}, ...]
+
+  """
+  def list_enrollments do
+    Repo.all(Enrollment)
+  end
+
+  @doc """
+  Gets a single enrollment.
+
+  Raises `Ecto.NoResultsError` if the Enrollment does not exist.
+
+  ## Examples
+
+      iex> get_enrollment!(123)
+      %Enrollment{}
+
+      iex> get_enrollment!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_enrollment!(id), do: Repo.get!(Enrollment, id)
+
+  @doc """
+  Creates an enrollment.
+
+  ## Examples
+
+      iex> create_enrollment(%{field: value})
+      {:ok, %Enrollment{}}
+
+      iex> create_enrollment(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_enrollment(%Activity{} = activity, %User{} = user) do
+    %Enrollment{}
+    |> Enrollment.changeset(%{
+      activity_id: activity.id,
+      user_id: user.id
+    })
+    |> Repo.insert()
+    |> broadcast(:new_enrollment)
+  end
+
+  @doc """
+  Updates a enrollment.
+
+  ## Examples
+
+      iex> update_enrollment(enrollment, %{field: new_value})
+      {:ok, %Enrollment{}}
+
+      iex> update_enrollment(enrollment, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_enrollment(%Enrollment{} = enrollment, attrs) do
+    enrollment
+    |> Enrollment.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def is_user_enrolled?(%Activity{} = activity, %User{} = user) do
+    Repo.one(
+      from e in Enrollment,
+        where: e.user_id == ^user.id and e.activity_id == ^activity.id
+    )
+  end
+
+  @doc """
+  Deletes a enrollment.
+
+  ## Examples
+
+      iex> delete_enrollment(enrollment)
+      {:ok, %Enrollment{}}
+
+      iex> delete_enrollment(enrollment)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_enrollment(%Activity{} = activity, %User{} = user) do
+    Repo.delete_all(
+      from e in Enrollment,
+        where: e.user_id == ^user.id and e.activity_id == ^activity.id
+    )
+    |> broadcast(:deleted_enrollment)
+  end
+
+  def get_total_enrolled(%Activity{} = activity) do
+    Enrollment
+    |> where(activity_id: ^activity.id)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking enrollment changes.
+
+  ## Examples
+
+      iex> change_enrollment(enrollment)
+      %Ecto.Changeset{data: %Enrollment{}}
+
+  """
+  def change_enrollment(%Enrollment{} = enrollment, attrs \\ %{}) do
+    Enrollment.changeset(enrollment, attrs)
+  end
+
+  def enrolled?(%Activity{} = activity, %User{} = user) do
+    Repo.one(
+      from e in Enrollment,
+        where: e.user_id == ^user.id and e.activtiy_id == ^activity.id
+    )
+  end
+
+  def subscribe(topic) when topic in ["new_enrollment", "deleted_enrollment"] do
+    Phoenix.PubSub.subscribe(Atomic.PubSub, topic)
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, %Enrollment{} = enrollment}, event)
+       when event in [:new_enrollment] do
+    Phoenix.PubSub.broadcast!(Atomic.PubSub, "new_enrollment", {event, enrollment})
+    {:ok, enrollment}
+  end
+
+  defp broadcast({number, nil}, event)
+       when event in [:deleted_enrollment] do
+    Phoenix.PubSub.broadcast!(Atomic.PubSub, "deleted_enrollment", {event, nil})
+    {number, nil}
   end
 end

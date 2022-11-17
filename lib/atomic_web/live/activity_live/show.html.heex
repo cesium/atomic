@@ -32,7 +32,7 @@
 
   <li>
     <strong>Maximum entries:</strong>
-    <%= @activity.maximum_entries %>
+    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
   </li>
 
   <li>
@@ -65,6 +65,29 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button" %></span> |
-<span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] %></span> |
-<span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
+<%= if @current_user.role == :student do %>
+  <span>
+   <%= if @enrolled? do %>
+      <button
+        phx-click="unenroll"
+        phx-disable-with={gettext("Unenrolling...")}
+        phx-throttle="0"
+      >
+        <%= gettext("Uneroll") %>
+      </button>
+    <% else %>
+        <button
+          phx-click="enroll"
+          phx-disable-with={gettext("Enrolling...")}
+          phx-throttle="0"
+        >
+          <%= gettext("Enroll") %>
+        </button>
+    <% end %>
+  </span>
+<% end %>
+<%= if @current_user.role in [:admin, :staff] do %>
+  <span><%= live_patch "Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button" %></span> |
+  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] %></span> |
+  <span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
+<% end %>
