@@ -3,6 +3,16 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   alias Atomic.Activities
   alias Atomic.Activities.Session
+  alias Atomic.Departments
+
+  @impl true
+  def mount(socket) do
+    departments = Departments.list_departments()
+
+    {:ok,
+     socket
+     |> assign(:departments, departments)}
+  end
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do

@@ -36,6 +36,13 @@
   </li>
 
   <li>
+    <strong>Department:</strong>
+    <%= live_redirect to: Routes.department_show_path(@socket, :show, @activity.department) do %>
+      <%= @activity.department.name %>
+    <% end %>
+  </li>
+
+  <li>
     <strong>Sessions:</strong>
     <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
       <ul>

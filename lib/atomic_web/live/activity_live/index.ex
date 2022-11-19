@@ -33,6 +33,6 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_activities do
-    Activities.list_activities(preloads: [:activity_sessions])
+    Activities.list_activities(preloads: [:department, :activity_sessions])
   end
 end
