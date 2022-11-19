@@ -1,0 +1,39 @@
+<h1>Listing Departments</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.department_index_path(@socket, :index)}>
+    <.live_component
+      module={AtomicWeb.DepartmentLive.FormComponent}
+      id={@department.id || :new}
+      title={@page_title}
+      action={@live_action}
+      department={@department}
+      return_to={Routes.department_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="departments">
+    <%= for department <- @departments do %>
+      <tr id={"department-#{department.id}"}>
+        <td><%= department.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.department_show_path(@socket, :show, department) %></span>
+          <span><%= live_patch "Edit", to: Routes.department_index_path(@socket, :edit, department) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: department.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Department", to: Routes.department_index_path(@socket, :new) %></span>
