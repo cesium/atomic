@@ -2,21 +2,11 @@ defmodule AtomicWeb.ActivityLiveTest do
   use AtomicWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Atomic.ActivitiesFixtures
+  import Atomic.ActivitesFixtures
 
-  @create_attrs %{
-    description: "some description",
-    maximum_entries: 42,
-    minimum_entries: 42,
-    title: "some title"
-  }
-  @update_attrs %{
-    description: "some updated description",
-    maximum_entries: 43,
-    minimum_entries: 43,
-    title: "some updated title"
-  }
-  @invalid_attrs %{description: nil, maximum_entries: nil, minimum_entries: nil, title: nil}
+  @create_attrs %{capacity: 42, date: %{day: 19, hour: 15, minute: 58, month: 10, year: 2022}, description: "some description", location: "some location", title: "some title"}
+  @update_attrs %{capacity: 43, date: %{day: 20, hour: 15, minute: 58, month: 10, year: 2022}, description: "some updated description", location: "some updated location", title: "some updated title"}
+  @invalid_attrs %{capacity: nil, date: %{day: 30, hour: 15, minute: 58, month: 2, year: 2022}, description: nil, location: nil, title: nil}
 
   defp create_activity(_) do
     activity = activity_fixture()
@@ -26,10 +16,10 @@ defmodule AtomicWeb.ActivityLiveTest do
   describe "Index" do
     setup [:create_activity]
 
-    test "lists all activities", %{conn: conn, activity: activity} do
+    test "lists all activies", %{conn: conn, activity: activity} do
       {:ok, _index_live, html} = live(conn, Routes.activity_index_path(conn, :index))
 
-      assert html =~ "Listing Activities"
+      assert html =~ "Listing Activies"
       assert html =~ activity.description
     end
 
@@ -43,7 +33,7 @@ defmodule AtomicWeb.ActivityLiveTest do
 
       assert index_live
              |> form("#activity-form", activity: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is invalid"
 
       {:ok, _, html} =
         index_live
@@ -65,7 +55,7 @@ defmodule AtomicWeb.ActivityLiveTest do
 
       assert index_live
              |> form("#activity-form", activity: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is invalid"
 
       {:ok, _, html} =
         index_live
@@ -105,7 +95,7 @@ defmodule AtomicWeb.ActivityLiveTest do
 
       assert show_live
              |> form("#activity-form", activity: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "is invalid"
 
       {:ok, _, html} =
         show_live

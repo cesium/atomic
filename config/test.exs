@@ -20,7 +20,7 @@ config :atomic, Atomic.Repo,
 # you can enable the server option below.
 config :atomic, AtomicWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "APhnRcuNsIEUO2vqrBkp0HgINLNykv9+8F2dpeid1vXZfz/+IgdkzN0rUm37JTJX",
+  secret_key_base: "r9M5TJmKSjEn4aRObrwewuqLRaMDW/J58cZTKs5ZpB+dHTyMb7jf7cg1eRXJ+73v",
   server: false
 
 # In test we don't send emails.

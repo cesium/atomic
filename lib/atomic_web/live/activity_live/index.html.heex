@@ -1,30 +1,47 @@
-<h1>Listing Activities</h1>
+<h1>Listing Activies</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.activity_index_path(@socket, :index)}>
+    <.live_component
+      module={AtomicWeb.ActivityLive.FormComponent}
+      id={@activity.id || :new}
+      title={@page_title}
+      action={@live_action}
+      activity={@activity}
+      return_to={Routes.activity_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
 
 <table>
   <thead>
     <tr>
       <th>Title</th>
+      <th>Description</th>
       <th>Date</th>
+      <th>Capacity</th>
       <th>Location</th>
-      <th>Maximum entries</th>
 
       <th></th>
     </tr>
   </thead>
-  <tbody id="activities">
-    <%= for activity <- @activities do %>
+  <tbody id="activies">
+    <%= for activity <- @activies do %>
       <tr id={"activity-#{activity.id}"}>
         <td><%= activity.title %></td>
-        <td><%= hd(activity.activity_sessions).start %></td>
-        <td><%= hd(activity.activity_sessions).location.name %></td>
-        <td><%= activity.maximum_entries %></td>
+        <td><%= activity.description %></td>
+        <td><%= activity.date %></td>
+        <td><%= activity.capacity %></td>
+        <td><%= activity.location %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.activity_show_path(@socket, :show, activity) %></span>
+          <span><%= live_patch "Edit", to: Routes.activity_index_path(@socket, :edit, activity) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: activity.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Activity", to: Routes.activity_new_path(@socket, :new) %></span>
+<span><%= live_patch "New Activity", to: Routes.activity_index_path(@socket, :new) %></span>

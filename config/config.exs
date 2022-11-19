@@ -15,7 +15,7 @@ config :atomic, AtomicWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: AtomicWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Atomic.PubSub,
-  live_view: [signing_salt: "b3vXk+Gw"]
+  live_view: [signing_salt: "DmLAlyrN"]
 
 # Configures the mailer
 #
@@ -31,7 +31,7 @@ config :swoosh, :api_client, false
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.14.0",
+  version: "0.14.29",
   default: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),

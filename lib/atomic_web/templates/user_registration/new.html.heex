@@ -15,9 +15,6 @@
   <%= password_input f, :password, required: true %>
   <%= error_tag f, :password %>
 
-  <%= label f, :role %>
-  <%= select(f, :role, @roles, prompt: "Choose a Role", selected: f.data.role, required: true) %>
-  <%= error_tag f, :role %>
   <div>
     <%= submit "Register" %>
   </div>

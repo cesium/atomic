@@ -7,7 +7,7 @@ defmodule AtomicWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_atomic_key",
-    signing_salt: "GxRqsOUQ"
+    signing_salt: "2VgE/CCH"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]

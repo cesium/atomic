@@ -17,9 +17,17 @@
     <%= textarea f, :description %>
     <%= error_tag f, :description %>
   
-    <%= label f, :minimum_entries %>
-    <%= number_input f, :minimum_entries %>
-    <%= error_tag f, :minimum_entries %>
+    <%= label f, :date %>
+    <%= datetime_select f, :date %>
+    <%= error_tag f, :date %>
+  
+    <%= label f, :capacity %>
+    <%= number_input f, :capacity %>
+    <%= error_tag f, :capacity %>
+  
+    <%= label f, :location %>
+    <%= text_input f, :location %>
+    <%= error_tag f, :location %>
   
     <%= label f, :maximum_entries %>
     <%= number_input f, :maximum_entries %>
