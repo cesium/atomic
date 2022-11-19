@@ -32,15 +32,7 @@ defmodule AtomicWeb.ActivityLive.Index do
     |> assign(:activity, nil)
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    activity = Activites.get_activity!(id)
-    {:ok, _} = Activites.delete_activity(activity)
-
-    {:noreply, assign(socket, :activies, list_activies())}
-  end
-
-  defp list_activies do
-    Activites.list_activies()
+  defp list_activities do
+    Activities.list_activities(preloads: [:department, :activity_sessions])
   end
 end

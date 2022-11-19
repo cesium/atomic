@@ -9,7 +9,11 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :minimum_entries, :integer
       add :maximum_entries, :integer
 
+      add :department_id, references(:departments, on_delete: :nothing, type: :binary_id)
+
       timestamps()
     end
+
+    create index(:activities, [:department_id])
   end
 end

@@ -6,13 +6,22 @@ defmodule Atomic.Activities.Activity do
 
   alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
+  alias Atomic.Departments.Department
+
+  @required_fields ~w(title description
+                    minimum_entries maximum_entries
+                    department_id)a
+
+  @optional_fields []
 
   schema "activities" do
+    field :title, :string
     field :description, :string
     field :maximum_entries, :integer
     field :minimum_entries, :integer
-    field :title, :string
     field :enrolled, :integer, virtual: true
+
+    belongs_to :department, Department
 
     has_many :activity_sessions, Session,
       on_delete: :delete_all,
@@ -28,11 +37,11 @@ defmodule Atomic.Activities.Activity do
   @doc false
   def changeset(activity, attrs) do
     activity
-    |> cast(attrs, [:title, :description, :minimum_entries, :maximum_entries])
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_assoc(:activity_sessions,
       required: true,
       with: &Session.changeset/2
     )
-    |> validate_required([:title, :description, :minimum_entries, :maximum_entries])
+    |> validate_required(@required_fields)
   end
 end

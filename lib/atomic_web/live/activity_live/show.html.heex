@@ -36,8 +36,38 @@
   </li>
 
   <li>
-    <strong>Location:</strong>
-    <%= @activity.location %>
+    <strong>Department:</strong>
+    <%= live_redirect to: Routes.department_show_path(@socket, :show, @activity.department) do %>
+      <%= @activity.department.name %>
+    <% end %>
+  </li>
+
+  <li>
+    <strong>Sessions:</strong>
+    <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
+      <ul>
+      <strong><%= "Session #{index}" %></strong>
+      <li>
+        <strong>Start:</strong>
+        <%= session.start %>
+      </li>
+      <li>
+        <strong>Finnish:</strong>
+        <%= session.finish %>
+      </li>
+      <li>
+        <strong>Location:</strong>
+        <%= session.location.name %>
+      </li>
+      <li>
+        <strong>url:</strong>
+        <%= if session.location.url do %>
+          <%= session.location.url %>
+        <% end %>
+      </li>
+
+      </ul>
+    <% end %>
   </li>
 
 </ul>
