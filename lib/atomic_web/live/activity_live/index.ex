@@ -1,12 +1,12 @@
 defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
-  alias Atomic.Activities
-  alias Atomic.Activities.Activity
+  alias Atomic.Activites
+  alias Atomic.Activites.Activity
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities())}
+    {:ok, assign(socket, :activies, list_activies())}
   end
 
   @impl true
@@ -17,7 +17,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Activity")
-    |> assign(:activity, Activities.get_activity!(id))
+    |> assign(:activity, Activites.get_activity!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -28,11 +28,19 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Activities")
+    |> assign(:page_title, "Listing Activies")
     |> assign(:activity, nil)
   end
 
-  defp list_activities do
-    Activities.list_activities(preloads: [:activity_sessions])
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    activity = Activites.get_activity!(id)
+    {:ok, _} = Activites.delete_activity(activity)
+
+    {:noreply, assign(socket, :activies, list_activies())}
+  end
+
+  defp list_activies do
+    Activites.list_activies()
   end
 end

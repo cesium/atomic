@@ -26,68 +26,21 @@
   </li>
 
   <li>
-    <strong>Minimum entries:</strong>
-    <%= @activity.minimum_entries %>
+    <strong>Date:</strong>
+    <%= @activity.date %>
   </li>
 
   <li>
-    <strong>Maximum entries:</strong>
-    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+    <strong>Capacity:</strong>
+    <%= @activity.capacity %>
   </li>
 
   <li>
-    <strong>Sessions:</strong>
-    <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
-      <ul>
-      <strong><%= "Session #{index}" %></strong>
-      <li>
-        <strong>Start:</strong>
-        <%= session.start %>
-      </li>
-      <li>
-        <strong>Finnish:</strong>
-        <%= session.finish %>
-      </li>
-      <li>
-        <strong>Location:</strong>
-        <%= session.location.name %>
-      </li>
-      <li>
-        <strong>url:</strong>
-        <%= if session.location.url do %>
-          <%= session.location.url %>
-        <% end %>
-      </li>
-
-      </ul>
-    <% end %>
+    <strong>Location:</strong>
+    <%= @activity.location %>
   </li>
 
 </ul>
 
-<%= if @current_user.role == :student do %>
-  <span>
-   <%= if @enrolled? do %>
-      <button
-        phx-click="unenroll"
-        phx-disable-with={gettext("Unenrolling...")}
-        phx-throttle="0"
-      >
-        <%= gettext("Uneroll") %>
-      </button>
-    <% else %>
-        <button
-          phx-click="enroll"
-          phx-disable-with={gettext("Enrolling...")}
-          phx-throttle="0"
-        >
-          <%= gettext("Enroll") %>
-        </button>
-    <% end %>
-  </span>
-<% end %>
-<%= if @current_user.role in [:admin, :staff] do %>
-  <span><%= live_patch "Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button" %></span> |
-  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] %></span> |
-  <span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
-<% end %>
+<span><%= live_patch "Edit", to: Routes.activity_show_path(@socket, :edit, @activity), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>

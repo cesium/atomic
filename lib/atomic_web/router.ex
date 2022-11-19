@@ -21,17 +21,12 @@ defmodule AtomicWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-  end
+    live "/activies", ActivityLive.Index, :index
+    live "/activies/new", ActivityLive.Index, :new
+    live "/activies/:id/edit", ActivityLive.Index, :edit
 
-  scope "/", AtomicWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
-      live "/activities", ActivityLive.Index, :index
-      live "/activities/new", ActivityLive.New, :new
-      live "/activities/:id/edit", ActivityLive.Edit, :edit
-      live "/activities/:id", ActivityLive.Show, :show
-    end
+    live "/activies/:id", ActivityLive.Show, :show
+    live "/activies/:id/show/edit", ActivityLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

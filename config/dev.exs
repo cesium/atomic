@@ -6,6 +6,7 @@ config :atomic, Atomic.Repo,
   password: "postgres",
   hostname: "localhost",
   database: "atomic_dev",
+  stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -22,7 +23,7 @@ config :atomic, AtomicWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "DfYWeTrEYWTjwtj+aLvBHI/oagGs4SePJpSgsKi3iJGe2L7KxgkqxhgQ/PDLNs/x",
+  secret_key_base: "YGqNjmRjNv4pslzy4DB3Roi6xeyvS2/v/YXGn62mlMqCqjWsmu2UKbtNuNaYx5OO",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}

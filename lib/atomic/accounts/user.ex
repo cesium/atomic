@@ -1,22 +1,12 @@
 defmodule Atomic.Accounts.User do
-  @moduledoc """
-  A user of the application capable of authenticating.
-  """
-  use Atomic.Schema
-
-  alias Atomic.Activities.Enrollment
-
-  @roles ~w(admin staff student)a
+  use Ecto.Schema
+  import Ecto.Changeset
 
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-
-    field :role, Ecto.Enum, values: @roles
-
-    has_many :enrollments, Enrollment
 
     timestamps()
   end
@@ -40,7 +30,7 @@ defmodule Atomic.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role])
+    |> cast(attrs, [:email, :password])
     |> validate_email()
     |> validate_password(opts)
   end

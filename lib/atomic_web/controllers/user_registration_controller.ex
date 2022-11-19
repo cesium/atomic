@@ -7,11 +7,6 @@ defmodule AtomicWeb.UserRegistrationController do
 
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
-
-    conn =
-      conn
-      |> assign(:roles, ~w(admin staff student)a)
-
     render(conn, "new.html", changeset: changeset)
   end
 
