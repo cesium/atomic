@@ -1,0 +1,36 @@
+<h1>Show Partner</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.partner_show_path(@socket, :show, @partner)}>
+    <.live_component
+      module={AtomicWeb.PartnerLive.FormComponent}
+      id={@partner.id}
+      title={@page_title}
+      action={@live_action}
+      partner={@partner}
+      return_to={Routes.partner_show_path(@socket, :show, @partner)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @partner.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @partner.description %>
+  </li>
+  
+  <%= if @partner.image do %>
+    <img src={Uploaders.Image.url({@partner.image,@partner}, :original)} class="hidden lg:block xl:w-1/2 h-full object-center object-cover brightness-90"/>
+  <% else %>
+    <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="hidden lg:block xl:w-1/2 h-full object-center object-cover brightness-90" />
+  <% end %>
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.partner_show_path(@socket, :edit, @partner), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.partner_index_path(@socket, :index) %></span>
