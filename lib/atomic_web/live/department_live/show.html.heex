@@ -20,6 +20,17 @@
     <%= @department.name %>
   </li>
 
+  <li>
+    <strong>Activities:</strong>
+    <ul>
+      <%= for activity <- @department.activities do %>
+        <li>
+          <%= live_redirect activity.title, to: Routes.activity_show_path(@socket, :show, activity) %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.department_show_path(@socket, :edit, @department), class: "button" %></span> |
