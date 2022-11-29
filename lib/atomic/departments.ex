@@ -2,9 +2,9 @@ defmodule Atomic.Departments do
   @moduledoc """
   The Departments context.
   """
+  use Atomic.Context
 
   import Ecto.Query, warn: false
-  alias Atomic.Repo
 
   alias Atomic.Departments.Department
 
@@ -35,7 +35,11 @@ defmodule Atomic.Departments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_department!(id), do: Repo.get!(Department, id)
+  def get_department!(id, opts \\ []) do
+    Department
+    |> apply_filters(opts)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a department.
