@@ -8,7 +8,6 @@ defmodule Atomic.Partnerships.Partner do
 
   @required_fields ~w(name description)a
 
-
   @optional_fields []
 
   @derive {

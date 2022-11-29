@@ -16,7 +16,8 @@ defmodule AtomicWeb.ActivityLive.New do
      socket
      |> assign(:page_title, gettext("New Activity"))
      |> assign(:activity, %Activity{
-       activity_sessions: [%Session{}]
+       activity_sessions: [%Session{}],
+       speakers: []
      })}
   end
 end

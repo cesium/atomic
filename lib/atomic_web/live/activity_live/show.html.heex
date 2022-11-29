@@ -43,6 +43,17 @@
   </li>
 
   <li>
+    <strong>Speakers:</strong>
+    <%= for speaker <- @activity.speakers do %>
+      <ul>
+        <li>
+          <%= speaker.name %>
+        </li>
+      </ul>
+    <% end %>
+  </li>
+
+  <li>
     <strong>Sessions:</strong>
     <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
       <ul>

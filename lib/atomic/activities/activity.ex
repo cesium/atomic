@@ -4,8 +4,11 @@ defmodule Atomic.Activities.Activity do
   """
   use Atomic.Schema
 
+  alias Atomic.Activities
+  alias Atomic.Activities.ActivitySpeaker
   alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
+  alias Atomic.Activities.Speaker
   alias Atomic.Departments.Department
 
   @required_fields ~w(title description
@@ -20,6 +23,8 @@ defmodule Atomic.Activities.Activity do
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
+
+    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
 
     belongs_to :department, Department
 
@@ -42,6 +47,17 @@ defmodule Atomic.Activities.Activity do
       required: true,
       with: &Session.changeset/2
     )
+    |> maybe_put_speakers(attrs)
     |> validate_required(@required_fields)
+  end
+
+  defp maybe_put_speakers(changeset, attrs) do
+    if attrs["speakers"] do
+      speakers = Activities.get_speakers(attrs["speakers"])
+
+      Ecto.Changeset.put_assoc(changeset, :speakers, speakers)
+    else
+      changeset
+    end
   end
 end

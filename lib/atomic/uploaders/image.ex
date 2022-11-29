@@ -37,5 +37,4 @@ defmodule Atomic.Uploaders.Image do
   def default_url(version) do
     "uploads/atomic/partner_image_#{version}.png"
   end
-
 end
