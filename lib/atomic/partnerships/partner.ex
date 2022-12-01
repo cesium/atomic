@@ -8,7 +8,6 @@ defmodule Atomic.Partnerships.Partner do
 
   @required_fields ~w(name description)a
 
-
   @optional_fields []
 
   @derive {
@@ -32,9 +31,9 @@ defmodule Atomic.Partnerships.Partner do
   @doc false
   def changeset(partner, attrs) do
     partner
-    |> cast(attrs, [:name, :description])
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_attachments(attrs, [:image])
-    |> validate_required([:name, :description])
+    |> validate_required(@required_fields)
     |> unique_constraint(:name)
   end
 
