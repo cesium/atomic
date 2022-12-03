@@ -1,4 +1,4 @@
-defmodule Atomic.Repo.Migrations.CreateSpeakers do
+defmodule Atomic.Repo.Migrations.CreateActivitySpeakers do
   use Ecto.Migration
 
   def change do
