@@ -2,15 +2,18 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
+  alias Atomic.Activities.Speaker
   alias Atomic.Activities.Session
   alias Atomic.Departments
 
   @impl true
   def mount(socket) do
     departments = Departments.list_departments()
+    speakers = Activities.list_speakers()
 
     {:ok,
      socket
+     |> assign(:speakers, speakers)
      |> assign(:departments, departments)}
   end
 

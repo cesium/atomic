@@ -32,7 +32,11 @@
     <%= label f, :department_id %>
     <%= select(f, :department_id, Enum.map(@departments, &{&1.name, &1.id}), prompt: "Choose a Department", selected: f.data.department_id, required: true) %>
     <%= error_tag f, :department_id %>
-    
+
+    <%= label f, :speakers %>
+    <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, &(&1.id))) %>
+    <%= error_tag f, :speaker %>
+
     <ul>
       <a href="#" phx-click="add-session" phx-target={@myself}>
         New Session

@@ -40,7 +40,11 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :edit, partner_params) do
-    case Partnerships.update_partner(socket.assigns.partner, partner_params, &consume_image_data(socket, &1)) do
+    case Partnerships.update_partner(
+           socket.assigns.partner,
+           partner_params,
+           &consume_image_data(socket, &1)
+         ) do
       {:ok, _partner} ->
         {:noreply,
          socket
@@ -53,7 +57,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :new, partner_params) do
-    case Partnerships.create_partner(partner_params,&consume_image_data(socket, &1)) do
+    case Partnerships.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,
          socket

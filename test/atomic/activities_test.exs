@@ -185,4 +185,60 @@ defmodule Atomic.ActivitiesTest do
       assert %Ecto.Changeset{} = Activities.change_enrollment(enrollment)
     end
   end
+
+  describe "speakers" do
+    alias Atomic.Activities.Speaker
+
+    import Atomic.ActivitiesFixtures
+
+    @invalid_attrs %{bio: nil, name: nil}
+
+    test "list_speakers/0 returns all speakers" do
+      speaker = speaker_fixture()
+      assert Activities.list_speakers() == [speaker]
+    end
+
+    test "get_speaker!/1 returns the speaker with given id" do
+      speaker = speaker_fixture()
+      assert Activities.get_speaker!(speaker.id) == speaker
+    end
+
+    test "create_speaker/1 with valid data creates a speaker" do
+      valid_attrs = %{bio: "some bio", name: "some name"}
+
+      assert {:ok, %Speaker{} = speaker} = Activities.create_speaker(valid_attrs)
+      assert speaker.bio == "some bio"
+      assert speaker.name == "some name"
+    end
+
+    test "create_speaker/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Activities.create_speaker(@invalid_attrs)
+    end
+
+    test "update_speaker/2 with valid data updates the speaker" do
+      speaker = speaker_fixture()
+      update_attrs = %{bio: "some updated bio", name: "some updated name"}
+
+      assert {:ok, %Speaker{} = speaker} = Activities.update_speaker(speaker, update_attrs)
+      assert speaker.bio == "some updated bio"
+      assert speaker.name == "some updated name"
+    end
+
+    test "update_speaker/2 with invalid data returns error changeset" do
+      speaker = speaker_fixture()
+      assert {:error, %Ecto.Changeset{}} = Activities.update_speaker(speaker, @invalid_attrs)
+      assert speaker == Activities.get_speaker!(speaker.id)
+    end
+
+    test "delete_speaker/1 deletes the speaker" do
+      speaker = speaker_fixture()
+      assert {:ok, %Speaker{}} = Activities.delete_speaker(speaker)
+      assert_raise Ecto.NoResultsError, fn -> Activities.get_speaker!(speaker.id) end
+    end
+
+    test "change_speaker/1 returns a speaker changeset" do
+      speaker = speaker_fixture()
+      assert %Ecto.Changeset{} = Activities.change_speaker(speaker)
+    end
+  end
 end

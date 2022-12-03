@@ -43,6 +43,12 @@ defmodule AtomicWeb.Router do
       live "/partners/:id/edit", PartnerLive.Index, :edit
       live "/partners/:id", PartnerLive.Show, :show
       live "/partners/:id/show/edit", PartnerLive.Show, :edit
+
+      live "/speakers", SpeakerLive.Index, :index
+      live "/speakers/new", SpeakerLive.Index, :new
+      live "/speakers/:id/edit", SpeakerLive.Index, :edit
+      live "/speakers/:id", SpeakerLive.Show, :show
+      live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
     end
   end
 
