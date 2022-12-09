@@ -12,8 +12,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     {:ok,
      socket
-     |> assign(:speakers, speakers)
-     |> assign(:departments, departments)}
+     |> assign(:departments, departments)
+     |> assign(:speakers, speakers)}
   end
 
   @impl true
