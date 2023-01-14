@@ -5,6 +5,8 @@ defmodule Atomic.Departments.Department do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
+  alias Atomic.Accounts.Collaborator
+  alias Atomic.Users.CollaboratorDepartment
 
   @required_fields ~w(name)a
 
