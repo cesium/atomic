@@ -7,7 +7,10 @@ defmodule Atomic.Repo.Migrations.CreateDepartments do
 
       add :name, :string
 
+      add :organization_id, references(:organizations, on_delete: :delete_all, type: :binary_id)
       timestamps()
     end
+
+    create index(:departments, [:organization_id])
   end
 end

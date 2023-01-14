@@ -4,8 +4,6 @@ defmodule Atomic.Activities.Speaker do
   """
   use Atomic.Schema
 
-  alias Atomic.Activities
-
   schema "speakers" do
     field :bio, :string
     field :name, :string

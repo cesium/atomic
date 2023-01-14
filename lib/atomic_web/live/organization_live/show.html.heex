@@ -1,0 +1,35 @@
+<h1>Show Organization</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.organization_show_path(@socket, :show, @organization)}>
+    <.live_component
+      module={AtomicWeb.OrganizationLive.FormComponent}
+      id={@organization.id}
+      title={@page_title}
+      action={@live_action}
+      organization={@organization}
+      return_to={Routes.organization_show_path(@socket, :show, @organization)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @organization.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @organization.description %>
+  </li>
+
+  <li>
+    <strong>Departments:</strong>
+    <%= Enum.map(@organization.departments, & &1.name) |> Enum.join(", ") %>
+  </li>
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.organization_show_path(@socket, :edit, @organization), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.organization_index_path(@socket, :index) %></span>
