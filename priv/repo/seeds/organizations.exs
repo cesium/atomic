@@ -30,7 +30,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             description: "Atomic is a company that provides a platform for the development of digital products and services.",
             location: %{
               name: "Atomic",
-              url: "https:// atomic.pt",
+              url: "https://atomic.pt",
             }
           }
         )

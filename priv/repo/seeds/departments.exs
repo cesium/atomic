@@ -16,7 +16,6 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Merchandise and Partnerships",
-            # get organization id
             organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
           }
         )
