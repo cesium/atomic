@@ -22,7 +22,10 @@ defmodule Atomic.Activities.Activity do
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
+
+    many_to_many :speakers, Speaker,
+      join_through: ActivitySpeaker,
+      on_replace: :delete
 
     belongs_to :department, Department
 

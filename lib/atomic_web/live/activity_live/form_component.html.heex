@@ -34,8 +34,9 @@
     <%= error_tag f, :department_id %>
 
     <%= label f, :speakers %>
-    <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, &(&1.id))) %>
+    <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, &(&1.id)), on_change: "update_speakers") %>
     <%= error_tag f, :speaker %>
+
 
     <ul>
       <a href="#" phx-click="add-session" phx-target={@myself}>
