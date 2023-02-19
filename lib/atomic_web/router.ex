@@ -20,7 +20,7 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", ActivityLive.Index, :index
   end
 
   scope "/", AtomicWeb do
