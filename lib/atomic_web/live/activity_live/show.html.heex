@@ -36,9 +36,13 @@
   </li>
 
   <li>
-    <strong>Department:</strong>
-    <%= live_redirect to: Routes.department_show_path(@socket, :show, @activity.department) do %>
-      <%= @activity.department.name %>
+    <strong>Departments:</strong>
+    <%= for department <- @activity.departments do %>
+      <ul>
+        <li>
+          <%= department.name %>
+        </li>
+      </ul>
     <% end %>
   </li>
 
