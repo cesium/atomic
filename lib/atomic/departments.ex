@@ -17,6 +17,12 @@ defmodule Atomic.Departments do
       [%Department{}, ...]
 
   """
+  def list_departments(opts) when is_list(opts) do
+    Department
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
   def list_departments do
     Repo.all(Department)
   end

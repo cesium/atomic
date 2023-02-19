@@ -12,6 +12,10 @@
     <%= label f, :name %>
     <%= text_input f, :name %>
     <%= error_tag f, :name %>
+
+    <%= label f, :organization_id %>
+    <%= select(f, :organization_id, Enum.map(@organizations, &{&1.name, &1.id}), prompt: "Choose a organization", selected: f.data.organization_id, required: true) %>
+    <%= error_tag f, :organization_id %>
   
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>

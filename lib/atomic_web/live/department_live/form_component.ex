@@ -2,6 +2,18 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Departments
+  alias Atomic.Organizations
+
+  @impl true
+  def mount(socket) do
+    organizations = Organizations.list_organizations()
+
+    {:ok,
+     socket
+     |> assign(:organizations, organizations)}
+  end
+
+
 
   @impl true
   def update(%{department: department} = assigns, socket) do

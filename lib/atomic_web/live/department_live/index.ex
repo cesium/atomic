@@ -41,6 +41,6 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   defp list_departments do
-    Departments.list_departments()
+    Departments.list_departments(preloads: [:organization])
   end
 end

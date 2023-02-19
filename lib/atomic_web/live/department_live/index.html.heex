@@ -17,6 +17,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Organization</th>
 
       <th></th>
     </tr>
@@ -25,6 +26,7 @@
     <%= for department <- @departments do %>
       <tr id={"department-#{department.id}"}>
         <td><%= department.name %></td>
+        <td><%= department.organization.name %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.department_show_path(@socket, :show, department) %></span>
