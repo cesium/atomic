@@ -16,7 +16,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Merchandise and Partnerships",
-            organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
+            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )
         |> Repo.insert!()
@@ -25,7 +25,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Marketing and Content",
-            organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
+            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
 
           }
         )
@@ -35,7 +35,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Recreative",
-            organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
+            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
 
           }
         )
@@ -45,7 +45,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Pedagogical",
-            organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
+            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
 
           }
         )
@@ -55,7 +55,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "CAOS",
-            organization_id: Repo.get_by(Organization, name: "Atomic") |> Map.get(:id)
+            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
 
           }
         )
