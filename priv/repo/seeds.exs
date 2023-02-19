@@ -7,6 +7,7 @@ defmodule Atomic.Repo.Seeds do
 
   def run do
     [
+      "organizations.exs",
       "departments.exs"
     ]
     |> Enum.each(fn file ->

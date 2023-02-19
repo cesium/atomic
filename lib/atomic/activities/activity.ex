@@ -10,10 +10,9 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities.Session
   alias Atomic.Activities.Speaker
   alias Atomic.Departments.Department
-
   @required_fields ~w(title description
                     minimum_entries maximum_entries
-                    department_id)a
+                    department_id )a
 
   @optional_fields []
 
