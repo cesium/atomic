@@ -11,21 +11,18 @@
   </head>
   <body>
     <header>
-      <section class="container">
-        <nav>
-          <ul>
-            <li><%= live_redirect "Activities", to: Routes.activity_index_path(@conn, :index) %></li>
-            <li><%= live_redirect "Departments", to: Routes.department_index_path(@conn, :index) %></li>
-            <li><%= live_redirect "Partners", to: Routes.partner_index_path(@conn, :index) %></li>
-            <li><%= live_redirect "Speakers", to: Routes.speaker_index_path(@conn, :index) %></li>
-            <li><%= live_redirect "Organizations", to: Routes.organization_index_path(@conn, :index) %></li>
-          </ul>
-          <%= render "_user_menu.html", assigns %>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+     <section class="container">
+       <nav>
+         <ul class="py-10 flex items-center space-x-4">
+           <li><%= live_redirect "Activities", to: Routes.activity_index_path(@conn, :index) %></li>
+           <li><%= live_redirect "Departments", to: Routes.department_index_path(@conn, :index) %></li>
+           <li><%= live_redirect "Partners", to: Routes.partner_index_path(@conn, :index) %></li>
+           <li><%= live_redirect "Speakers", to: Routes.speaker_index_path(@conn, :index) %></li>
+           <li><%= live_redirect "Organizations", to: Routes.organization_index_path(@conn, :index) %></li>
+            <%= render "_user_menu.html", assigns %>
+         </ul>
+       </nav>
+     </section>
     </header>
     <%= @inner_content %>
   </body>
