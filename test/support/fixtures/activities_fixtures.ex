@@ -49,17 +49,17 @@ defmodule Atomic.ActivitiesFixtures do
   end
 
   @doc """
-  Generate a speaker.
+  Generate a instructor.
   """
-  def speaker_fixture(attrs \\ %{}) do
-    {:ok, speaker} =
+  def instructor_fixture(attrs \\ %{}) do
+    {:ok, instructor} =
       attrs
       |> Enum.into(%{
         bio: "some bio",
         name: "some name"
       })
-      |> Atomic.Activities.create_speaker()
+      |> Atomic.Activities.create_instructor()
 
-    speaker
+    instructor
   end
 end

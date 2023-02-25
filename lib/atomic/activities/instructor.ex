@@ -1,10 +1,10 @@
-defmodule Atomic.Activities.Speaker do
+defmodule Atomic.Activities.Instructor do
   @moduledoc """
   The person who speaks and provides the activity
   """
   use Atomic.Schema
 
-  schema "speakers" do
+  schema "instructors" do
     field :bio, :string
     field :name, :string
 
@@ -12,8 +12,8 @@ defmodule Atomic.Activities.Speaker do
   end
 
   @doc false
-  def changeset(speaker, attrs) do
-    speaker
+  def changeset(instructor, attrs) do
+    instructor
     |> cast(attrs, [:name, :bio])
     |> validate_required([:name, :bio])
   end

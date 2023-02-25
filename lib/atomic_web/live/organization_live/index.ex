@@ -11,7 +11,19 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    entries=
+      [
+        %{
+          name: gettext("Organizations"),
+          route: Routes.organization_index_path(socket, :index)
+        }
+      ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :organizations)
+     |> assign(:breadcrumb_entries, entries)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

@@ -17,12 +17,25 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
+    activity = Activities.get_activity!(id, [:activity_sessions, :departments, :instructors])
+
+    entries=
+      [
+        %{
+          name: gettext("Activities"),
+          route: Routes.activity_index_path(socket, :index)
+        },
+        %{
+          name: activity.title,
+          route: Routes.activity_show_path(socket, :show, activity)
+        }
+      ]
 
     {:noreply,
      socket
+     |> assign(:current_page, :activities)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
-     |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 

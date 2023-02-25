@@ -1,0 +1,34 @@
+<h1>Listing Instructors</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.instructor_index_path(@socket, :index)}>
+    <.live_component module={AtomicWeb.InstructorLive.FormComponent} id={@instructor.id || :new} title={@page_title} action={@live_action} instructor={@instructor} return_to={Routes.instructor_index_path(@socket, :index)} />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Bio</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="instructors">
+    <%= for instructor <- @instructors do %>
+      <tr id={"instructor-#{instructor.id}"}>
+        <td><%= instructor.name %></td>
+        <td><%= instructor.bio %></td>
+
+        <td>
+          <span><%= live_redirect("Show", to: Routes.instructor_show_path(@socket, :show, instructor)) %></span>
+          <span><%= live_patch("Edit", to: Routes.instructor_index_path(@socket, :edit, instructor)) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: instructor.id, data: [confirm: "Are you sure?"]) %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch("New Instructor", to: Routes.instructor_index_path(@socket, :new)) %></span>

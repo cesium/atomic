@@ -1,7 +1,7 @@
 defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.Departments
+  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:department, Departments.get_department!(id, preloads: :activities))}
+     |> assign(:department, Organizations.get_department!(id, preloads: :activities))}
   end
 
   defp page_title(:show), do: "Show Department"

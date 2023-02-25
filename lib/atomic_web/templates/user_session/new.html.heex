@@ -1,26 +1,62 @@
-<h1>Log in</h1>
+<div class="absolute top-20 left-40 flex items-center">
+  <img class="h-12 w-auto" src={Routes.static_path(@conn, "/images/logo.png")} alt="Atomic" />
+  <p class="ml-4 text-2xl font-semibold text-[#67595d]"> Atomic </p>
+</div>
+<div>
+  <h2 class="mt-6 text-center text-5xl font-extrabold text-gray-900">
+    <%= gettext("Log in") %>
+  </h2>
+</div>
 
-<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user} class="mx-8 mt-8 space-y-6 sm:mx-0">
   <%= if @error_message do %>
     <div class="alert alert-danger">
       <p><%= @error_message %></p>
     </div>
   <% end %>
 
-  <%= label(f, :email) %>
-  <%= email_input(f, :email, required: true) %>
+  <div class="-space-y-px rounded-md shadow-sm">
+    <div>
+      <%= label(f, :email, class: "sr-only") %>
+      <%= email_input(f, :email,
+        required: true,
+        placeholder: gettext("Email address"),
+        class: "relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+      ) %>
+    </div>
+    <div>
+      <%= label(f, :password, class: "sr-only") %>
+      <%= password_input(f, :password,
+        required: true,
+        placeholder: gettext("Password"),
+        autocomplete: "current-password",
+        class: "relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+      ) %>
+    </div>
+  </div>
 
-  <%= label(f, :password) %>
-  <%= password_input(f, :password, required: true) %>
-
-  <%= label(f, :remember_me, "Keep me logged in for 60 days") %>
-  <%= checkbox(f, :remember_me) %>
+  <div class="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+    <div class="flex items-center">
+      <%= checkbox(f, :remember_me, class: "h-4 w-4 rounded border-gray-300 text-indigo-300 focus:ring-indigo-400") %>
+      <%= label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-gray-900") %>
+    </div>
+  </div>
 
   <div>
-    <%= submit("Log in") %>
+    <%= submit class: "group relative flex w-full justify-center rounded-md border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-400 hover:bg-indigo-100" do %>
+      <%= gettext("Log in") %>
+    <% end %>
+  </div>
+
+  <div class="flex flex-col space-y-2">
+    <div class="text-sm">
+      <span>
+        Don't have an account yet?
+      </span>
+      <%= link("Sign up", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-indigo-400 hover:text-indigo-500 focus:outline-none") %>
+    </div>
+    <div class="text-sm">
+      <%= link(gettext("Forgot your password?"), to: Routes.user_reset_password_path(@conn, :new), class: "font-medium text-indigo-400 hover:text-indigo-500 focus:outline-none") %>
+    </div>
   </div>
 </.form>
-
-<p>
-  <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %> | <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new)) %>
-</p>

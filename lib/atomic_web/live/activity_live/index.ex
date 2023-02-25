@@ -11,7 +11,19 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    entries=
+      [
+        %{
+          name: gettext("Activities"),
+          route: Routes.activity_index_path(socket, :index)
+        }
+      ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :activities)
+     |> assign(:breadcrumb_entries, entries)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -41,6 +53,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_activities do
-    Activities.list_activities(preloads: [:activity_sessions])
+    Activities.list_activities(
+      preloads: [:departments, :activity_sessions, :enrollments, :instructors]
+    )
   end
 end

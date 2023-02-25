@@ -1,7 +1,435 @@
-<main class="container">
-  <p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+<div aria-live="assertive" class="flex fixed inset-0 z-50 flex-col gap-y-2 items-end py-6 px-4 pointer-events-none sm:items-start sm:py-16 sm:px-6">
+  <%= for {key, message} <- @flash do %>
+    <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
+      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <%= case key do
+                "info" ->
+                  ~H"""
+                  <Heroicons.Solid.information_circle class="w-6 h-6 text-blue-400" />
+                  """
 
-  <p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+                "success" ->
+                  ~H"""
+                  <Heroicons.Solid.check_circle class="w-6 h-6 text-green-400" />
+                  """
 
-  <%= @inner_content %>
-</main>
+                "warning" ->
+                  ~H"""
+                  <Heroicons.Solid.exclamation class="w-6 h-6 text-yellow-400" />
+                  """
+
+                "error" ->
+                  ~H"""
+                  <Heroicons.Solid.x_circle class="w-6 h-6 text-red-400" />
+                  """
+              end %>
+            </div>
+            <div class="flex-1 pt-0.5 ml-3 w-0">
+              <%= if is_binary(message) do %>
+                <p class="text-sm font-medium text-zinc-900">
+                  <%= live_flash(@flash, key) %>
+                </p>
+              <% else %>
+                <p class="text-sm font-medium text-zinc-900">
+                  <%= message.title %>
+                </p>
+                <p class="mt-1 text-sm text-zinc-500">
+                  <%= message.description %>
+                </p>
+              <% end %>
+            </div>
+            <div class="flex flex-shrink-0 ml-4">
+              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-eeg-red">
+                <span class="sr-only">Close</span>
+                <Heroicons.Solid.x class="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div x-data="{ navbar: false }" class="flex relative flex-col min-h-screen">
+  <!--
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+<!--
+  This example requires updating your template:
+
+  ```
+  <html class="h-full bg-white">
+  <body class="h-full">
+  ```
+-->
+  <div class="min-h-full">
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
+      <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+
+      Entering: "transition-opacity ease-linear duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+      <div class="fixed inset-0 bg-zinc-600 bg-opacity-75"></div>
+
+      <div class="fixed inset-0 z-40 flex">
+        <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+          From: "-translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+          From: "translate-x-0"
+          To: "-translate-x-full"
+      -->
+        <div class="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4">
+          <!--
+          Close button, show/hide based on off-canvas menu state.
+
+          Entering: "ease-in-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in-out duration-300"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+          <div class="absolute top-0 right-0 -mr-12 pt-2">
+            <button type="button" class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+              <span class="sr-only">Close sidebar</span>
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <%!-- <div class="flex flex-shrink-0 items-center px-4">
+            <img class="h-10 w-auto" src={Routes.static_path(@socket, "/images/logo.png")} alt="Atomic" />
+          </div> --%>
+          <div class="mt-5 h-0 flex-1 overflow-y-auto">
+            <nav class="px-2">
+              <div class="space-y-1">
+                <!-- Current: "bg-zinc-100 text-zinc-900", Default: "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50" -->
+                <a href="#" class="bg-zinc-100 text-zinc-900 group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md" aria-current="page">
+                  <!-- Current: "text-zinc-500", Default: "text-zinc-400 group-hover:text-zinc-500" -->
+                  <svg class="text-zinc-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                    />
+                  </svg>
+                  Home
+                </a>
+
+                <a href="#" class="text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md">
+                  <svg class="text-zinc-400 group-hover:text-zinc-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                  </svg>
+                  My tasks
+                </a>
+
+                <a href="#" class="text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md">
+                  <svg class="text-zinc-400 group-hover:text-zinc-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Recent
+                </a>
+              </div>
+              <div class="mt-8">
+                <h3 class="px-3 text-sm font-medium text-zinc-500" id="mobile-teams-headline">Teams</h3>
+                <div class="mt-1 space-y-1" role="group" aria-labelledby="mobile-teams-headline">
+                  <a href="#" class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+                    <span class="w-2.5 h-2.5 mr-4 bg-indigo-500 rounded-full" aria-hidden="true"></span>
+                    <span class="truncate">Engineering</span>
+                  </a>
+
+                  <a href="#" class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+                    <span class="w-2.5 h-2.5 mr-4 bg-green-500 rounded-full" aria-hidden="true"></span>
+                    <span class="truncate">Human Resources</span>
+                  </a>
+
+                  <a href="#" class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900">
+                    <span class="w-2.5 h-2.5 mr-4 bg-yellow-500 rounded-full" aria-hidden="true"></span>
+                    <span class="truncate">Customer Success</span>
+                  </a>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        <div class="w-14 flex-shrink-0" aria-hidden="true">
+          <!-- Dummy element to force sidebar to shrink to fit close icon -->
+        </div>
+      </div>
+    </div>
+    <!-- Static sidebar for desktop -->
+    <div 
+      x-data="{ open: false}"
+      @click.away="open = false" 
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-zinc-100">
+      <%!-- <div class="flex flex-shrink-0 items-center px-6">
+        <img class="h-10 w-auto" src={Routes.static_path(@socket, "/images/logo.png")} alt="Atomic" />
+      </div> --%>
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div class="flex h-0 flex-1 flex-col overflow-y-auto">
+        <!-- User account dropdown -->
+        <div class="relative inline-blocktext-left">
+          <div>
+            <button
+              @click="open = !open"
+              @keydown.escape.stop="open = false"
+              @keydown.enter.prevent="open = !open"
+              type="button"
+              class="group w-full bg-zinc-100 px-5 py-3 text-left text-sm font-medium text-zinc-700 hover:bg-zinc-200 focus:bg-zinc-300"
+              id="options-menu-button"
+              aria-expanded="false"
+              aria-haspopup="true"
+            >
+              <span class="flex w-full items-center justify-between">
+                <span class="flex min-w-0 items-center justify-between space-x-3">
+                  <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-500 rounded-lg">
+                    <span class="text-lg font-medium leading-none text-white">
+                      <%= extract_initials("CeSIUM") %>
+                    </span>
+                  </span>
+                  <%!-- <img class="h-10 w-10 flex-shrink-0 rounded-lg bg-zinc-300" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt=""> --%>
+                  <span class="flex min-w-0 flex-1 flex-col">
+                    <span class="truncate text-lg font-medium text-zinc-900">
+                      CeSIUM
+                    </span>
+                  </span>
+                </span>
+                <svg class="h-5 w-5 flex-shrink-0 text-zinc-400 group-hover:text-zinc-500 group-focus:text-zinc-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+          <!--
+          Dropdown menu, show/hide based on menu state.
+
+          Entering: "transition ease-out duration-100"
+            From: "transform opacity-0 scale-95"
+            To: "transform opacity-100 scale-100"
+          Leaving: "transition ease-in duration-75"
+            From: "transform opacity-100 scale-100"
+            To: "transform opacity-0 scale-95"
+        -->
+        <div
+          x-transition:enter="transition ease-out duration-100"
+          x-transition:enter-start="transform opacity-0 scale-95"
+          x-transition:enter-end="transform opacity-100 scale-100"
+          x-transition:leave="transition ease-in duration-75"
+          x-transition:leave-start="transform opacity-100 scale-100"
+          x-transition:leave-end="transform opacity-0 scale-95"
+          x-show="open"
+          class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+          role="menu" 
+          aria-orientation="vertical" 
+          aria-labelledby="options-menu-button" 
+          tabindex="-1">
+          <div role="none">
+            <%= for organization <- @current_user_organizations do %>
+              <!-- Active: "bg-zinc-100 text-zinc-900", Not Active: "text-zinc-700" -->
+              <a href="#" 
+                 class="text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" 
+                 role="menuitem" 
+                 tabindex="-1" 
+                 id="options-menu-item-0">
+                    <span class="flex w-full items-center justify-between">
+                      <span class="flex min-w-0 items-center justify-between space-x-3">
+                        <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
+                          <span class="text-lg font-medium leading-none text-white">
+                            <%= extract_initials(organization.name) %>
+                          </span>
+                        </span>
+                        <%!-- <img class="h-10 w-10 flex-shrink-0 rounded-lg bg-zinc-300" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt=""> --%>
+                        <span class="flex min-w-0 flex-1 flex-col">
+                          <span class="truncate text-md font-medium text-zinc-900">
+                            <%= organization.name %>
+                          </span>
+                         <span class="truncate text-sm text-zinc-600">
+                            <%= "19 members" %>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+              </a>
+            <% end %>
+          </div>
+        </div>
+        </div>
+        <!-- Navigation -->
+        <nav class="mt-6">
+          <div class="">
+            <%= for page <- AtomicWeb.Config.pages(@socket) do %>
+              <%= if page.tabs == [] do %>
+                <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-300 text-zinc-900 font-bold" else "text-zinc-700 hover:bg-zinc-200 focus:bg-zinc-300" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
+                  <%!-- <Heroicons.Outline.render
+                    icon={page.icon}
+                    class={
+                      "#{if @current_page == page.key do
+                        "text-zinc-500"
+                      else
+                        "text-zinc-400 group-hover:text-zinc-500"
+                      end} h-8 w-8 flex-shrink-0 lg:mr-3 lg:h-6 lg:w-6"
+                    }
+                  /> --%>
+                  <span class="hidden lg:block">
+                    <%= page.title %>
+                  </span>
+                <% end %>
+              <% else %>
+                <%!-- TODO  --%>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="mt-8">
+            <!-- Secondary navigation -->
+            <h3 class="px-3 text-sm font-medium text-zinc-500" id="desktop-teams-headline">Teams</h3>
+            <div class="mt-1 space-y-1" role="group" aria-labelledby="desktop-teams-headline">
+              <a href="#" class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900">
+                <span class="w-2.5 h-2.5 mr-4 bg-indigo-500 rounded-full" aria-hidden="true"></span>
+                <span class="truncate">Engineering</span>
+              </a>
+
+              <a href="#" class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900">
+                <span class="w-2.5 h-2.5 mr-4 bg-green-500 rounded-full" aria-hidden="true"></span>
+                <span class="truncate">Human Resources</span>
+              </a>
+
+              <a href="#" class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900">
+                <span class="w-2.5 h-2.5 mr-4 bg-yellow-500 rounded-full" aria-hidden="true"></span>
+                <span class="truncate">Customer Success</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <%#= render("_user_menu.html", assigns) %>
+    </div>
+    <!-- Main column -->
+    <div class="flex flex-col lg:pl-64">
+      <!-- Search header -->
+      <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-zinc-200 bg-white lg:hidden">
+        <!-- Sidebar toggle, controls the 'sidebarOpen' sidebar state. -->
+        <button type="button" class="border-r border-zinc-200 px-4 text-zinc-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden">
+          <span class="sr-only">Open sidebar</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+          </svg>
+        </button>
+        <div class="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-1">
+            <form class="flex w-full md:ml-0" action="#" method="GET">
+              <label for="search-field" class="sr-only">Search</label>
+              <div class="relative w-full text-zinc-400 focus-within:text-zinc-600">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <input id="search-field" name="search-field" class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-zinc-900 placeholder-zinc-500 focus:border-transparent focus:placeholder-zinc-400 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" />
+              </div>
+            </form>
+          </div>
+          <div class="flex items-center">
+            <!-- Profile dropdown -->
+            <div class="relative ml-3">
+              <div>
+                <button type="button" class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <span class="sr-only">Open user menu</span>
+                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                </button>
+              </div>
+              <!--
+              Dropdown menu, show/hide based on menu state.
+
+              Entering: "transition ease-out duration-100"
+                From: "transform opacity-0 scale-95"
+                To: "transform opacity-100 scale-100"
+              Leaving: "transition ease-in duration-75"
+                From: "transform opacity-100 scale-100"
+                To: "transform opacity-0 scale-95"
+            -->
+              <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                <div class="py-1" role="none">
+                  <!-- Active: "bg-zinc-100 text-zinc-900", Not Active: "text-zinc-700" -->
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">View profile</a>
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-2">Notifications</a>
+                </div>
+                <div class="py-1" role="none">
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-3">Get desktop app</a>
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-4">Support</a>
+                </div>
+                <div class="py-1" role="none">
+                  <a href="#" class="text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-5">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%!-- <.breadcrumb
+        home_route={Routes.activity_index_path(@socket, :index)}
+        entries={@breadcrumb_entries}
+      /> --%>
+      <nav class="flex my-5 mx-10" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <div>
+              <%= live_redirect to: Routes.activity_index_path(@socket, :index), class: "text-gray-400 hover:text-gray-500" do %>
+                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Home</span>
+              <% end %>
+            </div>
+          </li>
+          <%= for entry <- assigns.breadcrumb_entries do %>
+            <li>
+              <div class="flex items-center">
+                <svg class="h-5 w-5 flex-shrink-0 text-gray-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                </svg>
+                <%= live_redirect(entry.name, to: entry.route, class: "ml-4 text-sm font-medium text-gray-500 hover:text-gray-700") %>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </nav>
+
+      <main class="flex-1 bg-white mx-20">
+        <%= @inner_content %>
+      </main>
+    </div>
+  </div>
+</div>

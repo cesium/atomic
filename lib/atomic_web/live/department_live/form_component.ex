@@ -1,11 +1,11 @@
 defmodule AtomicWeb.DepartmentLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Departments
+  alias Atomic.Organizations
 
   @impl true
   def update(%{department: department} = assigns, socket) do
-    changeset = Departments.change_department(department)
+    changeset = Organizations.change_department(department)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   def handle_event("validate", %{"department" => department_params}, socket) do
     changeset =
       socket.assigns.department
-      |> Departments.change_department(department_params)
+      |> Organizations.change_department(department_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   end
 
   defp save_department(socket, :edit, department_params) do
-    case Departments.update_department(socket.assigns.department, department_params) do
+    case Organizations.update_department(socket.assigns.department, department_params) do
       {:ok, _department} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   end
 
   defp save_department(socket, :new, department_params) do
-    case Departments.create_department(department_params) do
+    case Organizations.create_department(department_params) do
       {:ok, _department} ->
         {:noreply,
          socket
