@@ -11,7 +11,5 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
 
       timestamps()
     end
-
-    create index(:activities, [:department_id])
   end
 end
