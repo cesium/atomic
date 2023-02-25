@@ -1,32 +1,483 @@
-<h1>Listing Activities</h1>
+<!-- Projects table (small breakpoint and up) -->
+<div class="">
+  <div class="inline-block min-w-full align-middle">
+    <div x-data="{ view: 'list' }">
+      <div class="bg-white">
+        <div class="pt-4 px-4">
+          <div class="flex items-center justify-between">
+            <div class="min-w-0 flex-1">
+              <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
+                <%= gettext("Activities") %>
+              </h2>
+            </div>
+            <div class="flex md:mt-0 md:ml-4">
+              <%!-- <%= if @current_user.role in [:admin, :staff] do %>
+              <%= live_redirect to: Routes.generating_skills_new_path(@socket, :new) do %>
+                <Actions.new />
+              <% end %>
+            <% else %> --%>
+              <%!-- <div class="relative" x-data="{ popup: false }" @mouseleave="popup = false">
+                <div @mouseover="popup = true">
+                  <%= link to: Routes.faqs_path(@socket, :index) do %>
+                    <Heroicons.Outline.question_mark_circle class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-zinc-400 shadow-sm hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-offset-2" />
+                  <% end %>
+                </div>
+                <div x-show="popup" class="hidden absolute top-0 z-10 p-2 mx-auto -mt-1 w-14 text-sm leading-tight text-white bg-red-400 rounded-lg shadow-lg transform -translate-x-1/2 -translate-y-full sm:block">
+                  FAQ's
+                </div>
+              </div>
+            <% end %> --%>
+            </div>
+          </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Date</th>
-      <th>Location</th>
-      <th>Minimum entries</th>
-      <th>Maximum entries</th>
+          <div class="">
+            <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+              <div class="flex w-full items-center justify-between">
+                <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+                  <%= live_patch to: "", class: "border-zinc-800 text-zinc-900 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium" do %>
+                    <%= gettext("Open Enrollments") %>
+                    <%!-- <%= gettext("Upcoming") %> --%>
+                    <%!-- <%= gettext("Available") %> --%>
+                    <%!-- <%= gettext("Ongoing") %> --%>
+                    <%!-- <%= gettext("Enrolled") %> --%>
+                    <%!-- <%= gettext("Attended") %> --%>
+                    <%!-- <%= gettext("Absences") %> --%>
+                    <%!-- <%= gettext("All") %> --%>
+                    <%!-- <%= gettext("Finished") %> --%>
+                    <%!-- <%= gettext("Reserve") %> --%>
+                  <% end %>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="activities">
-    <%= for activity <- @activities do %>
-      <tr id={"activity-#{activity.id}"}>
-        <td><%= activity.title %></td>
-        <td><%= hd(activity.activity_sessions).start %></td>
-        <td><%= hd(activity.activity_sessions).location.name %></td>
-        <td><%= activity.minimum_entries %></td>
-        <td><%= activity.maximum_entries %></td>
+                  <%= live_patch to: "", class: "border-transparent text-zinc-500 hover:text-zinc-700 hover:border-zinc-300 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium" do %>
+                    <%= gettext("Upcoming") %>
+                  <% end %>
+                </nav>
 
-        <td>
-          <span><%= live_redirect("Show", to: Routes.activity_show_path(@socket, :show, activity)) %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+                <div>
+                  <%= live_patch("New", to: Routes.activity_new_path(@socket, :new), class: "rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600") %>
+                  <%!-- <.list_grid_toggle_button class="lg:block xl:hidden" /> --%>
+                </div>
 
-<span><%= live_patch("New Activity", to: Routes.activity_new_path(@socket, :new)) %></span>
+              </div>
+
+              <div class="flex">
+                <%!-- <div class="flex flex-1 items-center xl:ml-6 xl:justify-end">
+                  <div class="w-full">
+                    <label for="search" class="sr-only">Search</label>
+                    <form phx-submit="search" phx-change="search" class="relative">
+                      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <Heroicons.Solid.search class="h-5 w-5 text-zinc-400" />
+                      </div>
+                      <%= text_input(:search, :query,
+                        "phx-debounce": "300",
+                        placeholder: gettext("Search"),
+                        autofocus: true,
+                        class: "block w-full rounded-md border border-zinc-300 bg-white py-2 pr-3 pl-10 leading-5 placeholder-zinc-500 shadow-sm focus:border-zinc-600 focus:placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-600 sm:text-sm"
+                      ) %>
+                    </form>
+                  </div>
+                </div> --%>
+
+                <%!-- <.list_grid_toggle_button class="xl:block" /> --%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div x-bind:class="view =='list' ? 'hidden lg:block' : 'hidden'">
+        <div class="overflow-hidden bg-white">
+          <ul role="list" class="divide-y divide-zinc-200">
+              <%= for activity <- @activities do %>
+                <li>
+                  <%= live_redirect to: Routes.activity_show_path(@socket, :show, activity), class: "block hover:bg-zinc-50", replace: false do %>
+                    <div class="px-4 py-4 lg:px-6">
+                      <div class="col-span-2 mb-2 flex flex-shrink-0 lg:hidden">
+                        <%!-- <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} /> --%>
+                        <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full"> --%>
+                        <%!-- </span> --%>
+                        <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                              <%= gettext("Avaliable") %>
+                            </span> --%>
+                        <%!-- <% end %>
+                        <% "enrolled" -> %>
+                          <%= if is_nil(activity.date_automatic_confirmation) do %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                              <%= gettext("Temporary") %>
+                            </span>
+                          <% else %>
+                            <% enrollment = get_enrollment(activity, @current_user) %>
+                            <%= if enrollment && enrollment.confirmed do %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                                <%= gettext("Confirmed") %>
+                              </span>
+                            <% else %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                <%= gettext("Stand-in") %>
+                              </span>
+                            <% end %>
+                          <% end %>
+                        <% "absences" -> %>
+                          <%= if enrollment = get_enrollment(activity, @current_user) do %>
+                            <%= if enrollment.attended do %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                                <%= gettext("Attended") %>
+                              </span>
+                            <% else %>
+                              <%= if enrollment.non_attendance_justified do %>
+                                <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                  <%= gettext("Justified") %>
+                                </span>
+                              <% else %>
+                                <%= if not is_nil(enrollment.attended) do %>
+                                  <%= if enrollment.confirmed do %>
+                                    <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-red-800 bg-red-100 rounded-full">
+                                      <%= gettext("Missed") %>
+                                    </span>
+                                  <% else %>
+                                    <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                                      <%= gettext("Stand-in") %>
+                                    </span>
+                                  <% end %>
+                                <% else %>
+                                  <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                                    <%= gettext("Waiting") %>
+                                  </span>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                        <% "upcoming" -> %>
+                          <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                            <%= gettext("Upcoming") %>
+                          </span>
+                        <% _ -> %>
+                          <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                            <%= gettext("?") %>
+                          </span>
+                      <% end %> --%>
+                        <%!-- <% end %> --%>
+                        <%!-- <div class="pl-2">
+                      <%= if Gettext.get_locale() == "en" do %>
+                        <.badge text={activity.activity_type.name_en} color={activity.activity_type.color} />
+                      <% else %>
+                        <.badge text={activity.activity_type.name_pt} color={activity.activity_type.color} />
+                      <% end %>
+                    </div> --%>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <p class="truncate text-sm font-medium text-zinc-900">
+                          <%!-- <%= if Gettext.get_locale() == "en" do %>
+                        <%= activity.title_en %>
+                      <% else %>
+                        <%= activity.title_pt %>
+                      <% end %> --%>
+                          <%= activity.title %>
+                        </p>
+                        <%!-- <div class="col-span-2 ml-2 hidden flex-shrink-0 lg:flex">
+                      <%= if @current_user.role in [:admin, :staff] do %>
+                        <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} />
+                      <% else %>
+                        <%= case @activity_tab do %>
+                          <% "open_enrollments" -> %>
+                            <%= if NaiveDateTime.compare(activity.start_enrollment,ETime.lisbon_now()) == :gt do %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                                <%= gettext("New") %>
+                              </span>
+                            <% else %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                                <%= gettext("Avaliable") %>
+                              </span>
+                            <% end %>
+                          <% "enrolled" -> %>
+                            <%= if is_nil(activity.date_automatic_confirmation) do %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                                <%= gettext("Temporary") %>
+                              </span>
+                            <% else %>
+                              <% enrollment = get_enrollment(activity, @current_user) %>
+                              <%= if enrollment && enrollment.confirmed do %>
+                                <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                                  <%= gettext("Confirmed") %>
+                                </span>
+                              <% else %>
+                                <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                  <%= gettext("Stand-in") %>
+                                </span>
+                              <% end %>
+                            <% end %>
+                          <% "absences" -> %>
+                            <%= if enrollment = get_enrollment(activity, @current_user) do %>
+                              <%= if enrollment.attended do %>
+                                <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                                  <%= gettext("Attended") %>
+                                </span>
+                              <% else %>
+                                <%= if enrollment.non_attendance_justified do %>
+                                  <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                    <%= gettext("Justified") %>
+                                  </span>
+                                <% else %>
+                                  <%= if not is_nil(enrollment.attended) do %>
+                                    <%= if enrollment.confirmed do %>
+                                      <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-red-800 bg-red-100 rounded-full">
+                                        <%= gettext("Missed") %>
+                                      </span>
+                                    <% else %>
+                                      <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                                        <%= gettext("Stand-in") %>
+                                      </span>
+                                    <% end %>
+                                  <% else %>
+                                    <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                                      <%= gettext("Waiting") %>
+                                    </span>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          <% "upcoming" -> %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                              <%= gettext("Upcoming") %>
+                            </span>
+                          <% _ -> %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                              <%= gettext("?") %>
+                            </span>
+                        <% end %>
+                      <% end %>
+                      <div class="pl-2">
+                        <%= if Gettext.get_locale() == "en" do %>
+                          <.badge text={activity.activity_type.name_en} color={activity.activity_type.color} />
+                        <% else %>
+                          <.badge text={activity.activity_type.name_pt} color={activity.activity_type.color} />
+                        <% end %>
+                      </div>
+                    </div> --%>
+                      </div>
+
+                      <%!-- <%= if @current_user.role in [:admin, :staff] do %> --%>
+                      <div class="lg:flex">
+                        <%!-- <%= if activity.delegated_to_user do %>
+                        <p class="mt-2 flex items-center text-sm text-zinc-500 lg:ml-4">
+                          <Heroicons.Solid.user class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                          <%= extract_first_last_name(activity.delegated_to_user.name) %>
+                        </p>
+                      <% end %> --%>
+                      </div>
+                      <%!-- <% end %> --%>
+
+                      <div class="mt-2 lg:flex lg:justify-between">
+                        <div class="lg:flex lg:space-x-3">
+                          <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                            <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                            <%= Enum.count(activity.enrollments) %> / <%= activity.maximum_entries %>
+                          </p>
+                          <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                            <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                            <%= display_date(hd(activity.activity_sessions).start) %>
+                          </p>
+                          <%= if not is_nil(hd(activity.activity_sessions).location) do %>
+                            <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                              <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                              <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name %>
+                              <%!-- <%= if Gettext.get_locale() == "pt" do %>
+                            <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_pt %>
+                          <% else %>
+                            <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_en %>
+                          <% end %> --%>
+                            </p>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
+                        <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closing
+                          <%!-- <p>
+                        <%= if NaiveDateTime.compare(activity.end_enrollment,ETime.lisbon_now()) == :lt do %>
+                          <%= gettext("Closed") %>
+                        <% else %>
+                          <%= gettext("Closing") %> <%= relative_datetime(activity.end_enrollment) %>
+                        <% end %>
+                      </p> --%>
+                        </div>
+                        <%= for speaker <- activity.speakers do %>
+                          <div class="mt-2 flex items-center">
+                            <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
+                              <span class="text-xs font-medium leading-none text-white">
+                                <%= extract_initials(speaker.name) %>
+                              </span>
+                            </span>
+                            <p class="text-sm text-zinc-500">
+                              <%= extract_first_last_name(speaker.name) %>
+                            </p>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+          </ul>
+          <%!-- <.pagination page_color={page_color(@socket, @current_user, @current_page)} items={@activities} meta={@meta} params={@params} /> --%>
+        </div>
+      </div>
+
+      <%!-- <div x-bind:class="view =='grid' ? 'block' : 'block lg:hidden'">
+      <ul role="list" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
+        <%= for activity <- @activities do %>
+          <li>
+            <%= live_redirect to: Routes.generating_skills_show_path(@socket, :show, activity), class: "block h-full rounded-md bg-white shadow hover:bg-zinc-50", replace: false do %>
+              <div class="px-4 py-4 lg:px-6">
+                <div class="mb-2">
+                  <%= if @current_user.role in [:admin, :staff] do %>
+                    <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} />
+                  <% else %>
+                    <%= case @activity_tab do %>
+                      <% "open_enrollments" -> %>
+                        <%= if NaiveDateTime.compare(activity.start_enrollment,ETime.lisbon_now()) == :gt do %>
+                          <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                            <%= gettext("New") %>
+                          </span>
+                        <% else %>
+                          <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                            <%= gettext("Avaliable") %>
+                          </span>
+                        <% end %>
+                      <% "enrolled" -> %>
+                        <%= if is_nil(activity.date_automatic_confirmation) do %>
+                          <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                            <%= gettext("Temporary") %>
+                          </span>
+                        <% else %>
+                          <% enrollment = get_enrollment(activity, @current_user) %>
+                          <%= if enrollment && enrollment.confirmed do %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                              <%= gettext("Confirmed") %>
+                            </span>
+                          <% else %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                              <%= gettext("Stand-in") %>
+                            </span>
+                          <% end %>
+                        <% end %>
+                      <% "absences" -> %>
+                        <%= if enrollment = get_enrollment(activity, @current_user) do %>
+                          <%= if enrollment.attended do %>
+                            <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                              <%= gettext("Attended") %>
+                            </span>
+                          <% else %>
+                            <%= if enrollment.non_attendance_justified do %>
+                              <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                <%= gettext("Justified") %>
+                              </span>
+                            <% else %>
+                              <%= if not is_nil(enrollment.attended) do %>
+                                <%= if enrollment.confirmed do %>
+                                  <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-red-800 bg-red-100 rounded-full">
+                                    <%= gettext("Missed") %>
+                                  </span>
+                                <% else %>
+                                  <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                                    <%= gettext("Stand-in") %>
+                                  </span>
+                                <% end %>
+                              <% else %>
+                                <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
+                                  <%= gettext("Waiting") %>
+                                </span>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      <% _ -> %>
+                        <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full">
+                          <%= gettext("?") %>
+                        </span>
+                    <% end %>
+                  <% end %>
+                  <%= if Gettext.get_locale() == "en" do %>
+                    <.badge text={activity.activity_type.name_en} color={activity.activity_type.color} />
+                  <% else %>
+                    <.badge text={activity.activity_type.name_pt} color={activity.activity_type.color} />
+                  <% end %>
+                </div>
+                <div class="flex items-center justify-between">
+                  <p class="truncate text-sm font-medium text-red-600">
+                    <%= if Gettext.get_locale() == "en" do %>
+                      <%= activity.title_en %>
+                    <% else %>
+                      <%= activity.title_pt %>
+                    <% end %>
+                  </p>
+                </div>
+                <%= if @current_user.role in [:admin, :staff] do %>
+                  <p class="mt-2 flex items-center text-sm text-zinc-500">
+                    <Heroicons.Solid.hashtag class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                    <%= activity.code %>
+                  </p>
+                  <%= if activity.delegated_to_user do %>
+                    <p class="mt-2 flex items-center text-sm text-zinc-500">
+                      <Heroicons.Solid.user class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                      <%= extract_first_last_name(activity.delegated_to_user.name) %>
+                    </p>
+                  <% end %>
+                <% end %>
+                <div class="mt-2">
+                  <p class="mt-2 flex items-center text-sm text-zinc-500">
+                    <Heroicons.Solid.academic_cap class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                    <%= activity.ects %> <%= gettext("ECTS") %>
+                  </p>
+                  <p class="mt-2 flex items-center text-sm text-zinc-500">
+                    <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                    <%= Enum.count(activity.enrollments) %> / <%= activity.maximum_entries %>
+                  </p>
+                </div>
+                <p class="mt-2 flex items-center text-sm text-zinc-500">
+                  <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                  <%= display_date(hd(activity.activity_sessions).start) %>
+                </p>
+                <%= if not is_nil(hd(activity.activity_sessions).location) do %>
+                  <p class="mt-2 flex items-center text-sm text-zinc-500">
+                    <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                    <%= if Gettext.get_locale() == "pt" do %>
+                      <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_pt %>
+                    <% else %>
+                      <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_en %>
+                    <% end %>
+                  </p>
+                <% end %>
+                <div class="mt-2 flex items-center text-sm text-zinc-500">
+                  <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                  <p>
+                    <%= if NaiveDateTime.compare(activity.end_enrollment,ETime.lisbon_now()) == :lt do %>
+                      <%= gettext("Closed") %>
+                    <% else %>
+                      <%= gettext("Closing") %> <%= relative_datetime(activity.end_enrollment) %>
+                    <% end %>
+                  </p>
+                </div>
+                <%= if activity.instructor do %>
+                  <div class="mt-2 flex items-center">
+                    <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
+                      <span class="text-xs font-medium leading-none text-white">
+                        <%= extract_initials(activity.instructor.name) %>
+                      </span>
+                    </span>
+                    <p class="text-sm text-zinc-500">
+                      <%= extract_first_last_name(activity.instructor.name) %>
+                    </p>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <div class="mt-5">
+        <%!-- <.pagination page_color={page_color(@socket, @current_user, @current_page)} items={@activities} meta={@meta} params={@params} class="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-3 shadow-sm sm:px-6 xl:border-x-0" /> --%>
+      <%!-- </div> --%>
+      <%!-- </div> --%>
+    </div>
+  </div>
+</div>

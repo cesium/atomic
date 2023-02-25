@@ -8,7 +8,14 @@
 import Config
 
 config :atomic,
-  ecto_repos: [Atomic.Repo]
+  ecto_repos: [Atomic.Repo],
+  generators: [binary_id: true],
+  owner: %{
+    name: "Atomic",
+    time_zone: "Europe/Lisbon",
+    day_start: 0,
+    day_end: 24
+  }
 
 # Configures the endpoint
 config :atomic, AtomicWeb.Endpoint,
@@ -21,6 +28,9 @@ config :waffle,
   storage: Waffle.Storage.Local,
   storage_dir_prefix: "priv",
   asset_host: {:system, "ASSET_HOST"}
+
+config :icons,
+  collection: [Heroicons, Ionicons]
 
 # Configures the mailer
 #

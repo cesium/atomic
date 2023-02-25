@@ -202,6 +202,17 @@ defmodule Atomic.Activities do
     Session.changeset(session, attrs)
   end
 
+  def list_sessions_from_to(start, finish, opts) do
+    from(s in Session,
+      join: a in Activity,
+      on: s.activity_id == a.id,
+      where: s.start >= ^start and s.start <= ^finish,
+      order_by: [asc: s.start]
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
   alias Atomic.Activities.Enrollment
 
   @doc """

@@ -3,6 +3,8 @@
 
 let plugin = require('tailwindcss/plugin')
 
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [
     './js/**/*.js',
