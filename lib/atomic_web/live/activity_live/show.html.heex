@@ -2,19 +2,11 @@
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
-    <.live_component
-      module={AtomicWeb.ActivityLive.FormComponent}
-      id={@activity.id}
-      title={@page_title}
-      action={@live_action}
-      activity={@activity}
-      return_to={Routes.activity_show_path(@socket, :show, @activity)}
-    />
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @activity)} />
   </.modal>
 <% end %>
 
 <ul>
-
   <li>
     <strong>Title:</strong>
     <%= @activity.title %>
@@ -61,55 +53,44 @@
     <strong>Sessions:</strong>
     <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
       <ul>
-      <strong><%= "Session #{index}" %></strong>
-      <li>
-        <strong>Start:</strong>
-        <%= session.start %>
-      </li>
-      <li>
-        <strong>Finish:</strong>
-        <%= session.finish %>
-      </li>
-      <li>
-        <strong>Location:</strong>
-        <%= session.location.name %>
-      </li>
-      <li>
-        <strong>url:</strong>
-        <%= if session.location.url do %>
-          <%= session.location.url %>
-        <% end %>
-      </li>
-
+        <strong><%= "Session #{index}" %></strong>
+        <li>
+          <strong>Start:</strong>
+          <%= session.start %>
+        </li>
+        <li>
+          <strong>Finish:</strong>
+          <%= session.finish %>
+        </li>
+        <li>
+          <strong>Location:</strong>
+          <%= session.location.name %>
+        </li>
+        <li>
+          <strong>url:</strong>
+          <%= if session.location.url do %>
+            <%= session.location.url %>
+          <% end %>
+        </li>
       </ul>
     <% end %>
   </li>
-
 </ul>
 
 <%= if @current_user.role == :student do %>
   <span>
-   <%= if @enrolled? do %>
-      <button
-        phx-click="unenroll"
-        phx-disable-with={gettext("Unenrolling...")}
-        phx-throttle="0"
-      >
+    <%= if @enrolled? do %>
+      <button phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
         <%= gettext("Uneroll") %>
       </button>
     <% else %>
-        <button
-          phx-click="enroll"
-          phx-disable-with={gettext("Enrolling...")}
-          phx-throttle="0"
-        >
-          <%= gettext("Enroll") %>
-        </button>
+      <button phx-click="enroll" phx-disable-with={gettext("Enrolling...")} phx-throttle="0">
+        <%= gettext("Enroll") %>
+      </button>
     <% end %>
   </span>
 <% end %>
 <%= if @current_user.role in [:admin, :staff] do %>
-  <span><%= live_patch "Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button" %></span> |
-  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] %></span> |
-  <span><%= live_redirect "Back", to: Routes.activity_index_path(@socket, :index) %></span>
+  <span><%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button") %></span> | <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %></span> |
+  <span><%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index)) %></span>
 <% end %>
