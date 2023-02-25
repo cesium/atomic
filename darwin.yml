@@ -6,5 +6,5 @@ services:
       - ${DB_PORT:-5555}:5432
   web:
     ports:
-      - ${PORT:-4000}:4000
+      - ${PORT:-7000}:7000
 

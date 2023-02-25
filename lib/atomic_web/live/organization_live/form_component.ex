@@ -8,11 +8,11 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   @impl true
   def mount(socket) do
     departments = Departments.list_departments()
-    speakers = Activities.list_speakers()
+    instructors = Activities.list_instructors()
 
     {:ok,
      socket
-     |> assign(:speakers, speakers)
+     |> assign(:instructors, instructors)
      |> assign(:departments, departments)}
   end
 

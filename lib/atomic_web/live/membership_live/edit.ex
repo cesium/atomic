@@ -9,13 +9,13 @@ defmodule AtomicWeb.MembershipLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"org" => org, "id" => id}, _, socket) do
+  def handle_params(%{"organization" => organization, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
 
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:organization, org)
+     |> assign(:organization, organization)
      |> assign(:membership, membership)
      |> assign(:current_user, socket.assigns.current_user)
      |> assign(
