@@ -1,28 +1,28 @@
 <div>
   <h2><%= @title %></h2>
 
-  <.form
-    let={f}
-    for={@changeset}
-    id="partner-form"
-    phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save">
-  
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
-  
-    <%= label f, :description %>
-    <%= text_input f, :description %>
-    <%= error_tag f, :description %>
-  
+  <.form let={f} for={@changeset} id="partner-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <%= label(f, :name) %>
+    <%= text_input(f, :name) %>
+    <%= error_tag(f, :name) %>
+
+    <%= label(f, :description) %>
+    <%= text_input(f, :description) %>
+    <%= error_tag(f, :description) %>
+
     <div class="">
       <div class="">
         <div class="flex flex-col 1.5xl:flex-row">
           <div class="py-5 px-4 sm:px-6 shrink-0 1.5xl:py-5 1.5xl:px-6 1.5xl:shrink-0">
             <%= live_file_input(@uploads.image, class: "hidden") %>
-            <div class={"#{if length(@uploads.image.entries) != 0 do "hidden" end} border-2 border-gray-300 border-dashed rounded-md"} phx-drop-target={@uploads.image.ref}>
+            <div
+              class={
+                "#{if length(@uploads.image.entries) != 0 do
+                  "hidden"
+                end} border-2 border-gray-300 border-dashed rounded-md"
+              }
+              phx-drop-target={@uploads.image.ref}
+            >
               <div class="">
                 <div class="">
                   <div class="flex flex-col h-screen space-y-1 text-center">
@@ -60,8 +60,7 @@
                           String.slice(entry.client_name, 0..30) <> "... "
                         end %>
                       </figcaption>
-                      <button type="button" phx-click="cancel-image" phx-target={@myself} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
-                      </button>
+                      <button type="button" phx-click="cancel-image" phx-target={@myself} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4"></button>
                     </div>
                   </figure>
                 </article>

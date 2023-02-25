@@ -2,19 +2,11 @@
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.department_show_path(@socket, :show, @department)}>
-    <.live_component
-      module={AtomicWeb.DepartmentLive.FormComponent}
-      id={@department.id}
-      title={@page_title}
-      action={@live_action}
-      department={@department}
-      return_to={Routes.department_show_path(@socket, :show, @department)}
-    />
+    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_show_path(@socket, :show, @department)} />
   </.modal>
 <% end %>
 
 <ul>
-
   <li>
     <strong>Name:</strong>
     <%= @department.name %>
@@ -25,13 +17,12 @@
     <ul>
       <%= for activity <- @department.activities do %>
         <li>
-          <%= live_redirect activity.title, to: Routes.activity_show_path(@socket, :show, activity) %>
+          <%= live_redirect(activity.title, to: Routes.activity_show_path(@socket, :show, activity)) %>
         </li>
       <% end %>
     </ul>
   </li>
-
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.department_show_path(@socket, :edit, @department), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.department_index_path(@socket, :index) %></span>
+<span><%= live_patch("Edit", to: Routes.department_show_path(@socket, :edit, @department), class: "button") %></span> |
+<span><%= live_redirect("Back", to: Routes.department_index_path(@socket, :index)) %></span>
