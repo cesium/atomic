@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "Atomic", suffix: " · Phoenix Framework" %>
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <%= live_title_tag(assigns[:page_title] || "Atomic", suffix: " · Phoenix Framework") %>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}>
+    </script>
   </head>
   <body>
     <header>
-     <section class="container">
-       <nav>
-         <ul class="py-10 flex items-center space-x-4">
-           <li><%= live_redirect "Activities", to: Routes.activity_index_path(@conn, :index) %></li>
-           <li><%= live_redirect "Departments", to: Routes.department_index_path(@conn, :index) %></li>
-           <li><%= live_redirect "Partners", to: Routes.partner_index_path(@conn, :index) %></li>
-           <li><%= live_redirect "Speakers", to: Routes.speaker_index_path(@conn, :index) %></li>
-           <li><%= live_redirect "Organizations", to: Routes.organization_index_path(@conn, :index) %></li>
-            <%= render "_user_menu.html", assigns %>
-         </ul>
-       </nav>
-     </section>
+      <section class="container">
+        <nav>
+          <ul class="py-10 flex items-center space-x-4">
+            <li><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
+            <li><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
+            <li><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
+            <li><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
+            <li><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
+            <%= render("_user_menu.html", assigns) %>
+          </ul>
+        </nav>
+      </section>
     </header>
     <%= @inner_content %>
   </body>

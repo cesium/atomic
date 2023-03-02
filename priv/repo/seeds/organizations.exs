@@ -14,10 +14,11 @@ defmodule Atomic.Repo.Seeds.Organizations do
           %Organization{},
           %{
             name: "CeSIUM",
-            description: "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓",
+            description:
+              "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓",
             location: %{
               name: "Departamento de Informática, Campus de Gualtar, Universidade do Minho",
-              url: "https://cesium.di.uminho.pt",
+              url: "https://cesium.di.uminho.pt"
             }
           }
         )
@@ -30,7 +31,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             description: "Associação de Estudantes de Direito da Universidade do Minho",
             location: %{
               name: "Escola de Direito, Campus de Gualtar, Universidade do Minho",
-              url: "",
+              url: ""
             }
           }
         )
@@ -43,7 +44,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             description: "🇵🇹 The European Law Students' Association UMinho",
             location: %{
               name: "Escola de Direito, Campus de Gualtar, Universidade do Minho",
-              url: "",
+              url: ""
             }
           }
         )
@@ -56,7 +57,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             description: "Núcleo de Estudantes de Medicina da Universidade do Minho.",
             location: %{
               name: "Escola de Medicina, Campus de Gualtar, Universidade do Minho",
-              url: "",
+              url: ""
             }
           }
         )

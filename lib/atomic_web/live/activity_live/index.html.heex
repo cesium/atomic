@@ -22,11 +22,11 @@
         <td><%= activity.maximum_entries %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.activity_show_path(@socket, :show, activity) %></span>
+          <span><%= live_redirect("Show", to: Routes.activity_show_path(@socket, :show, activity)) %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Activity", to: Routes.activity_new_path(@socket, :new) %></span>
+<span><%= live_patch("New Activity", to: Routes.activity_new_path(@socket, :new)) %></span>

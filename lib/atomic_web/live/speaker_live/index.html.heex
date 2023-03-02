@@ -2,14 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.speaker_index_path(@socket, :index)}>
-    <.live_component
-      module={AtomicWeb.SpeakerLive.FormComponent}
-      id={@speaker.id || :new}
-      title={@page_title}
-      action={@live_action}
-      speaker={@speaker}
-      return_to={Routes.speaker_index_path(@socket, :index)}
-    />
+    <.live_component module={AtomicWeb.SpeakerLive.FormComponent} id={@speaker.id || :new} title={@page_title} action={@live_action} speaker={@speaker} return_to={Routes.speaker_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
@@ -29,13 +22,13 @@
         <td><%= speaker.bio %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.speaker_show_path(@socket, :show, speaker) %></span>
-          <span><%= live_patch "Edit", to: Routes.speaker_index_path(@socket, :edit, speaker) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= live_redirect("Show", to: Routes.speaker_show_path(@socket, :show, speaker)) %></span>
+          <span><%= live_patch("Edit", to: Routes.speaker_index_path(@socket, :edit, speaker)) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Speaker", to: Routes.speaker_index_path(@socket, :new) %></span>
+<span><%= live_patch("New Speaker", to: Routes.speaker_index_path(@socket, :new)) %></span>

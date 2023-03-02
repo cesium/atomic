@@ -8,7 +8,6 @@ defmodule Atomic.Repo.Seeds.Departments do
     seed_departments()
   end
 
-
   def seed_departments() do
     case Repo.all(Department) do
       [] ->
@@ -26,7 +25,6 @@ defmodule Atomic.Repo.Seeds.Departments do
           %{
             name: "Marketing and Content",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-
           }
         )
         |> Repo.insert!()
@@ -36,7 +34,6 @@ defmodule Atomic.Repo.Seeds.Departments do
           %{
             name: "Recreative",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-
           }
         )
         |> Repo.insert!()
@@ -46,7 +43,6 @@ defmodule Atomic.Repo.Seeds.Departments do
           %{
             name: "Pedagogical",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-
           }
         )
         |> Repo.insert!()
@@ -56,7 +52,6 @@ defmodule Atomic.Repo.Seeds.Departments do
           %{
             name: "CAOS",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-
           }
         )
         |> Repo.insert!()
@@ -65,7 +60,6 @@ defmodule Atomic.Repo.Seeds.Departments do
         Mix.shell().error("Found departments, aborting seeding departments.")
     end
   end
-
 end
 
 Atomic.Repo.Seeds.Departments.run()
