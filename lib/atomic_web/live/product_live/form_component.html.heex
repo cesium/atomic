@@ -7,8 +7,8 @@
             <div class="w-full flex-row sm:flex md:w-1/2 lg:w-2/3 lg:space-x-4">
               <div class="lg:flex lg:w-1/4 lg:flex-col lg:space-y-4">
                 <%= if @product.image do %>
-                  <img src={Uploaders.ProductImage.url({@product.image, @product}, :original)} class="hidden h-full w-full object-cover object-center lg:flex lg:h-full lg:w-full" />
-                  <img src={Uploaders.ProductImage.url({@product.image, @product}, :original)} class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                  <img src={Uploaders.Image.url({@product.image, @product}, :original)} class="hidden h-full w-full object-cover object-center lg:flex lg:h-full lg:w-full" />
+                  <img src={Uploaders.Image.url({@product.image, @product}, :original)} class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
                 <% else %>
                   <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="hidden h-full w-full object-cover object-center lg:flex lg:h-full lg:w-full" />
                   <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
@@ -22,7 +22,7 @@
                   <%= if @product.image do %>
                     <img
                       src={
-                        Uploaders.ProductImage.url(
+                        Uploaders.Image.url(
                           {@product.image, @product},
                           :original
                         )
@@ -31,7 +31,7 @@
                     />
                     <img
                       src={
-                        Uploaders.ProductImage.url(
+                        Uploaders.Image.url(
                           {@product.image, @product},
                           :original
                         )

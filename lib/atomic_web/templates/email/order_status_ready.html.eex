@@ -36,7 +36,7 @@
                                     <tr>
                                        <td valign="top" width="50" style="padding-top:15px;padding-left:20px;padding-bottom:30px">
                                           <%= if product.image  != nil do %>
-                                          <img src={Uploaders.ProductImage.url({product.image,product}, :original)} alt="Product" width="50" height="50" style="display:block;border-radius:5px" border="0">
+                                          <img src={Uploaders.Image.url({product.image,product}, :original)} alt="Product" width="50" height="50" style="display:block;border-radius:5px" border="0">
                                           <% else %>
                                           <img src="https://tailwindui.com/img/ecommerce-images/order-history-page-03-product-01.jpg" alt="Product" width="50" height="50" style="display:block;border-radius:5px" border="0">
                                           <% end %>

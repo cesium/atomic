@@ -46,7 +46,7 @@
                       <div class="flex flex-col items-center sm:flex-row sm:items-center">
                         <div class="mb-4 h-20 w-full flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 sm:mr-6 sm:mb-0 sm:h-40 sm:w-20">
                           <%= if product.image  != nil do %>
-                            <img src={Uploaders.ProductImage.url({product.image, product}, :original)} class="h-full w-full object-cover object-center" />
+                            <img src={Uploaders.Image.url({product.image, product}, :original)} class="h-full w-full object-cover object-center" />
                           <% else %>
                             <img
                               src="https://tailwindui.com/img/ecommerce-images/order-history-page-03-product-01.jpg"

@@ -5,13 +5,14 @@ defmodule Atomic.Inventory.Product do
   use Atomic.Schema
   alias Atomic.Inventory.Order
   alias Atomic.Uploaders
-
+  alias Atomic.Inventory.Store
   @required_fields ~w(name description
-                      price price_partnership stock max_per_user pre_order)a
+                      price price_partnership stock max_per_user pre_order store_id)a
 
   @optional_fields []
 
   schema "products" do
+    belongs_to :store, Store, on_replace: :delete_if_exists
     field :name, :string
     field :description, :string
     field :price, :integer
@@ -21,7 +22,6 @@ defmodule Atomic.Inventory.Product do
     field :image, Uploaders.Image.Type
     field :pre_order, :boolean, default: false
     many_to_many :order, Order, join_through: Atomic.Inventory.OrdersProducts
-
     embeds_one :sizes, Sizes, on_replace: :delete do
       field :xs_size, :integer
       field :s_size, :integer

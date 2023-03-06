@@ -10,7 +10,7 @@
     <%= live_redirect to: Routes.product_edit_path(@socket, :edit, product), class: "group" do %>
       <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
         <%= if product.image do %>
-          <img src={Uploaders.ProductImage.url({product.image, product}, :original)} class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+          <img src={Uploaders.Image.url({product.image, product}, :original)} class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
         <% else %>
           <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75" />
         <% end %>

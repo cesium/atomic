@@ -3,13 +3,13 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Departments.Department
   alias Atomic.Activities.Location
 
-  @required_fields ~w(name description)a
+  @required_fields ~w(name description store_id)a
   @optional_fields []
 
   schema "organizations" do
     field :name, :string
     field :description, :string
-
+    has_one :store, Atomic.Inventory.Store, on_replace: :delete
     has_many :departments, Department,
       on_replace: :delete_if_exists,
       on_delete: :delete_all,
