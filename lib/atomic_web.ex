@@ -99,6 +99,8 @@ defmodule AtomicWeb do
       import AtomicWeb.ErrorHelpers
       import AtomicWeb.Gettext
       alias AtomicWeb.Router.Helpers, as: Routes
+
+      alias Icons.{Ionicons, Heroicons}
     end
   end
 

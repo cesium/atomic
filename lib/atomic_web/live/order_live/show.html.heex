@@ -1,0 +1,86 @@
+<main>
+  <section aria-labelledby="recent-heading" class="mt-16">
+    <div>
+      <%= live_redirect to: Routes.order_index_path(@socket, :index), class: "flex flex-row space-x-4 pt-4 font-semibold uppercase hover:text-[#f47c58]" do %>
+        <%= "< Return" %>
+      <% end %>
+      <div class="space-y-8">
+        <div class="border-t border-b border-gray-200 bg-white shadow-sm sm:border">
+          <h3 class="sr-only">Order placed on <time datetime="2021-07-06">Jul 6, 2021</time></h3>
+
+          <div class="flex items-center border-b border-gray-200 p-4 sm:grid sm:grid-cols-4 sm:gap-x-6 sm:p-6">
+            <dl class="grid flex-1 grid-cols-2 gap-x-6 text-sm sm:col-span-3 sm:grid-cols-4 lg:col-span-2">
+              <div>
+                <dt class="font-semibold uppercase">Order User</dt>
+                <dd class="mt-1"><%= user_email(@order.user_id) %></dd>
+              </div>
+              <div class="hidden sm:block">
+                <dt class="font-semibold uppercase">Date placed</dt>
+                <dd class="mt-1">
+                  <time datetime=""><%= NaiveDateTime.to_string(@order.inserted_at) %></time>
+                </dd>
+              </div>
+              <div>
+                <dt class="font-semibold uppercase">Total amount</dt>
+                <dd class="mt-1 font-medium"><%= total_price(@order) %> €</dd>
+              </div>
+              <div>
+                <dt class="font-semibold uppercase">Status</dt>
+                <dd class="mt-1 font-medium"><%= capitalize_status(@order.status) %></dd>
+              </div>
+            </dl>
+            <!-- Add a button at the final at the grid -->
+            <div class="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
+              <%= if @order.status == :ordered do %>
+                <button phx-click="canceled" class="flex w-32 items-center justify-center bg-black px-2.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#f47c58]">
+                  <span>Cancel</span>
+                </button>
+              <% end %>
+            </div>
+          </div>
+          <!-- Products -->
+          <h4 class="sr-only">Items</h4>
+          <ul role="list" class="divide-y divide-gray-200">
+            <%= for product <- @order.products do %>
+              <li class="p-4 sm:p-6">
+                <div class="flex items-center sm:items-start">
+                  <div class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 sm:h-40 sm:w-40">
+                    <%= if product.image  != nil do %>
+                      <img src={Uploaders.ProductImage.url({product.image, product}, :original)} class="h-full w-full object-cover object-center" />
+                    <% else %>
+                      <img src="https://tailwindui.com/img/ecommerce-images/order-history-page-03-product-01.jpg" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="h-full w-full object-cover object-center" />
+                    <% end %>
+                  </div>
+                  <div class="ml-6 flex-1 text-sm">
+                    <div class="font-medium text-gray-900 sm:flex sm:justify-between">
+                      <h5 class="font-semibold uppercase">
+                        <%= product.name %>
+                      </h5>
+                      <p class="mt-2 sm:mt-0"><%= product.price %> €</p>
+                    </div>
+                    <p class="hidden sm:mt-2 sm:block"><%= product.description %></p>
+                  </div>
+                </div>
+
+                <div class="mt-6 sm:flex sm:justify-between">
+                  <div class="flex items-center">
+                    <!-- Heroicon name: mini/check-circle -->
+                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="ml-2 text-sm font-medium">
+                      Inserted on
+                      <time datetime="2021-07-12">
+                        <%= NaiveDateTime.to_string(product.updated_at) %>
+                      </time>
+                    </p>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

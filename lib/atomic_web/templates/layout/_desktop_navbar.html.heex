@@ -1,0 +1,81 @@
+<nav aria-label="Top">
+  <div class="bg-white py-1">
+    <div class="mx-auto">
+      <div class="">
+        <div class="flex h-16 items-center justify-between">
+          <div class="hidden h-full lg:flex">
+            <div class="inset-x-0 bottom-0 px-4">
+              <div class="flex h-full justify-center space-x-20">
+                <%= if assigns[:current_user] && @current_user.role == :admin do %>
+                  <%= for page <- AtomicWeb.Config.admin_pages do %>
+                    <div class="relative flex items-center">
+                      <%= live_redirect(page.title,
+                        to: page.url,
+                        class: "#{(@current_page == page.key && "") || "hover:text-[#f47c58]"} text-sm font-semibold text-black"
+                      ) %>
+                      <span class={
+                        (@current_page == page.key &&
+                           "bg-black w-4 h-0.5 absolute bottom-5 left-0") || ""
+                      } />
+                    </div>
+                  <% end %>
+                <% else %>
+                  <%= for page <- AtomicWeb.Config.user_pages do %>
+                    <%= if assigns[:current_user] && @current_user.role == :user do %>
+                      <div class="relative flex items-center">
+                        <%= live_redirect(page.title,
+                          to: page.url,
+                          class: "#{(@current_page == page.key && "") || "hover:text-[#f47c58]"} text-sm font-semibold text-black"
+                        ) %>
+                        <span class={
+                          (@current_page == page.key &&
+                             "bg-black w-4 h-0.5 absolute bottom-5 left-0") || ""
+                        } />
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <%= link("About us",
+                  to: "https://cesium.di.uminho.pt/",
+                  class: "flex items-center text-sm font-semibold text-black hover:text-[#f47c58]"
+                ) %>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile menu and search (lg-) -->
+          <div class="flex flex-1 items-center lg:hidden">
+            <!-- Mobile menu toggle, controls the 'mobileMenuOpen' state. -->
+            <button @click="navbar = true" type="button" class="rounded-md bg-white p-2 text-black">
+              <span class="sr-only">Open menu</span>
+              <!-- Heroicon name: outline/bars-3 -->
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+          </div>
+          <div class="flex flex-1 items-center justify-end">
+            <%= if assigns[:current_user] do %>
+              <%= link to: Routes.user_session_path(@socket, :new),class: "hidden text-sm font-semibold text-black hover:text-[#f47c58] lg:block" do %>
+                Logout
+              <% end %>
+            <% else %>
+              <%= link to: Routes.user_session_path(@socket, :new),class: "hidden text-sm font-semibold text-black hover:text-[#f47c58] lg:block" do %>
+                Login
+              <% end %>
+            <% end %>
+            <div class="flex items-center lg:ml-8">
+              <%= if assigns[:current_user] && @current_user.role == :user do %>
+                <div class="ml-4 flow-root lg:ml-8">
+                  <%= live_redirect to: Routes.cart_index_path(@socket, :index), class: "group flex items-center p-2" do %>
+                    <Heroicons.Outline.shopping_bag class="text-block h-6 w-6 flex-shrink-0 group-hover:text-[#f47c58]" />
+                    <span class="sr-only">items in cart, view bag</span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

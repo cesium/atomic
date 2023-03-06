@@ -1,0 +1,50 @@
+<main>
+  <section aria-labelledby="recent-heading" class="mt-16">
+    <div>
+      <div class="space-y-8">
+        <%= for order <- @orders do %>
+          <%= if order.status != :draft and order.status != :ordered and order.status != :canceled do %>
+            <div class="flex items-center justify-center border-t border-b border-gray-200 bg-white shadow-sm sm:border">
+              <h3 class="sr-only">
+                Order placed on <time datetime="2021-07-06">Jul 6, 2021</time>
+              </h3>
+
+              <div class="border-b border-gray-200 p-4 sm:grid sm:gap-x-6 sm:p-6">
+                <dl class="grid flex-1 grid-cols-2 items-center gap-x-16 text-sm sm:col-span-3 sm:grid-cols-6 lg:col-span-2">
+                  <div>
+                    <dt class="font-semibold uppercase">Order Id</dt>
+                    <dd class="mt-1"><%= order.order_id %></dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase">Order User</dt>
+                    <dd class="mt-1"><%= user_email(order.order.user_id) %></dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase">Order Manager</dt>
+                    <dd class="mt-1"><%= user_email(order.admin_id) %></dd>
+                  </div>
+                  <div class="hidden sm:block">
+                    <dt class="font-semibold uppercase">Date placed</dt>
+                    <dd class="mt-1">
+                      <time datetime=""><%= NaiveDateTime.to_string(order.inserted_at) %></time>
+                    </dd>
+                  </div>
+                  <div class="hidden sm:block">
+                    <dt class="font-semibold uppercase">Order updated</dt>
+                    <dd class="mt-1">
+                      <time datetime=""><%= NaiveDateTime.to_string(order.updated_at) %></time>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt class="font-semibold uppercase">Status</dt>
+                    <dd class="mt-1 font-medium"><%= capitalize_status(order.status) %></dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>

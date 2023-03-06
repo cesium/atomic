@@ -17,17 +17,19 @@ defmodule AtomicWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug AtomicWeb.Auth.AllowedRoles, [:admin]
+  end
+
   scope "/", AtomicWeb do
     pipe_through :browser
-
-    live "/", ActivityLive.Index, :index
   end
 
   scope "/", AtomicWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
-      live "/activities", ActivityLive.Index, :index
+      live "/", ActivityLive.Index, :index
       live "/activities/new", ActivityLive.New, :new
       live "/activities/:id/edit", ActivityLive.Edit, :edit
       live "/activities/:id", ActivityLive.Show, :show
@@ -55,6 +57,11 @@ defmodule AtomicWeb.Router do
       live "/organizations/:id/edit", OrganizationLive.Index, :edit
       live "/organizations/:id", OrganizationLive.Show, :show
       live "/organizations/:id/show/edit", OrganizationLive.Show, :edit
+
+      live "/orders", OrderLive.Index, :index
+      live "/orders/:id", OrderLive.Show, :show
+
+      live "/cart", CartLive.Index, :index
     end
   end
 
@@ -97,10 +104,6 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new
     post "/users/reset_password", UserResetPasswordController, :create
     get "/users/reset_password/:token", UserResetPasswordController, :edit
@@ -117,11 +120,39 @@ defmodule AtomicWeb.Router do
 
   scope "/", AtomicWeb do
     pipe_through [:browser]
-
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
+
+    live_session :user_product, on_mount: [{AtomicWeb.Hooks, :current_user}] do
+      live "/products", ProductLive.Index, :index
+      live "/products/:id/edit", ProductLive.Edit, :edit
+    end
+  end
+
+  scope "/", AtomicWeb do
+    pipe_through [:browser, :require_authenticated_user, :admin]
+
+    scope "/admin", Backoffice, as: :admin do
+      live_session :admin, on_mount: [{AtomicWeb.Hooks, :current_user}] do
+        live "/dashboard", DashboardLive.Index, :index
+
+        live "/product/new", ProductLive.New, :new
+        live "/product/:id/edit", ProductLive.Edit, :edit
+
+        live "/orders", OrderLive.Index, :index
+        live "/orders/:id/edit", OrderLive.Edit, :edit
+        live "/orders/:id", OrderLive.Show, :show
+        live "/orders/:id/show/edit", OrderLive.Edit, :edit
+
+        live "/users", UserLive.Index, :index
+      end
+    end
   end
 end

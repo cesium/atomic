@@ -1,7 +1,26 @@
-<main class="container">
-  <p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+<div class="relative mx-auto flex h-screen flex-col justify-between px-5">
+  <header x-data="{ navbar: false }">
+    <%= render("_mobile_navbar.html", assigns) %>
+    <%= render("_desktop_navbar.html", assigns) %>
+  </header>
 
-  <p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+  <main class="w-full">
+    <%= if live_flash(@flash, :info) do %>
+      <p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info">
+        <%= live_flash(@flash, :info) %>
+      </p>
+    <% end %>
 
-  <%= @inner_content %>
-</main>
+    <%= if live_flash(@flash, :error) do %>
+      <p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error">
+        <%= live_flash(@flash, :error) %>
+      </p>
+    <% end %>
+
+    <%= @inner_content %>
+  </main>
+
+  <footer>
+    <%= render("_desktop_footer.html", assigns) %>
+  </footer>
+</div>

@@ -1,0 +1,74 @@
+<div x-show="navbar" class="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+  <div
+    x-transition:enter="transition-opacity ease-linear duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-linear duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="z-50 hidden sm:fixed sm:inset-0 sm:block sm:bg-gray-600 sm:bg-opacity-75"
+    aria-hidden="true"
+    @click="navbar = false"
+  />
+
+  <nav
+    x-transition:enter="transition ease-out duration-150 sm:ease-in-out sm:duration-300"
+    x-transition:enter-start="transform opacity-0 scale-110 sm:translate-x-full sm:scale-100 sm:opacity-100"
+    x-transition:enter-end="transform opacity-100 scale-100 sm:translate-x-0 sm:scale-100 sm:opacity-100"
+    x-transition:leave="transition ease-in duration-150 sm:ease-in-out sm:duration-300"
+    x-transition:leave-start="transform opacity-100 scale-100 sm:translate-x-0 sm:scale-100 sm:opacity-100"
+    x-transition:leave-end="transform opacity-0 scale-110 sm:translate-x-full sm:scale-100 sm:opacity-100"
+    class="fixed inset-0 z-50 h-full w-full bg-white sm:inset-y-0 sm:right-auto sm:left-0 sm:w-full sm:max-w-sm sm:shadow-lg"
+    aria-label="Global"
+  >
+    <div class="flex h-16 items-center justify-between px-4 sm:px-6">
+      <button @click="navbar = false" class="inline-flex items-center justify-center p-2 text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Close main menu</span>
+        <Heroicons.Solid.x class="h-6 w-6" />
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center w-full mx-auto overflow-scroll gap-y-8 my-6 h-[75%]">
+      <%= if assigns[:current_user] && @current_user.role == :admin do %>
+        <%= for page <- AtomicWeb.Config.admin_pages do %>
+          <div class="relative flex items-center">
+            <%= live_redirect(page.title,
+              to: page.url,
+              class: "#{(@current_page == page.key && "") || "hover:text-[#f47c58]"} text-sm font-semibold text-black"
+            ) %>
+            <span class={(@current_page == page.key && "bg-black w-4 h-0.5 absolute bottom-5 left-0") || ""} />
+          </div>
+        <% end %>
+      <% else %>
+        <%= for page <- AtomicWeb.Config.user_pages do %>
+          <%= if page.title == "Orders" do %>
+            <%= if assigns[:current_user] do %>
+              <div class="relative flex items-center">
+                <%= live_redirect(page.title,
+                  to: page.url,
+                  class: "#{(@current_page == page.key && "") || "hover:text-[#f47c58]"} text-sm font-semibold text-black"
+                ) %>
+                <span class={
+                  (@current_page == page.key && "bg-black w-4 h-0.5 absolute bottom-5 left-0") ||
+                    ""
+                } />
+              </div>
+            <% end %>
+          <% else %>
+            <div class="relative flex items-center">
+              <%= live_redirect(page.title,
+                to: page.url,
+                class: "#{(@current_page == page.key && "") || "hover:text-[#f47c58]"} text-sm font-semibold text-black"
+              ) %>
+              <span class={(@current_page == page.key && "bg-black w-4 h-0.5 absolute bottom-5 left-0") || ""} />
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= link("About us",
+        to: "https://cesium.di.uminho.pt/",
+        class: "flex items-center text-lg font-semibold text-black hover:text-[#f47c58]"
+      ) %>
+    </div>
+  </nav>
+</div>

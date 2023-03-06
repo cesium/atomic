@@ -7,7 +7,8 @@ defmodule Atomic.Accounts do
   alias Atomic.Repo
 
   alias Atomic.Accounts.{User, UserToken, UserNotifier}
-
+  alias AtomicWeb.Emails.AuthEmails
+  alias Atomic.Mailer
   ## Database getters
 
   @doc """
@@ -59,6 +60,26 @@ defmodule Atomic.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user(attrs) when is_list(attrs) do
+    Repo.get_by(User, attrs)
+  end
+
+  def verify_user_emails(email) do
+    user = get_user(email: email)
+
+    if is_nil(user) do
+      {:error, :not_found}
+    else
+      update_user(user, %{verified: true})
+    end
+  end
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.registration_changeset(attrs)
+    |> Repo.update()
+  end
 
   ## User registration
 
@@ -349,5 +370,12 @@ defmodule Atomic.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  def list_users(params \\ %{})
+
+  def list_users(_opts) do
+    User
+    |> Repo.all()
   end
 end

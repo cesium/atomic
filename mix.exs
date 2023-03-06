@@ -33,6 +33,7 @@ defmodule Atomic.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:argon2_elixir, "~> 3.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.6.14"},
       {:phoenix_ecto, "~> 4.4"},
@@ -44,6 +45,7 @@ defmodule Atomic.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:flop, "~> 0.17.0"},
       {:phoenix_live_dashboard, "~> 0.6"},
+      {:phoenix_swoosh, "~> 1.0"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
@@ -54,7 +56,9 @@ defmodule Atomic.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:waffle, "~> 1.1"},
       {:timex, "~> 3.0"},
-      {:waffle_ecto, "~> 0.0"}
+      {:waffle_ecto, "~> 0.0"},
+      {:icons, "~> 0.9"},
+      {:qrcode_ex, "~> 0.1.1"}
     ]
   end
 

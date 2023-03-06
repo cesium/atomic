@@ -17,6 +17,9 @@ config :atomic, AtomicWeb.Endpoint,
   pubsub_server: Atomic.PubSub,
   live_view: [signing_salt: "DmLAlyrN"]
 
+config :icons,
+  collection: [Heroicons, Ionicons]
+
 config :waffle,
   storage: Waffle.Storage.Local,
   storage_dir_prefix: "priv",

@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+      <style>
+         .ExternalClass {width: 100%;}
+      </style>
+   </head>
+   <body>
+      <table class="wrapper" style="border-collapse: collapse;table-layout: fixed;min-width: 320px;width: 100%;background-color: #fff;" role="presentation" cellspacing="0" cellpadding="0">
+         <tbody>
+            <tr>
+               <td>
+                  <div>
+                     <div class="layout one-col fixed-width stack" style="Margin: 0 auto;max-width: 600px; min-width: 320px; width: 320px; width: 100%; overflow-wrap: break-word;word-wrap: break-word; word-break: break-word;">
+                        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
+                           <div class="column" style="text-align: left;color: #000;font-size: 16px;line-height: 24px;font-family: 'Open Sans', 'Droid Sans', Arial, sans-serif;">
+                              <div style="font-size: 12px; Margin-top: 20px; font-style: normal;font-weight: normal;line-height: 19px;" align="center">
+                                 <a target="_blank" href="https://store.cesium.di.uminho.pt/"><img style="border: 0;display: block;height: auto;width: 100%;max-width: 134px;" alt="CeSIUM Store" src="https://cdn.shopk.it/usercontent/1-04-store/media/images/0d44f64-logo.png" width="134"></a>
+                              </div>
+                              <div style="Margin-left: 20px;Margin-right: 20px; Margin-top: 20px;">
+                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
+                                    <p style="Margin-top: 16px;Margin-bottom: 20px;">
+                                       Olá,</br>A tua encomenda encontra-se pronta para levantamento!
+                                    </p>
+                                    <p>
+                                      Para o fazeres, basta dirigires-te à sala do CeSIUM (1.04) do Departamento de Informática da Universidade do Minho e mostrares o código QR a um dos nossos colaboradores.
+                                    </p>
+                                 </div>
+                              </div>
+                              <div style="Margin-left: 20px;Margin-right: 20px; Margin-top:24px; Margin-bottom:24px; padding-top:2px; background-color:rgb(230,230,230)"></div>
+                              <table width="100%" style="width:100%!important">
+                                 <tbody>
+                                    <%= for product <- @order.products do %>
+                                    <tr>
+                                       <td valign="top" width="50" style="padding-top:15px;padding-left:20px;padding-bottom:30px">
+                                          <%= if product.image  != nil do %>
+                                          <img src={Uploaders.ProductImage.url({product.image,product}, :original)} alt="Product" width="50" height="50" style="display:block;border-radius:5px" border="0">
+                                          <% else %>
+                                          <img src="https://tailwindui.com/img/ecommerce-images/order-history-page-03-product-01.jpg" alt="Product" width="50" height="50" style="display:block;border-radius:5px" border="0">
+                                          <% end %>
+                                       </td>
+                                       <td width="20" style="padding-top:15px;padding-bottom:30px">&nbsp;</td>
+                                       <td valign="top" style="font-size:14px;line-height:24px;padding-top:15px;padding-bottom:30px;">
+                                          <strong style="text-transform: uppercase;">
+                                          <%= product.name %>
+                                          </strong>
+                                          <br>No Size
+                                       </td>
+                                       <td width="20" style="padding-top:15px;padding-bottom:30px">&nbsp;</td>
+                                       <td align="right" valign="top" style="font-size:14px;line-height:24px;padding-top:15px;padding-right:20px;padding-bottom:30px"><br><span style="color:#666;white-space:nowrap"><%= product.price %> €</span></td>
+                                    </tr>
+                                    <% end %>
+                                 </tbody>
+                              </table>
+                              <table bgcolor="#ffffff" width="100%" border="0" cellpadding="0" cellspacing="0" style="line-height:100%;width:100%!important;padding-top:5px;">
+                                 <tbody>
+                                    <tr>
+                                       <td height="30" align="left" valign="middle" style="font-size:14px;line-height:24px;padding-left:20px"><strong style="text-transform: uppercase;">Total</strong></td>
+                                       <td height="30" align="right" valign="middle" style="font-size:14px;line-height:24px;padding-right:20px"><strong style=""><%= total_price(@order) %> €</strong></td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <div style="Margin-left: 20px;Margin-right: 20px; Margin-top:24px; Margin-bottom:24px; padding-top:2px; background-color:rgb(230,230,230)"></div>
+                                 <div style="font-size: 12px; Margin-top: 20px; font-style: normal;font-weight: normal;line-height: 19px;" align="center">
+                                    <img src="data:image/png;base64,<%= @qr_code_base64 %>"></img>
+                                 </div>
+                              <div style="Margin-left: 20px;Margin-right: 20px; Margin-top:24px; Margin-bottom:24px; padding-top:2px; background-color:rgb(230,230,230)"></div>
+                              <a href="<%= @link %>" style="text-decoration: none !important;">
+                                 <div style="Margin-left: 20px;Margin-right: 20px; background-color: black; font-weight:bold; line-height:30px; text-align:center; color:#ffffff; padding-top: 10px; padding-bottom: 10px;">
+                                    <span>Ver encomenda</span>
+                                 </div>
+                              </a>
+                              <div style="Margin-left: 20px;Margin-right: 20px; Margin-top:24px; padding-top:2px; background-color:rgb(230,230,230)"></div>
+                              <div style="Margin-left: 20px;Margin-right: 20px;">
+                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
+                                    <p style="Margin-top: 16px;Margin-bottom: 20px;">
+                                       Obrigado pelo teu interesse no merch do CeSIUM.<br> Esperamos ver-te novamente!
+                                    </p>
+                                 </div>
+                              </div>
+                              <div style="Margin-left: 20px;Margin-right: 20px;">
+                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
+                                    <p class="size-10" style="Margin-top: 0;Margin-bottom: 20px;font-size: 10px;line-height: 18px;" lang="x-size-10">
+                                       <span style="color:#707070">
+                                       Se o botão acima não funcionar, copia o seguinte link e cola-o num browser.
+                                       <%= link to: @link do %>
+                                       <%= @link %>
+                                       <% end %>
+                                       </span>
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div style="mso-line-height-rule: exactly;line-height: 20px;font-size: 20px;">&nbsp;</div>
+                  <div style="background-color: #f5f5f5;">
+                     <div class="layout one-col stack" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;">
+                           <div class="column" style="text-align: left;color: #000;font-size: 16px;line-height: 24px;font-family: Avenir,sans-serif;">
+                              <div style="Margin-top: 25px; Margin-bottom: 2px; font-size: 12px; font-style: normal;font-weight: normal;line-height: 19px; color: #4f4f4f;" align="center">
+                                 <p>Enviado com 🧡 pela equipa do CeSIUM</p>
+                                 <p>Está a receber este email porque tem uma conta registada em <a target="_blank" href="https://store.cesium.di.uminho.pt/">store.cesium.di.uminho.pt</a></p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </body>
+</html>

@@ -1,0 +1,8 @@
+# images
+*.gif
+*.jpeg
+*.jpg
+*.png
+
+# documents
+*.pdf

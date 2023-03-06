@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+      <style>
+         .ExternalClass {width: 100%;}
+      </style>
+   </head>
+   <body>
+      <table class="wrapper" style="border-collapse: collapse;table-layout: fixed;min-width: 320px;width: 100%;background-color: #fff;" role="presentation" cellspacing="0" cellpadding="0">
+         <tbody>
+            <tr>
+               <td>
+                  <div>
+                     <div class="layout one-col fixed-width stack" style="Margin: 0 auto;max-width: 600px; min-width: 320px; width: 320px; width: 100%; overflow-wrap: break-word;word-wrap: break-word; word-break: break-word;">
+                        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
+                           <div class="column" style="text-align: left;color: #000;font-size: 16px;line-height: 24px;font-family: 'Open Sans', 'Droid Sans', Arial, sans-serif;">
+                                <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 24px;">
+                                    <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
+                                          <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #000;font-size: 26px;line-height: 34px;text-align: center;"><span style="color:#000000"><strong>Olá, confirma a tua conta na loja do CeSIUM!</strong></span></h1>
+                                          <div style="font-size: 12px;font-style: normal;font-weight: normal;line-height: 19px;Margin-top: 20px;" align="center">
+                                             <a href="<%= @link %>" style="background-color: #000000; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">
+                                             Confirmar
+                                             </a>
+
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>                              
+                        </div>
+                     </div>
+                  </div>
+                  <div style="mso-line-height-rule: exactly;line-height: 20px;font-size: 20px;">&nbsp;</div>
+                  <div style="background-color: #f5f5f5;">
+                     <div class="layout one-col stack" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                        <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;">
+                           <div class="column" style="text-align: left;color: #000;font-size: 16px;line-height: 24px;font-family: Avenir,sans-serif;">
+                              <div style="Margin-top: 25px; Margin-bottom: 2px; font-size: 12px; font-style: normal;font-weight: normal;line-height: 19px; color: #4f4f4f;" align="center">
+                                 <p>Enviado com 🧡 pela equipa do CeSIUM</p>
+                                 <p>Está a receber este email porque te registaste em <a target="_blank" href="https://store.cesium.di.uminho.pt/">store.cesium.di.uminho.pt</a></p>
+                                 <p>Por favor ignora este email se não te registaste.</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  </div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </body>
+</html>

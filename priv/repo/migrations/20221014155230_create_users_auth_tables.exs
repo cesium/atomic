@@ -10,6 +10,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
       add :role, :string, null: false
+      add :partnership, :boolean, default: false
       timestamps()
     end
 

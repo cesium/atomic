@@ -1,0 +1,96 @@
+<div class="min-h-full border-r border-gray-200">
+  <.form let={f} for={@changeset} id="product-form" phx-target={@myself} phx-submit="save">
+    <div class="min-h-full bg-white">
+      <div class="bg-white">
+        <div class="mt-16 flex flex-col">
+          <div class="flex w-full flex-col md:flex-row md:space-x-8">
+            <div class="w-full flex-row sm:flex md:w-1/2 lg:w-2/3 lg:space-x-4">
+              <div class="lg:flex lg:w-1/4 lg:flex-col lg:space-y-4">
+                <%= if @product.image do %>
+                  <img src={Uploaders.ProductImage.url({@product.image, @product}, :original)} class="hidden h-full w-full object-cover object-center lg:flex lg:h-full lg:w-full" />
+                  <img src={Uploaders.ProductImage.url({@product.image, @product}, :original)} class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                <% else %>
+                  <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="hidden h-full w-full object-cover object-center lg:flex lg:h-full lg:w-full" />
+                  <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+                <% end %>
+              </div>
+              <div class="flex w-full flex-col space-y-4 lg:w-3/4">
+                <%= live_redirect to: Routes.product_index_path(@socket, :index), class: "flex flex-row space-x-4 pt-4 font-semibold uppercase hover:text-[#f47c58]" do %>
+                  <%= "< Return" %>
+                <% end %>
+                <div class="flex h-full w-full flex-row lg:space-x-4">
+                  <%= if @product.image do %>
+                    <img
+                      src={
+                        Uploaders.ProductImage.url(
+                          {@product.image, @product},
+                          :original
+                        )
+                      }
+                      class="hidden h-full object-cover object-center brightness-90 lg:block xl:w-1/2"
+                    />
+                    <img
+                      src={
+                        Uploaders.ProductImage.url(
+                          {@product.image, @product},
+                          :original
+                        )
+                      }
+                      class="hidden h-full object-cover object-center brightness-90 lg:block xl:w-1/2"
+                    />
+                  <% else %>
+                    <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="hidden h-full object-cover object-center brightness-90 lg:block xl:w-1/2" />
+                    <img src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg" class="hidden h-full object-cover object-center brightness-90 lg:block xl:w-1/2" />
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="flex w-full flex-col justify-between md:w-1/2 lg:w-1/3">
+              <div>
+                <div class="flex items-center justify-between border-b-2 border-gray-200 pt-16 pb-8 font-bold uppercase">
+                  <p><%= @product.name %></p>
+                  <p><%= @product.price %> €</p>
+                </div>
+                <div class="flex items-center justify-between border-b-2 border-gray-200 py-8 font-bold uppercase">
+                  <p>Units</p>
+                  <%= select(f, :quantity, 1..@product.max_per_user, class: "flex w-20 items-center justify-between") %>
+                </div>
+                <div class="flex items-center justify-between border-b-2 border-gray-200 py-8 font-bold uppercase">
+                  <p>Choose an available size</p>
+                  <%= select(f, :size, get_available_sizes(@product), class: "flex w-20 items-center justify-between") %>
+                </div>
+                <div class="py-8"><%= @product.description %></div>
+              </div>
+              <div class="flex flex-col justify-between space-y-4">
+                <%= if assigns[:user] && @user.role == :admin do %>
+                  <%= live_redirect to: Routes.admin_product_edit_path(@socket, :edit, @product),class: "button" do %>
+                    <div type="button" class="inline-flex w-full items-center border-2 border-gray-200 bg-black py-4 font-bold text-white shadow-sm hover:bg-[#f47c58]">
+                      <span class="w-full text-center">Edit</span>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <%= if assigns[:user] do %>
+                    <%= submit do %>
+                      <div type="button" class="inline-flex w-full items-center justify-center bg-black py-4 font-bold text-white shadow-sm hover:border-[#f47c58] hover:bg-[#f47c58] hover:border-2" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                        Add to cart
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <a href="/users/log_in">
+                      <div type="button" class="inline-flex w-full items-center border-2 border-gray-200 bg-black py-4 font-bold text-white shadow-sm hover:bg-[#f47c58]">
+                        <span class="w-full text-center">Add to cart</span>
+                      </div>
+                    </a>
+                  <% end %>
+                <% end %>
+                <button type="button" class="inline-flex w-full items-center border-2 border-gray-200 bg-white py-4 font-bold text-black shadow-sm hover:bg-[#f47c58] hover:text-white">
+                  <span class="w-full text-center">Similar products</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </.form>
+</div>

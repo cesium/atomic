@@ -1,7 +1,12 @@
 defmodule Atomic.Uploaders.Image do
+  @moduledoc """
+  ProductImage is used for product images.
+  """
+
   use Waffle.Definition
   use Waffle.Ecto.Definition
-  alias Atomic.Partnerships.Partner
+
+  alias Atomic.Inventory.Product
 
   @versions [:original, :medium, :thumb]
   @extension_whitelist ~w(.jpg .jpeg .gif .png)
@@ -29,12 +34,12 @@ defmodule Atomic.Uploaders.Image do
     version
   end
 
-  def storage_dir(_version, {_file, %Partner{} = scope}) do
-    "uploads/atomic/#{scope.id}"
+  def storage_dir(_version, {_file, %Product{} = scope}) do
+    "uploads/store/#{scope.id}"
   end
 
   # Provide a default URL if there hasn't been a file uploaded
   def default_url(version) do
-    "uploads/atomic/partner_image_#{version}.png"
+    "uploads/store/product_image_#{version}.png"
   end
 end
