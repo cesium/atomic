@@ -25,6 +25,8 @@ import {LiveSocket} from "phoenix_live_view"
 import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
 
+let Hooks = {};
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
