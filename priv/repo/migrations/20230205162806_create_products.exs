@@ -13,6 +13,7 @@ defmodule Atomic.Repo.Migrations.CreateProducts do
       add :image, :string
       add :pre_order, :boolean, default: false
       add :sizes, :map
+      add :store_id, references(:stores, on_delete: :delete_all, type: :binary_id)
       timestamps()
     end
 

@@ -591,6 +591,16 @@ defmodule Atomic.Inventory do
     {:ok, order}
   end
 
+  alias Atomic.Inventory.Store
+  def get_store_id_by_name(name) do
+    store =
+      Store
+      |> where(name: ^name)
+      |> Repo.one()
+
+    store.id
+  end
+
   defp broadcast({:error, _reason} = error, _event), do: error
 
   defp broadcast({:ok, %Product{} = product}, event)

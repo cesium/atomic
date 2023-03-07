@@ -3,11 +3,11 @@ defmodule Atomic.Inventory.Store do
 
   alias Atomic.Organizations.Organization
   alias Atomic.Inventory.Product
-  @required_fields ~w(organization_id)a
+  @required_fields ~w(organization_id name)a
 
   schema "stores" do
     belongs_to :organization, Organization
-
+    field :name, :string
     has_many :products, Product,
       on_replace: :delete_if_exists,
       on_delete: :delete_all,

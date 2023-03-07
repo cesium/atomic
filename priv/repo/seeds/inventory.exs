@@ -1,13 +1,13 @@
 defmodule Atomic.Repo.Seeds.Inventory do
   alias Atomic.Repo
-
   alias Atomic.Inventory.Product
+  alias Atomic.Inventory
 
   def run do
     seed_products()
   end
 
-  def seed_products do
+  def seed_products() do
     case Repo.all(Product) do
       [] ->
         [
@@ -25,7 +25,8 @@ defmodule Atomic.Repo.Seeds.Inventory do
               l_size: 1,
               xl_size: 1,
               xxl_size: 1
-            }
+            },
+            store_id: Inventory.get_store_id_by_name("CeSIUM Store")
           },
           %{
             name: "Caderno",
@@ -41,7 +42,9 @@ defmodule Atomic.Repo.Seeds.Inventory do
               l_size: 1,
               xl_size: 1,
               xxl_size: 1
-            }
+            },
+            store_id: Inventory.get_store_id_by_name("CeSIUM Store")
+
           },
           %{
             name: "Caneta",
@@ -57,7 +60,8 @@ defmodule Atomic.Repo.Seeds.Inventory do
               l_size: 1,
               xl_size: 1,
               xxl_size: 1
-            }
+            },
+            store_id: Inventory.get_store_id_by_name("CeSIUM Store")
           },
           %{
             name: "Lápis",
@@ -73,7 +77,8 @@ defmodule Atomic.Repo.Seeds.Inventory do
               l_size: 1,
               xl_size: 1,
               xxl_size: 1
-            }
+            },
+            store_id: Inventory.get_store_id_by_name("CeSIUM Store")
           }
         ]
         |> Enum.each(&insert_product/1)
