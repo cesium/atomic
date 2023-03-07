@@ -3,10 +3,11 @@ defmodule Atomic.Departments.Department do
     An activity
   """
   use Atomic.Schema
+  alias Atomic.Users.CollaboratorDepartment
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.Activity
   alias Atomic.Accounts.Collaborator
-  alias Atomic.Users.CollaboratorDepartment
+  alias Atomic.Activities.ActivityDepartment
 
   @required_fields ~w(name organization_id)a
 
@@ -14,8 +15,8 @@ defmodule Atomic.Departments.Department do
 
   schema "departments" do
     field :name, :string
-
-    has_many :activities, Activity
+    many_to_many :collaborators, Collaborator, join_through: CollaboratorDepartment
+    many_to_many :activities, Activity, join_through: ActivityDepartment
 
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
