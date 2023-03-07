@@ -5,12 +5,12 @@ defmodule Atomic.Users.CollaboratorDepartment do
   use Atomic.Schema
 
   alias Atomic.Departments.Department
-  alias Atomic.Accounts.Collaborator
+  alias Atomic.Accounts.User
 
   @required_fields ~w(collaborator_id department_id)a
 
   schema "collaborator_departments" do
-    belongs_to :collaborator, Collaborator
+    belongs_to :collaborator, User
     belongs_to :department, Department
 
     timestamps()

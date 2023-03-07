@@ -28,16 +28,4 @@ defmodule Atomic.AccountsFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
-
-  @doc """
-  Generate a collaborator.
-  """
-  def collaborator_fixture(attrs \\ %{}) do
-    {:ok, collaborator} =
-      attrs
-      |> Enum.into(%{})
-      |> Atomic.Accounts.create_collaborator()
-
-    collaborator
-  end
 end
