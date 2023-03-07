@@ -2,7 +2,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Activities.Speaker
   alias Atomic.Activities.Session
   alias Atomic.Departments
 
@@ -13,8 +12,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     {:ok,
      socket
-     |> assign(:speakers, speakers)
-     |> assign(:departments, departments)}
+     |> assign(:departments, departments)
+     |> assign(:speakers, speakers)}
   end
 
   @impl true
