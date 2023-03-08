@@ -6,6 +6,7 @@ defmodule Atomic.Accounts.User do
 
   alias Atomic.Users.CollaboratorDepartment
   alias Atomic.Activities.Enrollment
+  alias Atomic.Accounts.User
   @roles ~w(admin staff student)a
 
   schema "users" do
@@ -16,7 +17,7 @@ defmodule Atomic.Accounts.User do
 
     field :role, Ecto.Enum, values: @roles
     has_many :enrollments, Enrollment
-    many_to_many :collaborators, User, join_through: CollaboratorDepartment
+    many_to_many :collaborators, User, join_through: CollaboratorDepartment, on_replace: :delete
 
     timestamps()
   end

@@ -12,7 +12,6 @@ defmodule Atomic.Users.CollaboratorDepartment do
   schema "collaborator_departments" do
     belongs_to :collaborator, User
     belongs_to :department, Department
-
     timestamps()
   end
 
