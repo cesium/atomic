@@ -1,10 +1,10 @@
 defmodule Atomic.Departments.Department do
   @moduledoc """
-    An activity
+    A department of an organization
   """
   use Atomic.Schema
   alias Atomic.Organizations.Organization
-  alias Atomic.Activities.Activity
+  alias Atomic.Activities.{Activity, ActivityDepartment}
 
   @required_fields ~w(name organization_id)a
 
@@ -13,7 +13,7 @@ defmodule Atomic.Departments.Department do
   schema "departments" do
     field :name, :string
 
-    has_many :activities, Activity
+    many_to_many :activities, Activity, join_through: ActivityDepartment, on_replace: :delete
 
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
