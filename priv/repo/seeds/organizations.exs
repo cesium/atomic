@@ -2,10 +2,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
+  alias Atomic.Organizations.Association
   alias Atomic.Organizations.Organization
 
   def run do
     seed_organizations()
+    seed_associations()
   end
 
   def seed_organizations() do
@@ -66,6 +68,27 @@ defmodule Atomic.Repo.Seeds.Organizations do
 
       _ ->
         :ok
+    end
+  end
+
+  def seed_associations() do
+    users = Repo.all(User)
+    organizations = Repo.all(Organization)
+
+    for user <- users do
+      for organization <- organizations do
+        prob = 50
+        random_number = :rand.uniform(100)
+        if random_number < prob do
+          %Association{}
+          |> Association.changeset(%{
+            "user_id" => user.id,
+            "organization_id" => organization.id,
+            "accepted" => Enum.random([true, false])
+          })
+          |> Repo.insert!()
+        end
+      end
     end
   end
 end

@@ -4,8 +4,8 @@ defmodule Atomic.Organizations.Association do
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(number)a
-  @optional_fields []
+  @required_fields ~w(accepted user_id organization_id)a
+  @optional_fields [:number]
 
   schema "associations" do
     field :number, :integer
