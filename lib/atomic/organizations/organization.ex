@@ -1,7 +1,9 @@
 defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
+  alias Atomic.Accounts.User
   alias Atomic.Departments.Department
   alias Atomic.Activities.Location
+  alias Atomic.Organizations.Association
 
   @required_fields ~w(name description)a
   @optional_fields []
@@ -15,6 +17,8 @@ defmodule Atomic.Organizations.Organization do
       on_delete: :delete_all,
       foreign_key: :organization_id,
       preload_order: [asc: :name]
+
+    many_to_many :users, User, join_through: Association
 
     embeds_one :location, Location, on_replace: :delete
 

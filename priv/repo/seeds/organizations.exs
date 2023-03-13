@@ -1,6 +1,7 @@
 defmodule Atomic.Repo.Seeds.Organizations do
   alias Atomic.Repo
 
+  alias Atomic.Accounts.User
   alias Atomic.Organizations.Organization
 
   def run do

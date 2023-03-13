@@ -4,8 +4,10 @@ defmodule Atomic.Organizations do
   """
 
   import Ecto.Query, warn: false
+  alias Jason.Encoder.Ecto.Association
   alias Atomic.Repo
 
+  alias Atomic.Organizations.Association
   alias Atomic.Organizations.Organization
 
   @doc """
@@ -103,5 +105,19 @@ defmodule Atomic.Organizations do
   """
   def change_organization(%Organization{} = organization, attrs \\ %{}) do
     Organization.changeset(organization, attrs)
+  end
+  def list_associations(params, preloads \\ [])
+  def list_associations(%{"organization_id" => organization_id}, preloads) do
+    Association
+    |> where([a], a.organization_id == ^organization_id)
+    |> Repo.all()
+    |> Repo.preload(preloads)
+  end
+
+  def list_associations(%{"user_id" => user_id}, preloads) do
+    Association
+    |> where([a], a.user_id == ^user_id)
+    |> Repo.preload(preloads)
+    |> Repo.all()
   end
 end
