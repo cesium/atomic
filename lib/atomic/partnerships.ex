@@ -49,7 +49,7 @@ defmodule Atomic.Partnerships do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_partner(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+  def create_partner(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
     %Partner{}
     |> Partner.changeset(attrs)
     |> Repo.insert()
@@ -67,7 +67,7 @@ defmodule Atomic.Partnerships do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_partner(%Partner{} = partner, attrs, after_save \\ &{:ok, &1}) do
+  def update_partner(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
     partner
     |> Partner.changeset(attrs)
     |> Repo.update()
