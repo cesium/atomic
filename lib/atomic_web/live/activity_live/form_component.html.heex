@@ -1,69 +1,58 @@
 <div>
   <h2><%= @title %></h2>
 
-  <.form
-    let={f}
-    for={@changeset}
-    id="activity-form"
-    phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save">
-  
-    <%= label f, :title %>
-    <%= text_input f, :title %>
-    <%= error_tag f, :title %>
-  
-    <%= label f, :description %>
-    <%= textarea f, :description %>
-    <%= error_tag f, :description %>
-  
-    <%= label f, :date %>
-    <%= datetime_local_input f, :date %>
-    <%= error_tag f, :date %>
+  <.form let={f} for={@changeset} id="activity-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <%= label(f, :title) %>
+    <%= text_input(f, :title) %>
+    <%= error_tag(f, :title) %>
 
-    <%= label f, :minimum_entries %>
-    <%= number_input f, :minimum_entries %>
-    <%= error_tag f, :minimum_entries %>
-  
-    <%= label f, :maximum_entries %>
-    <%= number_input f, :maximum_entries %>
-    <%= error_tag f, :maximum_entries %>
+    <%= label(f, :description) %>
+    <%= textarea(f, :description) %>
+    <%= error_tag(f, :description) %>
 
-    <%= label f, :department_id %>
-    <%= select(f, :department_id, Enum.map(@departments, &{&1.name, &1.id}), prompt: "Choose a Department", selected: f.data.department_id, required: true) %>
-    <%= error_tag f, :department_id %>
+    <%= label(f, :date) %>
+    <%= datetime_local_input(f, :date) %>
+    <%= error_tag(f, :date) %>
 
-    <%= label f, :speakers %>
-    <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, &(&1.id)), on_change: "update_speakers") %>
-    <%= error_tag f, :speaker %>
+    <%= label(f, :minimum_entries) %>
+    <%= number_input(f, :minimum_entries) %>
+    <%= error_tag(f, :minimum_entries) %>
 
+    <%= label(f, :maximum_entries) %>
+    <%= number_input(f, :maximum_entries) %>
+    <%= error_tag(f, :maximum_entries) %>
+
+    <%= label(f, :departments) %>
+    <%= multiple_select(f, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id), on_change: "update_departments") %>
+    <%= error_tag(f, :departments) %>
+
+    <%= label(f, :speakers) %>
+    <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers") %>
+    <%= error_tag(f, :speaker) %>
 
     <ul>
       <a href="#" phx-click="add-session" phx-target={@myself}>
         New Session
       </a>
 
-      <%= label f, :activity_sessions %>
+      <%= label(f, :activity_sessions) %>
       <%= inputs_for f, :activity_sessions, fn fs -> %>
-
-        <%= label fs, :start %>
+        <%= label(fs, :start) %>
         <%= datetime_local_input(fs, :start) %>
         <%= error_tag(fs, :start) %>
 
-        <%= label fs, :finish %>
+        <%= label(fs, :finish) %>
         <%= datetime_local_input(fs, :finish) %>
         <%= error_tag(fs, :finish) %>
 
         <%= inputs_for fs, :location, fn fl -> %>
+          <%= label(fs, :location) %>
+          <%= text_input(fl, :name) %>
+          <%= error_tag(fl, :name) %>
 
-            <%= label fs, :location %>
-            <%= text_input(fl, :name) %>
-            <%= error_tag(fl, :name) %>
-
-            <%= label fl, :url %>
-            <%= text_input(fl, :url) %>
-            <%= error_tag(fl, :url) %>
-
+          <%= label(fl, :url) %>
+          <%= text_input(fl, :url) %>
+          <%= error_tag(fl, :url) %>
         <% end %>
 
         <%= if fs.index != 0 do %>
@@ -72,9 +61,9 @@
         <% end %>
       <% end %>
     </ul>
-    
+
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= submit("Save", phx_disable_with: "Saving...") %>
     </div>
   </.form>
 </div>

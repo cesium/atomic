@@ -1,0 +1,30 @@
+name: Code Quality
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize]
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+
+    strategy:
+      matrix:
+        otp: [25.x]
+        elixir: [1.14.x]
+
+    steps:
+      - name: ☁️ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 💧 Setup Elixir ${{ matrix.elixir }} (OTP ${{matrix.otp}})
+        uses: ./.github/actions
+        with:
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
+          build-flags: --all-warnings --warnings-as-errors
+
+      - name: Check code formating
+        run: mix format --check-formatted

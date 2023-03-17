@@ -27,6 +27,12 @@ defmodule Atomic.Departments do
     Repo.all(Department)
   end
 
+  def get_departments(nil), do: []
+
+  def get_departments(ids) do
+    Repo.all(from d in Department, where: d.id in ^ids)
+  end
+
   @doc """
   Gets a single department.
 

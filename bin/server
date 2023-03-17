@@ -21,8 +21,8 @@ function display_help() {
     ${PROGRAM} [options] <command>
 
   $(help_title_section Commands)
-    docker             Start development server from a docker container [default command].
-    local              Start development server in your own machine.
+    local             Start development server in your own machine [default command].
+    docker            Start development server from a docker container.
 
   $(help_title_section Options)
     -h --help         Show this screen.
@@ -30,7 +30,7 @@ function display_help() {
 EOF
 }
 
-case ${1:-docker} in
+case ${1:-local} in
   -h | --help)
     display_help
     ;;
