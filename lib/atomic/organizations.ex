@@ -107,6 +107,12 @@ defmodule Atomic.Organizations do
     Organization.changeset(organization, attrs)
   end
 
+  def create_association(attrs) do
+    %Association{}
+    |> Association.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def list_associations(params, preloads \\ [])
 
   def list_associations(%{"organization_id" => organization_id}, preloads) do

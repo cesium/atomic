@@ -5,7 +5,7 @@ defmodule Atomic.OrganizationsFixtures do
   """
 
   @doc """
-  Generate a organization.
+  Generate an organization.
   """
   def organization_fixture(attrs \\ %{}) do
     {:ok, organization} =
@@ -17,5 +17,38 @@ defmodule Atomic.OrganizationsFixtures do
       |> Atomic.Organizations.create_organization()
 
     organization
+  end
+
+  @doc """
+  Generate an association
+  """
+  def association_fixture(attrs \\ %{}) do
+    {:ok, organization} =
+      %{}
+      |> Enum.into(%{
+        description: "some description",
+        name: "some name"
+      })
+      |> Atomic.Organizations.create_organization()
+
+    {:ok, user} =
+      %{}
+      |> Enum.into(%{
+        email: "test@mail.pt",
+        password: "password1234",
+        role: :student
+      })
+      |> Atomic.Accounts.register_user()
+
+    {:ok, association} =
+      attrs
+      |> Enum.into(%{
+        accepted: true,
+        user_id: user.id,
+        organization_id: organization.id
+      })
+      |> Atomic.Organizations.create_association()
+
+    association
   end
 end
