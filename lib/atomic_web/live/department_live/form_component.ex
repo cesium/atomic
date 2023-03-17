@@ -13,8 +13,6 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
      |> assign(:organizations, organizations)}
   end
 
-
-
   @impl true
   def update(%{department: department} = assigns, socket) do
     changeset = Departments.change_department(department)
