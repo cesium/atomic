@@ -2,7 +2,6 @@ defmodule AtomicWeb.AssociationLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Organizations
-  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 
   @impl true
   def update(%{association: association} = assigns, socket) do
