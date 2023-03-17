@@ -139,6 +139,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
           "White Rabbit"
         ]
         |> create_users(:staff)
+
       _ ->
         Mix.shell().error("Found users, aborting seeding users.")
     end
@@ -158,10 +159,11 @@ defmodule Atomic.Repo.Seeds.Accounts do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
 
-        {:ok, _} -> :ok
+        {:ok, _} ->
+          :ok
       end
     end
   end
 end
 
-Atomic.Repo.Seeds.Accounts.run
+Atomic.Repo.Seeds.Accounts.run()

@@ -1,62 +1,69 @@
-<div
-  x-data="{ toggle: true }">
-    <h1>Associations</h1>
+<div x-data="{ toggle: true }">
+  <h1>Associations</h1>
 
-    <div>
-        <button @click="toggle = true">Accepted</button>
-        <button @click="toggle = false">Pending</button>
-    </div>
+  <div>
+    <button @click="toggle = true">Accepted</button>
+    <button @click="toggle = false">Pending</button>
+  </div>
 
-    <table :class="[toggle ? 'block' : 'hidden']">
-        <tr>
-            <th>Number</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Requested At</th>
-            <th>Accepted By</th>
-            <th>Accepted At</th>
-        </tr>
-        <%= for association <- @associations_accepted do %>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>john_doe@mail.com</td>
-                <td>912345678</td>
-                <td>23/02/2023 13:23</td>
-                <td>Jane Doe</td>
-                <td>23/02/2023 13:24</td>
-            </tr>
-        <% end %>
-    </table>
+  <table :class="[toggle ? 'block' : 'hidden']">
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Requested At</th>
+      <th>Accepted By</th>
+      <th>Accepted At</th>
+      <th>Actions</th>
+    </tr>
+    <%= for association <- @associations_accepted do %>
+      <tr>
+        <td><%= association.number %></td>
+        <td>John Doe</td>
+        <td><%= association.user.email %></td>
+        <td>912345678</td>
+        <td><%= association.inserted_at %></td>
+        <td>Jane Doe</td>
+        <td><%= association.updated_at %></td>
+        <td>
+          <%= link to: Routes.association_show_path(@socket, :show, association.organization_id, association) do %>
+            Show
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 
-    <table :class="[toggle ? 'hidden' : 'block']">
-        <tr>
-            <th>Number</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Requested At</th>
-            <th>Accept</th>
-        </tr>
-        <%= for association <- @associations_pending do %>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>john_doe@mail.com</td>
-                <td>912345678</td>
-                <td>23/02/2023 13:23</td>
-                <td>Jane Doe</td>
-                <td>23/02/2023 13:24</td>
-                <td>
-                    <%= link to: Routes.association_index_path(@socket, :edit, association) do %>
-                        Edit
-                    <% end %>
-                    <%= link to: Routes.association_index_path(@socket, :delete, association), method: :delete do %>
-                        Delete
-                    <% end %>
-                </td>
-            </tr>
-        <% end %>
-    </table>
+  <table :class="[toggle ? 'hidden' : 'block']">
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Requested At</th>
+      <th>Accepted By</th>
+      <th>Accepted At</th>
+      <th>Actions</th>
+    </tr>
+    <%= for association <- @associations_pending do %>
+      <tr>
+        <td><%= association.number %></td>
+        <td>John Doe</td>
+        <td><%= association.user.email %></td>
+        <td>912345678</td>
+        <td><%= association.inserted_at %></td>
+        <td>Jane Doe</td>
+        <td><%= association.updated_at %></td>
+        <td>
+          <%= link to: Routes.association_show_path(@socket, :show, association.organization_id, association) do %>
+            Show
+          <% end %>
+          <%= link to: Routes.association_edit_path(@socket, :edit, association.organization_id, association) do %>
+            Edit
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 </div>

@@ -79,6 +79,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
       for organization <- organizations do
         prob = 50
         random_number = :rand.uniform(100)
+
         if random_number < prob do
           %Association{}
           |> Association.changeset(%{

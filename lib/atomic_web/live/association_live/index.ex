@@ -10,11 +10,11 @@ defmodule AtomicWeb.AssociationLive.Index do
 
   @impl true
   def handle_params(%{"org" => id}, _, socket) do
-    associations = Organizations.list_associations(%{"organization_id" => id}, preloads: :user)
+    associations = Organizations.list_associations(%{"organization_id" => id}, [:user])
     associations_accepted = Enum.filter(associations, fn a -> a.accepted end)
     associations_pending = Enum.filter(associations, fn a -> not a.accepted end)
 
-   {:noreply,
+    {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:associations_accepted, associations_accepted)
@@ -22,6 +22,6 @@ defmodule AtomicWeb.AssociationLive.Index do
   end
 
   defp page_title(:index), do: "List Associations"
-  defp page_title(:show), do: "Show Department"
-  defp page_title(:edit), do: "Edit Department"
+  defp page_title(:show), do: "Show Association"
+  defp page_title(:edit), do: "Edit Association"
 end

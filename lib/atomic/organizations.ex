@@ -106,7 +106,9 @@ defmodule Atomic.Organizations do
   def change_organization(%Organization{} = organization, attrs \\ %{}) do
     Organization.changeset(organization, attrs)
   end
+
   def list_associations(params, preloads \\ [])
+
   def list_associations(%{"organization_id" => organization_id}, preloads) do
     Association
     |> where([a], a.organization_id == ^organization_id)
@@ -119,5 +121,25 @@ defmodule Atomic.Organizations do
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
+  end
+
+  def get_association!(id, preloads \\ []) do
+    Association
+    |> Repo.get_by!(id: id)
+    |> Repo.preload(preloads)
+  end
+
+  def update_association(%Association{} = association, attrs) do
+    association
+    |> Association.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_association(%Association{} = association) do
+    Repo.delete(association)
+  end
+
+  def change_association(%Association{} = association, attrs \\ %{}) do
+    Association.changeset(association, attrs)
   end
 end

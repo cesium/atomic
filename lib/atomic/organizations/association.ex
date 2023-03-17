@@ -5,10 +5,10 @@ defmodule Atomic.Organizations.Association do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(accepted user_id organization_id)a
-  @optional_fields [:number]
+  @optional_fields [:number, :accepted_by_id]
 
   schema "associations" do
-    field :number, :integer
+    field :number, :integer, read_after_writes: true
     field :accepted, :boolean, default: false
 
     belongs_to :accepted_by, User

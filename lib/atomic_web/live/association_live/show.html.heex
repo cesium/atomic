@@ -1,0 +1,17 @@
+<div>
+  <h2>Temporary Name</h2>
+  <h3>Associate Number <%= @association.number %></h3>
+  <div>
+    <p><b>Email:</b> <%= @association.user.email %></p>
+    <p><b>Phone Number:</b> Temporary Number</p>
+    <p><b>Requested At:</b> <%= @association.inserted_at %></p>
+    <p>
+      <b>Accepted By</b> <%= if @association.accepted_by == nil do
+        "sdfg"
+      else
+        @association.accepted_by.email
+      end %>
+    </p>
+    <p><b>Accepted At:</b> <%= @association.updated_at %></p>
+  </div>
+</div>

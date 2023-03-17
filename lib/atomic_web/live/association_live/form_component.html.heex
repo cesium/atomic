@@ -1,0 +1,17 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form let={f} for={@changeset} id="association-form" phx-target={@myself} phx-submit="save">
+    <h2>Temporary Name</h2>
+    <div>
+      <p><b>Email:</b> <%= @association.user.email %></p>
+      <p><b>Phone Number:</b> Temporary Number</p>
+      <p><b>Requested At:</b> <%= @association.inserted_at %></p>
+    </div>
+    <%= label(f, :number) %>
+    <%= number_input(f, :number) %>
+    <%= label(f, :accepted) %>
+    <%= select(f, :accepted, [true, false]) %>
+    <%= submit("Save", phx_disable_with: "Saving...") %>
+  </.form>
+</div>
