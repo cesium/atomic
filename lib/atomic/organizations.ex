@@ -4,7 +4,7 @@ defmodule Atomic.Organizations do
   """
 
   import Ecto.Query, warn: false
-  alias Jason.Encoder.Ecto.Association
+
   alias Atomic.Repo
 
   alias Atomic.Organizations.Association
@@ -113,6 +113,18 @@ defmodule Atomic.Organizations do
     |> Repo.insert()
   end
 
+  @doc """
+  Returns the list of associations.
+
+  ## Examples
+
+      iex> list_associations(%{"organization_id" => id})
+      [%Organization{}, ...]
+
+      iex> list_associations(%{"user_id" => id})
+      [%Organization{}, ...]
+
+  """
   def list_associations(params, preloads \\ [])
 
   def list_associations(%{"organization_id" => organization_id}, preloads) do
@@ -129,22 +141,69 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  @doc """
+  Gets a single association.
+
+  Raises `Ecto.NoResultsError` if the association does not exist.
+
+  ## Examples
+
+      iex> get_association!(123)
+      %Association{}
+
+      iex> get_association!(456)
+      ** (Ecto.NoResultsError)
+
+  """
   def get_association!(id, preloads \\ []) do
     Association
     |> Repo.get_by!(id: id)
     |> Repo.preload(preloads)
   end
 
+  @doc """
+  Updates an association.
+
+  ## Examples
+
+      iex> update_association(association, %{field: new_value})
+      {:ok, %Organization{}}
+
+      iex> update_association(association, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def update_association(%Association{} = association, attrs) do
     association
     |> Association.changeset(attrs)
     |> Repo.update()
   end
 
+  @doc """
+  Deletes an association.
+
+  ## Examples
+
+      iex> delete_association(association)
+      {:ok, %Association{}}
+
+      iex> delete_association(association)
+      {:error, %Ecto.Changeset{}}
+
+  """
   def delete_association(%Association{} = association) do
     Repo.delete(association)
   end
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking associaiton changes.
+
+  ## Examples
+
+      iex> change_associaiton(associaiton)
+      %Ecto.Changeset{data: %Associaiton{}}
+
+  """
   def change_association(%Association{} = association, attrs \\ %{}) do
     Association.changeset(association, attrs)
   end

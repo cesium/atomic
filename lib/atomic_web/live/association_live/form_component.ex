@@ -40,7 +40,7 @@ defmodule AtomicWeb.AssociationLive.FormComponent do
     number = association_params["number"]
 
     if association_params["accepted"] == "true" do
-      if not number do
+      if is_nil(number) do
         {:noreply,
          socket
          |> put_flash(:error, "Number must be set")}

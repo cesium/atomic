@@ -17,7 +17,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_event("sign_up", _params, socket) do
+  def handle_event("sign_up", _payload, socket) do
     attrs = %{
       accepted: false,
       user_id: socket.assigns.current_user.id,

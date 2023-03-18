@@ -30,6 +30,9 @@
           <%= link to: Routes.association_show_path(@socket, :show, association.organization_id, association) do %>
             Show
           <% end %>
+          <%= link to: Routes.association_edit_path(@socket, :edit, association.organization_id, association) do %>
+            Edit
+          <% end %>
         </td>
       </tr>
     <% end %>
