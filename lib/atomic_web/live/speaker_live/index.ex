@@ -3,6 +3,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
   alias Atomic.Activities
   alias Atomic.Activities.Speaker
+  alias Icons.Heroicons
 
   @impl true
   def mount(_params, _session, socket) do
