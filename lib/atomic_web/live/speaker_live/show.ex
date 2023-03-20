@@ -11,6 +11,7 @@ defmodule AtomicWeb.SpeakerLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     speaker = Activities.get_speaker!(id)
+
     entries = [
       %{
         name: gettext("Speakers"),
@@ -32,7 +33,7 @@ defmodule AtomicWeb.SpeakerLive.Show do
      socket
      |> assign(:current_page, :speakers)
      |> assign(:page_title, page_title(socket.assigns.live_action))
-   # |> assign(:activities, activities)
+     # |> assign(:activities, activities)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:speaker, speaker)}
   end

@@ -19,26 +19,46 @@
             </div>
           </div>
           <div x-bind:class="view =='list' ? 'hidden lg:block' : 'hidden'">
-            <div class="overflow-hidden bg-white mt-5">
-              <table>
-                <tbody id="speakers" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-                  <%= for speaker <- @speakers do %>
-                    <tr id={"speaker-#{speaker.id}"} class="flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow-sm">
-                      <td class="flex flex-col h-70 w-52">
-                        <%= link to: Routes.speaker_show_path(@socket, :show, speaker), class: "flex flex-col" do %>
-                          <img src="" alt={"#{speaker.name}"} class="object-cover w-full h-56 shadow-sm" />
-                          <span class="text-center"><%= speaker.name %></span>
-                          <span class="text-center"><%= speaker.bio %></span>
+            <div class="px-4 sm:px-6 lg:px-8">
+              <div class="mt-8 flow-root">
+                <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                      <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                          <tr>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Speaker</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Bio</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                              <span class="sr-only">Edit</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <%= for speaker <- @speakers do %>
+                          <tbody class="divide-y divide-gray-200 bg-white">
+                            <tr>
+                              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                <%= link to: Routes.speaker_show_path(@socket, :show, speaker), class: "" do %>
+                                  <img src="" alt={"#{speaker.name}"} class="w-8 h-8 rounded-full object-cover mr-2 ring-2 ring-gray-300" />
+                                <% end %>
+                              </td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= speaker.name %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= speaker.bio %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Role</td>
+                              <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <span><%= live_patch("Edit |", to: Routes.speaker_index_path(@socket, :edit, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
+                                <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900") %></span>
+                              </td>
+                            </tr>
+                          </tbody>
                         <% end %>
-                      </td>
-                      <td class="p-4 text-center">
-                        <span><%= live_patch("Edit |", to: Routes.speaker_index_path(@socket, :edit, speaker)) %></span>
-                        <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
