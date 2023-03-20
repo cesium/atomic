@@ -23,7 +23,6 @@ defmodule AtomicWeb.Router do
 
   scope "/", AtomicWeb do
     pipe_through :browser
-
   end
 
   scope "/", AtomicWeb do

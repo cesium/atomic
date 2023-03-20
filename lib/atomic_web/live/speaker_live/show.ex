@@ -10,9 +10,29 @@ defmodule AtomicWeb.SpeakerLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    entries = [
+      %{
+        name: gettext("Speakers"),
+        route: Routes.speaker_index_path(socket, :index)
+      },
+      %{
+        name: "Show Speaker",
+        route: Routes.speaker_show_path(socket, :show, id)
+      }
+    ]
+
+    activities_sessions = Activities.get_activity_by_speaker!(id) |> IO.inspect()
+
+    activities =
+      activities_sessions
+      |> Enum.map(fn activity -> Activities.get_activity!(activity.activity_id) end)
+
     {:noreply,
      socket
+     |> assign(:current_page, :speakers)
      |> assign(:page_title, page_title(socket.assigns.live_action))
+     # |> assign(:activities, activities)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:speaker, Activities.get_speaker!(id))}
   end
 

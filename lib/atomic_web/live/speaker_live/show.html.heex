@@ -111,6 +111,7 @@
             </dt>
             <%!-- <dd class="mt-5 text-sm text-gray-900">
               <%= if not Enum.empty?(@activities) do %>
+                  <p>ABC</p>
                 <ul role="list" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
                   <%= for activity <- @activities do %>
                     <.activity_card program={@program} socket={@socket} activity={activity} />
@@ -133,6 +134,5 @@
     </div>
   </section>
 </div>
->>>>>>> 061df8a (Update design)
 <span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> |
 <span><%= live_redirect("Back", to: Routes.speaker_index_path(@socket, :index)) %></span>

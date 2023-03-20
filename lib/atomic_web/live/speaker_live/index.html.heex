@@ -1,34 +1,48 @@
-<h1>Listing Speakers</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.speaker_index_path(@socket, :index)}>
     <.live_component module={AtomicWeb.SpeakerLive.FormComponent} id={@speaker.id || :new} title={@page_title} action={@live_action} speaker={@speaker} return_to={Routes.speaker_index_path(@socket, :index)} />
   </.modal>
 <% end %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Bio</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="speakers">
-    <%= for speaker <- @speakers do %>
-      <tr id={"speaker-#{speaker.id}"}>
-        <td><%= speaker.name %></td>
-        <td><%= speaker.bio %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.speaker_show_path(@socket, :show, speaker)) %></span>
-          <span><%= live_patch("Edit", to: Routes.speaker_index_path(@socket, :edit, speaker)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch("New Speaker", to: Routes.speaker_index_path(@socket, :new)) %></span>
+<div class="">
+  <div class="inline-block min-w-full align-middle">
+    <div x-data="{ view: 'list' }">
+      <div class="bg-white">
+        <div class="pt-4 px-4">
+          <div class="flex items-center justify-between">
+            <div class="min-w-0 flex flex-row border-b border-gray-200 w-full">
+              <h2 class="text-xl font-bold leading-7 w-fit text-zinc-900 sm:truncate sm:text-4xl">
+                <%= gettext("Speakers") %>
+              </h2>
+              <span class="ml-auto justify-end mb-1 rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <%= live_patch("New Speaker", to: Routes.speaker_index_path(@socket, :new)) %>
+              </span>
+            </div>
+          </div>
+          <div x-bind:class="view =='list' ? 'hidden lg:block' : 'hidden'">
+            <div class="overflow-hidden bg-white mt-5">
+              <table>
+                <tbody id="speakers" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+                  <%= for speaker <- @speakers do %>
+                    <tr id={"speaker-#{speaker.id}"} class="flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow-sm">
+                      <td class="flex flex-col h-70 w-52">
+                        <%= link to: Routes.speaker_show_path(@socket, :show, speaker), class: "flex flex-col" do %>
+                          <img src="" alt={"#{speaker.name}"} class="object-cover w-full h-56 shadow-sm" />
+                          <span class="text-center"><%= speaker.name %></span>
+                          <span class="text-center"><%= speaker.bio %></span>
+                        <% end %>
+                      </td>
+                      <td class="p-4 text-center">
+                        <span><%= live_patch("Edit |", to: Routes.speaker_index_path(@socket, :edit, speaker)) %></span>
+                        <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

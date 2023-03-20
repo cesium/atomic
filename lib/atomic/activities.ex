@@ -106,6 +106,12 @@ defmodule Atomic.Activities do
     Activity.changeset(activity, attrs)
   end
 
+  alias Atomic.Activities.ActivitySpeaker
+
+  def get_activity_by_speaker!(user_id) do
+    Repo.all(ActivitySpeaker, speaker_id: user_id)
+  end
+
   alias Atomic.Activities.Session
 
   @doc """

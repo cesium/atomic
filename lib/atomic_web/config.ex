@@ -24,7 +24,7 @@ defmodule AtomicWeb.Config do
       },
       %{
         key: :instructors,
-        title: "Instructors",
+        title: "Speakers",
         icon: :user,
         url: Routes.speaker_index_path(conn, :index),
         tabs: []

@@ -16,13 +16,12 @@ defmodule AtomicWeb.CalendarLive.Show do
   def handle_params(params, _uri, socket) do
     mode = params["mode"] || "month"
 
-    entries=
-      [
-        %{
-          name: gettext("Calendar"),
-          route: Routes.calendar_show_path(socket, :show)
-        }
-      ]
+    entries = [
+      %{
+        name: gettext("Calendar"),
+        route: Routes.calendar_show_path(socket, :show)
+      }
+    ]
 
     {:noreply,
      socket

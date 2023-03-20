@@ -19,17 +19,16 @@ defmodule AtomicWeb.ActivityLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
 
-    entries=
-      [
-        %{
-          name: gettext("Activities"),
-          route: Routes.activity_index_path(socket, :index)
-        },
-        %{
-          name: activity.title,
-          route: Routes.activity_show_path(socket, :show, activity)
-        }
-      ]
+    entries = [
+      %{
+        name: gettext("Activities"),
+        route: Routes.activity_index_path(socket, :index)
+      },
+      %{
+        name: activity.title,
+        route: Routes.activity_show_path(socket, :show, activity)
+      }
+    ]
 
     {:noreply,
      socket

@@ -15,7 +15,7 @@ defmodule AtomicWeb.Hooks do
     owner = Application.get_env(:atomic, :owner)
     time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
     current_user = Accounts.get_user_by_session_token(user_token)
-    current_user_organizations = Organizations.list_organizations
+    current_user_organizations = Organizations.list_organizations()
 
     socket =
       socket
