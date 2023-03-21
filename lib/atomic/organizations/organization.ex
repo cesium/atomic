@@ -3,7 +3,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Accounts.User
   alias Atomic.Departments.Department
   alias Atomic.Activities.Location
-  alias Atomic.Organizations.Association
+  alias Atomic.Organizations.Membership
 
   @required_fields ~w(name description)a
   @optional_fields []
@@ -18,7 +18,7 @@ defmodule Atomic.Organizations.Organization do
       foreign_key: :organization_id,
       preload_order: [asc: :name]
 
-    many_to_many :users, User, join_through: Association
+    many_to_many :users, User, join_through: Membership
 
     embeds_one :location, Location, on_replace: :delete
 

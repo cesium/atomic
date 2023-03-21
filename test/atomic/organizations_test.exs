@@ -66,71 +66,69 @@ defmodule Atomic.OrganizationsTest do
     end
   end
 
-  describe "associations" do
-    alias Atomic.Organizations.Association
+  describe "memberships" do
+    alias Atomic.Organizations.Membership
     import Atomic.OrganizationsFixtures
 
-    test "list_associations/1 returns all associations of organization" do
-      association = association_fixture()
+    test "list_memberships/1 returns all memberships of organization" do
+      membership = membership_fixture()
 
-      assert Organizations.list_associations(%{"organization_id" => association.organization_id}) ==
-               [association]
+      assert Organizations.list_memberships(%{"organization_id" => membership.organization_id}) ==
+               [membership]
     end
 
-    test "list_associations/1 returns all associations of user" do
-      association = association_fixture()
-      assert Organizations.list_associations(%{"user_id" => association.user_id}) == [association]
+    test "list_memberships/1 returns all memberships of user" do
+      membership = membership_fixture()
+      assert Organizations.list_memberships(%{"user_id" => membership.user_id}) == [membership]
     end
 
-    test "get_association!/1 returns the given association" do
-      association = association_fixture()
-      assert Organizations.get_association!(association.id) == association
+    test "get_membership!/1 returns the given membership" do
+      membership = membership_fixture()
+      assert Organizations.get_membership!(membership.id) == membership
     end
 
-    test "get_association!/1 gives an error if ID does not exist" do
-      association = association_fixture()
+    test "get_membership!/1 gives an error if ID does not exist" do
+      membership = membership_fixture()
 
       assert_raise Ecto.NoResultsError, fn ->
-        Organizations.get_association!(Ecto.UUID.generate())
+        Organizations.get_membership!(Ecto.UUID.generate())
       end
     end
 
-    test "update_association/2 with valid data updates the association" do
-      association = association_fixture()
+    test "update_membership/2 with valid data updates the membership" do
+      membership = membership_fixture()
 
       attrs = %{
-        accepted: true,
         number: 42
       }
 
-      assert {:ok, %Association{} = association} =
-               Organizations.update_association(association, attrs)
+      assert {:ok, %Membership{} = membership} =
+               Organizations.update_membership(membership, attrs)
 
-      assert association.number == 42
-      assert association.accepted
+      assert membership.number == 42
     end
 
-    test "update_association/2 with invalid data updates the association" do
-      association = association_fixture()
+    test "update_membership/2 with invalid data updates the membership" do
+      membership = membership_fixture()
 
       attrs = %{
-        accepted: nil,
+        user_id: nil,
         number: 42
       }
 
-      assert {:error, %Ecto.Changeset{}} = Organizations.update_association(association, attrs)
-      assert Organizations.get_association!(association.id) == association
+      assert {:error, %Ecto.Changeset{}} = Organizations.update_membership(membership, attrs)
+      assert Organizations.get_membership!(membership.id) == membership
     end
 
-    test "delete_association/1 deletes the association" do
-      association = association_fixture()
-      assert {:ok, %Association{}} = Organizations.delete_association(association)
-      assert_raise Ecto.NoResultsError, fn -> Organizations.get_association!(association.id) end
+    test "delete_membership/1 deletes the membership" do
+      membership = membership_fixture()
+      assert {:ok, %Membership{}} = Organizations.delete_membership(membership)
+      assert_raise Ecto.NoResultsError, fn -> Organizations.get_membership!(membership.id) end
     end
 
-    test "change_association/1 returns an Association changeset" do
-      association = association_fixture()
-      assert %Ecto.Changeset{} = Organizations.change_association(association)
+    test "change_membership/1 returns an membership changeset" do
+      membership = membership_fixture()
+      assert %Ecto.Changeset{} = Organizations.change_membership(membership)
     end
   end
 end

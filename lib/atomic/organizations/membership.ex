@@ -1,17 +1,18 @@
-defmodule Atomic.Organizations.Association do
+defmodule Atomic.Organizations.Membership do
   use Atomic.Schema
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(accepted user_id organization_id)a
-  @optional_fields [:number, :accepted_by_id]
+  @required_fields ~w(user_id organization_id created_by_id role)a
+  @optional_fields [:number]
 
-  schema "associations" do
+  @roles [:follower, :member, :admin, :owner, :number]
+
+  schema "memberships" do
     field :number, :integer, read_after_writes: true
-    field :accepted, :boolean, default: false
-
-    belongs_to :accepted_by, User
+    field :role, Ecto.Enum, values: @roles
+    belongs_to :created_by, User
     belongs_to :user, User
     belongs_to :organization, Organization
 

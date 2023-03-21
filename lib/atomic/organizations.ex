@@ -7,7 +7,7 @@ defmodule Atomic.Organizations do
 
   alias Atomic.Repo
 
-  alias Atomic.Organizations.Association
+  alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
 
   @doc """
@@ -107,92 +107,92 @@ defmodule Atomic.Organizations do
     Organization.changeset(organization, attrs)
   end
 
-  def create_association(attrs) do
-    %Association{}
-    |> Association.changeset(attrs)
+  def create_membership(attrs) do
+    %Membership{}
+    |> Membership.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Returns the list of associations.
+  Returns the list of memberships.
 
   ## Examples
 
-      iex> list_associations(%{"organization_id" => id})
+      iex> list_memberships(%{"organization_id" => id})
       [%Organization{}, ...]
 
-      iex> list_associations(%{"user_id" => id})
+      iex> list_memberships(%{"user_id" => id})
       [%Organization{}, ...]
 
   """
-  def list_associations(params, preloads \\ [])
+  def list_memberships(params, preloads \\ [])
 
-  def list_associations(%{"organization_id" => organization_id}, preloads) do
-    Association
+  def list_memberships(%{"organization_id" => organization_id}, preloads) do
+    Membership
     |> where([a], a.organization_id == ^organization_id)
     |> Repo.all()
     |> Repo.preload(preloads)
   end
 
-  def list_associations(%{"user_id" => user_id}, preloads) do
-    Association
+  def list_memberships(%{"user_id" => user_id}, preloads) do
+    Membership
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
   end
 
   @doc """
-  Gets a single association.
+  Gets a single membership.
 
-  Raises `Ecto.NoResultsError` if the association does not exist.
+  Raises `Ecto.NoResultsError` if the membership does not exist.
 
   ## Examples
 
-      iex> get_association!(123)
-      %Association{}
+      iex> get_membership!(123)
+      %membership{}
 
-      iex> get_association!(456)
+      iex> get_membership!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_association!(id, preloads \\ []) do
-    Association
+  def get_membership!(id, preloads \\ []) do
+    Membership
     |> Repo.get_by!(id: id)
     |> Repo.preload(preloads)
   end
 
   @doc """
-  Updates an association.
+  Updates an membership.
 
   ## Examples
 
-      iex> update_association(association, %{field: new_value})
+      iex> update_membership(membership, %{field: new_value})
       {:ok, %Organization{}}
 
-      iex> update_association(association, %{field: bad_value})
+      iex> update_membership(membership, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_association(%Association{} = association, attrs) do
-    association
-    |> Association.changeset(attrs)
+  def update_membership(%Membership{} = membership, attrs) do
+    membership
+    |> Membership.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes an association.
+  Deletes an membership.
 
   ## Examples
 
-      iex> delete_association(association)
-      {:ok, %Association{}}
+      iex> delete_membership(membership)
+      {:ok, %membership{}}
 
-      iex> delete_association(association)
+      iex> delete_membership(membership)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_association(%Association{} = association) do
-    Repo.delete(association)
+  def delete_membership(%Membership{} = membership) do
+    Repo.delete(membership)
   end
 
   @doc """
@@ -204,7 +204,16 @@ defmodule Atomic.Organizations do
       %Ecto.Changeset{data: %Associaiton{}}
 
   """
-  def change_association(%Association{} = association, attrs \\ %{}) do
-    Association.changeset(association, attrs)
+  def change_membership(%Membership{} = membership, attrs \\ %{}) do
+    Membership.changeset(membership, attrs)
+  end
+
+  def roles_less_than_or_equal(role) do
+    case role do
+      :follower -> []
+      :member -> [:member]
+      :admin -> [:member, :admin]
+      :owner -> [:member, :admin, :owner]
+    end
   end
 end

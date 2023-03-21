@@ -2,12 +2,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Association
+  alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
 
   def run do
     seed_organizations()
-    seed_associations()
+    seed_memberships()
   end
 
   def seed_organizations() do
@@ -44,7 +44,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
           %Organization{},
           %{
             name: "ELSA",
-            description: "🇵🇹 The European Law Students' Association UMinho",
+            description: "🇵🇹 The European Law Students' membership UMinho",
             location: %{
               name: "Escola de Direito, Campus de Gualtar, Universidade do Minho",
               url: ""
@@ -71,7 +71,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
     end
   end
 
-  def seed_associations() do
+  def seed_memberships() do
     users = Repo.all(User)
     organizations = Repo.all(Organization)
 
@@ -81,11 +81,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
         random_number = :rand.uniform(100)
 
         if random_number < prob do
-          %Association{}
-          |> Association.changeset(%{
+          %Membership{}
+          |> Membership.changeset(%{
             "user_id" => user.id,
             "organization_id" => organization.id,
-            "accepted" => Enum.random([true, false])
+            "created_by_id" => Enum.random(users).id,
+            "role" => Enum.random([:follower, :member, :admin, :owner])
           })
           |> Repo.insert!()
         end

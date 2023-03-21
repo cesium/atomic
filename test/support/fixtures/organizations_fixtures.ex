@@ -20,9 +20,9 @@ defmodule Atomic.OrganizationsFixtures do
   end
 
   @doc """
-  Generate an association
+  Generate an membership
   """
-  def association_fixture(attrs \\ %{}) do
+  def membership_fixture(attrs \\ %{}) do
     {:ok, organization} =
       %{}
       |> Enum.into(%{
@@ -40,15 +40,16 @@ defmodule Atomic.OrganizationsFixtures do
       })
       |> Atomic.Accounts.register_user()
 
-    {:ok, association} =
+    {:ok, membership} =
       attrs
       |> Enum.into(%{
-        accepted: true,
+        role: :member,
+        created_by_id: user.id,
         user_id: user.id,
         organization_id: organization.id
       })
-      |> Atomic.Organizations.create_association()
+      |> Atomic.Organizations.create_membership()
 
-    association
+    membership
   end
 end

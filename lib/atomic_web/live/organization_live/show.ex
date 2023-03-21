@@ -17,18 +17,19 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_event("sign_up", _payload, socket) do
+  def handle_event("follow", _payload, socket) do
     attrs = %{
-      accepted: false,
+      role: :follower,
       user_id: socket.assigns.current_user.id,
+      created_by_id: socket.assigns.current_user.id,
       organization_id: socket.assigns.organization.id
     }
 
-    case Organizations.create_association(attrs) do
+    case Organizations.create_membership(attrs) do
       {:ok, _organization} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Association created successfully")
+         |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
          |> push_redirect(to: Routes.organization_index_path(socket, :index))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
