@@ -10,9 +10,23 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    organization = Organizations.get_organization!(id, [:departments])
+    entries = [
+      %{
+        name: gettext("Organizations"),
+        route: Routes.speaker_index_path(socket, :index)
+      },
+      %{
+        name: organization.name,
+        route: Routes.organization_show_path(socket, :show, id)
+      }
+    ]
+
     {:noreply,
      socket
+     |> assign(:current_page, organization.name)
      |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, Organizations.get_organization!(id, [:departments]))}
   end
 
