@@ -23,7 +23,7 @@ defmodule AtomicWeb.SpeakerLive.Show do
       }
     ]
 
-    activities_sessions = Activities.get_activity_by_speaker!(id) |> IO.inspect()
+    activities_sessions = Activities.get_activity_by_speaker!(id)
 
     activities =
       activities_sessions
