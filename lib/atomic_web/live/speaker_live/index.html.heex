@@ -13,7 +13,19 @@
               <h2 class="text-xl font-bold leading-7 w-fit text-zinc-900 sm:truncate sm:text-4xl">
                 <%= gettext("Speakers") %>
               </h2>
-              <span class="ml-auto justify-end mb-1 rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <span class="ml-auto justify-end mr-1 flex items-center">
+                <button @click="toggle = true" class="bg-white p-1.5 text-gray-400 focus:outline-none">
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M2 3.75A.75.75 0 012.75 3h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 3.75zm0 4.167a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zm0 4.166a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zm0 4.167a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <button @click="toggle = false" class="bg-white p-1.5 text-gray-400 focus:outline-none">                
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+              </span>
+              <span class="justify-end mb-1 rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 <%= live_patch("New Speaker", to: Routes.speaker_index_path(@socket, :new)) %>
               </span>
             </div>
@@ -23,16 +35,8 @@
               <div class="mt-8 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <div class="overflow-hidden shadow sm:rounded-lg">
+                    <div class="overflow-hidden">
                       <table :class="[toggle ? 'hidden' : '']" class="min-w-full">
-                        <thead class="bg-gray-50">
-                          <tr>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 flex justify-end">
-                              <button @click="toggle = true"><Heroicons.Solid.menu class="h-6 w-6 text-gray-900" /></button>
-                              <button @click="toggle = false"><Heroicons.Solid.dots_vertical class="h-6 w-6 text-gray-900" /></button>
-                            </th>
-                          </tr>
-                        </thead>
                         <tbody id="speakers" class="grid grid-cols-1 gap-4 border-none md:grid-cols-2 xl:grid-cols-6">
                           <%= for speaker <- @speakers do %>
                             <tr id={"speaker-#{speaker.id}"} class="flex flex-col justify-between bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -60,8 +64,6 @@
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Bio</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 flex justify-end">
-                              <button @click="toggle = true"><Heroicons.Solid.menu class="h-6 w-6 text-gray-900" /></button>
-                              <button @click="toggle = false"><Heroicons.Solid.dots_vertical class="h-6 w-6 text-gray-900" /></button>
                             </th>
                           </tr>
                         </thead>
@@ -74,10 +76,9 @@
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= speaker.name %></td>
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= speaker.bio %></td>
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Role</td>
-                              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <span><%= live_patch("Show |", to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
-                                <span><%= live_patch("Edit |", to: Routes.speaker_index_path(@socket, :edit, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
-                                <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900") %></span>
+                              <td class="flex flex-col whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <span class="ml-auto justify-end"><%= live_patch("Edit", to: Routes.speaker_index_path(@socket, :edit, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
+                                <span class="ml-auto justify-end"><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900") %></span>
                               </td>
                             </tr>
                           </tbody>
