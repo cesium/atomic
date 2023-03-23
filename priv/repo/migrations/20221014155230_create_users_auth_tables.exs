@@ -28,3 +28,5 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
     create unique_index(:users_tokens, [:context, :token])
   end
 end
+
+n
