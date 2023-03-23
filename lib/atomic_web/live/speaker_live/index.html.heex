@@ -51,14 +51,13 @@
                               <td class="flex flex-col h-70 w-full">
                                 <%= link to: Routes.speaker_show_path(@socket, :show, speaker), class: "flex flex-col" do %>
                                   <img src="" alt={"#{speaker.name}"} class="object-cover w-full h-56 shadow-sm" />
-                                  <span class="text-center"><%= speaker.name %></span>
+                                  <span class="text-center mt-5"><%= speaker.name %></span>
                                   <span class="text-center"><%= speaker.bio %></span>
                                   <span class="text-center">Role</span>
                                 <% end %>
                               </td>
                               <td class="p-4 text-center">
-                                <span><%= live_patch("Edit |", to: Routes.speaker_index_path(@socket, :edit, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
-                                <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900") %></span>
+                                <span class="ml-auto justify-end"><%= live_patch("Show", to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-indigo-600 hover:text-indigo-900") %></span>
                               </td>
                             </tr>
                           <% end %>
