@@ -10,10 +10,13 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    org = Organizations.get_organization!(id, [:departments])
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:organization, Organizations.get_organization!(id, [:departments]))}
+     |> assign(:organization, org)
+     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, org))}
   end
 
   @impl true

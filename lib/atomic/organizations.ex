@@ -6,7 +6,7 @@ defmodule Atomic.Organizations do
   import Ecto.Query, warn: false
 
   alias Atomic.Repo
-
+  alias Atomic.Accounts.User
   alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
 
@@ -139,6 +139,12 @@ defmodule Atomic.Organizations do
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
+  end
+
+  def is_member_of?(%User{} = user, %Organization{} = organization) do
+    Membership
+    |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
+    |> Repo.exists?()
   end
 
   @doc """

@@ -19,7 +19,7 @@ defmodule AtomicWeb.MembershipLive.New do
      |> assign(:membership, %Membership{
        organization_id: org_id
      })
-     |> assign(:users, Enum.map(Accounts.list_users(), fn u -> u.id end))
+     |> assign(:users, Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end))
      |> assign(
        :allowed_roles,
        Organizations.roles_less_than_or_equal(socket.assigns.current_user.role)
