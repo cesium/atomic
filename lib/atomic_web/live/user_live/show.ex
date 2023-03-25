@@ -10,12 +10,17 @@ defmodule AtomicWeb.UserLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    entries = [
+      %{
+        name: gettext("Users"),
+        route: Routes.user_index_path(socket, :index)
+      }
+    ]
+
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:current_page, :users)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:user, Accounts.get_user!(id))}
   end
-
-  defp page_title(:show), do: "Show User"
-  defp page_title(:edit), do: "Edit User"
 end

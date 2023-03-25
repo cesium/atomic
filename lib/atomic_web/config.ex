@@ -37,6 +37,13 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
+        key: :users,
+        title: "Users",
+        icon: :users,
+        url: Routes.user_index_path(conn, :index),
+        tabs: []
+      },
+      %{
         key: :departments,
         title: "Departments",
         icon: :briefcase,

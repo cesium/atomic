@@ -16,6 +16,7 @@ defmodule AtomicWeb.MembershipLive.Index do
 
     {:noreply,
      socket
+     |> assign(:current_page, :users)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:memberships, memberships)}
   end

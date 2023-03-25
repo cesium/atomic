@@ -12,9 +12,17 @@ defmodule AtomicWeb.MembershipLive.Show do
   def handle_params(%{"org" => _org, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
 
+    entries = [
+      %{
+        name: gettext("Users"),
+        route: Routes.user_index_path(socket, :index)
+      }
+    ]
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:membership, membership)}
   end
 

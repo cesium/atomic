@@ -11,7 +11,18 @@ defmodule AtomicWeb.UserLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    entries = [
+      %{
+        name: gettext("Users"),
+        route: Routes.user_index_path(socket, :index)
+      }
+    ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :users)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:live_action, apply_action(socket, socket.assigns.live_action, params))}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

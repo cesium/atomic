@@ -22,6 +22,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
         route: Routes.organization_show_path(socket, :show, id)
       }
     ]
+
     org = Organizations.get_organization!(id, [:departments])
 
     {:noreply,
@@ -29,7 +30,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:current_page, organization.name)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:organization, Organizations.get_organization!(id, [:departments]))}
+     |> assign(:organization, Organizations.get_organization!(id, [:departments]))
      |> assign(:organization, org)
      |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, org))}
   end
