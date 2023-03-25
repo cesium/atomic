@@ -6,7 +6,7 @@
 
 <div class="absolute top-20 left-40 flex items-center">
   <img class="h-12 w-auto" src={Routes.static_path(@conn, "/images/logo.png")} alt="Atomic" />
-  <p class="ml-4 text-2xl font-semibold text-[#67595d]"> Atomic </p>
+  <p class="ml-4 text-2xl font-semibold text-[#67595d]">Atomic</p>
 </div>
 <div>
   <h2 class="mt-6 text-center text-5xl font-extrabold text-gray-900">
@@ -43,14 +43,15 @@
 
   <div>
     <%= label(f, :role, class: "sr-only") %>
-    <%= select(f, 
-      :role, 
-      @roles, 
+    <%= select(
+      f,
+      :role,
+      @roles,
       prompt: "Choose a Role",
-      selected: f.data.role, 
+      selected: f.data.role,
       required: true,
       class: "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
-      ) %>
+    ) %>
   </div>
 
   <div class="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
@@ -78,4 +79,3 @@
     </div>
   </div>
 </.form>
-

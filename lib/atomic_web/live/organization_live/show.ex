@@ -11,6 +11,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     organization = Organizations.get_organization!(id, [:departments])
+
     entries = [
       %{
         name: gettext("Organizations"),
