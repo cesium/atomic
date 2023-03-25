@@ -9,6 +9,7 @@ defmodule Atomic.Accounts.User do
   @roles ~w(admin staff student)a
 
   schema "users" do
+    field :name, :string
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
@@ -40,9 +41,21 @@ defmodule Atomic.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role])
+    |> cast(attrs, [:email, :password, :role, :name])
+    |> validate_required([:name])
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, [
+      :name,
+      :email,
+      :role
+    ])
+    |> validate_required([:name])
+    |> validate_email()
   end
 
   defp validate_email(changeset) do

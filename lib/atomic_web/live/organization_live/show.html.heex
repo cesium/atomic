@@ -22,6 +22,5 @@
     </li>
   </ul>
 
-  <span><%= live_patch("Edit", to: Routes.organization_show_path(@socket, :edit, @organization), class: "button") %></span> |
-  <span><%= live_redirect("Back", to: Routes.organization_index_path(@socket, :index)) %></span>
+  <span><%= live_patch("Edit", to: Routes.organization_show_path(@socket, :edit, @organization), class: "button") %></span> | <span><%= live_redirect("Back", to: Routes.organization_index_path(@socket, :index)) %></span>
 <% end %>

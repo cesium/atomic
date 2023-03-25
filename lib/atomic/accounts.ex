@@ -2,13 +2,28 @@ defmodule Atomic.Accounts do
   @moduledoc """
   The Accounts context.
   """
+  use Atomic.Context
 
   import Ecto.Query, warn: false
-  alias Atomic.Repo
 
   alias Atomic.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
+
+  @doc """
+  Returns the list of users.
+
+  ## Examples
+
+      iex> list_users(opts)
+      [%User{}, ...]
+
+  """
+  def list_users(opts \\ []) when is_list(opts) do
+    User
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
 
   @doc """
   Gets a user by email.
@@ -349,5 +364,53 @@ defmodule Atomic.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_user(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user(%User{} = user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
+  @doc """
+  Updates a user.
+  ## Examples
+      iex> update_user(user, %{email: new_value}, generate_password: true)
+      {:ok, %User{}}
+      iex> update_user(user, %{email: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_user(
+        %User{} = user,
+        attrs,
+        after_save \\ &{:ok, &1}
+      ) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+    |> after_save(after_save)
+  end
+
+  @doc """
+  Deletes a user.
+
+  ## Examples
+
+      iex> delete_user(user)
+      {:ok, %User{}}
+
+      iex> delete_user(user)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
   end
 end
