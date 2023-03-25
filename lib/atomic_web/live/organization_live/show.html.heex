@@ -23,5 +23,10 @@
   </li>
 </ul>
 
+<%= if not @following do %>
+  <button phx-click="follow">Follow</button>
+<% end %>
+
 <span><%= live_patch("Edit", to: Routes.organization_show_path(@socket, :edit, @organization), class: "button") %></span> |
+<span><%= live_redirect("Memberships", to: Routes.membership_index_path(@socket, :index, @organization.id)) %></span>
 <span><%= live_redirect("Back", to: Routes.organization_index_path(@socket, :index)) %></span>
