@@ -4,16 +4,21 @@ defmodule Atomic.Accounts.User do
   """
   use Atomic.Schema
 
+  alias Atomic.Accounts.Major
   alias Atomic.Activities.Enrollment
   alias Atomic.Organizations.{Membership, Organization}
 
+  @required_fields ~w(email password role name)a
   @roles ~w(admin staff student)a
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+
+    belongs_to :major, Major
 
     field :role, Ecto.Enum, values: @roles
 
@@ -43,7 +48,7 @@ defmodule Atomic.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role])
+    |> cast(attrs, @required_fields)
     |> validate_email()
     |> validate_password(opts)
   end

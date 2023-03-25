@@ -6,7 +6,7 @@ defmodule Atomic.Accounts do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Accounts.{User, UserToken, UserNotifier}
+  alias Atomic.Accounts.{Major, User, UserToken, UserNotifier}
 
   ## Database getters
 
@@ -354,5 +354,23 @@ defmodule Atomic.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  @doc """
+  Creates a major
+
+  ## Examples
+
+      iex> create_major(%{field: value})
+      {:ok, %Major{}}
+
+      iex> create_major(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_major(attrs) do
+    %Major{}
+    |> Major.changeset(attrs)
+    |> Repo.insert()
   end
 end

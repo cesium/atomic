@@ -146,18 +146,23 @@ defmodule Atomic.Repo.Seeds.Accounts do
   end
 
   def create_users(characters, role) do
+    majors = Atomic.Repo.all(Atomic.Accounts.Major)
+
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
 
       user = %{
+        "name" => character,
         "email" => email,
         "password" => "password1234",
-        "role" => role
+        "role" => role,
+        "major" => Enum.random(majors)
       }
 
       case Atomic.Accounts.register_user(user) do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
+          Enum
 
         {:ok, _} ->
           :ok
