@@ -4,8 +4,6 @@ defmodule AtomicWeb.Config do
   """
   alias AtomicWeb.Router.Helpers, as: Routes
 
-  @conn AtomicWeb.Endpoint
-
   def pages(conn) do
     [
       %{

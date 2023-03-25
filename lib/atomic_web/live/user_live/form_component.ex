@@ -45,17 +45,4 @@ defmodule AtomicWeb.UserLive.FormComponent do
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
-
-  defp save_user(socket, :new, user_params) do
-    case Partnerships.create_user(user_params) do
-      {:ok, _partner} ->
-        {:noreply,
-         socket
-         |> put_flash(:success, "User created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
-    end
-  end
 end

@@ -106,7 +106,6 @@ defmodule AtomicWeb.ActivityLive.Show do
      assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 
-  defp page_title(:show), do: "Show Activity"
   defp page_title(:edit), do: "Edit Activity"
 
   defp set_enrolled(socket, activity, current_user) do
