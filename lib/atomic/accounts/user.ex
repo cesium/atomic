@@ -5,6 +5,7 @@ defmodule Atomic.Accounts.User do
   use Atomic.Schema
 
   alias Atomic.Activities.Enrollment
+  alias Atomic.Organizations.{Membership, Organization}
 
   @roles ~w(admin staff student)a
 
@@ -18,6 +19,8 @@ defmodule Atomic.Accounts.User do
     field :role, Ecto.Enum, values: @roles
 
     has_many :enrollments, Enrollment
+
+    many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()
   end

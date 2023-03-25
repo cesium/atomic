@@ -95,6 +95,11 @@ defmodule Atomic.Accounts do
     |> Repo.insert()
   end
 
+  def list_users() do
+    User
+    |> Repo.all()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
