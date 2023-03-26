@@ -9,14 +9,32 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"org" => id}, _, socket) do
+  def handle_params(%{"organization" => id}, _, socket) do
+    organization = Organizations.get_organization!(id, [:departments])
+
     memberships =
       Organizations.list_memberships(%{"organization_id" => id}, [:user])
       |> Enum.filter(fn m -> m.role != :follower end)
 
+    entries = [
+      %{
+        name: gettext("Organizations"),
+        route: Routes.organization_index_path(socket, :index)
+      },
+      %{
+        name: organization.name,
+        route: Routes.organization_show_path(socket, :show, id)
+      },
+      %{
+        name: "Memberships",
+        route: Routes.membership_index_path(socket, :index, id)
+      }
+    ]
+
     {:noreply,
      socket
-     |> assign(:current_page, :users)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:current_page, organization.name)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:memberships, memberships)}
   end

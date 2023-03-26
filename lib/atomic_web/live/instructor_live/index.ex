@@ -1,12 +1,12 @@
-defmodule AtomicWeb.SpeakerLive.Index do
+defmodule AtomicWeb.InstructorLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
-  alias Atomic.Activities.Speaker
+  alias Atomic.Activities.Instructor
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :speakers, list_speakers())}
+    {:ok, assign(socket, :instructors, list_instructors())}
   end
 
   @impl true
@@ -14,7 +14,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
     entries = [
       %{
         name: gettext("Instructors"),
-        route: Routes.speaker_index_path(socket, :index)
+        route: Routes.instructor_index_path(socket, :index)
       }
     ]
 
@@ -27,31 +27,31 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Speaker")
-    |> assign(:speaker, Activities.get_speaker!(id))
+    |> assign(:page_title, "Edit Instructor")
+    |> assign(:instructor, Activities.get_instructor!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Speaker")
-    |> assign(:speaker, %Speaker{})
+    |> assign(:page_title, "New Instructor")
+    |> assign(:instructor, %Instructor{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Speakers")
-    |> assign(:speaker, nil)
+    |> assign(:page_title, "Listing Instructors")
+    |> assign(:instructor, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    speaker = Activities.get_speaker!(id)
-    {:ok, _} = Activities.delete_speaker(speaker)
+    instructor = Activities.get_instructor!(id)
+    {:ok, _} = Activities.delete_instructor(instructor)
 
-    {:noreply, assign(socket, :speakers, list_speakers())}
+    {:noreply, assign(socket, :instructors, list_instructors())}
   end
 
-  defp list_speakers do
-    Activities.list_speakers()
+  defp list_instructors do
+    Activities.list_instructors()
   end
 end

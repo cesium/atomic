@@ -6,10 +6,10 @@ defmodule Atomic.Activities.Activity do
 
   alias Atomic.Activities
   alias Atomic.Activities.ActivityDepartment
-  alias Atomic.Activities.ActivitySpeaker
+  alias Atomic.Activities.ActivityInstructor
   alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
-  alias Atomic.Activities.Speaker
+  alias Atomic.Activities.Instructor
   alias Atomic.Departments
   alias Atomic.Departments.Department
   @required_fields ~w(title description
@@ -24,7 +24,7 @@ defmodule Atomic.Activities.Activity do
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
 
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker, on_replace: :delete
+    many_to_many :instructors, Instructor, join_through: ActivityInstructor, on_replace: :delete
 
     many_to_many :departments, Department, join_through: ActivityDepartment, on_replace: :delete
 
@@ -48,7 +48,7 @@ defmodule Atomic.Activities.Activity do
       with: &Session.changeset/2
     )
     |> maybe_put_departments(attrs)
-    |> maybe_put_speakers(attrs)
+    |> maybe_put_instructors(attrs)
     |> validate_required(@required_fields)
   end
 
@@ -62,11 +62,11 @@ defmodule Atomic.Activities.Activity do
     end
   end
 
-  defp maybe_put_speakers(changeset, attrs) do
-    if attrs["speakers"] do
-      speakers = Activities.get_speakers(attrs["speakers"])
+  defp maybe_put_instructors(changeset, attrs) do
+    if attrs["instructors"] do
+      instructors = Activities.get_instructors(attrs["instructors"])
 
-      Ecto.Changeset.put_assoc(changeset, :speakers, speakers)
+      Ecto.Changeset.put_assoc(changeset, :instructors, instructors)
     else
       changeset
     end

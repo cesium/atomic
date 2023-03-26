@@ -39,12 +39,8 @@
         class: "relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
       ) %>
     </div>
-    <div>
-      <%= label(f, :name) %>
-      <%= text_input(f, :name, required: true) %>
-      <%= error_tag(f, :name) %>
-    </div>
   </div>
+
   <div>
     <%= label(f, :role, class: "sr-only") %>
     <%= select(

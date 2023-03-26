@@ -186,59 +186,64 @@ defmodule Atomic.ActivitiesTest do
     end
   end
 
-  describe "speakers" do
-    alias Atomic.Activities.Speaker
+  describe "instructors" do
+    alias Atomic.Activities.Instructor
 
     import Atomic.ActivitiesFixtures
 
     @invalid_attrs %{bio: nil, name: nil}
 
-    test "list_speakers/0 returns all speakers" do
-      speaker = speaker_fixture()
-      assert Activities.list_speakers() == [speaker]
+    test "list_instructors/0 returns all instructors" do
+      instructor = instructor_fixture()
+      assert Activities.list_instructors() == [instructor]
     end
 
-    test "get_speaker!/1 returns the speaker with given id" do
-      speaker = speaker_fixture()
-      assert Activities.get_speaker!(speaker.id) == speaker
+    test "get_instructor!/1 returns the instructor with given id" do
+      instructor = instructor_fixture()
+      assert Activities.get_instructor!(instructor.id) == instructor
     end
 
-    test "create_speaker/1 with valid data creates a speaker" do
+    test "create_instructor/1 with valid data creates a instructor" do
       valid_attrs = %{bio: "some bio", name: "some name"}
 
-      assert {:ok, %Speaker{} = speaker} = Activities.create_speaker(valid_attrs)
-      assert speaker.bio == "some bio"
-      assert speaker.name == "some name"
+      assert {:ok, %Instructor{} = instructor} = Activities.create_instructor(valid_attrs)
+      assert instructor.bio == "some bio"
+      assert instructor.name == "some name"
     end
 
-    test "create_speaker/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_speaker(@invalid_attrs)
+    test "create_instructor/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Activities.create_instructor(@invalid_attrs)
     end
 
-    test "update_speaker/2 with valid data updates the speaker" do
-      speaker = speaker_fixture()
+    test "update_instructor/2 with valid data updates the instructor" do
+      instructor = instructor_fixture()
       update_attrs = %{bio: "some updated bio", name: "some updated name"}
 
-      assert {:ok, %Speaker{} = speaker} = Activities.update_speaker(speaker, update_attrs)
-      assert speaker.bio == "some updated bio"
-      assert speaker.name == "some updated name"
+      assert {:ok, %Instructor{} = instructor} =
+               Activities.update_instructor(instructor, update_attrs)
+
+      assert instructor.bio == "some updated bio"
+      assert instructor.name == "some updated name"
     end
 
-    test "update_speaker/2 with invalid data returns error changeset" do
-      speaker = speaker_fixture()
-      assert {:error, %Ecto.Changeset{}} = Activities.update_speaker(speaker, @invalid_attrs)
-      assert speaker == Activities.get_speaker!(speaker.id)
+    test "update_instructor/2 with invalid data returns error changeset" do
+      instructor = instructor_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Activities.update_instructor(instructor, @invalid_attrs)
+
+      assert instructor == Activities.get_instructor!(instructor.id)
     end
 
-    test "delete_speaker/1 deletes the speaker" do
-      speaker = speaker_fixture()
-      assert {:ok, %Speaker{}} = Activities.delete_speaker(speaker)
-      assert_raise Ecto.NoResultsError, fn -> Activities.get_speaker!(speaker.id) end
+    test "delete_instructor/1 deletes the instructor" do
+      instructor = instructor_fixture()
+      assert {:ok, %Instructor{}} = Activities.delete_instructor(instructor)
+      assert_raise Ecto.NoResultsError, fn -> Activities.get_instructor!(instructor.id) end
     end
 
-    test "change_speaker/1 returns a speaker changeset" do
-      speaker = speaker_fixture()
-      assert %Ecto.Changeset{} = Activities.change_speaker(speaker)
+    test "change_instructor/1 returns a instructor changeset" do
+      instructor = instructor_fixture()
+      assert %Ecto.Changeset{} = Activities.change_instructor(instructor)
     end
   end
 end

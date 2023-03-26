@@ -15,7 +15,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     entries = [
       %{
         name: gettext("Organizations"),
-        route: Routes.speaker_index_path(socket, :index)
+        route: Routes.organization_index_path(socket, :index)
       },
       %{
         name: organization.name,
@@ -23,16 +23,13 @@ defmodule AtomicWeb.OrganizationLive.Show do
       }
     ]
 
-    org = Organizations.get_organization!(id, [:departments])
-
     {:noreply,
      socket
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, organization.name)
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:breadcrumb_entries, entries)
-     |> assign(:organization, Organizations.get_organization!(id, [:departments]))
-     |> assign(:organization, org)
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, org))}
+     |> assign(:organization, organization)
+     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))}
   end
 
   @impl true

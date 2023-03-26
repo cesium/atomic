@@ -49,11 +49,11 @@ defmodule AtomicWeb.Router do
       live "/partners/:id", PartnerLive.Show, :show
       live "/partners/:id/show/edit", PartnerLive.Show, :edit
 
-      live "/speakers", SpeakerLive.Index, :index
-      live "/speakers/new", SpeakerLive.Index, :new
-      live "/speakers/:id/edit", SpeakerLive.Index, :edit
-      live "/speakers/:id", SpeakerLive.Show, :show
-      live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
+      live "/instructors", InstructorLive.Index, :index
+      live "/instructors/new", InstructorLive.Index, :new
+      live "/instructors/:id/edit", InstructorLive.Index, :edit
+      live "/instructors/:id", InstructorLive.Show, :show
+      live "/instructors/:id/show/edit", InstructorLive.Show, :edit
 
       live "/organizations", OrganizationLive.Index, :index
       live "/organizations/new", OrganizationLive.Index, :new

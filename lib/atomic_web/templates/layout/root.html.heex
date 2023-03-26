@@ -10,14 +10,7 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}>
     </script>
   </head>
-  <body>
-    <header>
-      <section class="container">
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo" />
-        </a>
-      </section>
-    </header>
+  <body class="h-full">
     <%= @inner_content %>
   </body>
 </html>

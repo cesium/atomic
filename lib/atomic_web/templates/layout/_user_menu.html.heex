@@ -86,6 +86,11 @@
             <%= entry.title %>
           <% end %>
         <% end %> --%>
+
+        <%= link to: Routes.user_session_path(@socket, :delete), method: :delete, class: "group flex items-center rounded-md p-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900" do %>
+          <Heroicons.Outline.logout class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+          <%= gettext("Logout") %>
+        <% end %>
       </div>
     </div>
   </div>

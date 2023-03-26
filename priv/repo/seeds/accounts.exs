@@ -150,6 +150,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
 
       user = %{
+        "name" => character,
         "email" => email,
         "password" => "password1234",
         "role" => role

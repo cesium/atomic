@@ -30,7 +30,7 @@ defmodule AtomicWeb.ActivityLive.New do
      |> assign(:page_title, gettext("New Activity"))
      |> assign(:activity, %Activity{
        activity_sessions: [%Session{}],
-       speakers: []
+       instructors: []
      })}
   end
 end

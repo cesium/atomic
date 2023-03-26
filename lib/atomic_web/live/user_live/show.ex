@@ -13,7 +13,7 @@ defmodule AtomicWeb.UserLive.Show do
     entries = [
       %{
         name: gettext("Users"),
-        route: Routes.user_index_path(socket, :index)
+        route: Routes.user_show_path(socket, :show, id)
       }
     ]
 

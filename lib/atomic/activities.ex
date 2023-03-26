@@ -355,105 +355,105 @@ defmodule Atomic.Activities do
     {number, nil}
   end
 
-  alias Atomic.Activities.Speaker
+  alias Atomic.Activities.Instructor
 
   @doc """
-  Returns the list of speakers.
+  Returns the list of instructors.
 
   ## Examples
 
-      iex> list_speakers()
-      [%Speaker{}, ...]
+      iex> list_instructors()
+      [%Instrutor{}, ...]
 
   """
-  def list_speakers do
-    Repo.all(Speaker)
+  def list_instructors do
+    Repo.all(Instructor)
   end
 
-  def get_speakers(nil), do: []
+  def get_instructors(nil), do: []
 
-  def get_speakers(ids) do
-    Repo.all(from s in Speaker, where: s.id in ^ids)
+  def get_instructors(ids) do
+    Repo.all(from s in Instructor, where: s.id in ^ids)
   end
 
   @doc """
-  Gets a single speaker.
+  Gets a single instructor.
 
-  Raises `Ecto.NoResultsError` if the Speaker does not exist.
+  Raises `Ecto.NoResultsError` if the Instructor does not exist.
 
   ## Examples
 
-      iex> get_speaker!(123)
-      %Speaker{}
+      iex> get_instructor!(123)
+      %Instructor{}
 
-      iex> get_speaker!(456)
+      iex> get_instructor!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_speaker!(id), do: Repo.get!(Speaker, id)
+  def get_instructor!(id), do: Repo.get!(Instructor, id)
 
   @doc """
-  Creates a speaker.
+  Creates a instructor.
 
   ## Examples
 
-      iex> create_speaker(%{field: value})
-      {:ok, %Speaker{}}
+      iex> create_instructor(%{field: value})
+      {:ok, %Instructor{}}
 
-      iex> create_speaker(%{field: bad_value})
+      iex> create_instructor(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_speaker(attrs \\ %{}) do
-    %Speaker{}
-    |> Speaker.changeset(attrs)
+  def create_instructor(attrs \\ %{}) do
+    %Instructor{}
+    |> Instructor.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a speaker.
+  Updates a instructor.
 
   ## Examples
 
-      iex> update_speaker(speaker, %{field: new_value})
-      {:ok, %Speaker{}}
+      iex> update_instructor(instructor, %{field: new_value})
+      {:ok, %Instructor{}}
 
-      iex> update_speaker(speaker, %{field: bad_value})
+      iex> update_instructor(instructor, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_speaker(%Speaker{} = speaker, attrs) do
-    speaker
-    |> Speaker.changeset(attrs)
+  def update_instructor(%Instructor{} = instructor, attrs) do
+    instructor
+    |> Instructor.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a speaker.
+  Deletes a instructor.
 
   ## Examples
 
-      iex> delete_speaker(speaker)
-      {:ok, %Speaker{}}
+      iex> delete_instructor(instructor)
+      {:ok, %Instructor{}}
 
-      iex> delete_speaker(speaker)
+      iex> delete_instructor(instructor)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_speaker(%Speaker{} = speaker) do
-    Repo.delete(speaker)
+  def delete_instructor(%Instructor{} = instructor) do
+    Repo.delete(instructor)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking speaker changes.
+  Returns an `%Ecto.Changeset{}` for tracking instructor changes.
 
   ## Examples
 
-      iex> change_speaker(speaker)
-      %Ecto.Changeset{data: %Speaker{}}
+      iex> change_instructor(instructor)
+      %Ecto.Changeset{data: %Instructor{}}
 
   """
-  def change_speaker(%Speaker{} = speaker, attrs \\ %{}) do
-    Speaker.changeset(speaker, attrs)
+  def change_instructor(%Instructor{} = instructor, attrs \\ %{}) do
+    Instructor.changeset(instructor, attrs)
   end
 end

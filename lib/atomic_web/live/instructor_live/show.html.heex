@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.speaker_show_path(@socket, :show, @speaker)}>
-    <.live_component module={AtomicWeb.SpeakerLive.FormComponent} id={@speaker.id} title={@page_title} action={@live_action} speaker={@speaker} return_to={Routes.speaker_show_path(@socket, :show, @speaker)} />
+  <.modal return_to={Routes.instructor_show_path(@socket, :show, @instructor)}>
+    <.live_component module={AtomicWeb.InstructorLive.FormComponent} id={@instructor.id} title={@page_title} action={@live_action} instructor={@instructor} return_to={Routes.instructor_show_path(@socket, :show, @instructor)} />
   </.modal>
 <% end %>
 
@@ -13,26 +13,26 @@
             <div class="relative">
               <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-500 md:h-16 md:w-16">
                 <span class="text-xl font-medium leading-none text-white md:text-2xl">
-                  <%= extract_initials(@speaker.name) %>
+                  <%= extract_initials(@instructor.name) %>
                 </span>
               </span>
             </div>
           </div>
           <div>
             <h1 class="hidden text-lg font-bold text-gray-900 sm:block sm:text-2xl">
-              <%= @speaker.name %>
+              <%= @instructor.name %>
             </h1>
             <h1 class="block text-lg font-bold text-gray-900 sm:hidden md:text-2xl">
-              <%= extract_first_last_name(@speaker.name) %>
+              <%= extract_first_last_name(@instructor.name) %>
             </h1>
             <p class="text-xs font-medium text-gray-500 sm:text-sm">
-              <%= String.upcase(gettext("speaker")) %>
+              <%= String.upcase(gettext("instructor")) %>
             </p>
           </div>
         </div>
         <%!-- <%= if @current_user.role in [:staff, :admin] do %>
           <span class="flex gap-2 md:mt-0 md:ml-4">
-            <%= live_redirect id: "edit", to: Routes.speaker_edit_path(@socket, :edit, @speaker) do %>
+            <%= live_redirect id: "edit", to: Routes.instructor_edit_path(@socket, :edit, @instructor) do %>
               <Actions.edit />
             <% end %>
             <%= link id: "delete", to: "#", phx_click: "delete", data: [confirm: gettext("Are you sure?")] do %>
@@ -43,13 +43,13 @@
       </div>
       <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <%!-- <%= if @speaker.user && @current_user.role in [:staff, :admin] do %>
+          <%!-- <%= if @instructor.user && @current_user.role in [:staff, :admin] do %>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">
                 <%= gettext("UMinho ID") %>
               </dt>
               <dd class="mt-1 text-sm text-gray-900">
-                <%= String.upcase(@speaker.user.uminho_id) %>
+                <%= String.upcase(@instructor.user.uminho_id) %>
               </dd>
             </div>
           <% end %> --%>
@@ -59,44 +59,44 @@
               <%= gettext("Email address") %>
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
-              <%= @speaker.email %>
+              <%= @instructor.email %>
             </dd>
           </div> --%>
 
           <%= if @current_user.role in [:staff, :admin] do %>
-            <%!-- <%= if @speaker.user do %>
+            <%!-- <%= if @instructor.user do %>
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
                   <%= gettext("Account") %>
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900">
-                  <%= live_redirect(@speaker.user.name, to: Routes.user_show_path(@socket, :show, @speaker.user), class: "text-blue-500 hover:underline") %>
+                  <%= live_redirect(@instructor.user.name, to: Routes.user_show_path(@socket, :show, @instructor.user), class: "text-blue-500 hover:underline") %>
                 </dd>
               </div>
             <% end %> --%>
-            <%!-- <%= if @speaker.cellphone do %>
+            <%!-- <%= if @instructor.cellphone do %>
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
                   <%= gettext("Mobile Phone") %>
                 </dt>
                 <dd class="mt-1 text-sm text-gray-900">
-                  <%= @speaker.cellphone %>
+                  <%= @instructor.cellphone %>
                 </dd>
               </div>
             <% end %> --%>
           <% end %>
-          <%!-- <%= if @speaker.bio_en && @speaker.bio_pt do %> --%>
-          <%= if @speaker.bio do %>
+          <%!-- <%= if @instructor.bio_en && @instructor.bio_pt do %> --%>
+          <%= if @instructor.bio do %>
             <div class="sm:col-span-2">
               <dt class="text-sm font-medium text-gray-500">
                 <%= gettext("About") %>
               </dt>
               <dd class="mt-1 text-sm text-gray-900">
-                <%= @speaker.bio %>
+                <%= @instructor.bio %>
                 <%!-- <%= if Gettext.get_locale() == "en" do %>
-                  <%= @speaker.bio_en %>
+                  <%= @instructor.bio_en %>
                 <% else %>
-                  <%= @speaker.bio_pt %>
+                  <%= @instructor.bio_pt %>
                 <% end %> --%>
               </dd>
             </div>
@@ -122,7 +122,7 @@
               <% else %>
                 <.activities_empty_state
                   socket={@socket}
-                  title={gettext("%{name} has not instructed any activity yet in %{program}", name: @speaker.name, program: @program)}
+                  title={gettext("%{name} has not instructed any activity yet in %{program}", name: @instructor.name, program: @program)}
                   subtitle={(@current_user.role in [:staff, :admin] && gettext("Get started by creating a new activity.")) || gettext("Search new activities.")}
                 />
               <% end %>
@@ -134,5 +134,5 @@
   </section>
 </div>
 >>>>>>> 061df8a (Update design)
-<span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> |
-<span><%= live_redirect("Back", to: Routes.speaker_index_path(@socket, :index)) %></span>
+<span><%= live_patch("Edit", to: Routes.instructor_show_path(@socket, :edit, @instructor), class: "button") %></span> |
+<span><%= live_redirect("Back", to: Routes.instructor_index_path(@socket, :index)) %></span>

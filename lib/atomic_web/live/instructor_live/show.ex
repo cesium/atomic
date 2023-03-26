@@ -1,4 +1,4 @@
-defmodule AtomicWeb.SpeakerLive.Show do
+defmodule AtomicWeb.InstructorLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
@@ -13,9 +13,9 @@ defmodule AtomicWeb.SpeakerLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:speaker, Activities.get_speaker!(id))}
+     |> assign(:instructor, Activities.get_instructor!(id))}
   end
 
-  defp page_title(:show), do: "Show Speaker"
-  defp page_title(:edit), do: "Edit Speaker"
+  defp page_title(:show), do: "Show Instructor"
+  defp page_title(:edit), do: "Edit Instructor"
 end
