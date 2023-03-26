@@ -1,7 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.Partnerships
+  alias Atomic.Organizations
   alias Atomic.Uploaders
 
   @impl true
@@ -10,11 +10,11 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"organization" => organization_id, "id" => id}, _, socket) do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:partner, Partnerships.get_partner!(id))}
+     |> assign(:partner, Organizations.get_partner!(id))}
   end
 
   defp page_title(:show), do: "Show Partner"

@@ -86,7 +86,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             "user_id" => user.id,
             "organization_id" => organization.id,
             "created_by_id" => Enum.random(users).id,
-            "role" => Enum.random([:follower, :member, :admin, :owner])
+            "role" => Enum.random([:follower, :member, :staff, :admin])
           })
           |> Repo.insert!()
         end

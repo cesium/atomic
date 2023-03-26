@@ -16,7 +16,7 @@
       <div class="flex justify-between px-4 py-5 sm:px-6">
         <div class="my-4 w-full items-center gap-x-4 lg:flex">
           <div class="flex-1">
-            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+            <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
               <%= @activity.title %>
               <%!-- <%= if Gettext.get_locale() == "en" do %>
                 <%= @activity.title_en %>
@@ -25,17 +25,17 @@
               <% end %> --%>
             </h1>
             <%!-- <%= if @current_user.role != :student && @activity.last_edited_by do %>
-              <p class="mt-2 text-sm text-gray-500">
+              <p class="mt-2 text-sm text-zinc-500">
                 <%= gettext("last edited by") %> <%= extract_first_last_name(@activity.last_edited_by.name) %>
               </p>
             <% end %> --%>
           </div>
           <%!-- <div class="grid grid-cols-2 items-center gap-2 py-2 xs:flex md:mt-0">
             <%= if @current_user.role in [:staff, :admin] do %>
-              <%= live_redirect id: "attendance", to: Routes.generating_skills_attendance_index_path(@socket, :index, @activity), class: "inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:order-0 sm:ml-0" do %>
+              <%= live_redirect id: "attendance", to: Routes.generating_skills_attendance_index_path(@socket, :index, @activity), class: "inline-flex items-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:order-0 sm:ml-0" do %>
                 <%= gettext("Attendance") %>
               <% end %>
-              <%= live_redirect id: "justifications", to: Routes.generating_skills_justifications_index_path(@socket, :index, @activity), class: "ml-1 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:order-0 sm:ml-0" do %>
+              <%= live_redirect id: "justifications", to: Routes.generating_skills_justifications_index_path(@socket, :index, @activity), class: "ml-1 inline-flex items-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:order-0 sm:ml-0" do %>
                 <%= gettext("Justifications") %>
               <% end %>
               <%= live_redirect id: "edit", to: Routes.generating_skills_edit_path(@socket, :edit, @activity) do %>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col border-t border-gray-200 1.5xl:flex-row">
+      <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
         <div class="hidden py-5 px-4 sm:px-6 shrink-0 1.5xl:block">
           <%!-- <img src={Uploaders.Poster.url({@activity.poster, @activity}, :medium)} /> --%>
         </div>
@@ -64,10 +64,10 @@
               <% end %> --%>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <dt class="font medium text-lg leading-6 text-gray-900">
+              <dt class="font medium text-lg leading-6 text-zinc-900">
                 <%= gettext("Preview activity") %>
               </dt>
-              <dd class="mt-1 text-sm text-gray-600">
+              <dd class="mt-1 text-sm text-zinc-600">
                 <%= gettext("Check here every detail of this activity") %>
               </dd>
             </div>
@@ -82,11 +82,11 @@
             </div>
 
             <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("Maximum Entries") %>
               </dt>
-              <dd class="mt-1 flex text-sm text-gray-900">
-                <Heroicons.Solid.users class="h-5 w-5 text-gray-400" />
+              <dd class="mt-1 flex text-sm text-zinc-900">
+                <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                 <div class="pl-2.5">
                   <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                 </div>
@@ -99,12 +99,12 @@
                 "col-span-2"
               end
             }>
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("Minimum Entries") %>
               </dt>
-              <dd class="mt-1 flex text-sm text-gray-900">
+              <dd class="mt-1 flex text-sm text-zinc-900">
                 <div class="flex w-full">
-                  <Heroicons.Solid.users class="h-5 w-5 text-gray-400" />
+                  <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
                     <%= @activity.minimum_entries %>
                   </div>
@@ -113,19 +113,19 @@
             </div>
             <%!-- <%= if @current_user.role in [:admin, :staff] do %>
               <div class="col-span-2 sm:col-span-1">
-                <dt class="text-sm font-medium text-gray-500">
+                <dt class="text-sm font-medium text-zinc-500">
                   <%= gettext("Show From") %>
                 </dt>
-                <dd class="mt-1 flex text-sm text-gray-900">
+                <dd class="mt-1 flex text-sm text-zinc-900">
                   <div class="inset-y-0 flex">
                     <div class="flex">
-                      <Heroicons.Solid.calendar class="h-5 w-5 text-gray-400" />
+                      <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                       <p class="block pl-1.5">
                         <%= display_date(@activity.show_from) %>
                       </p>
                     </div>
                     <div class="flex pl-3">
-                      <Heroicons.Solid.clock class="h-5 w-5 text-gray-400" />
+                      <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
                       <p class="block pl-1.5">
                         <%= display_time(@activity.show_from) %>
                       </p>
@@ -135,19 +135,19 @@
               </div>
             <% end %> --%>
             <%!-- <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("Start enrollments") %>
               </dt>
-              <dd class="mt-1 flex gap-x-4 text-sm text-gray-900">
+              <dd class="mt-1 flex gap-x-4 text-sm text-zinc-900">
                 <div class="inset-y-0 flex">
                   <div class="flex">
-                    <Heroicons.Solid.calendar class="h-5 w-5 text-gray-400" />
+                    <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5">
                       <%= display_date(@activity.start_enrollment) %>
                     </p>
                   </div>
                   <div class="flex pl-3">
-                    <Heroicons.Solid.clock class="h-5 w-5 text-gray-400" />
+                    <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5">
                       <%= display_time(@activity.start_enrollment) %>
                     </p>
@@ -156,19 +156,19 @@
               </dd>
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("End Enrollment") %>
               </dt>
-              <dd class="mt-1 flex gap-x-4 text-sm text-gray-900">
+              <dd class="mt-1 flex gap-x-4 text-sm text-zinc-900">
                 <div class="inset-y-0 flex">
                   <div class="flex">
-                    <Heroicons.Solid.calendar class="h-5 w-5 text-gray-400" />
+                    <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
                       <%= display_date(@activity.end_enrollment) %>
                     </p>
                   </div>
                   <div class="flex pl-3">
-                    <Heroicons.Solid.clock class="h-5 w-5 text-gray-400" />
+                    <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
                       <%= display_time(@activity.end_enrollment) %>
                     </p>
@@ -179,30 +179,30 @@
 
             <div class="col-span-2">
               <dt class="grid grid-cols-2 items-center">
-                <div class="text-sm font-medium text-gray-500">
+                <div class="text-sm font-medium text-zinc-500">
                   <%= gettext("Sessions") %>
                 </div>
               </dt>
-              <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-gray-900">
+              <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
                 <%= for session <- @activity.activity_sessions do %>
                   <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
                     <div class="flex gap-x-2">
-                      <div class="text-gray-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                        <Heroicons.Solid.calendar class="h-5 w-5 text-gray-400" />
+                      <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
+                        <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                         <p class="block pl-1.5 max-w-6xl">
                           <%= display_date(session.start) %>
                         </p>
                       </div>
                     </div>
                     <div class="inset-y-0 my-auto flex md:pl-3">
-                      <Heroicons.Solid.clock class="h-5 w-5 text-gray-400" />
+                      <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
                       <p class="block pl-1.5 max-w-6xl">
                         <%= display_time(session.start) %> - <%= display_time(session.finish) %>
                       </p>
                     </div>
                     <div class="flex text-sm md:pl-3">
                       <%= if (@current_user.role != :student || @enrollment) && session.location do %>
-                        <Heroicons.Solid.location_marker class="h-5 w-5 text-gray-400" />
+                        <Heroicons.Solid.location_marker class="h-5 w-5 text-zinc-400" />
                         <%= live_redirect to: session.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
                           <%= session.location.name %>
                           <%!-- <%= if Gettext.get_locale() == "en" do %>
@@ -213,7 +213,7 @@
                         <% end %>
                       <% else %>
                         <%= if session.location do %>
-                          <div class="pl-1.5 text-gray-900">
+                          <div class="pl-1.5 text-zinc-900">
                             <%= session.location.name %>
                             <%!-- <%= if Gettext.get_locale() == "en" do %>
                               <%= session.location.name_en %>
@@ -229,10 +229,10 @@
               </dd>
             </div>
             <div class="col-span-2">
-              <dt class="text-sm font-medium text-gray-500">
+              <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("Description") %>
               </dt>
-              <dd class="prose prose-slate mt-1 max-w-full text-sm text-gray-900 prose-headings:underline prose-a:text-blue-500">
+              <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
                 <%!-- <%= if Gettext.get_locale() == "en" do %>
                   <%= raw(Earmark.as_html!(@activity.description_en)) %>
                 <% else %>
@@ -246,11 +246,11 @@
                 <%= if @activity.instructors do %>
                   <%= for instructor <- @activity.instructors do %>
                     <div class="flex flex-col">
-                      <div class="text-sm font-medium text-gray-500">
+                      <div class="text-sm font-medium text-zinc-500">
                         <%= gettext("Instructor") %>
                       </div>
                       <div class="mt-1 flex items-center">
-                        <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-500">
+                        <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
                           <span class="text-md font-medium leading-none text-white">
                             <%= extract_initials(instructor.name) %>
                           </span>
@@ -264,11 +264,11 @@
                 <% end %>
                 <%!-- <%= if @current_user.role in [:admin, :staff] and @activity.delegated_to_user do %>
                   <div class="mt-4 flex flex-col sm:mt-0">
-                    <div class="text-sm font-medium text-gray-500">
+                    <div class="text-sm font-medium text-zinc-500">
                       <%= gettext("Responsible") %>
                     </div>
                     <div class="mt-1 flex items-center">
-                      <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-500">
+                      <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
                         <span class="text-md font-medium leading-none text-white">
                           <%= extract_initials(@activity.delegated_to_user.name) %>
                         </span>
@@ -308,7 +308,7 @@
                             <%= gettext("Enroll") %>
                           </a>
                         <% else %>
-                          <div class="inline-flex select-none justify-center rounded-md border border-transparent bg-gray-400 px-4 py-2 text-center text-sm font-medium text-white opacity-50 shadow-sm focus:outline-none">
+                          <div class="inline-flex select-none justify-center rounded-md border border-transparent bg-zinc-400 px-4 py-2 text-center text-sm font-medium text-white opacity-50 shadow-sm focus:outline-none">
                             <%= if @is_user_enrolled_in_master_activity? do %>
                               <%= gettext("Already completed or enrolled in a activity of this type.") %>
                             <% else %>

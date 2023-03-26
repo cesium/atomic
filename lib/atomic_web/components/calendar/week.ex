@@ -25,7 +25,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
     <div class="flex flex-auto flex-col overflow-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
-          <div class="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
+          <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <%= live_patch to: build_path(@current_path, %{"mode" => "week", "day" => day_of_week |> date_to_day(), "month" => @params["month"], "year" => @params["year"]}), class: "flex flex-col items-center py-2" do %>
@@ -35,9 +35,9 @@ defmodule AtomicWeb.Components.CalendarWeek do
                     "bg-indigo-700 rounded-full text-white"
                   else
                     if day_of_week |> date_to_day() == @params["day"] do
-                      "bg-gray-900 rounded-full text-white"
+                      "bg-zinc-900 rounded-full text-white"
                     else
-                      "text-gray-900"
+                      "text-zinc-900"
                     end
                   end} flex items-center justify-center w-8 h-8 mt-1 font-semibold"
                 }>
@@ -46,7 +46,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
               <% end %>
             <% end %>
           </div>
-          <div class="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
+          <div class="-mr-px hidden grid-cols-7 divide-x divide-zinc-100 border-r border-zinc-100 text-sm leading-6 text-zinc-500 sm:grid">
             <div class="col-end-1 w-12"></div>
             <%= for idx <- 0..6 do %>
               <% day_of_week = beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
@@ -63,7 +63,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                     "#{if @today == day_of_week do
                       "flex ml-1.5 w-8 h-8 text-white bg-indigo-700 rounded-full"
                     else
-                      "text-gray-900"
+                      "text-zinc-900"
                     end} items-center justify-center font-semibold"
                   }>
                     <%= day_of_week |> date_to_day() %>
@@ -74,74 +74,74 @@ defmodule AtomicWeb.Components.CalendarWeek do
           </div>
         </div>
         <div class="flex flex-auto">
-          <div class="left-0 w-12 flex-none bg-white ring-1 ring-gray-100"></div>
+          <div class="left-0 w-12 flex-none bg-white ring-1 ring-zinc-100"></div>
           <div class="grid flex-auto grid-cols-1 grid-rows-1">
             <!-- Horizontal lines -->
-            <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100" style="grid-template-rows: repeat(30, minmax(2.5rem, 1fr))">
+            <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(30, minmax(2.5rem, 1fr))">
               <div class="row-end-1 h-6"></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">8H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">8H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">9H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">9H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">10H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">10H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">11H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">11H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">12H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">12H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">13H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">13H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">14H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">14H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">15H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">15H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">16H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">16H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">17H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">17H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">18H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">18H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">19H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">19H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">20H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">20H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">21H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">21H</div>
               </div>
               <div></div>
               <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-gray-400">22H</div>
+                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">22H</div>
               </div>
               <div></div>
             </div>
             <!-- Vertical lines -->
-            <div class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
+            <div class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-zinc-100 sm:grid sm:grid-cols-7">
               <div class="col-start-1 row-span-full"></div>
               <div class="col-start-2 row-span-full"></div>
               <div class="col-start-3 row-span-full"></div>

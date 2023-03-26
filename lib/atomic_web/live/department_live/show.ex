@@ -9,11 +9,25 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"organization" => organization_id, "id" => id}, _, socket) do
+    department = Organizations.get_department!(id, preloads: :activities)
+
+    entries = [
+      %{
+        name: gettext("Departments"),
+        route: Routes.department_index_path(socket, :index, organization_id)
+      },
+      %{
+        name: department.name,
+        route: Routes.department_show_path(socket, :show, organization_id, department)
+      }
+    ]
+
     {:noreply,
      socket
+     |> assign(:current_page, :departments)
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:department, Organizations.get_department!(id, preloads: :activities))}
+     |> assign(:department, department)}
   end
 
   defp page_title(:show), do: "Show Department"

@@ -1,9 +1,10 @@
 defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Department
   alias Atomic.Activities.Location
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Membership
+  alias Atomic.Organizations.Partner
 
   @required_fields ~w(name description)a
   @optional_fields []
@@ -13,6 +14,12 @@ defmodule Atomic.Organizations.Organization do
     field :description, :string
 
     has_many :departments, Department,
+      on_replace: :delete_if_exists,
+      on_delete: :delete_all,
+      foreign_key: :organization_id,
+      preload_order: [asc: :name]
+
+    has_many :partners, Partner,
       on_replace: :delete_if_exists,
       on_delete: :delete_all,
       foreign_key: :organization_id,

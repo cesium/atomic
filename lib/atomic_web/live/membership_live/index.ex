@@ -13,8 +13,7 @@ defmodule AtomicWeb.MembershipLive.Index do
     organization = Organizations.get_organization!(id, [:departments])
 
     memberships =
-      Organizations.list_memberships(%{"organization_id" => id}, [:user])
-      |> Enum.filter(fn m -> m.role != :follower end)
+      Organizations.list_members([where: [organization_id: id], preloads: [:user]])
 
     entries = [
       %{

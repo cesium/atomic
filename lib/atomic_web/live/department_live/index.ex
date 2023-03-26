@@ -6,23 +6,37 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :departments, list_departments())}
+    {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(%{"organization" => id}, _url, socket) do
+    organization = Organizations.get_organization!(id, [:departments])
+
+    departments =
+      Organizations.list_departments([where: [organization_id: id]])
+
     entries = [
       %{
+        name: gettext("Organizations"),
+        route: Routes.organization_index_path(socket, :index)
+      },
+      %{
+        name: organization.name,
+        route: Routes.organization_show_path(socket, :show, id)
+      },
+      %{
         name: gettext("Departments"),
-        route: Routes.department_index_path(socket, :index)
+        route: Routes.department_index_path(socket, :index, id)
       }
     ]
 
     {:noreply,
      socket
-     |> assign(:current_page, :departments)
      |> assign(:breadcrumb_entries, entries)
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:current_page, organization.name)
+     |> assign(:organization, organization)
+     |> assign(:departments, departments)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

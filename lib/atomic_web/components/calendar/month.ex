@@ -8,7 +8,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
   def calendar_month(assigns) do
     ~H"""
     <div class="rounded-lg shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
-      <div class="grid grid-cols-7 gap-px rounded-t-lg border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
+      <div class="grid grid-cols-7 gap-px rounded-t-lg border-b border-zinc-300 bg-zinc-200 text-center text-xs font-semibold leading-6 text-zinc-700 lg:flex-none">
         <div class="rounded-tl-lg bg-white py-2">
           M<span class="sr-only sm:not-sr-only">on</span>
         </div>
@@ -31,7 +31,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
           S<span class="sr-only sm:not-sr-only">un</span>
         </div>
       </div>
-      <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
+      <div class="flex bg-zinc-200 text-xs leading-6 text-zinc-700 lg:flex-auto">
         <div class="grid w-full grid-cols-7 gap-px overflow-hidden rounded-b-lg">
           <%= for i <- 0..@end_of_month.day - 1 do %>
             <.day index={i} params={@params} current_path={@current_path} sessions={@sessions} date={Timex.shift(@beginning_of_month, days: i)} time_zone={@time_zone} />
@@ -40,13 +40,13 @@ defmodule AtomicWeb.Components.CalendarMonth do
       </div>
     </div>
     <div class="py-4 lg:hidden">
-      <ol class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
+      <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
         <%= for session <- get_date_sessions(@sessions, current_from_params(@time_zone, @params)) do %>
           <%= if session.activity do %>
             <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity) do %>
-              <li class="group flex p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
+              <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
                 <div class="flex-auto">
-                  <p class="font-semibold text-gray-900">
+                  <p class="font-semibold text-zinc-900">
                     <%= session.activity.title %>
                     <%!-- <%= if Gettext.get_locale() == "en" do
                       if session.activity.title_en do
@@ -66,8 +66,8 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color="purple">
                       Data Pro
                     </.badge_dot>
-                    <time datetime={session.start} class="flex items-center text-gray-700">
-                      <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-gray-400" />
+                    <time datetime={session.start} class="flex items-center text-zinc-700">
+                      <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
                       <%= Calendar.strftime(session.start, "%Hh%M") %>
                     </time>
                   </div>
@@ -90,7 +90,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         {"relative py-2 px-3 lg:min-h-[110px] lg:flex hidden", true},
         {col_start(weekday), index == 0},
         {"bg-white", today? >= 0},
-        {"bg-gray-50 text-gray-500", today? < 0}
+        {"bg-zinc-50 text-zinc-500", today? < 0}
       ])
 
     assigns =
@@ -118,7 +118,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
           <li>
             <%= if session.activity do %>
               <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity), class: "group flex" do %>
-                <p class="text-gray-600 group-hover:text-gray-800 flex-auto truncate font-medium">
+                <p class="text-zinc-600 group-hover:text-zinc-800 flex-auto truncate font-medium">
                   <%= session.activity.title %>
                   <%!-- <%= if Gettext.get_locale() == "en" do
                     if session.activity.title_en do
@@ -134,14 +134,14 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     end
                   end %> --%>
                 </p>
-                <time datetime={session.start} class="text-gray-600 group-hover:text-gray-800 mx-2 hidden flex-none xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
+                <time datetime={session.start} class="text-zinc-600 group-hover:text-zinc-800 mx-2 hidden flex-none xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
               <% end %>
             <% end %>
           </li>
         <% end %>
       </ol>
     </div>
-    <%= live_patch to: build_path(@current_path, %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)}), class: "#{if @index == 0 do col_start(weekday) end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10 lg:hidden" do %>
+    <%= live_patch to: build_path(@current_path, %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)}), class: "#{if @index == 0 do col_start(weekday) end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden" do %>
       <time
         date-time={@date}
         class={
@@ -149,7 +149,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
             "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if today? == 0 do
               "bg-indigo-700"
             else
-              "bg-gray-900"
+              "bg-zinc-900"
             end} text-white shirk-0"
           else
             if today? == 0 do
@@ -165,7 +165,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <span class="flex flex-wrap-reverse -mx-0.5 mt-auto">
           <%= for session <- sessions do %>
             <%= if session.activity do %>
-              <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-700"></span>
+              <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-700"></span>
             <% end %>
           <% end %>
         </span>

@@ -1,7 +1,7 @@
 defmodule AtomicWeb.PartnerLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Partnerships
+  alias Atomic.Organizations
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 
   @impl true
@@ -13,7 +13,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
   @impl true
   def update(%{partner: partner} = assigns, socket) do
-    changeset = Partnerships.change_partner(partner)
+    changeset = Organizations.change_partner(partner)
 
     {:ok,
      socket
@@ -25,7 +25,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   def handle_event("validate", %{"partner" => partner_params}, socket) do
     changeset =
       socket.assigns.partner
-      |> Partnerships.change_partner(partner_params)
+      |> Organizations.change_partner(partner_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -40,7 +40,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :edit, partner_params) do
-    case Partnerships.update_partner(
+    case Organizations.update_partner(
            socket.assigns.partner,
            partner_params,
            &consume_image_data(socket, &1)
@@ -57,7 +57,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :new, partner_params) do
-    case Partnerships.create_partner(partner_params, &consume_image_data(socket, &1)) do
+    case Organizations.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,
          socket
@@ -71,7 +71,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
   defp consume_image_data(socket, partner) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Partnerships.update_image(partner, %{
+      Organizations.update_image(partner, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,

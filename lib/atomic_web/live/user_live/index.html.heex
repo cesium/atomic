@@ -4,19 +4,19 @@
   </.modal>
 <% end %>
 
-<table class="min-w-full divide-y divide-gray-300">
+<table class="min-w-full divide-y divide-zinc-300">
   <thead>
     <tr>
-      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
-      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-        <span class="sr-only">Show</span>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-zinc-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0 flex flex-row-reverse">
+        <%= live_patch("New", to: Routes.user_index_path(@socket, :new), class: "rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600") %>
       </th>
     </tr>
   </thead>
-  <tbody id="users" class="divide-y divide-gray-200">
+  <tbody id="users" class="divide-y divide-zinc-200">
     <%= for user <- @users do %>
     <tr id={"user-#{user.id}"}>
-      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-zinc-900 sm:pl-0">
         <%= user.name %>
       </td>
       <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">

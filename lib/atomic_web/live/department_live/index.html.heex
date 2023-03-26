@@ -1,26 +1,26 @@
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.department_index_path(@socket, :index)}>
-    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index)} />
+  <.modal return_to={Routes.department_index_path(@socket, :index, @organization.id)}>
+    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @organization.id)} />
   </.modal>
 <% end %>
 
-<table class="min-w-full divide-y divide-gray-300">
+<table class="min-w-full divide-y divide-zinc-300">
   <thead>
     <tr>
-      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
-      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-        <span class="sr-only">Show</span>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-zinc-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0 flex flex-row-reverse">
+        <%= live_patch("New", to: Routes.department_index_path(@socket, :new, @organization.id), class: "rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600") %>
       </th>
     </tr>
   </thead>
-  <tbody id="departments" class="divide-y divide-gray-200">
+  <tbody id="departments" class="divide-y divide-zinc-200">
     <%= for department <- @departments do %>
     <tr id={"department-#{department.id}"}>
-      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-zinc-900 sm:pl-0">
         <%= department.name %>
       </td>
       <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
-        <%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, department)) %>
+        <%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, @organization.id, department)) %>
       </td>
     </tr>
     <% end %>

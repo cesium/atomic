@@ -1,4 +1,4 @@
-defmodule Atomic.Partnerships.Partner do
+defmodule Atomic.Organizations.Partner do
   @moduledoc """
     A partnership.
   """
@@ -25,6 +25,9 @@ defmodule Atomic.Partnerships.Partner do
     field :description, :string
     field :name, :string
     field :image, Uploaders.Image.Type
+
+    belongs_to :organization, Organization, on_replace: :delete_if_exists
+
     timestamps()
   end
 

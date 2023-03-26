@@ -1,16 +1,21 @@
 defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
-  alias Atomic.Partnerships
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations
+  alias Atomic.Organizations.Partner
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships())}
+    {:ok, assign(socket, :organizations, list_organizations())}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(%{"organization" => id}, _url, socket) do
+    organization = Organizations.get_organization!(id, [:departments])
+
+   partners =
+      Organizations.list_partners([where: [organization_id: id]])
+
     entries = [
       %{
         name: gettext("Activities"),
@@ -20,15 +25,16 @@ defmodule AtomicWeb.PartnerLive.Index do
 
     {:noreply,
      socket
-     |> assign(:current_page, :partnerships)
+     |> assign(:current_page, :organizations)
      |> assign(:breadcrumb_entries, entries)
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:organization, organization)
+     |> assign(:partners, partners)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Partner")
-    |> assign(:partner, Partnerships.get_partner!(id))
+    |> assign(:partner, Organizations.get_partner!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -39,19 +45,19 @@ defmodule AtomicWeb.PartnerLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Partnerships")
+    |> assign(:page_title, "Listing Organizations")
     |> assign(:partner, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
+    partner = Organizations.get_partner!(id)
+    {:ok, _} = Organizations.delete_partner(partner)
 
-    {:noreply, assign(socket, :partnerships, list_partnerships())}
+    {:noreply, assign(socket, :organizations, list_organizations())}
   end
 
-  defp list_partnerships do
-    Partnerships.list_partnerships()
+  defp list_organizations do
+    Organizations.list_organizations()
   end
 end

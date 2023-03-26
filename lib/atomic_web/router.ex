@@ -37,17 +37,17 @@ defmodule AtomicWeb.Router do
 
       live "/calendar", CalendarLive.Show, :show
 
-      live "/departments", DepartmentLive.Index, :index
-      live "/departments/new", DepartmentLive.Index, :new
-      live "/departments/:id/edit", DepartmentLive.Index, :edit
-      live "/departments/:id", DepartmentLive.Show, :show
-      live "/departments/:id/show/edit", DepartmentLive.Show, :edit
+      live "/departments/:organization", DepartmentLive.Index, :index
+      live "/departments/:organization/new", DepartmentLive.Index, :new
+      live "/departments/:organization/:id/edit", DepartmentLive.Index, :edit
+      live "/departments/:organization/:id", DepartmentLive.Show, :show
+      live "/departments/:organization/:id/show/edit", DepartmentLive.Show, :edit
 
-      live "/partners", PartnerLive.Index, :index
-      live "/partners/new", PartnerLive.Index, :new
-      live "/partners/:id/edit", PartnerLive.Index, :edit
-      live "/partners/:id", PartnerLive.Show, :show
-      live "/partners/:id/show/edit", PartnerLive.Show, :edit
+      live "/partners/:organization/", PartnerLive.Index, :index
+      live "/partners/:organization/new", PartnerLive.Index, :new
+      live "/partners/:organization/:id/edit", PartnerLive.Index, :edit
+      live "/partners/:organization/:id", PartnerLive.Show, :show
+      live "/partners/:organization/:id/show/edit", PartnerLive.Show, :edit
 
       live "/instructors", InstructorLive.Index, :index
       live "/instructors/new", InstructorLive.Index, :new

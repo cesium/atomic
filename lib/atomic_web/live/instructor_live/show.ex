@@ -10,10 +10,25 @@ defmodule AtomicWeb.InstructorLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    instructor = Activities.get_instructor!(id)
+
+    entries = [
+      %{
+        name: gettext("Instructors"),
+        route: Routes.instructor_index_path(socket, :index)
+      },
+      %{
+        name: instructor.name,
+        route: Routes.instructor_show_path(socket, :show, instructor)
+      },
+    ]
+
     {:noreply,
      socket
+     |> assign(:current_page, :instructors)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:instructor, Activities.get_instructor!(id))}
+     |> assign(:instructor, instructor)}
   end
 
   defp page_title(:show), do: "Show Instructor"

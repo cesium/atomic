@@ -1,11 +1,11 @@
 <div class="flex w-full flex-shrink-0 justify-center border-t py-3 lg:justify-start z-20">
   <div x-data="{ open: false }" @click="window.innerWidth <= 1024 ? open = !open : null" @click.away="open = false" class="relative inline-block w-full px-1 text-center">
     <div class="hidden w-full lg:block">
-      <div class="justify-between text-sm font-medium text-left text-gray-700 rounded-md lg:py-2 lg:px-3.5 lg:w-full focus:ring-2 focus:ring-offset-2 focus:outline-none group" id="options-menu-button-0" x-ref="button">
+      <div class="justify-between text-sm font-medium text-left text-zinc-700 rounded-md lg:py-2 lg:px-3.5 lg:w-full focus:ring-2 focus:ring-offset-2 focus:outline-none group" id="options-menu-button-0" x-ref="button">
         <span class="flex w-full items-center justify-between">
           <span class="flex min-w-0 items-center justify-between lg:space-x-3">
             <div>
-              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-500">
+              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-500">
                 <span class="text-lg font-medium leading-none text-white">
                   <%= extract_initials("Filipe Felício") %>
                 </span>
@@ -13,7 +13,7 @@
             </div>
 
             <span class="hidden min-w-0 flex-1 flex-col lg:flex">
-              <span class="truncate text-base font-medium text-gray-900">
+              <span class="truncate text-base font-medium text-zinc-900">
                 <%= extract_first_last_name("Filipe Felício") %>
               </span>
               <%!-- <span class={"#{text_100(page_color(@socket, @current_user, @current_page))} truncate text-sm"}> --%>
@@ -23,7 +23,7 @@
 
           <button
             type="button"
-            class="hidden items-center rounded-full text-gray-900 hover:text-gray-700 focus:outline-none lg:flex"
+            class="hidden items-center rounded-full text-zinc-900 hover:text-zinc-700 focus:outline-none lg:flex"
             x-ref="button"
             @click="open = !open"
             @keydown.escape.stop="open = false"
@@ -40,11 +40,11 @@
     </div>
 
     <div class="block w-full lg:hidden">
-      <button type="button" class="justify-between p-2 text-sm font-medium text-left text-gray-700 rounded-md lg:py-2 lg:px-3.5 lg:w-full group" id="options-menu-button-1" x-ref="button">
+      <button type="button" class="justify-between p-2 text-sm font-medium text-left text-zinc-700 rounded-md lg:py-2 lg:px-3.5 lg:w-full group" id="options-menu-button-1" x-ref="button">
         <span class="flex w-full items-center justify-between">
           <span class="flex min-w-0 items-center justify-between lg:space-x-3">
             <div>
-              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-500">
+              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-500">
                 <span class="text-lg font-medium leading-none text-white">
                   <%= extract_initials("Filipe Felício") %>
                 </span>
@@ -81,14 +81,14 @@
       <div class="p-2" />
       <div class="w-56 rounded-md bg-white p-2 shadow-lg ring-2 ring-black ring-opacity-5 focus:outline-none">
         <%!-- <%= for entry <- AtomicWeb.Config.user_pages(@socket) do %>
-          <%= live_redirect to: entry.url, class: "group flex items-center rounded-md p-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900" do %>
-            <Heroicons.Outline.render icon={entry.icon} class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+          <%= live_redirect to: entry.url, class: "group flex items-center rounded-md p-2 text-sm text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900" do %>
+            <Heroicons.Outline.render icon={entry.icon} class="mr-3 h-5 w-5 text-zinc-400 group-hover:text-zinc-500" />
             <%= entry.title %>
           <% end %>
         <% end %> --%>
 
-        <%= link to: Routes.user_session_path(@socket, :delete), method: :delete, class: "group flex items-center rounded-md p-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900" do %>
-          <Heroicons.Outline.logout class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+        <%= link to: Routes.user_session_path(@socket, :delete), method: :delete, class: "group flex items-center rounded-md p-2 text-sm text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900" do %>
+          <Heroicons.Outline.logout class="mr-3 h-5 w-5 text-zinc-400 group-hover:text-zinc-500" />
           <%= gettext("Logout") %>
         <% end %>
       </div>

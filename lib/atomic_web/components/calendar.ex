@@ -39,13 +39,13 @@ defmodule AtomicWeb.Components.Calendar do
     <div x-data="{ mode_view: false }" class="flex-col lg:flex lg:h-full">
       <header class="my-4 flex flex-col sm:flex-row">
         <div>
-          <h2 class="text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:text-4xl">
+          <h2 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
             <%= gettext("Calendar") %>
           </h2>
         </div>
         <div class="flex-1">
           <div class="relative z-20 flex w-full items-end justify-between lg:flex-none">
-            <span class="font-base pl-2 text-base text-gray-900">
+            <span class="font-base pl-2 text-base text-zinc-900">
               <%= if @mode == "month" do %>
                 <time datetime={@beginning_of_month}><%= Timex.format!(@beginning_of_month, "{Mshort} {YYYY}") %></time>
               <% else %>
@@ -64,18 +64,18 @@ defmodule AtomicWeb.Components.Calendar do
             <div class="flex items-center">
               <div class="flex items-center md:items-stretch">
                 <%= live_patch to: "#{if @mode == "month" do @previous_month_path else @previous_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 hover:bg-gray-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
                     <span class="sr-only">Previous month</span>
                     <Heroicons.Solid.chevron_left class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @present_month_path else @present_week_path end}" do %>
-                  <button type="button" class="hidden px-3.5 h-full text-sm font-medium text-gray-700 md:block hover:text-gray-900 focus:relative hover:bg-gray-50">
+                  <button type="button" class="hidden px-3.5 h-full text-sm font-medium text-zinc-700 md:block hover:text-zinc-900 focus:relative hover:bg-zinc-50">
                     <%= gettext("Today") %>
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @next_month_path else @next_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:px-2 hover:bg-gray-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
                     <span class="sr-only">Next month</span>
                     <Heroicons.Solid.chevron_right class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
@@ -83,13 +83,13 @@ defmodule AtomicWeb.Components.Calendar do
               </div>
               <div class="hidden md:ml-4 md:flex md:items-center">
                 <div class="relative">
-                  <a @click="mode_view = !mode_view" class="cursor-pointer flex items-center py-2 pr-2 pl-3 text-sm font-medium text-gray-700 hover:bg-gray-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                  <a @click="mode_view = !mode_view" class="cursor-pointer flex items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
                     <%= if @mode == "month" do
                       gettext("Month view")
                     else
                       gettext("Week view")
                     end %>
-                    <Heroicons.Solid.chevron_down class="ml-2 h-5 w-5 text-gray-400" />
+                    <Heroicons.Solid.chevron_down class="ml-2 h-5 w-5 text-zinc-400" />
                   </a>
 
                   <div :class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -135,19 +135,19 @@ defmodule AtomicWeb.Components.Calendar do
                 </div>
               </div>
               <div class="relative ml-6 md:hidden">
-                <button type="button" @click="mode_view = !mode_view" class="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500" id="menu-0-button" aria-expanded="false" aria-haspopup="true">
+                <button type="button" @click="mode_view = !mode_view" class="-mx-2 flex items-center rounded-full border border-transparent p-2 text-zinc-400 hover:text-zinc-500" id="menu-0-button" aria-expanded="false" aria-haspopup="true">
                   <span class="sr-only">Open menu</span>
                   <Heroicons.Solid.dots_horizontal class="h-3 w-3 sm:h-5 sm:w-5" />
                 </button>
 
-                <div :class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div :class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right divide-y divide-zinc-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div class="py-1" role="none">
                     <%= live_patch to: "#{if @mode == "month" do @present_month_path else @present_week_path end}" do %>
-                      <button type="button" @click="mode_view = false" class="block w-full px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-1-item-1">
+                      <button type="button" @click="mode_view = false" class="block w-full px-4 py-2 text-sm text-zinc-700" role="menuitem" tabindex="-1" id="menu-1-item-1">
                         <%= gettext("Today") %>
                       </button>
                     <% end %>
-                    <div class="mx-4 border-b border-gray-200 " />
+                    <div class="mx-4 border-b border-zinc-200 " />
                     <%= live_patch to: @present_week_path do %>
                       <button
                         type="button"

@@ -7,7 +7,7 @@ defmodule Atomic.Organizations.Membership do
   @required_fields ~w(user_id organization_id created_by_id role)a
   @optional_fields [:number]
 
-  @roles ~w(follower member admin owner number)a
+  @roles ~w(follower member staff admin)a
 
   schema "memberships" do
     field :number, :integer, read_after_writes: true

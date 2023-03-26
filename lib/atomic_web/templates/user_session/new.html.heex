@@ -3,7 +3,7 @@
   <p class="ml-4 text-2xl font-semibold text-[#67595d]">Atomic</p>
 </div>
 <div>
-  <h2 class="mt-6 text-center text-5xl font-extrabold text-gray-900">
+  <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
     <%= gettext("Log in") %>
   </h2>
 </div>
@@ -21,7 +21,7 @@
       <%= email_input(f, :email,
         required: true,
         placeholder: gettext("Email address"),
-        class: "relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+        class: "relative block w-full appearance-none rounded-none rounded-t-md border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
       ) %>
     </div>
     <div>
@@ -30,15 +30,15 @@
         required: true,
         placeholder: gettext("Password"),
         autocomplete: "current-password",
-        class: "relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+        class: "relative block w-full appearance-none rounded-none rounded-b-md border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
       ) %>
     </div>
   </div>
 
   <div class="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
     <div class="flex items-center">
-      <%= checkbox(f, :remember_me, class: "h-4 w-4 rounded border-gray-300 text-indigo-300 focus:ring-indigo-400") %>
-      <%= label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-gray-900") %>
+      <%= checkbox(f, :remember_me, class: "h-4 w-4 rounded border-zinc-300 text-indigo-300 focus:ring-indigo-400") %>
+      <%= label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-zinc-900") %>
     </div>
   </div>
 
