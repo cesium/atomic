@@ -10,8 +10,8 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
   alias Atomic.Activities.Instructor
-  alias Atomic.Departments
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations
+  alias Atomic.Organizations.Department
   @required_fields ~w(title description
                     minimum_entries maximum_entries)a
 
@@ -54,7 +54,7 @@ defmodule Atomic.Activities.Activity do
 
   defp maybe_put_departments(changeset, attrs) do
     if attrs["departments"] do
-      departments = Departments.get_departments(attrs["departments"])
+      departments = Organizations.get_departments(attrs["departments"])
 
       Ecto.Changeset.put_assoc(changeset, :departments, departments)
     else

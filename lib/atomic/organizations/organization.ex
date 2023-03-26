@@ -1,7 +1,7 @@
 defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
   alias Atomic.Accounts.User
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
   alias Atomic.Activities.Location
   alias Atomic.Organizations.Membership
 

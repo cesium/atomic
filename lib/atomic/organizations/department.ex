@@ -1,4 +1,4 @@
-defmodule Atomic.Departments.Department do
+defmodule Atomic.Organizations.Department do
   @moduledoc """
     A department of an organization
   """

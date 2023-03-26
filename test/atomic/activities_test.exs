@@ -219,19 +219,14 @@ defmodule Atomic.ActivitiesTest do
       instructor = instructor_fixture()
       update_attrs = %{bio: "some updated bio", name: "some updated name"}
 
-      assert {:ok, %Instructor{} = instructor} =
-               Activities.update_instructor(instructor, update_attrs)
-
+      assert {:ok, %Instructor{} = instructor} = Activities.update_instructor(instructor, update_attrs)
       assert instructor.bio == "some updated bio"
       assert instructor.name == "some updated name"
     end
 
     test "update_instructor/2 with invalid data returns error changeset" do
       instructor = instructor_fixture()
-
-      assert {:error, %Ecto.Changeset{}} =
-               Activities.update_instructor(instructor, @invalid_attrs)
-
+      assert {:error, %Ecto.Changeset{}} = Activities.update_instructor(instructor, @invalid_attrs)
       assert instructor == Activities.get_instructor!(instructor.id)
     end
 

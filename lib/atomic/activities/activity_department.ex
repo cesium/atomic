@@ -5,7 +5,7 @@ defmodule Atomic.Activities.ActivityDepartment do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
 
   @required_fields ~w(activity_id department_id)a
 

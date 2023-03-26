@@ -243,8 +243,8 @@
             </div>
             <div class="col-span-2">
               <div class="sm:grid sm:grid-cols-2">
-                <%= if @activity.speakers do %>
-                  <%= for speaker <- @activity.speakers do %>
+                <%= if @activity.instructors do %>
+                  <%= for instructor <- @activity.instructors do %>
                     <div class="flex flex-col">
                       <div class="text-sm font-medium text-gray-500">
                         <%= gettext("Instructor") %>
@@ -252,11 +252,11 @@
                       <div class="mt-1 flex items-center">
                         <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-500">
                           <span class="text-md font-medium leading-none text-white">
-                            <%= extract_initials(speaker.name) %>
+                            <%= extract_initials(instructor.name) %>
                           </span>
                         </span>
-                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-md text-blue-500" do %>
-                          <%= extract_first_last_name(speaker.name) %>
+                        <%= live_redirect to: Routes.instructor_show_path(@socket, :show, instructor), class: "text-md text-blue-500" do %>
+                          <%= extract_first_last_name(instructor.name) %>
                         <% end %>
                       </div>
                     </div>

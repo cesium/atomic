@@ -185,7 +185,10 @@
       </div>
     </div>
     <!-- Static sidebar for desktop -->
-    <div x-data="{ open: false}" @click.away="open = false" class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-zinc-100">
+    <div 
+      x-data="{ open: false}"
+      @click.away="open = false" 
+      class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-zinc-100">
       <%!-- <div class="flex flex-shrink-0 items-center px-6">
         <img class="h-10 w-auto" src={Routes.static_path(@socket, "/images/logo.png")} alt="Atomic" />
       </div> --%>
@@ -238,46 +241,49 @@
             From: "transform opacity-100 scale-100"
             To: "transform opacity-0 scale-95"
         -->
-          <div
-            x-transition:enter="transition ease-out duration-100"
-            x-transition:enter-start="transform opacity-0 scale-95"
-            x-transition:enter-end="transform opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-75"
-            x-transition:leave-start="transform opacity-100 scale-100"
-            x-transition:leave-end="transform opacity-0 scale-95"
-            x-show="open"
-            class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu-button"
-            tabindex="-1"
-          >
-            <div role="none">
-              <%= for organization <- @current_user_organizations do %>
-                <!-- Active: "bg-zinc-100 text-zinc-900", Not Active: "text-zinc-700" -->
-                <a href="#" class="text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" role="menuitem" tabindex="-1" id="options-menu-item-0">
-                  <span class="flex w-full items-center justify-between">
-                    <span class="flex min-w-0 items-center justify-between space-x-3">
-                      <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
-                        <span class="text-lg font-medium leading-none text-white">
-                          <%= extract_initials(organization.name) %>
+        <div
+          x-transition:enter="transition ease-out duration-100"
+          x-transition:enter-start="transform opacity-0 scale-95"
+          x-transition:enter-end="transform opacity-100 scale-100"
+          x-transition:leave="transition ease-in duration-75"
+          x-transition:leave-start="transform opacity-100 scale-100"
+          x-transition:leave-end="transform opacity-0 scale-95"
+          x-show="open"
+          class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+          role="menu" 
+          aria-orientation="vertical" 
+          aria-labelledby="options-menu-button" 
+          tabindex="-1">
+          <div role="none">
+            <%= for organization <- @current_user_organizations do %>
+              <!-- Active: "bg-zinc-100 text-zinc-900", Not Active: "text-zinc-700" -->
+              <a href="#" 
+                 class="text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" 
+                 role="menuitem" 
+                 tabindex="-1" 
+                 id="options-menu-item-0">
+                    <span class="flex w-full items-center justify-between">
+                      <span class="flex min-w-0 items-center justify-between space-x-3">
+                        <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
+                          <span class="text-lg font-medium leading-none text-white">
+                            <%= extract_initials(organization.name) %>
+                          </span>
                         </span>
-                      </span>
-                      <%!-- <img class="h-10 w-10 flex-shrink-0 rounded-lg bg-zinc-300" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt=""> --%>
-                      <span class="flex min-w-0 flex-1 flex-col">
-                        <span class="truncate text-md font-medium text-zinc-900">
-                          <%= organization.name %>
-                        </span>
-                        <span class="truncate text-sm text-zinc-600">
-                          <%= "19 members" %>
+                        <%!-- <img class="h-10 w-10 flex-shrink-0 rounded-lg bg-zinc-300" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt=""> --%>
+                        <span class="flex min-w-0 flex-1 flex-col">
+                          <span class="truncate text-md font-medium text-zinc-900">
+                            <%= organization.name %>
+                          </span>
+                         <span class="truncate text-sm text-zinc-600">
+                            <%= "19 members" %>
+                          </span>
                         </span>
                       </span>
                     </span>
-                  </span>
-                </a>
-              <% end %>
-            </div>
+              </a>
+            <% end %>
           </div>
+        </div>
         </div>
         <!-- Navigation -->
         <nav class="mt-6">
@@ -326,6 +332,7 @@
           </div>
         </nav>
       </div>
+      <%#= render("_user_menu.html", assigns) %>
     </div>
     <!-- Main column -->
     <div class="flex flex-col lg:pl-64">

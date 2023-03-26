@@ -11,12 +11,13 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      }
-    ]
+    entries=
+      [
+        %{
+          name: gettext("Activities"),
+          route: Routes.activity_index_path(socket, :index)
+        }
+      ]
 
     {:noreply,
      socket
@@ -53,7 +54,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_activities do
     Activities.list_activities(
-      preloads: [:departments, :activity_sessions, :enrollments, :speakers]
+      preloads: [:departments, :activity_sessions, :enrollments, :instructors]
     )
   end
 end

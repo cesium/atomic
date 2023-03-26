@@ -3,11 +3,11 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   alias Atomic.Activities
   alias Atomic.Activities.Session
-  alias Atomic.Departments
+  alias Atomic.Organizations
 
   @impl true
   def mount(socket) do
-    departments = Departments.list_departments()
+    departments = Organizations.list_departments()
     instructors = Activities.list_instructors()
 
     {:ok,

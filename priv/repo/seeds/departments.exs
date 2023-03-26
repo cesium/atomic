@@ -1,7 +1,7 @@
 defmodule Atomic.Repo.Seeds.Departments do
   alias Atomic.Repo
 
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Organization
 
   def run do

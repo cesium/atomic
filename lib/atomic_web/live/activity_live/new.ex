@@ -12,16 +12,17 @@ defmodule AtomicWeb.ActivityLive.New do
 
   @impl true
   def handle_params(_params, _url, socket) do
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      },
-      %{
-        name: gettext("New Activity"),
-        route: Routes.activity_new_path(socket, :new)
-      }
-    ]
+    entries=
+      [
+        %{
+          name: gettext("Activities"),
+          route: Routes.activity_index_path(socket, :index)
+        },
+        %{
+          name: gettext("New Activity"),
+          route: Routes.activity_new_path(socket, :new)
+        }
+      ]
 
     {:noreply,
      socket

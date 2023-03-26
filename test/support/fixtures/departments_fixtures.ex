@@ -13,7 +13,7 @@ defmodule Atomic.DepartmentsFixtures do
       |> Enum.into(%{
         name: "some name"
       })
-      |> Atomic.Departments.create_department()
+      |> Atomic.Organizations.create_department()
 
     department
   end
