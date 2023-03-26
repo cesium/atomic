@@ -3,9 +3,9 @@ defmodule Atomic.Accounts do
   The Accounts context.
   """
   use Atomic.Context
-
   import Ecto.Query, warn: false
 
+  alias Atomic.Repo
   alias Atomic.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters

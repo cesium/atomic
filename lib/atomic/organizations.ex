@@ -79,7 +79,7 @@ defmodule Atomic.Organizations do
     |> Repo.update()
   end
 
- alias Atomic.Organizations.Department
+  alias Atomic.Organizations.Department
 
   @doc """
   Returns the list of departments.

@@ -56,7 +56,6 @@
                   <%= live_patch("New", to: Routes.activity_new_path(@socket, :new), class: "rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600") %>
                   <%!-- <.list_grid_toggle_button class="lg:block xl:hidden" /> --%>
                 </div>
-
               </div>
 
               <div class="flex">
@@ -87,18 +86,18 @@
       <div x-bind:class="view =='list' ? 'hidden lg:block' : 'hidden'">
         <div class="overflow-hidden bg-white">
           <ul role="list" class="divide-y divide-zinc-200">
-              <%= for activity <- @activities do %>
-                <li>
-                  <%= live_redirect to: Routes.activity_show_path(@socket, :show, activity), class: "block hover:bg-zinc-50", replace: false do %>
-                    <div class="px-4 py-4 lg:px-6">
-                      <div class="col-span-2 mb-2 flex flex-shrink-0 lg:hidden">
-                        <%!-- <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} /> --%>
-                        <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full"> --%>
-                        <%!-- </span> --%>
-                        <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+            <%= for activity <- @activities do %>
+              <li>
+                <%= live_redirect to: Routes.activity_show_path(@socket, :show, activity), class: "block hover:bg-zinc-50", replace: false do %>
+                  <div class="px-4 py-4 lg:px-6">
+                    <div class="col-span-2 mb-2 flex flex-shrink-0 lg:hidden">
+                      <%!-- <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} /> --%>
+                      <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full"> --%>
+                      <%!-- </span> --%>
+                      <%!-- <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
                               <%= gettext("Avaliable") %>
                             </span> --%>
-                        <%!-- <% end %>
+                      <%!-- <% end %>
                         <% "enrolled" -> %>
                           <%= if is_nil(activity.date_automatic_confirmation) do %>
                             <span class="inline-flex items-center py-0.5 px-3 text-sm font-semibold text-zinc-800 bg-zinc-100 rounded-full">
@@ -155,25 +154,25 @@
                             <%= gettext("?") %>
                           </span>
                       <% end %> --%>
-                        <%!-- <% end %> --%>
-                        <%!-- <div class="pl-2">
+                      <%!-- <% end %> --%>
+                      <%!-- <div class="pl-2">
                       <%= if Gettext.get_locale() == "en" do %>
                         <.badge text={activity.activity_type.name_en} color={activity.activity_type.color} />
                       <% else %>
                         <.badge text={activity.activity_type.name_pt} color={activity.activity_type.color} />
                       <% end %>
                     </div> --%>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <p class="truncate text-sm font-medium text-zinc-900">
-                          <%!-- <%= if Gettext.get_locale() == "en" do %>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <p class="truncate text-sm font-medium text-zinc-900">
+                        <%!-- <%= if Gettext.get_locale() == "en" do %>
                         <%= activity.title_en %>
                       <% else %>
                         <%= activity.title_pt %>
                       <% end %> --%>
-                          <%= activity.title %>
-                        </p>
-                        <%!-- <div class="col-span-2 ml-2 hidden flex-shrink-0 lg:flex">
+                        <%= activity.title %>
+                      </p>
+                      <%!-- <div class="col-span-2 ml-2 hidden flex-shrink-0 lg:flex">
                       <%= if @current_user.role in [:admin, :staff] do %>
                         <.activity_status_badge current_user={@current_user} current_tab={@activity_tab} activity={activity} />
                       <% else %>
@@ -253,70 +252,70 @@
                         <% end %>
                       </div>
                     </div> --%>
-                      </div>
+                    </div>
 
-                      <%!-- <%= if @current_user.role in [:admin, :staff] do %> --%>
-                      <div class="lg:flex">
-                        <%!-- <%= if activity.delegated_to_user do %>
+                    <%!-- <%= if @current_user.role in [:admin, :staff] do %> --%>
+                    <div class="lg:flex">
+                      <%!-- <%= if activity.delegated_to_user do %>
                         <p class="mt-2 flex items-center text-sm text-zinc-500 lg:ml-4">
                           <Heroicons.Solid.user class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                           <%= extract_first_last_name(activity.delegated_to_user.name) %>
                         </p>
                       <% end %> --%>
-                      </div>
-                      <%!-- <% end %> --%>
+                    </div>
+                    <%!-- <% end %> --%>
 
-                      <div class="mt-2 lg:flex lg:justify-between">
-                        <div class="lg:flex lg:space-x-3">
+                    <div class="mt-2 lg:flex lg:justify-between">
+                      <div class="lg:flex lg:space-x-3">
+                        <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                          <%= Enum.count(activity.enrollments) %> / <%= activity.maximum_entries %>
+                        </p>
+                        <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                          <%= display_date(hd(activity.activity_sessions).start) %>
+                        </p>
+                        <%= if not is_nil(hd(activity.activity_sessions).location) do %>
                           <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                            <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                            <%= Enum.count(activity.enrollments) %> / <%= activity.maximum_entries %>
-                          </p>
-                          <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                            <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                            <%= display_date(hd(activity.activity_sessions).start) %>
-                          </p>
-                          <%= if not is_nil(hd(activity.activity_sessions).location) do %>
-                            <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                              <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                              <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name %>
-                              <%!-- <%= if Gettext.get_locale() == "pt" do %>
+                            <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                            <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name %>
+                            <%!-- <%= if Gettext.get_locale() == "pt" do %>
                             <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_pt %>
                           <% else %>
                             <%= hd(activity.activity_sessions).location && hd(activity.activity_sessions).location.name_en %>
                           <% end %> --%>
-                            </p>
-                          <% end %>
-                        </div>
+                          </p>
+                        <% end %>
                       </div>
-                      <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
-                        <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                          <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closing
-                          <%!-- <p>
+                    </div>
+                    <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
+                      <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                        <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closing
+                        <%!-- <p>
                         <%= if NaiveDateTime.compare(activity.end_enrollment,ETime.lisbon_now()) == :lt do %>
                           <%= gettext("Closed") %>
                         <% else %>
                           <%= gettext("Closing") %> <%= relative_datetime(activity.end_enrollment) %>
                         <% end %>
                       </p> --%>
-                        </div>
-                        <%= for instructor <- activity.instructors do %>
-                          <div class="mt-2 flex items-center">
-                            <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
-                              <span class="text-xs font-medium leading-none text-white">
-                                <%= extract_initials(instructor.name) %>
-                              </span>
-                            </span>
-                            <p class="text-sm text-zinc-500">
-                              <%= extract_first_last_name(instructor.name) %>
-                            </p>
-                          </div>
-                        <% end %>
                       </div>
+                      <%= for instructor <- activity.instructors do %>
+                        <div class="mt-2 flex items-center">
+                          <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
+                            <span class="text-xs font-medium leading-none text-white">
+                              <%= extract_initials(instructor.name) %>
+                            </span>
+                          </span>
+                          <p class="text-sm text-zinc-500">
+                            <%= extract_first_last_name(instructor.name) %>
+                          </p>
+                        </div>
+                      <% end %>
                     </div>
-                  <% end %>
-                </li>
-              <% end %>
+                  </div>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
           <%!-- <.pagination page_color={page_color(@socket, @current_user, @current_page)} items={@activities} meta={@meta} params={@params} /> --%>
         </div>

@@ -131,6 +131,7 @@ defmodule Atomic.OrganizationsTest do
       assert %Ecto.Changeset{} = Organizations.change_membership(membership)
     end
   end
+
   describe "departments" do
     alias Atomic.OrganizationsTest.Department
     import Atomic.OrganizationsFixtures
