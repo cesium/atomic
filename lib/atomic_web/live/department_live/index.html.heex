@@ -1,32 +1,28 @@
-<h1>Listing Departments</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.department_index_path(@socket, :index)}>
     <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
-<table>
+<table class="min-w-full divide-y divide-gray-300">
   <thead>
     <tr>
-      <th>Name</th>
-
-      <th></th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+        <span class="sr-only">Show</span>
+      </th>
     </tr>
   </thead>
-  <tbody id="departments">
+  <tbody id="departments" class="divide-y divide-gray-200">
     <%= for department <- @departments do %>
-      <tr id={"department-#{department.id}"}>
-        <td><%= department.name %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, department)) %></span>
-          <span><%= live_patch("Edit", to: Routes.department_index_path(@socket, :edit, department)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: department.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
+    <tr id={"department-#{department.id}"}>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        <%= department.name %>
+      </td>
+      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
+        <%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, department)) %>
+      </td>
+    </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch("New Department", to: Routes.department_index_path(@socket, :new)) %></span>

@@ -1,38 +1,46 @@
-<div>
-  <h1>Memberships</h1>
-
-  <table>
+<table class="min-w-full divide-y divide-gray-300">
+  <thead>
     <tr>
-      <th>Number</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone Number</th>
-      <th>Requested At</th>
-      <th>Accepted By</th>
-      <th>Accepted At</th>
-      <th>Actions</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Number</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Email</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Phone</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Requested At</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Accepted By</th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Accepted At</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+        <span class="sr-only">Show</span>
+      </th>
     </tr>
+  </thead>
+  <tbody id="memberships" class="divide-y divide-gray-200">
     <%= for membership <- @memberships do %>
-      <tr>
-        <td><%= membership.number %></td>
-        <td>John Doe</td>
-        <td><%= membership.user.email %></td>
-        <td>912345678</td>
-        <td><%= membership.inserted_at %></td>
-        <td>Jane Doe</td>
-        <td><%= membership.updated_at %></td>
-        <td>
-          <%= link to: Routes.membership_show_path(@socket, :show, membership.organization_id, membership) do %>
-            Show
-          <% end %>
-          <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership) do %>
-            Edit
-          <% end %>
-          <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership) do %>
-            Delete
-          <% end %>
-        </td>
-      </tr>
+    <tr id={"membership-#{membership.id}"}>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+      <%= membership.number %>
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        John Doe
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+      <%= membership.user.email %>
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        939682957
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        <%= membership.inserted_at %>
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        Jane Doe
+      </td>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        <%= membership.updated_at %>
+      </td>
+      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
+        <%= live_redirect("Show", to: Routes.membership_show_path(@socket, :show, membership.organization_id, membership)) %>
+      </td>
+    </tr>
     <% end %>
-  </table>
-</div>
+  </tbody>
+</table>

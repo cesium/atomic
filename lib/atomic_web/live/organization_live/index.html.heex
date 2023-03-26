@@ -3,30 +3,40 @@
     <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization.id || :new} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_index_path(@socket, :index)} />
   </.modal>
 <% else %>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="organizations">
-      <%= for organization <- @organizations do %>
-        <tr id={"organization-#{organization.id}"}>
-          <td><%= organization.name %></td>
-          <td><%= organization.description %></td>
-
-          <td>
-            <span><%= live_redirect("Show", to: Routes.organization_show_path(@socket, :show, organization)) %></span>
-            <span><%= live_patch("Edit", to: Routes.organization_index_path(@socket, :edit, organization)) %></span>
-            <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: organization.id, data: [confirm: "Are you sure?"]) %></span>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <span><%= live_patch("New Organization", to: Routes.organization_index_path(@socket, :new)) %></span>
+<table class="min-w-full divide-y divide-gray-300">
+  <thead>
+    <tr>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+        <span class="sr-only">Show</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="organizations" class="divide-y divide-gray-200">
+    <%= for organization <- @organizations do %>
+    <tr id={"organization-#{organization.id}"}>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        <span class="flex w-full items-center justify-between">
+          <span class="flex min-w-0 items-center justify-between space-x-3">
+            <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-500 rounded-lg">
+              <span class="text-lg font-medium leading-none text-white">
+                <%= extract_initials(organization.name) %>
+              </span>
+            </span>
+            <%!-- <img class="h-10 w-10 flex-shrink-0 rounded-lg bg-zinc-300" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt=""> --%>
+            <span class="flex min-w-0 flex-1 flex-col">
+              <span class="truncate text-lg font-medium text-zinc-900">
+                <%= organization.name %>
+              </span>
+            </span>
+          </span>
+        </span>
+      </td>
+      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
+        <%= live_redirect("Show", to: Routes.organization_show_path(@socket, :show, organization)) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 <% end %>

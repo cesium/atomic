@@ -1,34 +1,28 @@
-<h1>Listing Instructors</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.instructor_index_path(@socket, :index)}>
     <.live_component module={AtomicWeb.InstructorLive.FormComponent} id={@instructor.id || :new} title={@page_title} action={@live_action} instructor={@instructor} return_to={Routes.instructor_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
-<table>
+<table class="min-w-full divide-y divide-gray-300">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Bio</th>
-
-      <th></th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+        <span class="sr-only">Show</span>
+      </th>
     </tr>
   </thead>
-  <tbody id="instructors">
+  <tbody id="instructors" class="divide-y divide-gray-200">
     <%= for instructor <- @instructors do %>
-      <tr id={"instructor-#{instructor.id}"}>
-        <td><%= instructor.name %></td>
-        <td><%= instructor.bio %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.instructor_show_path(@socket, :show, instructor)) %></span>
-          <span><%= live_patch("Edit", to: Routes.instructor_index_path(@socket, :edit, instructor)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: instructor.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
+    <tr id={"instructor-#{instructor.id}"}>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+        <%= instructor.name %>
+      </td>
+      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
+        <%= live_redirect("Show", to: Routes.instructor_show_path(@socket, :show, instructor)) %>
+      </td>
+    </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch("New Instructor", to: Routes.instructor_index_path(@socket, :new)) %></span>
