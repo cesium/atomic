@@ -32,6 +32,9 @@ config :waffle,
   storage_dir_prefix: "priv",
   asset_host: {:system, "ASSET_HOST"}
 
+config :icons,
+  collection: [Heroicons, Ionicons]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

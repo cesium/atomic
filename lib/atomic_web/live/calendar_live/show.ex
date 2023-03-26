@@ -34,7 +34,7 @@ defmodule AtomicWeb.CalendarLive.Show do
      )}
   end
 
-  defp list_activities(time_zone, mode, params, user) do
+  defp list_activities(time_zone, mode, params, _user) do
     current = current_from_params(time_zone, params)
 
     start =

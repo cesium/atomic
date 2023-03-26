@@ -30,6 +30,17 @@ defmodule AtomicWeb.ActivityLive.Show do
       }
     ]
 
+    entries = [
+      %{
+        name: gettext("Activities"),
+        route: Routes.activity_index_path(socket, :index)
+      },
+      %{
+        name: activity.title,
+        route: Routes.activity_show_path(socket, :show, activity)
+      }
+    ]
+
     {:noreply,
      socket
      |> assign(:current_page, :activities)
@@ -106,7 +117,6 @@ defmodule AtomicWeb.ActivityLive.Show do
      assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 
-  defp page_title(:show), do: "Show Activity"
   defp page_title(:edit), do: "Edit Activity"
 
   defp set_enrolled(socket, activity, current_user) do

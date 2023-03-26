@@ -3,7 +3,6 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
   alias Atomic.Activities
   alias Atomic.Activities.Speaker
-  alias Icons.Heroicons
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,7 +20,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
     {:noreply,
      socket
-     |> assign(:current_page, :instructors)
+     |> assign(:current_page, :speakers)
      |> assign(:breadcrumb_entries, entries)
      |> apply_action(socket.assigns.live_action, params)}
   end

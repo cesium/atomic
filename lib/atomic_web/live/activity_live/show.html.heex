@@ -247,7 +247,7 @@
                   <%= for speaker <- @activity.speakers do %>
                     <div class="flex flex-col">
                       <div class="text-sm font-medium text-gray-500">
-                        <%= gettext("Instructor") %>
+                        <%= gettext("Speaker") %>
                       </div>
                       <div class="mt-1 flex items-center">
                         <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-500">
@@ -282,7 +282,7 @@
                 <%!-- <%= if @current_user.role == :student do %>
                   <%= if NaiveDateTime.compare(@activity.start_enrollment, ETime.lisbon_now()) == :lt && NaiveDateTime.compare(@activity.end_enrollment, ETime.lisbon_now()) == :gt do %>
                     <div class={
-                      "hidden items-center sm:flex sm:flex-row-reverse #{if @activity.instructor do
+                      "hidden items-center sm:flex sm:flex-row-reverse #{if @activity.speaker do
                         "col-span-1"
                       else
                         "col-span-2"

@@ -15,6 +15,8 @@ defmodule AtomicWeb.SpeakerLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"speaker" => speaker_params}, socket) do
+    IO.inspect(speaker_params)
+
     changeset =
       socket.assigns.speaker
       |> Activities.change_speaker(speaker_params)

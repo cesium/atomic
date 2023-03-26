@@ -456,15 +456,15 @@
                     <% end %>
                   </p>
                 </div>
-                <%= if activity.instructor do %>
+                <%= if activity.speaker do %>
                   <div class="mt-2 flex items-center">
                     <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
                       <span class="text-xs font-medium leading-none text-white">
-                        <%= extract_initials(activity.instructor.name) %>
+                        <%= extract_initials(activity.speaker.name) %>
                       </span>
                     </span>
                     <p class="text-sm text-zinc-500">
-                      <%= extract_first_last_name(activity.instructor.name) %>
+                      <%= extract_first_last_name(activity.speaker.name) %>
                     </p>
                   </div>
                 <% end %>

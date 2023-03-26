@@ -1,7 +1,7 @@
 defmodule Atomic.Repo.Seeds.Activities do
   alias Atomic.Repo
 
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.Activity
 

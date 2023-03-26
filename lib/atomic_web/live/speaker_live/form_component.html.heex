@@ -1,17 +1,42 @@
 <div>
-  <h2><%= @title %></h2>
-
   <.form let={f} for={@changeset} id="speaker-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <%= label(f, :name) %>
-    <%= text_input(f, :name) %>
-    <%= error_tag(f, :name) %>
-
-    <%= label(f, :bio) %>
-    <%= textarea(f, :bio) %>
-    <%= error_tag(f, :bio) %>
-
-    <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
+    <div class="h-full bg-white">
+      <div class="py-5 pr-6 pl-4 border-gray-200 sm:px-6 lg:px-8 xl:py-6 xl:px-6 border-y">
+        <div class="flex justify-between items-center h-10">
+          <h1 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">Speaker</h1>
+          <%= submit do %>
+            <div type="button" class="rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Save
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="relative py-5 px-4 border-b border-gray-200 sm:py-6 sm:px-6 lg:px-8 xl:px-6">
+        <div class="flex flex-col gap-y-3 lg:self-end">
+          <div>
+            <%= live_redirect("< Back", to: @return_to, class: "hover:underline inline-flex items-center justify-center whitespace-nowrap") %>
+          </div>
+          <div class="flex flex-col gap-4 justify-between sm:flex-row">
+            <div class="w-full">
+              <%= text_input(f, :name, placeholder: "Choose name", phx_debounce: "blur", class: "text-2xl leading-7 text-gray-700 sm:text-3xl h-14 sm:truncate mt-1 font-bold focus:ring-red-500 focus:border-red-500 block w-full shadow-sm border-gray-300 rounded-md") %>
+              <div class="flex text-red-500">
+                <%= error_tag(f, :name) %>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-y-1">
+            <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+              Biography
+            </span>
+            <span class="text-sm text-gray-700 line-clamp-3">
+              <%= textarea(f, :bio, placeholder: "Choose biography", rows: 15, phx_debounce: "blur", class: "focus:ring-red-500 h-32 font-medium focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md") %>
+            </span>
+            <div class="flex text-red-500">
+              <%= error_tag(f, :bio) %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </.form>
 </div>

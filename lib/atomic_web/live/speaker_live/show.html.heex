@@ -2,35 +2,34 @@
   <.modal return_to={Routes.speaker_show_path(@socket, :show, @speaker)}>
     <.live_component module={AtomicWeb.SpeakerLive.FormComponent} id={@speaker.id} title={@page_title} action={@live_action} speaker={@speaker} return_to={Routes.speaker_show_path(@socket, :show, @speaker)} />
   </.modal>
-<% end %>
-
-<div class="my-4">
-  <section aria-labelledby="applicant-information-title">
-    <div class="bg-white">
-      <div class="flex items-center justify-between px-4 py-5 sm:px-6">
-        <div class="flex items-center space-x-5">
-          <div class="flex-shrink-0">
-            <div class="relative">
-              <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-500 md:h-16 md:w-16">
-                <span class="text-xl font-medium leading-none text-white md:text-2xl">
-                  <%= extract_initials(@speaker.name) %>
+<% else %>
+  <div class="my-4">
+    <section aria-labelledby="applicant-information-title">
+      <div class="bg-white">
+        <div class="flex items-center justify-between px-4 py-5 sm:px-6">
+          <div class="flex items-center space-x-5">
+            <div class="flex-shrink-0">
+              <div class="relative">
+                <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gray-500 md:h-16 md:w-16">
+                  <span class="text-xl font-medium leading-none text-white md:text-2xl">
+                    <%= extract_initials(@speaker.name) %>
+                  </span>
                 </span>
-              </span>
+              </div>
+            </div>
+            <div>
+              <h1 class="hidden text-lg font-bold text-gray-900 sm:block sm:text-2xl">
+                <%= @speaker.name %>
+              </h1>
+              <h1 class="block text-lg font-bold text-gray-900 sm:hidden md:text-2xl">
+                <%= extract_first_last_name(@speaker.name) %>
+              </h1>
+              <p class="text-xs font-medium text-gray-500 sm:text-sm">
+                <%= String.upcase(gettext("speaker")) %>
+              </p>
             </div>
           </div>
-          <div>
-            <h1 class="hidden text-lg font-bold text-gray-900 sm:block sm:text-2xl">
-              <%= @speaker.name %>
-            </h1>
-            <h1 class="block text-lg font-bold text-gray-900 sm:hidden md:text-2xl">
-              <%= extract_first_last_name(@speaker.name) %>
-            </h1>
-            <p class="text-xs font-medium text-gray-500 sm:text-sm">
-              <%= String.upcase(gettext("speaker")) %>
-            </p>
-          </div>
-        </div>
-        <%!-- <%= if @current_user.role in [:staff, :admin] do %>
+          <%!-- <%= if @current_user.role in [:staff, :admin] do %>
           <span class="flex gap-2 md:mt-0 md:ml-4">
             <%= live_redirect id: "edit", to: Routes.speaker_edit_path(@socket, :edit, @speaker) do %>
               <Actions.edit />
@@ -40,10 +39,10 @@
             <% end %>
           </span>
         <% end %> --%>
-      </div>
-      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <%!-- <%= if @speaker.user && @current_user.role in [:staff, :admin] do %>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <%!-- <%= if @speaker.user && @current_user.role in [:staff, :admin] do %>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">
                 <%= gettext("UMinho ID") %>
@@ -54,7 +53,7 @@
             </div>
           <% end %> --%>
 
-          <%!-- <div class="sm:col-span-1">
+            <%!-- <div class="sm:col-span-1">
             <dt class="text-sm font-medium text-gray-500">
               <%= gettext("Email address") %>
             </dt>
@@ -63,8 +62,8 @@
             </dd>
           </div> --%>
 
-          <%= if @current_user.role in [:staff, :admin] do %>
-            <%!-- <%= if @speaker.user do %>
+            <%= if @current_user.role in [:staff, :admin] do %>
+              <%!-- <%= if @speaker.user do %>
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
                   <%= gettext("Account") %>
@@ -74,7 +73,7 @@
                 </dd>
               </div>
             <% end %> --%>
-            <%!-- <%= if @speaker.cellphone do %>
+              <%!-- <%= if @speaker.cellphone do %>
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-gray-500">
                   <%= gettext("Mobile Phone") %>
@@ -84,32 +83,32 @@
                 </dd>
               </div>
             <% end %> --%>
-          <% end %>
-          <%!-- <%= if @speaker.bio_en && @speaker.bio_pt do %> --%>
-          <%= if @speaker.bio do %>
-            <div class="sm:col-span-2">
-              <dt class="text-sm font-medium text-gray-500">
-                <%= gettext("About") %>
-              </dt>
-              <dd class="mt-1 text-sm text-gray-900">
-                <%= @speaker.bio %>
-                <%!-- <%= if Gettext.get_locale() == "en" do %>
+            <% end %>
+            <%!-- <%= if @speaker.bio_en && @speaker.bio_pt do %> --%>
+            <%= if @speaker.bio do %>
+              <div class="sm:col-span-2">
+                <dt class="text-sm font-medium text-gray-500">
+                  <%= gettext("About") %>
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <%= @speaker.bio %>
+                  <%!-- <%= if Gettext.get_locale() == "en" do %>
                   <%= @speaker.bio_en %>
                 <% else %>
                   <%= @speaker.bio_pt %>
                 <% end %> --%>
-              </dd>
-            </div>
-          <% end %>
-          <div class="sm:col-span-2">
-            <dt class="text-sm font-medium text-gray-500">
-              <div class="flex justify-between">
-                <div class="w-full">
-                  <%= gettext("Activities") %>
-                </div>
+                </dd>
               </div>
-            </dt>
-            <%!-- <dd class="mt-5 text-sm text-gray-900">
+            <% end %>
+            <div class="sm:col-span-2">
+              <dt class="text-sm font-medium text-gray-500">
+                <div class="flex justify-between">
+                  <div class="w-full">
+                    <%= gettext("Activities") %>
+                  </div>
+                </div>
+              </dt>
+              <%!-- <dd class="mt-5 text-sm text-gray-900">
               <%= if not Enum.empty?(@activities) do %>
                   <p>ABC</p>
                 <ul role="list" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
@@ -128,12 +127,13 @@
                 />
               <% end %>
             </dd> --%>
-          </div>
-        </dl>
+            </div>
+          </dl>
+        </div>
       </div>
-    </div>
-  </section>
-</div>
-<span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> |
-<span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @speaker.id, data: [confirm: "Are you sure?"]) %></span> |
-<span><%= live_redirect("Back", to: Routes.speaker_index_path(@socket, :index)) %></span>
+    </section>
+  </div>
+  <span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> |
+  <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @speaker.id, data: [confirm: "Are you sure?"]) %></span> |
+  <span><%= live_redirect("Back", to: Routes.speaker_index_path(@socket, :index)) %></span>
+<% end %>

@@ -369,7 +369,7 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> list_speakers()
-      [%Speaker{}, ...]
+      [%Instrutor{}, ...]
 
   """
   def list_speakers do
