@@ -31,7 +31,7 @@ defmodule AtomicWeb.MembershipLive.Show do
         # name: membership.user.name,
         name: "John Doe",
         route: Routes.membership_show_path(socket, :show, organization_id, id)
-      },
+      }
     ]
 
     {:noreply,
@@ -39,6 +39,7 @@ defmodule AtomicWeb.MembershipLive.Show do
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, organization.name)
      |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:membership, membership)}
   end
 

@@ -11,13 +11,12 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-     entries=
-      [
-        %{
-          name: gettext("Organizations"),
-          route: Routes.department_index_path(socket, :index)
-        }
-      ]
+    entries = [
+      %{
+        name: gettext("Departments"),
+        route: Routes.department_index_path(socket, :index)
+      }
+    ]
 
     {:noreply,
      socket

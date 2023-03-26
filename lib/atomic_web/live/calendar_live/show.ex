@@ -16,13 +16,12 @@ defmodule AtomicWeb.CalendarLive.Show do
   def handle_params(params, _uri, socket) do
     mode = params["mode"] || "month"
 
-    entries=
-      [
-        %{
-          name: gettext("Calendar"),
-          route: Routes.calendar_show_path(socket, :show)
-        }
-      ]
+    entries = [
+      %{
+        name: gettext("Calendar"),
+        route: Routes.calendar_show_path(socket, :show)
+      }
+    ]
 
     {:noreply,
      socket
@@ -35,7 +34,7 @@ defmodule AtomicWeb.CalendarLive.Show do
      )}
   end
 
-  defp list_activities(time_zone, mode, params, user) do
+  defp list_activities(time_zone, mode, params, _user) do
     current = current_from_params(time_zone, params)
 
     start =

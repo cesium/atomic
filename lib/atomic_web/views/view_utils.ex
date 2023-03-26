@@ -109,5 +109,4 @@ defmodule AtomicWeb.ViewUtils do
   def error_to_string(:too_large), do: gettext("Too large")
   def error_to_string(:not_accepted), do: gettext("You have selected an unacceptable file type")
   def error_to_string(:too_many_files), do: gettext("You have selected too many files")
-
 end

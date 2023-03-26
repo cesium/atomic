@@ -11,13 +11,12 @@ defmodule AtomicWeb.InstructorLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    entries=
-      [
-        %{
-          name: gettext("Instructors"),
-          route: Routes.instructor_index_path(socket, :index)
-        }
-      ]
+    entries = [
+      %{
+        name: gettext("Instructors"),
+        route: Routes.instructor_index_path(socket, :index)
+      }
+    ]
 
     {:noreply,
      socket

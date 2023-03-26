@@ -4,8 +4,6 @@ defmodule AtomicWeb.Config do
   """
   alias AtomicWeb.Router.Helpers, as: Routes
 
-  @conn AtomicWeb.Endpoint
-
   def pages(conn) do
     [
       %{
@@ -34,6 +32,13 @@ defmodule AtomicWeb.Config do
         title: "Organizations",
         icon: :user_group,
         url: Routes.organization_index_path(conn, :index),
+        tabs: []
+      },
+      %{
+        key: :users,
+        title: "Users",
+        icon: :users,
+        url: Routes.user_index_path(conn, :index),
         tabs: []
       },
       %{

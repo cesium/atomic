@@ -23,7 +23,6 @@ defmodule AtomicWeb.Router do
 
   scope "/", AtomicWeb do
     pipe_through :browser
-
   end
 
   scope "/", AtomicWeb do
@@ -62,10 +61,16 @@ defmodule AtomicWeb.Router do
       live "/organizations/:id", OrganizationLive.Show, :show
       live "/organizations/:id/show/edit", OrganizationLive.Show, :edit
 
-      live "/memberships/:organization", MembershipLive.Index, :index
-      live "/memberships/:organization/new", MembershipLive.New, :new
-      live "/memberships/:organization/:id", MembershipLive.Show, :show
-      live "/memberships/:organization/:id/edit", MembershipLive.Edit, :edit
+      live "/users", UserLive.Index, :index
+      live "/users/new", UserLive.Index, :new
+      live "/users/:id/edit", UserLive.Index, :edit
+      live "/users/:id", UserLive.Show, :show
+      live "/users/:id/show/edit", UserLive.Show, :edit
+
+      live "/memberships/:org", MembershipLive.Index, :index
+      live "/memberships/:org/new", MembershipLive.New, :new
+      live "/memberships/:org/:id", MembershipLive.Show, :show
+      live "/memberships/:org/:id/edit", MembershipLive.Edit, :edit
     end
   end
 

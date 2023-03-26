@@ -3,6 +3,7 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
 
   alias Atomic.Organizations
   alias Atomic.Activities
+  alias Atomic.Repo
 
   @impl true
   def mount(socket) do
@@ -17,6 +18,7 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
 
   @impl true
   def update(%{organization: organization} = assigns, socket) do
+    organization = organization |> Repo.preload(:departments)
     changeset = Organizations.change_organization(organization)
 
     {:ok,
@@ -29,6 +31,7 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   def handle_event("validate", %{"organization" => organization_params}, socket) do
     changeset =
       socket.assigns.organization
+      |> Repo.preload(:departments)
       |> Organizations.change_organization(organization_params)
       |> Map.put(:action, :validate)
 
