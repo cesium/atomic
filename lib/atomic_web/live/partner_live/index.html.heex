@@ -1,34 +1,28 @@
-<h1>Listing Partnerships</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.partner_index_path(@socket, :index)}>
     <.live_component module={AtomicWeb.PartnerLive.FormComponent} id={@partner.id || :new} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
-<table>
+<table class="min-w-full divide-y divide-gray-300">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-
-      <th></th>
+      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
+      <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0 flex flex-row-reverse">
+        <%= live_patch("New", to: Routes.partner_index_path(@socket, :new), class: "rounded-md bg-blue-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600") %>
+      </th>
     </tr>
   </thead>
-  <tbody id="partnerships">
+  <tbody id="partners" class="divide-y divide-gray-200">
     <%= for partner <- @partnerships do %>
       <tr id={"partner-#{partner.id}"}>
-        <td><%= partner.name %></td>
-        <td><%= partner.description %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.partner_show_path(@socket, :show, partner)) %></span>
-          <span><%= live_patch("Edit", to: Routes.partner_index_path(@socket, :edit, partner)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: partner.id, data: [confirm: "Are you sure?"]) %></span>
+        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+          <%= partner.name %>
+        </td>
+        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0 text-indigo-500">
+          <%= live_redirect("Show", to: Routes.partner_show_path(@socket, :show, partner)) %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch("New Partner", to: Routes.partner_index_path(@socket, :new)) %></span>

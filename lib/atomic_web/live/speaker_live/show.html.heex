@@ -133,7 +133,6 @@
       </div>
     </section>
   </div>
-  <span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> |
-  <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @speaker.id, data: [confirm: "Are you sure?"]) %></span> |
+  <span><%= live_patch("Edit", to: Routes.speaker_show_path(@socket, :edit, @speaker), class: "button") %></span> | <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @speaker.id, data: [confirm: "Are you sure?"]) %></span> |
   <span><%= live_redirect("Back", to: Routes.speaker_index_path(@socket, :index)) %></span>
 <% end %>
