@@ -11,7 +11,8 @@ defmodule Atomic.Repo.Migrations.AddUserData do
 
     alter table(:users) do
       add :name, :string, null: false
-      add :major_id, references(:majors, on_delete: :nothing, type: :binary_id)
+      add :major_id, references(:majors, on_delete: :nothing, type: :binary_id), null: false
+      add :profile_picture, :string
     end
   end
 end

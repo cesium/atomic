@@ -7,8 +7,10 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Accounts.Major
   alias Atomic.Activities.Enrollment
   alias Atomic.Organizations.{Membership, Organization}
+  alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email password role name)a
+  @required_fields ~w(email password role name major_id)a
+
   @roles ~w(admin staff student)a
 
   schema "users" do
@@ -19,7 +21,7 @@ defmodule Atomic.Accounts.User do
     field :confirmed_at, :naive_datetime
 
     belongs_to :major, Major
-
+    field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles
 
     has_many :enrollments, Enrollment
@@ -51,6 +53,17 @@ defmodule Atomic.Accounts.User do
     |> cast(attrs, @required_fields)
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def picture_changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields)
+    |> cast_attachments(attrs, [:profile_picture])
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields)
   end
 
   defp validate_email(changeset) do

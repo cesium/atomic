@@ -156,7 +156,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "email" => email,
         "password" => "password1234",
         "role" => role,
-        "major" => Enum.random(majors)
+        "major_id" => Enum.random(majors).id
       }
 
       case Atomic.Accounts.register_user(user) do

@@ -356,6 +356,27 @@ defmodule Atomic.Accounts do
     end
   end
 
+  def update_user_picture(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.picture_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+  end
+
+  def list_majors() do
+    Repo.all(Major)
+  end
+
   @doc """
   Creates a major
 
