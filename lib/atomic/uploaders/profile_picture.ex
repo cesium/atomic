@@ -32,9 +32,4 @@ defmodule Atomic.Uploaders.ProfilePicture do
   def storage_dir(_version, {_file, %User{} = scope}) do
     "uploads/atomic/profile_pictures/#{scope.id}"
   end
-
-  # Provide a default URL if there hasn't been a file uploaded
-  def default_url(version) do
-    "uploads/atomic/profile_pictures/default.png"
-  end
 end

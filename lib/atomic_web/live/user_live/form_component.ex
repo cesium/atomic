@@ -15,7 +15,7 @@ defmodule AtomicWeb.UserLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"user" => user_params}, socket) do
+  def handle_event("validate", %{"user" => _user_params}, socket) do
     {:noreply, socket}
   end
 
