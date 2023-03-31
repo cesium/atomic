@@ -265,8 +265,8 @@ defmodule Atomic.Organizations do
   def list_users_organizations(opts \\ [], preloads \\ []) do
     UserOrganization
     |> apply_filters(opts)
-    |> Repo.preload(preloads)
     |> Repo.all()
+    |> Repo.preload(preloads)
   end
 
   @doc """
