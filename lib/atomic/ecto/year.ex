@@ -1,6 +1,6 @@
 defmodule Atomic.Ecto.Year do
   @moduledoc """
-  PT Phone number type with validation and formatting for Ecto.
+  Type for storing school years (2019/2020 e.g.)
   """
   use Ecto.Type
 
@@ -13,25 +13,18 @@ defmodule Atomic.Ecto.Year do
   Transforms external data into a runtime format.
 
   ## Parameters
-    - number: valid PT phone number with the "+351" indicative in a string format
+    - year: valid year in a string format (yyyy/yyyy)
 
   ## Examples
 
-    iex> PtMobile.cast("+351 912 345 678")
-    {:ok, "+351912345678"}
+    iex> Year.cast("2019/2020")
+    {:ok, "2019/2020"}
 
-    iex> PtMobile.cast("929066855")
-    {:ok, "+351929066855"}
+    iex> Year.cast("2019-2020")
+    {:error,  [message: "Invalid string format"]}
 
-    iex> PtMobile.cast("+351 939-066-855")
-    {:ok, "+351939066855"}
-
-    iex> PtMobile.cast("+351 979 066 855")
-    {:error, [message: "número de telemóvel PT inválido"]}
-
-    iex> Gettext.put_locale("en")
-    iex> PtMobile.cast("+351 989 066 855")
-    {:error, [message: "invalid PT phone number"]}
+    iex> Year.cast("2019-2021")
+    {:error, [message: gettext("Second year is not the first + 1")]}
 
   """
   def cast(number), do: format(number)
@@ -40,7 +33,7 @@ defmodule Atomic.Ecto.Year do
   Transforms the data into a specific format to be stored
 
   ## Parameters
-    - number: valid PT phone number with the "+351" indicative in a string format
+    - year: valid year in a string format (yyyy/yyyy)
   """
   def dump(number), do: format(number) |> parse_result()
 
@@ -48,7 +41,7 @@ defmodule Atomic.Ecto.Year do
   Transforms the data back to a runtime format
 
   ## Parameters
-    - number: valid PT phone number with the "+351" indicative in a string format
+    - year: valid year in a string format
   """
   def load(number), do: format(number) |> parse_result()
 
