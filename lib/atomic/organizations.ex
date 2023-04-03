@@ -341,7 +341,7 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user_association changes.
+  Returns an `%Ecto.Changeset{}` for tracking user_organization changes.
 
   ## Examples
 

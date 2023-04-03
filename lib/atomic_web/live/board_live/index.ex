@@ -22,9 +22,10 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     user_organization = Organizations.get_user_organization!(id)
-    {:ok, uo} = Organizations.delete_user_organization(user_organization)
+    {:ok, user_org} = Organizations.delete_user_organization(user_organization)
 
-    {:noreply, assign(socket, :users_organizations, list_users_organizations(uo.organization_id))}
+    {:noreply,
+     assign(socket, :users_organizations, list_users_organizations(user_org.organization_id))}
   end
 
   defp list_users_organizations(id) do
