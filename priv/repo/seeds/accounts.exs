@@ -162,8 +162,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
       case Atomic.Accounts.register_user(user) do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
-          Enum
-
         {:ok, _} ->
           :ok
       end
