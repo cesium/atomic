@@ -4,8 +4,6 @@ defmodule Atomic.Ecto.Year do
   """
   use Ecto.Type
 
-  import AtomicWeb.Gettext
-
   @spec type :: :string
   def type, do: :string
 
@@ -27,7 +25,7 @@ defmodule Atomic.Ecto.Year do
     {:error, [message: gettext("Second year is not the first + 1")]}
 
   """
-  def cast(number), do: format(number)
+  def cast(year), do: format(year)
 
   @doc """
   Transforms the data into a specific format to be stored
@@ -35,7 +33,7 @@ defmodule Atomic.Ecto.Year do
   ## Parameters
     - year: valid year in a string format (yyyy/yyyy)
   """
-  def dump(number), do: format(number) |> parse_result()
+  def dump(year), do: format(year) |> parse_result()
 
   @doc """
   Transforms the data back to a runtime format
@@ -43,27 +41,26 @@ defmodule Atomic.Ecto.Year do
   ## Parameters
     - year: valid year in a string format
   """
-  def load(number), do: format(number) |> parse_result()
+  def load(year), do: format(year) |> parse_result()
 
-  defp format(year) do
-    captures = Regex.named_captures(~r/(?<first>\d+)\/(?<second>\d+)/, year)
+  def format(year) when not is_binary(year), do: {:error, :invalid_input}
 
-    case captures do
-      nil ->
-        {:error, [message: gettext("Invalid string format")]}
+  def format(year) do
+    case Regex.named_captures(~r/\A(?<first>\d{4})\/(?<second>\d{4})\z/, year) do
+      %{"first" => first_str, "second" => second_str} ->
+        {first, _} = Integer.parse(first_str)
+        {second, _} = Integer.parse(second_str)
 
-      %{"first" => fst_str, "second" => snd_str} ->
-        {first, _} = Integer.parse(fst_str)
-        {second, _} = Integer.parse(snd_str)
-
-        if first + 1 == second do
-          {:ok, year}
-        else
-          {:error, [message: gettext("Second year is not the first + 1")]}
+        case second - first do
+          1 -> {:ok, year}
+          _ -> {:error, :year_mismatch}
         end
+
+      nil ->
+        {:error, :invalid_format}
     end
   end
 
-  defp parse_result({:ok, _number} = result), do: result
+  defp parse_result({:ok, _year} = result), do: result
   defp parse_result({:error, _errors}), do: :error
 end
