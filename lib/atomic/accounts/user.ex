@@ -9,7 +9,8 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email password role name course_id)a
+  @required_fields ~w(email password role name)a
+  @optional_fields ~w(course_id)a
 
   @roles ~w(admin staff student)a
 
@@ -50,20 +51,20 @@ defmodule Atomic.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email()
     |> validate_password(opts)
   end
 
   def picture_changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_attachments(attrs, [:profile_picture])
   end
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
   end
 
   defp validate_email(changeset) do

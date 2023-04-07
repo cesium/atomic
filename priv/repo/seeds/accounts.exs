@@ -1,6 +1,10 @@
 defmodule Atomic.Repo.Seeds.Accounts do
+  alias Atomic.Accounts
+  alias Atomic.Accounts.{Course, User}
+  alias Atomic.Repo
+
   def run do
-    case Atomic.Repo.all(Atomic.Accounts.User) do
+    case Repo.all(User) do
       [] ->
         [
           "Chandler Bing",
@@ -146,7 +150,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
   end
 
   def create_users(characters, role) do
-    courses = Atomic.Repo.all(Atomic.Accounts.Course)
+    courses = Repo.all(Course)
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
@@ -159,9 +163,10 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "course_id" => Enum.random(courses).id
       }
 
-      case Atomic.Accounts.register_user(user) do
+      case Accounts.register_user(user) do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
+
         {:ok, _} ->
           :ok
       end
