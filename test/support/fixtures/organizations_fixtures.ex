@@ -52,4 +52,35 @@ defmodule Atomic.OrganizationsFixtures do
 
     membership
   end
+
+  @doc """
+  Generate an user organization.
+  """
+  def user_organization_fixture() do
+    {:ok, organization} =
+      %{
+        description: "some description",
+        name: "some name"
+      }
+      |> Atomic.Organizations.create_organization()
+
+    {:ok, user} =
+      %{
+        email: "email@mail.pt",
+        password: "password1234",
+        role: "student"
+      }
+      |> Atomic.Accounts.register_user()
+
+    {:ok, user_organization} =
+      %{
+        title: "Presidente",
+        year: "2022/2023",
+        user_id: user.id,
+        organization_id: organization.id
+      }
+      |> Atomic.Organizations.create_user_organization()
+
+    user_organization
+  end
 end

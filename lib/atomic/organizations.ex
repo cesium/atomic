@@ -5,10 +5,14 @@ defmodule Atomic.Organizations do
 
   import Ecto.Query, warn: false
 
+  use Atomic.Context
+
+  alias Atomic.Organizations.UserOrganization
   alias Atomic.Repo
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
+  alias Atomic.Organizations.UserOrganization
 
   @doc """
   Returns the list of organizations.
@@ -107,6 +111,18 @@ defmodule Atomic.Organizations do
     Organization.changeset(organization, attrs)
   end
 
+  @doc """
+  Creates a membership.
+
+  ## Examples
+
+      iex> create_membership(%{field: value})
+      {:ok, %Membership{}}
+
+      iex> create_membership(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def create_membership(attrs) do
     %Membership{}
     |> Membership.changeset(attrs)
@@ -202,18 +218,29 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking associaiton changes.
+  Returns an `%Ecto.Changeset{}` for tracking association changes.
 
   ## Examples
 
-      iex> change_associaiton(associaiton)
-      %Ecto.Changeset{data: %Associaiton{}}
+      iex> change_association(association)
+      %Ecto.Changeset{data: %Association{}}
 
   """
   def change_membership(%Membership{} = membership, attrs \\ %{}) do
     Membership.changeset(membership, attrs)
   end
 
+  @doc """
+  Returns all roles lower or equal to the given role.
+
+  Follower is not considered a role for the purposes of this function
+
+  ## Examples
+
+      iex> roles_less_than_or_equal(:member)
+      [:member]
+
+  """
   def roles_less_than_or_equal(role) do
     case role do
       :follower -> []
@@ -221,5 +248,108 @@ defmodule Atomic.Organizations do
       :admin -> [:member, :admin]
       :owner -> [:member, :admin, :owner]
     end
+  end
+
+  @doc """
+  Returns the list of users organizations.
+
+  ## Examples
+
+      iex> list_users_organizations()
+      [%UserOrganization{}, ...]
+
+      iex> list_users_organizations()
+      [%UserOrganization{}, ...]
+
+  """
+  def list_users_organizations(opts \\ [], preloads \\ []) do
+    UserOrganization
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Repo.preload(preloads)
+  end
+
+  @doc """
+  Gets a single user organization.
+
+  Raises `Ecto.NoResultsError` if the user organization does not exist.
+
+  ## Examples
+
+      iex> get_user_organization!(123)
+      %UserOrganization{}
+
+      iex> get_user_organization!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_organization!(id, preloads \\ []) do
+    Repo.get!(UserOrganization, id)
+    |> Repo.preload(preloads)
+  end
+
+  @doc """
+  Creates an user organization.
+
+  ## Examples
+
+      iex> create_user_organization(%{field: value})
+      {:ok, %UserOrganization{}}
+
+      iex> create_user_organization(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_user_organization(attrs) do
+    %UserOrganization{}
+    |> UserOrganization.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates an user organization.
+
+  ## Examples
+
+      iex> update_user_organization(user_organization, %{field: new_value})
+      {:ok, %UserOrganization{}}
+
+      iex> update_user_organization(user_organization, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_organization(%UserOrganization{} = user_organization, attrs) do
+    user_organization
+    |> UserOrganization.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes an user organization.
+
+  ## Examples
+
+      iex> delete_user_organization(user_organization)
+      {:ok, %UserOrganization{}}
+
+      iex> delete_user_organization(user_organization)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user_organization(%UserOrganization{} = user_organization) do
+    Repo.delete(user_organization)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user_organization changes.
+
+  ## Examples
+
+      iex> change_user_organization(user_organization)
+      %Ecto.Changeset{data: %UserOrganization{}}
+
+  """
+  def change_user_organization(%UserOrganization{} = user_organization, attrs \\ %{}) do
+    UserOrganization.changeset(user_organization, attrs)
   end
 end
