@@ -6,7 +6,7 @@ defmodule Atomic.Accounts do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Accounts.{Major, User, UserToken, UserNotifier}
+  alias Atomic.Accounts.{Course, User, UserToken, UserNotifier}
 
   ## Database getters
 
@@ -373,25 +373,25 @@ defmodule Atomic.Accounts do
     |> User.changeset(attrs)
   end
 
-  def list_majors() do
-    Repo.all(Major)
+  def list_courses() do
+    Repo.all(Course)
   end
 
   @doc """
-  Creates a major
+  Creates a course
 
   ## Examples
 
-      iex> create_major(%{field: value})
-      {:ok, %Major{}}
+      iex> create_course(%{field: value})
+      {:ok, %Course{}}
 
-      iex> create_major(%{field: bad_value})
+      iex> create_course(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_major(attrs) do
-    %Major{}
-    |> Major.changeset(attrs)
+  def create_course(attrs) do
+    %Course{}
+    |> Course.changeset(attrs)
     |> Repo.insert()
   end
 end

@@ -146,7 +146,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
   end
 
   def create_users(characters, role) do
-    majors = Atomic.Repo.all(Atomic.Accounts.Major)
+    courses = Atomic.Repo.all(Atomic.Accounts.Course)
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
@@ -156,7 +156,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "email" => email,
         "password" => "password1234",
         "role" => role,
-        "major_id" => Enum.random(majors).id
+        "course_id" => Enum.random(courses).id
       }
 
       case Atomic.Accounts.register_user(user) do

@@ -2,7 +2,7 @@ defmodule Atomic.Repo.Migrations.AddUserData do
   use Ecto.Migration
 
   def change do
-    create table(:majors, primary_key: false) do
+    create table(:courses, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string, null: false
 
@@ -11,7 +11,7 @@ defmodule Atomic.Repo.Migrations.AddUserData do
 
     alter table(:users) do
       add :name, :string, null: false
-      add :major_id, references(:majors, on_delete: :nothing, type: :binary_id), null: false
+      add :course_id, references(:courses, on_delete: :nothing, type: :binary_id), null: false
       add :profile_picture, :string
     end
   end

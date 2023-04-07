@@ -1,6 +1,6 @@
-defmodule Atomic.Accounts.Major do
+defmodule Atomic.Accounts.Course do
   @moduledoc """
-  A major the user is enrolled in
+  A course the user is enrolled in
   """
   use Atomic.Schema
 
@@ -8,15 +8,15 @@ defmodule Atomic.Accounts.Major do
 
   @required_fields ~w(name)a
 
-  schema "majors" do
+  schema "courses" do
     field :name, :string
     has_many :users, User
 
     timestamps()
   end
 
-  def changeset(major, attrs) do
-    major
+  def changeset(course, attrs) do
+    course
     |> cast(attrs, @required_fields)
   end
 end

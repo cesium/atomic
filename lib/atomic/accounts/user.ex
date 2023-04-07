@@ -4,12 +4,12 @@ defmodule Atomic.Accounts.User do
   """
   use Atomic.Schema
 
-  alias Atomic.Accounts.Major
+  alias Atomic.Accounts.Course
   alias Atomic.Activities.Enrollment
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email password role name major_id)a
+  @required_fields ~w(email password role name course_id)a
 
   @roles ~w(admin staff student)a
 
@@ -20,7 +20,7 @@ defmodule Atomic.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    belongs_to :major, Major
+    belongs_to :course, Course
     field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles
 

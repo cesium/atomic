@@ -4,8 +4,8 @@
   <.form let={f} for={@changeset} id="user-form" phx-change="validate" phx-target={@myself} phx-submit="save">
     <%= label(f, :name) %>
     <%= text_input(f, :name) %>
-    <%= label(f, :major_id) %>
-    <%= select(f, :major_id, @majors) %>
+    <%= label(f, :course_id) %>
+    <%= select(f, :course_id, @courses) %>
     <%= label(f, :profile_picture) %>
     <%= live_file_input(@uploads.profile_picture) %>
     <%= submit("Save", phx_disable_with: "Saving...") %>

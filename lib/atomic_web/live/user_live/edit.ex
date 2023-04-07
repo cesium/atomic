@@ -14,6 +14,9 @@ defmodule AtomicWeb.UserLive.Edit do
      socket
      |> assign(:page_title, "Edit Account")
      |> assign(:user, socket.assigns.current_user)
-     |> assign(:majors, Enum.map(Accounts.list_majors(), fn m -> [key: m.name, value: m.id] end))}
+     |> assign(
+       :courses,
+       Enum.map(Accounts.list_courses(), fn m -> [key: m.name, value: m.id] end)
+     )}
   end
 end
