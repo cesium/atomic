@@ -28,7 +28,8 @@ config :atomic, AtomicWeb.Endpoint,
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
-  ]
+  ],
+  frontend_url: "http://localhost:4000"
 
 # ## SSL Support
 #

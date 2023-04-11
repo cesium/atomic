@@ -54,6 +54,9 @@ defmodule Atomic.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:waffle, "~> 1.1"},
       {:timex, "~> 3.0"},
+      {:swoosh, "~> 1.5"},
+      {:phoenix_swoosh, "~> 1.0"},
+      {:hackney, "~> 1.8"},
       {:waffle_ecto, "~> 0.0"}
     ]
   end
