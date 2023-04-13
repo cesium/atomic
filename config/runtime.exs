@@ -66,8 +66,9 @@ if config_env() == :prod do
   config :atomic, AtomicWeb.Endpoint, server: true
 
   config :atomic, Atomic.Mailer,
-      adapter: Swoosh.Adapters.Sendinblue,
-      api_key: {:system, "MAILER_API_KEY"}
+    adapter: Swoosh.Adapters.Sendgrid,
+    api_key: {:system, "MAILER_API_KEY"}
+
   # ## Configuring the mailer
   #
   # In production you need to configure the mailer to use a different adapter.

@@ -38,7 +38,6 @@ config :atomic, AtomicWeb.Gettext, default_locale: "pt", locales: ~w(en pt)
 
 config :atomic, AtomicWeb.Endpoint, server: true
 
-
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.29",

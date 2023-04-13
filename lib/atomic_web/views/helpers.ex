@@ -1,5 +1,4 @@
-
-defmodule StoreWeb.Helpers do
+defmodule AtomicWeb.Helpers do
   @moduledoc """
   A module with helper functions to display data in views
   """
