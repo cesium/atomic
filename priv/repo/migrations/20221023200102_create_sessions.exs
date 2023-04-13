@@ -4,8 +4,8 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
   def change do
     create table(:sessions, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :start, :naive_datetime
-      add :finish, :naive_datetime
+      add :start, :utc_datetime
+      add :finish, :utc_datetime
       add :location, :map
 
       add :activity_id,
