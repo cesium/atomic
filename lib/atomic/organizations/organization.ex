@@ -4,6 +4,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Departments.Department
   alias Atomic.Activities.Location
   alias Atomic.Organizations.Membership
+  alias Atomic.Partnerships.Partner
 
   @required_fields ~w(name description)a
   @optional_fields []
@@ -19,6 +20,12 @@ defmodule Atomic.Organizations.Organization do
       preload_order: [asc: :name]
 
     many_to_many :users, User, join_through: Membership
+
+    has_many :partnerships, Partner,
+      on_replace: :delete_if_exists,
+      on_delete: :delete_all,
+      foreign_key: :organization_id,
+      preload_order: [asc: :name]
 
     embeds_one :location, Location, on_replace: :delete
 
