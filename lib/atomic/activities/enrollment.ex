@@ -8,7 +8,6 @@ defmodule Atomic.Activities.Enrollment do
   alias Atomic.Activities.Activity
 
   schema "enrollments" do
-
     field :present, :boolean
 
     belongs_to :activity, Activity

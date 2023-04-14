@@ -24,8 +24,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
-                start: DateTime.from_naive!(~N[2023-04-12 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-12 19:00:00], "Etc/UTC")
+                start: DateTime.from_naive!(~N[2023-04-13 10:00:00], "Etc/UTC"),
+                finish: DateTime.from_naive!(~N[2023-04-13 17:00:00], "Etc/UTC")
               }
             ],
             enrolled: 0,

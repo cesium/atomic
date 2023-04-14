@@ -5,6 +5,7 @@ defmodule Atomic.Repo.Migrations.CreateEnrollments do
     create table(:enrollments, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :present, :boolean, null: false, default: false
+
       add :activity_id,
           references(:activities, on_delete: :delete_all, type: :binary_id)
 
