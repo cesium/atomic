@@ -1,15 +1,16 @@
 ---
-Disquete:
-  image: partners/disquete.png
-  link: https://www.facebook.com/disquete.pt/
+Pausa Útil:
+  image: partners/pausautil.png
+  link: https://www.facebook.com/Pausa-%C3%9Atil-296346960391077/
   advantages:
-    - Desconto de 20% em reparações informáticas
-    - Desconto de 10% em consumíveis, neste caso, tinteiros e toners
+    - Refeição e Chá por 4.00€ 
+    - Sobremesa a 1.00€
+    - Café a 0.50€
 Escola de Condução UM:
   image: partners/escoladeconducaoum.png
   link: https://www.facebook.com/EscolaDeConducaoUm
   advantages:
-    - Carta de Condução de Categoria B a 650€
+    - Desconto de 40€ na carta de condução de categoria B
 Nuguel Music:
   image: partners/nuguelmusic.png
   link: http://www.nuguelmusic.pt
@@ -27,29 +28,12 @@ Sabor da Fruta:
   image: partners/sabordafruta.png
   link: https://www.facebook.com/Sabor-da-Fruta-193004494058283/
   advantages:
-    - Prato e Água com oferta de café
-    - Prato e Refrigerante com oferta de café
-Pausa Útil:
-  image: partners/pausautil.png
-  link: https://www.facebook.com/Pausa-%C3%9Atil-296346960391077/
+    - Oferta de Café
+Café do Luís:
+  image: partners/cafedoluis.jpg
+  link: https://www.facebook.com/cafedoluisbraga/?locale=pt_PT
   advantages:
-    - Prato para o almoço ou jantar por 3.50€
-    - Sobremesa a 1.00€
-    - Café a 0.50€
-FitnessUp:
-  image: partners/fitnessup.png
-  link: https://www.fitnessup.pt
-  advantages:
-    - Oferta da Inscrição
-    - 6.80€ por semana
-    - Vantagens para familiares diretos
-Top-padle Braga:
-  image: partners/toppadle.png
-  link: https://www.facebook.com/toppadelbraga/
-  advantages:
-    - Oferta de raquetes
-    - Nos dias úteis das 7h às 17h desconto de 10% para acossiados que permanecerem por mais de uma hora e meia
-    - Nos dias úteis das 7h às 17h desconto de 15% para acossiados que permanecerem por mais de duas horas
+    - Oferta de Bebida nos menus Hambúrguer Especial, Tosta Americana, Tosta de Salmão, Cachorro Especial
 Braga Pizzaria Kebab:
   image: partners/bragapizzariakebab.png
   link: https://www.facebook.com/Braga-pizzaria-kebab-115323823260141/
@@ -60,3 +44,18 @@ Industrial:
   link: https://www.instagram.com/industrial2421/
   advantages:
     - Desconto de 0.30€ em todos os menus
+The Traditional Great Pizza:
+  image: partners/thetraditionalgreatpizza.svg
+  link: https://www.facebook.com/greatpizzabraga?locale=pt_PT
+  advantages:
+    - Desconto de 0.40€ no menu estudante e nas pizzas
+Texas Burger:
+  image: partners/texasburger.jpeg
+  link: https://www.facebook.com/texas123burguer?locale=pt_PT
+  advantages:
+    - Desconto de 10% no menu estudante e em todos os hambúrgueres
+Untold Stories:
+  image: partners/untoldstories.png
+  link: https://www.facebook.com/untoldstoriesbraga/
+  advantages:
+    - Desconto de 10% em todos os produtos
