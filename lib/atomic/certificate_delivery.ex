@@ -1,10 +1,9 @@
 defmodule Atomic.CertificateDelivery do
   import Ecto.Query, warn: false
-  alias Atomic.Organizations
   alias Atomic.Repo
   alias Atomic.Mailer
 
-  alias Atomic.Activities.{Activity, Enrollment, Session}
+  alias Atomic.Activities.{Enrollment, Session}
 
   alias AtomicWeb.ActivityEmails
 
