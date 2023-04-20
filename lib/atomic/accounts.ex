@@ -6,7 +6,7 @@ defmodule Atomic.Accounts do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Accounts.{User, UserToken, UserNotifier}
+  alias Atomic.Accounts.{Course, User, UserToken, UserNotifier}
 
   ## Database getters
 
@@ -78,6 +78,11 @@ defmodule Atomic.Accounts do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def list_users() do
+    User
+    |> Repo.all()
   end
 
   @doc """
@@ -349,5 +354,44 @@ defmodule Atomic.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  def update_user_picture(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.picture_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+  end
+
+  def list_courses() do
+    Repo.all(Course)
+  end
+
+  @doc """
+  Creates a course
+
+  ## Examples
+
+      iex> create_course(%{field: value})
+      {:ok, %Course{}}
+
+      iex> create_course(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_course(attrs) do
+    %Course{}
+    |> Course.changeset(attrs)
+    |> Repo.insert()
   end
 end

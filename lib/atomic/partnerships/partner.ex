@@ -5,6 +5,7 @@ defmodule Atomic.Partnerships.Partner do
   use Atomic.Schema
   import Ecto.Changeset
   alias Atomic.Uploaders
+  alias Atomic.Organizations.Organization
 
   @required_fields ~w(name description)a
 
@@ -25,6 +26,7 @@ defmodule Atomic.Partnerships.Partner do
     field :description, :string
     field :name, :string
     field :image, Uploaders.Image.Type
+    belongs_to :organization, Organization
     timestamps()
   end
 

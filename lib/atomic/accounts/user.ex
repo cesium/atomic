@@ -5,19 +5,31 @@ defmodule Atomic.Accounts.User do
   use Atomic.Schema
 
   alias Atomic.Users.CollaboratorDepartment
+
+  alias Atomic.Accounts.Course
   alias Atomic.Activities.Enrollment
-  alias Atomic.Accounts.User
+  alias Atomic.Organizations.{Membership, Organization}
+  alias Atomic.Uploaders.ProfilePicture
+
+  @required_fields ~w(email password role name)a
+  @optional_fields ~w(course_id)a
+
   @roles ~w(admin staff student)a
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    belongs_to :course, Course
+    field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles
     has_many :enrollments, Enrollment
     many_to_many :collaborators, User, join_through: CollaboratorDepartment, on_replace: :delete
+
+    many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()
   end
@@ -41,9 +53,20 @@ defmodule Atomic.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :role])
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def picture_changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_attachments(attrs, [:profile_picture])
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
   end
 
   defp validate_email(changeset) do

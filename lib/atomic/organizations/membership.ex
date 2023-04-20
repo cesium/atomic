@@ -1,0 +1,28 @@
+defmodule Atomic.Organizations.Membership do
+  use Atomic.Schema
+
+  alias Atomic.Accounts.User
+  alias Atomic.Organizations.Organization
+
+  @required_fields ~w(user_id organization_id created_by_id role)a
+  @optional_fields [:number]
+
+  @roles ~w(follower member admin owner)a
+
+  schema "memberships" do
+    field :number, :integer, read_after_writes: true
+    field :role, Ecto.Enum, values: @roles
+    belongs_to :created_by, User
+    belongs_to :user, User
+    belongs_to :organization, Organization
+
+    timestamps()
+  end
+
+  @doc false
+  def changeset(organization, attrs) do
+    organization
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+end
