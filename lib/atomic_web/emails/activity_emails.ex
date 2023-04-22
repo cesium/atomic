@@ -14,8 +14,8 @@ defmodule AtomicWeb.ActivityEmails do
 
   defp base_email(to: email) do
     new()
-    |> from({"Atomic", "noreply@atomic.cesium.link"})
+    |> from({"Atomic", "noreply@atomic.cesium.pt"})
     |> to(email)
-    |> reply_to("caos@cesium.di.uminho.pt")
+    |> reply_to("support@atomic.cesium.pt")
   end
 end
