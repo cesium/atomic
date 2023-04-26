@@ -24,8 +24,10 @@ defmodule Atomic.Repo.Seeds.Activities do
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
-                start: DateTime.from_naive!(~N[2023-04-13 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-13 17:00:00], "Etc/UTC")
+                # We make these dates relative to current date so we are able to quickly test
+                start: DateTime.add(DateTime.utc_now(), -12, :hour),
+                # the certificate delivery job
+                finish: DateTime.add(DateTime.utc_now(), -8, :hour)
               }
             ],
             enrolled: 0,
