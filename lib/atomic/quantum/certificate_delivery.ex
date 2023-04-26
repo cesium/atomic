@@ -30,9 +30,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   """
   def send_certificates do
-    enrollments = included_enrollments()
-
-    for enrollment <- enrollments do
+    included_enrollments()
+    |> Enum.each(fn enrollment ->
       case generate_certificate(enrollment) do
         {:ok, certificate} ->
           Mailer.deliver(
@@ -48,10 +47,10 @@ defmodule Atomic.Quantum.CertificateDelivery do
           require Logger
 
           Logger.error(
-            "Failed to generate certificate for enrollment #{enrollment.id} because: #{reason}"
+            "Failed to generate certificate for enrollment #{enrollment.id} because: #{inspect(reason)}"
           )
       end
-    end
+    end)
   end
 
   # Generates the PDF file for the given enrollment.
@@ -78,7 +77,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
         "--margin-bottom",
         "0",
         "-O",
-        "landscape"
+        "lanpe"
       ]
     )
   end
@@ -98,11 +97,11 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
     sq =
       from s in Session,
+        where: s.finish >= ^minimum_finish and s.finish <= ^now,
         group_by: [s.activity_id],
         select: %{finish: max(s.finish), activity_id: s.activity_id}
 
     from s in subquery(sq),
-      where: s.finish >= ^minimum_finish and s.finish <= ^now,
       select: s.activity_id
   end
 
