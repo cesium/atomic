@@ -56,7 +56,9 @@ defmodule Atomic.MixProject do
       {:swoosh, "~> 1.5"},
       {:phoenix_swoosh, "~> 1.0"},
       {:hackney, "~> 1.8"},
-      {:waffle_ecto, "~> 0.0"}
+      {:waffle_ecto, "~> 0.0"},
+      {:quantum, "~> 3.0"},
+      {:pdf_generator, "~>0.6.2"}
     ]
   end
 
