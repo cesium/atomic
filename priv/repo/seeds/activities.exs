@@ -4,7 +4,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   alias Atomic.Accounts.User
   alias Atomic.Departments.Department
   alias Atomic.Organizations.Organization
-  alias Atomic.Activities.{Activity, Enrollment}
+  alias Atomic.Activities.{Activity, Enrollment, Location}
 
   def run do
     seed_activities()
@@ -12,6 +12,11 @@ defmodule Atomic.Repo.Seeds.Activities do
   end
 
   def seed_activities() do
+    location = %{
+      name: "Departamento de Informática da Universidade do Minho",
+      url: "https://web.di.uminho.pt"
+    }
+
     case Repo.all(Activity) do
       [] ->
         Activity.changeset(
@@ -27,7 +32,8 @@ defmodule Atomic.Repo.Seeds.Activities do
                 # We make these dates relative to current date so we are able to quickly test
                 start: DateTime.add(DateTime.utc_now(), -12, :hour),
                 # the certificate delivery job
-                finish: DateTime.add(DateTime.utc_now(), -8, :hour)
+                finish: DateTime.add(DateTime.utc_now(), -8, :hour),
+                location: location
               }
             ],
             enrolled: 0,
@@ -50,7 +56,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
@@ -75,7 +82,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
@@ -100,7 +108,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
@@ -124,7 +133,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
@@ -148,7 +158,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-02 14:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-02 16:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-02 16:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrolled: 0,
@@ -171,7 +182,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-05 11:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
@@ -196,7 +208,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 start: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC")
+                finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
+                location: location
               }
             ],
             enrollments: [
