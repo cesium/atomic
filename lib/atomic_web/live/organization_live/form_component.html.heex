@@ -12,6 +12,7 @@
 
     <%= label(f, :departments) %>
     <%= multiple_select(f, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id)) %>
+
     <div class="py-5 px-4 sm:px-6 shrink-0 1.5xl:py-5 1.5xl:px-6 1.5xl:shrink-0">
       <%= live_file_input(@uploads.card, class: "hidden") %>
       <div
@@ -66,6 +67,24 @@
         <% end %>
       </section>
     </div>
+    <%= inputs_for f, :card, fn ff -> %>
+      <%= label(ff, :number_x) %>
+      <%= number_input(ff, :number_x) %>
+      <%= label(ff, :number_y) %>
+      <%= number_input(ff, :number_y) %>
+      <%= label(ff, :number_size) %>
+      <%= number_input(ff, :number_size) %>
+      <%= label(ff, :number_color) %>
+      <%= text_input(ff, :number_color) %>
+      <%= label(ff, :name_x) %>
+      <%= number_input(ff, :name_x) %>
+      <%= label(ff, :name_y) %>
+      <%= number_input(ff, :name_y) %>
+      <%= label(ff, :name_size) %>
+      <%= number_input(ff, :name_size) %>
+      <%= label(ff, :name_color) %>
+      <%= text_input(ff, :name_color) %>
+    <% end %>
     <%= error_tag(f, :departments) %>
 
     <div>

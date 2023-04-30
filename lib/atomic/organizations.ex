@@ -77,6 +77,8 @@ defmodule Atomic.Organizations do
 
   """
   def update_organization(%Organization{} = organization, attrs, _after_save \\ &{:ok, &1}) do
+    IO.inspect(Organization.changeset(organization, attrs))
+
     organization
     |> Organization.changeset(attrs)
     |> Repo.update()

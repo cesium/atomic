@@ -3,7 +3,8 @@ defmodule Atomic.Repo.Migrations.AddCards do
 
   def change do
     alter table(:organizations) do
-      add :card, :string
+      add :card_image, :string
+      add :card, :map, default: %{}, null: true
     end
   end
 end

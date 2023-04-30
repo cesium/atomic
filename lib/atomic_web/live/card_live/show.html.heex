@@ -1,5 +1,18 @@
-<div class="fixed z-0 top-0 left-0 bg-black w-screen h-screen">
-</div>
-<div class=" overflow-x-hidden overflow-y-hidden sm:rotate-0 z-50 rotate-90 scale-150 sm:scale-100 fixed top-0 left-0 w-screen h-screen bg-contain bg-center bg-no-repeat" style={"background-image: url(" <> Uploaders.Card.url({@membership.organization.card, @membership.organization}, :original) <> ")"}>
-  <p class="absolute top-1/2 left-1/2 text-[2vw] -translate-y-[40%] -translate-x-[69%]">OLA</p>
+<div class="fixed z-0 top-0 left-0 bg-black w-screen h-screen"></div>
+<div
+  class=" overflow-x-hidden overflow-y-hidden sm:rotate-0 z-50 rotate-90 scale-150 sm:scale-100 fixed top-0 left-0 w-screen h-screen bg-contain bg-center bg-no-repeat"
+  style={"background-image: url(" <> Uploaders.Card.url({@membership.organization.card_image, @membership.organization}, :original) <> ")"}
+>
+  <p
+    class="absolute top-1/2 left-1/2 "
+    style={"font-size: " <> to_string(@membership.organization.card.name_size) <> "vw; color: " <> @membership.organization.card.name_color <> "; transform: translate(-" <> to_string(@membership.organization.card.name_x) <> "%; -" <> to_string(@membership.organization.card.name_y) <> "%);"}
+  >
+    <%= @membership.user.name %>
+  </p>
+  <p
+    class="absolute top-1/2 left-1/2 "
+    style={"font-size: " <> to_string(@membership.organization.card.number_size) <> "vw; color: " <> @membership.organization.card.number_color <> "; transform: translate(-" <> to_string(@membership.organization.card.number_x) <> "%; -" <> to_string(@membership.organization.card.number_y) <> "%);"}
+  >
+    <%= @membership.number %>
+  </p>
 </div>

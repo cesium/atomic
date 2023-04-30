@@ -74,7 +74,7 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   defp consume_card_data(socket, organization) do
     consume_uploaded_entries(socket, :card, fn %{path: path}, entry ->
       Organizations.update_card_image(organization, %{
-        "card" => %Plug.Upload{
+        "card_image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
           path: path

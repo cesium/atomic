@@ -3,7 +3,7 @@ defmodule Atomic.Uploaders.Card do
   use Waffle.Ecto.Definition
   alias Atomic.Organizations.Organization
 
-  @versions [:original, :rotated]
+  @versions [:original]
   @extension_whitelist ~w(.svg .jpg .jpeg .gif .png)
 
   def validate({file, _}) do
