@@ -5,6 +5,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Activities.Location
   alias Atomic.Organizations.Membership
   alias Atomic.Partnerships.Partner
+  alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
   @optional_fields []
@@ -12,6 +13,7 @@ defmodule Atomic.Organizations.Organization do
   schema "organizations" do
     field :name, :string
     field :description, :string
+    field :card, Uploaders.Card.Type
 
     has_many :departments, Department,
       on_replace: :delete_if_exists,
@@ -37,11 +39,17 @@ defmodule Atomic.Organizations.Organization do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> cast_attachments(attrs, [:card])
     |> validate_location()
   end
 
   defp validate_location(changeset) do
     changeset
     |> cast_embed(:location, with: &Location.changeset/2)
+  end
+
+  def card_changeset(organization, attrs) do
+    organization
+    |> cast_attachments(attrs, [:card])
   end
 end

@@ -1,0 +1,11 @@
+<div class="fixed flex top-0 left-0 items-center bg-black h-screen w-screen">
+  <div class="m-auto relative">
+    <div class="relative z-0">
+      <img class="sm:block relative hidden x w-full z-0" src={Uploaders.Card.url({@membership.organization.card, @membership.organization}, :original)} />
+      <img class="sm:hidden relative x h-full z-0" src={Uploaders.Card.url({@membership.organization.card, @membership.organization}, :rotated)} />
+    </div>
+    <div class="absolute sm:-translate-y-full top-0 sm:top-[auto]">
+      <p class="sm:rotate-0 rotate-90 text-green-700 sm:translate-x-[100px] sm:translate-y-[-50px] translate-x-[50px] translate-y-[100px]">BATATA</p>
+    </div>
+  </div>
+</div>
