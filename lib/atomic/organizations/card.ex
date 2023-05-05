@@ -4,7 +4,6 @@ defmodule Atomic.Organizations.Card do
   """
   use Atomic.Schema
   import Ecto.Changeset
-  alias Atomic.Uploaders
 
   @optional_fields [
     :name_size,
