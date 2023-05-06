@@ -1,3 +1,4 @@
+<%= if @membership.organization.card_image != nil do %>
 <div class="fixed z-0 top-0 left-0 bg-black w-screen h-screen"></div>
 <div
   class=" overflow-x-hidden overflow-y-hidden sm:rotate-0 z-50 rotate-90 scale-150 sm:scale-100 fixed top-0 left-0 w-screen h-screen bg-contain bg-center bg-no-repeat"
@@ -16,3 +17,8 @@
     <%= @membership.number %>
   </p>
 </div>
+<% else %>
+<div>
+  <h1>This organization does not have a membership card</h1>
+</div>
+<% end %>
