@@ -61,7 +61,7 @@ defmodule AtomicWeb.Router do
       live "/membership/:org/:id", MembershipLive.Show, :show
       live "/membership/:org/:id/edit", MembershipLive.Edit, :edit
 
-      live "/card/:id", CardLive.Show, :show
+      live "/card/:membership_id", CardLive.Show, :show
 
       live "/board/:org", BoardLive.Index, :index
       live "/board/:org/new", BoardLive.New, :new

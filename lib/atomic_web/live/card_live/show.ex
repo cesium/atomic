@@ -10,7 +10,7 @@ defmodule AtomicWeb.CardLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"membership_id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization])
 
     {:noreply,
