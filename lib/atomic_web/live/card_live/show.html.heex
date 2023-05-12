@@ -6,15 +6,13 @@
   >
     <p
       class="absolute top-1/2 left-1/2 "
-      style={"font-size: " <> to_string(@membership.organization.card.name_size) <> "vw; color: " <> @membership.organization.card.name_color <> "; transform: translate(-" <> to_string(@membership.organization.card.name_x) <> "%; -" <> to_string(@membership.organization.card.name_y) <> "%);"}
+      style={"font-size: " <> to_string(@membership.organization.card.name_size) <> "vw; color: " <> @membership.organization.card.name_color <> "; transform: translate(" <> to_string(@membership.organization.card.name_x) <> "%, " <> to_string(@membership.organization.card.name_y) <> "%);"}
     >
       <%= @membership.user.name %>
     </p>
     <p
       class="absolute top-1/2 left-1/2 "
-      style={
-        "font-size: " <> to_string(@membership.organization.card.number_size) <> "vw; color: " <> @membership.organization.card.number_color <> "; transform: translate(-" <> to_string(@membership.organization.card.number_x) <> "%; -" <> to_string(@membership.organization.card.number_y) <> "%);"
-      }
+      style={"font-size: " <> to_string(@membership.organization.card.number_size) <> "vw; color: " <> @membership.organization.card.number_color <> "; transform: translate(" <> to_string(@membership.organization.card.number_x) <> "%, " <> to_string(@membership.organization.card.number_y) <> "%);"}
     >
       <%= @membership.number %>
     </p>

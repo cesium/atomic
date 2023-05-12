@@ -59,5 +59,6 @@ defmodule Atomic.Organizations.Organization do
   def card_changeset(organization, attrs) do
     organization
     |> cast_attachments(attrs, [:card_image])
+    |> validate_card()
   end
 end
