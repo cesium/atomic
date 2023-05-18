@@ -69,16 +69,22 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> update_organization(organization, %{field: new_value})
+      iex> update_organization(organization, %{field: new_value}, nil)
       {:ok, %Organization{}}
 
-      iex> update_organization(organization, %{field: bad_value})
+      iex> update_organization(organization, %{field: bad_value}, nil)
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_organization(%Organization{} = organization, attrs) do
+  def update_organization(%Organization{} = organization, attrs, _after_save \\ &{:ok, &1}) do
     organization
     |> Organization.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_card_image(%Organization{} = organization, attrs) do
+    organization
+    |> Organization.card_changeset(attrs)
     |> Repo.update()
   end
 

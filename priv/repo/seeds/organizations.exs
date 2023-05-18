@@ -2,6 +2,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
+  alias Atomic.Organizations.Card
   alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
   alias Atomic.Organizations
@@ -24,10 +25,39 @@ defmodule Atomic.Repo.Seeds.Organizations do
             location: %{
               name: "Departamento de Informática, Campus de Gualtar, Universidade do Minho",
               url: "https://cesium.di.uminho.pt"
+            },
+            card: %{
+              name_size: 2,
+              name_color: "#ff00ff",
+              name_x: -10,
+              name_y: -100,
+              number_size: 2,
+              number_color: "#00ff00",
+              number_x: 100,
+              number_y: 100
             }
           }
         )
         |> Repo.insert!()
+        # TODO: Update to CeSIUM actual card
+        |> Organization.card_changeset(%{
+          card: %{
+            name_size: 2,
+            name_color: "#ff00ff",
+            name_x: -10,
+            name_y: -100,
+            number_size: 2,
+            number_color: "#00ff00",
+            number_x: 100,
+            number_y: 100
+          },
+          card_image: %Plug.Upload{
+            path: "priv/static/images/card.png",
+            content_type: "image/png",
+            filename: "card.png"
+          }
+        })
+        |> Repo.update!()
 
         Organization.changeset(
           %Organization{},
