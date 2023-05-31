@@ -4,7 +4,7 @@ defmodule Atomic.Accounts.User do
   """
   use Atomic.Schema
 
-  alias Atomic.Users.CollaboratorDepartment
+  alias Atomic.Accounts.CollaboratorDepartment
 
   alias Atomic.Accounts.Course
   alias Atomic.Activities.Enrollment

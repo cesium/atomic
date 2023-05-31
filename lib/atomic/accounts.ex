@@ -74,6 +74,7 @@ defmodule Atomic.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+
   def register_user(attrs) do
     %User{}
     |> User.registration_changeset(attrs)

@@ -3,7 +3,7 @@ defmodule Atomic.Departments.Department do
     A department of an organization
   """
   use Atomic.Schema
-  alias Atomic.Users.CollaboratorDepartment
+  alias Atomic.Accounts.CollaboratorDepartment
   alias Atomic.Organizations.Organization
   alias Atomic.Accounts.User
   alias Atomic.Activities.{Activity, ActivityDepartment}

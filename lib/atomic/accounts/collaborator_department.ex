@@ -1,4 +1,4 @@
-defmodule Atomic.Users.CollaboratorDepartment do
+defmodule Atomic.Accounts.CollaboratorDepartment do
   @moduledoc """
     An activity speaker
   """

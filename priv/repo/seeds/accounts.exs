@@ -1,6 +1,7 @@
 defmodule Atomic.Repo.Seeds.Accounts do
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
+  alias Atomic.Accounts.User
   alias Atomic.Repo
 
   def run do
@@ -163,7 +164,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "course_id" => Enum.random(courses).id
       }
 
-      case Accounts.register_user(user) do
+      case insert_user(user) do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
 
