@@ -58,6 +58,7 @@ defmodule Atomic.MixProject do
       {:hackney, "~> 1.8"},
       {:waffle_ecto, "~> 0.0"},
       {:quantum, "~> 3.0"},
+      {:qrcode_ex, "~> 0.1.1"},
       {:pdf_generator, "~>0.6.2"}
     ]
   end

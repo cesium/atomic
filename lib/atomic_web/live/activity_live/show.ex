@@ -94,11 +94,16 @@ defmodule AtomicWeb.ActivityLive.Show do
      assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 
+  defp draw_qr_code(session, user, socket) do
+    Routes.enrollment_path(socket, :update, session.activity_id, user.id)
+    |> QRCodeEx.encode()
+    |> QRCodeEx.svg(color: "#1F2937", width: 295, background_color: :transparent)
+  end
+
   defp page_title(:show), do: "Show Activity"
   defp page_title(:edit), do: "Edit Activity"
 
   defp set_enrolled(socket, activity, current_user) do
-    socket
-    |> assign(:enrolled?, Activities.is_user_enrolled?(activity, current_user))
+    Activites.get_user_enrolled(current_user, activity)
   end
 end

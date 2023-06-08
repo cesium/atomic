@@ -8,7 +8,7 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :description, :text
       add :minimum_entries, :integer
       add :maximum_entries, :integer
-
+      add :event_id, references(:events, type: :binary_id)
       timestamps()
     end
   end

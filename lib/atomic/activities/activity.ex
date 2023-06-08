@@ -12,10 +12,11 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities.Speaker
   alias Atomic.Departments
   alias Atomic.Departments.Department
+  alias Atomic.Events.Event
   @required_fields ~w(title description
                     minimum_entries maximum_entries)a
 
-  @optional_fields []
+  @optional_fields ~w(event_id)a
 
   schema "activities" do
     field :title, :string
@@ -35,6 +36,7 @@ defmodule Atomic.Activities.Activity do
       preload_order: [asc: :start]
 
     has_many :enrollments, Enrollment, foreign_key: :activity_id
+    belongs_to :event, Event
 
     timestamps()
   end

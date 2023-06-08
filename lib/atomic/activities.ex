@@ -233,6 +233,27 @@ defmodule Atomic.Activities do
   """
   def get_enrollment!(id), do: Repo.get!(Enrollment, id)
 
+  def get_enrollment(activity, user) do
+    Enrollment
+    |> where(activity_id: ^activity.id, user_id: ^user.id)
+    |> Repo.one()
+  end
+
+  def get_user_enrolled(user, activity) do
+    enrollment =
+      Enrollment
+      |> where(user_id: ^user.id, activity_id: ^activity.id)
+      |> Repo.one()
+
+    if enrollment do
+      Repo.delete(enrollment)
+      {:ok, "Participation canceled"}
+    else
+      create_enrollment(activity, user)
+      {:ok, "Participation confirmed"}
+    end
+  end
+
   @doc """
   Creates an enrollment.
 
