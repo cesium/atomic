@@ -239,7 +239,7 @@ defmodule Atomic.Activities do
     |> Repo.one()
   end
 
-  def get_user_enrolled(user, activity) do
+  def switch_user_enrolled(user, activity) do
     enrollment =
       Enrollment
       |> where(user_id: ^user.id, activity_id: ^activity.id)
@@ -247,10 +247,10 @@ defmodule Atomic.Activities do
 
     if enrollment do
       Repo.delete(enrollment)
-      {:ok, "Participation canceled"}
+      :canceled
     else
       create_enrollment(activity, user)
-      {:ok, "Participation confirmed"}
+      :enrolled
     end
   end
 
