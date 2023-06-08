@@ -104,6 +104,8 @@ defmodule AtomicWeb.ActivityLive.Show do
   defp page_title(:edit), do: "Edit Activity"
 
   defp set_enrolled(socket, activity, current_user) do
-    Activites.get_user_enrolled(current_user, activity)
+    Activities.get_user_enrolled(current_user, activity)
+
+    {:noreply, socket}
   end
 end
