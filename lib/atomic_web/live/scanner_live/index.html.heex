@@ -1,0 +1,16 @@
+<div>
+  <h2 class="pt-6 pl-6 text-2xl font-medium text-gray-900 lg:pl-8 xl:pt-6 xl:pl-6" id="scan-title">
+    Scan a QR code
+  </h2>
+
+  <div class="my-8 w-full lg:px-6 lg:mx-16">
+    <div id="qr-scanner" phx-hook="QrScanner" data-ask_perm="perm_button" data-open_on_mount data-on_start="document.getElementById('request').style.display = 'none'" data-on_success="hook.pushEvent('scan', pathname)" class="relative"></div>
+
+    <div id="request" class="flex justify-between items-center h-10">
+      <div id="loadingMessage" class="inline-flex justify-center py-2 text-base font-medium text-gray-900">
+        Unable to access camera. Make sure you allow the use of the camera and that the camera isn't being used elsewhere.
+      </div>
+      <button id="perm_button" type="button" class="inline-flex justify-center items-center py-2 px-4 text-sm font-medium text-white rounded-md border border-transparent shadow-sm bg-secondary hover:bg-primary">Request Permission</button>
+    </div>
+  </div>
+</div>

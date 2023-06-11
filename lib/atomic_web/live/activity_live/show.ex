@@ -95,7 +95,12 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   defp draw_qr_code(session, user, socket) do
-    Routes.enrollment_path(socket, :update, session.activity_id, user.id)
+    internal_route =
+      Routes.redeem_confirm_participation_path(socket, :redeem, session.activity_id, user.id)
+
+    url = build_url() <> internal_route
+
+    url
     |> QRCodeEx.encode()
     |> QRCodeEx.svg(color: "#1F2937", width: 295, background_color: :transparent)
   end
@@ -107,5 +112,13 @@ defmodule AtomicWeb.ActivityLive.Show do
     Activities.get_user_enrolled(current_user, activity)
 
     {:noreply, socket}
+  end
+
+  defp build_url() do
+    if Mix.env() == :dev do
+      "http://localhost:4000"
+    else
+      "https://#{Application.fetch_env(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
+    end
   end
 end

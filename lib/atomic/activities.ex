@@ -41,6 +41,18 @@ defmodule Atomic.Activities do
     |> Repo.preload(preloads)
   end
 
+  alias Atomic.Activities.Enrollment
+
+  def is_participating?(activity_id, user_id) do
+    Enrollment
+    |> where(activity_id: ^activity_id, user_id: ^user_id)
+    |> Repo.one()
+    |> case do
+      nil -> false
+      _ -> true
+    end
+  end
+
   @doc """
   Creates a activity.
 
@@ -233,9 +245,9 @@ defmodule Atomic.Activities do
   """
   def get_enrollment!(id), do: Repo.get!(Enrollment, id)
 
-  def get_enrollment(activity, user) do
+  def get_enrollment!(activity_id, user_id) do
     Enrollment
-    |> where(activity_id: ^activity.id, user_id: ^user.id)
+    |> where(activity_id: ^activity_id, user_id: ^user_id)
     |> Repo.one()
   end
 

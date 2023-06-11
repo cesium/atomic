@@ -85,6 +85,10 @@ defmodule Atomic.Accounts do
     |> Repo.all()
   end
 
+  def get_course(id) do
+    Repo.get(Course, id)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
