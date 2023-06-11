@@ -1,9 +1,10 @@
 defmodule Atomic.Organizations.UserOrganization do
+  @moduledoc false
   use Atomic.Schema
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Organization
   alias Atomic.Ecto.Year
+  alias Atomic.Organizations.Organization
 
   @required_fields ~w(year title user_id organization_id)a
 

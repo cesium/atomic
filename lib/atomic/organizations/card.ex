@@ -28,8 +28,6 @@ defmodule Atomic.Organizations.Card do
     field :number_y, :float
   end
 
-  # TODO: Validations
-
   def changeset(card, attrs) do
     card
     |> cast(attrs, @optional_fields)

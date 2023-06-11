@@ -36,7 +36,6 @@ defmodule AtomicWeb.Router do
       live "/activities", ActivityLive.Index, :index
       live "/activities/new", ActivityLive.New, :new
       live "/activities/:id/edit", ActivityLive.Edit, :edit
-      get "/activities/:activity_id/:user_id/update_enrollment", EnrollmentController, :update
       live "/activities/:id", ActivityLive.Show, :show
 
       live "/departments", DepartmentLive.Index, :index

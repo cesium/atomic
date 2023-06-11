@@ -1,8 +1,6 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
-  require Logger
-
   alias Atomic.Activities
 
   @impl true
@@ -38,9 +36,7 @@ defmodule AtomicWeb.ActivityLive.Show do
          |> put_flash(:success, "Enrolled successufully!")
          |> set_enrolled(activity, current_user)}
 
-      {:error, error} ->
-        Logger.error(error)
-
+      {:error, _error} ->
         {:noreply,
          socket
          |> put_flash(:error, "Unable to enroll")
@@ -63,6 +59,7 @@ defmodule AtomicWeb.ActivityLive.Show do
       {_, nil} ->
         {:noreply,
          socket
+         |> put_flash(:error, gettext("Unable to unenroll"))
          |> set_enrolled(activity, current_user)}
     end
   end
@@ -114,7 +111,7 @@ defmodule AtomicWeb.ActivityLive.Show do
     {:noreply, socket}
   end
 
-  defp build_url() do
+  defp build_url do
     if Mix.env() == :dev do
       "http://localhost:4000"
     else

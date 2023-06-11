@@ -1,4 +1,5 @@
 defmodule Atomic.Events.EventOrganization do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 

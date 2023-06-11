@@ -59,7 +59,8 @@ defmodule Atomic.MixProject do
       {:waffle_ecto, "~> 0.0"},
       {:quantum, "~> 3.0"},
       {:qrcode_ex, "~> 0.1.1"},
-      {:pdf_generator, "~>0.6.2"}
+      {:pdf_generator, "~>0.6.2"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -76,7 +77,8 @@ defmodule Atomic.MixProject do
       "ecto.seed": ["run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      lint: ["credo --strict --all"]
     ]
   end
 end

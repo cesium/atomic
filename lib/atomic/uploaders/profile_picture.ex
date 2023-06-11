@@ -1,4 +1,6 @@
 defmodule Atomic.Uploaders.ProfilePicture do
+  @moduledoc false
+
   use Waffle.Definition
   use Waffle.Ecto.Definition
   alias Atomic.Accounts.User

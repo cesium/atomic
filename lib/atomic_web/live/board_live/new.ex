@@ -2,8 +2,8 @@ defmodule AtomicWeb.BoardLive.New do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  alias Atomic.Organizations.UserOrganization
   alias Atomic.Accounts
+  alias Atomic.Organizations.UserOrganization
 
   @impl true
   def mount(_params, _session, socket) do

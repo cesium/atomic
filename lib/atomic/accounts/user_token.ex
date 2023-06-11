@@ -1,4 +1,7 @@
 defmodule Atomic.Accounts.UserToken do
+  @moduledoc """
+  The UserToken context.
+  """
   use Atomic.Schema
 
   alias Atomic.Accounts.UserToken

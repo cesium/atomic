@@ -1,9 +1,9 @@
 defmodule AtomicWeb.OrganizationLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Organizations
-  alias Atomic.Departments
   alias Atomic.Activities
+  alias Atomic.Departments
+  alias Atomic.Organizations
 
   @extensions_whitelist ~w(.svg .jpg .jpeg .gif .png)
 

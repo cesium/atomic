@@ -4,8 +4,8 @@ defmodule Atomic.Partnerships.Partner do
   """
   use Atomic.Schema
   import Ecto.Changeset
-  alias Atomic.Uploaders
   alias Atomic.Organizations.Organization
+  alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
 

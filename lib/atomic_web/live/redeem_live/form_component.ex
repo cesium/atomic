@@ -2,8 +2,8 @@ defmodule AtomicWeb.RedeemLive.FormComponent do
   @moduledoc false
   use AtomicWeb, :live_component
 
-  alias Atomic.Activities
   alias Atomic.Accounts
+  alias Atomic.Activities
 
   @impl true
   def update(assigns, socket) do
@@ -25,7 +25,7 @@ defmodule AtomicWeb.RedeemLive.FormComponent do
     )
   end
 
-  defp confirm_participation(socket, admin, user, activity) do
+  defp confirm_participation(socket, _admin, user, activity) do
     enrollment = Activities.get_enrollment!(activity.id, user.id)
 
     case Activities.update_enrollment(enrollment, %{present: true}) do
@@ -42,18 +42,7 @@ defmodule AtomicWeb.RedeemLive.FormComponent do
     end
   end
 
-  def extract_initials(nil), do: ""
-
-  def extract_initials(name) do
-    initials = name |> String.upcase() |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1))
-
-    case length(initials) do
-      1 -> hd(initials)
-      _ -> List.first(initials) <> List.last(initials)
-    end
-  end
-
-  def get_course(user) do
+  defp get_course(user) do
     case Accounts.get_course(user) do
       nil -> "No course"
       course -> course

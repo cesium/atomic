@@ -2,10 +2,8 @@ defmodule AtomicWeb.RedeemLive.ConfirmParticipation do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  alias Atomic.Activities
-  alias Atomic.Activity
-  alias Atomic.Activities.Enrollment
   alias Atomic.Accounts
+  alias Atomic.Activities
 
   @impl true
   def mount(_params, _session, socket) do
