@@ -1,0 +1,61 @@
+<div>
+  <.form let={_f} for={:activity_user} id="activity_user-form" phx-target={@myself} phx-submit="save">
+    <div class="min-h-full bg-white border-r border-gray-200">
+      <div class="pt-5 pr-6 pb-5 pl-4 border-gray-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6 border-y">
+        <div class="flex justify-between items-center h-10">
+          <h1 class="flex-1 text-lg font-medium">Activity</h1>
+          <div class="flex flex-row gap-x-4">
+            <%= if true do %>
+              <%= submit do %>
+                <div type="button" class="inline-flex justify-center items-center py-2 px-4 text-sm font-medium text-black rounded-md border border-black-500 shadow-sm cursor-pointer xl:w-full bg-secondary hover:bg-primary" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                  Confirm Participation
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col py-6 px-4 mx-auto w-full border-b border-gray-200 sm:px-6 lg:px-8">
+        <div>
+          <%= live_redirect("< Back", to: Routes.scanner_index_path(@socket, :index), class: "hover:underline inline-flex items-center justify-center whitespace-nowrap") %>
+        </div>
+        <div class="flex flex-col gap-4 justify-between mt-6 text-gray-400">
+          <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">
+            <%= @activity.title %>
+          </h1>
+          <div>
+            <p class="text-base font-medium text-black sm:text-lg">
+              <%= @activity.description %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col mx-auto w-full">
+        <div class="flex flex-row justify-between items-center py-6 px-4 border-b border-gray-200 sm:px-6 lg:px-8">
+          <h2 class="text-lg font-medium sm:text-xl">
+            Confirming participation for user
+          </h2>
+        </div>
+        <div>
+          <div class="flex flex-row gap-x-2 items-center py-2 px-4 w-full h-20 rounded-xl border-b border-gray-200 hover:bg-gray-50">
+            <div class="flex-shrink-0 w-14 h-14">
+              <span class="inline-flex justify-center items-center w-14 h-14 rounded-full bg-black">
+                <span class="text-xl font-medium leading-none text-white">
+                  <%= Accounts.extract_initials(@user.name) %>
+                </span>
+              </span>
+            </div>
+            <div class="flex overflow-hidden flex-col w-full">
+              <span class="inline-block overflow-hidden w-full text-base whitespace-nowrap text-ellipsis">
+                <%= @user.name %>
+              </span>
+              <span class="text-sm font-light text-gray-800">
+                <%= get_course(@user.course_id).name %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </.form>
+</div>
