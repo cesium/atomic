@@ -29,10 +29,6 @@ defmodule AtomicWeb.Router do
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
       live "/scanner", ScannerLive.Index, :index
 
-      live "/activities/:activity_id/:user_id/confirm_participation",
-           RedeemLive.ConfirmParticipation,
-           :redeem
-
       live "/activities", ActivityLive.Index, :index
       live "/activities/new", ActivityLive.New, :new
       live "/activities/:id/edit", ActivityLive.Edit, :edit

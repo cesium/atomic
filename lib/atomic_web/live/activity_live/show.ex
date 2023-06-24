@@ -91,9 +91,8 @@ defmodule AtomicWeb.ActivityLive.Show do
      assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 
-  defp draw_qr_code(session, user, socket) do
-    internal_route =
-      Routes.redeem_confirm_participation_path(socket, :redeem, session.activity_id, user.id)
+  defp draw_qr_code(session, user, _socket) do
+    internal_route = "/redeem/#{session.activity_id}/#{user.id}/confirm"
 
     url = build_url() <> internal_route
 
