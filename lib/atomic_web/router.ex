@@ -27,6 +27,8 @@ defmodule AtomicWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
+      live "/scanner", ScannerLive.Index, :index
+
       live "/activities", ActivityLive.Index, :index
       live "/activities/new", ActivityLive.New, :new
       live "/activities/:id/edit", ActivityLive.Edit, :edit

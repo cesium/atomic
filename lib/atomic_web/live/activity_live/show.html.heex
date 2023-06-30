@@ -72,6 +72,9 @@
             <%= session.location.url %>
           <% end %>
         </li>
+        <div>
+          <%= draw_qr_code(session, @current_user, @socket) |> raw %>
+        </div>
       </ul>
     <% end %>
   </li>

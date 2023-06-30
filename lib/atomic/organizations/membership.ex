@@ -1,4 +1,5 @@
 defmodule Atomic.Organizations.Membership do
+  @moduledoc false
   use Atomic.Schema
 
   alias Atomic.Accounts.User

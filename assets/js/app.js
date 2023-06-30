@@ -24,8 +24,11 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
+import { QrScanner } from "./qr_reading.js";
 
-let Hooks = {};
+let Hooks = {
+  QrScanner: QrScanner
+};
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

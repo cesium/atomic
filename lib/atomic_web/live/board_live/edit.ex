@@ -1,8 +1,8 @@
 defmodule AtomicWeb.BoardLive.Edit do
   use AtomicWeb, :live_view
 
-  alias Atomic.Organizations
   alias Atomic.Accounts
+  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do

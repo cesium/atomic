@@ -1,4 +1,7 @@
 defmodule Atomic.Uploaders.Image do
+  @moduledoc """
+  The image uploader.
+  """
   use Waffle.Definition
   use Waffle.Ecto.Definition
   alias Atomic.Partnerships.Partner

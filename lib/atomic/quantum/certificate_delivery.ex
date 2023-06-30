@@ -13,9 +13,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   """
   import Ecto.Query, warn: false
-  alias Atomic.Repo
   alias Atomic.Mailer
-
+  alias Atomic.Repo
   alias Atomic.Activities.{Enrollment, Session}
 
   alias AtomicWeb.ActivityEmails
@@ -91,7 +90,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # The result of the query is the IDs of the activities, not the structs
   # themselves.
-  defp last_sessions_query() do
+  defp last_sessions_query do
     now = DateTime.utc_now()
     minimum_finish = DateTime.add(now, -24, :hour)
 
@@ -115,7 +114,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   # - The user has participated in the session (meaning the present field
   # of the enrollment will be true)
 
-  defp included_enrollments() do
+  defp included_enrollments do
     enrollments =
       from s in subquery(last_sessions_query()),
         inner_join: e in Enrollment,

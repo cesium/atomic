@@ -1,11 +1,12 @@
 defmodule Atomic.Organizations.Organization do
+  @moduledoc false
   use Atomic.Schema
   alias Atomic.Accounts.User
-  alias Atomic.Departments.Department
   alias Atomic.Activities.Location
+  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Card
   alias Atomic.Organizations.Membership
   alias Atomic.Partnerships.Partner
-  alias Atomic.Organizations.Card
   alias Atomic.Uploaders
 
   @required_fields ~w(name description)a

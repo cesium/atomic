@@ -56,7 +56,7 @@ defmodule Atomic.OrganizationsFixtures do
   @doc """
   Generate an user organization.
   """
-  def user_organization_fixture() do
+  def user_organization_fixture do
     {:ok, organization} =
       %{
         description: "some description",

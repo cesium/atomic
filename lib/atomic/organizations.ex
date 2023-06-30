@@ -7,12 +7,11 @@ defmodule Atomic.Organizations do
 
   use Atomic.Context
 
-  alias Atomic.Organizations.UserOrganization
-  alias Atomic.Repo
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
   alias Atomic.Organizations.UserOrganization
+  alias Atomic.Repo
 
   @doc """
   Returns the list of organizations.

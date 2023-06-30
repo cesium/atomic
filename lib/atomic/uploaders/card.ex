@@ -1,4 +1,5 @@
 defmodule Atomic.Uploaders.Card do
+  @moduledoc false
   use Waffle.Definition
   use Waffle.Ecto.Definition
   alias Atomic.Organizations.Organization

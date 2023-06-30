@@ -6,7 +6,7 @@ defmodule Atomic.Accounts do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Accounts.{Course, User, UserToken, UserNotifier}
+  alias Atomic.Accounts.{Course, User, UserNotifier, UserToken}
 
   ## Database getters
 
@@ -80,9 +80,39 @@ defmodule Atomic.Accounts do
     |> Repo.insert()
   end
 
-  def list_users() do
+  def list_users do
     User
     |> Repo.all()
+  end
+
+  def get_course(id) do
+    Repo.get(Course, id)
+  end
+
+  @doc """
+  Return the initials of a name.
+
+  ## Examples
+
+      iex> extract_initials("John Doe")
+      "JD"
+
+      iex> extract_initials("John")
+      "J"
+
+      iex> extract_initials(nil)
+      ""
+
+  """
+  def extract_initials(nil), do: ""
+
+  def extract_initials(name) do
+    initials = name |> String.upcase() |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1))
+
+    case length(initials) do
+      1 -> hd(initials)
+      _ -> List.first(initials) <> List.last(initials)
+    end
   end
 
   @doc """
@@ -373,7 +403,7 @@ defmodule Atomic.Accounts do
     |> User.changeset(attrs)
   end
 
-  def list_courses() do
+  def list_courses do
     Repo.all(Course)
   end
 
