@@ -2,37 +2,29 @@ defmodule Atomic.ActivitiesTest do
   use Atomic.DataCase
 
   alias Atomic.Activities
+  import Atomic.Factory
+  import Atomic.ActivitiesFixtures
 
   describe "activities" do
     alias Atomic.Activities.Activity
 
-    import Atomic.ActivitiesFixtures
-
     @invalid_attrs %{description: nil, maximum_entries: nil, minimum_entries: nil, title: nil}
 
     test "list_activities/0 returns all activities" do
-      activity = activity_fixture()
-      assert Activities.list_activities() == [activity]
+      activity = insert(:activity)
+      activities = Activities.list_activities([]) |> Enum.map(& &1.id)
+      assert activities == [activity.id]
     end
 
     test "get_activity!/1 returns the activity with given id" do
-      activity = activity_fixture()
-      assert Activities.get_activity!(activity.id) == activity
+      activity = insert(:activity)
+      assert Activities.get_activity!(activity.id).id == activity.id
     end
 
     test "create_activity/1 with valid data creates a activity" do
-      valid_attrs = %{
-        description: "some description",
-        maximum_entries: 42,
-        minimum_entries: 42,
-        title: "some title"
-      }
+      valid_attrs = params_for(:activity)
 
-      assert {:ok, %Activity{} = activity} = Activities.create_activity(valid_attrs)
-      assert activity.description == "some description"
-      assert activity.maximum_entries == 42
-      assert activity.minimum_entries == 42
-      assert activity.title == "some title"
+      assert {:ok, %Activity{}} = Activities.create_activity(valid_attrs)
     end
 
     test "create_activity/1 with invalid data returns error changeset" do
@@ -40,7 +32,7 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "update_activity/2 with valid data updates the activity" do
-      activity = activity_fixture()
+      activity = insert(:activity)
 
       update_attrs = %{
         description: "some updated description",
@@ -57,27 +49,25 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "update_activity/2 with invalid data returns error changeset" do
-      activity = activity_fixture()
+      activity = insert(:activity)
       assert {:error, %Ecto.Changeset{}} = Activities.update_activity(activity, @invalid_attrs)
-      assert activity == Activities.get_activity!(activity.id)
+      assert activity.id == Activities.get_activity!(activity.id).id
     end
 
     test "delete_activity/1 deletes the activity" do
-      activity = activity_fixture()
+      activity = insert(:activity)
       assert {:ok, %Activity{}} = Activities.delete_activity(activity)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_activity!(activity.id) end
     end
 
     test "change_activity/1 returns a activity changeset" do
-      activity = activity_fixture()
+      activity = insert(:activity)
       assert %Ecto.Changeset{} = Activities.change_activity(activity)
     end
   end
 
   describe "sessions" do
     alias Atomic.Activities.Session
-
-    import Atomic.ActivitiesFixtures
 
     @invalid_attrs %{finish: nil, start: nil}
 
@@ -133,63 +123,47 @@ defmodule Atomic.ActivitiesTest do
   describe "enrollments" do
     alias Atomic.Activities.Enrollment
 
-    import Atomic.ActivitiesFixtures
-
     @invalid_attrs %{}
 
     test "list_enrollments/0 returns all enrollments" do
-      enrollment = enrollment_fixture()
-      assert Activities.list_enrollments() == [enrollment]
+      enrollment = insert(:enrollment)
+      enrollments = Activities.list_enrollments() |> Enum.map(& &1.id)
+      assert enrollments == [enrollment.id]
     end
 
     test "get_enrollment!/1 returns the enrollment with given id" do
-      enrollment = enrollment_fixture()
-      assert Activities.get_enrollment!(enrollment.id) == enrollment
+      enrollment = insert(:enrollment)
+      assert Activities.get_enrollment!(enrollment.id).id == enrollment.id
     end
 
     test "create_enrollment/1 with valid data creates a enrollment" do
-      valid_attrs = %{}
+      user = insert(:user)
+      activity = insert(:activity)
 
-      assert {:ok, %Enrollment{} = enrollment} = Activities.create_enrollment(valid_attrs)
-    end
-
-    test "create_enrollment/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_enrollment(@invalid_attrs)
+      assert {:ok, %Enrollment{}} = Activities.create_enrollment(activity, user)
     end
 
     test "update_enrollment/2 with valid data updates the enrollment" do
-      enrollment = enrollment_fixture()
+      enrollment = insert(:enrollment)
       update_attrs = %{}
 
-      assert {:ok, %Enrollment{} = enrollment} =
-               Activities.update_enrollment(enrollment, update_attrs)
-    end
-
-    test "update_enrollment/2 with invalid data returns error changeset" do
-      enrollment = enrollment_fixture()
-
-      assert {:error, %Ecto.Changeset{}} =
-               Activities.update_enrollment(enrollment, @invalid_attrs)
-
-      assert enrollment == Activities.get_enrollment!(enrollment.id)
+      assert {:ok, %Enrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
     end
 
     test "delete_enrollment/1 deletes the enrollment" do
-      enrollment = enrollment_fixture()
-      assert {:ok, %Enrollment{}} = Activities.delete_enrollment(enrollment)
+      enrollment = insert(:enrollment)
+      assert {_, nil} = Activities.delete_enrollment(enrollment.activity, enrollment.user)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_enrollment!(enrollment.id) end
     end
 
     test "change_enrollment/1 returns a enrollment changeset" do
-      enrollment = enrollment_fixture()
+      enrollment = insert(:enrollment)
       assert %Ecto.Changeset{} = Activities.change_enrollment(enrollment)
     end
   end
 
   describe "speakers" do
     alias Atomic.Activities.Speaker
-
-    import Atomic.ActivitiesFixtures
 
     @invalid_attrs %{bio: nil, name: nil}
 

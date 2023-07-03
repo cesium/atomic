@@ -66,7 +66,7 @@ defmodule AtomicWeb.UserSettingsControllerTest do
         put(conn, Routes.user_settings_path(conn, :update), %{
           "action" => "update_email",
           "current_password" => valid_user_password(),
-          "user" => %{"email" => unique_user_email()}
+          "user" => %{"email" => Faker.Internet.email()}
         })
 
       assert redirected_to(conn) == Routes.user_settings_path(conn, :edit)
@@ -91,7 +91,7 @@ defmodule AtomicWeb.UserSettingsControllerTest do
 
   describe "GET /users/settings/confirm_email/:token" do
     setup %{user: user} do
-      email = unique_user_email()
+      email = Faker.Internet.email()
 
       token =
         extract_user_token(fn url ->

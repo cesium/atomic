@@ -6,7 +6,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
   import Atomic.AccountsFixtures
 
   setup do
-    %{user: user_fixture()}
+    %{user: insert(:user)}
   end
 
   describe "GET /users/reset_password" do

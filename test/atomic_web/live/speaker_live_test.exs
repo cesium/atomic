@@ -15,6 +15,7 @@ defmodule AtomicWeb.SpeakerLiveTest do
 
   describe "Index" do
     setup [:create_speaker]
+    setup [:register_and_log_in_user]
 
     test "lists all speakers", %{conn: conn, speaker: speaker} do
       {:ok, _index_live, html} = live(conn, Routes.speaker_index_path(conn, :index))
@@ -77,6 +78,7 @@ defmodule AtomicWeb.SpeakerLiveTest do
 
   describe "Show" do
     setup [:create_speaker]
+    setup [:register_and_log_in_user]
 
     test "displays speaker", %{conn: conn, speaker: speaker} do
       {:ok, _show_live, html} = live(conn, Routes.speaker_show_path(conn, :show, speaker))

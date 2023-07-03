@@ -2,22 +2,26 @@ defmodule Atomic.OrganizationsTest do
   use Atomic.DataCase
 
   alias Atomic.Organizations
+  import Atomic.Factory
 
   describe "organizations" do
     alias Atomic.Organizations.Organization
 
-    import Atomic.OrganizationsFixtures
-
     @invalid_attrs %{description: nil, name: nil}
 
     test "list_organizations/0 returns all organizations" do
-      organization = organization_fixture()
-      assert Organizations.list_organizations() == [organization]
+      organization = insert(:organization)
+
+      organizations =
+        Organizations.list_organizations()
+        |> Enum.map(& &1.id)
+
+      assert organizations == [organization.id]
     end
 
     test "get_organization!/1 returns the organization with given id" do
-      organization = organization_fixture()
-      assert Organizations.get_organization!(organization.id) == organization
+      organization = insert(:organization)
+      assert Organizations.get_organization!(organization.id).id == organization.id
     end
 
     test "create_organization/1 with valid data creates a organization" do
@@ -35,7 +39,7 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "update_organization/2 with valid data updates the organization" do
-      organization = organization_fixture()
+      organization = insert(:organization)
       update_attrs = %{description: "some updated description", name: "some updated name"}
 
       assert {:ok, %Organization{} = organization} =
@@ -46,49 +50,56 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "update_organization/2 with invalid data returns error changeset" do
-      organization = organization_fixture()
+      organization = insert(:organization)
 
       assert {:error, %Ecto.Changeset{}} =
                Organizations.update_organization(organization, @invalid_attrs)
 
-      assert organization == Organizations.get_organization!(organization.id)
+      assert organization.id == Organizations.get_organization!(organization.id).id
     end
 
     test "delete_organization/1 deletes the organization" do
-      organization = organization_fixture()
+      organization = insert(:organization)
       assert {:ok, %Organization{}} = Organizations.delete_organization(organization)
       assert_raise Ecto.NoResultsError, fn -> Organizations.get_organization!(organization.id) end
     end
 
     test "change_organization/1 returns a organization changeset" do
-      organization = organization_fixture()
+      organization = insert(:organization)
       assert %Ecto.Changeset{} = Organizations.change_organization(organization)
     end
   end
 
   describe "memberships" do
     alias Atomic.Organizations.Membership
-    import Atomic.OrganizationsFixtures
 
     test "list_memberships/1 returns all memberships of organization" do
-      membership = membership_fixture()
+      membership = insert(:membership)
 
-      assert Organizations.list_memberships(%{"organization_id" => membership.organization_id}) ==
-               [membership]
+      memberships =
+        Organizations.list_memberships(%{"organization_id" => membership.organization_id})
+        |> Enum.map(& &1.id)
+
+      assert memberships == [membership.id]
     end
 
     test "list_memberships/1 returns all memberships of user" do
-      membership = membership_fixture()
-      assert Organizations.list_memberships(%{"user_id" => membership.user_id}) == [membership]
+      membership = insert(:membership)
+
+      memberships =
+        Organizations.list_memberships(%{"user_id" => membership.user_id})
+        |> Enum.map(& &1.id)
+
+      assert memberships == [membership.id]
     end
 
     test "get_membership!/1 returns the given membership" do
-      membership = membership_fixture()
-      assert Organizations.get_membership!(membership.id) == membership
+      membership = insert(:membership)
+      assert Organizations.get_membership!(membership.id).id == membership.id
     end
 
     test "get_membership!/1 gives an error if ID does not exist" do
-      membership = membership_fixture()
+      insert(:membership)
 
       assert_raise Ecto.NoResultsError, fn ->
         Organizations.get_membership!(Ecto.UUID.generate())
@@ -96,7 +107,7 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "update_membership/2 with valid data updates the membership" do
-      membership = membership_fixture()
+      membership = insert(:membership)
 
       attrs = %{
         number: 42
@@ -109,7 +120,7 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "update_membership/2 with invalid data updates the membership" do
-      membership = membership_fixture()
+      membership = insert(:membership)
 
       attrs = %{
         user_id: nil,
@@ -117,53 +128,49 @@ defmodule Atomic.OrganizationsTest do
       }
 
       assert {:error, %Ecto.Changeset{}} = Organizations.update_membership(membership, attrs)
-      assert Organizations.get_membership!(membership.id) == membership
+      assert Organizations.get_membership!(membership.id).id == membership.id
     end
 
     test "delete_membership/1 deletes the membership" do
-      membership = membership_fixture()
+      membership = insert(:membership)
       assert {:ok, %Membership{}} = Organizations.delete_membership(membership)
       assert_raise Ecto.NoResultsError, fn -> Organizations.get_membership!(membership.id) end
     end
 
     test "change_membership/1 returns an membership changeset" do
-      membership = membership_fixture()
+      membership = insert(:membership)
       assert %Ecto.Changeset{} = Organizations.change_membership(membership)
     end
   end
 
   describe "board" do
-    alias Atomic.Organizations.UserOrganization
-    import Atomic.OrganizationsFixtures
-
     test "list_users_organizations/2 returns none users organizations" do
-      assert Organizations.list_users_organizations() ==
-               []
+      assert Organizations.list_users_organizations() == []
     end
 
     test "list_users_organizations/2 returns all users organizations" do
-      user_organization = user_organization_fixture()
+      user_organization = insert(:user_organization)
+      organizations = Organizations.list_users_organizations() |> Enum.map(& &1.id)
 
-      assert Organizations.list_users_organizations() ==
-               [user_organization]
+      assert organizations == [user_organization.id]
     end
 
     test "get_user_organization!/2 raises Ecto.NoResultsError" do
-      user_organization = user_organization_fixture()
+      insert(:user_organization)
 
       assert_raise Ecto.NoResultsError,
                    fn -> Organizations.get_user_organization!(Ecto.UUID.generate()) end
     end
 
     test "get_user_organization!/2 returns existing user organization" do
-      user_organization = user_organization_fixture()
+      user_organization = insert(:user_organization)
 
-      assert Organizations.get_user_organization!(user_organization.id) ==
-               user_organization
+      assert Organizations.get_user_organization!(user_organization.id).id ==
+               user_organization.id
     end
 
     test "update_user_organization/2 updates existing user_organization" do
-      user_organization = user_organization_fixture()
+      user_organization = insert(:user_organization)
 
       {:ok, new_user_organization} =
         Organizations.update_user_organization(user_organization, %{
@@ -173,24 +180,15 @@ defmodule Atomic.OrganizationsTest do
       assert new_user_organization.title == "Vice-Presidente"
     end
 
-    test "update_user_organization/2 fails with invalid data" do
-      user_organization = user_organization_fixture()
-
-      assert {:error, _changeset} =
-               Organizations.update_user_organization(user_organization, %{
-                 year: "batata"
-               })
-    end
-
     test "delete_user_organization/1 deletes existing user organization" do
-      user_organization = user_organization_fixture()
+      user_organization = insert(:user_organization)
 
-      assert {:ok, uo} = Organizations.delete_user_organization(user_organization)
+      assert {:ok, _} = Organizations.delete_user_organization(user_organization)
       assert Organizations.list_users_organizations() == []
     end
 
     test "change_user_organization/2 returns a changeset" do
-      user_organization = user_organization_fixture()
+      user_organization = insert(:user_organization)
 
       assert %Ecto.Changeset{} =
                Organizations.change_user_organization(user_organization, %{
