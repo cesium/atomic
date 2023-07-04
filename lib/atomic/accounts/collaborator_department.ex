@@ -1,6 +1,6 @@
 defmodule Atomic.Accounts.CollaboratorDepartment do
   @moduledoc """
-    An activity speaker
+    A relation representing a collaborator who belongs to a department
   """
   use Atomic.Schema
 
