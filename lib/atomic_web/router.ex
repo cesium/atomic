@@ -17,6 +17,14 @@ defmodule AtomicWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug AtomicWeb.Auth.AllowedRoles, [:admin]
+  end
+
+  pipeline :staff do
+    plug AtomicWeb.Auth.AllowedRoles, [:staff, :admin]
+  end
+
   scope "/", AtomicWeb do
     pipe_through :browser
 
@@ -24,7 +32,7 @@ defmodule AtomicWeb.Router do
   end
 
   scope "/", AtomicWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :require_authenticated_user, :admin]
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
       live "/scanner", ScannerLive.Index, :index
