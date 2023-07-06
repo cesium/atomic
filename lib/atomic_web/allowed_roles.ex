@@ -6,7 +6,7 @@ defmodule AtomicWeb.Auth.AllowedRoles do
 
   def call(conn, opts) do
 
-    if conn.assigns.current_user.role in opts do
+    if conn.assigns.current_membership[:role] in opts do
       conn
     else
       conn
