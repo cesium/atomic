@@ -6,6 +6,7 @@ defmodule AtomicWeb.UserAuth do
   import Phoenix.Controller
 
   alias Atomic.Accounts
+  alias Atomic.Organizations
   alias AtomicWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -119,6 +120,14 @@ defmodule AtomicWeb.UserAuth do
         {nil, conn}
       end
     end
+  end
+
+  defp get_default_membership(user) do
+    organization = List.first(user.organizations)
+
+    role = Organizations.get_membership_by_organization_user!(user, organization).role
+
+    %{organization: organization, role: role}
   end
 
   @doc """
