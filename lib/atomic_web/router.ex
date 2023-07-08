@@ -17,14 +17,6 @@ defmodule AtomicWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :organization_owner do
-    plug AtomicWeb.Auth.AllowedRoles, [:owner]
-  end
-
-  pipeline :organization_admin do
-    plug AtomicWeb.Auth.AllowedRoles, [:admin, :owner]
-  end
-
   scope "/", AtomicWeb do
     pipe_through :browser
 
@@ -32,7 +24,7 @@ defmodule AtomicWeb.Router do
   end
 
   scope "/", AtomicWeb do
-    pipe_through [:browser, :require_authenticated_user, :organization_admin]
+    pipe_through [:browser, :require_authenticated_user]
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
       live "/scanner", ScannerLive.Index, :index
@@ -42,11 +34,11 @@ defmodule AtomicWeb.Router do
       live "/activities/:id/edit", ActivityLive.Edit, :edit
       live "/activities/:id", ActivityLive.Show, :show
 
-      live "/departments/:org", DepartmentLive.Index, :index
-      live "/departments/:org/new", DepartmentLive.Index, :new
-      live "/departments/:org/:id/edit", DepartmentLive.Index, :edit
-      live "/departments/:org/:id", DepartmentLive.Show, :show
-      live "/departments/:org/:id/show/edit", DepartmentLive.Show, :edit
+      live "/organizations/:organization_id/departments", DepartmentLive.Index, :index
+      live "/organizations/:organization_id/departments/new", DepartmentLive.Index, :new
+      live "/organizations/:organization_id/departments/:id/edit", DepartmentLive.Index, :edit
+      live "/organizations/:organization_id/departments/:id", DepartmentLive.Show, :show
+      live "/organizations/:organization_id/departments/:id/show/edit", DepartmentLive.Show, :edit
 
       live "/partners", PartnerLive.Index, :index
       live "/partners/new", PartnerLive.Index, :new
