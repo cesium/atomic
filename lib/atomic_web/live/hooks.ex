@@ -12,8 +12,14 @@ defmodule AtomicWeb.Hooks do
 
   def on_mount(:current_user, _params, %{"user_token" => user_token}, socket) do
     current_user = Accounts.get_user_by_session_token(user_token)
+    current_organization = List.first(current_user.organizations)
 
-    {:cont, assign(socket, current_user: current_user)}
+    socket =
+      socket
+      |> assign(:current_user, current_user)
+      |> assign(:current_organization, current_organization)
+
+    {:cont, socket}
   end
 
   def on_mount(:current_user, _params, _session, socket) do

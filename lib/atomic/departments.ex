@@ -21,6 +21,19 @@ defmodule Atomic.Departments do
     Repo.all(Department)
   end
 
+  @doc """
+  Returns the list of departments belonging to an organization.
+
+  ## Examples
+
+      iex> list_departments_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Department{}, ...]
+
+  """
+  def list_departments_by_organization_id(id) do
+    Repo.all(from d in Department, where: d.organization_id == ^id)
+  end
+
   def get_departments(nil), do: []
 
   def get_departments(ids) do

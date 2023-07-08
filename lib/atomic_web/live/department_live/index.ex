@@ -5,8 +5,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
   alias Atomic.Departments.Department
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :departments, list_departments())}
+  def mount(params, _session, socket) do
+    {:ok, assign(socket, :departments, list_departments(params["organization_id"]))}
   end
 
   @impl true
@@ -33,14 +33,14 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete", %{"id" => id, "organization_id" => organization_id}, socket) do
     department = Departments.get_department!(id)
     {:ok, _} = Departments.delete_department(department)
 
-    {:noreply, assign(socket, :departments, list_departments())}
+    {:noreply, assign(socket, :departments, list_departments(organization_id))}
   end
 
-  defp list_departments do
-    Departments.list_departments()
+  defp list_departments(id) do
+    Departments.list_departments_by_organization_id(id)
   end
 end
