@@ -189,26 +189,6 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Gets a membership between a user and an organization.
-
-  Raises `Ecto.NoResultsError` if the membership does not exist.
-
-  ## Examples
-
-      iex> get_membership_by_organization_user!(%User{}, %Organization{})
-      %membership{}
-
-      iex> get_membership_by_organization_user!(%User{}, %Organization{})
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_membership_by_organization_user!(%User{} = user, %Organization{} = organization) do
-    Membership
-    |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
-    |> Repo.one()
-  end
-
-  @doc """
   Updates an membership.
 
   ## Examples
