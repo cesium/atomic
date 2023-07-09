@@ -41,6 +41,9 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   end
 
   defp save_department(socket, :new, department_params) do
+    department_params =
+      Map.put(department_params, "organization_id", socket.assigns.organization.id)
+
     case Departments.create_department(department_params) do
       {:ok, _department} ->
         {:noreply,
