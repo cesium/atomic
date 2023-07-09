@@ -34,11 +34,11 @@ defmodule AtomicWeb.Router do
       live "/activities/:id/edit", ActivityLive.Edit, :edit
       live "/activities/:id", ActivityLive.Show, :show
 
-      live "/departments", DepartmentLive.Index, :index
-      live "/departments/new", DepartmentLive.Index, :new
-      live "/departments/:id/edit", DepartmentLive.Index, :edit
-      live "/departments/:id", DepartmentLive.Show, :show
-      live "/departments/:id/show/edit", DepartmentLive.Show, :edit
+      live "/departments/:org", DepartmentLive.Index, :index
+      live "/departments/:org/new", DepartmentLive.Index, :new
+      live "/departments/:org/:id/edit", DepartmentLive.Index, :edit
+      live "/departments/:org/:id", DepartmentLive.Show, :show
+      live "/departments/:org/:id/show/edit", DepartmentLive.Show, :edit
 
       live "/partners", PartnerLive.Index, :index
       live "/partners/new", PartnerLive.Index, :new
