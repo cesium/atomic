@@ -2,7 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.department_index_path(@socket, :index, @current_organization)}>
-    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
+    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
 
@@ -22,7 +22,7 @@
         <td>
           <span><%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, @current_organization, department)) %></span>
           <span><%= live_patch("Edit", to: Routes.department_index_path(@socket, :edit, @current_organization, department)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: department.id, phx_value_organization_id: @current_organization.id, data: [confirm: "Are you sure?"]) %></span>
+          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: department.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
       </tr>
     <% end %>

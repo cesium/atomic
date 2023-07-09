@@ -3,7 +3,6 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   alias Atomic.Departments
   alias Atomic.Departments.Department
-  alias Atomic.Organizations
 
   @impl true
   def mount(params, _session, socket) do
@@ -11,7 +10,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   @impl true
-  def handle_params(%{"org" => _id} = params, _url, socket) do
+  def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -21,26 +20,24 @@ defmodule AtomicWeb.DepartmentLive.Index do
     |> assign(:department, Departments.get_department!(id))
   end
 
-  defp apply_action(socket, :new, %{"org" => id}) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Department")
-    |> assign(:organization, Organizations.get_organization!(id))
     |> assign(:department, %Department{})
   end
 
-  defp apply_action(socket, :index, %{"org" => id}) do
+  defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Departments")
-    |> assign(:organization, Organizations.get_organization!(id))
     |> assign(:department, nil)
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id, "organization_id" => organization_id}, socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     department = Departments.get_department!(id)
     {:ok, _} = Departments.delete_department(department)
 
-    {:noreply, assign(socket, :departments, list_departments(organization_id))}
+    {:noreply, assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
   defp list_departments(id) do
