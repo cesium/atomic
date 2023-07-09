@@ -14,10 +14,15 @@ defmodule AtomicWeb.DepartmentLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Department")
-    |> assign(:department, Departments.get_department!(id))
+  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
+    department = Departments.get_department!(id, preloads: [:organization])
+    if department.organization.id != organization_id do
+      raise AtomicWeb.MismatchError
+    else
+      socket
+      |> assign(:page_title, "Edit Department")
+      |> assign(:department, Departments.get_department!(id))
+    end
   end
 
   defp apply_action(socket, :new, _params) do
