@@ -2,7 +2,7 @@
 
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.organization_index_path(@socket, :index)}>
-    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization.id || :new} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_index_path(@socket, :index)} />
+    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization || :new} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_index_path(@socket, :index)} />
   </.modal>
 <% end %>
 
