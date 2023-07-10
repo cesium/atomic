@@ -14,7 +14,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"organization_id" => id}) do
     socket
     |> assign(:page_title, "Edit Organization")
     |> assign(:organization, Organizations.get_organization!(id))
@@ -33,7 +33,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete", %{"organization_id" => id}, socket) do
     organization = Organizations.get_organization!(id)
     {:ok, _} = Organizations.delete_organization(organization)
 

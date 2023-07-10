@@ -9,7 +9,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"organization_id" => id}, _, socket) do
     org = Organizations.get_organization!(id, [:departments])
 
     {:noreply,
