@@ -54,9 +54,9 @@ defmodule AtomicWeb.Router do
 
       live "/organizations", OrganizationLive.Index, :index
       live "/organizations/new", OrganizationLive.Index, :new
-      live "/organizations/:id/edit", OrganizationLive.Index, :edit
-      live "/organizations/:id", OrganizationLive.Show, :show
-      live "/organizations/:id/show/edit", OrganizationLive.Show, :edit
+      live "/organizations/:organization_id/edit", OrganizationLive.Index, :edit
+      live "/organizations/:organization_id", OrganizationLive.Show, :show
+      live "/organizations/:organization_id/show/edit", OrganizationLive.Show, :edit
 
       live "/membership/:org", MembershipLive.Index, :index
       live "/membership/:org/new", MembershipLive.New, :new
