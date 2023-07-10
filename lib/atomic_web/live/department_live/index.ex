@@ -5,8 +5,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
   alias Atomic.Departments.Department
 
   @impl true
-  def mount(params, _session, socket) do
-    {:ok, assign(socket, :departments, list_departments(params["organization_id"]))}
+  def mount(%{"organization_id" => organization_id}, _session, socket) do
+    {:ok, assign(socket, :departments, list_departments(organization_id))}
   end
 
   @impl true
@@ -15,13 +15,13 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    department = Departments.get_department!(id, preloads: [:organization])
-    if department.organization.id != organization_id do
-      raise AtomicWeb.MismatchError
-    else
+    department = Departments.get_department!(id)
+    if department.organization_id == organization_id do
       socket
       |> assign(:page_title, "Edit Department")
       |> assign(:department, Departments.get_department!(id))
+    else
+      raise AtomicWeb.MismatchError
     end
   end
 
