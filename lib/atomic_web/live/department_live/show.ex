@@ -10,14 +10,14 @@ defmodule AtomicWeb.DepartmentLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    department = Departments.get_department!(id, preloads: [:activities, :organization])
-    if department.organization.id != organization_id do
-      raise AtomicWeb.MismatchError
-    else
+    department = Departments.get_department!(id, preloads: [:activities])
+    if department.organization_id == organization_id do
       {:noreply,
        socket
        |> assign(:page_title, page_title(socket.assigns.live_action))
        |> assign(:department, department)}
+    else
+      raise AtomicWeb.MismatchError
     end
   end
 

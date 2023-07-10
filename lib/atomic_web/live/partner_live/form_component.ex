@@ -57,6 +57,8 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :new, partner_params) do
+    partner_params =
+      Map.put(partner_params, "organization_id", socket.assigns.organization.id)
     case Partnerships.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,

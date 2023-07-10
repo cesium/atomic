@@ -5,8 +5,8 @@ defmodule AtomicWeb.PartnerLive.Index do
   alias Atomic.Partnerships.Partner
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships())}
+  def mount(%{"organization_id" => organization_id}, _session, socket) do
+    {:ok, assign(socket, :partnerships, list_partnerships(organization_id))}
   end
 
   @impl true
@@ -14,10 +14,15 @@ defmodule AtomicWeb.PartnerLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Partner")
-    |> assign(:partner, Partnerships.get_partner!(id))
+  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
+    partner = Partnerships.get_partner!(id)
+    if partner.organization_id == organization_id do
+      socket
+      |> assign(:page_title, "Edit Partner")
+      |> assign(:partner, Partnerships.get_partner!(id))
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp apply_action(socket, :new, _params) do
@@ -37,10 +42,10 @@ defmodule AtomicWeb.PartnerLive.Index do
     partner = Partnerships.get_partner!(id)
     {:ok, _} = Partnerships.delete_partner(partner)
 
-    {:noreply, assign(socket, :partnerships, list_partnerships())}
+    {:noreply, assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
-  defp list_partnerships do
-    Partnerships.list_partnerships()
+  defp list_partnerships(id) do
+    Partnerships.list_partnerships_by_organization_id(id)
   end
 end
