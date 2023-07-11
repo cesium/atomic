@@ -58,10 +58,10 @@ defmodule AtomicWeb.Router do
       live "/organizations/:organization_id", OrganizationLive.Show, :show
       live "/organizations/:organization_id/show/edit", OrganizationLive.Show, :edit
 
-      live "/membership/:org", MembershipLive.Index, :index
-      live "/membership/:org/new", MembershipLive.New, :new
-      live "/membership/:org/:id", MembershipLive.Show, :show
-      live "/membership/:org/:id/edit", MembershipLive.Edit, :edit
+      live "/organizations/:organization_id/memberships", MembershipLive.Index, :index
+      live "/organizations/:organization_id/memberships/new", MembershipLive.New, :new
+      live "/organizations/:organization_id/memberships/:id", MembershipLive.Show, :show
+      live "/organizations/:organization_id/memberships/:id/edit", MembershipLive.Edit, :edit
 
       live "/card/:membership_id", CardLive.Show, :show
 

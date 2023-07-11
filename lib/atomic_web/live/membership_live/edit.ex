@@ -9,19 +9,23 @@ defmodule AtomicWeb.MembershipLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"org" => org, "id" => id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
 
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:organization, org)
-     |> assign(:membership, membership)
-     |> assign(:current_user, socket.assigns.current_user)
-     |> assign(
-       :allowed_roles,
-       Organizations.roles_less_than_or_equal(socket.assigns.current_user.role)
-     )}
+    if membership.organization_id == organization_id do
+      {:noreply,
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:organization, organization_id)
+       |> assign(:membership, membership)
+       |> assign(:current_user, socket.assigns.current_user)
+       |> assign(
+         :allowed_roles,
+         Organizations.roles_less_than_or_equal(socket.assigns.current_user.role)
+       )}
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp page_title(:index), do: "List memberships"
