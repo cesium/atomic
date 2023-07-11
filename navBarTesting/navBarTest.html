@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sidebar Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="">
+    <div class="h-screen flex">
+        <div class="w-1/5 bg-gray-100 text-black flex-col">
+            <div class="h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center mb-4 p-4">
+                        <img src="images/cesium_logo.png" alt="Logo" class="h-8 w-8 mr-2">
+                        <h1 class="text-sm">
+                            CeSIUM
+                            <p class="text-xs text-gray-400">
+                                Fernando - Colaborador
+                            </p>
+                        </h1>
+                    </div>
+                    <div class="flex flex-col mt-20">
+                        <a href="https://example.com" class="px-4 bg-gray-100 hover:bg-gray-200 p-1.5">Activities</a>
+                        <a href="https://example.com" class="px-4 bg-gray-100 hover:bg-gray-200 p-1.5">Speakers</a>
+                        <a href="https://example.com" class="px-4 bg-gray-100 hover:bg-gray-200 p-1.5">Something</a>
+                        <a href="https://example.com" class="px-4 bg-gray-100 hover:bg-gray-200 p-1.5">Something</a>
+                        <a href="https://example.com" class="px-4 bg-gray-100 hover:bg-gray-200 p-1.5">Something</a>
+                    </div>
+                </div>
+                <div class="flex justify-center px-4">
+                    <button class="bg-white hover:bg-gray-400 rounded shadow mb-2 p-4 w-full">
+                        <a href="https://example.com" class="px-4 ">Login</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="w-4/5 bg-white">
+            <!-- Content of the main area -->
+            <div class="container border-b-2 border-gray border-double">
+                <h1 class="text-2xl font-bold flex justify-center mb-4 mt-4">
+                    Activities
+                </h1>
+            </div>
+            <div class="container my-4 mx-4">
+                <a href="https://example.com"
+                    class="button bg-red-200 text-blue-500 py-2 px-4 rounded mb-2 hover:bg-red-300">OnGoing</a>
+                <a href="https://example.com"
+                    class="button bg-red-200 text-blue-500 py-2 px-4 rounded mb-2 hover:bg-red-300">Coming Soon</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>
