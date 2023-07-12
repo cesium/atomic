@@ -1,7 +1,10 @@
 <%= if @current_user do %>
   <ul>
     <li class="py-1"><%= @current_user.email %></li>
-    <li class="py-1"><%= link("Settings", to: Routes.user_settings_path(@conn, :edit)) %> <%= link("Log out", to: Routes.user_session_path(@conn, :delete), method: :delete) %></li>  
+    <li class="py-1">
+        <%= link("Settings", to: Routes.user_settings_path(@conn, :edit)) %>
+        <%= link("Log out", to: Routes.user_session_path(@conn, :delete), method: :delete) %>
+    </li>
   </ul>
 <% else %>
   <li><%= link("Register", to: Routes.user_registration_path(@conn, :new)) %></li>
