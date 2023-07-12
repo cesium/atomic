@@ -39,5 +39,8 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
           build-flags: --all-warnings --warnings-as-errors
 
+      - name: Install wkhtmltopdf
+        run: sudo apt-get update && sudo apt-get install -y wkhtmltopdf
+  
       - name: 🔬 Run the tests
         run: mix test --warnings-as-errors
