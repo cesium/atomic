@@ -4,7 +4,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
   import Atomic.AccountsFixtures
 
   setup do
-    %{user: user_fixture()}
+    %{user: insert(:user)}
   end
 
   describe "GET /users/log_in" do

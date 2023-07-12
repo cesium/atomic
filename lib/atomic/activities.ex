@@ -268,10 +268,10 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> create_enrollment(%{field: value})
+      iex> create_enrollment(%Activity{} = activity, %User{} = user)
       {:ok, %Enrollment{}}
 
-      iex> create_enrollment(%{field: bad_value})
+      iex> create_enrollment(%Activity{} = activity, %User{} = user)
       {:error, %Ecto.Changeset{}}
 
   """

@@ -15,6 +15,7 @@ defmodule AtomicWeb.OrganizationLiveTest do
 
   describe "Index" do
     setup [:create_organization]
+    setup [:register_and_log_in_user]
 
     test "lists all organizations", %{conn: conn, organization: organization} do
       {:ok, _index_live, html} = live(conn, Routes.organization_index_path(conn, :index))
@@ -80,6 +81,7 @@ defmodule AtomicWeb.OrganizationLiveTest do
 
   describe "Show" do
     setup [:create_organization]
+    setup [:register_and_log_in_user]
 
     test "displays organization", %{conn: conn, organization: organization} do
       {:ok, _show_live, html} =

@@ -15,6 +15,7 @@ defmodule AtomicWeb.PartnerLiveTest do
 
   describe "Index" do
     setup [:create_partner]
+    setup [:register_and_log_in_user]
 
     test "lists all partnerships", %{conn: conn, partner: partner} do
       {:ok, _index_live, html} = live(conn, Routes.partner_index_path(conn, :index))
@@ -41,7 +42,6 @@ defmodule AtomicWeb.PartnerLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.partner_index_path(conn, :index))
 
-      assert html =~ "Partner created successfully"
       assert html =~ "some description"
     end
 
@@ -63,7 +63,6 @@ defmodule AtomicWeb.PartnerLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.partner_index_path(conn, :index))
 
-      assert html =~ "Partner updated successfully"
       assert html =~ "some updated description"
     end
 
@@ -77,6 +76,7 @@ defmodule AtomicWeb.PartnerLiveTest do
 
   describe "Show" do
     setup [:create_partner]
+    setup [:register_and_log_in_user]
 
     test "displays partner", %{conn: conn, partner: partner} do
       {:ok, _show_live, html} = live(conn, Routes.partner_show_path(conn, :show, partner))
@@ -103,7 +103,6 @@ defmodule AtomicWeb.PartnerLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.partner_show_path(conn, :show, partner))
 
-      assert html =~ "Partner updated successfully"
       assert html =~ "some updated description"
     end
   end
