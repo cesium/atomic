@@ -11,7 +11,6 @@ defmodule Atomic.Factories.AccountFactory do
 
       def user_factory do
         %User{
-          id: Faker.UUID.v4(),
           name: Faker.Person.name(),
           email: Faker.Internet.email(),
           role: Enum.random(@roles),

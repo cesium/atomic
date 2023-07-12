@@ -10,7 +10,7 @@ defmodule AtomicWeb.UserAuthTest do
     conn =
       conn
       |> Map.replace!(:secret_key_base, AtomicWeb.Endpoint.config(:secret_key_base))
-      |> Phoenix.ConnTest.init_test_session(%{})
+      |> init_test_session(%{})
 
     %{user: insert(:user), conn: conn}
   end
