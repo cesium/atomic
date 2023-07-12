@@ -11,21 +11,31 @@
     </script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav>
-          <ul class="py-10 flex items-center space-x-4">
-            <li><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
-            <li><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
-            <li><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
-            <li><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
-            <li><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
-            <li><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
-            <%= render("_user_menu.html", assigns) %>
-          </ul>
-        </nav>
-      </section>
-    </header>
-    <%= @inner_content %>
+    <div class="h-screen flex">
+        <div class="w-1/6 bg-gray-100 text-black flex-col">
+            <div class="h-full flex flex-col justify-between">
+                <div class="drop-shadow-lg">
+                    <div>
+                        <li class="pt-4 pb-2 px-2 bg-cesium-400 hover:bg-cesium-700"><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
+                    </div>
+                    <div class="flex flex-col mt-12">
+                      <ul>  
+                        <li class="py-2 px-2 hover:bg-slate-300"><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
+                        <li class="py-2 px-2 hover:bg-slate-300"><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
+                        <li class="py-2 px-2 hover:bg-slate-300"><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
+                        <li class="py-2 px-2 hover:bg-slate-300"><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
+                        <li class="py-2 px-2 hover:bg-slate-300"><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="py-2 px-2">
+                    <%= render("_user_menu.html", assigns) %>
+                </div>
+            </div>
+        </div>
+        <div class="pt-4 p-2">
+          <%= @inner_content %>
+        </div> 
+    </div> 
   </body>
 </html>
