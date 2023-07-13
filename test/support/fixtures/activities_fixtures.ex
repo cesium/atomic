@@ -37,18 +37,6 @@ defmodule Atomic.ActivitiesFixtures do
   end
 
   @doc """
-  Generate a enrollment.
-  """
-  def enrollment_fixture(attrs \\ %{}) do
-    {:ok, enrollment} =
-      attrs
-      |> Enum.into(%{})
-      |> Atomic.Activities.create_enrollment()
-
-    enrollment
-  end
-
-  @doc """
   Generate a speaker.
   """
   def speaker_fixture(attrs \\ %{}) do
