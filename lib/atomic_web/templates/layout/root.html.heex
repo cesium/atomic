@@ -11,26 +11,30 @@
     </script>
   </head>
   <body>
+    <!-- Static sidebar -->
     <div class="h-screen flex">
       <div class="w-1/6 bg-gray-100 text-black flex-col drop-shadow-lg">
         <div class="h-full flex flex-col justify-between">
-            <div class="m-3">
-              <div class="w-full">
-                <li class="py-4 px-3 bg-cesium-400 rounded-lg hover:bg-cesium-700"><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
-              </div>
-              <div class="flex flex-col mt-12 ">
-                <ul>
-                  <li class="py-4 px-2 hover:bg-neutral-500"><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
-                  <li class="py-4 px-2 hover:bg-neutral-500"><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
-                  <li class="py-4 px-2 hover:bg-neutral-500"><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
-                  <li class="py-4 px-2 hover:bg-neutral-500"><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
-                  <li class="py-4 px-2 hover:bg-neutral-500"><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
-                </ul>
-              </div>
+          <div>
+            <div class="w-full mb-4 p-4">
+              <li class="py-4 px-3 bg-cesium-400 rounded-lg hover:bg-cesium-700"><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
             </div>
-            <div class="py-2 px-2">
-              <%= render("_user_menu.html", assigns) %>
+            <div class="flex flex-col mt-20">
+              <ul>
+                <li class="px-2 bg-gray-100 hover:bg-cesium-700 p-1.5"><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
+                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
+                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
+                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
+                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
+                <li class="text-gray-700 hover:text-blue-600 hover:bg-cesium-700 group flex gap-x-3 rounded-md p-2 text-sm leading-6">
+                  <%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %>
+                </li>
+              </ul>
             </div>
+          </div>
+          <div class="py-2 px-2">
+            <%= render("_user_menu.html", assigns) %>
+          </div>
         </div>
       </div>
       <div class="mt-3">

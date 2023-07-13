@@ -1,14 +1,16 @@
-<h1>Listing Activities</h1>
-
+<div class="border-b-2 border-gray border-double">
+  <h1 class="text-2xl font-bold flex justify-center mb-4 mt-4">
+    Listing Activities
+  </h1>
+</div>
 <table>
   <thead>
-    <tr>
-      <th>Title</th>
+    <tr class="bg-yellow-100">
+      <th class="text-l border-r-2 border-black border-double">Title</th>
       <th>Date</th>
       <th>Location</th>
       <th>Minimum entries</th>
       <th>Maximum entries</th>
-
       <th></th>
     </tr>
   </thead>
@@ -20,7 +22,6 @@
         <td><%= hd(activity.activity_sessions).location.name %></td>
         <td><%= activity.minimum_entries %></td>
         <td><%= activity.maximum_entries %></td>
-
         <td>
           <span><%= live_redirect("Show", to: Routes.activity_show_path(@socket, :show, activity)) %></span>
         </td>
