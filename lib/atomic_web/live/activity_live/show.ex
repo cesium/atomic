@@ -17,16 +17,17 @@ defmodule AtomicWeb.ActivityLive.Show do
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
 
-    organizations = Enum.map(activity.departments, fn department ->
-      department.organization_id
-    end)
+    organizations =
+      Enum.map(activity.departments, fn department ->
+        department.organization_id
+      end)
 
     if organization_id in organizations do
       {:noreply,
-        socket
-        |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
-        |> assign(:page_title, page_title(socket.assigns.live_action))
-        |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+       socket
+       |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
     else
       raise AtomicWeb.MismatchError
     end

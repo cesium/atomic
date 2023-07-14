@@ -16,6 +16,7 @@ defmodule AtomicWeb.PartnerLive.Index do
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
     partner = Partnerships.get_partner!(id)
+
     if partner.organization_id == organization_id do
       socket
       |> assign(:page_title, "Edit Partner")
@@ -42,7 +43,8 @@ defmodule AtomicWeb.PartnerLive.Index do
     partner = Partnerships.get_partner!(id)
     {:ok, _} = Partnerships.delete_partner(partner)
 
-    {:noreply, assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
+    {:noreply,
+     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
   defp list_partnerships(id) do

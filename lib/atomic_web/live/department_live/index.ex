@@ -16,6 +16,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
     department = Departments.get_department!(id)
+
     if department.organization_id == organization_id do
       socket
       |> assign(:page_title, "Edit Department")
@@ -42,7 +43,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
     department = Departments.get_department!(id)
     {:ok, _} = Departments.delete_department(department)
 
-    {:noreply, assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
+    {:noreply,
+     assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
   defp list_departments(id) do

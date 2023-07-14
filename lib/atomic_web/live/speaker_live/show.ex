@@ -14,9 +14,9 @@ defmodule AtomicWeb.SpeakerLive.Show do
 
     if speaker.organization_id == organization_id do
       {:noreply,
-        socket
-        |> assign(:page_title, page_title(socket.assigns.live_action))
-        |> assign(:speaker, speaker)}
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:speaker, speaker)}
     else
       raise AtomicWeb.MismatchError
     end

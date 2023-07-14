@@ -24,10 +24,10 @@ defmodule Atomic.Activities do
 
   def list_activities_by_organization_id(organization_id, opts) do
     activities =
-    Activity
-    |> apply_filters(opts)
-    |> Repo.all()
-    |> Repo.preload(:departments)
+      Activity
+      |> apply_filters(opts)
+      |> Repo.all()
+      |> Repo.preload(:departments)
 
     Enum.filter(activities, fn activity ->
       Enum.any?(activity.departments, fn department ->

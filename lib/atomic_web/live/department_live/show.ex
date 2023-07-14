@@ -11,6 +11,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     department = Departments.get_department!(id, preloads: [:activities])
+
     if department.organization_id == organization_id do
       {:noreply,
        socket

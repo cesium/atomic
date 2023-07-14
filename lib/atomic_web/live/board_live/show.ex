@@ -14,9 +14,9 @@ defmodule AtomicWeb.BoardLive.Show do
 
     if user_organization.organization_id == organization_id do
       {:noreply,
-      socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))
-      |> assign(:user_organization, user_organization)}
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:user_organization, user_organization)}
     else
       raise AtomicWeb.MismatchError
     end

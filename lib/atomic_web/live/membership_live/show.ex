@@ -11,6 +11,7 @@ defmodule AtomicWeb.MembershipLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
+
     if membership.organization_id == organization_id do
       {:noreply,
        socket

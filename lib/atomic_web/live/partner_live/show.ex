@@ -12,6 +12,7 @@ defmodule AtomicWeb.PartnerLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     partner = Partnerships.get_partner!(id)
+
     if partner.organization_id == organization_id do
       {:noreply,
        socket

@@ -30,7 +30,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def update(%{"organization_id" => organization_id}, socket) do
     departments = Departments.list_departments_by_organization_id(organization_id)
-     {:ok,
+
+    {:ok,
      socket
      |> assign(:departments, departments)}
   end

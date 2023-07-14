@@ -16,11 +16,11 @@ defmodule AtomicWeb.BoardLive.Edit do
 
     if user_organization.organization_id == organization_id do
       {:noreply,
-        socket
-        |> assign(:page_title, page_title(socket.assigns.live_action))
-        |> assign(:user_organization, user_organization)
-        |> assign(:users, users)
-        |> assign(:current_user, socket.assigns.current_user)}
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:user_organization, user_organization)
+       |> assign(:users, users)
+       |> assign(:current_user, socket.assigns.current_user)}
     else
       raise AtomicWeb.MismatchError
     end
