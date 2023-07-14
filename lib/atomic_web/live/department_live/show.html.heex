@@ -17,7 +17,7 @@
     <ul>
       <%= for activity <- @department.activities do %>
         <li>
-          <%= live_redirect(activity.title, to: Routes.activity_show_path(@socket, :show, activity)) %>
+          <%= live_redirect(activity.title, to: Routes.activity_show_path(@socket, :show, @current_organization, activity)) %>
         </li>
       <% end %>
     </ul>

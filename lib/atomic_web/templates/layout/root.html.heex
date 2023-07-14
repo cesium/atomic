@@ -15,10 +15,11 @@
       <section class="container">
         <nav>
           <ul class="py-10 flex items-center space-x-4">
+            <li><%= live_redirect("Home", to: Routes.home_index_path(@conn, :index)) %></li>
             <%= if @current_user do %>
-              <li><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
               <li><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index, @current_organization)) %></li>
               <li><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index, @current_organization)) %></li>
+              <li><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index, @current_organization)) %></li>
               <li><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
               <li><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
               <li><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>

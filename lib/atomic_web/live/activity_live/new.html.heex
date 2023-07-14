@@ -1,3 +1,3 @@
 <div id="atomic-new" phx-update="ignore">
-  <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={:new} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_index_path(@socket, :index)} />
+  <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={:new} organization={@current_organization} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_index_path(@socket, :index, @current_organization)} />
 </div>
