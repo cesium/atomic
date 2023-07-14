@@ -3,31 +3,34 @@
     Listing Activities
   </h1>
 </div>
-<table>
+<div class="overflow-x-auto">
+<table class="min-w-full bg-white border border-gray-300 mt-16">
   <thead>
-    <tr class="bg-yellow-100">
-      <th class="text-l border-r-2 border-black border-double">Title</th>
-      <th>Date</th>
-      <th>Location</th>
-      <th>Minimum entries</th>
-      <th>Maximum entries</th>
-      <th></th>
+    <tr>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm">Title</th>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm">Date</th>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden md:table-cell">Location</th>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden lg:table-cell">Minimum entries</th>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden xl:table-cell">Maximum entries</th>
+      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm"></th>
     </tr>
   </thead>
   <tbody id="activities">
     <%= for activity <- @activities do %>
       <tr id={"activity-#{activity.id}"}>
-        <td><%= activity.title %></td>
-        <td><%= hd(activity.activity_sessions).start %></td>
-        <td><%= hd(activity.activity_sessions).location.name %></td>
-        <td><%= activity.minimum_entries %></td>
-        <td><%= activity.maximum_entries %></td>
-        <td>
-          <span><%= live_redirect("Show", to: Routes.activity_show_path(@socket, :show, activity)) %></span>
+        <td class="py-4 px-6 border-b border-gray-300"><%= activity.title %></td>
+        <td class="py-4 px-6 border-b border-gray-300"><%= hd(activity.activity_sessions).start %></td>
+        <td class="py-4 px-6 border-b border-gray-300 hidden md:table-cell"><%= hd(activity.activity_sessions).location.name %></td>
+        <td class="py-4 px-6 border-b border-gray-300 hidden lg:table-cell"><%= activity.minimum_entries %></td>
+        <td class="py-4 px-6 border-b border-gray-300 hidden xl:table-cell"><%= activity.maximum_entries %></td>
+        <td class="py-4 px-6 border-b border-gray-300">
+          <span class="text-blue-600"><%= live_redirect("Show", to: Routes.activity_show_path(@socket, :show, activity)) %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+</div>
+<div class="inline-block border border-black p-2 mt-4 py-2 px-4 bg-cesium-400 text-black text-sm font-semibold rounded hover:bg-cesium-700">
 <span><%= live_patch("New Activity", to: Routes.activity_new_path(@socket, :new)) %></span>
+</div>

@@ -9,37 +9,86 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}>
     </script>
+    <style>
+        /* Optional custom styles */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+        }
+
+        .full-width-content {
+            width: calc(100% - 250px);
+            /* Adjust the width based on the sidebar's width */
+        }
+    </style>
   </head>
   <body>
+  <!-- Sidebar Button -->
+    <button id="sidebarToggle" class="fixed top-0 left-0 z-50 p-4 bg-gray-900 text-white focus:outline-none hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+            </path>
+        </svg>
+    </button>
     <!-- Static sidebar -->
     <div class="h-screen flex">
-      <div class="w-1/6 bg-gray-100 text-black flex-col drop-shadow-lg">
+      <div id="sidebar"
+        class="bg-gray-200 text-black flex-col sidebar fixed inset-y-0 left-0 h-screen w-20 sm:w-64 transition-all duration-300 ease-in-out overflow-y-auto">
         <div class="h-full flex flex-col justify-between">
-          <div>
-            <div class="w-full mb-4 p-4">
+          <div class="mt-16">
+            <div class="flex items-center mb-4 p-4">
               <li class="py-4 px-3 bg-cesium-400 rounded-lg hover:bg-cesium-700"><%= live_redirect("Organizations", to: Routes.organization_index_path(@conn, :index)) %></li>
             </div>
             <div class="flex flex-col mt-20">
               <ul>
-                <li class="px-2 bg-gray-100 hover:bg-cesium-700 p-1.5"><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
-                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
-                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
-                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
-                <li class="px-2 bg-gray-100 hover:bg-gray-200 p-1.5"><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
-                <li class="text-gray-700 hover:text-blue-600 hover:bg-cesium-700 group flex gap-x-3 rounded-md p-2 text-sm leading-6">
-                  <%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %>
-                </li>
+                <li class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5"><%= live_redirect("Activities", to: Routes.activity_index_path(@conn, :index)) %></li>
+                <li class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5"><%= live_redirect("Departments", to: Routes.department_index_path(@conn, :index)) %></li>
+                <li class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5"><%= live_redirect("Partners", to: Routes.partner_index_path(@conn, :index)) %></li>
+                <li class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5"><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index)) %></li>
+                <li class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5"><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
               </ul>
             </div>
           </div>
-          <div class="py-2 px-2">
+          <div class="px-4 bg-gray-200 hover:bg-gray-300 p-1.5">
             <%= render("_user_menu.html", assigns) %>
           </div>
         </div>
       </div>
-      <div class="mt-3">
+      <div class="bg-white sm:ml-64 p-4">
         <%= @inner_content %>
       </div>
     </div>
+    <!-- Footer -->
+  <footer class="bg-blue-900 text-white text-sm py-4 mt-auto">
+    <div class="container mx-auto px-4">
+      <p class="text-center">&copy; 2023 Atomic. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+    <script src="https://cdn.tailwindcss.com/2.2.19/tailwind.min.js"></script>
+    <script>
+        // Get the sidebar, content, and sidebar toggle button elements
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        // Add a resize event listener to show/hide the sidebar button based on window size
+        window.addEventListener('resize', function () {
+            // Check if the window width is less than the small breakpoint (640px)
+            if (window.innerWidth < 640) {
+                sidebarToggle.classList.remove('hidden'); // Show the sidebar button
+                sidebar.classList.add('hidden'); // Hide the sidebar
+            } else {
+                sidebarToggle.classList.add('hidden'); // Hide the sidebar button
+                sidebar.classList.remove('hidden'); // Show the sidebar
+            }
+        });
+
+        // Add a click event listener to the sidebar toggle button
+        sidebarToggle.addEventListener('click', function () {
+            // Toggle the "hidden" class on the sidebar to show/hide it
+            sidebar.classList.toggle('hidden');
+        });
+    </script>
   </body>
 </html>
