@@ -20,7 +20,7 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through :browser
 
-    live "/", ActivityLive.Index, :index
+    live "/", HomeLive.Index, :index
   end
 
   scope "/", AtomicWeb do
@@ -29,10 +29,10 @@ defmodule AtomicWeb.Router do
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
       live "/scanner", ScannerLive.Index, :index
 
-      live "/activities", ActivityLive.Index, :index
-      live "/activities/new", ActivityLive.New, :new
-      live "/activities/:id/edit", ActivityLive.Edit, :edit
-      live "/activities/:id", ActivityLive.Show, :show
+      live "/organizations/:organization_id/activities", ActivityLive.Index, :index
+      live "/organizations/:organization_id/activities/new", ActivityLive.New, :new
+      live "/organizations/:organization_id/activities/:id/edit", ActivityLive.Edit, :edit
+      live "/organizations/:organization_id/activities/:id", ActivityLive.Show, :show
 
       live "/organizations/:organization_id/departments", DepartmentLive.Index, :index
       live "/organizations/:organization_id/departments/new", DepartmentLive.Index, :new
