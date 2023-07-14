@@ -7,12 +7,53 @@
 <table class="min-w-full bg-white border border-gray-300 mt-16">
   <thead>
     <tr>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm">Title</th>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm">Date</th>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden md:table-cell">Location</th>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden lg:table-cell">Minimum entries</th>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm hidden xl:table-cell">Maximum entries</th>
-      <th class="py-3 px-6 bg-gray-100 text-gray-600 font-bold uppercase text-sm"></th>
+      <th class="py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm">Title</th>
+      <th class="py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm">
+        Date
+      </th>
+      <th class="flex py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm hidden md:table-cell">
+        Location
+      </th>
+      <th class="py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm hidden lg:table-cell">
+        Minimum entries
+      </th>
+      <th class="py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm hidden xl:table-cell">
+        Maximum entries
+      </th>
+      <th class="py-3 px-6 bg-gray-300 text-gray-600 font-bold uppercase text-sm">
+    <button id="filterButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Open Filter</button>
+    <div id="filterModal" class="fixed flex z-50 hidden">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Filter Options</h2>
+        <div class="space-y-2">
+          <label class="block flex justify-start">
+            <input type="checkbox" class="mr-2 justify-start">
+            TITLE
+          </label>
+          <label class="block flex justify-start">
+            <input type="checkbox" class="mr-2 justify-start">
+            DATE
+          </label>
+          <label class="block flex justify-start">
+            <input type="checkbox" class="mr-2 justify-start">
+            LOCATION
+          </label>
+          <label class="block flex justify-start">
+            <input type="checkbox" class="mr-2 justify-start">
+            MIN ENTRIES
+          </label>
+          <label class="block flex justify-start">
+            <input type="checkbox" class="mr-2 justify-start">
+            MAX ENTRIES
+          </label>
+        </div>
+        <div class="flex justify-end mt-4">
+          <button id="applyFilterButton" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">Apply Filter</button>
+          <button id="closeModalButton" class="ml-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded">Close</button>
+        </div>
+      </div>
+    </div>
+      </th>
     </tr>
   </thead>
   <tbody id="activities">
@@ -31,6 +72,34 @@
   </tbody>
 </table>
 </div>
+
 <div class="inline-block border border-black p-2 mt-4 py-2 px-4 bg-cesium-400 text-black text-sm font-semibold rounded hover:bg-cesium-700">
-<span><%= live_patch("New Activity", to: Routes.activity_new_path(@socket, :new)) %></span>
+    <span><%= live_patch("New Activity", to: Routes.activity_new_path(@socket, :new)) %></span>
 </div>
+
+<script>
+    const filterButton = document.getElementById('filterButton');
+    const filterModal = document.getElementById('filterModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const applyFilterButton = document.getElementById('applyFilterButton');
+
+    filterButton.addEventListener('click', function() {
+      filterModal.classList.remove('hidden');
+    });
+
+    closeModalButton.addEventListener('click', function() {
+      filterModal.classList.add('hidden');
+    });
+
+    applyFilterButton.addEventListener('click', function() {
+      // Perform filter logic here
+      // You can access the selected checkboxes and apply your filtering logic
+      // Example: Get all checked checkboxes
+      const checkboxes = document.querySelectorAll('#filterModal input[type="checkbox"]:checked');
+      const selectedFields = Array.from(checkboxes).map(checkbox => checkbox.nextSibling.textContent.trim());
+      console.log('Selected Fields:', selectedFields);
+
+      // Close the modal after applying the filter
+      filterModal.classList.add('hidden');
+    });
+  </script>
