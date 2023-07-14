@@ -9,7 +9,7 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
-  def handle_params(%{"org" => id}, _, socket) do
+  def handle_params(%{"organization_id" => id}, _, socket) do
     users_organizations = list_users_organizations(id)
 
     {:noreply,
