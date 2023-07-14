@@ -403,6 +403,19 @@ defmodule Atomic.Activities do
     Repo.all(Speaker)
   end
 
+  @doc """
+  Returns the list of speakers belonging to an organization.
+
+  ## Examples
+
+      iex> list_speakers_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Speaker{}, ...]
+
+  """
+  def list_speakers_by_organization_id(id) do
+    Repo.all(from s in Speaker, where: s.organization_id == ^id)
+  end
+
   def get_speakers(nil), do: []
 
   def get_speakers(ids) do
