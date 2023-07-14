@@ -22,6 +22,20 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
+  def list_activities_by_organization_id(organization_id, opts) do
+    activities =
+    Activity
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Repo.preload(:departments)
+
+    Enum.filter(activities, fn activity ->
+      Enum.any?(activity.departments, fn department ->
+        department.organization_id == organization_id
+      end)
+    end)
+  end
+
   @doc """
   Gets a single activity.
 

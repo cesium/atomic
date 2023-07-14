@@ -5,8 +5,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities())}
+  def mount(%{"organization_id" => organization_id}, _session, socket) do
+    {:ok, assign(socket, :activities, list_activities(organization_id))}
   end
 
   @impl true
@@ -37,10 +37,10 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_activities())}
+    {:noreply, assign(socket, :activies, list_activities(socket.assigns.current_organization.id))}
   end
 
-  defp list_activities do
-    Activities.list_activities(preloads: [:activity_sessions])
+  defp list_activities(organization_id) do
+    Activities.list_activities_by_organization_id(organization_id, preloads: [:activity_sessions])
   end
 end
