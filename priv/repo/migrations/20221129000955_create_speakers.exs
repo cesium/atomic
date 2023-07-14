@@ -7,6 +7,7 @@ defmodule Atomic.Repo.Migrations.CreateSpeakers do
       add :name, :string
       add :bio, :text
 
+      add :organization_id, references(:organizations, on_delete: :delete_all, type: :binary_id)
       timestamps()
     end
   end

@@ -41,6 +41,9 @@ defmodule AtomicWeb.SpeakerLive.FormComponent do
   end
 
   defp save_speaker(socket, :new, speaker_params) do
+    speaker_params =
+      Map.put(speaker_params, "organization_id", socket.assigns.organization.id)
+
     case Activities.create_speaker(speaker_params) do
       {:ok, _speaker} ->
         {:noreply,
