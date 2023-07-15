@@ -293,6 +293,13 @@ defmodule Atomic.Organizations do
     |> Repo.preload(preloads)
   end
 
+  def get_membership_role!(user_id, organization_id) do
+    case Repo.get_by(Membership, user_id: user_id, organization_id: organization_id) do
+      nil -> nil
+      membership -> membership.role
+    end
+  end
+
   @doc """
   Creates an user organization.
 

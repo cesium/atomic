@@ -1,4 +1,8 @@
-<h1>Show Activity</h1>
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @activity)} />
+  </.modal>
+<% end %>
 
 <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
@@ -6,94 +10,182 @@
   </.modal>
 <% end %>
 
-<ul>
-  <li>
-    <strong>Title:</strong>
-    <%= @activity.title %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @activity.description %>
-  </li>
-
-  <li>
-    <strong>Minimum entries:</strong>
-    <%= @activity.minimum_entries %>
-  </li>
-
-  <li>
-    <strong>Maximum entries:</strong>
-    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
-  </li>
-
-  <li>
-    <strong>Departments:</strong>
-    <%= for department <- @activity.departments do %>
-      <ul>
-        <li>
-          <%= department.name %>
-        </li>
-      </ul>
-    <% end %>
-  </li>
-
-  <li>
-    <strong>Speakers:</strong>
-    <%= for speaker <- @activity.speakers do %>
-      <ul>
-        <li>
-          <%= speaker.name %>
-        </li>
-      </ul>
-    <% end %>
-  </li>
-
-  <li>
-    <strong>Sessions:</strong>
-    <%= for {session, index} <- Enum.with_index(@activity.activity_sessions) do %>
-      <ul>
-        <strong><%= "Session #{index}" %></strong>
-        <li>
-          <strong>Start:</strong>
-          <%= session.start %>
-        </li>
-        <li>
-          <strong>Finish:</strong>
-          <%= session.finish %>
-        </li>
-        <li>
-          <strong>Location:</strong>
-          <%= session.location.name %>
-        </li>
-        <li>
-          <strong>url:</strong>
-          <%= if session.location.url do %>
-            <%= session.location.url %>
-          <% end %>
-        </li>
-        <div>
-          <%= draw_qr_code(session, @current_user, @socket) |> raw %>
+<div>
+  <div class="my-4">
+    <div class="bg-white">
+      <div class="flex justify-between px-4 py-5 sm:px-6">
+        <div class="my-4 w-full items-center gap-x-4 lg:flex">
+          <div class="flex-1">
+            <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
+              <%= @activity.title %>
+            </h1>
+          </div>
         </div>
-      </ul>
-    <% end %>
-  </li>
-</ul>
+      </div>
 
-<%= if @current_user.role == :student do %>
-  <span>
-    <%= if @enrolled? do %>
-      <button phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
-        <%= gettext("Uneroll") %>
-      </button>
-    <% else %>
-      <button phx-click="enroll" phx-disable-with={gettext("Enrolling...")} phx-throttle="0">
-        <%= gettext("Enroll") %>
-      </button>
-    <% end %>
+      <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
+        <div class="w-full px-4 py-5 sm:px-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <div class="col-span-2 sm:col-span-1">
+              <dt class="font medium text-lg leading-6 text-zinc-900">
+                <%= gettext("Preview activity") %>
+              </dt>
+              <dd class="mt-1 text-sm text-zinc-600">
+                <%= gettext("Check here every detail of this activity") %>
+              </dd>
+            </div>
+
+            <div class="col-span-2 sm:col-span-1">
+              <dt class="text-sm font-medium text-zinc-500">
+                <%= gettext("Maximum Entries") %>
+              </dt>
+              <dd class="mt-1 flex text-sm text-zinc-900">
+                <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
+                <div class="pl-2.5">
+                  <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+                </div>
+              </dd>
+            </div>
+            <div class={
+              if @current_user.role in [:admin, :staff] do
+                "col-span-1"
+              else
+                "col-span-2"
+              end
+            }>
+              <dt class="text-sm font-medium text-zinc-500">
+                <%= gettext("Minimum Entries") %>
+              </dt>
+              <dd class="mt-1 flex text-sm text-zinc-900">
+                <div class="flex w-full">
+                  <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
+                  <div class="pl-2.5">
+                    <%= @activity.minimum_entries %>
+                  </div>
+                </div>
+              </dd>
+            </div>
+
+            <div class="col-span-2">
+              <dt class="grid grid-cols-2 items-center">
+                <div class="text-sm font-medium text-zinc-500">
+                  <%= gettext("Sessions") %>
+                </div>
+              </dt>
+              <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
+                <%= for session <- @activity.activity_sessions do %>
+                  <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
+                    <div class="flex gap-x-2">
+                      <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
+                        <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
+                        <p class="block pl-1.5 max-w-6xl">
+                          <%= display_date(session.start) %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="inset-y-0 my-auto flex md:pl-3">
+                      <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
+                      <p class="block pl-1.5 max-w-6xl">
+                        <%= display_time(session.start) %> - <%= display_time(session.finish) %>
+                      </p>
+                    </div>
+                    <div class="flex text-sm md:pl-3">
+                      <%= if (@current_user.role != :student || @enrolled?) && session.location do %>
+                        <Heroicons.Solid.location_marker class="h-5 w-5 text-zinc-400" />
+                        <%= live_redirect to: session.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
+                          <%= session.location.name %>
+                        <% end %>
+                      <% else %>
+                        <%= if session.location do %>
+                          <div class="pl-1.5 text-zinc-900">
+                            <%= session.location.name %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </dd>
+            </div>
+            <div class="col-span-2">
+              <dt class="text-sm font-medium text-zinc-500">
+                <%= gettext("Description") %>
+              </dt>
+              <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
+                <%= @activity.description %>
+              </dd>
+            </div>
+            <div class="col-span-2">
+              <div class="sm:grid sm:grid-cols-1">
+                <%= if @activity.speakers != [] do %>
+                  <%= gettext("Speaker") %>
+                  <%= for speaker <- @activity.speakers do %>
+                    <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
+                      <div class="text-sm font-medium text-zinc-500"></div>
+                      <div class="mt-1 flex items-center">
+                        <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
+                          <span class="text-md font-medium leading-none text-white">
+                            <%= extract_initials(speaker.name) %>
+                          </span>
+                        </span>
+                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-md text-blue-500" do %>
+                          <%= extract_first_last_name(speaker.name) %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <%= if @enrolled? do %>
+                <dt class="text-sm font-medium text-zinc-500">
+                  <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
+                </dt>
+                <dd class="mt-1 flex text-sm text-zinc-900">
+                  <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
+                </dd>
+                <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
+                  <span>
+                    <%= gettext("If you can't go please") %>
+                  </span>
+                  <button class="text-blue-500" phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
+                    <%= gettext("Unenroll") %>
+                  </button>
+                </dd>
+              <% else %>
+                <div class="flex flex-col">
+                  <dt class="text-sm font-medium text-zinc-500">
+                    <%= gettext("You are not enrolled in this activity") %>
+                  </dt>
+                  <button
+                    phx-click="enroll"
+                    phx-disable-with={gettext("Enrolling...")}
+                    phx-throttle="0"
+                    class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <%= gettext("Enroll") %>
+                  </button>
+                </div>
+              <% end %>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-row space-x-1">
+  <%= if @current_user.role in [:admin] or is_admin?(@current_user, @activity) do %>
+    <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button") %>
+    </span>
+    <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %>
+    </span>
+  <% end %>
+  <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+    <%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index)) %>
   </span>
-<% end %>
-<%= if @current_user.role in [:admin, :staff] do %>
-  <span><%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button") %></span> | <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %></span> |
-  <span><%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index)) %></span>
-<% end %>
+</div>

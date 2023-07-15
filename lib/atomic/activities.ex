@@ -263,6 +263,19 @@ defmodule Atomic.Activities do
     end
   end
 
+  def get_user_enrollments(user) do
+    Enrollment
+    |> where(user_id: ^user.id)
+    |> Repo.all()
+  end
+
+  def get_user_activities(user) do
+    enrollments = get_user_enrollments(user)
+    activities = for enrollment <- enrollments, do: get_activity!(enrollment.activity_id)
+
+    activities |> Repo.preload([:enrollments, :activity_sessions, :speakers])
+  end
+
   @doc """
   Creates an enrollment.
 

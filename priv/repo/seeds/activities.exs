@@ -1,14 +1,17 @@
 defmodule Atomic.Repo.Seeds.Activities do
+  alias Atomic.Activities.ActivityDepartment
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
   alias Atomic.Departments.Department
+  alias Atomic.Activities.ActivityDepartment
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.{Activity, Enrollment, Location}
 
   def run do
     seed_activities()
     seed_enrollments()
+    seed_activity_departments()
   end
 
   def seed_activities() do
@@ -36,10 +39,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 location: location
               }
             ],
-            enrolled: 0,
-            departments: [
-              Repo.get_by(Department, name: "Merchandise and Partnerships") |> Map.get(:id)
-            ]
+            enrolled: 0
           }
         )
         |> Repo.insert!()
@@ -64,8 +64,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "Marketing and Content") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -90,8 +89,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "Recreative") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -116,8 +114,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "Pedagogical") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -141,8 +138,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "CAOS") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -162,10 +158,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 location: location
               }
             ],
-            enrolled: 0,
-            departments: [
-              Repo.get_by(Department, name: "Merchandise and Partnerships") |> Map.get(:id)
-            ]
+            enrolled: 0
           }
         )
         |> Repo.insert!()
@@ -190,8 +183,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "Marketing and Content") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -216,8 +208,7 @@ defmodule Atomic.Repo.Seeds.Activities do
               %{
                 user_id: 1
               }
-            ],
-            departments: [Repo.get_by(Department, name: "Recreative") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -240,6 +231,22 @@ defmodule Atomic.Repo.Seeds.Activities do
             })
             |> Repo.insert!()
           end
+        end
+    end
+  end
+
+  def seed_activity_departments() do
+    case Repo.all(ActivityDepartment) do
+      [] ->
+        department = Repo.get_by(Department, name: "CAOS")
+
+        for activity <- Repo.all(Activity) do
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
+            activity_id: activity.id,
+            department_id: department.id
+          })
+          |> Repo.insert!()
         end
     end
   end

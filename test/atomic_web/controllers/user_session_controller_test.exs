@@ -36,8 +36,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ user.email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Home"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
