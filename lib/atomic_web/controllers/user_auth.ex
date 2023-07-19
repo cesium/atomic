@@ -34,6 +34,7 @@ defmodule AtomicWeb.UserAuth do
     conn
     |> renew_session()
     |> put_session(:user_token, token)
+    |> put_session(:current_organization, get_default_organization(user))
     |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
     |> maybe_write_remember_me_cookie(token, params)
     |> redirect(to: user_return_to || signed_in_path(conn))
@@ -45,6 +46,14 @@ defmodule AtomicWeb.UserAuth do
 
   defp maybe_write_remember_me_cookie(conn, _token, _params) do
     conn
+  end
+
+  defp get_default_organization(user) do
+    if user do
+      List.first(Accounts.get_user_organizations(user))
+    else
+      nil
+    end
   end
 
   # This function renews the session ID and erases the whole
@@ -97,16 +106,8 @@ defmodule AtomicWeb.UserAuth do
 
     conn
     |> assign(:current_user, user)
-    |> assign(:current_organization, get_default_organization(user))
   end
 
-  defp get_default_organization(user) do
-    if user do
-      List.first(user.organizations)
-    else
-      nil
-    end
-  end
 
   defp ensure_user_token(conn) do
     if user_token = get_session(conn, :user_token) do

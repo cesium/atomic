@@ -426,4 +426,11 @@ defmodule Atomic.Accounts do
     |> Course.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Gets the user's organizations
+  """
+  def get_user_organizations(user) do
+    Repo.all(Ecto.assoc(user, :organizations))
+  end
 end
