@@ -116,6 +116,35 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Return the first and last name of a name.
+
+  ## Examples
+
+        iex> extract_first_last_name("John Doe")
+        "John Doe"
+
+        iex> extract_first_last_name("John")
+        "John"
+
+        iex> extract_first_last_name(nil)
+        ""
+
+  """
+  def extract_first_last_name(name) do
+    names =
+      name
+      |> String.split(" ")
+      |> Enum.filter(&String.match?(String.slice(&1, 0, 1), ~r/^\p{L}$/u))
+      |> Enum.map(&String.capitalize/1)
+
+    case length(names) do
+      0 -> ""
+      1 -> hd(names)
+      _ -> List.first(names) <> " " <> List.last(names)
+    end
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples

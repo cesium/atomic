@@ -18,7 +18,7 @@
                 <span class="flex min-w-0 items-center justify-between space-x-3">
                   <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
                     <span class="text-lg font-medium leading-none text-white">
-                      <%= extract_initials("CeSIUM") %>
+                      <%= Atomic.Accounts.extract_initials("CeSIUM") %>
                     </span>
                   </span>
                   <span class="flex min-w-0 flex-1 flex-col">
@@ -60,7 +60,7 @@
                   <span class="flex min-w-0 items-center justify-between space-x-3">
                     <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
                       <span class="text-lg font-medium leading-none text-white">
-                        <%= extract_initials("NECC") %>
+                        <%= Atomic.Accounts.extract_initials("NECC") %>
                       </span>
                     </span>
                     <span class="flex min-w-0 flex-1 flex-col">
@@ -178,7 +178,7 @@
             <% end %>
             <%= live_redirect to: Routes.user_settings_path(@socket, :edit), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
               <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                <%= extract_initials(@current_user.email) %>
+                <%= Atomic.Accounts.extract_initials(@current_user.email) %>
               </span>
               <span aria-hidden="true"><%= @current_user.email %></span>
             <% end %>

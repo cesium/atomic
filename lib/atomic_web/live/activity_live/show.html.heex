@@ -79,7 +79,7 @@
                       <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
                         <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                         <p class="block pl-1.5 max-w-6xl">
-                          <%= display_date(session.start) %>
+                          <%= AtomicWeb.ViewUtils.display_date(session.start) %>
                         </p>
                       </div>
                     </div>
@@ -125,11 +125,11 @@
                       <div class="mt-1 flex items-center">
                         <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
                           <span class="text-md font-medium leading-none text-white">
-                            <%= extract_initials(speaker.name) %>
+                            <%= Accounts.extract_initials(speaker.name) %>
                           </span>
                         </span>
                         <%= live_redirect to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-md text-blue-500" do %>
-                          <%= extract_first_last_name(speaker.name) %>
+                          <%= Accounts.extract_first_last_name(speaker.name) %>
                         <% end %>
                       </div>
                     </div>

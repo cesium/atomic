@@ -1,6 +1,7 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Organizations
 

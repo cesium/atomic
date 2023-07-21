@@ -49,7 +49,7 @@
                       <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                         <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                         <%= if hd(activity.activity_sessions) do %>
-                          <%= display_date(hd(activity.activity_sessions).start) %>
+                          <%= AtomicWeb.ViewUtils.display_date(hd(activity.activity_sessions).start) %>
                         <% end %>
                       </p>
                       <%= if not is_nil(hd(activity.activity_sessions).location) do %>
@@ -71,11 +71,11 @@
                         <div class="mt-2 flex items-center">
                           <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
                             <span class="text-xs font-medium leading-none text-white">
-                              <%= extract_initials(speaker.name) %>
+                              <%= Accounts.extract_initials(speaker.name) %>
                             </span>
                           </span>
                           <p class="text-sm text-zinc-500">
-                            <%= extract_first_last_name(speaker.name) %>
+                            <%= Accounts.extract_first_last_name(speaker.name) %>
                           </p>
                         </div>
                       <% end %>
