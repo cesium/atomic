@@ -94,6 +94,6 @@
   </span>
 <% end %>
 <%= if @current_user.role in [:admin] do %>
-  <span><%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button") %></span> | <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %></span> |
-  <span><%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index)) %></span>
+  <span><%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity, @current_organization), class: "button") %></span> | <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %></span> |
+  <span><%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index, @current_organization)) %></span>
 <% end %>
