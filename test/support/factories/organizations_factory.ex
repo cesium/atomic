@@ -19,7 +19,7 @@ defmodule Atomic.Factories.OrganizationFactory do
       def membership_factory do
         %Membership{
           user: build(:user),
-          created_by: build(:user, role: "staff"),
+          created_by: build(:user, role: "admin"),
           organization: build(:organization),
           role: Enum.random(@roles)
         }

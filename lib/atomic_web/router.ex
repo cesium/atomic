@@ -54,35 +54,35 @@ defmodule AtomicWeb.Router do
         live "/", OrganizationLive.Show, :show
 
         pipe_through :admin
-          live "/edit", OrganizationLive.Index, :edit
-          live "/show/edit", OrganizationLive.Show, :edit
+        live "/edit", OrganizationLive.Index, :edit
+        live "/show/edit", OrganizationLive.Show, :edit
 
-          live "/activities/new", ActivityLive.New, :new
-          live "/activities/:id/edit", ActivityLive.Edit, :edit
+        live "/activities/new", ActivityLive.New, :new
+        live "/activities/:id/edit", ActivityLive.Edit, :edit
 
-          live "/departments/new", DepartmentLive.Index, :new
-          live "/departments/:id/edit", DepartmentLive.Index, :edit
-          live "/departments/:id/show/edit", DepartmentLive.Show, :edit
+        live "/departments/new", DepartmentLive.Index, :new
+        live "/departments/:id/edit", DepartmentLive.Index, :edit
+        live "/departments/:id/show/edit", DepartmentLive.Show, :edit
 
-          live "/partners/new", PartnerLive.Index, :new
-          live "/partners/:id/edit", PartnerLive.Index, :edit
-          live "/partners/:id/show/edit", PartnerLive.Show, :edit
+        live "/partners/new", PartnerLive.Index, :new
+        live "/partners/:id/edit", PartnerLive.Index, :edit
+        live "/partners/:id/show/edit", PartnerLive.Show, :edit
 
-          live "/speakers/new", SpeakerLive.Index, :new
-          live "/speakers/:id/edit", SpeakerLive.Index, :edit
-          live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
+        live "/speakers/new", SpeakerLive.Index, :new
+        live "/speakers/:id/edit", SpeakerLive.Index, :edit
+        live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
 
-          live "/board/new", BoardLive.New, :new
-          live "/board/:id/edit", BoardLive.Edit, :edit
+        live "/board/new", BoardLive.New, :new
+        live "/board/:id/edit", BoardLive.Edit, :edit
 
-          live "/memberships", MembershipLive.Index, :index
-          live "/memberships/new", MembershipLive.New, :new
-          live "/memberships/:id", MembershipLive.Show, :show
-          live "/memberships/:id/edit", MembershipLive.Edit, :edit
-        end
+        live "/memberships", MembershipLive.Index, :index
+        live "/memberships/new", MembershipLive.New, :new
+        live "/memberships/:id", MembershipLive.Show, :show
+        live "/memberships/:id/edit", MembershipLive.Edit, :edit
+      end
 
-    scope "/organizations/:organization_id" do
-      pipe_through :follower
+      scope "/organizations/:organization_id" do
+        pipe_through :follower
         live "/activities", ActivityLive.Index, :index
         live "/activities/:id", ActivityLive.Show, :show
 
@@ -101,7 +101,7 @@ defmodule AtomicWeb.Router do
       live "/user/edit", UserLive.Edit, :edit
 
       pipe_through :member
-        live "/card/:membership_id", CardLive.Show, :show
+      live "/card/:membership_id", CardLive.Show, :show
     end
   end
 

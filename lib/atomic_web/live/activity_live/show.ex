@@ -77,7 +77,10 @@ defmodule AtomicWeb.ActivityLive.Show do
   def handle_event("delete", _payload, socket) do
     {:ok, _} = Activities.delete_activity(socket.assigns.activity)
 
-    {:noreply, push_redirect(socket, to: Routes.activity_index_path(socket, :index, socket.assigns.current_organization))}
+    {:noreply,
+     push_redirect(socket,
+       to: Routes.activity_index_path(socket, :index, socket.assigns.current_organization)
+     )}
   end
 
   @impl true

@@ -21,6 +21,7 @@ defmodule AtomicWeb.Plugs.Authorize do
     case {organization_id, conn.assigns.current_user} do
       {nil, _} ->
         false
+
       {id, user} ->
         user_authorized?(user, id, minimum_authorized_role)
     end
@@ -30,6 +31,7 @@ defmodule AtomicWeb.Plugs.Authorize do
     case conn.params["organization_id"] do
       organization_id when is_binary(organization_id) ->
         organization_id
+
       _ ->
         nil
     end

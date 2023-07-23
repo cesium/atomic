@@ -4,6 +4,8 @@ defmodule Atomic.ActivitiesFixtures do
   entities via the `Atomic.Activities` context.
   """
 
+  alias Atomic.OrganizationsFixtures
+
   @doc """
   Generate a activity.
   """
@@ -44,7 +46,8 @@ defmodule Atomic.ActivitiesFixtures do
       attrs
       |> Enum.into(%{
         bio: "some bio",
-        name: "some name"
+        name: "some name",
+        organization_id: OrganizationsFixtures.organization_fixture().id
       })
       |> Atomic.Activities.create_speaker()
 

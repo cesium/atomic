@@ -99,51 +99,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
         ]
         |> create_users(:student)
 
-        [
-          "Bo Peep",
-          "Bugs Bunny",
-          "Buzz Lightyear",
-          "Captain Hook",
-          "Clara Cluck",
-          "Clarabelle Cow",
-          "Cruella de Vil",
-          "Daisy Duck",
-          "Dewey Duck",
-          "Doc Hudson",
-          "Donald Duck",
-          "Eddie Valiant",
-          "Horace Horsecollar",
-          "Huey Duck",
-          "Jessica Rabbit",
-          "Judge Doom",
-          "Lightning McQueen",
-          "Little John",
-          "Louie Duck",
-          "Maid Marian",
-          "Max Goof",
-          "Mickey Mouse",
-          "Minnie Mouse",
-          "Mortimer Mouse",
-          "Peter Pan",
-          "Potato Head",
-          "Prince John",
-          "Queen of Hearts",
-          "Robin Hood",
-          "Roger Rabbit",
-          "Sally Carrera",
-          "Scrooge McDuck",
-          "Speedy Gonzalez",
-          "Sheriff of Nottingham",
-          "Snow White",
-          "Tiger Lily",
-          "Tinker Bell",
-          "Tweedle Dee",
-          "Tweedle Dum",
-          "Wendy Darling",
-          "White Rabbit"
-        ]
-        |> create_users(:staff)
-
       _ ->
         Mix.shell().error("Found users, aborting seeding users.")
     end

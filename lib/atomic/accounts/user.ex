@@ -12,7 +12,7 @@ defmodule Atomic.Accounts.User do
   @required_fields ~w(email password role name)a
   @optional_fields ~w(course_id)a
 
-  @roles ~w(admin staff student)a
+  @roles ~w(admin student)a
 
   schema "users" do
     field :email, :string

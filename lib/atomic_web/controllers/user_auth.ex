@@ -108,7 +108,6 @@ defmodule AtomicWeb.UserAuth do
     |> assign(:current_user, user)
   end
 
-
   defp ensure_user_token(conn) do
     if user_token = get_session(conn, :user_token) do
       {user_token, conn}
