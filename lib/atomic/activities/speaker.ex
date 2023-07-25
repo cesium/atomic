@@ -7,6 +7,8 @@ defmodule Atomic.Activities.Speaker do
   alias Atomic.Activities.ActivitySpeaker
   alias Atomic.Organizations.Organization
 
+  @required_fields ~w(name bio organization_id)a
+
   schema "speakers" do
     field :bio, :string
     field :name, :string
@@ -21,7 +23,7 @@ defmodule Atomic.Activities.Speaker do
   @doc false
   def changeset(speaker, attrs) do
     speaker
-    |> cast(attrs, [:name, :bio, :organization_id])
-    |> validate_required([:name, :bio, :organization_id])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

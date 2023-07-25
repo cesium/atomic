@@ -26,14 +26,12 @@ defmodule Atomic.Activities do
     activities =
       Activity
       |> apply_filters(opts)
+      |> join(:inner, [a], d in assoc(a, :departments))
+      |> where([a, d], d.organization_id == ^organization_id)
+      |> select([a, _d], a)
       |> Repo.all()
-      |> Repo.preload(:departments)
 
-    Enum.filter(activities, fn activity ->
-      Enum.any?(activity.departments, fn department ->
-        department.organization_id == organization_id
-      end)
-    end)
+    activities
   end
 
   @doc """
@@ -53,6 +51,14 @@ defmodule Atomic.Activities do
   def get_activity!(id, preloads \\ []) do
     Repo.get!(Activity, id)
     |> Repo.preload(preloads)
+  end
+
+  def get_activity_organizations!(activity, _preloads \\ []) do
+    departments = Map.get(activity, :departments, [])
+
+    organization_ids = Enum.map(departments, & &1.organization_id)
+
+    organization_ids
   end
 
   alias Atomic.Activities.Enrollment

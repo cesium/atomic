@@ -5,8 +5,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities(organization_id))}
+  def mount(params, _session, socket) do
+    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
   end
 
   @impl true

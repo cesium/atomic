@@ -16,11 +16,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
-
-    organizations =
-      Enum.map(activity.departments, fn department ->
-        department.organization_id
-      end)
+    organizations = Activities.get_activity_organizations!(activity)
 
     if organization_id in organizations do
       {:noreply,
