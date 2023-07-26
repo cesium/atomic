@@ -13,19 +13,19 @@ defmodule AtomicWeb.Hooks do
 
   def on_mount(
         :authenticated_user_state,
-        params,
-        %{"user_token" => user_token, "current_organization" => current_organization},
+        _params,
+        %{"user_token" => user_token, "current_organization" => _},
         socket
       ) do
     current_user = Accounts.get_user_by_session_token(user_token)
 
-    if params["organization_id"] != nil && params["organization_id"] != current_organization.id do
+    if current_user.default_organization_id != nil do
       socket =
         socket
         |> assign(:current_user, current_user)
         |> assign(
           :current_organization,
-          Organizations.get_organization!(params["organization_id"])
+          Organizations.get_organization!(current_user.default_organization_id)
         )
 
       {:cont, socket}
@@ -33,7 +33,6 @@ defmodule AtomicWeb.Hooks do
       socket =
         socket
         |> assign(:current_user, current_user)
-        |> assign(:current_organization, current_organization)
 
       {:cont, socket}
     end
@@ -41,11 +40,38 @@ defmodule AtomicWeb.Hooks do
 
   def on_mount(:general_user_state, _params, session, socket) do
     current_organization = session["current_organization"]
+    current_user = session["user_token"]
 
-    if current_organization do
-      {:cont, socket |> assign(:current_organization, current_organization)}
-    else
-      {:cont, socket}
+    case {current_organization, current_user} do
+      {nil, nil} ->
+        {:cont, socket}
+
+      {nil, _} ->
+        user = Accounts.get_user_by_session_token(current_user)
+
+        {:cont,
+         socket
+         |> assign(:current_user, user)
+         |> assign(
+           :current_organization,
+           Organizations.get_organization!(user.default_organization_id)
+         )}
+
+      {_, nil} ->
+        {:cont,
+         socket
+         |> assign(:current_organization, current_organization)}
+
+      {_, _} ->
+        user = Accounts.get_user_by_session_token(current_user)
+
+        {:cont,
+         socket
+         |> assign(:current_user, user)
+         |> assign(
+           :current_organization,
+           Organizations.get_organization!(user.default_organization_id)
+         )}
     end
   end
 

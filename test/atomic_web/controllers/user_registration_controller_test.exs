@@ -19,11 +19,14 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
   describe "POST /users/register" do
     @tag :capture_log
     test "creates account and logs the user in", %{conn: conn} do
+      organization = insert(:organization)
+
       user_attrs = %{
         name: Faker.Person.name(),
         email: Faker.Internet.email(),
         role: "student",
-        password: "password1234"
+        password: "password1234",
+        default_organization_id: organization.id
       }
 
       conn =

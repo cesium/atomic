@@ -1,16 +1,24 @@
 defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Organizations
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(_params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
+
+    {:ok, socket |> assign(:current_user, user)}
   end
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     org = Organizations.get_organization!(id, [:departments])
+    user = socket.assigns.current_user
+
+    if user.default_organization_id != id do
+      Accounts.update_user(user, %{"default_organization_id" => id})
+    end
 
     {:noreply,
      socket

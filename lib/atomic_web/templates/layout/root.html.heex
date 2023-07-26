@@ -24,7 +24,9 @@
               <li><%= live_redirect("Speakers", to: Routes.speaker_index_path(@conn, :index, @current_organization)) %></li>
               <li><%= live_redirect("Board", to: Routes.board_index_path(@conn, :index, @current_organization)) %></li>
               <li><%= live_redirect("Scanner", to: Routes.scanner_index_path(@conn, :index)) %></li>
-              <l1><%= @current_organization.name %></l1>
+              <%= if assigns["current_user"] && @current_user.default_organization_id do %>
+                <li><%= Atomic.Organizations.get_organization!(@current_user.default_organization_id).name %></li>
+              <% end %>
             <% end %>
             <%= render("_user_menu.html", assigns) %>
           </ul>

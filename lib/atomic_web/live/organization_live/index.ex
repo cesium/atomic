@@ -1,12 +1,18 @@
 defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :organizations, list_organizations())}
+  def mount(_params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
+
+    {:ok,
+     socket
+     |> assign(:organizations, list_organizations())
+     |> assign(:current_user, user)}
   end
 
   @impl true
@@ -42,5 +48,9 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   defp list_organizations do
     Organizations.list_organizations()
+  end
+
+  def update_default_organization(user, organization) do
+    Accounts.update_user(user, %{default_organization_id: organization.id})
   end
 end
