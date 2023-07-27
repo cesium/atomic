@@ -35,7 +35,11 @@ config :waffle,
 config :atomic, Atomic.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+
+config :atomic, AtomicWeb.Gettext, default_locale: "pt", locales: ~w(en pt)
+
+config :atomic, AtomicWeb.Endpoint, server: true
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -64,6 +68,12 @@ config :tailwind,
     --output=../priv/static/assets/app.css
   ),
     cd: Path.expand("../assets", __DIR__)
+  ]
+
+config :atomic, Atomic.Scheduler,
+  jobs: [
+    # Runs every midnight:
+    {"@daily", {Atomic.Quantum.CertificateDelivery, :send_certificates, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom

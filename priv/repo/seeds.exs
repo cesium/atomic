@@ -7,9 +7,11 @@ defmodule Atomic.Repo.Seeds do
 
   def run do
     [
+      "courses.exs",
       "accounts.exs",
       "organizations.exs",
       "departments.exs",
+      "activities.exs",
       "stores.exs",
       "inventory.exs",
       "orders.exs",

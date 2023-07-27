@@ -1,0 +1,24 @@
+<div>
+  <h1>Board</h1>
+  <%= live_redirect("New", to: Routes.board_new_path(@socket, :new, @id)) %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Actions</th>
+    </tr>
+    <%= for user_organization <- @users_organizations do %>
+      <tr>
+        <td><span>Nome</span></td>
+        <td><span><%= user_organization.title %></span></td>
+        <td><span><%= user_organization.year %></span></td>
+        <td>
+          <%= live_redirect("Show", to: Routes.board_show_path(@socket, :show, user_organization.organization_id, user_organization)) %>
+          <%= live_redirect("Edit", to: Routes.board_edit_path(@socket, :edit, user_organization.organization_id, user_organization)) %>
+          <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: user_organization.id, data: [confirm: "Are you sure?"]) %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

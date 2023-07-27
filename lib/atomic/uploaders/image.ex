@@ -1,8 +1,7 @@
 defmodule Atomic.Uploaders.Image do
   @moduledoc """
-  ProductImage is used for product images.
+  The image uploader.
   """
-
   use Waffle.Definition
   use Waffle.Ecto.Definition
 

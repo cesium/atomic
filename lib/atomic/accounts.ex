@@ -6,7 +6,7 @@ defmodule Atomic.Accounts do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Accounts.{User, UserToken, UserNotifier}
+  alias Atomic.Accounts.{Course, User, UserNotifier, UserToken}
   alias AtomicWeb.Emails.AuthEmails
   alias Atomic.Mailer
   ## Database getters
@@ -75,11 +75,7 @@ defmodule Atomic.Accounts do
     end
   end
 
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.registration_changeset(attrs)
-    |> Repo.update()
-  end
+  
 
   ## User registration
 
@@ -99,6 +95,41 @@ defmodule Atomic.Accounts do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def list_users do
+    User
+    |> Repo.all()
+  end
+
+  def get_course(id) do
+    Repo.get(Course, id)
+  end
+
+  @doc """
+  Return the initials of a name.
+
+  ## Examples
+
+      iex> extract_initials("John Doe")
+      "JD"
+
+      iex> extract_initials("John")
+      "J"
+
+      iex> extract_initials(nil)
+      ""
+
+  """
+  def extract_initials(nil), do: ""
+
+  def extract_initials(name) do
+    initials = name |> String.upcase() |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1))
+
+    case length(initials) do
+      1 -> hd(initials)
+      _ -> List.first(initials) <> List.last(initials)
+    end
   end
 
   @doc """
@@ -372,10 +403,42 @@ defmodule Atomic.Accounts do
     end
   end
 
-  def list_users(params \\ %{})
+  def update_user_picture(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.picture_changeset(attrs)
+    |> Repo.update()
+  end
 
-  def list_users(_opts) do
-    User
-    |> Repo.all()
+  def update_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_user(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.changeset(attrs)
+  end
+
+  def list_courses do
+    Repo.all(Course)
+  end
+
+  @doc """
+  Creates a course
+
+  ## Examples
+
+      iex> create_course(%{field: value})
+      {:ok, %Course{}}
+
+      iex> create_course(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_course(attrs) do
+    %Course{}
+    |> Course.changeset(attrs)
+    |> Repo.insert()
   end
 end

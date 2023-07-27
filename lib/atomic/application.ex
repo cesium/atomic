@@ -15,7 +15,9 @@ defmodule Atomic.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Atomic.PubSub},
       # Start the Endpoint (http/https)
-      AtomicWeb.Endpoint
+      AtomicWeb.Endpoint,
+      # Start the scheduler
+      Atomic.Scheduler
       # Start a worker by calling: Atomic.Worker.start_link(arg)
       # {Atomic.Worker, arg}
     ]

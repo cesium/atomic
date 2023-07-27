@@ -1,18 +1,33 @@
 defmodule Atomic.Accounts.User do
+  @moduledoc """
+  A user of the application capable of authenticating.
+  """
   use Atomic.Schema
 
-  @required_fields ~w(email password role)a
-  @roles ~w(user admin)a
-  @optional_fields ~w(partnership)a
+  alias Atomic.Accounts.Course
+  alias Atomic.Activities.Enrollment
+  alias Atomic.Organizations.{Membership, Organization}
+  alias Atomic.Uploaders.ProfilePicture
+
+  @required_fields ~w(email password role name)a
+  @optional_fields ~w(course_id partnership)a
+
+  @roles ~w(admin staff student)a
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password, :string, virtual: true, redact: true
     field :role, Ecto.Enum, values: @roles
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    belongs_to :course, Course
+    field :profile_picture, ProfilePicture.Type
     field :partnership, :boolean, default: false
+    has_many :enrollments, Enrollment
     has_many :orders, Atomic.Inventory.Order
+    many_to_many :organizations, Organization, join_through: Membership
+
     timestamps()
   end
 
@@ -38,6 +53,17 @@ defmodule Atomic.Accounts.User do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email()
     |> validate_password(opts)
+  end
+
+  def picture_changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_attachments(attrs, [:profile_picture])
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
   end
 
   defp validate_email(changeset) do

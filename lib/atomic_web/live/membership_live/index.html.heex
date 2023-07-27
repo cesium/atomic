@@ -1,0 +1,38 @@
+<div>
+  <h1>Memberships</h1>
+
+  <table>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Requested At</th>
+      <th>Accepted By</th>
+      <th>Accepted At</th>
+      <th>Actions</th>
+    </tr>
+    <%= for membership <- @memberships do %>
+      <tr>
+        <td><%= membership.number %></td>
+        <td>John Doe</td>
+        <td><%= membership.user.email %></td>
+        <td>912345678</td>
+        <td><%= membership.inserted_at %></td>
+        <td>Jane Doe</td>
+        <td><%= membership.updated_at %></td>
+        <td>
+          <%= link to: Routes.membership_show_path(@socket, :show, membership.organization_id, membership) do %>
+            Show
+          <% end %>
+          <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership) do %>
+            Edit
+          <% end %>
+          <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership) do %>
+            Delete
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

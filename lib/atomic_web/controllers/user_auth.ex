@@ -1,4 +1,7 @@
 defmodule AtomicWeb.UserAuth do
+  @moduledoc """
+  This module contains functions to log users in and out.
+  """
   import Plug.Conn
   import Phoenix.Controller
 

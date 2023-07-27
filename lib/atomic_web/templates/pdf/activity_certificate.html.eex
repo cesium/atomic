@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+   </head>
+   <body>
+        <div>
+            <h1>Certificado de Participação</h1>
+            <h2><%= @enrollment.activity.title %></h2>
+
+            <p>
+            Certifica-se que <%= @enrollment.user.name %> participou na atividade <%= @enrollment.activity.title %>.
+             </p>
+
+            <p>Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a></p>
+        </div>
+    </body>
+</html>

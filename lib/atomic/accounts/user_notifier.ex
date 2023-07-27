@@ -1,4 +1,5 @@
 defmodule Atomic.Accounts.UserNotifier do
+  @moduledoc false
   import Swoosh.Email
 
   alias Atomic.Mailer

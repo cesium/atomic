@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+   </head>
+   <body>
+        <div>
+            <p>Bom dia <%= @enrollment.user.name %>,</p>
+
+            <p>Gostávamos de agradecer a tua participação na atividade <%= @enrollment.activity.title %>. Enviamos, em anexo,
+            o certificado de participação. Alternativamente, podes consultar o certificado no teu perfil da plataforma.
+            </p>
+
+            <p>Esperamos encontrar-te em atividades futuras!</p>
+
+            <p>Este email foi gerado automaticamente. Por favor não respondas para este endereço de email.</p>
+        </div>
+    </body>
+</html>

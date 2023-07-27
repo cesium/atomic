@@ -23,13 +23,17 @@ defmodule AtomicWeb.Router do
 
   scope "/", AtomicWeb do
     pipe_through :browser
+
+    live "/", ActivityLive.Index, :index
   end
 
   scope "/", AtomicWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
-      live "/", ActivityLive.Index, :index
+      live "/scanner", ScannerLive.Index, :index
+
+      live "/activities", ActivityLive.Index, :index
       live "/activities/new", ActivityLive.New, :new
       live "/activities/:id/edit", ActivityLive.Edit, :edit
       live "/activities/:id", ActivityLive.Show, :show
@@ -57,6 +61,24 @@ defmodule AtomicWeb.Router do
       live "/organizations/:id/edit", OrganizationLive.Index, :edit
       live "/organizations/:id", OrganizationLive.Show, :show
       live "/organizations/:id/show/edit", OrganizationLive.Show, :edit
+
+      live "/membership/:org", MembershipLive.Index, :index
+      live "/membership/:org/new", MembershipLive.New, :new
+      live "/membership/:org/:id", MembershipLive.Show, :show
+      live "/membership/:org/:id/edit", MembershipLive.Edit, :edit
+
+      live "/card/:membership_id", CardLive.Show, :show
+
+      live "/board/:org", BoardLive.Index, :index
+      live "/board/:org/new", BoardLive.New, :new
+      live "/board/:org/:id", BoardLive.Show, :show
+      live "/board/:org/:id/edit", BoardLive.Edit, :edit
+      live "/memberships/:org", MembershipLive.Index, :index
+      live "/memberships/:org/new", MembershipLive.New, :new
+      live "/memberships/:org/:id", MembershipLive.Show, :show
+      live "/memberships/:org/:id/edit", MembershipLive.Edit, :edit
+
+      live "/user/edit", UserLive.Edit, :edit
 
       live "/orders", OrderLive.Index, :index
       live "/orders/:id", OrderLive.Show, :show
@@ -104,6 +126,10 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
+    get "/users/register", UserRegistrationController, :new
+    post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new
     post "/users/reset_password", UserResetPasswordController, :create
     get "/users/reset_password/:token", UserResetPasswordController, :edit
@@ -120,10 +146,6 @@ defmodule AtomicWeb.Router do
 
   scope "/", AtomicWeb do
     pipe_through [:browser]
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create

@@ -45,9 +45,7 @@ defmodule Atomic.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:flop, "~> 0.17.0"},
       {:phoenix_live_dashboard, "~> 0.6"},
-      {:phoenix_swoosh, "~> 1.0"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
@@ -56,9 +54,15 @@ defmodule Atomic.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:waffle, "~> 1.1"},
       {:timex, "~> 3.0"},
+      {:swoosh, "~> 1.5"},
+      {:phoenix_swoosh, "~> 1.0"},
+      {:hackney, "~> 1.8"},
       {:waffle_ecto, "~> 0.0"},
+      {:quantum, "~> 3.0"},
+      {:qrcode_ex, "~> 0.1.1"},
+      {:pdf_generator, "~>0.6.2"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:icons, "~> 0.9"},
-      {:qrcode_ex, "~> 0.1.1"}
     ]
   end
 
@@ -71,10 +75,12 @@ defmodule Atomic.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
+      "ecto.seed": ["run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      lint: ["credo --strict --all"]
     ]
   end
 end
