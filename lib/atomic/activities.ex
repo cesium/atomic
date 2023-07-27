@@ -23,15 +23,12 @@ defmodule Atomic.Activities do
   end
 
   def list_activities_by_organization_id(organization_id, opts) do
-    activities =
-      Activity
-      |> apply_filters(opts)
-      |> join(:inner, [a], d in assoc(a, :departments))
-      |> where([a, d], d.organization_id == ^organization_id)
-      |> select([a, _d], a)
-      |> Repo.all()
-
-    activities
+    Activity
+    |> apply_filters(opts)
+    |> join(:inner, [a], d in assoc(a, :departments))
+    |> where([a, d], d.organization_id == ^organization_id)
+    |> select([a, _d], a)
+    |> Repo.all()
   end
 
   @doc """
@@ -56,9 +53,7 @@ defmodule Atomic.Activities do
   def get_activity_organizations!(activity, _preloads \\ []) do
     departments = Map.get(activity, :departments, [])
 
-    organization_ids = Enum.map(departments, & &1.organization_id)
-
-    organization_ids
+    Enum.map(departments, & &1.organization_id)
   end
 
   alias Atomic.Activities.Enrollment

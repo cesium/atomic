@@ -254,12 +254,8 @@ defmodule Atomic.Organizations do
 
   """
   def roles_less_than_or_equal(role) do
-    case role do
-      :follower -> []
-      :member -> [:member]
-      :admin -> [:member, :admin]
-      :owner -> [:member, :admin, :owner]
-    end
+    list = [:follower, :member, :admin, :owner]
+    Enum.drop_while(list, fn elem -> elem != role end)
   end
 
   @doc """
@@ -272,12 +268,8 @@ defmodule Atomic.Organizations do
 
   """
   def roles_bigger_than_or_equal(role) do
-    case role do
-      :follower -> [:follower, :member, :admin, :owner]
-      :member -> [:member, :admin, :owner]
-      :admin -> [:admin, :owner]
-      :owner -> [:owner]
-    end
+    list = [:follower, :member, :admin, :owner]
+    Enum.drop_while(list, fn elem -> elem != role end)
   end
 
   @doc """
