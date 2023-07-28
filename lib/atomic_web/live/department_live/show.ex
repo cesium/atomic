@@ -2,7 +2,6 @@ defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Departments
-  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,12 +9,17 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"org" => org, "id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:organization, Organizations.get_organization!(org))
-     |> assign(:department, Departments.get_department!(id, preloads: :activities))}
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+    department = Departments.get_department!(id, preloads: [:activities])
+
+    if department.organization_id == organization_id do
+      {:noreply,
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:department, department)}
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp page_title(:show), do: "Show Department"

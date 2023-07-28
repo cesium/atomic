@@ -9,11 +9,17 @@ defmodule AtomicWeb.SpeakerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:speaker, Activities.get_speaker!(id))}
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+    speaker = Activities.get_speaker!(id)
+
+    if speaker.organization_id == organization_id do
+      {:noreply,
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:speaker, speaker)}
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp page_title(:show), do: "Show Speaker"

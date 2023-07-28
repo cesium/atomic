@@ -168,6 +168,15 @@ defmodule Atomic.Organizations do
     |> Repo.exists?()
   end
 
+  def get_role(user_id, organization_id) do
+    membership =
+      Membership
+      |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
+      |> Repo.one()
+
+    membership[:role]
+  end
+
   @doc """
   Gets a single membership.
 
@@ -247,12 +256,22 @@ defmodule Atomic.Organizations do
 
   """
   def roles_less_than_or_equal(role) do
-    case role do
-      :follower -> []
-      :member -> [:member]
-      :admin -> [:member, :admin]
-      :owner -> [:member, :admin, :owner]
-    end
+    list = [:follower, :member, :admin, :owner]
+    Enum.drop_while(list, fn elem -> elem != role end)
+  end
+
+  @doc """
+  Returns all roles bigger or equal to the given role.
+
+  ## Examples
+
+      iex> roles_bigger_than_or_equal(:member)
+      [:member, :admin, :owner]
+
+  """
+  def roles_bigger_than_or_equal(role) do
+    list = [:follower, :member, :admin, :owner]
+    Enum.drop_while(list, fn elem -> elem != role end)
   end
 
   @doc """

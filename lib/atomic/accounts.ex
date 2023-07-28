@@ -266,7 +266,9 @@ defmodule Atomic.Accounts do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
+
     Repo.one(query)
+    |> Repo.preload(:organizations)
   end
 
   @doc """
@@ -423,5 +425,12 @@ defmodule Atomic.Accounts do
     %Course{}
     |> Course.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Gets the user's organizations
+  """
+  def get_user_organizations(user) do
+    Repo.all(Ecto.assoc(user, :organizations))
   end
 end

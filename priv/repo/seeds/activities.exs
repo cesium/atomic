@@ -1,4 +1,5 @@
 defmodule Atomic.Repo.Seeds.Activities do
+  alias Atomic.Activities.ActivityDepartment
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
@@ -8,6 +9,7 @@ defmodule Atomic.Repo.Seeds.Activities do
 
   def run do
     seed_activities()
+    seed_activities_departments()
     seed_enrollments()
   end
 
@@ -36,10 +38,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 location: location
               }
             ],
-            enrolled: 0,
-            departments: [
-              Repo.get_by(Department, name: "Merchandise and Partnerships") |> Map.get(:id)
-            ]
+            enrolled: 0
           }
         )
         |> Repo.insert!()
@@ -59,13 +58,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "Marketing and Content") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -85,13 +78,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "Recreative") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -111,13 +98,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "Pedagogical") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -136,13 +117,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "CAOS") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -162,10 +137,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 location: location
               }
             ],
-            enrolled: 0,
-            departments: [
-              Repo.get_by(Department, name: "Merchandise and Partnerships") |> Map.get(:id)
-            ]
+            enrolled: 0
           }
         )
         |> Repo.insert!()
@@ -185,13 +157,7 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "Marketing and Content") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
@@ -211,19 +177,29 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
-            ],
-            departments: [Repo.get_by(Department, name: "Recreative") |> Map.get(:id)]
+            ]
           }
         )
         |> Repo.insert!()
 
       _ ->
         Mix.shell().error("Found activities, aborting seeding activities.")
+    end
+  end
+
+  def seed_activities_departments() do
+    department = Repo.get_by(Department, name: "Merchandise and Partnerships")
+
+    case Repo.all(ActivityDepartment) do
+      [] ->
+        for activity <- Repo.all(Activity) do
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
+            activity_id: activity.id,
+            department_id: department.id
+          })
+          |> Repo.insert!()
+        end
     end
   end
 

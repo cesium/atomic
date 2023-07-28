@@ -4,6 +4,7 @@ defmodule Atomic.ActivitiesTest do
   alias Atomic.Activities
   import Atomic.Factory
   import Atomic.ActivitiesFixtures
+  alias Atomic.OrganizationsFixtures
 
   describe "activities" do
     alias Atomic.Activities.Activity
@@ -178,7 +179,11 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "create_speaker/1 with valid data creates a speaker" do
-      valid_attrs = %{bio: "some bio", name: "some name"}
+      valid_attrs = %{
+        bio: "some bio",
+        name: "some name",
+        organization_id: OrganizationsFixtures.organization_fixture().id
+      }
 
       assert {:ok, %Speaker{} = speaker} = Activities.create_speaker(valid_attrs)
       assert speaker.bio == "some bio"
