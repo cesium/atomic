@@ -169,10 +169,12 @@ defmodule Atomic.Organizations do
   end
 
   def get_role(user_id, organization_id) do
-    Membership
-    |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
-    |> Repo.one()
-    |> Map.get(:role)
+    membership =
+      Membership
+      |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
+      |> Repo.one()
+
+    membership[:role]
   end
 
   @doc """
