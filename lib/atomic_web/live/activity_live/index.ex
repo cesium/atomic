@@ -6,8 +6,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities())}
+  def mount(params, _session, socket) do
+    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
   end
 
   @impl true
@@ -15,7 +15,7 @@ defmodule AtomicWeb.ActivityLive.Index do
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
+        route: Routes.activity_index_path(socket, :index, params["organization_id"])
       }
     ]
 
@@ -49,11 +49,12 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_activities())}
+    {:noreply, assign(socket, :activies, list_activities(socket.assigns.current_organization.id))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_activities())}
+    {:noreply,
+     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
@@ -63,7 +64,9 @@ defmodule AtomicWeb.ActivityLive.Index do
     {:noreply, assign(socket, :activities, activities)}
   end
 
-  defp list_activities do
-    Activities.list_activities(preloads: [:activity_sessions, :enrollments, :speakers])
+  defp list_activities(organization_id) do
+    Activities.list_activities_by_organization_id(organization_id,
+      preloads: [:activity_sessions, :enrollments, :speakers]
+    )
   end
 end

@@ -5,8 +5,8 @@ defmodule AtomicWeb.SpeakerLive.Index do
   alias Atomic.Activities.Speaker
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :speakers, list_speakers())}
+  def mount(%{"organization_id" => organization_id}, _session, socket) do
+    {:ok, assign(socket, :speakers, list_speakers(organization_id))}
   end
 
   @impl true
@@ -14,7 +14,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
     entries = [
       %{
         name: gettext("Speakers"),
-        route: Routes.speaker_index_path(socket, :index)
+        route: Routes.speaker_index_path(socket, :index, params["organization_id"])
       }
     ]
 
@@ -25,10 +25,16 @@ defmodule AtomicWeb.SpeakerLive.Index do
      |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Speaker")
-    |> assign(:speaker, Activities.get_speaker!(id))
+  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
+    speaker = Activities.get_speaker!(id)
+
+    if speaker.organization_id == organization_id do
+      socket
+      |> assign(:page_title, "Edit Speaker")
+      |> assign(:speaker, speaker)
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp apply_action(socket, :new, _params) do
@@ -48,10 +54,10 @@ defmodule AtomicWeb.SpeakerLive.Index do
     speaker = Activities.get_speaker!(id)
     {:ok, _} = Activities.delete_speaker(speaker)
 
-    {:noreply, assign(socket, :speakers, list_speakers())}
+    {:noreply, assign(socket, :speakers, list_speakers(socket.assigns.current_organization.id))}
   end
 
-  defp list_speakers do
-    Activities.list_speakers()
+  defp list_speakers(organization_id) do
+    Activities.list_speakers_by_organization_id(organization_id)
   end
 end

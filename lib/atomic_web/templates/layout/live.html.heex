@@ -18,15 +18,15 @@
                 <span class="flex min-w-0 items-center justify-between space-x-3">
                   <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
                     <span class="text-lg font-medium leading-none text-white">
-                      <%= Atomic.Accounts.extract_initials("CeSIUM") %>
+                      <%= Atomic.Accounts.extract_initials(@current_organization.name) %>
                     </span>
                   </span>
                   <span class="flex min-w-0 flex-1 flex-col">
                     <span class="truncate text-lg font-bold text-zinc-900">
-                      CeSIUM
+                      <%= @current_organization.name %>
                     </span>
                     <span class="truncate text text-zinc-500">
-                      Role
+                      <%= AtomicWeb.ViewUtils.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
                     </span>
                   </span>
                 </span>
@@ -54,34 +54,36 @@
             aria-labelledby="options-menu-button"
             tabindex="-1"
           >
-            <div role="none">
-              <a class="text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" role="menuitem" tabindex="-1" id="options-menu-item-0">
-                <span class="flex w-full items-center justify-between">
-                  <span class="flex min-w-0 items-center justify-between space-x-3">
-                    <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
-                      <span class="text-lg font-medium leading-none text-white">
-                        <%= Atomic.Accounts.extract_initials("NECC") %>
+            <%= for organization <- Atomic.Accounts.get_user_organizations(@current_user) do %>
+              <div role="none">
+                <a class="text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" role="menuitem" tabindex="-1" id="options-menu-item-0">
+                  <span class="flex w-full items-center justify-between">
+                    <span class="flex min-w-0 items-center justify-between space-x-3">
+                      <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
+                        <span class="text-lg font-medium leading-none text-white">
+                          <%= Atomic.Accounts.extract_initials(organization.name) %>
+                        </span>
                       </span>
-                    </span>
-                    <span class="flex min-w-0 flex-1 flex-col">
-                      <span class="truncate text-md font-medium text-zinc-900"></span>
-                      <span class="truncate text-sm text-zinc-600">
-                        <%= "NECC" %>
-                      </span>
-                      <span class="truncate text-xs text-zinc-500">
-                        <%= "Role" %>
+                      <span class="flex min-w-0 flex-1 flex-col">
+                        <span class="truncate text-md font-medium text-zinc-900"></span>
+                        <span class="truncate text-sm text-zinc-600">
+                          <%= organization.name %>
+                        </span>
+                        <span class="truncate text-xs text-zinc-500">
+                          <%= AtomicWeb.ViewUtils.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, organization.id)) %>
+                        </span>
                       </span>
                     </span>
                   </span>
-                </span>
-              </a>
-            </div>
+                </a>
+              </div>
+            <% end %>
           </div>
         </div>
 
         <nav class="flex flex-col h-full justify-between border-t-2 border-black lg:border-t-0">
           <div class="hidden lg:block">
-            <%= for page <- AtomicWeb.Config.pages(@socket) do %>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
               <%= if page.tabs == [] and page.title != "Calendar" do %>
                 <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
                   <Heroicons.Outline.render
@@ -133,7 +135,7 @@
                 </div>
               </div>
             </button>
-            <%= for page <- AtomicWeb.Config.pages(@socket) do %>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
               <div
                 x-transition:enter="transition ease-out duration-100"
                 x-transition:enter-start="transform opacity-0 scale-95"
@@ -172,7 +174,7 @@
           </div>
 
           <div class="hidden mt-auto sticky bottom-0 lg:block">
-            <%= live_redirect to: Routes.activity_index_path(@socket, :index), class: "flex items-center gap-x-4 px-6 py-3 text-sm text-zinc-700 leading-6" do %>
+            <%= live_redirect to: Routes.activity_index_path(@socket, :index, @current_organization), class: "flex items-center gap-x-4 px-6 py-3 text-sm text-zinc-700 leading-6" do %>
               <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
               <span class="">Calendar</span>
             <% end %>
@@ -192,7 +194,7 @@
         <ol role="list" class="flex items-center space-x-4">
           <li>
             <div>
-              <%= live_redirect to: Routes.activity_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
+              <%= live_redirect to: Routes.activity_index_path(@socket, :index, @current_organization), class: "text-zinc-400 hover:text-zinc-500" do %>
                 <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
                 </svg>

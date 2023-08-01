@@ -9,13 +9,22 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"org" => id}, _, socket) do
+  def handle_params(%{"organization_id" => id}, _, socket) do
     memberships =
       Organizations.list_memberships(%{"organization_id" => id}, [:user])
       |> Enum.filter(fn m -> m.role != :follower end)
 
+    entries = [
+      %{
+        name: gettext("Memberships"),
+        route: Routes.membership_index_path(socket, :index, id)
+      }
+    ]
+
     {:noreply,
      socket
+     |> assign(:current_page, :memberships)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:memberships, memberships)}
   end

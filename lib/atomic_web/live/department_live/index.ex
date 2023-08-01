@@ -3,35 +3,49 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   alias Atomic.Departments
   alias Atomic.Departments.Department
-  alias Atomic.Organizations
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :departments, list_departments())}
+  def mount(%{"organization_id" => organization_id}, _session, socket) do
+    {:ok, assign(socket, :departments, list_departments(organization_id))}
   end
 
   @impl true
-  def handle_params(%{"org" => _id} = params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_params(params, _url, socket) do
+    entries = [
+      %{
+        name: gettext("Departments"),
+        route: Routes.department_index_path(socket, :index, params["organization_id"])
+      }
+    ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :departments)
+     |> assign(:breadcrumb_entries, entries)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Department")
-    |> assign(:department, Departments.get_department!(id))
+  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
+    department = Departments.get_department!(id)
+
+    if department.organization_id == organization_id do
+      socket
+      |> assign(:page_title, "Edit Department")
+      |> assign(:department, Departments.get_department!(id))
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
-  defp apply_action(socket, :new, %{"org" => id}) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Department")
-    |> assign(:organization, Organizations.get_organization!(id))
     |> assign(:department, %Department{})
   end
 
-  defp apply_action(socket, :index, %{"org" => id}) do
+  defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Departments")
-    |> assign(:organization, Organizations.get_organization!(id))
     |> assign(:department, nil)
   end
 
@@ -40,10 +54,11 @@ defmodule AtomicWeb.DepartmentLive.Index do
     department = Departments.get_department!(id)
     {:ok, _} = Departments.delete_department(department)
 
-    {:noreply, assign(socket, :departments, list_departments())}
+    {:noreply,
+     assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
-  defp list_departments do
-    Departments.list_departments()
+  defp list_departments(id) do
+    Departments.list_departments_by_organization_id(id)
   end
 end

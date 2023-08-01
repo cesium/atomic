@@ -1,12 +1,12 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
-    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @activity)} />
+  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)}>
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)} />
   </.modal>
 <% end %>
 
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.activity_show_path(@socket, :show, @activity)}>
-    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @activity)} />
+  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)}>
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} organization={@current_organization} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)} />
   </.modal>
 <% end %>
 
@@ -128,7 +128,7 @@
                             <%= Accounts.extract_initials(speaker.name) %>
                           </span>
                         </span>
-                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, speaker), class: "text-md text-blue-500" do %>
+                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @current_organization, speaker), class: "text-md text-blue-500" do %>
                           <%= Accounts.extract_first_last_name(speaker.name) %>
                         <% end %>
                       </div>
@@ -179,13 +179,13 @@
 <div class="flex flex-row space-x-1">
   <%= if @current_user.role in [:admin] or is_admin?(@current_user, @activity) do %>
     <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-      <%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity), class: "button") %>
+      <%= live_patch("Edit", to: Routes.activity_edit_path(@socket, :edit, @activity, @current_organization), class: "button") %>
     </span>
     <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"]) %>
     </span>
   <% end %>
   <span class="w-fit rounded bg-zinc-400 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-zinc-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-    <%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index)) %>
+    <%= live_redirect("Back", to: Routes.activity_index_path(@socket, :index, @current_organization)) %>
   </span>
 </div>

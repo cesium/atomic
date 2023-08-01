@@ -4,8 +4,8 @@ defmodule Atomic.PartnershipsTest do
   alias Atomic.Partnerships
 
   describe "partnerships" do
+    alias Atomic.OrganizationsFixtures
     alias Atomic.Partnerships.Partner
-
     import Atomic.PartnershipsFixtures
 
     @invalid_attrs %{description: nil, name: nil}
@@ -21,9 +21,14 @@ defmodule Atomic.PartnershipsTest do
     end
 
     test "create_partner/1 with valid data creates a partner" do
-      valid_attrs = %{description: "some description", name: "some name"}
+      valid_attrs = %{
+        description: "some description",
+        name: "some name",
+        organization_id: OrganizationsFixtures.organization_fixture().id
+      }
 
       assert {:ok, %Partner{} = partner} = Partnerships.create_partner(valid_attrs)
+
       assert partner.description == "some description"
       assert partner.name == "some name"
     end

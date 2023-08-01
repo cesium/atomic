@@ -12,10 +12,18 @@ defmodule AtomicWeb.ScannerLive.Index do
 
   @impl true
   def handle_params(_params, _url, socket) do
+    entries = [
+      %{
+        name: gettext("Scanner"),
+        route: Routes.scanner_index_path(socket, :index)
+      }
+    ]
+
     {:noreply,
      socket
      |> assign(:current_page, :scanner)
-     |> assign(:title, "Scanner")}
+     |> assign(:title, "Scanner")
+     |> assign(:breadcrumb_entries, entries)}
   end
 
   @impl true

@@ -9,11 +9,20 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
-  def handle_params(%{"org" => id}, _, socket) do
+  def handle_params(%{"organization_id" => id}, _, socket) do
     users_organizations = list_users_organizations(id)
+
+    entries = [
+      %{
+        name: gettext("Users Organizations"),
+        route: Routes.board_index_path(socket, :index, id)
+      }
+    ]
 
     {:noreply,
      socket
+     |> assign(:current_page, :board)
+     |> assign(:breadcrumb_entries, entries)
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:users_organizations, users_organizations)
      |> assign(:id, id)}

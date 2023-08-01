@@ -17,62 +17,90 @@ defmodule AtomicWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug AtomicWeb.Plugs.Authorize, :admin
+  end
+
+  pipeline :member do
+    plug AtomicWeb.Plugs.Authorize, :member
+  end
+
+  pipeline :follower do
+    plug AtomicWeb.Plugs.Authorize, :follower
+  end
+
   scope "/", AtomicWeb do
     pipe_through :browser
+
+    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
+      live "/", HomeLive.Index, :index
+
+      live "/organizations", OrganizationLive.Index, :index
+      live "/organizations/:organization_id", OrganizationLive.Show, :show
+
+      scope "/organizations/:organization_id" do
+        live "/board/", BoardLive.Index, :index
+        live "/board/:id", BoardLive.Show, :show
+      end
+    end
   end
 
   scope "/", AtomicWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user}] do
-      live "/", ActivityLive.Index, :index
+    live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :authenticated_user_state}] do
       live "/scanner", ScannerLive.Index, :index
-      live "/activities", ActivityLive.Index, :index
-      live "/activities/new", ActivityLive.New, :new
-      live "/activities/:id/edit", ActivityLive.Edit, :edit
-      live "/activities/:id", ActivityLive.Show, :show
 
-      live "/departments/:org", DepartmentLive.Index, :index
-      live "/departments/:org/new", DepartmentLive.Index, :new
-      live "/departments/:org/:id/edit", DepartmentLive.Index, :edit
-      live "/departments/:org/:id", DepartmentLive.Show, :show
-      live "/departments/:org/:id/show/edit", DepartmentLive.Show, :edit
+      scope "/organizations/:organization_id" do
+        pipe_through :admin
+        live "/edit", OrganizationLive.Index, :edit
+        live "/show/edit", OrganizationLive.Show, :edit
 
-      live "/partners", PartnerLive.Index, :index
-      live "/partners/new", PartnerLive.Index, :new
-      live "/partners/:id/edit", PartnerLive.Index, :edit
-      live "/partners/:id", PartnerLive.Show, :show
-      live "/partners/:id/show/edit", PartnerLive.Show, :edit
+        live "/activities/new", ActivityLive.New, :new
+        live "/activities/:id/edit", ActivityLive.Edit, :edit
 
-      live "/speakers", SpeakerLive.Index, :index
-      live "/speakers/new", SpeakerLive.Index, :new
-      live "/speakers/:id/edit", SpeakerLive.Index, :edit
-      live "/speakers/:id", SpeakerLive.Show, :show
-      live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
+        live "/departments/new", DepartmentLive.Index, :new
+        live "/departments/:id/edit", DepartmentLive.Index, :edit
+        live "/departments/:id/show/edit", DepartmentLive.Show, :edit
 
-      live "/organizations", OrganizationLive.Index, :index
+        live "/partners/new", PartnerLive.Index, :new
+        live "/partners/:id/edit", PartnerLive.Index, :edit
+        live "/partners/:id/show/edit", PartnerLive.Show, :edit
+
+        live "/speakers/new", SpeakerLive.Index, :new
+        live "/speakers/:id/edit", SpeakerLive.Index, :edit
+        live "/speakers/:id/show/edit", SpeakerLive.Show, :edit
+
+        live "/board/new", BoardLive.New, :new
+        live "/board/:id/edit", BoardLive.Edit, :edit
+
+        live "/memberships", MembershipLive.Index, :index
+        live "/memberships/new", MembershipLive.New, :new
+        live "/memberships/:id", MembershipLive.Show, :show
+        live "/memberships/:id/edit", MembershipLive.Edit, :edit
+      end
+
+      scope "/organizations/:organization_id" do
+        pipe_through :follower
+        live "/activities", ActivityLive.Index, :index
+        live "/activities/:id", ActivityLive.Show, :show
+
+        live "/departments", DepartmentLive.Index, :index
+        live "/departments/:id", DepartmentLive.Show, :show
+
+        live "/partners", PartnerLive.Index, :index
+        live "/partners/:id", PartnerLive.Show, :show
+
+        live "/speakers", SpeakerLive.Index, :index
+        live "/speakers/:id", SpeakerLive.Show, :show
+      end
+
       live "/organizations/new", OrganizationLive.Index, :new
-      live "/organizations/:id/edit", OrganizationLive.Index, :edit
-      live "/organizations/:id", OrganizationLive.Show, :show
-      live "/organizations/:id/show/edit", OrganizationLive.Show, :edit
-
-      live "/membership/:org", MembershipLive.Index, :index
-      live "/membership/:org/new", MembershipLive.New, :new
-      live "/membership/:org/:id", MembershipLive.Show, :show
-      live "/membership/:org/:id/edit", MembershipLive.Edit, :edit
-
-      live "/card/:membership_id", CardLive.Show, :show
-
-      live "/board/:org", BoardLive.Index, :index
-      live "/board/:org/new", BoardLive.New, :new
-      live "/board/:org/:id", BoardLive.Show, :show
-      live "/board/:org/:id/edit", BoardLive.Edit, :edit
-      live "/memberships/:org", MembershipLive.Index, :index
-      live "/memberships/:org/new", MembershipLive.New, :new
-      live "/memberships/:org/:id", MembershipLive.Show, :show
-      live "/memberships/:org/:id/edit", MembershipLive.Edit, :edit
 
       live "/user/edit", UserLive.Edit, :edit
+
+      pipe_through :member
+      live "/card/:membership_id", CardLive.Show, :show
     end
   end
 

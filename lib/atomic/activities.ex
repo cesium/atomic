@@ -22,6 +22,15 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
+  def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
+    Activity
+    |> apply_filters(opts)
+    |> join(:inner, [a], d in assoc(a, :departments))
+    |> where([a, d], d.organization_id == ^organization_id)
+    |> select([a, _d], a)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single activity.
 
@@ -39,6 +48,12 @@ defmodule Atomic.Activities do
   def get_activity!(id, preloads \\ []) do
     Repo.get!(Activity, id)
     |> Repo.preload(preloads)
+  end
+
+  def get_activity_organizations!(activity, _preloads \\ []) do
+    departments = Map.get(activity, :departments, [])
+
+    Enum.map(departments, & &1.organization_id)
   end
 
   alias Atomic.Activities.Enrollment
@@ -400,6 +415,19 @@ defmodule Atomic.Activities do
   """
   def list_speakers do
     Repo.all(Speaker)
+  end
+
+  @doc """
+  Returns the list of speakers belonging to an organization.
+
+  ## Examples
+
+      iex> list_speakers_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Speaker{}, ...]
+
+  """
+  def list_speakers_by_organization_id(id) do
+    Repo.all(from s in Speaker, where: s.organization_id == ^id)
   end
 
   def get_speakers(nil), do: []

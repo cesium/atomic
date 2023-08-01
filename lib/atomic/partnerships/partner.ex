@@ -7,7 +7,7 @@ defmodule Atomic.Partnerships.Partner do
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(name description)a
+  @required_fields ~w(name description organization_id)a
 
   @optional_fields []
 

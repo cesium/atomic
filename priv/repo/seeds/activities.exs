@@ -59,11 +59,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
             ]
           }
         )
@@ -83,11 +78,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
-              }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
               }
             ]
           }
@@ -109,11 +99,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
             ]
           }
         )
@@ -132,11 +117,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
-              }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
               }
             ]
           }
@@ -178,11 +158,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
             ]
           }
         )
@@ -203,11 +178,6 @@ defmodule Atomic.Repo.Seeds.Activities do
                 finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
                 location: location
               }
-            ],
-            enrollments: [
-              %{
-                user_id: 1
-              }
             ]
           }
         )
@@ -215,6 +185,22 @@ defmodule Atomic.Repo.Seeds.Activities do
 
       _ ->
         Mix.shell().error("Found activities, aborting seeding activities.")
+    end
+  end
+
+  def seed_activities_departments() do
+    department = Repo.get_by(Department, name: "Merchandise and Partnerships")
+
+    case Repo.all(ActivityDepartment) do
+      [] ->
+        for activity <- Repo.all(Activity) do
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
+            activity_id: activity.id,
+            department_id: department.id
+          })
+          |> Repo.insert!()
+        end
     end
   end
 

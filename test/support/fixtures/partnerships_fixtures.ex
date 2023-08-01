@@ -4,6 +4,8 @@ defmodule Atomic.PartnershipsFixtures do
   entities via the `Atomic.Partnerships` context.
   """
 
+  alias Atomic.OrganizationsFixtures
+
   @doc """
   Generate a partner.
   """
@@ -12,7 +14,8 @@ defmodule Atomic.PartnershipsFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        name: "some name"
+        name: "some name",
+        organization_id: OrganizationsFixtures.organization_fixture().id
       })
       |> Atomic.Partnerships.create_partner()
 

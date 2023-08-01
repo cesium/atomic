@@ -10,7 +10,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password role name)a
-  @optional_fields ~w(course_id)a
+  @optional_fields ~w(course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
@@ -20,6 +20,7 @@ defmodule Atomic.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    belongs_to :default_organization, Organization
 
     belongs_to :course, Course
     field :profile_picture, ProfilePicture.Type

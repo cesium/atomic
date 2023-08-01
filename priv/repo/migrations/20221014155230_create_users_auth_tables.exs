@@ -9,6 +9,10 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
+
+      add :default_organization_id,
+          references(:organizations, type: :binary_id, on_delete: :delete_all)
+
       add :role, :string, null: false
       timestamps()
     end

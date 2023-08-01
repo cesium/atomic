@@ -22,8 +22,8 @@
         <td><%= organization.description %></td>
 
         <td>
-          <span><%= live_redirect("Show", to: Routes.organization_show_path(@socket, :show, organization)) %></span>
-          <span><%= live_patch("Edit", to: Routes.organization_index_path(@socket, :edit, organization)) %></span>
+          <span><%= live_patch("Show", to: Routes.organization_show_path(@socket, :show, organization.id)) %></span>
+          <span><%= live_patch("Edit", to: Routes.organization_index_path(@socket, :edit, organization.id)) %></span>
           <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: organization.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
       </tr>

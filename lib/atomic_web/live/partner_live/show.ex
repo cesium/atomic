@@ -10,11 +10,17 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:partner, Partnerships.get_partner!(id))}
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+    partner = Partnerships.get_partner!(id)
+
+    if partner.organization_id == organization_id do
+      {:noreply,
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:partner, partner)}
+    else
+      raise AtomicWeb.MismatchError
+    end
   end
 
   defp page_title(:show), do: "Show Partner"

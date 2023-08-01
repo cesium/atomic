@@ -6,8 +6,8 @@ defmodule AtomicWeb.ViewUtils do
 
   import AtomicWeb.Gettext
 
+  alias String
   alias Timex.Format.DateTime.Formatters.Relative
-
   require Timex.Translator
 
   def frontend_url do
@@ -23,7 +23,7 @@ defmodule AtomicWeb.ViewUtils do
       "3 years ago"
 
       iex> relative_datetime(~N[2023-01-01 00:00:00] |> Timex.shift(days: 1))
-      "6 months ago"
+      "7 months ago"
 
   """
   def relative_datetime(nil), do: ""
@@ -125,6 +125,27 @@ defmodule AtomicWeb.ViewUtils do
       "col-start-#{col}"
     else
       "col-start-0"
+    end
+  end
+
+  @doc ~S"""
+    Returns the string with the first letter capitalized
+
+    ## Examples
+
+        iex> capitalize_first_letter(:hello)
+        "Hello"
+
+        iex> capitalize_first_letter(:world)
+        "World"
+  """
+  def capitalize_first_letter(string) do
+    if is_nil(string) do
+      ""
+    else
+      string
+      |> Atom.to_string()
+      |> String.capitalize()
     end
   end
 

@@ -4,6 +4,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Organizations
+  alias AtomicWeb.MismatchError
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -16,27 +17,32 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
+    organizations = Activities.get_activity_organizations!(activity)
 
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
+        route: Routes.activity_index_path(socket, :index, organization_id)
       },
       %{
         name: activity.title,
-        route: Routes.activity_show_path(socket, :show, activity)
+        route: Routes.activity_show_path(socket, :show, organization_id, activity.id)
       }
     ]
 
-    {:noreply,
-     socket
-     |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:breadcrumb_entries, entries)
-     |> assign(:current_page, :activities)
-     |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+    if organization_id in organizations do
+      {:noreply,
+       socket
+       |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:breadcrumb_entries, entries)
+       |> assign(:current_page, :activities)
+       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+    else
+      raise MismatchError
+    end
   end
 
   @impl true
@@ -82,7 +88,10 @@ defmodule AtomicWeb.ActivityLive.Show do
   def handle_event("delete", _payload, socket) do
     {:ok, _} = Activities.delete_activity(socket.assigns.activity)
 
-    {:noreply, push_redirect(socket, to: Routes.activity_index_path(socket, :index))}
+    {:noreply,
+     push_redirect(socket,
+       to: Routes.activity_index_path(socket, :index, socket.assigns.current_organization)
+     )}
   end
 
   @impl true
