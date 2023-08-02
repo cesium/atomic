@@ -50,6 +50,7 @@ defmodule AtomicWeb.Router do
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :authenticated_user_state}] do
       live "/scanner", ScannerLive.Index, :index
+      live "/calendar", CalendarLive.Show, :show
 
       scope "/organizations/:organization_id" do
         pipe_through :admin

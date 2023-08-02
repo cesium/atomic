@@ -11,6 +11,7 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     users_organizations = list_users_organizations(id)
+    organization = Organizations.get_organization!(id)
 
     entries = [
       %{
@@ -23,7 +24,7 @@ defmodule AtomicWeb.BoardLive.Index do
      socket
      |> assign(:current_page, :board)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:users_organizations, users_organizations)
      |> assign(:id, id)}
   end
@@ -31,6 +32,7 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     user_organization = Organizations.get_user_organization!(id)
+
     {:ok, user_org} = Organizations.delete_user_organization(user_organization)
 
     {:noreply,
@@ -41,7 +43,7 @@ defmodule AtomicWeb.BoardLive.Index do
     Organizations.list_users_organizations(where: [organization_id: id])
   end
 
-  defp page_title(:index), do: "List board"
-  defp page_title(:show), do: "Show board"
-  defp page_title(:edit), do: "Edit board"
+  defp page_title(:index, organization), do: "#{organization.name} Board"
+  defp page_title(:show, organization), do: "#{organization.name} Board"
+  defp page_title(:edit, _organization), do: "Edit board"
 end

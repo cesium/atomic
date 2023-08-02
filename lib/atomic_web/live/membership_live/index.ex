@@ -2,7 +2,7 @@ defmodule AtomicWeb.MembershipLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Organizations
-
+  import AtomicWeb.ViewUtils
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -11,8 +11,10 @@ defmodule AtomicWeb.MembershipLive.Index do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     memberships =
-      Organizations.list_memberships(%{"organization_id" => id}, [:user])
+      Organizations.list_memberships(%{"organization_id" => id}, [:user, :created_by])
       |> Enum.filter(fn m -> m.role != :follower end)
+
+    organization = Organizations.get_organization!(id)
 
     entries = [
       %{
@@ -25,11 +27,11 @@ defmodule AtomicWeb.MembershipLive.Index do
      socket
      |> assign(:current_page, :memberships)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:memberships, memberships)}
   end
 
-  defp page_title(:index), do: "List memberships"
-  defp page_title(:show), do: "Show membership"
-  defp page_title(:edit), do: "Edit membership"
+  defp page_title(:index, organization), do: "#{organization.name} Memberships"
+  defp page_title(:show, organization), do: "#{organization.name} Membership"
+  defp page_title(:edit, _), do: "Edit membership"
 end

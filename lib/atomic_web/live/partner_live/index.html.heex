@@ -1,34 +1,61 @@
-<h1>Listing Partnerships</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.partner_index_path(@socket, :index, @current_organization)}>
     <.live_component module={AtomicWeb.PartnerLive.FormComponent} id={@partner.id || :new} organization={@current_organization} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
+<div class="bg-white">
+  <div class="pt-4 px-4">
+    <div class="flex items-center justify-between">
+      <div class="min-w-0 flex-1">
+        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
+          <%= gettext("Partners") %>
+        </h2>
+      </div>
+      <div class="hidden lg:border-orange-500 lg:block">
+        <%= live_patch("+ New Partner",
+          to: Routes.partner_index_path(@socket, :new, @current_organization),
+          class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+        ) %>
+      </div>
+    </div>
+    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+      <div class="flex w-full items-center justify-between">
+        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+          <div class="text-zinc-500 border-zinc-800 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+            <%= gettext("Current Partners") %>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="partnerships">
-    <%= for partner <- @partnerships do %>
-      <tr id={"partner-#{partner.id}"}>
-        <td><%= partner.name %></td>
-        <td><%= partner.description %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.partner_show_path(@socket, :show, @current_organization, partner)) %></span>
-          <span><%= live_patch("Edit", to: Routes.partner_index_path(@socket, :edit, @current_organization, partner)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: partner.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch("New Partner", to: Routes.partner_index_path(@socket, :new, @current_organization)) %></span>
+<ul role="list" class="">
+  <%= for partner <- @partnerships do %>
+    <li class="flex justify-between border-b-2 border-gray-200 gap-x-6 py-5">
+      <div class="flex gap-x-4">
+        <div class="h-12 w-12 flex-none rounded-full bg-gray-50">
+          <%= if partner.image do %>
+            <img src={Atomic.Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
+          <% else %>
+            <span class="flex justify-center items-center mr-1.5 w-12 h-12 bg-zinc-500 rounded-xl">
+              <span class="text-lg font-medium leading-none text-white">
+                <%= Atomic.Accounts.extract_initials(partner.name) %>
+              </span>
+            </span>
+          <% end %>
+        </div>
+        <div class="min-w-0 flex-auto">
+          <p class="text-sm font-semibold leading-6 text-gray-900"><%= partner.name %></p>
+          <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= partner.description %></p>
+        </div>
+      </div>
+      <div class="hidden sm:flex sm:flex-row sm:items-end">
+        <p class="text-sm leading-6 text-gray-900"><%= live_redirect("Show", to: Routes.partner_show_path(@socket, :show, @current_organization, partner)) %></p>
+        <p class="text-sm leading-6 text-gray-900"><%= live_patch("Edit", to: Routes.partner_index_path(@socket, :edit, @current_organization, partner)) %></p>
+        <p class="text-sm leading-6 text-gray-900"><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: partner.id, data: [confirm: "Are you sure?"]) %></p>
+      </div>
+    </li>
+  <% end %>
+</ul>

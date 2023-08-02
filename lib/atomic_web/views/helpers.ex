@@ -149,6 +149,13 @@ defmodule AtomicWeb.ViewUtils do
     end
   end
 
+  def build_path(current_path, params) do
+    current_path
+    |> URI.parse()
+    |> Map.put(:query, URI.encode_query(params))
+    |> URI.to_string()
+  end
+
   @doc ~S"""
     Returns an error message for a given error
 

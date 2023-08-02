@@ -11,11 +11,12 @@ defmodule AtomicWeb.MembershipLive.Edit do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
+    organization = Organizations.get_organization!(organization_id)
 
     if membership.organization_id == organization_id do
       {:noreply,
        socket
-       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:page_title, page_title(socket.assigns.live_action, organization))
        |> assign(:organization, organization_id)
        |> assign(:membership, membership)
        |> assign(:current_user, socket.assigns.current_user)
@@ -28,7 +29,7 @@ defmodule AtomicWeb.MembershipLive.Edit do
     end
   end
 
-  defp page_title(:index), do: "List memberships"
-  defp page_title(:show), do: "Show membership"
-  defp page_title(:edit), do: "Edit membership"
+  defp page_title(:index, organization), do: "#{organization.name} Memberships"
+  defp page_title(:show, organization), do: "#{organization.name} Membership"
+  defp page_title(:edit, _organization), do: "Edit Membership"
 end

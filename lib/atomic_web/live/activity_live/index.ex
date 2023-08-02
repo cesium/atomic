@@ -4,6 +4,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Activities.Activity
+  alias Atomic.Organizations
 
   @impl true
   def mount(params, _session, socket) do
@@ -38,9 +39,11 @@ defmodule AtomicWeb.ActivityLive.Index do
     |> assign(:activity, %Activity{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    organization = Organizations.get_organization!(params["organization_id"])
+
     socket
-    |> assign(:page_title, "Listing Activities")
+    |> assign(:page_title, "#{organization.name} Activities")
     |> assign(:activity, nil)
   end
 

@@ -1,6 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
+  alias Atomic.Organizations
   alias Atomic.Partnerships
   alias Atomic.Partnerships.Partner
 
@@ -13,7 +14,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   def handle_params(params, _url, socket) do
     entries = [
       %{
-        name: gettext("Partnerships"),
+        name: gettext("Partners"),
         route: Routes.partner_index_path(socket, :index, params["organization_id"])
       }
     ]
@@ -43,9 +44,11 @@ defmodule AtomicWeb.PartnerLive.Index do
     |> assign(:partner, %Partner{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    organization = Organizations.get_organization!(params["organization_id"])
+
     socket
-    |> assign(:page_title, "Listing Partnerships")
+    |> assign(:page_title, "#{organization.name} Partners")
     |> assign(:partner, nil)
   end
 

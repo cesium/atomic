@@ -3,6 +3,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   alias Atomic.Departments
   alias Atomic.Departments.Department
+  alias Atomic.Organizations
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
@@ -43,9 +44,11 @@ defmodule AtomicWeb.DepartmentLive.Index do
     |> assign(:department, %Department{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    organization = Organizations.get_organization!(params["organization_id"])
+
     socket
-    |> assign(:page_title, "Listing Departments")
+    |> assign(:page_title, "#{organization.name} Departments")
     |> assign(:department, nil)
   end
 

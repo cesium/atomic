@@ -17,7 +17,7 @@ defmodule AtomicWeb.Config do
         key: :calendar,
         title: "Calendar",
         icon: :calendar,
-        url: "",
+        url: Routes.calendar_show_path(conn, :show),
         tabs: []
       },
       %{

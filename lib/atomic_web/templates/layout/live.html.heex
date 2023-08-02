@@ -1,5 +1,5 @@
 <div x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
-  <div class="flex flex-col min-h-full">
+  <div class="flex flex-col min-h-max">
     <div x-data="{ open: false}" @click.away="open = false" class="lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
       <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:space-y-16">
         <div class="relative inline-blocktext-left">
@@ -174,7 +174,7 @@
           </div>
 
           <div class="hidden mt-auto sticky bottom-0 lg:block">
-            <%= live_redirect to: Routes.activity_index_path(@socket, :index, @current_organization), class: "flex items-center gap-x-4 px-6 py-3 text-sm text-zinc-700 leading-6" do %>
+            <%= live_redirect to: Routes.calendar_show_path(@socket, :show), class: "flex items-center gap-x-4 px-6 py-3 text-sm text-zinc-700 leading-6" do %>
               <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
               <span class="">Calendar</span>
             <% end %>
@@ -215,7 +215,7 @@
         </ol>
       </nav>
 
-      <main class="flex-1 bg-white mx-5 lg:mx-20">
+      <main class="flex-1 bg-white mx-5 h-fit lg:mx-20">
         <%= @inner_content %>
       </main>
     </div>

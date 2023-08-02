@@ -51,7 +51,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Organizations")
+    |> assign(:page_title, "Organizations")
     |> assign(:organization, nil)
   end
 

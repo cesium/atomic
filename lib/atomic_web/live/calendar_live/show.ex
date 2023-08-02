@@ -1,14 +1,11 @@
-defmodule AtomicWeb.HomeLive.Index do
+defmodule AtomicWeb.CalendarLive.Show do
   @moduledoc false
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
-  alias Atomic.Partnerships
-  alias Atomic.Uploaders.Card
 
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.Calendar
-  import AtomicWeb.ViewUtils
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,30 +13,20 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    partners =
-      Partnerships.list_partnerships_by_organization_id(socket.assigns.current_organization.id)
-
-    actitivities =
-      Activities.list_activities_by_organization_id(socket.assigns.current_organization.id, [])
-
+  def handle_params(params, _uri, socket) do
     mode = params["mode"] || "month"
 
     entries = [
       %{
-        name: gettext("Home"),
-        route: Routes.home_index_path(socket, :index)
+        name: gettext("Calendar"),
+        route: Routes.calendar_show_path(socket, :show)
       }
     ]
 
     {:noreply,
      socket
-     |> assign(:page_title, "Home")
+     |> assign(:current_page, :calendar)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:current_page, :home)
-     |> assign(:partners, partners)
-     |> assign(:activities, actitivities)
-     |> assign(:time_zone, socket.assigns.time_zone)
      |> assign(:params, params)
      |> assign(:mode, mode)
      |> assign(

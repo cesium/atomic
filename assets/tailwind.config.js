@@ -10,7 +10,11 @@ module.exports = {
     '../lib/*_web/**/*.*ex',
   ],
   theme: {
-    extend: {},
+    extend: {
+      border: {
+        '1': '1px'
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

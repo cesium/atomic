@@ -11,18 +11,19 @@ defmodule AtomicWeb.MembershipLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
+    organization = Organizations.get_organization!(organization_id)
 
     if membership.organization_id == organization_id do
       {:noreply,
        socket
-       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:page_title, page_title(socket.assigns.live_action, organization))
        |> assign(:membership, membership)}
     else
       raise AtomicWeb.MismatchError
     end
   end
 
-  defp page_title(:index), do: "List memberships"
-  defp page_title(:show), do: "Show membership"
-  defp page_title(:edit), do: "Edit membership"
+  defp page_title(:index, organization), do: "#{organization.name} Memberships"
+  defp page_title(:show, organization), do: "#{organization.name} Membership"
+  defp page_title(:edit, _), do: "Edit membership"
 end
