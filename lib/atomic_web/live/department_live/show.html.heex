@@ -6,23 +6,41 @@
   </.modal>
 <% end %>
 
-<ul>
-  <li>
-    <strong>Name:</strong>
-    <%= @department.name %>
-  </li>
-
-  <li>
-    <strong>Activities:</strong>
-    <ul>
-      <%= for activity <- @department.activities do %>
-        <li>
-          <%= live_redirect(activity.title, to: Routes.activity_show_path(@socket, :show, @current_organization, activity)) %>
-        </li>
-      <% end %>
-    </ul>
-  </li>
-</ul>
+<div>
+  <div class="my-4">
+    <div class="bg-white">
+      <div class="flex justify-between px-4 py-5 sm:px-6">
+        <div class="my-4 w-full items-center gap-x-4 lg:flex">
+          <div class="flex-1">
+            <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
+              <%= @department.name %>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
+      <strong>Activities:</strong>
+      <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        <%= for activity <- @department.activities do %>
+          <li class="w-72 col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
+            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "" do %>
+              <div class="flex flex-1 flex-col p-4">
+                <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= activity.title %></h3>
+              </div>
+              <div class="flex flex-col items-center justify-center">
+                <div class="-mt-px  divide-x divide-gray-200">
+                  <%= activity.description %>
+                </div>
+                <img src="https://picsum.photos/200/300" alt="random image" class="mt-2 w-full h-32 object-cover rounded-b-lg" />
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <span><%= live_patch("Edit", to: Routes.department_show_path(@socket, :edit, @current_organization, @department), class: "button") %></span> |
 <span><%= live_redirect("Back", to: Routes.department_index_path(@socket, :index, @current_organization)) %></span>

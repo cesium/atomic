@@ -14,6 +14,9 @@ module.exports = {
       border: {
         '1': '1px'
       },
+      backgroundImage: {
+        'hero-pattern': "url('/images/logo.png')",
+      },
     },
   },
   plugins: [

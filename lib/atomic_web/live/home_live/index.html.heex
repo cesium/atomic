@@ -42,7 +42,7 @@
       </ul>
     </div>
 
-    <div class="ml-4">
+    <div class="lg:ml-4 ml-0">
       <div class="flex flex-row items-center">
         <h2 class="text-2xl font-bold">
           <%= gettext("Partners") %>
@@ -90,8 +90,8 @@
         </div>
         <.calendar id="calendar" current_path={Routes.calendar_show_path(@socket, :show)} sessions={@sessions} params={@params} mode={@mode} time_zone={@time_zone} current_organization={@current_organization} />
       </div>
-      <div class="w-max flex flex-col justify-center lg:w-full">
-        <ul class="ml-8">
+      <div class="w-full flex flex-col justify-center lg:w-full">
+        <ul class="lg:ml-8 ml-0 w-full">
           <%= for activity <- Enum.take(@activities,5) do %>
             <li class="w-full items-center justify-between border-b-2 border-gray-200 gap-x-6 py-5">
               <div class="">
