@@ -7,6 +7,7 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
       add :start, :utc_datetime
       add :finish, :utc_datetime
       add :location, :map
+      add :session_image, :string
 
       add :activity_id,
           references(:activities, on_delete: :delete_all, type: :binary_id)

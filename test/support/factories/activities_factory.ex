@@ -20,7 +20,7 @@ defmodule Atomic.Factories.ActivityFactory do
       def enrollment_factory do
         %Enrollment{
           present: Enum.random([true, false]),
-          activity: build(:activity),
+          session: build(:session),
           user: build(:user)
         }
       end

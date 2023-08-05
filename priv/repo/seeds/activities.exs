@@ -5,6 +5,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
   alias Atomic.Activities.ActivityDepartment
+  alias Atomic.Activities.Session
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.{Activity, Enrollment, Location}
 
@@ -207,12 +208,12 @@ defmodule Atomic.Repo.Seeds.Activities do
   def seed_enrollments() do
     case Repo.all(Enrollment) do
       [] ->
-        for activity <- Repo.all(Activity) do
+        for session <- Repo.all(Session) do
           for user <- Repo.all(User) do
             %Enrollment{}
             |> Enrollment.changeset(%{
               user_id: user.id,
-              activity_id: activity.id,
+              session_id: session.id,
               present: Enum.random([true, false])
             })
             |> Repo.insert!()

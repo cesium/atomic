@@ -5,19 +5,22 @@ defmodule Atomic.Activities.Session do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
+  alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Location
+  alias Atomic.Uploaders
 
   @required_fields ~w(start finish)a
-  @optional_fields ~w(delete)a
+  @optional_fields ~w(delete session_image)a
 
   schema "sessions" do
     field :start, :naive_datetime
     field :finish, :naive_datetime
+    field :session_image, Uploaders.Post.Type
 
     embeds_one :location, Location, on_replace: :delete
 
     field :delete, :boolean, virtual: true
-
+    has_many :enrollments, Enrollment, foreign_key: :session_id
     belongs_to :activity, Activity
 
     timestamps()

@@ -8,7 +8,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
+    {:ok, assign(socket, :activities, list_sessions(params["organization_id"]))}
   end
 
   @impl true
@@ -52,12 +52,11 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_activities(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, :activies, list_sessions(socket.assigns.current_organization.id))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply,
-     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, :activities, list_sessions(socket.assigns.current_organization.id))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
@@ -67,9 +66,9 @@ defmodule AtomicWeb.ActivityLive.Index do
     {:noreply, assign(socket, :activities, activities)}
   end
 
-  defp list_activities(organization_id) do
+  defp list_sessions(organization_id) do
     Activities.list_activities_by_organization_id(organization_id,
-      preloads: [:activity_sessions, :enrollments, :speakers]
+      preloads: [:activity_sessions, :speakers]
     )
   end
 end

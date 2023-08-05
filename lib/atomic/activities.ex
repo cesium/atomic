@@ -43,6 +43,7 @@ defmodule Atomic.Activities do
     |> where([a, d], d.organization_id == ^organization_id)
     |> select([a, _d], a)
     |> Repo.all()
+    |> Repo.preload(activity_sessions: :enrollments)
   end
 
   @doc """
@@ -97,25 +98,26 @@ defmodule Atomic.Activities do
         iex> get_activity_organizations!(activity)
         ** (Ecto.NoResultsError)
   """
-  def get_activity_organizations!(activity, _preloads \\ []) do
-    Map.get(activity, :departments, [])
+  def get_activity_organizations!(activity, preloads \\ []) do
+    Repo.preload(activity, preloads)
+    |> Map.get(:departments, [])
     |> Enum.map(& &1.organization_id)
   end
 
   @doc """
-    Verifies if an user is enrolled in an activity.
+    Verifies if an user is enrolled in an activity session.
 
     ## Examples
 
-        iex> is_participating?(activity_id, user_id)
+        iex> is_participating?(session_id, user_id)
         true
 
-        iex> is_participating?(activity_id, user_id)
+        iex> is_participating?(session_id, user_id)
         false
   """
-  def is_participating?(activity_id, user_id) do
+  def is_participating?(session_id, user_id) do
     Enrollment
-    |> where(activity_id: ^activity_id, user_id: ^user_id)
+    |> where(session_id: ^session_id, user_id: ^user_id)
     |> Repo.exists?()
   end
 
@@ -189,12 +191,14 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_sessions()
+      iex> list_sessions(opts)
       [%Session{}, ...]
 
   """
-  def list_sessions do
-    Repo.all(Session)
+  def list_sessions(opts) when is_list(opts) do
+    Session
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
@@ -211,7 +215,10 @@ defmodule Atomic.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_session!(id), do: Repo.get!(Session, id)
+  def get_session!(id, preloads \\ []) do
+    Repo.get!(Session, id)
+    |> Repo.preload(preloads)
+  end
 
   @doc """
   Creates a session.
@@ -324,12 +331,12 @@ defmodule Atomic.Activities do
         iex> get_user_enrolled(user, activity)
         ** (Ecto.NoResultsError)
   """
-  def get_user_enrolled(user, activity) do
+  def get_user_enrolled(user, session_id) do
     Enrollment
-    |> where(user_id: ^user.id, activity_id: ^activity.id)
+    |> where(user_id: ^user.id, session_id: ^session_id)
     |> Repo.one()
     |> case do
-      nil -> create_enrollment(activity, user)
+      nil -> create_enrollment(session_id, user)
       enrollment -> enrollment
     end
   end
@@ -367,17 +374,17 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> create_enrollment(%Activity{} = activity, %User{} = user)
+      iex> create_enrollment(session_id, %User{} = user)
       {:ok, %Enrollment{}}
 
-      iex> create_enrollment(%Activity{} = activity, %User{} = user)
+      iex> create_enrollment(session_id, %User{} = user)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_enrollment(%Activity{} = activity, %User{} = user) do
+  def create_enrollment(session_id, %User{} = user) do
     %Enrollment{}
     |> Enrollment.changeset(%{
-      activity_id: activity.id,
+      session_id: session_id,
       user_id: user.id
     })
     |> Repo.insert()
@@ -407,35 +414,35 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> delete_enrollment(enrollment)
+      iex> delete_enrollment(session_id, %User{})
       {:ok, %Enrollment{}}
 
-      iex> delete_enrollment(enrollment)
+      iex> delete_enrollment(session_id, %User{})
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_enrollment(%Activity{} = activity, %User{} = user) do
+  def delete_enrollment(session_id, %User{} = user) do
     Repo.delete_all(
       from e in Enrollment,
-        where: e.user_id == ^user.id and e.activity_id == ^activity.id
+        where: e.user_id == ^user.id and e.session_id == ^session_id
     )
     |> broadcast(:deleted_enrollment)
   end
 
   @doc """
-  Returns the total number of enrolled users in an activity.
+  Returns the total number of enrolled users in an activity session.
 
   ## Examples
 
-      iex> get_total_enrolled(activity)
+      iex> get_total_enrolled(session_id)
       10
 
-      iex> get_total_enrolled(activity)
+      iex> get_total_enrolled(session_id)
       0
   """
-  def get_total_enrolled(%Activity{} = activity) do
+  def get_total_enrolled(session_id) do
     Enrollment
-    |> where(activity_id: ^activity.id)
+    |> where(session_id: ^session_id)
     |> Repo.aggregate(:count, :id)
   end
 

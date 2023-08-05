@@ -7,7 +7,6 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities
   alias Atomic.Activities.ActivityDepartment
   alias Atomic.Activities.ActivitySpeaker
-  alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
   alias Atomic.Activities.Speaker
   alias Atomic.Departments
@@ -36,7 +35,6 @@ defmodule Atomic.Activities.Activity do
       foreign_key: :activity_id,
       preload_order: [asc: :start]
 
-    has_many :enrollments, Enrollment, foreign_key: :activity_id
     belongs_to :event, Event
 
     timestamps()
