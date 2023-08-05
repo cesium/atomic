@@ -11,8 +11,9 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities.Session
   alias Atomic.Activities.Speaker
   alias Atomic.Departments
-  alias Atomic.Departments.Department
   alias Atomic.Events.Event
+  alias Atomic.Organizations.Department
+
   @required_fields ~w(title description
                     minimum_entries maximum_entries)a
 

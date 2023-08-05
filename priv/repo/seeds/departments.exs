@@ -1,7 +1,7 @@
 defmodule Atomic.Repo.Seeds.Departments do
   alias Atomic.Repo
 
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Organization
 
   def run do
@@ -15,6 +15,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Merchandise and Partnerships",
+            description: "Department responsible for the merchandise and partnerships of CeSIUM.",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )
@@ -24,6 +25,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Marketing and Content",
+            description: "Department responsible for the marketing and content of CeSIUM.",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )
@@ -33,6 +35,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Recreative",
+            description: "Department responsible for the recreative activities of CeSIUM.",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )
@@ -42,6 +45,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "Pedagogical",
+            description: "Department responsible for the pedagogical activities of CeSIUM.",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )
@@ -51,6 +55,7 @@ defmodule Atomic.Repo.Seeds.Departments do
           %Department{},
           %{
             name: "CAOS",
+            description: "Department responsible for the CAOS activities of CeSIUM.",
             organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
           }
         )

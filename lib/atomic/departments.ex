@@ -6,7 +6,7 @@ defmodule Atomic.Departments do
 
   import Ecto.Query, warn: false
 
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
 
   @doc """
   Returns the list of departments.

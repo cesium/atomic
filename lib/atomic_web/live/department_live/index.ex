@@ -2,8 +2,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Departments
-  alias Atomic.Departments.Department
   alias Atomic.Organizations
+  alias Atomic.Organizations.Department
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do

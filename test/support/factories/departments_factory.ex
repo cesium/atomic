@@ -3,7 +3,7 @@ defmodule Atomic.Factories.DepartmentFactory do
   A factory to generate account related structs
   """
 
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
 
   defmacro __using__(_opts) do
     quote do

@@ -44,7 +44,7 @@
           </span>
           <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= department.name %></h3>
           <span class="text-md font-semibold text-gray-500">
-            Descrição do Departamento
+            <%= department.description %>
           </span>
         </div>
         <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] do %>
