@@ -63,6 +63,9 @@ defmodule Atomic.Accounts.User do
     |> cast_attachments(attrs, [:profile_picture])
   end
 
+  @doc """
+    A user changeset for updating the user.
+  """
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)

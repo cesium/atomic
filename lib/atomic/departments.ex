@@ -34,6 +34,17 @@ defmodule Atomic.Departments do
     Repo.all(from d in Department, where: d.organization_id == ^id)
   end
 
+  @doc """
+  Returns the list of departments in a list of given ids.
+
+  ## Examples
+
+      iex> get_departments([99d7c9e5-4212-4f59-a097-28aaa33c2621, 99d7c9e5-4212-4f59-a097-28aaa33c2621])
+      [%Department{}, ...]
+
+      iex> get_departments(nil)
+      []
+  """
   def get_departments(nil), do: []
 
   def get_departments(ids) do

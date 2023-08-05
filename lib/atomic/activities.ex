@@ -6,6 +6,9 @@ defmodule Atomic.Activities do
 
   alias Atomic.Accounts.User
   alias Atomic.Activities.Activity
+  alias Atomic.Activities.Enrollment
+  alias Atomic.Activities.Session
+  alias Atomic.Activities.Speaker
 
   @doc """
   Returns the list of activities.
@@ -22,6 +25,17 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
+  @doc """
+  Returns the list of activities belonging to an organization.
+
+  ## Examples
+
+      iex> list_activities_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      [%Activity{}, ...]
+
+      iex> list_activities_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      ** (Ecto.NoResultsError)
+  """
   def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
     Activity
     |> apply_filters(opts)
@@ -31,8 +45,17 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-  alias Atomic.Activities.Session
+  @doc """
+  Returns the list of activity sessions starting and ending between two given dates.
 
+    ## Examples
+
+        iex> list_sessions_from_to(~N[2020-01-01 00:00:00], ~N[2020-01-31 23:59:59], opts)
+        [%Session{}, ...]
+
+        iex> list_sessions_from_to(~N[2024-01-01 00:00:00], ~N[2024-01-31 23:59:59], opts)
+        ** (Ecto.NoResultsError)
+  """
   def list_sessions_from_to(start, finish, opts) do
     from(s in Session,
       join: a in Activity,
@@ -63,22 +86,37 @@ defmodule Atomic.Activities do
     |> Repo.preload(preloads)
   end
 
-  def get_activity_organizations!(activity, _preloads \\ []) do
-    departments = Map.get(activity, :departments, [])
+  @doc """
+    Returns the list of organizations ids that are associated with an activity.
 
-    Enum.map(departments, & &1.organization_id)
+    ## Examples
+
+        iex> get_activity_organizations!(activity)
+        [19d7c9e5-4212-4f59-a097-28aaa33c2621, ...]
+
+        iex> get_activity_organizations!(activity)
+        ** (Ecto.NoResultsError)
+  """
+  def get_activity_organizations!(activity, _preloads \\ []) do
+    Map.get(activity, :departments, [])
+    |> Enum.map(& &1.organization_id)
   end
 
-  alias Atomic.Activities.Enrollment
+  @doc """
+    Verifies if an user is enrolled in an activity.
 
+    ## Examples
+
+        iex> is_participating?(activity, user)
+        true
+
+        iex> is_participating?(activity, user)
+        false
+  """
   def is_participating?(activity_id, user_id) do
     Enrollment
     |> where(activity_id: ^activity_id, user_id: ^user_id)
-    |> Repo.one()
-    |> case do
-      nil -> false
-      _ -> true
-    end
+    |> Repo.exists?()
   end
 
   @doc """
@@ -145,8 +183,6 @@ defmodule Atomic.Activities do
   def change_activity(%Activity{} = activity, attrs \\ %{}) do
     Activity.changeset(activity, attrs)
   end
-
-  alias Atomic.Activities.Session
 
   @doc """
   Returns the list of sessions.
@@ -242,8 +278,6 @@ defmodule Atomic.Activities do
     Session.changeset(session, attrs)
   end
 
-  alias Atomic.Activities.Enrollment
-
   @doc """
   Returns the list of enrollments.
 
@@ -279,29 +313,53 @@ defmodule Atomic.Activities do
     |> Repo.one()
   end
 
-  def get_user_enrolled(user, activity) do
-    enrollment =
-      Enrollment
-      |> where(user_id: ^user.id, activity_id: ^activity.id)
-      |> Repo.one()
+  @doc """
+   Gets the user enrolled in an given activity.
 
-    case enrollment do
+    ## Examples
+
+        iex> get_user_enrolled(user, activity)
+        %Enrollment{}
+
+        iex> get_user_enrolled(user, activity)
+        ** (Ecto.NoResultsError)
+  """
+  def get_user_enrolled(user, activity) do
+    Enrollment
+    |> where(user_id: ^user.id, activity_id: ^activity.id)
+    |> Repo.one()
+    |> case do
       nil -> create_enrollment(activity, user)
-      _ -> enrollment
+      enrollment -> enrollment
     end
   end
 
-  def get_user_enrollments(user) do
+  @doc """
+   Gets all user enrollments.
+
+    ## Examples
+
+        iex> get_user_enrollments(user)
+        [%Enrollment{}, ...]
+
+        iex> get_user_enrollments(user)
+        ** (Ecto.NoResultsError)
+  """
+  def get_user_enrollments(user_id) do
     Enrollment
-    |> where(user_id: ^user.id)
+    |> where(user_id: ^user_id)
     |> Repo.all()
   end
 
-  def get_user_activities(user) do
-    enrollments = get_user_enrollments(user)
-    activities = for enrollment <- enrollments, do: get_activity!(enrollment.activity_id)
+  def get_user_activities(user_id) do
+    activities_ids =
+      get_user_enrollments(user_id)
+      |> Enum.map(& &1.activity_id)
 
-    activities |> Repo.preload([:enrollments, :activity_sessions, :speakers])
+    for activity_id <- activities_ids,
+        do:
+          get_activity!(activity_id)
+          |> Repo.preload([:enrollments, :activity_sessions, :speakers])
   end
 
   @doc """
@@ -344,13 +402,6 @@ defmodule Atomic.Activities do
     |> Repo.update()
   end
 
-  def is_user_enrolled?(%Activity{} = activity, %User{} = user) do
-    Repo.one(
-      from e in Enrollment,
-        where: e.user_id == ^user.id and e.activity_id == ^activity.id
-    )
-  end
-
   @doc """
   Deletes a enrollment.
 
@@ -371,6 +422,17 @@ defmodule Atomic.Activities do
     |> broadcast(:deleted_enrollment)
   end
 
+  @doc """
+  Returns the total number of enrolled users in an activity.
+
+  ## Examples
+
+      iex> get_total_enrolled(activity)
+      10
+
+      iex> get_total_enrolled(activity)
+      0
+  """
   def get_total_enrolled(%Activity{} = activity) do
     Enrollment
     |> where(activity_id: ^activity.id)
@@ -390,13 +452,18 @@ defmodule Atomic.Activities do
     Enrollment.changeset(enrollment, attrs)
   end
 
-  def enrolled?(%Activity{} = activity, %User{} = user) do
-    Repo.one(
-      from e in Enrollment,
-        where: e.user_id == ^user.id and e.activtiy_id == ^activity.id
-    )
-  end
+  @doc """
+  Broadcasts an event to the pubsub.
 
+  ## Examples
+
+      iex> broadcast(:new_enrollment, enrollment)
+      {:ok, %Enrollment{}}
+
+      iex> broadcast(:deleted_enrollment, nil)
+      {:ok, nil}
+
+  """
   def subscribe(topic) when topic in ["new_enrollment", "deleted_enrollment"] do
     Phoenix.PubSub.subscribe(Atomic.PubSub, topic)
   end
@@ -414,8 +481,6 @@ defmodule Atomic.Activities do
     Phoenix.PubSub.broadcast!(Atomic.PubSub, "deleted_enrollment", {event, nil})
     {number, nil}
   end
-
-  alias Atomic.Activities.Speaker
 
   @doc """
   Returns the list of speakers.
@@ -443,6 +508,17 @@ defmodule Atomic.Activities do
     Repo.all(from s in Speaker, where: s.organization_id == ^id)
   end
 
+  @doc """
+  Returns the list of speakers in a list of ids.
+
+  ## Examples
+
+      iex> get_speakers([1, 2, 3])
+      [%Speaker{}, ...]
+
+      iex> get_speakers([1, 2, 3])
+      []
+  """
   def get_speakers(nil), do: []
 
   def get_speakers(ids) do

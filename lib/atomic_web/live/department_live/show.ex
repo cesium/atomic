@@ -28,13 +28,13 @@ defmodule AtomicWeb.DepartmentLive.Show do
        socket
        |> assign(:current_page, :departments)
        |> assign(:breadcrumb_entries, entries)
-       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:page_title, page_title(socket.assigns.live_action, department.name))
        |> assign(:department, department)}
     else
       raise AtomicWeb.MismatchError
     end
   end
 
-  defp page_title(:show), do: "Show Department"
-  defp page_title(:edit), do: "Edit Department"
+  defp page_title(:show, department), do: "Show #{department}"
+  defp page_title(:edit, department), do: "Edit #{department}"
 end

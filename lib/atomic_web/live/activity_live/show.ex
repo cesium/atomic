@@ -35,7 +35,7 @@ defmodule AtomicWeb.ActivityLive.Show do
     if organization_id in organizations do
       {:noreply,
        socket
-       |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
+       |> assign(:enrolled?, Activities.is_participating?(activity, socket.assigns.current_user))
        |> assign(:page_title, page_title(socket.assigns.live_action))
        |> assign(:breadcrumb_entries, entries)
        |> assign(:current_page, :activities)
@@ -143,6 +143,6 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   def is_admin?(user, activity) do
     department = activity.departments |> Enum.at(0)
-    Organizations.get_membership_role!(user.id, department.organization_id) in [:admin, :owner]
+    Organizations.get_role(user.id, department.organization_id) in [:admin, :owner]
   end
 end

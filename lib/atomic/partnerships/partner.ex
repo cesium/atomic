@@ -38,9 +38,4 @@ defmodule Atomic.Partnerships.Partner do
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
   end
-
-  def image_changeset(partner, attrs) do
-    partner
-    |> cast_attachments(attrs, [:image])
-  end
 end

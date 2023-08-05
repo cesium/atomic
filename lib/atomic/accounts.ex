@@ -80,11 +80,36 @@ defmodule Atomic.Accounts do
     |> Repo.insert()
   end
 
+  @doc """
+    List all users.
+
+    ## Examples
+
+      iex > list_users()
+      {:ok, [%User{}]}
+
+      iex > list_users()
+      {:error, %Ecto.Changeset{}}
+
+  """
   def list_users do
     User
     |> Repo.all()
   end
 
+  @doc """
+    Gets a course by id.
+
+    Raises `Ecto.NoResultsError` if the Course does not exist.
+
+    ## Examples
+
+      iex> get_course(123)
+      %Course{}
+
+      iex> get_course(456)
+      ** (Ecto.NoResultsError)
+  """
   def get_course(id) do
     Repo.get(Course, id)
   end
@@ -417,29 +442,59 @@ defmodule Atomic.Accounts do
     end
   end
 
+  @doc """
+  Updates the user picture.
+
+  ## Examples
+
+      iex> update_user_picture(user, %{profile_picture: ...})
+      {:ok, %User{}}
+
+      iex> update_user_picture(user, %{profile_picture: ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def update_user_picture(%User{} = user, attrs \\ %{}) do
     user
     |> User.picture_changeset(attrs)
     |> Repo.update()
   end
 
+  @doc """
+  Updates the user.
+
+  ## Examples
+
+      iex> update_user(user, %{field: value})
+      {:ok, %User{}}
+
+      iex> update_user(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def update_user(%User{} = user, attrs \\ %{}) do
     user
     |> User.changeset(attrs)
     |> Repo.update()
   end
 
-  def change_user(%User{} = user, attrs \\ %{}) do
-    user
-    |> User.changeset(attrs)
-  end
+  @doc """
+  Gets a list of courses.
 
+  ## Examples
+
+      iex> list_courses()
+      {:ok,[%Course{}]}
+
+      iex> list_courses()
+      {:error, %Ecto.Changeset{}}
+  """
   def list_courses do
     Repo.all(Course)
   end
 
   @doc """
-  Creates a course
+  Creates a course.
 
   ## Examples
 
@@ -457,7 +512,15 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Gets the user's organizations
+  Gets an user organizations.
+
+  ## Examples
+
+      iex> get_user_organizations(user)
+      {:ok,[%Organization{}]}
+
+      iex> get_user_organizations(user)
+      {:error, %Ecto.Changeset{}}
   """
   def get_user_organizations(user) do
     Repo.all(Ecto.assoc(user, :organizations))

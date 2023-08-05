@@ -12,7 +12,7 @@ defmodule AtomicWeb.MembershipLive.Index do
   def handle_params(%{"organization_id" => id}, _, socket) do
     memberships =
       Organizations.list_memberships(%{"organization_id" => id}, [:user, :created_by])
-      |> Enum.filter(fn m -> m.role != :follower end)
+      |> Enum.sort_by(& &1.user.name)
 
     organization = Organizations.get_organization!(id)
 

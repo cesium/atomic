@@ -10,11 +10,14 @@ defmodule AtomicWeb.ViewUtils do
   alias Timex.Format.DateTime.Formatters.Relative
   require Timex.Translator
 
+  @doc """
+    Returns the frontend url from the config.
+  """
   def frontend_url do
     Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:frontend_url]
   end
 
-  @doc ~S"""
+  @doc """
   Returns a relative datetime string for the given datetime.
 
   ## Examples
