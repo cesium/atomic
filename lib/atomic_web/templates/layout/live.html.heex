@@ -1,4 +1,4 @@
-<div x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
+<div x-data="{ open_menu: false}" x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
   <div class="flex flex-col min-h-max">
     <div x-data="{ open: false}" @click.away="open = false" class="lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
       <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:space-y-16">
@@ -14,7 +14,7 @@
               aria-expanded="false"
               aria-haspopup="true"
             >
-              <span class="flex w-full items-center justify-between">
+              <span class="flex w-full items-center justify-between ">
                 <span class="flex min-w-0 items-center justify-between space-x-3">
                   <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
                     <span class="text-lg font-medium leading-none text-white">
@@ -48,7 +48,7 @@
             x-transition:leave-start="transform opacity-100 scale-100"
             x-transition:leave-end="transform opacity-0 scale-95"
             x-show="open"
-            class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="options-menu-button"
@@ -81,10 +81,10 @@
           </div>
         </div>
 
-        <nav class="flex flex-col h-full justify-between border-t-2 border-black lg:border-t-0">
+        <nav class="flex flex-col h-full justify-between">
           <div class="hidden lg:block">
             <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
-              <%= if page.tabs == [] and page.title != "Calendar" do %>
+              <%= if page.tabs == [] and page.title != "Calendar" and page.title != "Settings" do %>
                 <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
                   <Heroicons.Outline.render
                     icon={page.icon}
@@ -104,69 +104,48 @@
             <% end %>
           </div>
 
-          <div x-data="{ open_menu: false}" @click.away="open_menu = false" class="block lg:hidden">
-            <button
-              @click="open_menu = !open_menu"
-              @keydown.escape.stop="open_menu = false"
-              @keydown.enter.prevent="open_menu = !open_menu"
-              type="button"
-              class="w-full rounded px-5 py-3 text-left text-sm font-medium text-zinc-700 bg-zinc-100"
-              id="options-menu-button"
-              aria-expanded="false"
-              aria-haspopup="true"
-            >
-              <div class="w-full rounded bg-zinc-100 rounded px-5 py-2 font-bold flex flex-row items-center justify-between">
-                <div class="flex flex-row items-center space-x-2">
-                  <div class="w-fit">
-                    <Icons.FontAwesome.Solid.render icon={:bars} />
-                  </div>
-                  <span>
-                    Menu
-                  </span>
-                </div>
-                <div>
-                  <svg class="h-5 w-5 flex-shrink-0 text-zinc-400 group-hover:text-zinc-500 group-focus:text-zinc-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </button>
-            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
-              <div
-                x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="transform opacity-0 scale-95"
-                x-transition:enter-end="transform opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="transform opacity-100 scale-100"
-                x-transition:leave-end="transform opacity-0 scale-95"
-                x-show="open_menu"
-                class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="options-menu-button"
-                tabindex="-1"
+          <div @click.away="open_menu = false" x-bind:class="! open_menu ? 'py-0' : 'h-screen'" class="block lg:hidden">
+            <div class="flex justify-end">
+              <button
+                @click="open_menu = !open_menu"
+                @keydown.escape.stop="open_menu = false"
+                @keydown.enter.prevent="open_menu = !open_menu"
+                type="button"
+                class="flex justify-end w-fit rounded px-5 py-3 text-left text-sm font-medium"
+                id="options-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
               >
+                <div class=" rounded rounded px-5 py-2 font-bold flex justify-end">
+                  <div class="">
+                    <div class="inset-y-0 right-0">
+                      <Icons.FontAwesome.Solid.render icon={:bars} class="h-6 w-6 text-zinc-700" />
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
+              <div x-show="open_menu" class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1">
                 <div role="none">
-                  <%= if page.tabs == [] do %>
-                    <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300 space-x-2" do %>
-                      <Heroicons.Outline.render
-                        icon={page.icon}
-                        class={
-                          "#{if @current_page == page.key do
-                            "text-orange-400"
-                          else
-                            "text-zinc-400 group-hover:text-orange-400"
-                          end} h-8 w-8 flex-shrink-0 lg:mr-3 lg:h-6 lg:w-6"
-                        }
-                      />
-                      <span class="lg:block">
-                        <%= page.title %>
-                      </span>
-                    <% end %>
+                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300 space-x-2" do %>
+                    <div x-bind:class="! open_menu ? 'py-0' : 'py-4'" class="flex flex-row items-center space-x-2 text-lg">
+                      <%= if page.tabs == [] do %>
+                        <Heroicons.Outline.render
+                          icon={page.icon}
+                          class={
+                            "#{if @current_page == page.key do
+                              "text-orange-400"
+                            else
+                              "text-zinc-400 group-hover:text-orange-400"
+                            end} h-8 w-8 flex-shrink-0 lg:mr-3 lg:h-6 lg:w-6"
+                          }
+                        />
+                        <span class="lg:block">
+                          <%= page.title %>
+                        </span>
+                      <% end %>
+                    </div>
                   <% end %>
                 </div>
               </div>
@@ -189,9 +168,9 @@
       </div>
     </div>
 
-    <div class="flex flex-col lg:pl-64">
-      <nav class="flex my-5 mx-10" aria-label="Breadcrumb">
-        <ol role="list" class="flex items-center space-x-4">
+    <div x-bind:class="! open_menu ? 'block' : 'hidden'" class="flex flex-col lg:pl-64">
+      <nav class="hidden flex my-5 mx-10 lg:block" aria-label="Breadcrumb">
+        <ol role="list" class=" flex items-center space-x-4">
           <li>
             <div>
               <%= live_redirect to: Routes.activity_index_path(@socket, :index, @current_organization), class: "text-zinc-400 hover:text-zinc-500" do %>
@@ -215,7 +194,7 @@
         </ol>
       </nav>
 
-      <main class="flex-1 bg-white mx-5 h-fit lg:mx-20">
+      <main x-bind:class="! open_menu ? 'block' : 'hidden'" class="flex-1 bg-white mx-5 h-fit lg:mx-20">
         <%= @inner_content %>
       </main>
     </div>

@@ -35,17 +35,6 @@
               </dd>
             </div>
 
-            <div class="col-span-2 sm:col-span-1">
-              <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Maximum Entries") %>
-              </dt>
-              <dd class="mt-1 flex text-sm text-zinc-900">
-                <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
-                <div class="pl-2.5">
-                  <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
-                </div>
-              </dd>
-            </div>
             <div class={
               if @current_user.role in [:admin, :staff] do
                 "col-span-1"
@@ -54,13 +43,13 @@
               end
             }>
               <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Minimum Entries") %>
+                <%= gettext("Maximum Entries") %>
               </dt>
               <dd class="mt-1 flex text-sm text-zinc-900">
                 <div class="flex w-full">
                   <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
-                    <%= @activity.minimum_entries %>
+                    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                   </div>
                 </div>
               </dd>

@@ -15,7 +15,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
     entries = [
       %{
-        name: gettext("Users Organizations"),
+        name: gettext("%{name} Board", name: organization.name),
         route: Routes.board_index_path(socket, :index, id)
       }
     ]

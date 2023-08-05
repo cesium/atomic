@@ -21,17 +21,17 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
-        key: :departments,
-        title: "Departments",
-        icon: :cube,
-        url: Routes.department_index_path(conn, :index, current_organization.id),
-        tabs: []
-      },
-      %{
         key: :activities,
         title: "Activities",
         icon: :academic_cap,
         url: Routes.activity_index_path(conn, :index, current_organization.id),
+        tabs: []
+      },
+      %{
+        key: :departments,
+        title: "Departments",
+        icon: :cube,
+        url: Routes.department_index_path(conn, :index, current_organization.id),
         tabs: []
       },
       %{
@@ -56,10 +56,24 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
+        key: :organizations,
+        title: "Organizations",
+        icon: :office_building,
+        url: Routes.organization_index_path(conn, :index),
+        tabs: []
+      },
+      %{
         key: :scanner,
         title: "Scanner",
         icon: :qrcode,
         url: Routes.scanner_index_path(conn, :index),
+        tabs: []
+      },
+      %{
+        key: :profile,
+        title: "Settings",
+        icon: :cog,
+        url: Routes.user_settings_path(conn, :edit),
         tabs: []
       }
     ]

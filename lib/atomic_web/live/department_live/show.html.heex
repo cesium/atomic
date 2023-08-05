@@ -21,7 +21,7 @@
       <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
         Latest Activities
       </h1>
-      <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+      <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
         <%= for activity <- @department.activities do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
             <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "" do %>
@@ -42,5 +42,6 @@
   </div>
 </div>
 
-<span><%= live_patch("Edit", to: Routes.department_show_path(@socket, :edit, @current_organization, @department), class: "button") %></span> |
-<span><%= live_redirect("Back", to: Routes.department_index_path(@socket, :index, @current_organization)) %></span>
+<%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] do %>
+  <span><%= live_patch("Edit", to: Routes.department_show_path(@socket, :edit, @current_organization, @department), class: "button") %></span>
+<% end %>

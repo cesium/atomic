@@ -2,6 +2,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Departments
+  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
