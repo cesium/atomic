@@ -98,7 +98,7 @@ defmodule Atomic.Activities do
         iex> get_activity_organizations!(activity)
         ** (Ecto.NoResultsError)
   """
-  def get_activity_organizations!(activity, preloads \\ []) do
+  def get_activity_organizations!(activity, preloads \\ [:departments]) do
     Repo.preload(activity, preloads)
     |> Map.get(:departments, [])
     |> Enum.map(& &1.organization_id)
@@ -314,21 +314,21 @@ defmodule Atomic.Activities do
   """
   def get_enrollment!(id), do: Repo.get!(Enrollment, id)
 
-  def get_enrollment!(activity_id, user_id) do
+  def get_enrollment!(session_id, user_id) do
     Enrollment
-    |> where(activity_id: ^activity_id, user_id: ^user_id)
+    |> where(session_id: ^session_id, user_id: ^user_id)
     |> Repo.one()
   end
 
   @doc """
-   Gets the user enrolled in an given activity.
+   Gets the user enrolled in an given activity session.
 
     ## Examples
 
-        iex> get_user_enrolled(user, activity)
+        iex> get_user_enrolled(user, session_id)
         %Enrollment{}
 
-        iex> get_user_enrolled(user, activity)
+        iex> get_user_enrolled(user, session_id)
         ** (Ecto.NoResultsError)
   """
   def get_user_enrolled(user, session_id) do

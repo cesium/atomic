@@ -46,6 +46,7 @@ defmodule AtomicWeb.ActivityLive.Show do
        |> assign(:page_title, page_title(socket.assigns.live_action))
        |> assign(:breadcrumb_entries, entries)
        |> assign(:current_page, :activities)
+       |> assign(:session, session)
        |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})}
     else
       raise MismatchError

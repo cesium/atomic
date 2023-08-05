@@ -132,7 +132,7 @@
                   <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
                 </dt>
                 <dd class="mt-1 flex text-sm text-zinc-900">
-                  <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
+                  <%= draw_qr_code(@session, @current_user, @socket) |> raw %>
                 </dd>
                 <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
                   <span>
