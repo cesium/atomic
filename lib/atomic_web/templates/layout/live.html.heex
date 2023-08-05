@@ -83,7 +83,7 @@
 
         <nav class="flex flex-col h-full justify-between">
           <div class="hidden lg:block">
-            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization, @current_user) do %>
               <%= if page.tabs == [] and page.title != "Calendar" and page.title != "Settings" do %>
                 <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
                   <Heroicons.Outline.render
@@ -125,7 +125,7 @@
                 </div>
               </button>
             </div>
-            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization) do %>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization, @current_user) do %>
               <div x-show="open_menu" class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1">
                 <div role="none">
                   <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300 space-x-2" do %>
