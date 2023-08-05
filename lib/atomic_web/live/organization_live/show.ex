@@ -2,7 +2,12 @@ defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Accounts
+  alias Atomic.Activities
   alias Atomic.Organizations
+  alias Atomic.Uploaders.Card
+
+  import AtomicWeb.Components.Calendar
+  import AtomicWeb.CalendarUtils
 
   @impl true
   def mount(_params, session, socket) do
@@ -13,8 +18,10 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
-    org = Organizations.get_organization!(id, [:departments])
+    organization = Organizations.get_organization!(id, [:departments])
     user = socket.assigns.current_user
+    activities = Activities.list_activities_by_organization_id(id, [])
+    departments = organization.departments
 
     if user.default_organization_id != id do
       Accounts.update_user(user, %{"default_organization_id" => id})
@@ -26,18 +33,26 @@ defmodule AtomicWeb.OrganizationLive.Show do
         route: Routes.organization_index_path(socket, :index)
       },
       %{
-        name: gettext("Show Organization"),
+        name: gettext("%{name}", name: organization.name),
         route: Routes.organization_show_path(socket, :show, id)
       }
     ]
 
+    mode = "month"
+
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:organization, org)
+     |> assign(:page_title, page_title(socket.assigns.live_action, organization.name))
+     |> assign(:time_zone, socket.assigns.time_zone)
+     |> assign(:mode, mode)
+     |> assign(:params, %{})
+     |> assign(:organization, organization)
+     |> assign(:activities, activities)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, org))}
+     |> assign(:departments, departments)
+     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))
+     |> assign(list_activities(socket.assigns.time_zone, mode, %{}, socket.assigns.current_user))}
   end
 
   @impl true
@@ -61,6 +76,49 @@ defmodule AtomicWeb.OrganizationLive.Show do
     end
   end
 
-  defp page_title(:show), do: "Show Organization"
-  defp page_title(:edit), do: "Edit Organization"
+  @impl true
+  def handle_event("unfollow", _payload, socket) do
+    membership =
+      Organizations.get_membership_by_userid_and_organizationid!(
+        socket.assigns.current_user.id,
+        socket.assigns.organization.id,
+        []
+      )
+
+    case Organizations.delete_membership(membership) do
+      {:ok, _organization} ->
+        {:noreply,
+         socket
+         |> put_flash(:success, "Stopped following " <> socket.assigns.organization.name)
+         |> push_redirect(to: Routes.organization_index_path(socket, :index))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp list_activities(time_zone, mode, params, _user) do
+    current = current_from_params(time_zone, params)
+
+    start =
+      if mode == "month" do
+        Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
+      else
+        Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
+      end
+
+    finish =
+      if mode == "month" do
+        Timex.end_of_month(current) |> Timex.to_naive_datetime()
+      else
+        Timex.end_of_week(current) |> Timex.to_naive_datetime()
+      end
+
+    %{
+      sessions: Activities.list_sessions_from_to(start, finish, preloads: [:activity])
+    }
+  end
+
+  defp page_title(:show, organization), do: "#{organization}"
+  defp page_title(:edit, organization), do: "Edit #{organization}"
 end

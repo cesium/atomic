@@ -35,7 +35,10 @@ defmodule AtomicWeb.ActivityLive.Show do
     if organization_id in organizations do
       {:noreply,
        socket
-       |> assign(:enrolled?, Activities.is_participating?(activity, socket.assigns.current_user))
+       |> assign(
+         :enrolled?,
+         Activities.is_participating?(activity.id, socket.assigns.current_user.id)
+       )
        |> assign(:page_title, page_title(socket.assigns.live_action))
        |> assign(:breadcrumb_entries, entries)
        |> assign(:current_page, :activities)

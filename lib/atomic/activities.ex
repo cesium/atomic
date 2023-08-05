@@ -107,10 +107,10 @@ defmodule Atomic.Activities do
 
     ## Examples
 
-        iex> is_participating?(activity, user)
+        iex> is_participating?(activity_id, user_id)
         true
 
-        iex> is_participating?(activity, user)
+        iex> is_participating?(activity_id, user_id)
         false
   """
   def is_participating?(activity_id, user_id) do

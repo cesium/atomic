@@ -1,6 +1,6 @@
 <div class="flex flex-col py-8">
-  <div class="flex flex-row items-center border-b-2 border-gray-200">
-    <img src={Card.url({@current_organization.card_image, @current_organization}, :original)} class="mb-8 w-96 h-full hidden lg:block " />
+  <div class="flex flex-col items-center border-b-2 border-gray-200 lg:flex-row">
+    <img src={Card.url({@current_organization.card_image, @current_organization}, :original)} class="mb-8 w-96 h-full block " />
     <div class="flex flex-col px-8">
       <h2 class="text-xl font-bold leading-7 text-zinc-900 w-fit sm:truncate sm:text-4xl">
         <%= @current_organization.name %>
@@ -52,7 +52,7 @@
       </div>
       <ul class="">
         <%= for partner <- Enum.take(@partners,5) do %>
-          <li class="w-full items-center justify-between border-b-2 border-gray-200 gap-x-6 py-5">
+          <li class="w-full items-center justify-between border-b-2 border-gray-200 gap-x-6 py-2">
             <div class="">
               <div class="flex flex-col">
                 <div class="flex flex-row items-center">

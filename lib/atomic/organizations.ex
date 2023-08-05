@@ -245,6 +245,27 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Gets a single membership by user id and organization id.
+
+  Raises `Ecto.NoResultsError` if the membership does not exist.
+
+  ## Examples
+
+      iex> get_membership_by_userid_and_organization_id!(123, 456)
+      %membership{}
+
+      iex> get_membership_by_userid_and_organization_id!(456, 789)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_membership_by_userid_and_organizationid!(user_id, organization_id, preloads \\ []) do
+    Membership
+    |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
+    |> Repo.one!()
+    |> Repo.preload(preloads)
+  end
+
+  @doc """
   Updates an membership.
 
   ## Examples
@@ -422,5 +443,19 @@ defmodule Atomic.Organizations do
   """
   def change_user_organization(%UserOrganization{} = user_organization, attrs \\ %{}) do
     UserOrganization.changeset(user_organization, attrs)
+  end
+
+  @doc """
+  Returns the amount of members in an organization.
+
+  ## Examples
+
+      iex> get_total_organization_members(organization_id)
+      5
+
+  """
+  def get_total_organization_members(organization_id) do
+    from(m in Membership, where: m.organization_id == ^organization_id)
+    |> Repo.aggregate(:count, :id)
   end
 end

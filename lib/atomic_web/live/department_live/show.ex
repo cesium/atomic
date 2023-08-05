@@ -18,7 +18,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
         route: Routes.department_index_path(socket, :index, organization_id)
       },
       %{
-        name: gettext("Department"),
+        name: gettext("%{name}", name: department.name),
         route: Routes.department_show_path(socket, :show, organization_id, id)
       }
     ]
