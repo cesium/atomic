@@ -3,6 +3,7 @@ defmodule AtomicWeb.HomeLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
+  alias Atomic.News
   alias Atomic.Partnerships
   alias Atomic.Uploaders.Card
 
@@ -23,6 +24,8 @@ defmodule AtomicWeb.HomeLive.Index do
     activities =
       Activities.list_activities_by_organization_id(socket.assigns.current_organization.id, [])
 
+    news = News.list_news_by_organization_id(socket.assigns.current_organization.id)
+
     mode = params["mode"] || "month"
 
     entries = [
@@ -37,6 +40,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:page_title, "Home")
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :home)
+     |> assign(:news, news)
      |> assign(:partners, partners)
      |> assign(:activities, activities)
      |> assign(:time_zone, socket.assigns.time_zone)

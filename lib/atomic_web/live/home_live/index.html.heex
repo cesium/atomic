@@ -21,7 +21,7 @@
         <%= live_patch("See all", to: Routes.partner_index_path(@socket, :index, @current_organization), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
       <ul class="">
-        <%= for new <- Enum.take(@activities,5) do %>
+        <%= for new <- Enum.take(@news,5) do %>
           <li class="w-full items-center justify-between border-b-2 border-gray-200 gap-x-6 py-5">
             <div class="">
               <div class="flex flex-col">

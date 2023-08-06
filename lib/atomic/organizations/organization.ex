@@ -3,6 +3,7 @@ defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
+  alias Atomic.News.New
   alias Atomic.Organizations.Card
   alias Atomic.Organizations.Department
   alias Atomic.Organizations.Membership
@@ -33,6 +34,12 @@ defmodule Atomic.Organizations.Organization do
 
     embeds_one :location, Location, on_replace: :delete
     embeds_one :card, Card, on_replace: :delete
+
+    has_many :news, New,
+      on_replace: :delete_if_exists,
+      on_delete: :delete_all,
+      foreign_key: :organization_id,
+      preload_order: [asc: :title]
 
     timestamps()
   end
