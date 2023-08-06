@@ -5,7 +5,7 @@ defmodule AtomicWeb.HomeLive.Index do
   alias Atomic.Activities
   alias Atomic.News
   alias Atomic.Partnerships
-  alias Atomic.Uploaders.Card
+  alias Atomic.Uploaders.Logo
 
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.Calendar

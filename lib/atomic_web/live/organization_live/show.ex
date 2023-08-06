@@ -4,7 +4,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Organizations
-  alias Atomic.Uploaders.Card
+  alias Atomic.Uploaders.Logo
 
   import AtomicWeb.Components.Calendar
   import AtomicWeb.CalendarUtils

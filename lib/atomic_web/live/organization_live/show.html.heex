@@ -9,9 +9,13 @@
     <div class="bg-white">
       <div class="flex justify-between px-4 py-4 sm:px-6">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
-          <div class="flex flex-row items-center space-x-4">
-            <div>
-              <img src={Card.url({@current_organization.card_image, @current_organization}, :original)} class="mb-8 w-96 h-full block " />
+          <div class="flex flex-col items-center lg:flex-row lg:space-x-4">
+            <div class="m-2">
+              <%= if @organization.logo do %>
+                <img src={Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-64 h-32 block lg:mb-8" />
+              <% else %>
+                <img src={Routes.static_path(@socket, "/images/atomic.png")} class="mb-2 w-64 h-64 block lg:mb-8" />
+              <% end %>
             </div>
             <div class="flex-1">
               <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl inline-flex w-full">

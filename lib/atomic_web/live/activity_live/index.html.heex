@@ -33,7 +33,7 @@
       <div class="overflow-hidden bg-white">
         <ul role="list" class="divide-y divide-zinc-200">
           <%= for activity <- @activities do %>
-            <%= for session  <- activity.activity_sessions do %>
+            <%= for session <- activity.activity_sessions do %>
               <li>
                 <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "block hover:bg-zinc-50", replace: false do %>
                   <div class="px-4 py-4 lg:px-6">

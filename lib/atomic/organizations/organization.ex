@@ -17,6 +17,7 @@ defmodule Atomic.Organizations.Organization do
     field :name, :string
     field :description, :string
     field :card_image, Uploaders.Card.Type
+    field :logo, Uploaders.Logo.Type
 
     has_many :departments, Department,
       on_replace: :delete_if_exists,
@@ -66,5 +67,10 @@ defmodule Atomic.Organizations.Organization do
     organization
     |> cast_attachments(attrs, [:card_image])
     |> validate_card()
+  end
+
+  def logo_changeset(organization, attrs) do
+    organization
+    |> cast_attachments(attrs, [:logo])
   end
 end
