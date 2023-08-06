@@ -1,6 +1,6 @@
 defmodule Atomic.Uploaders.PartnerImage do
   @moduledoc """
-  ProductImage is used for product images.
+  PartnerImage is used for partners images.
   """
 
   use Waffle.Definition
@@ -35,11 +35,11 @@ defmodule Atomic.Uploaders.PartnerImage do
   end
 
   def storage_dir(_version, {_file, %Partner{} = scope}) do
-    "uploads/store/#{scope.id}"
+    "uploads/partners/#{scope.id}"
   end
 
   # Provide a default URL if there hasn't been a file uploaded
   def default_url(version) do
-    "uploads/store/partner_image_#{version}.png"
+    "uploads/partners/partner_image_#{version}.png"
   end
 end

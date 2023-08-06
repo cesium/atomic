@@ -36,9 +36,7 @@ defmodule Atomic.Organizations.Organization do
     embeds_one :card, Card, on_replace: :delete
 
     has_many :news, New,
-      on_replace: :delete_if_exists,
-      on_delete: :delete_all,
-      foreign_key: :organization_id,
+      on_replace: :delete,
       preload_order: [asc: :title]
 
     timestamps()

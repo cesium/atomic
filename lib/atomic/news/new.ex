@@ -1,6 +1,6 @@
 defmodule Atomic.News.New do
   @moduledoc """
-  The person who speaks and provides the activity
+  The news that can be published by an organization.
   """
   use Atomic.Schema
   alias Atomic.Organizations.Organization
