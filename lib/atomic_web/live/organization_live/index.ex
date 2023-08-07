@@ -7,12 +7,24 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    user = Accounts.get_user_by_session_token(session["user_token"])
+    case session["user_token"] do
+      nil ->
+        {:ok,
+         socket
+         |> assign(:organizations, list_organizations())}
 
-    {:ok,
-     socket
-     |> assign(:organizations, list_organizations())
-     |> assign(:current_user, user)}
+      token ->
+        user = Accounts.get_user_by_session_token(token)
+
+        {:ok,
+         socket
+         |> assign(:organizations, list_organizations())
+         |> assign(:current_user, user)
+         |> assign(
+           :current_organization,
+           session["current_organization"]
+         )}
+    end
   end
 
   @impl true

@@ -38,7 +38,7 @@ defmodule Atomic.Organizations.Organization do
 
     has_many :news, New,
       on_replace: :delete,
-      preload_order: [asc: :title]
+      preload_order: [asc: :inserted_at]
 
     timestamps()
   end

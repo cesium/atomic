@@ -14,10 +14,10 @@ defmodule AtomicWeb.Hooks do
   def on_mount(
         :authenticated_user_state,
         _params,
-        %{"user_token" => user_token, "current_organization" => _},
+        session,
         socket
       ) do
-    current_user = Accounts.get_user_by_session_token(user_token)
+    current_user = Accounts.get_user_by_session_token(session["user_token"])
     owner = Application.get_env(:atomic, :owner)
     time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
 
@@ -69,7 +69,7 @@ defmodule AtomicWeb.Hooks do
          socket
          |> assign(:current_organization, current_organization)}
 
-      {_, _} ->
+      {organization, _} ->
         user = Accounts.get_user_by_session_token(current_user)
 
         {:cont,
@@ -77,7 +77,7 @@ defmodule AtomicWeb.Hooks do
          |> assign(:current_user, user)
          |> assign(
            :current_organization,
-           Organizations.get_organization!(user.default_organization_id)
+           organization
          )
          |> assign(:time_zone, time_zone)}
     end
