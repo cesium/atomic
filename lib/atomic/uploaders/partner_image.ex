@@ -37,9 +37,4 @@ defmodule Atomic.Uploaders.PartnerImage do
   def storage_dir(_version, {_file, %Partner{} = scope}) do
     "uploads/partners/#{scope.id}"
   end
-
-  # Provide a default URL if there hasn't been a file uploaded
-  def default_url(version) do
-    "uploads/partners/partner_image_#{version}.png"
-  end
 end

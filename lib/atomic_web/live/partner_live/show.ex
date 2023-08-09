@@ -2,7 +2,6 @@ defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Partnerships
-  alias Atomic.Uploaders
 
   @impl true
   def mount(_params, _session, socket) do
