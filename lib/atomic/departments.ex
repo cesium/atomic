@@ -201,7 +201,7 @@ defmodule Atomic.Departments do
   """
   def create_collaborator(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
     %Collaborator{}
-    |> Collaborator.create_changeset(attrs)
+    |> Collaborator.changeset(attrs)
     |> Repo.insert()
   end
 

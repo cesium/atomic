@@ -22,10 +22,4 @@ defmodule Atomic.Organizations.Collaborator do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
-
-  def create_changeset(collaborator_departments, attrs) do
-    collaborator_departments
-    |> cast(attrs, @required_fields)
-    |> validate_required(@required_fields)
-  end
 end
