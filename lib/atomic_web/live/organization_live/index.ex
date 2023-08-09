@@ -78,8 +78,4 @@ defmodule AtomicWeb.OrganizationLive.Index do
   defp list_organizations do
     Organizations.list_organizations()
   end
-
-  def update_default_organization(user, organization) do
-    Accounts.update_user(user, %{default_organization_id: organization.id})
-  end
 end

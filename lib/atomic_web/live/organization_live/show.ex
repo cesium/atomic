@@ -19,13 +19,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     organization = Organizations.get_organization!(id, [:departments])
-    user = socket.assigns.current_user
     activities = Activities.list_activities_by_organization_id(id, [])
     departments = organization.departments
-
-    if user.default_organization_id != id do
-      Accounts.update_user(user, %{"default_organization_id" => id})
-    end
 
     entries = [
       %{
