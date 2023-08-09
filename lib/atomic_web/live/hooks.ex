@@ -35,6 +35,7 @@ defmodule AtomicWeb.Hooks do
     else
       socket =
         socket
+        |> assign(:current_organization, nil)
         |> assign(:current_user, current_user)
         |> assign(:time_zone, time_zone)
 
@@ -45,6 +46,7 @@ defmodule AtomicWeb.Hooks do
   def on_mount(:general_user_state, _params, session, socket) do
     current_organization = session["current_organization"]
     current_user = session["user_token"]
+
     owner = Application.get_env(:atomic, :owner)
     time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
 
@@ -55,21 +57,31 @@ defmodule AtomicWeb.Hooks do
       {nil, _} ->
         user = Accounts.get_user_by_session_token(current_user)
 
-        {:cont,
-         socket
-         |> assign(:current_user, user)
-         |> assign(
-           :current_organization,
-           Organizations.get_organization!(user.default_organization_id)
-         )
-         |> assign(:time_zone, time_zone)}
+        case user.default_organization_id do
+          nil ->
+            {:cont,
+             socket
+             |> assign(:current_user, user)
+             |> assign(:current_organization, nil)
+             |> assign(:time_zone, time_zone)}
+
+          _ ->
+            {:cont,
+             socket
+             |> assign(:current_user, user)
+             |> assign(
+               :current_organization,
+               Organizations.get_organization!(user.default_organization_id)
+             )
+             |> assign(:time_zone, time_zone)}
+        end
 
       {_, nil} ->
         {:cont,
          socket
          |> assign(:current_organization, current_organization)}
 
-      {organization, _} ->
+      {_, _} ->
         user = Accounts.get_user_by_session_token(current_user)
 
         {:cont,
@@ -77,7 +89,7 @@ defmodule AtomicWeb.Hooks do
          |> assign(:current_user, user)
          |> assign(
            :current_organization,
-           organization
+           current_organization
          )
          |> assign(:time_zone, time_zone)}
     end

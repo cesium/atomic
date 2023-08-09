@@ -17,7 +17,7 @@ defmodule AtomicWeb.Components.Organizations do
     ~H"""
     <div class="organizations">
       <%= for organization <- Accounts.get_user_organizations(current_user) do %>
-        <%= if organization.id != current_organization.id do %>
+        <%= if current_organization && organization.id != current_organization.id do %>
           <div role="none">
             <a phx-target={@myself} phx-click="default_organization" phx-value-organization_id={organization.id} class="w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" role="menuitem" tabindex="-1" id="options-menu-item-0">
               <span class="flex w-full items-center justify-between">

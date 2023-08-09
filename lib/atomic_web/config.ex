@@ -6,12 +6,28 @@ defmodule AtomicWeb.Config do
   alias AtomicWeb.Router.Helpers, as: Routes
 
   def pages(conn, current_organization, current_user) do
-    if current_user.role in [:admin] or
-         Organizations.get_role(current_user.id, current_organization.id) in [:admin, :owner] do
-      admin_pages(conn, current_organization)
+    if current_organization do
+      if current_user.role in [:admin] or
+           Organizations.get_role(current_user.id, current_organization.id) in [:admin, :owner] do
+        admin_pages(conn, current_organization)
+      else
+        user_pages(conn, current_organization)
+      end
     else
-      user_pages(conn, current_organization)
+      default_pages(conn)
     end
+  end
+
+  def default_pages(conn) do
+    [
+      %{
+        key: :organizations,
+        title: "Organizations",
+        icon: :office_building,
+        url: Routes.organization_index_path(conn, :index),
+        tabs: []
+      }
+    ]
   end
 
   def admin_pages(conn, current_organization) do

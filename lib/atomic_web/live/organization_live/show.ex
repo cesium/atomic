@@ -12,7 +12,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def mount(_params, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
-
     {:ok, socket |> assign(:current_user, user)}
   end
 
@@ -59,6 +58,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
       organization_id: socket.assigns.organization.id
     }
 
+    current_user = socket.assigns.current_user
+
     case Organizations.create_membership(attrs) do
       {:ok, _organization} ->
         {:noreply,
@@ -69,6 +70,16 @@ defmodule AtomicWeb.OrganizationLive.Show do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
+
+    if current_user.default_organization_id == nil do
+      Accounts.update_user(current_user, %{
+        default_organization_id: socket.assigns.organization.id
+      })
+    end
+
+    {:noreply,
+     socket
+     |> assign(:current_user, current_user)}
   end
 
   @impl true

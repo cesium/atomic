@@ -12,7 +12,12 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     board = Board.get_organization_board_by_year("2023/2024", id)
-    board_departments = Board.get_board_departments_by_board_id(board.id)
+    board_departments = []
+
+    if board do
+      ^board_departments = Board.get_board_departments_by_board_id(board.id)
+    end
+
     organization = Organizations.get_organization!(id)
     role = Organizations.get_role(socket.assigns.current_user.id, id)
 
@@ -26,6 +31,7 @@ defmodule AtomicWeb.BoardLive.Index do
     {:noreply,
      socket
      |> assign(:current_page, :board)
+     |> assign(:current_organization, organization)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
