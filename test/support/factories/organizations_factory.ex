@@ -3,7 +3,7 @@ defmodule Atomic.Factories.OrganizationFactory do
   A factory to generate account related structs
   """
 
-  alias Atomic.Organizations.{Membership, Organization, UserOrganization}
+  alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
 
   defmacro __using__(_opts) do
     quote do
@@ -25,12 +25,27 @@ defmodule Atomic.Factories.OrganizationFactory do
         }
       end
 
+      def board_factory do
+        %Board{
+          year: "2023/2024",
+          organization: build(:organization)
+        }
+      end
+
+      def board_department_factory do
+        %BoardDepartments{
+          name: Faker.Company.buzzword(),
+          priority: Enum.random(0..4),
+          board: build(:board)
+        }
+      end
+
       def user_organization_factory do
         %UserOrganization{
           user: build(:user),
           title: Faker.Company.bullshit(),
-          organization: build(:organization),
-          year: "2021/2022"
+          board_departments_id: build(:board_department).id,
+          priority: Enum.random(0..4)
         }
       end
     end

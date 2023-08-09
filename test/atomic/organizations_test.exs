@@ -171,10 +171,12 @@ defmodule Atomic.OrganizationsTest do
 
     test "update_user_organization/2 updates existing user_organization" do
       user_organization = insert(:user_organization)
+      board_department = insert(:board_department)
 
       {:ok, new_user_organization} =
         Organizations.update_user_organization(user_organization, %{
-          title: "Vice-Presidente"
+          title: "Vice-Presidente",
+          board_departments_id: board_department.id
         })
 
       assert new_user_organization.title == "Vice-Presidente"

@@ -4,6 +4,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
   alias Atomic.News.New
+  alias Atomic.Organizations.Board
   alias Atomic.Organizations.Card
   alias Atomic.Organizations.Department
   alias Atomic.Organizations.Membership
@@ -39,6 +40,12 @@ defmodule Atomic.Organizations.Organization do
     has_many :news, New,
       on_replace: :delete,
       preload_order: [asc: :inserted_at]
+
+    has_many :boards, Board,
+      on_replace: :delete_if_exists,
+      on_delete: :delete_all,
+      foreign_key: :organization_id,
+      preload_order: [asc: :year]
 
     timestamps()
   end

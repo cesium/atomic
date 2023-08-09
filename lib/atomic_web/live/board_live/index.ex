@@ -1,6 +1,7 @@
 defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
+  alias Atomic.Board
   alias Atomic.Organizations
 
   @impl true
@@ -10,8 +11,10 @@ defmodule AtomicWeb.BoardLive.Index do
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
-    users_organizations = list_users_organizations(id)
+    board = Board.get_organization_board_by_year("2023/2024", id)
+    board_departments = Board.get_board_departments_by_board_id(board.id)
     organization = Organizations.get_organization!(id)
+    role = Organizations.get_role(socket.assigns.current_user.id, id)
 
     entries = [
       %{
@@ -24,9 +27,24 @@ defmodule AtomicWeb.BoardLive.Index do
      socket
      |> assign(:current_page, :board)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
-     |> assign(:users_organizations, users_organizations)
+     |> assign(:role, role)
      |> assign(:id, id)}
+  end
+
+  def handle_event("update-sorting", %{"ids" => ids}, socket) do
+    ids = Enum.filter(ids, fn id -> String.length(id) > 0 end)
+
+    ids
+    |> Enum.with_index(0)
+    |> Enum.each(fn {"board-department-" <> id, priority} ->
+      id
+      |> Board.get_board_department!()
+      |> Board.update_board_department(%{priority: priority})
+    end)
+
+    {:noreply, socket}
   end
 
   @impl true

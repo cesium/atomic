@@ -3,11 +3,16 @@ defmodule Atomic.Repo.Seeds.Memberships do
   alias Atomic.Organizations.Membership
   alias Atomic.Accounts.User
   alias Atomic.Organizations
+  alias Atomic.Organizations.Board
+  alias Atomic.Organizations.BoardDepartments
+  alias Atomic.Organizations.UserOrganization
   alias Atomic.Repo
 
   def run do
     seed_memberships()
-    seed_users_organizations()
+    seed_board()
+    seed_board_departments()
+    seed_user_organizations()
   end
 
   def seed_memberships() do
@@ -33,34 +38,51 @@ defmodule Atomic.Repo.Seeds.Memberships do
     end
   end
 
-  def seed_users_organizations() do
-    years = ["2019/2020", "2020/2021", "2021/2022", "2022/2023", "2023/2024"]
+  def seed_board do
     organizations = Repo.all(Organization)
+
+    for organization <- organizations do
+      %Board{}
+      |> Board.changeset(%{
+        "organization_id" => organization.id,
+        "year" => "2023/2024"
+      })
+      |> Repo.insert!()
+    end
+  end
+
+  def seed_board_departments do
+    departments = ["Conselho Fiscal", "Mesa AG", "CAOS", "DMC", "DMP", "Presidência", "Vogais"]
+    boards = Repo.all(Board)
+
+    for board <- boards do
+      for i <- 0..6 do
+        %BoardDepartments{}
+        |> BoardDepartments.changeset(%{
+          "board_id" => board.id,
+          "name" => Enum.at(departments, i),
+          "priority" => i
+        })
+        |> Repo.insert!()
+      end
+    end
+  end
+
+  def seed_user_organizations do
+    titles = ["Presidente", "Vice-Presidente", "Secretário", "Tesoureiro", "Vogal"]
+    board_departments = Repo.all(BoardDepartments)
     users = Repo.all(User)
 
-    titles = [
-      "Presidente",
-      "Vice-Presidente",
-      "Tesoureiro",
-      "Secretário",
-      "Presidente da MAG",
-      "Secretário da MAG",
-      "Presidente do CF",
-      "Secretário do CF"
-    ]
-
-    len_titles = length(titles)
-
-    for year <- years do
-      for org <- organizations do
-        for {user, title} <- Enum.zip(Enum.take_random(users, len_titles), titles) do
-          Organizations.create_user_organization(%{
-            "year" => year,
-            "organization_id" => org.id,
-            "user_id" => user.id,
-            "title" => title
-          })
-        end
+    for board_department <- board_departments do
+      for i <- 0..4 do
+        %UserOrganization{}
+        |> UserOrganization.changeset(%{
+          "user_id" => Enum.random(users).id,
+          "board_departments_id" => board_department.id,
+          "title" => Enum.at(titles, i),
+          "priority" => i
+        })
+        |> Repo.insert!()
       end
     end
   end
