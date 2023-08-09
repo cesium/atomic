@@ -20,8 +20,11 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations do
-    Repo.all(Organization)
+
+  def list_organizations(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """

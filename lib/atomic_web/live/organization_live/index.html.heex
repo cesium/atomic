@@ -1,32 +1,47 @@
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.organization_index_path(@socket, :index)}>
-    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization || :new} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_index_path(@socket, :index)} />
-  </.modal>
-<% end %>
+<div class="min-h-full bg-white">
+  <div class="pt-5 pr-6 pb-5 pl-4 border-gray-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6">
+    <div class="flex justify-between items-center h-10">
+      <h1 class="text-xl font-bold leading-7 text-zinc-900  sm:truncate sm:text-4xl"><%= gettext("Organizations") %></h1>
+      <%= if @current_user.role in [:admin] do %>
+        <div class="flex flex-col sm:flex-row xl:flex-col">
+          <%= live_patch("+ New Organization", to: Routes.organization_index_path(@socket, :new), class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="organizations">
+  <ul role="list" class="relative z-0 border border-gray-200 rounded">
     <%= for organization <- @organizations do %>
-      <tr id={"organization-#{organization.id}"}>
-        <td><%= organization.name %></td>
-        <td><%= organization.description %></td>
-
-        <td>
-          <span><%= live_patch("Show", to: Routes.organization_show_path(@socket, :show, organization.id)) %></span>
-          <span><%= live_patch("Edit", to: Routes.organization_index_path(@socket, :edit, organization.id)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: organization.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
+      <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
+        <li id={"organization-#{organization.id}"} class="relative pr-6 border-b border-gray-200 hover:bg-gray-50">
+          <div class="flex justify-between items-center">
+            <div class="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
+              <div class="flex items-center">
+                <div>
+                  <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
+                    <div class="relative flex-shrink-0 rounded-2xl min-w-24 min-h-24 sm:min-w-32 sm:min-h-32">
+                      <span class="inline-flex justify-center items-center w-24 h-24 rounded-2xl sm:w-32 sm:h-32 bg-gray-400">
+                        <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
+                          <%= Atomic.Accounts.extract_initials(organization.name) %>
+                        </span>
+                      </span>
+                    </div>
+                  <% else %>
+                    <div class="relative flex-shrink-0 w-24 h-24 rounded-2xl sm:w-32 sm:h-32">
+                      <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-[98px] h-[98px] sm:w-[130px] sm:h-[130px]" />
+                    </div>
+                  <% end %>
+                </div>
+                <div class="ml-4">
+                  <div class="font-medium text-lg text-gray-900">
+                    <%= organization.name %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch("New Organization", to: Routes.organization_index_path(@socket, :new)) %></span>
+  </ul>
+</div>

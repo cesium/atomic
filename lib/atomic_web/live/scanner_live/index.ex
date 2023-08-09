@@ -26,6 +26,15 @@ defmodule AtomicWeb.ScannerLive.Index do
      |> assign(:breadcrumb_entries, entries)}
   end
 
+  @doc """
+  Handles the scan event.
+    Basically it does two checks:
+      1) Verifies if current_organization is in organizations that are related to the session of the activity.
+      2) Verifies if current_user is admin or owner of the organization, or , if current_user is admin of the system.
+
+    If 1) and 2) are true, then confirm_participation is called.
+    Else a flash message is shown and the user is redirected to the scanner index.
+  """
   @impl true
   def handle_event("scan", pathname, socket) do
     [_, session_id, user_id | _] = String.split(pathname, "/")
@@ -47,6 +56,9 @@ defmodule AtomicWeb.ScannerLive.Index do
     end
   end
 
+  # Updates the enrollment of the user in the session, setting present to true.
+  #  If the update is successful, a flash message is shown and the user is redirected to the scanner index.
+  #  Else a flash message is shown and the user is redirected to the scanner index.
   defp confirm_participation(socket, session_id, user_id) do
     case Activities.update_enrollment(Activities.get_enrollment!(session_id, user_id), %{
            present: true

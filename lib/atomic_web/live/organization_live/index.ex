@@ -1,34 +1,19 @@
 defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
-  alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
+  alias Atomic.Uploaders
 
   @impl true
-  def mount(_params, session, socket) do
-    case session["user_token"] do
-      nil ->
-        {:ok,
-         socket
-         |> assign(:organizations, list_organizations())}
-
-      token ->
-        user = Accounts.get_user_by_session_token(token)
-
-        {:ok,
-         socket
-         |> assign(:organizations, list_organizations())
-         |> assign(:current_user, user)
-         |> assign(
-           :current_organization,
-           session["current_organization"]
-         )}
-    end
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
+    organizations = list_organizations(params)
+
     entries = [
       %{
         name: gettext("Organizations"),
@@ -40,6 +25,8 @@ defmodule AtomicWeb.OrganizationLive.Index do
      socket
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:params, params)
+     |> assign(:organizations, organizations)
      |> assign(:current_page, :organizations)}
   end
 
@@ -72,10 +59,10 @@ defmodule AtomicWeb.OrganizationLive.Index do
     organization = Organizations.get_organization!(id)
     {:ok, _} = Organizations.delete_organization(organization)
 
-    {:noreply, assign(socket, :organizations, list_organizations())}
+    {:noreply, assign(socket, :organizations, list_organizations(socket.assigns.params))}
   end
 
-  defp list_organizations do
-    Organizations.list_organizations()
+  defp list_organizations(params) do
+    Organizations.list_organizations(params)
   end
 end

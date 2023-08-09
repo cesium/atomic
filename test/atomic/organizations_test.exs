@@ -13,7 +13,7 @@ defmodule Atomic.OrganizationsTest do
       organization = insert(:organization)
 
       organizations =
-        Organizations.list_organizations()
+        Organizations.list_organizations([])
         |> Enum.map(& &1.id)
 
       assert organizations == [organization.id]
