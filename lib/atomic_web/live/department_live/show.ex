@@ -12,6 +12,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     department = Departments.get_department!(id, preloads: [:activities])
+    collaborator = Departments.get_collaborator!(socket.assigns.current_user.id, department.id)
 
     entries = [
       %{
@@ -30,9 +31,38 @@ defmodule AtomicWeb.DepartmentLive.Show do
        |> assign(:current_page, :departments)
        |> assign(:breadcrumb_entries, entries)
        |> assign(:page_title, page_title(socket.assigns.live_action, department.name))
-       |> assign(:department, department)}
+       |> assign(:department, department)
+       |> assign(:collaborator, collaborator)
+       |> assign(
+         :collaborators,
+         Departments.list_collaborators_by_department_id(department.id, preloads: [:user])
+       )}
     else
       raise AtomicWeb.MismatchError
+    end
+  end
+
+  @impl true
+  def handle_event("collaborate", _, socket) do
+    department = socket.assigns.department
+    user = socket.assigns.current_user
+
+    case Departments.create_collaborator(%{department_id: department.id, user_id: user.id}) do
+      {:ok, _collaborator} ->
+        {:noreply,
+         socket
+         |> put_flash(:success, gettext("Applied to collaborate successfully."))
+         |> push_redirect(
+           to: Routes.department_index_path(socket, :index, department.organization_id)
+         )}
+
+      {:error, changeset} ->
+        {:noreply,
+         socket
+         |> assign(:changeset, changeset)
+         |> push_redirect(
+           to: Routes.department_index_path(socket, :index, department.organization_id)
+         )}
     end
   end
 

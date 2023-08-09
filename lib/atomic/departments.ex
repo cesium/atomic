@@ -4,8 +4,7 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
-  import Ecto.Query, warn: false
-
+  alias Atomic.Organizations.Collaborator
   alias Atomic.Organizations.Department
 
   @doc """
@@ -134,5 +133,138 @@ defmodule Atomic.Departments do
   """
   def change_department(%Department{} = department, attrs \\ %{}) do
     Department.changeset(department, attrs)
+  end
+
+  @doc """
+  Returns the list of collaborators.
+
+  ## Examples
+
+      iex> list_collaborators()
+      [%Collaborator{}, ...]
+
+  """
+  def list_collaborators do
+    Repo.all(Collaborator)
+  end
+
+  @doc """
+  Returns the list of collaborators belonging to an organization.
+
+  ## Examples
+
+      iex> list_collaborators_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Collaborator{}, ...]
+
+  """
+  def list_collaborators_by_organization_id(id) do
+    Repo.all(from p in Collaborator, where: p.organization_id == ^id)
+  end
+
+  @doc """
+  Gets a single collaborator.
+
+  Raises `Ecto.NoResultsError` if the Collaborator does not exist.
+
+  ## Examples
+
+      iex> get_collaborator!(123)
+      %Collaborator{}
+
+      iex> get_collaborator!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_collaborator!(id), do: Repo.get!(Collaborator, id)
+
+  def get_collaborator!(user_id, department_id, preloads \\ []) do
+    collaborator =
+      Collaborator
+      |> apply_filters(preloads)
+      |> where([c], c.user_id == ^user_id and c.department_id == ^department_id)
+      |> Repo.all()
+
+    collaborator
+  end
+
+  @doc """
+  Creates a collaborator.
+
+  ## Examples
+
+      iex> create_collaborator(%{field: value})
+      {:ok, %Collaborator{}}
+
+      iex> create_collaborator(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_collaborator(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+    %Collaborator{}
+    |> Collaborator.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a collaborator.
+
+  ## Examples
+
+      iex> update_collaborator(collaborator, %{field: new_value})
+      {:ok, %Collaborator{}}
+
+      iex> update_collaborator(collaborator, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_collaborator(%Collaborator{} = collaborator, attrs, _after_save \\ &{:ok, &1}) do
+    collaborator
+    |> Collaborator.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a collaborator.
+
+  ## Examples
+
+      iex> delete_collaborator(collaborator)
+      {:ok, %Collaborator{}}
+
+      iex> delete_collaborator(collaborator)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collaborator(%Collaborator{} = collaborator) do
+    Repo.delete(collaborator)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking collaborator changes.
+
+  ## Examples
+
+      iex> change_collaborator(collaborator)
+      %Ecto.Changeset{data: %Collaborator{}}
+
+  """
+  def change_collaborator(%Collaborator{} = collaborator, attrs \\ %{}) do
+    Collaborator.changeset(collaborator, attrs)
+  end
+
+  @doc """
+  Returns the list of collaborators belonging to a department.
+
+  ## Examples
+
+      iex> list_collaborators_by_department_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Collaborator{}, ...]
+
+  """
+  def list_collaborators_by_department_id(id, preloads \\ []) do
+    Collaborator
+    |> apply_filters(preloads)
+    |> where([c], c.department_id == ^id)
+    |> Repo.all()
   end
 end
