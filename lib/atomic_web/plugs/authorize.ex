@@ -1,7 +1,8 @@
 defmodule AtomicWeb.Plugs.Authorize do
   @moduledoc false
   import Plug.Conn
-  import Atomic.Organizations
+
+  alias Atomic.Organizations
 
   def init(opts), do: opts
 
@@ -39,8 +40,8 @@ defmodule AtomicWeb.Plugs.Authorize do
 
   defp user_authorized?(user, organization_id, minimum_authorized_role) do
     user_organizations = Enum.map(user.organizations, & &1.id)
-    role = get_role(user.id, organization_id)
-    allowed_roles = roles_bigger_than_or_equal(minimum_authorized_role)
+    role = Organizations.get_role(user.id, organization_id)
+    allowed_roles = Organizations.roles_bigger_than_or_equal(minimum_authorized_role)
 
     organization_id in user_organizations && role in allowed_roles
   end

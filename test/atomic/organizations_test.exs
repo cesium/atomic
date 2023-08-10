@@ -13,7 +13,7 @@ defmodule Atomic.OrganizationsTest do
       organization = insert(:organization)
 
       organizations =
-        Organizations.list_organizations()
+        Organizations.list_organizations([])
         |> Enum.map(& &1.id)
 
       assert organizations == [organization.id]
@@ -171,13 +171,15 @@ defmodule Atomic.OrganizationsTest do
 
     test "update_user_organization/2 updates existing user_organization" do
       user_organization = insert(:user_organization)
+      board_department = insert(:board_department)
 
       {:ok, new_user_organization} =
         Organizations.update_user_organization(user_organization, %{
-          title: "Vice-Presidente"
+          role: "Vice-Presidente",
+          board_departments_id: board_department.id
         })
 
-      assert new_user_organization.title == "Vice-Presidente"
+      assert new_user_organization.role == "Vice-Presidente"
     end
 
     test "delete_user_organization/1 deletes existing user organization" do
@@ -192,7 +194,7 @@ defmodule Atomic.OrganizationsTest do
 
       assert %Ecto.Changeset{} =
                Organizations.change_user_organization(user_organization, %{
-                 title: "Vice-Presidente"
+                 role: "Vice-Presidente"
                })
     end
   end

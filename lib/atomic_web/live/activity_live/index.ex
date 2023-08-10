@@ -1,17 +1,30 @@
 defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Activities.Activity
+  alias Atomic.Organizations
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
+    {:ok, assign(socket, :activities, list_sessions(params["organization_id"]))}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    entries = [
+      %{
+        name: gettext("Activities"),
+        route: Routes.activity_index_path(socket, :index, params["organization_id"])
+      }
+    ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :activities)
+     |> assign(:breadcrumb_entries, entries)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -26,9 +39,11 @@ defmodule AtomicWeb.ActivityLive.Index do
     |> assign(:activity, %Activity{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    organization = Organizations.get_organization!(params["organization_id"])
+
     socket
-    |> assign(:page_title, "Listing Activities")
+    |> assign(:page_title, "#{organization.name}'s Activities")
     |> assign(:activity, nil)
   end
 
@@ -37,10 +52,23 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_activities(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, :activies, list_sessions(socket.assigns.current_organization.id))}
   end
 
-  defp list_activities(organization_id) do
-    Activities.list_activities_by_organization_id(organization_id, preloads: [:activity_sessions])
+  def handle_event("open-enrollments", _payload, socket) do
+    {:noreply, assign(socket, :activities, list_sessions(socket.assigns.current_organization.id))}
+  end
+
+  def handle_event("activities-enrolled", _payload, socket) do
+    user = socket.assigns.current_user
+    activities = Activities.get_user_activities(user.id)
+
+    {:noreply, assign(socket, :activities, activities)}
+  end
+
+  defp list_sessions(organization_id) do
+    Activities.list_activities_by_organization_id(organization_id,
+      preloads: [:activity_sessions, :speakers]
+    )
   end
 end

@@ -3,8 +3,10 @@ defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
-  alias Atomic.Departments.Department
+  alias Atomic.News.New
+  alias Atomic.Organizations.Board
   alias Atomic.Organizations.Card
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Membership
   alias Atomic.Partnerships.Partner
   alias Atomic.Uploaders
@@ -16,6 +18,7 @@ defmodule Atomic.Organizations.Organization do
     field :name, :string
     field :description, :string
     field :card_image, Uploaders.Card.Type
+    field :logo, Uploaders.Logo.Type
 
     has_many :departments, Department,
       on_replace: :delete_if_exists,
@@ -33,6 +36,16 @@ defmodule Atomic.Organizations.Organization do
 
     embeds_one :location, Location, on_replace: :delete
     embeds_one :card, Card, on_replace: :delete
+
+    has_many :news, New,
+      on_replace: :delete,
+      preload_order: [asc: :inserted_at]
+
+    has_many :boards, Board,
+      on_replace: :delete_if_exists,
+      on_delete: :delete_all,
+      foreign_key: :organization_id,
+      preload_order: [asc: :year]
 
     timestamps()
   end
@@ -61,5 +74,10 @@ defmodule Atomic.Organizations.Organization do
     organization
     |> cast_attachments(attrs, [:card_image])
     |> validate_card()
+  end
+
+  def logo_changeset(organization, attrs) do
+    organization
+    |> cast_attachments(attrs, [:logo])
   end
 end

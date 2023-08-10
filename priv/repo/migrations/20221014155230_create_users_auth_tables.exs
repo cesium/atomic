@@ -13,7 +13,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :default_organization_id,
           references(:organizations, type: :binary_id, on_delete: :delete_all)
 
-      add :role, :string, null: false
+      add :role, :string, null: false, default: "student"
       timestamps()
     end
 

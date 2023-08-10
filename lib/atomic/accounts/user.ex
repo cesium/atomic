@@ -9,8 +9,8 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email password role name)a
-  @optional_fields ~w(course_id default_organization_id)a
+  @required_fields ~w(email password)a
+  @optional_fields ~w(name course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
@@ -24,7 +24,7 @@ defmodule Atomic.Accounts.User do
 
     belongs_to :course, Course
     field :profile_picture, ProfilePicture.Type
-    field :role, Ecto.Enum, values: @roles
+    field :role, Ecto.Enum, values: @roles, default: :student
 
     has_many :enrollments, Enrollment
 
@@ -63,6 +63,9 @@ defmodule Atomic.Accounts.User do
     |> cast_attachments(attrs, [:profile_picture])
   end
 
+  @doc """
+    A user changeset for updating the user.
+  """
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)

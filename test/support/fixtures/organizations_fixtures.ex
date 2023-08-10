@@ -53,9 +53,50 @@ defmodule Atomic.OrganizationsFixtures do
     membership
   end
 
-  @doc """
-  Generate an user organization.
-  """
+  def board_fixture do
+    {:ok, organization} =
+      %{
+        description: "some description",
+        name: "some name"
+      }
+      |> Atomic.Organizations.create_organization()
+
+    {:ok, board} =
+      %{
+        year: "2022/2023",
+        organization_id: organization.id
+      }
+      |> Atomic.Board.create_board()
+
+    board
+  end
+
+  def board_department_fixture do
+    {:ok, organization} =
+      %{
+        description: "some description",
+        name: "some name"
+      }
+      |> Atomic.Organizations.create_organization()
+
+    {:ok, board} =
+      %{
+        year: "2022/2023",
+        organization_id: organization.id
+      }
+      |> Atomic.Board.create_board()
+
+    {:ok, board_department} =
+      %{
+        name: "some name",
+        board_id: board.id,
+        priority: 1
+      }
+      |> Atomic.Board.create_board_department()
+
+    board_department
+  end
+
   def user_organization_fixture do
     {:ok, organization} =
       %{
@@ -64,20 +105,35 @@ defmodule Atomic.OrganizationsFixtures do
       }
       |> Atomic.Organizations.create_organization()
 
+    {:ok, board} =
+      %{
+        year: "2022/2023",
+        organization_id: organization.id
+      }
+      |> Atomic.Board.create_board()
+
+    {:ok, board_department} =
+      %{
+        name: "some name",
+        board_id: board.id,
+        priority: 1
+      }
+      |> Atomic.Board.create_board_department()
+
     {:ok, user} =
       %{
-        email: "email@mail.pt",
+        email: "test@mail.com",
         password: "password1234",
-        role: "student"
+        role: :student
       }
       |> Atomic.Accounts.register_user()
 
     {:ok, user_organization} =
       %{
-        title: "Presidente",
-        year: "2022/2023",
         user_id: user.id,
-        organization_id: organization.id
+        board_departments_id: board_department.id,
+        role: "some role",
+        priority: 1
       }
       |> Atomic.Organizations.create_user_organization()
 

@@ -10,7 +10,14 @@ module.exports = {
     '../lib/*_web/**/*.*ex',
   ],
   theme: {
-    extend: {},
+    extend: {
+      border: {
+        '1': '1px'
+      },
+      backgroundImage: {
+        'hero-pattern': "url('/images/atomic.png')",
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

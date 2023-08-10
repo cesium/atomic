@@ -1,32 +1,85 @@
-<h1>Listing Departments</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.department_index_path(@socket, :index, @current_organization)}>
     <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
+<div class="bg-white">
+  <div class="pt-4 px-4">
+    <div class="flex items-center justify-between">
+      <div class="min-w-0 flex-1">
+        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
+          <%= gettext("Departments") %>
+        </h2>
+      </div>
+      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+        <div class="hidden lg:border-orange-500 lg:block">
+          <%= live_patch("+ New Department",
+            to: Routes.department_index_path(@socket, :new, @current_organization),
+            class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+          ) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+      <div class="flex w-full items-center justify-between">
+        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+          <div class="text-zinc-500 border-zinc-800 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+            <%= gettext("Current Departments") %>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
+<ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <%= for department <- @departments do %>
+    <li class="col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
+      <%= live_patch to: Routes.department_show_path(@socket, :show, @current_organization, department), class: "" do %>
+        <div class="flex-1 flex-col w-full p-4">
+          <span class="w-full flex items-center justify-center">
+            <span class="flex justify-center items-center mr-1.5 w-16 h-16 bg-zinc-500 rounded-xl">
+              <span class="text-lg font-medium w-full text-white">
+                <%= Atomic.Accounts.extract_initials(department.name) %>
+              </span>
+            </span>
+          </span>
+          <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= department.name %></h3>
+          <span class="text-md font-semibold text-gray-500">
+            <%= department.description %>
+          </span>
+        </div>
+        <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+          <div>
+            <div class="-mt-px flex py-2">
+              <div class="flex flex-1 z-1">
+                <%= live_patch(
+                  to: Routes.department_index_path(@socket, :edit, @current_organization, department),
+                  class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-semibold text-gray-900"
+                ) do %>
+                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-200" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
+                  </div>
+                <% end %>
+              </div>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="departments">
-    <%= for department <- @departments do %>
-      <tr id={"department-#{department.id}"}>
-        <td><%= department.name %></td>
-
-        <td>
-          <span><%= live_redirect("Show", to: Routes.department_show_path(@socket, :show, @current_organization, department)) %></span>
-          <span><%= live_patch("Edit", to: Routes.department_index_path(@socket, :edit, @current_organization, department)) %></span>
-          <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: department.id, data: [confirm: "Are you sure?"]) %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<span><%= live_patch("New Department", to: Routes.department_index_path(@socket, :new, @current_organization)) %></span>
+              <div class="-ml-px flex w-0 flex-1">
+                <%= link(
+                  to: "#",
+                  phx_click: "delete",
+                  class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-semibold text-gray-900",
+                  phx_value_id: department.id,
+                  data: [confirm: "Are you sure?"])
+                do %>
+                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <Heroicons.Solid.x class="mr-3 w-5 h-5 text-gray-400" /> Delete
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

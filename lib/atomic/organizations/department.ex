@@ -1,4 +1,4 @@
-defmodule Atomic.Departments.Department do
+defmodule Atomic.Organizations.Department do
   @moduledoc """
     A department of an organization
   """
@@ -8,13 +8,15 @@ defmodule Atomic.Departments.Department do
 
   @required_fields ~w(name organization_id)a
 
-  @optional_fields []
+  @optional_fields [
+    :description
+  ]
 
   schema "departments" do
     field :name, :string
+    field :description, :string
 
     many_to_many :activities, Activity, join_through: ActivityDepartment, on_replace: :delete
-
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()

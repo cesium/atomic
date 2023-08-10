@@ -15,6 +15,9 @@ defmodule Atomic.Accounts.Course do
     timestamps()
   end
 
+  @doc """
+    A changeset for a course.
+  """
   def changeset(course, attrs) do
     course
     |> cast(attrs, @required_fields)

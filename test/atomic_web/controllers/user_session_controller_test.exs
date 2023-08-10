@@ -12,7 +12,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      assert response =~ "<span>Login</span>"
       assert response =~ "Register</a>"
       assert response =~ "Forgot your password?</a>"
     end
@@ -37,8 +37,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ user.email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Home"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -76,7 +75,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      assert response =~ "<span>Login</span>"
       assert response =~ "Invalid email or password"
     end
   end

@@ -6,7 +6,7 @@ defmodule Atomic.DepartmentsTest do
   import Atomic.Factory
 
   describe "departments" do
-    alias Atomic.Departments.Department
+    alias Atomic.Organizations.Department
 
     @invalid_attrs %{name: nil}
 

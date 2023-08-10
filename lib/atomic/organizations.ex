@@ -3,8 +3,6 @@ defmodule Atomic.Organizations do
   The Organizations context.
   """
 
-  import Ecto.Query, warn: false
-
   use Atomic.Context
 
   alias Atomic.Accounts.User
@@ -22,8 +20,11 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations do
-    Repo.all(Organization)
+
+  def list_organizations(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
@@ -41,12 +42,15 @@ defmodule Atomic.Organizations do
 
   """
   def get_organization!(id, preloads \\ []) do
-    Repo.get!(Organization, id)
-    |> Repo.preload(preloads)
+    organization =
+      Repo.get!(Organization, id)
+      |> Repo.preload(preloads)
+
+    organization
   end
 
   @doc """
-  Creates a organization.
+  Creates an organization.
 
   ## Examples
 
@@ -64,7 +68,7 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Updates a organization.
+  Updates an organization.
 
   ## Examples
 
@@ -81,6 +85,18 @@ defmodule Atomic.Organizations do
     |> Repo.update()
   end
 
+  @doc """
+  Updates an organization card image.
+
+  ## Examples
+
+      iex> update_card_image(organization, %{card_image: new_value})
+      {:ok, %Organization{}}
+
+      iex> update_card_image(organization, %{card_image: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def update_card_image(%Organization{} = organization, attrs) do
     organization
     |> Organization.card_changeset(attrs)
@@ -150,7 +166,7 @@ defmodule Atomic.Organizations do
 
   def list_memberships(%{"organization_id" => organization_id}, preloads) do
     Membership
-    |> where([a], a.organization_id == ^organization_id)
+    |> where([a], a.organization_id == ^organization_id and a.role != :follower)
     |> Repo.all()
     |> Repo.preload(preloads)
   end
@@ -162,19 +178,53 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  @doc """
+    Verifies if an user is a member of an organization.
+
+    ## Examples
+
+        iex> is_member_of?(user, organization)
+        true
+
+        iex> is_member_of?(user, organization)
+        false
+
+  """
   def is_member_of?(%User{} = user, %Organization{} = organization) do
     Membership
     |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
     |> Repo.exists?()
   end
 
-  def get_role(user_id, organization_id) do
-    membership =
-      Membership
-      |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
-      |> Repo.one()
+  @doc """
+  Gets an user role in an organization.
 
-    membership[:role]
+  ## Examples
+
+      iex> get_role(user_id, organization_id)
+      :follower
+
+      iex> get_role(user_id, organization_id)
+      :member
+
+      iex> get_role(user_id, organization_id)
+      :admin
+
+      iex> get_role(user_id, organization_id)
+      :owner
+
+      iex> get_role(user_id, organization_id)
+      nil
+
+  """
+  def get_role(user_id, organization_id) do
+    Membership
+    |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
+    |> Repo.one()
+    |> case do
+      nil -> nil
+      membership -> membership.role
+    end
   end
 
   @doc """
@@ -194,6 +244,27 @@ defmodule Atomic.Organizations do
   def get_membership!(id, preloads \\ []) do
     Membership
     |> Repo.get_by!(id: id)
+    |> Repo.preload(preloads)
+  end
+
+  @doc """
+  Gets a single membership by user id and organization id.
+
+  Raises `Ecto.NoResultsError` if the membership does not exist.
+
+  ## Examples
+
+      iex> get_membership_by_userid_and_organization_id!(123, 456, [])
+      %Membership{}
+
+      iex> get_membership_by_userid_and_organization_id!(456, 789, [])
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_membership_by_userid_and_organization_id!(user_id, organization_id, preloads \\ []) do
+    Membership
+    |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
+    |> Repo.one!()
     |> Repo.preload(preloads)
   end
 
@@ -256,8 +327,8 @@ defmodule Atomic.Organizations do
 
   """
   def roles_less_than_or_equal(role) do
-    list = [:follower, :member, :admin, :owner]
-    Enum.drop_while(list, fn elem -> elem != role end)
+    [:follower, :member, :admin, :owner]
+    |> Enum.drop_while(fn elem -> elem != role end)
   end
 
   @doc """
@@ -270,8 +341,8 @@ defmodule Atomic.Organizations do
 
   """
   def roles_bigger_than_or_equal(role) do
-    list = [:follower, :member, :admin, :owner]
-    Enum.drop_while(list, fn elem -> elem != role end)
+    [:follower, :member, :admin, :owner]
+    |> Enum.drop_while(fn elem -> elem != role end)
   end
 
   @doc """
@@ -375,5 +446,19 @@ defmodule Atomic.Organizations do
   """
   def change_user_organization(%UserOrganization{} = user_organization, attrs \\ %{}) do
     UserOrganization.changeset(user_organization, attrs)
+  end
+
+  @doc """
+  Returns the amount of members in an organization.
+
+  ## Examples
+
+      iex> get_total_organization_members(organization_id)
+      5
+
+  """
+  def get_total_organization_members(organization_id) do
+    from(m in Membership, where: m.organization_id == ^organization_id)
+    |> Repo.aggregate(:count, :id)
   end
 end

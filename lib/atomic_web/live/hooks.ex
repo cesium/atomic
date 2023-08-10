@@ -14,10 +14,12 @@ defmodule AtomicWeb.Hooks do
   def on_mount(
         :authenticated_user_state,
         _params,
-        %{"user_token" => user_token, "current_organization" => _},
+        session,
         socket
       ) do
-    current_user = Accounts.get_user_by_session_token(user_token)
+    current_user = Accounts.get_user_by_session_token(session["user_token"])
+    owner = Application.get_env(:atomic, :owner)
+    time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
 
     if current_user.default_organization_id != nil do
       socket =
@@ -27,12 +29,15 @@ defmodule AtomicWeb.Hooks do
           :current_organization,
           Organizations.get_organization!(current_user.default_organization_id)
         )
+        |> assign(:time_zone, time_zone)
 
       {:cont, socket}
     else
       socket =
         socket
+        |> assign(:current_organization, nil)
         |> assign(:current_user, current_user)
+        |> assign(:time_zone, time_zone)
 
       {:cont, socket}
     end
@@ -42,6 +47,9 @@ defmodule AtomicWeb.Hooks do
     current_organization = session["current_organization"]
     current_user = session["user_token"]
 
+    owner = Application.get_env(:atomic, :owner)
+    time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
+
     case {current_organization, current_user} do
       {nil, nil} ->
         {:cont, socket}
@@ -49,13 +57,24 @@ defmodule AtomicWeb.Hooks do
       {nil, _} ->
         user = Accounts.get_user_by_session_token(current_user)
 
-        {:cont,
-         socket
-         |> assign(:current_user, user)
-         |> assign(
-           :current_organization,
-           Organizations.get_organization!(user.default_organization_id)
-         )}
+        case user.default_organization_id do
+          nil ->
+            {:cont,
+             socket
+             |> assign(:current_user, user)
+             |> assign(:current_organization, nil)
+             |> assign(:time_zone, time_zone)}
+
+          _ ->
+            {:cont,
+             socket
+             |> assign(:current_user, user)
+             |> assign(
+               :current_organization,
+               Organizations.get_organization!(user.default_organization_id)
+             )
+             |> assign(:time_zone, time_zone)}
+        end
 
       {_, nil} ->
         {:cont,
@@ -70,8 +89,9 @@ defmodule AtomicWeb.Hooks do
          |> assign(:current_user, user)
          |> assign(
            :current_organization,
-           Organizations.get_organization!(user.default_organization_id)
-         )}
+           current_organization
+         )
+         |> assign(:time_zone, time_zone)}
     end
   end
 

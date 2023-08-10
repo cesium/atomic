@@ -55,6 +55,13 @@ defmodule Atomic.Repo.Seeds.Organizations do
             filename: "card.png"
           }
         })
+        |> Organization.logo_changeset(%{
+          logo: %Plug.Upload{
+            path: "priv/static/images/cesium-ORANGE.svg",
+            content_type: "image/svg",
+            filename: "cesium-ORANGE.svg"
+          }
+        })
         |> Repo.update!()
 
         Organization.changeset(

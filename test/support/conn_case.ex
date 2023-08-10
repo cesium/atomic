@@ -17,6 +17,7 @@ defmodule AtomicWeb.ConnCase do
 
   use ExUnit.CaseTemplate
   import Atomic.Factory
+  alias Atomic.Organizations
 
   using do
     quote do
@@ -49,6 +50,13 @@ defmodule AtomicWeb.ConnCase do
   def register_and_log_in_user(%{conn: conn}) do
     organization = insert(:organization)
     user = insert(:user, %{default_organization_id: organization.id})
+
+    Organizations.create_membership(%{
+      organization_id: organization.id,
+      user_id: user.id,
+      role: :follower
+    })
+
     %{conn: log_in_user(conn, user), user: user}
   end
 

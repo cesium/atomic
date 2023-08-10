@@ -114,10 +114,4 @@ defmodule Atomic.Partnerships do
   def change_partner(%Partner{} = partner, attrs \\ %{}) do
     Partner.changeset(partner, attrs)
   end
-
-  def update_image(%Partner{} = partner, attrs) do
-    partner
-    |> Partner.image_changeset(attrs)
-    |> Repo.update()
-  end
 end

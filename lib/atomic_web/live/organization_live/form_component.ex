@@ -2,21 +2,18 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Departments
   alias Atomic.Organizations
 
   @extensions_whitelist ~w(.svg .jpg .jpeg .gif .png)
 
   @impl true
   def mount(socket) do
-    departments = Departments.list_departments()
     speakers = Activities.list_speakers()
 
     {:ok,
      socket
      |> allow_upload(:card, accept: @extensions_whitelist, max_entries: 1)
-     |> assign(:speakers, speakers)
-     |> assign(:departments, departments)}
+     |> assign(:speakers, speakers)}
   end
 
   @impl true

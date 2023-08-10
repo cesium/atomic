@@ -14,13 +14,29 @@ defmodule AtomicWeb.ActivityLive.Edit do
     activity =
       Activities.get_activity!(id, preloads: [:activity_sessions, :departments, :speakers])
 
+    entries = [
+      %{
+        name: gettext("Activities"),
+        route: Routes.activity_index_path(socket, :index, organization_id)
+      },
+      %{
+        name: gettext("Edit Activity"),
+        route: Routes.activity_edit_path(socket, :edit, id, organization_id)
+      }
+    ]
+
     organizations = Activities.get_activity_organizations!(activity)
 
     if organization_id in organizations do
       {:noreply,
        socket
+       |> assign(:breadcrumb_entries, entries)
+       |> assign(:current_page, :activities)
        |> assign(:page_title, gettext("Edit Activity"))
-       |> assign(:activity, activity)}
+       |> assign(
+         :activity,
+         Activities.get_activity!(id, [:activity_sessions, :speakers, :departments])
+       )}
     else
       raise AtomicWeb.MismatchError
     end

@@ -3,14 +3,16 @@ defmodule Atomic.Repo.Seeds.Activities do
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
-  alias Atomic.Departments.Department
+  alias Atomic.Organizations.Department
+  alias Atomic.Activities.ActivityDepartment
+  alias Atomic.Activities.Session
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.{Activity, Enrollment, Location}
 
   def run do
     seed_activities()
-    seed_activities_departments()
     seed_enrollments()
+    seed_activity_departments()
   end
 
   def seed_activities() do
@@ -206,16 +208,32 @@ defmodule Atomic.Repo.Seeds.Activities do
   def seed_enrollments() do
     case Repo.all(Enrollment) do
       [] ->
-        for activity <- Repo.all(Activity) do
+        for session <- Repo.all(Session) do
           for user <- Repo.all(User) do
             %Enrollment{}
             |> Enrollment.changeset(%{
               user_id: user.id,
-              activity_id: activity.id,
+              session_id: session.id,
               present: Enum.random([true, false])
             })
             |> Repo.insert!()
           end
+        end
+    end
+  end
+
+  def seed_activity_departments() do
+    case Repo.all(ActivityDepartment) do
+      [] ->
+        department = Repo.get_by(Department, name: "CAOS")
+
+        for activity <- Repo.all(Activity) do
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
+            activity_id: activity.id,
+            department_id: department.id
+          })
+          |> Repo.insert!()
         end
     end
   end

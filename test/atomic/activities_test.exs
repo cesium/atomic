@@ -74,7 +74,7 @@ defmodule Atomic.ActivitiesTest do
 
     test "list_sessions/0 returns all sessions" do
       session = session_fixture()
-      assert Activities.list_sessions() == [session]
+      assert Activities.list_sessions([]) == [session]
     end
 
     test "get_session!/1 returns the session with given id" do
@@ -139,9 +139,9 @@ defmodule Atomic.ActivitiesTest do
 
     test "create_enrollment/1 with valid data creates a enrollment" do
       user = insert(:user)
-      activity = insert(:activity)
+      session = insert(:session)
 
-      assert {:ok, %Enrollment{}} = Activities.create_enrollment(activity, user)
+      assert {:ok, %Enrollment{}} = Activities.create_enrollment(session.id, user)
     end
 
     test "update_enrollment/2 with valid data updates the enrollment" do
@@ -153,7 +153,7 @@ defmodule Atomic.ActivitiesTest do
 
     test "delete_enrollment/1 deletes the enrollment" do
       enrollment = insert(:enrollment)
-      assert {_, nil} = Activities.delete_enrollment(enrollment.activity, enrollment.user)
+      assert {_, nil} = Activities.delete_enrollment(enrollment.session.id, enrollment.user)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_enrollment!(enrollment.id) end
     end
 

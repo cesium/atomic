@@ -1,28 +1,41 @@
-<h1>Register</h1>
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-[url('/images/atomic.png')] bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat bg-opacity-25 bg-center">
+  <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 sm:mx-0">
+    <h2 class="mt-6 mb-6 text-center text-5xl font-extrabold text-zinc-900">
+      <span><%= gettext("Register") %></span>
+    </h2>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
 
-<.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+    <%= label(f, :email, class: "sr-only") %>
+    <%= email_input(f, :email,
+      required: true,
+      placeholder: gettext("Email address"),
+      class: "relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+    ) %>
+    <%= error_tag(f, :email) %>
+
+    <%= label(f, :password, class: "sr-only") %>
+    <%= password_input(f, :password,
+      required: true,
+      placeholder: gettext("Password"),
+      autocomplete: "current-password",
+      class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+    ) %>
+    <%= error_tag(f, :password) %>
+
+    <div class="mt-6 text-sm">
+      <span>
+        Already have an account?
+      </span>
+      <%= link("Login", to: Routes.user_session_path(@conn, :new), class: "font-medium text-orange-400 hover:text-indigo-500 focus:outline-none") %>
     </div>
-  <% end %>
 
-  <%= label(f, :email) %>
-  <%= email_input(f, :email, required: true) %>
-  <%= error_tag(f, :email) %>
-
-  <%= label(f, :password) %>
-  <%= password_input(f, :password, required: true) %>
-  <%= error_tag(f, :password) %>
-
-  <%= label(f, :role) %>
-  <%= select(f, :role, @roles, prompt: "Choose a Role", selected: f.data.role, required: true) %>
-  <%= error_tag(f, :role) %>
-  <div>
-    <%= submit("Register") %>
-  </div>
-</.form>
-
-<p>
-  <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %> | <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new)) %>
-</p>
+    <div>
+      <%= submit("Register", class: "mt-6 w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm") %>
+    </div>
+    <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "mt-6 text-orange-400") %>
+  </.form>
+</div>

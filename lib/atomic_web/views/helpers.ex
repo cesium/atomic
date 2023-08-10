@@ -4,66 +4,201 @@ defmodule AtomicWeb.ViewUtils do
   """
   use Phoenix.HTML
 
+  import AtomicWeb.Gettext
+
+  alias String
+  alias Timex.Format.DateTime.Formatters.Relative
   require Timex.Translator
 
+  @doc """
+    Returns the frontend url from the config.
+  """
   def frontend_url do
     Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:frontend_url]
   end
 
   @doc """
-  Display a user's name
+  Returns a relative datetime string for the given datetime.
+
   ## Examples
-      iex> display_name(%{first_name: "John", last_name: "Doe"})
-      "John Doe"
+
+      iex> relative_datetime(~N[2020-01-01 00:00:00])
+      "3 years ago"
+
+      iex> relative_datetime(~N[2023-01-01 00:00:00] |> Timex.shift(days: 1))
+      "7 months ago"
+
   """
-  def display_name(user) do
-    "#{user.first_name} #{user.last_name}"
+  def relative_datetime(nil), do: ""
+
+  def relative_datetime(""), do: ""
+
+  def relative_datetime(datetime) do
+    Relative.lformat!(datetime, "{relative}", Gettext.get_locale())
   end
 
-  @doc """
-  Display a date in format "HH:MM"
+  @doc ~S"""
+  Returns a relative date string for the given date.
+
   ## Examples
-      iex> display_time(~U[2018-01-01 00:00:00Z])
+
+      iex> display_date(~D[2020-01-01])
+      "01-01-2020"
+
+      iex> display_date(~D[2023-01-01])
+      "01-01-2023"
+
+  """
+  def display_date(nil), do: ""
+
+  def display_date(""), do: ""
+
+  def display_date(date) when is_binary(date) do
+    date
+    |> Timex.parse!("%FT%H:%M", :strftime)
+    |> Timex.format!("{0D}-{0M}-{YYYY}")
+  end
+
+  def display_date(date) do
+    Timex.format!(date, "{0D}-{0M}-{YYYY}")
+  end
+
+  @doc ~S"""
+  Returns a relative time string for the given time.
+
+  ## Examples
+
+      iex> display_time(~T[00:00:00])
       "00:00"
-      iex> display_time(~U[2018-01-01 12:00:00Z])
-      "12:00"
-      iex> display_time(~U[2018-01-01 23:59:00Z])
+
+      iex> display_time(~T[23:59:59])
       "23:59"
   """
-  def display_time(%DateTime{} = datetime) do
-    hour = two_characters(datetime.hour)
-    minute = two_characters(datetime.minute)
+  def display_time(nil), do: ""
 
-    "#{hour}:#{minute}"
+  def display_time(""), do: ""
+
+  def display_time(date) when is_binary(date) do
+    date
+    |> Timex.parse!("%FT%H:%M", :strftime)
+    |> Timex.format!("{0D}-{0M}-{YYYY}")
   end
 
-  @doc """
-  Display a date in a given locale
-  ## Examples
-      iex> display_date(~N[2021-03-10 02:27:07], "pt")
-      "Quarta-feira, 10 de Março de 2021"
-      iex> display_date(~N[2023-02-25 22:25:46], "en")
-      "Saturday, February 25, 2023"
+  def display_time(date) do
+    date
+    |> Timex.format!("{h24}:{m}")
+  end
+
+  @doc ~S"""
+    Returns a list of first element from tuples where the second element is true
+
+    ## Examples
+
+        iex> class_list([{"col-start-1", true}, {"col-start-2", false}, {"col-start-3", true}])
+        "col-start-1 col-start-3"
+
+        iex> class_list([{"Math", true}, {"Physics", false}, {"Chemistry", false}])
+        "Math"
   """
-  def display_date(datetime, locale \\ "pt")
-
-  def display_date(datetime, "pt" = locale) do
-    Timex.Translator.with_locale locale do
-      Timex.format!(datetime, "{WDfull}, {D} de {Mfull} de {YYYY}")
-    end
+  def class_list(items) do
+    items
+    |> Enum.reject(&(elem(&1, 1) == false))
+    |> Enum.map_join(" ", &elem(&1, 0))
   end
 
-  def display_date(datetime, "en" = locale) do
-    Timex.Translator.with_locale locale do
-      Timex.format!(datetime, "{WDfull}, {Mfull} {D}, {YYYY}")
-    end
-  end
+  @doc ~S"""
+    Returns the class name for a given column
 
-  defp two_characters(number) do
-    if number < 10 do
-      "0#{number}"
+    ## Examples
+
+        iex> col_start(1)
+        "col-start-1"
+
+        iex> col_start(2)
+        "col-start-2"
+
+        iex> col_start(0)
+        "col-start-0"
+
+        iex> col_start(8)
+        "col-start-0"
+  """
+  def col_start(col) do
+    if col in 1..7 do
+      "col-start-#{col}"
     else
-      number
+      "col-start-0"
     end
   end
+
+  @doc ~S"""
+    Returns the string with the first letter capitalized
+
+    ## Examples
+
+        iex> capitalize_first_letter(:hello)
+        "Hello"
+
+        iex> capitalize_first_letter(:world)
+        "World"
+  """
+  def capitalize_first_letter(string) do
+    if is_nil(string) do
+      ""
+    else
+      string
+      |> Atom.to_string()
+      |> String.capitalize()
+    end
+  end
+
+  def build_path(current_path, params) do
+    current_path
+    |> URI.parse()
+    |> Map.put(:query, URI.encode_query(params))
+    |> URI.to_string()
+  end
+
+  @doc ~S"""
+    Appends two lists when a condition is true
+
+    ## Examples
+
+        iex> append_if([1, 2, 3], true, [4])
+        [1, 2, 3, 4]
+
+        iex> append_if([1, 2, 3], false, [4])
+        [1, 2, 3]
+
+        iex> append_if([1, 2, 3], false, [4])
+        [1, 2, 3]
+
+        iex> append_if([1, 2, 3], true, [4, 5, 6])
+        [1, 2, 3, 4, 5, 6]
+  """
+  def append_if(list, condition, item) when is_list(item) do
+    if condition do
+      list ++ item
+    else
+      list
+    end
+  end
+
+  @doc ~S"""
+    Returns an error message for a given error
+
+    ## Examples
+
+        iex> error_to_string(:too_large)
+        "Too large"
+
+        iex> error_to_string(:not_accepted)
+        "You have selected an unacceptable file type"
+
+        iex> error_to_string(:too_many_files)
+        "You have selected too many files"
+  """
+  def error_to_string(:too_large), do: gettext("Too large")
+  def error_to_string(:not_accepted), do: gettext("You have selected an unacceptable file type")
+  def error_to_string(:too_many_files), do: gettext("You have selected too many files")
 end

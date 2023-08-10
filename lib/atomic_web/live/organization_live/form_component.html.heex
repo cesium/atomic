@@ -10,9 +10,6 @@
     <%= text_input(f, :description) %>
     <%= error_tag(f, :description) %>
 
-    <%= label(f, :departments) %>
-    <%= multiple_select(f, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id)) %>
-
     <div class="py-5 px-4 sm:px-6 shrink-0 1.5xl:py-5 1.5xl:px-6 1.5xl:shrink-0">
       <%= live_file_input(@uploads.card, class: "hidden") %>
       <div

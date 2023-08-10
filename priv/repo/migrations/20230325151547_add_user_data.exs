@@ -10,7 +10,7 @@ defmodule Atomic.Repo.Migrations.AddUserData do
     end
 
     alter table(:users) do
-      add :name, :string, null: false
+      add :name, :string
       add :course_id, references(:courses, on_delete: :nothing, type: :binary_id), null: true
       add :profile_picture, :string
     end

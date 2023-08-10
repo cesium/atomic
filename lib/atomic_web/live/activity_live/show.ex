@@ -1,7 +1,10 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Activities
+  alias Atomic.Organizations
+  alias AtomicWeb.MismatchError
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -15,57 +18,77 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:activity_sessions, :departments, :speakers])
-    organizations = Activities.get_activity_organizations!(activity)
+    session = Activities.get_session!(id, [:activity])
+
+    activity =
+      Activities.get_activity!(session.activity_id, [:departments, :activity_sessions, :speakers])
+
+    organizations = Activities.get_activity_organizations!(activity, [:departments])
+
+    entries = [
+      %{
+        name: gettext("Activities"),
+        route: Routes.activity_index_path(socket, :index, organization_id)
+      },
+      %{
+        name: activity.title,
+        route: Routes.activity_show_path(socket, :show, organization_id, session.id)
+      }
+    ]
 
     if organization_id in organizations do
       {:noreply,
        socket
-       |> assign(:enrolled?, Activities.is_user_enrolled?(activity, socket.assigns.current_user))
+       |> assign(
+         :enrolled?,
+         Activities.is_participating?(id, socket.assigns.current_user.id)
+       )
        |> assign(:page_title, page_title(socket.assigns.live_action))
-       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+       |> assign(:breadcrumb_entries, entries)
+       |> assign(:current_page, :activities)
+       |> assign(:session, session)
+       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})}
     else
-      raise AtomicWeb.MismatchError
+      raise MismatchError
     end
   end
 
   @impl true
   def handle_event("enroll", _payload, socket) do
-    activity = socket.assigns.activity
+    session_id = socket.assigns.id
     current_user = socket.assigns.current_user
 
-    case Activities.create_enrollment(activity, current_user) do
+    case Activities.create_enrollment(session_id, current_user) do
       {:ok, _enrollment} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")
-         |> set_enrolled(activity, current_user)}
+         |> set_enrolled(session_id, current_user)}
 
       {:error, _error} ->
         {:noreply,
          socket
          |> put_flash(:error, "Unable to enroll")
-         |> set_enrolled(activity, current_user)}
+         |> set_enrolled(session_id, current_user)}
     end
   end
 
   @impl true
   def handle_event("unenroll", _payload, socket) do
-    activity = socket.assigns.activity
+    session_id = socket.assigns.id
     current_user = socket.assigns.current_user
 
-    case Activities.delete_enrollment(activity, current_user) do
+    case Activities.delete_enrollment(session_id, current_user) do
       {1, nil} ->
         {:noreply,
          socket
          |> put_flash(:success, gettext("Unenrolled successufully!"))
-         |> set_enrolled(activity, current_user)}
+         |> assign(:enrolled?, false)}
 
       {_, nil} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Unable to unenroll"))
-         |> set_enrolled(activity, current_user)}
+         |> put_flash(:error, gettext("Unable to unenroll"))}
     end
   end
 
@@ -99,8 +122,8 @@ defmodule AtomicWeb.ActivityLive.Show do
      assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
   end
 
-  defp draw_qr_code(session, user, _socket) do
-    internal_route = "/redeem/#{session.activity_id}/#{user.id}/confirm"
+  defp draw_qr_code(activity, user, _socket) do
+    internal_route = "/redeem/#{activity.id}/#{user.id}/confirm"
 
     url = build_url() <> internal_route
 
@@ -112,8 +135,8 @@ defmodule AtomicWeb.ActivityLive.Show do
   defp page_title(:show), do: "Show Activity"
   defp page_title(:edit), do: "Edit Activity"
 
-  defp set_enrolled(socket, activity, current_user) do
-    Activities.get_user_enrolled(current_user, activity)
+  defp set_enrolled(socket, session_id, current_user) do
+    Activities.get_user_enrolled(current_user, session_id)
 
     {:noreply, socket}
   end
@@ -124,5 +147,10 @@ defmodule AtomicWeb.ActivityLive.Show do
     else
       "https://#{Application.fetch_env(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
     end
+  end
+
+  def is_admin?(user, activity) do
+    department = activity.departments |> Enum.at(0)
+    Organizations.get_role(user.id, department.organization_id) in [:admin, :owner]
   end
 end

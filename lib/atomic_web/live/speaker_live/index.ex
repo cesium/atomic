@@ -11,7 +11,18 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    entries = [
+      %{
+        name: gettext("Speakers"),
+        route: Routes.speaker_index_path(socket, :index, params["organization_id"])
+      }
+    ]
+
+    {:noreply,
+     socket
+     |> assign(:current_page, :speakers)
+     |> assign(:breadcrumb_entries, entries)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do

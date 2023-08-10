@@ -3,17 +3,16 @@ defmodule Atomic.Organizations.UserOrganization do
   use Atomic.Schema
 
   alias Atomic.Accounts.User
-  alias Atomic.Ecto.Year
-  alias Atomic.Organizations.Organization
+  alias Atomic.Organizations.BoardDepartments
 
-  @required_fields ~w(year title user_id organization_id)a
+  @required_fields ~w(role priority user_id board_departments_id)a
 
   schema "users_organizations" do
-    field :year, Year
-    field :title, :string
+    field :role, :string
+    field :priority, :integer
 
     belongs_to :user, User
-    belongs_to :organization, Organization
+    belongs_to :board_departments, BoardDepartments
 
     timestamps()
   end

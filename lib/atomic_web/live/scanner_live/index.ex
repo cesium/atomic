@@ -2,8 +2,8 @@ defmodule AtomicWeb.ScannerLive.Index do
   @moduledoc false
 
   use AtomicWeb, :live_view
-  alias Atomic.Accounts
   alias Atomic.Activities
+  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,30 +12,63 @@ defmodule AtomicWeb.ScannerLive.Index do
 
   @impl true
   def handle_params(_params, _url, socket) do
+    entries = [
+      %{
+        name: gettext("Scanner"),
+        route: Routes.scanner_index_path(socket, :index)
+      }
+    ]
+
     {:noreply,
      socket
      |> assign(:current_page, :scanner)
-     |> assign(:title, "Scanner")}
+     |> assign(:title, "Scanner")
+     |> assign(:breadcrumb_entries, entries)}
   end
 
+  @doc """
+  Handles the scan event.
+    Basically it does two checks:
+      1) Verifies if current_organization is in organizations that are related to the session of the activity.
+      2) Verifies if current_user is admin or owner of the organization, or , if current_user is admin of the system.
+
+    If 1) and 2) are true, then confirm_participation is called.
+    Else a flash message is shown and the user is redirected to the scanner index.
+  """
   @impl true
   def handle_event("scan", pathname, socket) do
-    confirm_participation(socket, socket.assigns.current_user, pathname)
+    [_, session_id, user_id | _] = String.split(pathname, "/")
+
+    session = Activities.get_session!(session_id, [:activity])
+    organizations = Activities.get_activity_organizations!(session.activity, [:departments])
+
+    if (socket.assigns.current_organization.id in organizations &&
+          Organizations.get_role(
+            socket.assigns.current_user.id,
+            socket.assigns.current_organization.id
+          ) in [:admin, :owner]) or socket.assigns.current_user.role in [:admin] do
+      confirm_participation(socket, session_id, user_id)
+    else
+      {:noreply,
+       socket
+       |> put_flash(:error, "You are not authorized to this")
+       |> redirect(to: Routes.scanner_index_path(socket, :index))}
+    end
   end
 
-  defp confirm_participation(socket, _admin, pathname) do
-    string_split = String.split(pathname, "/")
-    activity = Activities.get_activity!(string_split |> Enum.at(1))
-    user = Accounts.get_user!(string_split |> Enum.at(2))
-
-    case Activities.update_enrollment(Activities.get_enrollment!(activity.id, user.id), %{
+  # Updates the enrollment of the user in the session, setting present to true.
+  #  If the update is successful, a flash message is shown and the user is redirected to the scanner index.
+  #  Else a flash message is shown and the user is redirected to the scanner index.
+  defp confirm_participation(socket, session_id, user_id) do
+    case Activities.update_enrollment(Activities.get_enrollment!(session_id, user_id), %{
            present: true
          }) do
       {:ok, _} ->
         {:noreply,
          socket
          |> put_flash(:success, "Participation confirmed!")
-         |> assign(:changeset, nil)}
+         |> assign(:changeset, nil)
+         |> redirect(to: Routes.scanner_index_path(socket, :index))}
 
       {:error, changeset} ->
         {:noreply,

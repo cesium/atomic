@@ -73,7 +73,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
   defp consume_image_data(socket, partner) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Partnerships.update_image(partner, %{
+      Partnerships.update_partner(partner, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
