@@ -15,6 +15,24 @@ defmodule AtomicWeb.Components.CalendarWeek do
       ) do
     today = Timex.today(time_zone)
 
+    hours = [
+      "8H",
+      "9H",
+      "10H",
+      "11H",
+      "12H",
+      "13H",
+      "14H",
+      "15H",
+      "16H",
+      "17H",
+      "18H",
+      "19H",
+      "20H",
+      "21H",
+      "22H"
+    ]
+
     assigns =
       assigns
       |> assign(week_mobile: ["M", "T", "W", "T", "F", "S", "S"])
@@ -80,66 +98,12 @@ defmodule AtomicWeb.Components.CalendarWeek do
             <!-- Horizontal lines -->
             <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(30, minmax(2.5rem, 1fr))">
               <div class="row-end-1 h-6"></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">8H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">9H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">10H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">11H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">12H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">13H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">14H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">15H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">16H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">17H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">18H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">19H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">20H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">21H</div>
-              </div>
-              <div></div>
-              <div>
-                <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400">22H</div>
-              </div>
-              <div></div>
+              <%= for hour <- hours do %>
+                <div>
+                  <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400"><%= hour %></div>
+                </div>
+                <div></div>
+              <% end %>
             </div>
             <!-- Vertical lines -->
             <div class="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-zinc-100 sm:grid sm:grid-cols-7">

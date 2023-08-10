@@ -175,11 +175,11 @@ defmodule Atomic.OrganizationsTest do
 
       {:ok, new_user_organization} =
         Organizations.update_user_organization(user_organization, %{
-          title: "Vice-Presidente",
+          role: "Vice-Presidente",
           board_departments_id: board_department.id
         })
 
-      assert new_user_organization.title == "Vice-Presidente"
+      assert new_user_organization.role == "Vice-Presidente"
     end
 
     test "delete_user_organization/1 deletes existing user organization" do
@@ -194,7 +194,7 @@ defmodule Atomic.OrganizationsTest do
 
       assert %Ecto.Changeset{} =
                Organizations.change_user_organization(user_organization, %{
-                 title: "Vice-Presidente"
+                 role: "Vice-Presidente"
                })
     end
   end

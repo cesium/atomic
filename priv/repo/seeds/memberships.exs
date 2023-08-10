@@ -79,7 +79,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
         |> UserOrganization.changeset(%{
           "user_id" => Enum.random(users).id,
           "board_departments_id" => board_department.id,
-          "title" => Enum.at(titles, i),
+          "role" => Enum.at(titles, i),
           "priority" => i
         })
         |> Repo.insert!()

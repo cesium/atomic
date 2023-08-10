@@ -48,7 +48,7 @@ defmodule AtomicWeb.PartnerLive.Index do
     organization = Organizations.get_organization!(params["organization_id"])
 
     socket
-    |> assign(:page_title, "#{organization.name} Partners")
+    |> assign(:page_title, "#{organization.name}'s Partners")
     |> assign(:partner, nil)
   end
 

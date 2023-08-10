@@ -99,7 +99,7 @@
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6"><%= collaborator.user.name %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= collaborator.user.email %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Phone number</td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= capitalize_first_letter(collaborator.accepted) %></td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= AtomicWeb.ViewUtils.capitalize_first_letter(collaborator.accepted) %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

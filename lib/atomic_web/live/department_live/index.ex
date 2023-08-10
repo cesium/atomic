@@ -48,7 +48,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
     organization = Organizations.get_organization!(params["organization_id"])
 
     socket
-    |> assign(:page_title, "#{organization.name} Departments")
+    |> assign(:page_title, "#{organization.name}'s Departments")
     |> assign(:department, nil)
   end
 

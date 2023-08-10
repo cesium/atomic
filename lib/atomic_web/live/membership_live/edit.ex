@@ -29,7 +29,7 @@ defmodule AtomicWeb.MembershipLive.Edit do
     end
   end
 
-  defp page_title(:index, organization), do: "#{organization.name} Memberships"
-  defp page_title(:show, organization), do: "#{organization.name} Membership"
+  defp page_title(:index, organization), do: "#{organization.name}'s Memberships"
+  defp page_title(:show, organization), do: "#{organization.name}'s Membership"
   defp page_title(:edit, _organization), do: "Edit Membership"
 end

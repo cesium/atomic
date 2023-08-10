@@ -85,10 +85,9 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_event("unfollow", _payload, socket) do
     membership =
-      Organizations.get_membership_by_userid_and_organizationid!(
+      Organizations.get_membership_by_userid_and_organization_id!(
         socket.assigns.current_user.id,
-        socket.assigns.organization.id,
-        []
+        socket.assigns.organization.id
       )
 
     case Organizations.delete_membership(membership) do

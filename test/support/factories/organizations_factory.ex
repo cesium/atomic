@@ -43,7 +43,7 @@ defmodule Atomic.Factories.OrganizationFactory do
       def user_organization_factory do
         %UserOrganization{
           user: build(:user),
-          title: Faker.Company.bullshit(),
+          role: Faker.Company.bullshit(),
           board_departments_id: build(:board_department).id,
           priority: Enum.random(0..4)
         }

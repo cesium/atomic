@@ -27,7 +27,7 @@ defmodule AtomicWeb.BoardLive.Edit do
     end
   end
 
-  defp page_title(:index, organization), do: "#{organization.name} board"
-  defp page_title(:show, organization), do: "#{organization.name} board"
+  defp page_title(:index, organization), do: "#{organization.name}'s board"
+  defp page_title(:show, organization), do: "#{organization.name}'s board"
   defp page_title(:edit, _), do: "Edit board"
 end

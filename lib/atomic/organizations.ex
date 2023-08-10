@@ -254,14 +254,14 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> get_membership_by_userid_and_organization_id!(123, 456)
-      %membership{}
+      iex> get_membership_by_userid_and_organization_id!(123, 456, [])
+      %Membership{}
 
-      iex> get_membership_by_userid_and_organization_id!(456, 789)
+      iex> get_membership_by_userid_and_organization_id!(456, 789, [])
       ** (Ecto.NoResultsError)
 
   """
-  def get_membership_by_userid_and_organizationid!(user_id, organization_id, preloads \\ []) do
+  def get_membership_by_userid_and_organization_id!(user_id, organization_id, preloads \\ []) do
     Membership
     |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
     |> Repo.one!()

@@ -17,7 +17,6 @@ defmodule Atomic.Accounts.Course do
 
   @doc """
     A changeset for a course.
-
   """
   def changeset(course, attrs) do
     course

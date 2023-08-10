@@ -60,6 +60,10 @@ defmodule AtomicWeb.DepartmentLive.Show do
         {:noreply,
          socket
          |> assign(:changeset, changeset)
+         |> put_flash(
+           :error,
+           "There was an error while trying to apply for this organization. Please try again!"
+         )
          |> push_redirect(
            to: Routes.department_index_path(socket, :index, department.organization_id)
          )}

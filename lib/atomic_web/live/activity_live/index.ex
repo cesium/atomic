@@ -43,7 +43,7 @@ defmodule AtomicWeb.ActivityLive.Index do
     organization = Organizations.get_organization!(params["organization_id"])
 
     socket
-    |> assign(:page_title, "#{organization.name} Activities")
+    |> assign(:page_title, "#{organization.name}'s Activities")
     |> assign(:activity, nil)
   end
 

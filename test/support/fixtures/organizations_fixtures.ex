@@ -132,7 +132,7 @@ defmodule Atomic.OrganizationsFixtures do
       %{
         user_id: user.id,
         board_departments_id: board_department.id,
-        title: "some title",
+        role: "some role",
         priority: 1
       }
       |> Atomic.Organizations.create_user_organization()

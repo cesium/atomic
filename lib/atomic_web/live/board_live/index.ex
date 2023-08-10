@@ -23,7 +23,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
     entries = [
       %{
-        name: gettext("%{name} Board", name: organization.name),
+        name: gettext("%{name}'s Board", name: organization.name),
         route: Routes.board_index_path(socket, :index, id)
       }
     ]
@@ -67,7 +67,7 @@ defmodule AtomicWeb.BoardLive.Index do
     Organizations.list_users_organizations(where: [organization_id: id])
   end
 
-  defp page_title(:index, organization), do: "#{organization.name} Board"
-  defp page_title(:show, organization), do: "#{organization.name} Board"
+  defp page_title(:index, organization), do: "#{organization.name}'s Board"
+  defp page_title(:show, organization), do: "#{organization.name}'s Board"
   defp page_title(:edit, _organization), do: "Edit board"
 end

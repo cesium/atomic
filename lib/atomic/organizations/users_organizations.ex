@@ -5,10 +5,10 @@ defmodule Atomic.Organizations.UserOrganization do
   alias Atomic.Accounts.User
   alias Atomic.Organizations.BoardDepartments
 
-  @required_fields ~w(title priority user_id board_departments_id)a
+  @required_fields ~w(role priority user_id board_departments_id)a
 
   schema "users_organizations" do
-    field :title, :string
+    field :role, :string
     field :priority, :integer
 
     belongs_to :user, User

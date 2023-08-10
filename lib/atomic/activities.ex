@@ -191,10 +191,17 @@ defmodule Atomic.Activities do
 
   ## Examples
 
+      iex> list_sessions()
+      [%Session{}, ...]
+
       iex> list_sessions(opts)
       [%Session{}, ...]
 
   """
+  def list_sessions do
+    Repo.all(Session)
+  end
+
   def list_sessions(opts) when is_list(opts) do
     Session
     |> apply_filters(opts)
