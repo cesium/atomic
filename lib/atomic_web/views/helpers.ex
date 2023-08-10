@@ -160,6 +160,31 @@ defmodule AtomicWeb.ViewUtils do
   end
 
   @doc ~S"""
+    Appends two lists when a condition is true
+
+    ## Examples
+
+        iex> append_if([1, 2, 3], true, [4])
+        [1, 2, 3, 4]
+
+        iex> append_if([1, 2, 3], false, [4])
+        [1, 2, 3]
+
+        iex> append_if([1, 2, 3], false, [4])
+        [1, 2, 3]
+
+        iex> append_if([1, 2, 3], true, [4, 5, 6])
+        [1, 2, 3, 4, 5, 6]
+  """
+  def append_if(list, condition, item) when is_list(item) do
+    if condition do
+      list ++ item
+    else
+      list
+    end
+  end
+
+  @doc ~S"""
     Returns an error message for a given error
 
     ## Examples

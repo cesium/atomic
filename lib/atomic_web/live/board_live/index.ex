@@ -3,6 +3,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   alias Atomic.Board
   alias Atomic.Organizations
+  import AtomicWeb.ViewUtils
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,11 +13,9 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     board = Board.get_organization_board_by_year("2023/2024", id)
-    board_departments = []
 
-    if board do
-      ^board_departments = Board.get_board_departments_by_board_id(board.id)
-    end
+    board_departments =
+      append_if([], board != nil, Board.get_board_departments_by_board_id(board.id))
 
     organization = Organizations.get_organization!(id)
     role = Organizations.get_role(socket.assigns.current_user.id, id)
