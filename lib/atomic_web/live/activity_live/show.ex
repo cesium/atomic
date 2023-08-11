@@ -148,9 +148,4 @@ defmodule AtomicWeb.ActivityLive.Show do
       "https://#{Application.fetch_env(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
     end
   end
-
-  def is_admin?(user, activity) do
-    department = activity.departments |> Enum.at(0)
-    Organizations.get_role(user.id, department.organization_id) in [:admin, :owner]
-  end
 end

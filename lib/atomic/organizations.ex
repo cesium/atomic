@@ -228,6 +228,28 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Verifies if an user is an admin or owner of an organization that is organizing an activity.
+
+  ## Examples
+
+      iex> verify_admin(user, departments)
+      true
+
+      iex> verify_admin(user, departments)
+      false
+
+  """
+  def verify_admin(_user, []), do: false
+
+  def verify_admin(user, [department | rest]) do
+    case get_role(user.id, department.organization_id) do
+      :owner -> true
+      :admin -> true
+      _ -> verify_admin(user, rest)
+    end
+  end
+
+  @doc """
   Gets a single membership.
 
   Raises `Ecto.NoResultsError` if the membership does not exist.
