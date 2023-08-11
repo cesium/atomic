@@ -160,6 +160,18 @@ defmodule AtomicWeb.UserAuth do
     end
   end
 
+  def require_confirmed_user(conn, _opts) do
+    current_user = conn.assigns[:current_user]
+    if conn.assigns[:current_user] && not is_nil(current_user.confirmed_at) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must confirm your account in order to access this page.")
+      |> redirect(to: "/404")
+      |> halt()
+    end
+  end
+
   defp maybe_store_return_to(%{method: "GET"} = conn) do
     put_session(conn, :user_return_to, current_path(conn))
   end
