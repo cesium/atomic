@@ -192,21 +192,32 @@ defmodule AtomicWeb.Helpers do
   end
 
   @doc """
-    Appends two lists when a condition is true
+  """
+  def display_enum(enum) do
+    case enum do
+      [] -> ""
+      [x] -> x
+      [x, y] -> x <> " e " <> y
+      [h | t] -> h <> ", " <> display_enum(t)
+    end
+  end
 
-    ## Examples
+  @doc ~S"""
+  Appends two lists when a condition is true
 
-        iex> append_if([1, 2, 3], true, [4])
-        [1, 2, 3, 4]
+  ## Examples
 
-        iex> append_if([1, 2, 3], false, [4])
-        [1, 2, 3]
+      iex> append_if([1, 2, 3], true, [4])
+      [1, 2, 3, 4]
 
-        iex> append_if([1, 2, 3], false, [4])
-        [1, 2, 3]
+      iex> append_if([1, 2, 3], false, [4])
+      [1, 2, 3]
 
-        iex> append_if([1, 2, 3], true, [4, 5, 6])
-        [1, 2, 3, 4, 5, 6]
+      iex> append_if([1, 2, 3], false, [4])
+      [1, 2, 3]
+
+      iex> append_if([1, 2, 3], true, [4, 5, 6])
+      [1, 2, 3, 4, 5, 6]
   """
   def append_if(list, condition, item) when is_list(item) do
     if condition do

@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
    <head>
+      <title>Certificado <%= @activity.title %></title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+      <script src="https://cdn.tailwindcss.com"></script>
    </head>
    <body>
-        <div>
-            <h1>Certificado de Participação</h1>
-            <h2><%= @enrollment.activity.title %></h2>
+        <div class="grid grid-cols-1 gap-y-0 h-full bg-[url('http://localhost:4000/images/atomic.png')] bg-no-repeat bg-center">
+            <h1 class="text-8xl text-orange-500 text-center font-extrabold mt-12">Certificado de Participação</h1>
 
-            <p>
-            Certifica-se que <%= @enrollment.user.name %> participou na atividade <%= @enrollment.activity.title %>.
+            <p class="text-4xl text-justify p-16">
+                Para os devidos efeitos, certifica-se que
+            </p>
+            <b class="text-6xl text-center font-bold underline"><%= @enrollment.user.name %></b>
+
+             <p class="text-4xl text-justify p-16">participou na atividade <b><%= @activity.title %></b>, organizada
+                pelo(a) <b><%= AtomicWeb.Helpers.display_enum(@organizations) %></b>.
              </p>
 
-            <p>Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a></p>
+            <p class="text-center mb-4 items-end px-16 py-2 flex">
+                <span class="inline">Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a class="text-indigo-700 underline" href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.</span>
+            </p>
         </div>
     </body>
 </html>

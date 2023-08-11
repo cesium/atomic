@@ -17,6 +17,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
   alias Atomic.Mailer
   alias Atomic.Repo
   alias Atomic.Activities.{Activity, Enrollment}
+  alias Atomic.Organizations.Organization
+
   alias AtomicWeb.ActivityEmails
 
   @doc """
@@ -31,10 +33,19 @@ defmodule Atomic.Quantum.CertificateDelivery do
   def send_certificates do
     included_enrollments()
     |> Enum.each(fn enrollment ->
-      case generate_certificate(enrollment) do
+
+      activity = Repo.get_by!(Activity, id: enrollment.activity_id)
+        |> Repo.preload([:departments])
+
+      organizations = activity.departments
+      |> Enum.map(fn d -> d.organization_id end)
+      |> Enum.dedup()
+      |> Enum.map(fn o -> Repo.get_by!(Organization, id: o).name end)
+
+      case generate_certificate(enrollment, activity, organizations) do
         {:ok, certificate} ->
           Mailer.deliver(
-            ActivityEmails.activity_certificate_email(enrollment, certificate,
+            ActivityEmails.activity_certificate_email(enrollment, activity, organizations, certificate,
               to: enrollment.user.email
             )
           )
@@ -56,11 +67,13 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
-  defp generate_certificate(%Enrollment{} = enrollment) do
+  defp generate_certificate(%Enrollment{} = enrollment, %Activity{} = activity, organizations) do
     # Create the string corresponding to the HTML to convert
     # to a PDF
     Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",
-      enrollment: enrollment
+      enrollment: enrollment,
+      activity: activity,
+      organizations: organizations
     )
     |> PdfGenerator.generate(
       delete_temporary: true,
@@ -76,7 +89,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
         "--margin-bottom",
         "0",
         "-O",
-        "lanpe"
+        "landscape"
       ]
     )
   end
@@ -95,9 +108,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
     minimum_finish = DateTime.add(now, -24, :hour)
 
     from a in Activity,
-      where: a.finish >= ^minimum_finish and a.finish <= ^now,
-      group_by: [a.activity_id],
-      select: %{finish: max(a.finish), activity_id: a.activity_id}
+      where: a.finish >= ^minimum_finish and a.finish <= ^now
   end
 
   # Determines all the enrollments eligible to receive participation
@@ -113,7 +124,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
     enrollments =
       from s in subquery(last_activities_query()),
         inner_join: e in Enrollment,
-        on: e.activity_id == s.activity_id,
+        on: e.activity_id == s.id,
         where: e.present,
         select: e
 
