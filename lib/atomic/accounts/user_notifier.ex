@@ -37,12 +37,17 @@ defmodule Atomic.Accounts.UserNotifier do
   Deliver instructions to confirm account.
   """
   def deliver_confirmation_instructions(user, url) do
-    base_email(to: user.email)
-    |> subject("Confirm your Account")
-    |> assign(:user, user)
-    |> assign(:url, url)
-    |> render_body("user_confirmation.txt")
-    |> Mailer.deliver()
+    email =
+      base_email(to: user.email)
+      |> subject("Confirm your Account")
+      |> assign(:user, user)
+      |> assign(:url, url)
+      |> render_body("user_confirmation.txt")
+
+    case Mailer.deliver(email) do
+      {:ok, _term} -> {:ok, email}
+      {:error, ch} -> {:error, ch}
+    end
   end
 
   @doc """

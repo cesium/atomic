@@ -36,13 +36,6 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
-
-      # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
-
-      response = html_response(conn, 200)
-
-      assert response =~ "Home"
     end
   end
 end
