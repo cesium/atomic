@@ -42,7 +42,7 @@ defmodule AtomicWeb.UserResetPasswordController do
         |> redirect(to: Routes.user_session_path(conn, :new))
 
       {:error, changeset} ->
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, error_message: nil)
     end
   end
 

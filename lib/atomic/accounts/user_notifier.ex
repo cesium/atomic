@@ -12,8 +12,17 @@ defmodule Atomic.Accounts.UserNotifier do
     |> to(email)
   end
 
-  defp deliver(a, b, c) do
-    {:ok, ""}
+  defp deliver(recipient, subject, body) do
+    email =
+      new()
+      |> to(recipient)
+      |> from({"Atomic", "contact@example.com"})
+      |> subject(subject)
+      |> text_body(body)
+
+    with {:ok, _metadata} <- Mailer.deliver(email) do
+      {:ok, email}
+    end
   end
 
   @doc """
@@ -40,12 +49,17 @@ defmodule Atomic.Accounts.UserNotifier do
   Deliver instructions to reset a user password.
   """
   def deliver_reset_password_instructions(user, url) do
-    base_email(to: user.email)
-    |> subject("Reset Password Instructions")
-    |> assign(:user, user)
-    |> assign(:url, url)
-    |> render_body("user_reset_password.txt")
-    |> Mailer.deliver()
+    email =
+      base_email(to: user.email)
+      |> subject("Reset Password Instructions")
+      |> assign(:user, user)
+      |> assign(:url, url)
+      |> render_body("user_reset_password.txt")
+
+    case Mailer.deliver(email) do
+      {:ok, _term} -> {:ok, email}
+      {:error, ch} -> {:error, ch}
+    end
   end
 
   @doc """

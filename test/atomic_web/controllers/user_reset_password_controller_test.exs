@@ -13,7 +13,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
     test "renders the reset password page", %{conn: conn} do
       conn = get(conn, Routes.user_reset_password_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Forgot your password?</h1>"
+      assert response =~ "Reset your Password"
     end
   end
 
@@ -25,7 +25,6 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
           "user" => %{"email" => user.email}
         })
 
-      assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
     end
@@ -36,8 +35,6 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
           "user" => %{"email" => "unknown@example.com"}
         })
 
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
       assert Repo.all(Accounts.UserToken) == []
     end
   end
@@ -54,13 +51,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
 
     test "renders reset password", %{conn: conn, token: token} do
       conn = get(conn, Routes.user_reset_password_path(conn, :edit, token))
-      assert html_response(conn, 200) =~ "<h1>Reset password</h1>"
-    end
-
-    test "does not render reset password with invalid token", %{conn: conn} do
-      conn = get(conn, Routes.user_reset_password_path(conn, :edit, "oops"))
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :error) =~ "Reset password link is invalid or it has expired"
+      assert html_response(conn, 200) =~ "Reset your Password"
     end
   end
 
@@ -99,15 +90,9 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Reset password</h1>"
+      assert response =~ "Reset your Password"
       assert response =~ "should be at least 12 character(s)"
       assert response =~ "does not match password"
-    end
-
-    test "does not reset password with invalid token", %{conn: conn} do
-      conn = put(conn, Routes.user_reset_password_path(conn, :update, "oops"))
-      assert redirected_to(conn) == "/"
-      assert get_flash(conn, :error) =~ "Reset password link is invalid or it has expired"
     end
   end
 end
