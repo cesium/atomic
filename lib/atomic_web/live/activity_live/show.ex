@@ -144,7 +144,7 @@ defmodule AtomicWeb.ActivityLive.Show do
     if Mix.env() == :dev do
       "http://localhost:4000"
     else
-      "https://#{Application.fetch_env(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
+      "https://#{Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
     end
   end
 end
