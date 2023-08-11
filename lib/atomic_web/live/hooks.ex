@@ -11,91 +11,52 @@ defmodule AtomicWeb.Hooks do
     {:cont, assign(socket, :page_title, "Atomic")}
   end
 
-  def on_mount(
-        :authenticated_user_state,
-        _params,
-        session,
-        socket
-      ) do
-    current_user = Accounts.get_user_by_session_token(session["user_token"])
-    owner = Application.get_env(:atomic, :owner)
-    time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
+  def on_mount(:current_user_state, _params, session, socket) do
+    current_user = maybe_get_current_user(session)
+    default_organization = maybe_get_default_organization(current_user)
+    socket = socket |> assign(:time_zone, get_timezone(socket))
 
-    if current_user.default_organization_id != nil do
-      socket =
-        socket
-        |> assign(:current_user, current_user)
-        |> assign(
-          :current_organization,
-          Organizations.get_organization!(current_user.default_organization_id)
-        )
-        |> assign(:time_zone, time_zone)
+    case current_user do
+      nil ->
+        {:cont, socket |> assign(:current_user, nil) |> assign(:current_organization, nil)}
 
-      {:cont, socket}
-    else
-      socket =
-        socket
-        |> assign(:current_organization, nil)
-        |> assign(:current_user, current_user)
-        |> assign(:time_zone, time_zone)
-
-      {:cont, socket}
-    end
-  end
-
-  def on_mount(:general_user_state, _params, session, socket) do
-    current_organization = session["current_organization"]
-    current_user = session["user_token"]
-
-    owner = Application.get_env(:atomic, :owner)
-    time_zone = get_connect_params(socket)["timezone"] || owner.time_zone
-
-    case {current_organization, current_user} do
-      {nil, nil} ->
-        {:cont, socket}
-
-      {nil, _} ->
-        user = Accounts.get_user_by_session_token(current_user)
-
-        case user.default_organization_id do
-          nil ->
-            {:cont,
-             socket
-             |> assign(:current_user, user)
-             |> assign(:current_organization, nil)
-             |> assign(:time_zone, time_zone)}
-
-          _ ->
-            {:cont,
-             socket
-             |> assign(:current_user, user)
-             |> assign(
-               :current_organization,
-               Organizations.get_organization!(user.default_organization_id)
-             )
-             |> assign(:time_zone, time_zone)}
-        end
-
-      {_, nil} ->
+      _ ->
         {:cont,
          socket
-         |> assign(:current_organization, current_organization)}
-
-      {_, _} ->
-        user = Accounts.get_user_by_session_token(current_user)
-
-        {:cont,
-         socket
-         |> assign(:current_user, user)
-         |> assign(
-           :current_organization,
-           current_organization
-         )
-         |> assign(:time_zone, time_zone)}
+         |> assign(:current_user, current_user)
+         |> assign(:current_organization, default_organization)}
     end
   end
 
   def on_mount(:current_user, _params, _session, socket) do
     {:cont, socket}
+  end
+
+  # Returns the current user if the user token exists, otherwise `nil`.
+  defp maybe_get_current_user(session) do
+    case session["user_token"] do
+      nil ->
+        nil
+
+      user_token ->
+        Accounts.get_user_by_session_token(user_token)
+    end
+  end
+
+  # Returns the default organization for the current user if the user exists, otherwise `nil`.
+  defp maybe_get_default_organization(current_user) do
+    case current_user do
+      nil ->
+        nil
+
+      _ ->
+        Organizations.get_organization!(current_user.default_organization_id)
+    end
+  end
+
+  # Returns the timezone for the application.
+  defp get_timezone(socket) do
+    owner = Application.get_env(:atomic, :owner)
+    get_connect_params(socket)["timezone"] || owner.time_zone
   end
 end

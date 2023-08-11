@@ -9,9 +9,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   import AtomicWeb.Components.Calendar
 
   @impl true
-  def mount(_params, session, socket) do
-    user = Accounts.get_user_by_session_token(session["user_token"])
-    {:ok, socket |> assign(:current_user, user)}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
@@ -31,20 +30,18 @@ defmodule AtomicWeb.OrganizationLive.Show do
       }
     ]
 
-    mode = "month"
-
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action, organization.name))
      |> assign(:time_zone, socket.assigns.time_zone)
-     |> assign(:mode, mode)
+     |> assign(:mode, "month")
      |> assign(:params, %{})
      |> assign(:organization, organization)
      |> assign(:sessions, sessions)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
      |> assign(:departments, departments)
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))}
+     |> assign(:following, maybe_put_following(socket, organization))}
   end
 
   @impl true
@@ -97,6 +94,24 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  def handle_event("must-login", _payload, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:error, "You must be logged in to follow an organization")
+     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+  end
+
+  # Only put :following inside the socket if the user is logged in.
+  defp maybe_put_following(socket, organization) do
+    case socket.assigns.current_user do
+      nil ->
+        nil
+
+      _ ->
+        Organizations.is_member_of?(socket.assigns.current_user, organization)
     end
   end
 

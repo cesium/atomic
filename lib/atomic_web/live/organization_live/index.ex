@@ -26,9 +26,9 @@ defmodule AtomicWeb.OrganizationLive.Index do
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
-     |> assign(:current_organization, socket.assigns.current_organization)
      |> assign(:organizations, organizations)
-     |> assign(:current_page, :organizations)}
+     |> assign(:current_page, :organizations)
+     |> assign(:role, maybe_get_role(socket))}
   end
 
   defp apply_action(socket, :show, %{"organization_id" => id}) do
@@ -65,5 +65,15 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   defp list_organizations(params) do
     Organizations.list_organizations(params)
+  end
+
+  defp maybe_get_role(socket) do
+    case socket.assigns.current_user do
+      nil ->
+        nil
+
+      _ ->
+        socket.assigns.current_user.role
+    end
   end
 end

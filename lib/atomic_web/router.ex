@@ -32,7 +32,7 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through :browser
 
-    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
+    live_session :general, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
       live "/organizations", OrganizationLive.Index, :index
       live "/organizations/:organization_id", OrganizationLive.Show, :show
 
@@ -46,7 +46,7 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :authenticated_user_state}] do
+    live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
       live "/", HomeLive.Index, :index
       live "/scanner", ScannerLive.Index, :index
       live "/calendar", CalendarLive.Show, :show

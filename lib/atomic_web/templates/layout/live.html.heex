@@ -1,7 +1,7 @@
 <div x-data="{ open_menu: false}" x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
   <div class="flex flex-col min-h-max">
     <div x-data="{ open: false}" @click.away="open = false" class="lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
-      <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:space-y-16 lg:bg-zinc-100">
+      <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:bg-zinc-100">
         <div class="relative inline-blocktext-left">
           <div>
             <%= if @current_organization do %>
@@ -104,7 +104,7 @@
                 aria-expanded="false"
                 aria-haspopup="true"
               >
-                <div class=" rounded rounded px-5 py-2 font-bold flex justify-end">
+                <div class="rounded px-5 py-2 font-bold flex justify-end">
                   <div class="">
                     <div class="inset-y-0 right-0">
                       <Icons.FontAwesome.Solid.render icon={:bars} class="h-6 w-6 text-zinc-700" />
@@ -145,18 +145,20 @@
               <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
               <span class="">Calendar</span>
             <% end %>
-            <%= live_redirect to: Routes.user_settings_path(@socket, :edit), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
-              <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                <%= Atomic.Accounts.extract_initials(@current_user.email) %>
-              </span>
-              <span aria-hidden="true"><%= @current_user.email %></span>
+            <%= if @current_user do %>
+              <%= live_redirect to: Routes.user_settings_path(@socket, :edit), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
+                <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
+                  <%= Atomic.Accounts.extract_initials(@current_user.email) %>
+                </span>
+                <span aria-hidden="true"><%= @current_user.email %></span>
+              <% end %>
             <% end %>
           </div>
         </nav>
       </div>
     </div>
     <div x-bind:class="! open_menu ? 'block' : 'hidden'" class="flex flex-col lg:pl-64">
-      <nav class="hidden flex my-5 mx-10 lg:block" aria-label="Breadcrumb">
+      <nav class="flex my-5 mx-10 lg:block" aria-label="Breadcrumb">
         <ol role="list" class=" flex items-center space-x-4">
           <%= if @current_organization do %>
             <li>
