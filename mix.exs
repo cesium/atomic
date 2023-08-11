@@ -10,7 +10,8 @@ defmodule Atomic.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: [check: :test]
     ]
   end
 
@@ -102,7 +103,16 @@ defmodule Atomic.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
-      lint: ["credo --strict --all"]
+      lint: ["credo --strict --all"],
+      check: [
+        "clean",
+        "deps.unlock --check-unused",
+        "compile",
+        "format --check-formatted",
+        "deps.unlock --check-unused",
+        "test",
+        "lint"
+      ]
     ]
   end
 end
