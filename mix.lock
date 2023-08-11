@@ -1,5 +1,4 @@
 %{
-  "argon2_elixir": {:hex, :argon2_elixir, "3.1.0", "4135e0a1b4ff800d42c85aa663e068efa3cb356297189b5b65caa992db8ec8cf", [:make, :mix], [{:comeonin, "~> 5.3", [hex: :comeonin, repo: "hexpm", optional: false]}, {:elixir_make, "~> 0.6", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "c08feae0ee0292165d1b945003363c7cd8523d002e0483c627dfca930291dd73"},
   "bcrypt_elixir": {:hex, :bcrypt_elixir, "3.0.1", "9be815469e6bfefec40fa74658ecbbe6897acfb57614df1416eeccd4903f602c", [:make, :mix], [{:comeonin, "~> 5.3", [hex: :comeonin, repo: "hexpm", optional: false]}, {:elixir_make, "~> 0.6", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "486bb95efb645d1efc6794c1ddd776a186a9a713abf06f45708a6ce324fb96cf"},
   "bunt": {:hex, :bunt, "0.2.1", "e2d4792f7bc0ced7583ab54922808919518d0e57ee162901a16a1b6664ef3b14", [:mix], [], "hexpm", "a330bfb4245239787b15005e66ae6845c9cd524a288f0d141c148b02603777a5"},
   "castore": {:hex, :castore, "1.0.1", "240b9edb4e9e94f8f56ab39d8d2d0a57f49e46c56aced8f873892df8ff64ff5a", [:mix], [], "hexpm", "b4951de93c224d44fac71614beabd88b71932d0b1dea80d2f80fb9044e01bbb3"},

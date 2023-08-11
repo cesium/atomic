@@ -4,7 +4,7 @@ defmodule Atomic.Organizations.Department do
   """
   use Atomic.Schema
   alias Atomic.Organizations.Organization
-  alias Atomic.Activities.{Activity, ActivityDepartment}
+  alias Atomic.Activities.{Session, SessionDepartment}
 
   @required_fields ~w(name organization_id)a
 
@@ -16,7 +16,7 @@ defmodule Atomic.Organizations.Department do
     field :name, :string
     field :description, :string
 
-    many_to_many :activities, Activity, join_through: ActivityDepartment, on_replace: :delete
+    many_to_many :sessions, Session, join_through: SessionDepartment, on_replace: :delete
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()

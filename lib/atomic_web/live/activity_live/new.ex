@@ -29,8 +29,7 @@ defmodule AtomicWeb.ActivityLive.New do
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
      |> assign(:activity, %Activity{
-       activity_sessions: [%Session{}],
-       speakers: []
+       activity_sessions: [%Session{}]
      })}
   end
 end

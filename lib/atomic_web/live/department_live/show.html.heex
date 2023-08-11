@@ -57,15 +57,15 @@
 
     <div x-bind:class="! open ? 'hidden' : 'block'" class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
       <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
-        <%= for activity <- @department.activities do %>
+        <%= for session <- @sessions do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
-            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "" do %>
+            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "" do %>
               <div class="flex flex-1 flex-col p-4">
-                <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= activity.title %></h3>
+                <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= session.activity.title %></h3>
               </div>
               <div class="flex flex-col items-center justify-center">
                 <div class="-mt-px  divide-x divide-gray-200">
-                  <%= activity.description %>
+                  <%= session.activity.description %>
                 </div>
                 <img src="https://picsum.photos/200/300" alt="random image" class="mt-2 w-full h-32 object-cover rounded-b-lg" />
               </div>

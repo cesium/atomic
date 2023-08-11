@@ -30,20 +30,20 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_activities_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_sessions_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
       [%Activity{}, ...]
 
-      iex> list_activities_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_sessions_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
       ** (Ecto.NoResultsError)
   """
-  def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
-    Activity
+  def list_sessions_by_organization_id(organization_id, opts) when is_list(opts) do
+    from(s in Session,
+      join: d in assoc(s, :departments),
+      where: d.organization_id == ^organization_id
+    )
     |> apply_filters(opts)
-    |> join(:inner, [a], d in assoc(a, :departments))
-    |> where([a, d], d.organization_id == ^organization_id)
-    |> select([a, _d], a)
     |> Repo.all()
-    |> Repo.preload(activity_sessions: :enrollments)
+    |> Repo.preload([:activity])
   end
 
   @doc """
@@ -88,18 +88,18 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-    Returns the list of organizations ids that are associated with an activity.
+    Returns the list of organizations ids that are associated with an activity session.
 
     ## Examples
 
-        iex> get_activity_organizations!(activity)
+        iex> get_session_organizations!(session)
         [19d7c9e5-4212-4f59-a097-28aaa33c2621, ...]
 
-        iex> get_activity_organizations!(activity)
+        iex> get_session_organizations!(session)
         ** (Ecto.NoResultsError)
   """
-  def get_activity_organizations!(activity, preloads \\ [:departments]) do
-    Repo.preload(activity, preloads)
+  def get_session_organizations!(session, preloads \\ [:departments]) do
+    Repo.preload(session, preloads)
     |> Map.get(:departments, [])
     |> Enum.map(& &1.organization_id)
   end

@@ -1,10 +1,10 @@
 defmodule Atomic.Repo.Seeds.Activities do
-  alias Atomic.Activities.ActivityDepartment
+  alias Atomic.Activities.SessionDepartment
   alias Atomic.Repo
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
-  alias Atomic.Activities.ActivityDepartment
+  alias Atomic.Activities.SessionDepartment
   alias Atomic.Activities.Session
   alias Atomic.Organizations.Organization
   alias Atomic.Activities.{Activity, Enrollment, Location}
@@ -12,7 +12,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   def run do
     seed_activities()
     seed_enrollments()
-    seed_activity_departments()
+    seed_session_departments()
   end
 
   def seed_activities() do
@@ -28,8 +28,6 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
@@ -37,7 +35,9 @@ defmodule Atomic.Repo.Seeds.Activities do
                 start: DateTime.add(DateTime.utc_now(), -12, :hour),
                 # the certificate delivery job
                 finish: DateTime.add(DateTime.utc_now(), -8, :hour),
-                location: location
+                location: location,
+                minimum_entries: 0,
+                maximum_entries: 10
               }
             ],
             enrolled: 0
@@ -50,12 +50,12 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 2",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
@@ -70,12 +70,12 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 3",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
@@ -90,12 +90,12 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 4",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
@@ -110,11 +110,11 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 5",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
                 location: location
@@ -129,11 +129,11 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 6",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
             date: DateTime.from_naive!(~N[2023-04-02 14:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
                 start: DateTime.from_naive!(~N[2023-04-02 14:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-02 16:00:00], "Etc/UTC"),
                 location: location
@@ -149,12 +149,12 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 7",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             date: DateTime.from_naive!(~N[2023-04-05 11:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-05 11:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC"),
                 location: location
@@ -169,12 +169,12 @@ defmodule Atomic.Repo.Seeds.Activities do
           %{
             title: "Test Activity 8",
             description: "This is a test activity",
-            minimum_entries: 0,
-            maximum_entries: 10,
-            enrolled: 0,
             date: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
             activity_sessions: [
               %{
+                minimum_entries: 0,
+                maximum_entries: 10,
+                enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
                 location: location
@@ -192,11 +192,11 @@ defmodule Atomic.Repo.Seeds.Activities do
   def seed_activities_departments() do
     department = Repo.get_by(Department, name: "Merchandise and Partnerships")
 
-    case Repo.all(ActivityDepartment) do
+    case Repo.all(SessionDepartment) do
       [] ->
         for activity <- Repo.all(Activity) do
-          %ActivityDepartment{}
-          |> ActivityDepartment.changeset(%{
+          %SessionDepartment{}
+          |> SessionDepartment.changeset(%{
             activity_id: activity.id,
             department_id: department.id
           })
@@ -222,15 +222,15 @@ defmodule Atomic.Repo.Seeds.Activities do
     end
   end
 
-  def seed_activity_departments() do
-    case Repo.all(ActivityDepartment) do
+  def seed_session_departments() do
+    case Repo.all(SessionDepartment) do
       [] ->
         department = Repo.get_by(Department, name: "CAOS")
 
-        for activity <- Repo.all(Activity) do
-          %ActivityDepartment{}
-          |> ActivityDepartment.changeset(%{
-            activity_id: activity.id,
+        for session <- Repo.all(Session) do
+          %SessionDepartment{}
+          |> SessionDepartment.changeset(%{
+            session_id: session.id,
             department_id: department.id
           })
           |> Repo.insert!()
