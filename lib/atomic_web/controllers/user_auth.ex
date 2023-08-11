@@ -162,6 +162,7 @@ defmodule AtomicWeb.UserAuth do
 
   def require_confirmed_user(conn, _opts) do
     current_user = conn.assigns[:current_user]
+
     if conn.assigns[:current_user] && not is_nil(current_user.confirmed_at) do
       conn
     else
