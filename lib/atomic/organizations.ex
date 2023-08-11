@@ -232,20 +232,20 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> verify_admin(user, departments)
+      iex> is_admin?(user, departments)
       true
 
-      iex> verify_admin(user, departments)
+      iex> is_admin?(user, departments)
       false
 
   """
-  def verify_admin(_user, []), do: false
+  def is_admin?(_user, []), do: false
 
-  def verify_admin(user, [department | rest]) do
+  def is_admin?(user, [department | rest]) do
     case get_role(user.id, department.organization_id) do
       :owner -> true
       :admin -> true
-      _ -> verify_admin(user, rest)
+      _ -> is_admin?(user, rest)
     end
   end
 
