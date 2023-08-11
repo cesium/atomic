@@ -103,11 +103,11 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_info({event, enrollment}, socket) when event in [:new_enrollment] do
-    activity = socket.assigns.activity
+    session = socket.assigns.session
 
-    if activity.id == enrollment.activity_id do
+    if session.id == enrollment.session_id do
       {:noreply,
-       assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+       assign(socket, :session, %{session | enrolled: Activities.get_total_enrolled(session.id)})}
     else
       {:noreply, socket}
     end
@@ -115,10 +115,10 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_info({event, _application}, socket) when event in [:deleted_application] do
-    activity = socket.assigns.activity
+    session = socket.assigns.session
 
     {:noreply,
-     assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity)})}
+     assign(socket, :session, %{session | enrolled: Activities.get_total_enrolled(session.id)})}
   end
 
   defp draw_qr_code(activity, user, _socket) do

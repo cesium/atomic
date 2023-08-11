@@ -7,7 +7,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.Uploaders.Logo
 
   import AtomicWeb.Components.Calendar
-  import AtomicWeb.CalendarUtils
 
   @impl true
   def mount(_params, session, socket) do
@@ -18,7 +17,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     organization = Organizations.get_organization!(id, [:departments])
-    activities = Activities.list_sessions_by_organization_id(id, [])
+    sessions = Activities.list_sessions_by_organization_id(id, [])
     departments = organization.departments
 
     entries = [
@@ -41,12 +40,11 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:mode, mode)
      |> assign(:params, %{})
      |> assign(:organization, organization)
-     |> assign(:activities, activities)
+     |> assign(:sessions, sessions)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
      |> assign(:departments, departments)
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))
-     |> assign(list_activities(socket.assigns.time_zone, mode, %{}, socket.assigns.current_user))}
+     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))}
   end
 
   @impl true
@@ -100,28 +98,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
-  end
-
-  defp list_activities(time_zone, mode, params, _user) do
-    current = current_from_params(time_zone, params)
-
-    start =
-      if mode == "month" do
-        Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    finish =
-      if mode == "month" do
-        Timex.end_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.end_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    %{
-      sessions: Activities.list_sessions_from_to(start, finish, preloads: [:activity])
-    }
   end
 
   defp page_title(:show, organization), do: "#{organization}"
