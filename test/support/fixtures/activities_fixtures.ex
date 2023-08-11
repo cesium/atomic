@@ -14,8 +14,6 @@ defmodule Atomic.ActivitiesFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        maximum_entries: 42,
-        minimum_entries: 42,
         title: "some title"
       })
       |> Atomic.Activities.create_activity()
@@ -30,6 +28,8 @@ defmodule Atomic.ActivitiesFixtures do
     {:ok, session} =
       attrs
       |> Enum.into(%{
+        maximum_entries: 42,
+        minimum_entries: 42,
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00]
       })

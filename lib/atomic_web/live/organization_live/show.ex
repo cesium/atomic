@@ -18,7 +18,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
     organization = Organizations.get_organization!(id, [:departments])
-    activities = Activities.list_activities_by_organization_id(id, [])
+    activities = Activities.list_sessions_by_organization_id(id, [])
     departments = organization.departments
 
     entries = [

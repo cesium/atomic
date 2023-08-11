@@ -40,7 +40,7 @@ defmodule AtomicWeb.ScannerLive.Index do
     [_, session_id, user_id | _] = String.split(pathname, "/")
 
     session = Activities.get_session!(session_id, [:activity])
-    organizations = Activities.get_activity_organizations!(session.activity, [:departments])
+    organizations = Activities.get_session_organizations!(session.activity, [:departments])
 
     if (socket.assigns.current_organization.id in organizations &&
           Organizations.get_role(

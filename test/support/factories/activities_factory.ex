@@ -11,8 +11,6 @@ defmodule Atomic.Factories.ActivityFactory do
         %Activity{
           title: Faker.Beer.brand(),
           description: Faker.Lorem.paragraph(),
-          minimum_entries: 5,
-          maximum_entries: 50,
           activity_sessions: [build(:session)]
         }
       end
@@ -27,6 +25,8 @@ defmodule Atomic.Factories.ActivityFactory do
 
       def session_factory do
         %Session{
+          minimum_entries: 5,
+          maximum_entries: 50,
           start: NaiveDateTime.utc_now(),
           finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour)
         }
