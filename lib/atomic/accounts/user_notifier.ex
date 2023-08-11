@@ -4,18 +4,17 @@ defmodule Atomic.Accounts.UserNotifier do
 
   alias Atomic.Mailer
 
-  # Delivers the email using the application mailer.
-  defp deliver(recipient, subject, body) do
-    email =
-      new()
-      |> to(recipient)
-      |> from({"Atomic", "contact@example.com"})
-      |> subject(subject)
-      |> text_body(body)
+  use Phoenix.Swoosh, view: AtomicWeb.EmailView
 
-    with {:ok, _metadata} <- Mailer.deliver(email) do
-      {:ok, email}
-    end
+  defp base_email(to: email) do
+    new()
+    |> from({"Atomic", "noreply@atomic.cesium.pt"})
+    |> to(email)
+  end
+
+
+  defp deliver(a, b, c) do
+    {:ok, ""}
   end
 
   @doc """
@@ -42,20 +41,12 @@ defmodule Atomic.Accounts.UserNotifier do
   Deliver instructions to reset a user password.
   """
   def deliver_reset_password_instructions(user, url) do
-    deliver(user.email, "Reset password instructions", """
-
-    ==============================
-
-    Hi #{user.email},
-
-    You can reset your password by visiting the URL below:
-
-    #{url}
-
-    If you didn't request this change, please ignore this.
-
-    ==============================
-    """)
+    base_email(to: user.email)
+    |> subject("Reset Password Instructions")
+    |> assign(:user, user)
+    |> assign(:url, url)
+    |> render_body("user_reset_password.txt")
+    |> Mailer.deliver()
   end
 
   @doc """
