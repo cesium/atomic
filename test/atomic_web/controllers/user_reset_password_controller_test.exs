@@ -30,10 +30,9 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
     end
 
     test "does not send reset password token if email is invalid", %{conn: conn} do
-      conn =
-        post(conn, Routes.user_reset_password_path(conn, :create), %{
-          "user" => %{"email" => "unknown@example.com"}
-        })
+      post(conn, Routes.user_reset_password_path(conn, :create), %{
+        "user" => %{"email" => "unknown@example.com"}
+      })
 
       assert Repo.all(Accounts.UserToken) == []
     end
