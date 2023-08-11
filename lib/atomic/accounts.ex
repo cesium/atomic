@@ -432,15 +432,16 @@ defmodule Atomic.Accounts do
 
   """
   def reset_user_password(user, attrs) do
-      Ecto.Multi.new()
-      |> Ecto.Multi.update(:user, User.password_changeset(user, attrs))
-      |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
-      |> Repo.transaction()
-      |> case do
-        {:ok, %{user: user}} ->
-          {:ok, user}
-        {:error, :user, changeset, _} ->
-          {:error, changeset}
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.password_changeset(user, attrs))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{user: user}} ->
+        {:ok, user}
+
+      {:error, :user, changeset, _} ->
+        {:error, changeset}
     end
   end
 

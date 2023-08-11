@@ -10,15 +10,19 @@
     <% end %>
 
     <div class="rounded-md shadow-sm">
-        <%= label(f, :password, "New password", class: "sr-only") %>
-        <%= password_input(f, :password, required: true, placeholder: gettext("New Password"), class: "relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm") %>
-        <%= error_tag(f, :password) %>
-    
-        <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
-        <%= password_input(f, :password_confirmation, required: true, placeholder: gettext("Confirm New Password"), class: "mt-1 relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm") %>
-        <%= error_tag(f, :password_confirmation) %>
+      <%= label(f, :password, "New password", class: "sr-only") %>
+      <%= password_input(f, :password, required: true, placeholder: gettext("New Password"), class: "relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm") %>
+      <%= error_tag(f, :password) %>
+
+      <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
+      <%= password_input(f, :password_confirmation,
+        required: true,
+        placeholder: gettext("Confirm New Password"),
+        class: "mt-1 relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+      ) %>
+      <%= error_tag(f, :password_confirmation) %>
     </div>
-  
+
     <div>
       <%= submit class: "w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
         <%= gettext("Reset password") %>

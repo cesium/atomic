@@ -12,7 +12,6 @@ defmodule Atomic.Accounts.UserNotifier do
     |> to(email)
   end
 
-
   defp deliver(a, b, c) do
     {:ok, ""}
   end
