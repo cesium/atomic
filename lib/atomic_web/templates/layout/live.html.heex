@@ -1,4 +1,60 @@
 <div x-data="{ open_menu: false}" x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
+  <div aria-live="assertive" class="flex fixed inset-0 z-50 flex-col gap-y-2 items-end py-6 px-4 pointer-events-none sm:items-start sm:py-16 sm:px-6">
+    <%= for {key, message} <- @flash do %>
+      <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
+        <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <%= case key do
+                  "info" ->
+                    ~H"""
+                    <Heroicons.Solid.information_circle class="w-6 h-6 text-blue-400" />
+                    """
+
+                  "success" ->
+                    ~H"""
+                    <Heroicons.Solid.check_circle class="w-6 h-6 text-green-400" />
+                    """
+
+                  "warning" ->
+                    ~H"""
+                    <Heroicons.Solid.exclamation class="w-6 h-6 text-yellow-400" />
+                    """
+
+                  "error" ->
+                    ~H"""
+                    <Heroicons.Solid.x_circle class="w-6 h-6 text-red-400" />
+                    """
+                end %>
+              </div>
+              <div class="flex-1 pt-0.5 ml-3 w-0">
+                <%= if is_binary(message) do %>
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= live_flash(@flash, key) %>
+                  </p>
+                <% else %>
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= message.title %>
+                  </p>
+                  <p class="mt-1 text-sm text-gray-500">
+                    <%= message.description %>
+                  </p>
+                <% end %>
+              </div>
+              <div class="flex flex-shrink-0 ml-4">
+                <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-eeg-red">
+                  <span class="sr-only">Close</span>
+                  <Heroicons.Solid.x class="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <div class="flex flex-col min-h-max">
     <div x-data="{ open: false}" @click.away="open = false" class="lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
       <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:space-y-16 lg:bg-zinc-100">

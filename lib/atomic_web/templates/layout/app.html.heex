@@ -1,5 +1,37 @@
-<main class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+<main>
+  <%= if get_flash(@conn, :info) do %>
+    <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
+      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <Heroicons.Solid.information_circle class="w-6 h-6 text-blue-400" />
+            </div>
+            <div class="flex-1 pt-0.5 ml-3 w-0">
+              <%= get_flash(@conn, :info) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= if get_flash(@conn, :error) do %>
+    <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
+      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <Heroicons.Solid.x_circle class="w-6 h-6 text-red-400" />
+            </div>
+            <div class="flex-1 pt-0.5 ml-3 w-0">
+              <%= get_flash(@conn, :error) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
   <%= @inner_content %>
 </main>
