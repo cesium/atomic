@@ -8,7 +8,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok, assign(socket, :activities, list_sessions(params["organization_id"]))}
+    {:ok, assign(socket, :sessions, list_sessions(params["organization_id"]))}
   end
 
   @impl true
@@ -67,8 +67,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_sessions(organization_id) do
-    Activities.list_activities_by_organization_id(organization_id,
-      preloads: [:activity_sessions, :speakers]
+    Activities.list_sessions_by_organization_id(organization_id,
+      preloads: [:activity, :speakers, :enrollments]
     )
   end
 end

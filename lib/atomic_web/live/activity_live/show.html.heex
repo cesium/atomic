@@ -49,7 +49,7 @@
                 <div class="flex w-full">
                   <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
-                    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+                    <%= @session.enrolled %> / <%= @session.maximum_entries %>
                   </div>
                 </div>
               </dd>
@@ -106,9 +106,9 @@
             </div>
             <div class="col-span-2">
               <div class="sm:grid sm:grid-cols-1">
-                <%= if @activity.speakers != [] do %>
+                <%= if @session.speakers != [] do %>
                   <%= gettext("Speaker") %>
-                  <%= for speaker <- @activity.speakers do %>
+                  <%= for speaker <- @session.speakers do %>
                     <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                       <div class="text-sm font-medium text-zinc-500"></div>
                       <div class="mt-1 flex items-center">

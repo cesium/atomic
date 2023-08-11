@@ -25,7 +25,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
       }
     ]
 
-    organizations = Activities.get_activity_organizations!(activity)
+    organizations = Activities.get_session_organizations!(activity)
 
     if organization_id in organizations do
       {:noreply,
