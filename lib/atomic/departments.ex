@@ -4,6 +4,7 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
+  alias Atomic.Activities.SessionDepartment
   alias Atomic.Organizations.Collaborator
   alias Atomic.Organizations.Department
 
@@ -48,6 +49,21 @@ defmodule Atomic.Departments do
 
   def get_departments(ids) do
     Repo.all(from d in Department, where: d.id in ^ids)
+  end
+
+  @doc """
+  Returns the list of activity sessions that belong to a department.
+
+  ## Examples
+
+      iex> get_department_sessions(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Session{}, ...]
+
+  """
+  def get_department_sessions(department_id) do
+    Repo.all(from s in SessionDepartment, where: s.department_id == ^department_id)
+    |> Repo.preload([:session, session: :activity])
+    |> Enum.map(& &1.session)
   end
 
   @doc """
