@@ -14,10 +14,10 @@
         </div>
       </div>
     </div>
-  <%= end %>
-  
+  <% end %>
+
   <%= if get_flash(@conn, :error) do %>
-   <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
+    <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
       <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
         <div class="p-4">
           <div class="flex items-start">
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-  <%= end %>
- 
+  <% end %>
+
   <%= @inner_content %>
 </main>
