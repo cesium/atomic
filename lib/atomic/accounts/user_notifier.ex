@@ -8,8 +8,8 @@ defmodule Atomic.Accounts.UserNotifier do
 
   defp base_email(to: email) do
     new()
-    |> from({"Atomic", "noreply@atomic.cesium.pt"})
     |> to(email)
+    |> from({"Atomic", "noreply@atomic.cesium.pt"})
   end
 
   defp deliver(recipient, subject, body) do
@@ -29,20 +29,17 @@ defmodule Atomic.Accounts.UserNotifier do
   Deliver instructions to confirm account.
   """
   def deliver_confirmation_instructions(user, url) do
-    deliver(user.email, "Confirmation instructions", """
+    email =
+      base_email(to: user.email)
+      |> subject("Confirm your Account")
+      |> assign(:user, user)
+      |> assign(:url, url)
+      |> render_body("user_confirmation.txt")
 
-    ==============================
-
-    Hi #{user.email},
-
-    You can confirm your account by visiting the URL below:
-
-    #{url}
-
-    If you didn't create an account with us, please ignore this.
-
-    ==============================
-    """)
+    case Mailer.deliver(email) do
+      {:ok, _term} -> {:ok, email}
+      {:error, ch} -> {:error, ch}
+    end
   end
 
   @doc """
