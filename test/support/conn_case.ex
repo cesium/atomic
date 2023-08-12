@@ -49,7 +49,9 @@ defmodule AtomicWeb.ConnCase do
   """
   def register_and_log_in_user(%{conn: conn}) do
     organization = insert(:organization)
-    user = insert(:user, %{default_organization_id: organization.id})
+
+    user =
+      insert(:user, %{default_organization_id: organization.id, confirmed_at: DateTime.utc_now()})
 
     Organizations.create_membership(%{
       organization_id: organization.id,

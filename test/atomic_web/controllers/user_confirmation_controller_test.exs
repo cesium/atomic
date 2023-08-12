@@ -59,7 +59,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
     test "renders the confirmation page", %{conn: conn} do
       conn = get(conn, Routes.user_confirmation_path(conn, :edit, "some-token"))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Confirm account</h1>"
+      assert response =~ "Confirm your Account"
 
       form_action = Routes.user_confirmation_path(conn, :update, "some-token")
       assert response =~ "action=\"#{form_action}\""
@@ -74,7 +74,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
         end)
 
       conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :info) =~ "User confirmed successfully"
       assert Accounts.get_user!(user.id).confirmed_at
       refute get_session(conn, :user_token)
@@ -82,7 +82,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
 
       # When not logged in
       conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
 
       # When logged in
@@ -97,7 +97,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
       conn = post(conn, Routes.user_confirmation_path(conn, :update, "oops"))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
       refute Accounts.get_user!(user.id).confirmed_at
     end
