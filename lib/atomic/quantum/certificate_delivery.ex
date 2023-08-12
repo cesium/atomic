@@ -14,6 +14,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   """
   import Ecto.Query, warn: false
 
+  alias Atomic.Activities
   alias Atomic.Mailer
   alias Atomic.Repo
   alias Atomic.Activities.{Activity, Enrollment}

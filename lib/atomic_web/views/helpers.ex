@@ -191,7 +191,23 @@ defmodule AtomicWeb.Helpers do
     |> URI.to_string()
   end
 
-  @doc """
+  @doc ~S"""
+  Converts an enumeration of names into a string that can be displayed
+  in HTML.
+
+  ## Examples
+
+      iex> display_enum(["A", "B", "C"])
+      "A, B e C"
+
+      iex> display_enum(["A", "B"])
+      "A e B"
+
+      iex> display_enum(["A"])
+      "A"
+
+      iex> display_enum([])
+      ""
   """
   def display_enum(enum) do
     case enum do
