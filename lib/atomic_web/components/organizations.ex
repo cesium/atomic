@@ -7,7 +7,9 @@ defmodule AtomicWeb.Components.Organizations do
   alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Uploaders.Logo
-  # TODO: Create design for when an user is not logged in (refer to line 19)
+
+  # TODO: Create design for when an user is not logged in (refer to line 19) or the user is logged in,
+  # but does not have any organizations (refer to line 21).
   def render(
         %{
           current_user: current_user,

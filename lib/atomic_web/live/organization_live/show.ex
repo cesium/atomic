@@ -66,7 +66,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply, assign(socket, :changeset, changeset)}
     end
 
-    if current_user.default_organization_id == nil do
+    # If the user doesn't have a default organization, set it to the being followed organization
+    if is_nil(current_user.default_organization_id) do
       Accounts.update_user(current_user, %{
         default_organization_id: socket.assigns.organization.id
       })

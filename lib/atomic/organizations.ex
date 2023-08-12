@@ -42,11 +42,27 @@ defmodule Atomic.Organizations do
 
   """
   def get_organization!(id, preloads \\ []) do
-    organization =
-      Repo.get!(Organization, id)
-      |> Repo.preload(preloads)
+    Repo.get!(Organization, id)
+    |> Repo.preload(preloads)
+  end
 
-    organization
+  @doc """
+  Gets a single organization.
+
+  Returns `nil` if the Organization does not exist.
+
+  ## Examples
+
+      iex> get_organization(123)
+      %Organization{}
+
+      iex> get_organization(456)
+      nil
+
+  """
+  def get_organization(id, preloads \\ []) do
+    Repo.get(Organization, id)
+    |> Repo.preload(preloads)
   end
 
   @doc """

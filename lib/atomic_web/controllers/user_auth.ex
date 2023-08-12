@@ -6,7 +6,6 @@ defmodule AtomicWeb.UserAuth do
   import Phoenix.Controller
 
   alias Atomic.Accounts
-  alias Atomic.Organizations
   alias AtomicWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -32,27 +31,12 @@ defmodule AtomicWeb.UserAuth do
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 
-    case user.default_organization_id do
-      nil ->
-        conn
-        |> renew_session()
-        |> put_session(:user_token, token)
-        |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-        |> maybe_write_remember_me_cookie(token, params)
-        |> redirect(to: "/organizations")
-
-      _ ->
-        conn
-        |> renew_session()
-        |> put_session(:user_token, token)
-        |> put_session(
-          :current_organization,
-          Organizations.get_organization!(user.default_organization_id)
-        )
-        |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-        |> maybe_write_remember_me_cookie(token, params)
-        |> redirect(to: user_return_to || signed_in_path(conn))
-    end
+    conn
+    |> renew_session()
+    |> put_session(:user_token, token)
+    |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+    |> maybe_write_remember_me_cookie(token, params)
+    |> redirect(to: user_return_to || signed_in_path(conn))
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do

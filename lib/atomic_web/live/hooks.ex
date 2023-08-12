@@ -16,20 +16,10 @@ defmodule AtomicWeb.Hooks do
     default_organization = maybe_get_default_organization(current_user)
     socket = socket |> assign(:time_zone, get_timezone(socket))
 
-    case current_user do
-      nil ->
-        {:cont, socket |> assign(:current_user, nil) |> assign(:current_organization, nil)}
-
-      _ ->
-        {:cont,
-         socket
-         |> assign(:current_user, current_user)
-         |> assign(:current_organization, default_organization)}
-    end
-  end
-
-  def on_mount(:current_user, _params, _session, socket) do
-    {:cont, socket}
+    {:cont,
+     socket
+     |> assign(:current_user, current_user)
+     |> assign(:current_organization, default_organization)}
   end
 
   # Returns the current user if the user token exists, otherwise `nil`.
@@ -45,13 +35,7 @@ defmodule AtomicWeb.Hooks do
 
   # Returns the default organization for the current user if the user exists, otherwise `nil`.
   defp maybe_get_default_organization(current_user) do
-    case current_user do
-      nil ->
-        nil
-
-      _ ->
-        Organizations.get_organization!(current_user.default_organization_id)
-    end
+    Organizations.get_organization(current_user.default_organization_id)
   end
 
   # Returns the timezone for the application.
