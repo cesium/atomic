@@ -74,7 +74,7 @@ defmodule Atomic.OrganizationsTest do
     alias Atomic.Organizations.Membership
 
     test "list_memberships/1 returns all memberships of organization" do
-      membership = insert(:membership)
+      membership = insert(:membership, role: :member)
 
       memberships =
         Organizations.list_memberships(%{"organization_id" => membership.organization_id})

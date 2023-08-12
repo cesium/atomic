@@ -1,0 +1,7 @@
+Hi <%= @user.email %>,
+
+You can confirm your Atomic account by visiting the URL below:
+
+<%= @url %>
+
+If you didn't create an account with us, please ignore this.
