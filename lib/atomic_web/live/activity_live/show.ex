@@ -46,6 +46,7 @@ defmodule AtomicWeb.ActivityLive.Show do
        |> assign(:breadcrumb_entries, entries)
        |> assign(:current_page, :activities)
        |> assign(:session, %{session | enrolled: Activities.get_total_enrolled(id)})
+       |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(session.id))
        |> assign(:activity, activity)}
     else
       raise MismatchError
@@ -57,18 +58,23 @@ defmodule AtomicWeb.ActivityLive.Show do
     session_id = socket.assigns.id
     current_user = socket.assigns.current_user
 
-    case Activities.create_enrollment(session_id, current_user) do
-      {:ok, _enrollment} ->
-        {:noreply,
-         socket
-         |> put_flash(:success, "Enrolled successufully!")
-         |> set_enrolled(session_id, current_user)}
+    if Activities.verify_maximum_enrollments?(session_id) do
+      case Activities.create_enrollment(session_id, current_user) do
+        {:ok, _enrollment} ->
+          {:noreply,
+           socket
+           |> put_flash(:success, "Enrolled successufully!")
+           |> set_enrolled(session_id, current_user)}
 
-      {:error, _error} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "Unable to enroll")
-         |> set_enrolled(session_id, current_user)}
+        {:error, _error} ->
+          {:noreply,
+           socket
+           |> put_flash(:error, "Unable to enroll")}
+      end
+    else
+      {:noreply,
+       socket
+       |> put_flash(:error, "Maximum number of entries reached")}
     end
   end
 

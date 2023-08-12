@@ -105,6 +105,24 @@ defmodule Atomic.Activities do
   end
 
   @doc """
+    Verifies the maximum number of enrollments for an activity session.
+
+    ## Examples
+
+        iex> verify_maximum_enrollments(session_id)
+        true
+
+        iex> verify_maximum_enrollments(session_id)
+        false
+  """
+  def verify_maximum_enrollments?(session_id) do
+    session = get_session!(session_id)
+    total_enrolled = get_total_enrolled(session_id)
+
+    session.maximum_entries > total_enrolled
+  end
+
+  @doc """
     Verifies if an user is enrolled in an activity session.
 
     ## Examples

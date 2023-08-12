@@ -122,7 +122,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <%= for session <- get_date_sessions(@sessions, @date) do %>
           <li>
             <%= if session.activity do %>
-              <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity, organization), class: "group flex" do %>
+              <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, organization, session.id), class: "group flex" do %>
                 <p class="text-zinc-600 group-hover:text-zinc-800 flex-auto truncate font-medium">
                   <%= session.activity.title %>
                   <%!-- <%= if Gettext.get_locale() == "en" do

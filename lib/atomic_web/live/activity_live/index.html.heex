@@ -1,4 +1,4 @@
-<div class="inline-block min-w-full align-middle">
+<div x-data="{ open: true }" class="inline-block min-w-full align-middle">
   <div class="bg-white">
     <div class="pt-4 px-4">
       <div class="flex items-center justify-between">
@@ -66,9 +66,15 @@
                     </div>
                   </div>
                   <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
-                    <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closing
-                    </div>
+                    <%= if Activities.verify_maximum_enrollments?(session.id) do %>
+                      <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                        <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
+                      </div>
+                    <% else %>
+                      <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                        <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
+                      </div>
+                    <% end %>
                     <div class="flex flex-row space-x-2">
                       <%= for speaker <- session.speakers do %>
                         <div class="mt-2 flex items-center">
