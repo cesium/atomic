@@ -37,15 +37,11 @@ defmodule Atomic.ActivitiesTest do
 
       update_attrs = %{
         description: "some updated description",
-        maximum_entries: 43,
-        minimum_entries: 43,
         title: "some updated title"
       }
 
       assert {:ok, %Activity{} = activity} = Activities.update_activity(activity, update_attrs)
       assert activity.description == "some updated description"
-      assert activity.maximum_entries == 43
-      assert activity.minimum_entries == 43
       assert activity.title == "some updated title"
     end
 
@@ -83,7 +79,12 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "create_session/1 with valid data creates a session" do
-      valid_attrs = %{finish: ~N[2022-10-22 20:00:00], start: ~N[2022-10-22 20:00:00]}
+      valid_attrs = %{
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-22 20:00:00],
+        minimum_entries: 0,
+        maximum_entries: 10
+      }
 
       assert {:ok, %Session{} = session} = Activities.create_session(valid_attrs)
       assert session.finish == ~N[2022-10-22 20:00:00]

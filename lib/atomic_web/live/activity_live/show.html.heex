@@ -49,7 +49,7 @@
                 <div class="flex w-full">
                   <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
-                    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+                    <%= @session.enrolled %> / <%= @session.maximum_entries %>
                   </div>
                 </div>
               </dd>
@@ -106,9 +106,9 @@
             </div>
             <div class="col-span-2">
               <div class="sm:grid sm:grid-cols-1">
-                <%= if @activity.speakers != [] do %>
+                <%= if @session.speakers != [] do %>
                   <%= gettext("Speaker") %>
-                  <%= for speaker <- @activity.speakers do %>
+                  <%= for speaker <- @session.speakers do %>
                     <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                       <div class="text-sm font-medium text-zinc-500"></div>
                       <div class="mt-1 flex items-center">
@@ -166,7 +166,7 @@
 </div>
 
 <div class="flex flex-row space-x-1">
-  <%= if @current_user.role in [:admin] or is_admin?(@current_user, @activity) do %>
+  <%= if @current_user.role in [:admin] or Organizations.is_admin?(@current_user, @session.departments) do %>
     <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @activity, @current_organization), class: "button" do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
         <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit

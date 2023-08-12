@@ -70,19 +70,19 @@
     </div>
     <div class="w-full flex flex-col lg:flex-row items-center justify-center mt-2 lg:w-full">
       <ul class="mr-8">
-        <%= for activity <- Enum.take(@activities,5) do %>
+        <%= for session <- Enum.take(@sessions,5) do %>
           <li class="w-96 mb-2 items-center justify-between border-b-2 border-gray-200 gap-x-6 py-2">
             <div class="">
               <div class="flex flex-col ml-2">
                 <h3 class="text-lg font-semibold text-gray-700">
                   <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400 inline" />
-                  <%= activity.title %>
+                  <%= session.activity.title %>
                 </h3>
                 <span class="text-md font-semibold text-gray-700">
-                  <%= display_date(activity.inserted_at) %> <%= display_time(activity.inserted_at) %>
+                  <%= display_date(session.inserted_at) %> <%= display_time(session.inserted_at) %>
                 </span>
                 <span class="text-md font-semibold text-gray-500">
-                  <%= activity.description %>
+                  <%= session.activity.description %>
                 </span>
               </div>
             </div>
