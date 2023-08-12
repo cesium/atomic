@@ -18,7 +18,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
 
   describe "POST /users/register" do
     @tag :capture_log
-    test "creates account and logs the user in", %{conn: conn} do
+    test "creates account but doesn't log the user in", %{conn: conn} do
       organization = insert(:organization)
 
       user_attrs = %{
@@ -34,8 +34,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
           "user" => user_attrs
         })
 
-      assert get_session(conn, :user_token)
-      assert redirected_to(conn) == "/"
+      assert is_nil(get_session(conn, :user_token))
     end
   end
 end

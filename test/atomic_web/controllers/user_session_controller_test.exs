@@ -5,7 +5,11 @@ defmodule AtomicWeb.UserSessionControllerTest do
 
   setup do
     organization = insert(:organization)
-    %{user: insert(:user, default_organization_id: organization.id)}
+
+    %{
+      user:
+        insert(:user, default_organization_id: organization.id, confirmed_at: DateTime.utc_now())
+    }
   end
 
   describe "GET /users/log_in" do
@@ -35,8 +39,8 @@ defmodule AtomicWeb.UserSessionControllerTest do
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
-      response = html_response(conn, 302)
-      assert response =~ "/404"
+      response = html_response(conn, 200)
+      assert response =~ "Home"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do

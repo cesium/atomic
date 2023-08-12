@@ -12,14 +12,6 @@ defmodule Atomic.Accounts.UserNotifier do
     |> from({"Atomic", "noreply@atomic.cesium.pt"})
   end
 
-  use Phoenix.Swoosh, view: AtomicWeb.EmailView
-
-  defp base_email(to: email) do
-    new()
-    |> from({"Atomic", "noreply@atomic.cesium.pt"})
-    |> to(email)
-  end
-
   defp deliver(recipient, subject, body) do
     email =
       new()
