@@ -1,27 +1,73 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Certificado <%= @activity.title %></title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
-      <script src="https://cdn.tailwindcss.com"></script>
-   </head>
-   <body>
-        <div class="grid grid-cols-1 gap-y-0 h-full bg-[url('http://localhost:4000/images/atomic.png')] bg-no-repeat bg-center">
-            <h1 class="text-8xl text-orange-500 text-center font-extrabold mt-12">Certificado de Participação</h1>
-
-            <p class="text-4xl text-justify p-16">
-                Para os devidos efeitos, certifica-se que
-            </p>
-            <b class="text-6xl text-center font-bold underline"><%= @enrollment.user.name %></b>
-
-             <p class="text-4xl text-justify p-16">participou na atividade <b><%= @activity.title %></b>, organizada
-                pelo(a) <b><%= AtomicWeb.Helpers.display_enum(@organizations) %></b>.
-             </p>
-
-            <p class="text-center mb-4 items-end px-16 py-2 flex">
-                <span class="inline">Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a class="text-indigo-700 underline" href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.</span>
-            </p>
-        </div>
-    </body>
+<head>
+    <title>Certificado <%= @activity.title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        /* Inline styles */
+        .container {
+            background: url('http://localhost:4000/images/atomic.png') no-repeat center;
+            text-align: center;
+            width: 1500px;
+            height: 1045px;
+            margin: auto;
+            padding: 0;
+        }
+        .title {
+            font-size: 62px;
+            color: #fb923c;
+            font-weight: bolder;
+            padding-top: 36px;
+            margin-bottom: 120px;
+        }
+        .content {
+            font-size: 24px;
+            text-align: justify;
+            padding: 32px;
+        }
+        .name {
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: underline;
+            width: 100%;
+            display: block;
+            margin-top: 32px;
+            margin-bottom: 32px;
+        }
+        .organization {
+            font-size: 24px;
+            text-align: justify;
+        }
+        .note {
+            position: absolute;
+            bottom: 0;
+            font-size: 12px;
+            text-align: center;
+            padding-left: 24px;
+            padding-right: 24px;
+            padding-bottom: 10px;
+        }
+        .note a {
+            color: indigo;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Certificado de Participação</div>
+        <p class="content">
+            Para os devidos efeitos, certifica-se que
+        </p>
+        <span class="name"><%= @enrollment.user.name %></span>
+        <p class="content">
+            participou na atividade <span class="organization"><%= @activity.title %></span>, organizada pelo(a) <span class="organization"><%= display_enum(@organizations) %></span>.
+        </p>
+        <p class="note">
+            Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.
+        </p>
+    </div>
+</body>
 </html>
