@@ -7,7 +7,7 @@ defmodule Atomic.Factories.OrganizationFactory do
 
   defmacro __using__(_opts) do
     quote do
-      @roles ~w(follower member admin owner)a
+      @roles ~w(member admin owner)a
 
       def organization_factory do
         %Organization{

@@ -55,26 +55,17 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_event("enroll", _payload, socket) do
-    session_id = socket.assigns.id
-    current_user = socket.assigns.current_user
+    case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
+      {:ok, _enrollment} ->
+        {:noreply,
+         socket
+         |> put_flash(:success, "Enrolled successufully!")
+         |> set_enrolled(socket.assigns.id, socket.assigns.current_user)}
 
-    if Activities.verify_maximum_enrollments?(session_id) do
-      case Activities.create_enrollment(session_id, current_user) do
-        {:ok, _enrollment} ->
-          {:noreply,
-           socket
-           |> put_flash(:success, "Enrolled successufully!")
-           |> set_enrolled(session_id, current_user)}
-
-        {:error, _error} ->
-          {:noreply,
-           socket
-           |> put_flash(:error, "Unable to enroll")}
-      end
-    else
-      {:noreply,
-       socket
-       |> put_flash(:error, "Maximum number of entries reached")}
+      {:error, changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
     end
   end
 
