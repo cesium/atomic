@@ -6,7 +6,7 @@ defmodule Atomic.Partnerships do
   import Ecto.Query, warn: false
   alias Atomic.Repo
 
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
 
   @doc """
   Returns the list of partnerships.
