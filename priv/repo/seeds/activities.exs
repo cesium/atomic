@@ -4,10 +4,10 @@ defmodule Atomic.Repo.Seeds.Activities do
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
+  alias Atomic.Activities
   alias Atomic.Activities.SessionDepartment
   alias Atomic.Activities.Session
-  alias Atomic.Organizations.Organization
-  alias Atomic.Activities.{Activity, Enrollment, Location}
+  alias Atomic.Activities.{Activity, Enrollment}
 
   def run do
     seed_activities()
@@ -194,7 +194,9 @@ defmodule Atomic.Repo.Seeds.Activities do
 
     case Repo.all(SessionDepartment) do
       [] ->
-        for activity <- Repo.all(Activity) do
+        activities = Repo.all(Activity)
+
+        for activity <- activities do
           %SessionDepartment{}
           |> SessionDepartment.changeset(%{
             activity_id: activity.id,
@@ -202,23 +204,29 @@ defmodule Atomic.Repo.Seeds.Activities do
           })
           |> Repo.insert!()
         end
+
+      _ ->
+        Mix.shell().error("Found session departments, aborting seeding session departments.")
     end
   end
 
   def seed_enrollments() do
     case Repo.all(Enrollment) do
       [] ->
-        for session <- Repo.all(Session) do
-          for user <- Repo.all(User) do
-            %Enrollment{}
-            |> Enrollment.changeset(%{
-              user_id: user.id,
-              session_id: session.id,
-              present: Enum.random([true, false])
-            })
-            |> Repo.insert!()
+        users = Repo.all(User)
+        sessions = Repo.all(Session)
+
+        for user <- users do
+          for _ <- 1..Enum.random(1..2) do
+            Activities.create_enrollment(
+              Enum.random(sessions).id,
+              user
+            )
           end
         end
+
+      _ ->
+        Mix.shell().error("Found enrollments, aborting seeding enrollments.")
     end
   end
 
@@ -226,8 +234,9 @@ defmodule Atomic.Repo.Seeds.Activities do
     case Repo.all(SessionDepartment) do
       [] ->
         department = Repo.get_by(Department, name: "CAOS")
+        sessions = Repo.all(Session)
 
-        for session <- Repo.all(Session) do
+        for session <- sessions do
           %SessionDepartment{}
           |> SessionDepartment.changeset(%{
             session_id: session.id,
@@ -235,6 +244,9 @@ defmodule Atomic.Repo.Seeds.Activities do
           })
           |> Repo.insert!()
         end
+
+      _ ->
+        Mix.shell().error("Found session departments, aborting seeding session departments.")
     end
   end
 end

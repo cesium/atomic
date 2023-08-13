@@ -125,8 +125,8 @@ defmodule Atomic.Repo.Seeds.Accounts do
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
 
-        {:ok, _} ->
-          :ok
+        {:ok, changeset} ->
+          Repo.update!(Accounts.User.confirm_changeset(changeset))
       end
     end
   end

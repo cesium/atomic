@@ -1,11 +1,7 @@
 defmodule Atomic.Repo.Seeds.Organizations do
   alias Atomic.Repo
 
-  alias Atomic.Accounts.User
-  alias Atomic.Organizations.Card
-  alias Atomic.Organizations.Membership
   alias Atomic.Organizations.Organization
-  alias Atomic.Organizations
 
   def run do
     seed_organizations()
@@ -104,7 +100,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
         |> Repo.insert!()
 
       _ ->
-        :ok
+        Mix.shell().error("Found organizations, aborting seeding organizations.")
     end
   end
 end
