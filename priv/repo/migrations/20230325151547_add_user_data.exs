@@ -5,6 +5,7 @@ defmodule Atomic.Repo.Migrations.AddUserData do
     create table(:courses, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string, null: false
+      add :cycle, :string, null: false
 
       timestamps()
     end

@@ -1,7 +1,7 @@
 <div class="flex flex-col items-center w-screen h-screen justify-center bg-[url('/images/atomic.png')] bg-cover bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
   <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
     <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
-      <span><%= gettext("Log") %><%= gettext("in", class: "text-orange-400 inline") %></span>
+      <span><%= gettext("Log") %><%= gettext("in", class: " inline") %></span>
     </h2>
     <%= if @error_message do %>
       <div class="alert alert-danger">
@@ -41,19 +41,19 @@
         <span>
           New here?
         </span>
-        <%= link("Register", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-orange-400 hover:text-indigo-500 focus:outline-none") %>
+        <%= link("Register", to: Routes.user_registration_path(@conn, :new), class: "font-medium hover:text-indigo-500 focus:outline-none") %>
       </div>
     </div>
 
     <div>
-      <%= submit class: "w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
+      <%= submit class: "w-64 border-2 rounded-md text-lg py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
         <%= gettext("Log in") %>
       <% end %>
     </div>
 
     <div class="flex flex-col space-y-2">
       <div class="text-sm">
-        <%= link(gettext("Forgot your password?"), to: Routes.user_reset_password_path(@conn, :new), class: "font-medium text-orange-400 hover:text-orange-500 focus:outline-none") %>
+        <%= link(gettext("Forgot your password?"), to: Routes.user_reset_password_path(@conn, :new), class: "font-medium focus:outline-none") %>
       </div>
     </div>
   </.form>

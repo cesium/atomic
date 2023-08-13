@@ -83,20 +83,8 @@ defmodule AtomicWeb.Router do
         live "/memberships/:id/edit", MembershipLive.Edit, :edit
       end
 
-      scope "/organizations/:organization_id" do
-        pipe_through :follower
-        live "/activities", ActivityLive.Index, :index
-        live "/activities/:id", ActivityLive.Show, :show
-
-        live "/departments", DepartmentLive.Index, :index
-        live "/departments/:id", DepartmentLive.Show, :show
-
-        live "/partners", PartnerLive.Index, :index
-        live "/partners/:id", PartnerLive.Show, :show
-
-        live "/speakers", SpeakerLive.Index, :index
-        live "/speakers/:id", SpeakerLive.Show, :show
-      end
+      live "/activities", ActivityLive.Index, :index
+      live "/activities/:id", ActivityLive.Show, :show
 
       live "/organizations/new", OrganizationLive.Index, :new
 

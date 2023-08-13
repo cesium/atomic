@@ -25,8 +25,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
         name: Faker.Person.name(),
         email: Faker.Internet.email(),
         role: "student",
-        password: "password1234",
-        default_organization_id: organization.id
+        password: "password1234"
       }
 
       conn =

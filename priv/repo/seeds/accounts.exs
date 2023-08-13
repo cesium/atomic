@@ -8,16 +8,13 @@ defmodule Atomic.Repo.Seeds.Accounts do
     case Repo.all(User) do
       [] ->
         [
+          "Felicio",
           "Chandler Bing",
           "Monica Geller",
           "Ross Geller",
           "Joey Tribbiani",
           "Rachel Green",
-          "Phoebe Buffay"
-        ]
-        |> create_users(:admin)
-
-        [
+          "Phoebe Buffay",
           "Aberforth Dumbledore",
           "Adrian Mole",
           "Albus Dumbledore",
@@ -98,27 +95,25 @@ defmodule Atomic.Repo.Seeds.Accounts do
           "Vincent Crabbe",
           "Winnie de Pooh"
         ]
-        |> create_users(:student)
+        |> create_users()
 
       _ ->
         Mix.shell().error("Found users, aborting seeding users.")
     end
   end
 
-  def create_users(characters, role) do
+  def create_users(names) do
     courses = Repo.all(Course)
     organizations = Repo.all(Organization)
 
-    for character <- characters do
-      email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
+    for name <- names do
+      email = (name |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
 
       user = %{
-        "name" => character,
         "email" => email,
+        "name" => name,
         "password" => "password1234",
-        "role" => role,
         "course_id" => Enum.random(courses).id,
-        "default_organization_id" => Enum.random(organizations).id,
         "confirmed_at" => DateTime.utc_now()
       }
 

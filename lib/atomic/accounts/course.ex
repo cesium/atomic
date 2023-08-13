@@ -6,10 +6,15 @@ defmodule Atomic.Accounts.Course do
 
   alias Atomic.Accounts.User
 
-  @required_fields ~w(name)a
+  @required_fields ~w(name cycle)a
+  @optional_fields ~w()a
+
+  @cycles ~w(Bachelors Masters Phd)a
 
   schema "courses" do
     field :name, :string
+    field :cycle, Ecto.Enum, values: @cycles
+
     has_many :users, User
 
     timestamps()
@@ -20,6 +25,7 @@ defmodule Atomic.Accounts.Course do
   """
   def changeset(course, attrs) do
     course
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

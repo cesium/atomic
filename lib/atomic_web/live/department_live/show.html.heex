@@ -15,8 +15,8 @@
             </h1>
           </div>
           <%= if length(assigns[:collaborator]) == 0 do %>
-            <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-              <button phx-click="collaborate" class="border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white">
+            <div class="mt-2 h-full lg:mt-0">
+              <button phx-click="collaborate" class="border-2 rounded-md bg-white text-lg py-2 px-3.5 text-sm font-medium shadow-sm hover:text-white">
                 Collaborate
               </button>
             </div>
@@ -28,8 +28,8 @@
                 </button>
               </div>
             <% else %>
-              <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
+              <div class="mt-2 h-full lg:mt-0">
+                <div class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-white">
                   Collaborator
                 </div>
               </div>

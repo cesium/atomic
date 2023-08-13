@@ -13,7 +13,7 @@ defmodule Atomic.Repo.Seeds.Courses do
     File.read!("data/courses.txt")
     |> String.split("\n")
     |> Enum.filter(fn name -> name != "" end)
-    |> Enum.map(fn name -> Atomic.Accounts.create_course(%{name: name}) end)
+    |> Enum.map(fn name -> Atomic.Accounts.create_course(%{name: name, cycle: :Bachelors}) end)
   end
 end
 

@@ -1,241 +1,58 @@
-Doutoramento em Ciências da Educação
-Licenciatura em Administração Pública
-Licenciatura em Arqueologia
-Licenciatura em Artes Visuais
-Licenciatura em Biologia Aplicada
-Licenciatura em Biologia e Geologia
-Licenciatura em Bioquímica
-Licenciatura em Ciência de Dados
-Licenciatura em Ciência Política
-Licenciatura em Ciências da Computação
-Licenciatura em Ciências da Comunicação
-Licenciatura em Ciências do Ambiente
-Licenciatura em Contabilidade
-Licenciatura em Contabilidade (Pós-laboral)
-Licenciatura em Criminologia e Justiça Criminal
-Licenciatura em Design de Produto
-Licenciatura em Design e Marketing de Moda
-Licenciatura em Direito
-Licenciatura em Direito (Pós-laboral)
-Licenciatura em Economia
-Licenciatura em Educação
-Licenciatura em Educação (Pós-laboral)
-Licenciatura em Educação Básica
-Licenciatura em Enfermagem
-Licenciatura em Engenharia Aeroespacial
-Licenciatura em Engenharia Biomédica
-Licenciatura em Engenharia Civil
-Licenciatura em Engenharia de Materiais
-Licenciatura em Engenharia de Polímeros
-Licenciatura em Engenharia de Telecomunicações e Informática
-Licenciatura em Engenharia e Gestão de Sistemas de Informação
-Licenciatura em Engenharia e Gestão Industrial
-Licenciatura em Engenharia Eletrónica Industrial e Computadores
-Licenciatura em Engenharia Física
-Licenciatura em Engenharia Informática
-Licenciatura em Engenharia Mecânica
-Licenciatura em Engenharia Química e Biológica
-Licenciatura em Engenharia Têxtil
-Licenciatura em Estatística Aplicada
-Licenciatura em Estudos Culturais
-Licenciatura em Estudos Orientais: Estudos Chineses e Japoneses
-Licenciatura em Estudos Portugueses
-Licenciatura em Filosofia
-Licenciatura em Física
-Licenciatura em Geografia e Planeamento
-Licenciatura em Geologia
-Licenciatura em Gestão
-Licenciatura em História
-Licenciatura em Línguas Aplicadas
-Licenciatura em Línguas e Literaturas Europeias
-Licenciatura em Marketing
-Licenciatura em Matemática
-Licenciatura em Música
-Licenciatura em Negócios Internacionais
-Licenciatura em Optometria e Ciências da Visão
-Licenciatura em Proteção Civil e Gestão do Território
-Licenciatura em Psicologia
-Licenciatura em Química
-Licenciatura em Relações Internacionais
-Licenciatura em Sociologia
-Licenciatura em Teatro
-Mestrado em  Ensino do Inglês no 1º Ciclo do Ensino Básico
-Mestrado em Administração Pública
-Mestrado em Arqueologia
-Mestrado em Biodiversidade, Ecologia e Alterações Globais
-Mestrado em Biofísica e Bionanossistemas
-Mestrado em Bioinformática
-Mestrado em Biologia Molecular, Biotecnologia e Bioempreendedorismo em Plantas
-Mestrado em Bioquímica Aplicada
-Mestrado em Biotecnologia
-Mestrado em Ciência Política
-Mestrado em Ciências Criminais - Criminologia
-Mestrado em Ciências Criminais - Justiça Penal
-Mestrado em Ciências da Comunicação - Audiovisual e Multimédia (Pós-Laboral)
-Mestrado em Ciências da Comunicação - Informação e Jornalismo (Pós-Laboral)
-Mestrado em Ciências da Comunicação - Investigação (Pós-Laboral)
-Mestrado em Ciências da Comunicação - Publicidade e Relações Públicas (Pós-Laboral)
-Mestrado em Ciências da Educação - Administração Educacional
-Mestrado em Ciências da Educação - Sociologia da Educação e Políticas Educativas
-Mestrado em Ciências da Educação - Tecnologia Educativa
-Mestrado em Ciências da Linguagem
-Mestrado em Ciências e Tecnologias do Ambiente - Energia
-Mestrado em Ciências e Tecnologias do Ambiente - Monitorização e Remediação Ambiental
-Mestrado em Cognição Humana
-Mestrado em Comunicação de Ciência (Pós-Laboral)
-Mestrado em Comunicação, Arte e Cultura (Pós-Laboral)
-Mestrado em Construção e Reabilitação Sustentáveis
-Mestrado em Contabilidade
-Mestrado em Crime, Diferença e Desigualdade
-Mestrado em Desafios das Cidades
-Mestrado em Design de Comunicação de Moda
-Mestrado em Design de Produto e Serviços
-Mestrado em Design e Marketing de Produto Têxtil, Vestuário e Acessórios
-Mestrado em Direito Administrativo - Direito Administrativo Especial
-Mestrado em Direito Administrativo - Direito das Autarquias Locais
-Mestrado em Direito Administrativo - Justiça Administrativa
-Mestrado em Direito da União Europeia
-Mestrado em Direito das Crianças, Família e Sucessões
-Mestrado em Direito dos Contratos e da Empresa
-Mestrado em Direito e Informática
-Mestrado em Direito Judiciário (Direitos Processuais e Organização Judiciária)
-Mestrado em Direito Transnacional da Empresa e das Tecnologias Digitais
-Mestrado em Direito Tributário
-Mestrado em Direitos Humanos
-Mestrado em Economia
-Mestrado em Economia Industrial e da Empresa
-Mestrado em Economia Monetária, Bancária e Financeira
-Mestrado em Economia Social
-Mestrado em Educação - Educação de Adultos e Intervenção Comunitária
-Mestrado em Educação - Formação, Trabalho e Recursos Humanos
-Mestrado em Educação - Mediação Educacional
-Mestrado em Educação Especial - Intervenção Precoce na Infância
-Mestrado em Educação Pré-Escolar e Ensino do 1º Ciclo do Ensino Básico
-Mestrado em Engenharia Aeroespacial - Área de Especialização em Projeto de Engenharia Aeroespacial
-Mestrado em Engenharia Aeroespacial - Área de Especialização em Sistemas Espaciais
-Mestrado em Engenharia Biomédica - Área de Especialização em Biomateriais, Reabilitação e Biomecânica
-Mestrado em Engenharia Biomédica - Área de Especialização em Eletrónica Médica
-Mestrado em Engenharia Biomédica - Área de Especialização em Engenharia Clínica
-Mestrado em Engenharia Biomédica - Área de Especialização em Informática Médica
-Mestrado em Engenharia Civil - Área de Especialização em Cidades, Território e Infraestruturas de Transporte
-Mestrado em Engenharia Civil - Área de Especialização em Edifícios
-Mestrado em Engenharia Civil - Área de Especialização em Estruturas e Geotecnia
-Mestrado em Engenharia Civil - Área de Especialização em Hidráulica e Ambiente
-Mestrado em Engenharia de Materiais
-Mestrado em Engenharia de Polímeros
-Mestrado em Engenharia de Redes e Serviços Telemáticos
-Mestrado em Engenharia de Sistemas
-Mestrado em Engenharia de Telecomunicações e Informática
-Mestrado em Engenharia de Têxtil - Área de Especialização em Materiais e Acabamentos Funcionais
-Mestrado em Engenharia de Têxtil - Área de Especialização em Materiais e Tecnologias Avançadas
-Mestrado em Engenharia do Produto
-Mestrado em Engenharia e Gestão da Qualidade
-Mestrado em Engenharia e Gestão de Operações - Área de Especialização em Avaliação e Gestão de Projetos e da Inovação
-Mestrado em Engenharia e Gestão de Operações - Área de Especialização em Gestão Industrial
-Mestrado em Engenharia e Gestão de Operações - Área de Especialização em Logística e Distribuição
-Mestrado em Engenharia e Gestão de Sistemas de Informação - Área de Especialização em Engenharia de Sistemas de Informação
-Mestrado em Engenharia e Gestão de Sistemas de Informação - Área de Especialização em Sistemas de Informação nas Organizações e na Sociedade
-Mestrado em Engenharia e Gestão Industrial
-Mestrado em Engenharia Eletrónica Industrial e Computadores
-Mestrado em Engenharia Física - Área de Especialização em Dispositivos, Microssistemas e Nanotecnologias
-Mestrado em Engenharia Física - Área de Especialização em Física da Informação
-Mestrado em Engenharia Humana (Pós-Laboral)
-Mestrado em Engenharia Informática
-Mestrado em Engenharia Mecânica - Área de Especialização em Conceção e Construção Mecânica
-Mestrado em Engenharia Mecânica - Área de Especialização em Manufatura Avançada
-Mestrado em Engenharia Mecânica - Área de Especialização em Sistemas Mecatrónicos
-Mestrado em Engenharia Mecânica - Área de Especialização em Tecnologias Energéticas e Ambientais
-Mestrado em Engenharia Mecatrónica
-Mestrado em Engenharia Química e Biológica
-Mestrado em Engenharia Urbana
-Mestrado em Ensino de Biologia e Geologia no 3º Ciclo do Ensino Básico e no Ensino Secundário
-Mestrado em Ensino de Filosofia no Ensino Secundário
-Mestrado em Ensino de História no 3º Ciclo do Ensino Básico e no Ensino Secundário
-Mestrado em Ensino de Informática
-Mestrado em Ensino de Matemática no 3º Ciclo do Ensino Básico e no Ensino Secundário
-Mestrado em Ensino de Música - Área de Especialização em Ciências Musicais
-Mestrado em Ensino de Música - Área de Especialização em Direção Coral e Instrumental
-Mestrado em Ensino de Música - Área de Especialização em Instrumento
-Mestrado em Ensino de Português no 3º Ciclo do Ensino Básico e no Ensino Secundário
-Mestrado em Ensino do 1º Ciclo do Ensino Básico e de Matemática e Ciências Naturais no 2º Ciclo do Ensino Básico
-Mestrado em Ensino do 1º Ciclo do Ensino Básico e de Português e História e Geografia de Portugal no 2º Ciclo do Ensino Básico
-Mestrado em Espanhol Língua Segunda e Língua Estrangeira
-Mestrado em Estatística para Ciência de Dados
-Mestrado em Estudos da Criança
-Mestrado em Estudos Interculturais Português/Chinês - Área de Especialização em Chinês para Falantes de Português
-Mestrado em Estudos Interculturais Português/Chinês - Área de Especialização em Português para Falantes de Chinês
-Mestrado em Estudos Interculturais Português/Chinês: Tradução, Formação e Comunicação Empresarial - Chinês
-Mestrado em Estudos Interculturais Português/Chinês: Tradução, Formação e Comunicação Empresarial - Português
-Mestrado em Estudos Luso-Alemães
-Mestrado em Filosofia Política
-Mestrado em Finanças
-Mestrado em Física
-Mestrado em Genética Molecular
-Mestrado em Geociências - Dinâmica Externa e Mudanças Globais
-Mestrado em Geociências - Património Geológico e Geoconservação
-Mestrado em Geociências - Valorização de Recursos Geológicos
-Mestrado em Geografia - Riscos e Proteção Civil
-Mestrado em Geografia - Sistemas de Informação Geográfica
-Mestrado em Gestão - Área de Especialização em Gestão Financeira
-Mestrado em Gestão - Área de Especialização em Gestão Geral
-Mestrado em Gestão de Projetos de Engenharia
-Mestrado em Gestão de Recursos Humanos
-Mestrado em Gestão de Unidades de Saúde
-Mestrado em Gestão e Negócios
-Mestrado em História
-Mestrado em Humanidades Digitais
-Mestrado em Língua, Literatura e Cultura Inglesas (Pós-Laboral)
-Mestrado em Literaturas de Língua Portuguesa
-Mestrado em Marketing e Estratégia
-Mestrado em Matemática e Computação - Área de Especialização em Computação
-Mestrado em Matemática e Computação - Área de Especialização em Matemática
-Mestrado em Media Arts
-Mestrado em Micro/Nano Tecnologias
-Mestrado em Modelação de Informação na Construção de Edifícios - BIM A+
-Mestrado em Negócios Internacionais
-Mestrado em Optometria Avançada
-Mestrado em Património Cultural (Pós-Laboral)
-Mestrado em Português Língua Não Materna (MPLNM)
-Mestrado em Português Língua Não Materna (PLNM) - Português Língua Estrangeira (PLE) e Língua Segunda (PL2)
-Mestrado em Psicologia Clínica e Psicoterapia de Adultos
-Mestrado em Psicologia Clínica na Infância e Adolescência
-Mestrado em Psicologia da Educação
-Mestrado em Psicologia da Justiça
-Mestrado em Psicologia do Trabalho e das Organizações
-Mestrado em Química Medicinal
-Mestrado em Relações Internacionais
-Mestrado em Sistemas de Informação
-Mestrado em Sociologia - Cultura e Identidades (Pós-Laboral)
-Mestrado em Sociologia - Organizações e Trabalho (Pós-Laboral)
-Mestrado em Sociologia - Políticas Sociais (Pós-Laboral)
-Mestrado em Sustentabilidade do Ambiente Construído
-Mestrado em Técnicas de Caracterização e Análise Química
-Mestrado em Tecnologia e Ciência Alimentar
-Mestrado em Tradução e Comunicação Multilingue
-Mestrado Integrado em Arquitetura
-Mestrado Integrado em Engenharia Biológica
-Mestrado Integrado em Engenharia Biomédica
-Mestrado Integrado em Engenharia Civil
-Mestrado Integrado em Engenharia de Materiais
-Mestrado Integrado em Engenharia de Polímeros
-Mestrado Integrado em Engenharia de Telecomunicações e Informática
-Mestrado Integrado em Engenharia e Gestão de Sistemas de Informação
-Mestrado Integrado em Engenharia e Gestão de Sistemas de Informação (Pós-laboral)
-Mestrado Integrado em Engenharia e Gestão Industrial
-Mestrado Integrado em Engenharia Eletrónica Industrial e Computadores
-Mestrado Integrado em Engenharia Física
-Mestrado Integrado em Engenharia Informática
-Mestrado Integrado em Engenharia Mecânica
-Mestrado Integrado em Engenharia Têxtil
-Mestrado Integrado em Psicologia
-Programa doutoral em Ciência Política e Relações Internacionais
-Programa doutoral em Ciências da Administração
-Programa doutoral em Ciências da Comunicação
-Programa doutoral em Design de Moda
-Programa doutoral em Economia
-Programa doutoral em Estudos Culturais
-Programa doutoral em Gestão
-Programa doutoral em História
-Programa doutoral em Marketing e Estratégia
-Programa doutoral em Modernidades Comparadas: Literaturas, Artes e Culturas
-Programa doutoral em Sociologia
+Ciências da Educação
+Administração Pública
+Arqueologia
+Artes Visuais
+Biologia Aplicada
+Biologia e Geologia
+Bioquímica
+Ciência de Dados
+Ciência Política
+Ciências da Computação
+Ciências da Comunicação
+Ciências do Ambiente
+Contabilidade
+Criminologia e Justiça Criminal
+Design de Produto
+Design e Marketing de Moda
+Direito
+Economia
+Educação
+Educação Básica
+Enfermagem
+Engenharia Aeroespacial
+Engenharia Biomédica
+Engenharia Civil
+Engenharia de Materiais
+Engenharia de Polímeros
+Engenharia de Telecomunicações e Informática
+Engenharia e Gestão de Sistemas de Informação
+Engenharia e Gestão Industrial
+Engenharia Eletrónica Industrial e Computadores
+Engenharia Física
+Engenharia Informática
+Engenharia Mecânica
+Engenharia Química e Biológica
+Engenharia Têxtil
+Estatística Aplicada
+Estudos Culturais
+Estudos Orientais: Estudos Chineses e Japoneses
+Estudos Portugueses
+Filosofia
+Física
+Geografia e Planeamento
+Geologia
+Gestão
+História
+Línguas Aplicadas
+Línguas e Literaturas Europeias
+Marketing
+Matemática
+Música
+Negócios Internacionais
+Optometria e Ciências da Visão
+Proteção Civil e Gestão do Território
+Psicologia
+Química
+Relações Internacionais
+Sociologia
+Teatro

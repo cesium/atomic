@@ -322,7 +322,7 @@ defmodule Atomic.Accounts do
     {:ok, query} = UserToken.verify_session_token_query(token)
 
     Repo.one(query)
-    |> Repo.preload(:organizations)
+    |> Repo.preload([:organizations, :course])
   end
 
   @doc """

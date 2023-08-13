@@ -4,7 +4,7 @@
       <h1 class="text-xl font-bold leading-7 text-zinc-900  sm:truncate sm:text-4xl"><%= gettext("Organizations") %></h1>
       <%= if @current_user.role in [:admin] do %>
         <div class="flex flex-col sm:flex-row xl:flex-col">
-          <%= live_patch("+ New Organization", to: Routes.organization_index_path(@socket, :new), class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
+          <%= live_patch("+ New Organization", to: Routes.organization_index_path(@socket, :new), class: "border-2 rounded-md bg-white text-lg py-2 px-3.5 text-sm font-medium shadow-sm hover:text-white") %>
         </div>
       <% end %>
     </div>

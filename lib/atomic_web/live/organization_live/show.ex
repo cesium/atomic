@@ -69,12 +69,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply, assign(socket, :changeset, changeset)}
     end
 
-    if current_user.default_organization_id == nil do
-      Accounts.update_user(current_user, %{
-        default_organization_id: socket.assigns.organization.id
-      })
-    end
-
     {:noreply,
      socket
      |> assign(:current_user, current_user)}

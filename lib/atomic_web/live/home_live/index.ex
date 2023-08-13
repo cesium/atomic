@@ -18,13 +18,13 @@ defmodule AtomicWeb.HomeLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    partners =
-      Partnerships.list_partnerships_by_organization_id(socket.assigns.current_organization.id)
+    # partners =
+    #   Partnerships.list_partnerships_by_organization_id(socket.assigns.current_organization.id)
 
-    sessions =
-      Activities.list_sessions_by_organization_id(socket.assigns.current_organization.id, [])
+    # sessions =
+    #   Activities.list_sessions_by_organization_id(socket.assigns.current_organization.id, [])
 
-    news = News.list_news_by_organization_id(socket.assigns.current_organization.id)
+    # news = News.list_news_by_organization_id(socket.assigns.current_organization.id)
 
     mode = params["mode"] || "month"
 
@@ -40,9 +40,9 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:page_title, "Home")
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :home)
-     |> assign(:news, news)
-     |> assign(:partners, partners)
-     |> assign(:sessions, sessions)
+     #  |> assign(:news, news)
+     #  |> assign(:partners, partners)
+     #  |> assign(:sessions, sessions)
      |> assign(:time_zone, socket.assigns.time_zone)
      |> assign(:params, params)
      |> assign(:mode, mode)
