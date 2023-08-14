@@ -6,14 +6,17 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
 
     create table(:users, primary_key: false) do
       add :id, :binary_id, primary_key: true
+      add :name, :string
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
+      add :profile_picture, :string
+
+      add :role, :string, null: false, default: "student"
 
       add :default_organization_id,
           references(:organizations, type: :binary_id, on_delete: :delete_all)
 
-      add :role, :string, null: false, default: "student"
       timestamps()
     end
 
@@ -25,6 +28,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :token, :binary, null: false
       add :context, :string, null: false
       add :sent_to, :string
+
       timestamps(updated_at: false)
     end
 

@@ -10,24 +10,23 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name course_id default_organization_id)a
+  @optional_fields ~w(name role confirmed_at course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
   schema "users" do
-    field :email, :string
     field :name, :string
+    field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-    belongs_to :default_organization, Organization
 
-    belongs_to :course, Course
     field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles, default: :student
+    belongs_to :course, Course
+    belongs_to :default_organization, Organization
 
     has_many :enrollments, Enrollment
-
     many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()
