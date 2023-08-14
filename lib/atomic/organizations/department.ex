@@ -7,10 +7,7 @@ defmodule Atomic.Organizations.Department do
   alias Atomic.Activities.{Session, SessionDepartment}
 
   @required_fields ~w(name organization_id)a
-
-  @optional_fields [
-    :description
-  ]
+  @optional_fields ~w(description)a
 
   schema "departments" do
     field :name, :string

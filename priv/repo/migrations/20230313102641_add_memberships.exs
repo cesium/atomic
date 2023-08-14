@@ -6,6 +6,7 @@ defmodule Atomic.Repo.Migrations.AddMemberships do
       add :id, :binary_id, primary_key: true
       add :number, :integer
       add :role, :string, null: false
+
       add :created_by_id, references(:users, on_delete: :nothing, type: :binary_id), null: false
       add :user_id, references(:users, on_delete: :nothing, type: :binary_id), null: false
 

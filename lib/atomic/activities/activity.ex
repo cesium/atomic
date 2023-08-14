@@ -8,7 +8,6 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Events.Event
 
   @required_fields ~w(title description)a
-
   @optional_fields ~w(event_id)a
 
   schema "activities" do
@@ -30,10 +29,6 @@ defmodule Atomic.Activities.Activity do
   def changeset(activity, attrs) do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> cast_assoc(:activity_sessions,
-      required: true,
-      with: &Session.changeset/2
-    )
     |> validate_required(@required_fields)
   end
 end

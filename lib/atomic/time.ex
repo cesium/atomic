@@ -1,5 +1,8 @@
 defmodule Atomic.Time do
-  @moduledoc false
+  @moduledoc """
+    This module provide time utilities.
+  """
+
   @doc """
     Returns the current time in Lisbon.
   """

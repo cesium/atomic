@@ -2,9 +2,9 @@ defmodule Atomic.News do
   @moduledoc """
   The news context.
   """
+  use Atomic.Context
 
   alias Atomic.News.New
-  alias Atomic.Repo
 
   @doc """
   Returns the list of news.

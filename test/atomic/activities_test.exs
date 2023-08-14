@@ -83,7 +83,8 @@ defmodule Atomic.ActivitiesTest do
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00],
         minimum_entries: 0,
-        maximum_entries: 10
+        maximum_entries: 10,
+        activity_id: insert(:activity).id
       }
 
       assert {:ok, %Session{} = session} = Activities.create_session(valid_attrs)

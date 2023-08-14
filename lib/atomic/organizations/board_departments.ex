@@ -11,8 +11,8 @@ defmodule Atomic.Organizations.BoardDepartments do
     field :name, :string
     field :priority, :integer
 
-    has_many :user_organization, UserOrganization
     belongs_to :board, Board
+    has_many :user_organization, UserOrganization
 
     timestamps()
   end

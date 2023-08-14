@@ -7,11 +7,13 @@ defmodule Atomic.Activities.Enrollment do
   alias Atomic.Accounts.User
   alias Atomic.Activities.Session
 
+  @required_fields ~w(session_id user_id)a
+  @optional_fields ~w(present)a
+
   schema "enrollments" do
-    field :present, :boolean
+    field :present, :boolean, default: false
 
     belongs_to :session, Session
-
     belongs_to :user, User
 
     timestamps()
@@ -20,7 +22,7 @@ defmodule Atomic.Activities.Enrollment do
   @doc false
   def changeset(enrollment, attrs) do
     enrollment
-    |> cast(attrs, [:session_id, :user_id, :present])
-    |> validate_required([:session_id, :user_id])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

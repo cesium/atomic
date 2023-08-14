@@ -3,13 +3,12 @@ defmodule Atomic.Partnerships.Partner do
     A partnership.
   """
   use Atomic.Schema
-  import Ecto.Changeset
+
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(name description organization_id)a
-
-  @optional_fields []
+  @required_fields ~w(name organization_id)a
+  @optional_fields ~w(description)a
 
   @derive {
     Flop.Schema,
@@ -23,10 +22,12 @@ defmodule Atomic.Partnerships.Partner do
   }
 
   schema "partnerships" do
-    field :description, :string
     field :name, :string
+    field :description, :string
     field :image, Uploaders.Image.Type
+
     belongs_to :organization, Organization
+
     timestamps()
   end
 

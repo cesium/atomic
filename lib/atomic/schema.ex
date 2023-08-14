@@ -4,6 +4,8 @@ defmodule Atomic.Schema do
   """
   import Ecto.Changeset
 
+  alias Atomic.Time
+
   defmacro __using__(_) do
     quote do
       use Ecto.Schema
@@ -14,7 +16,6 @@ defmodule Atomic.Schema do
       import Ecto.Changeset
       import Ecto.Query
 
-      alias Atomic.Time, as: ATime
       alias AtomicWeb.Gettext
 
       @primary_key {:id, :binary_id, autogenerate: true}
@@ -31,7 +32,7 @@ defmodule Atomic.Schema do
 
       def validate_naive_datetime(changeset, field, :future) do
         validate_change(changeset, field, fn _field, value ->
-          if NaiveDateTime.compare(value, ATime.lisbon_now()) == :lt do
+          if NaiveDateTime.compare(value, Time.lisbon_now()) == :lt do
             [{field, Gettext.gettext("date in the past")}]
           else
             []

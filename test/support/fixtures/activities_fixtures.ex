@@ -31,7 +31,8 @@ defmodule Atomic.ActivitiesFixtures do
         maximum_entries: 42,
         minimum_entries: 42,
         finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-22 20:00:00]
+        start: ~N[2022-10-22 20:00:00],
+        activity_id: activity_fixture().id
       })
       |> Atomic.Activities.create_session()
 

@@ -7,8 +7,12 @@ defmodule Atomic.Events.Enrollment do
   alias Atomic.Accounts.User
   alias Atomic.Events.Event
 
+  @required_fields ~w(event_id user_id)
+  @optional_fields ~w(present)
+
   schema "enrollments" do
     field :present, :boolean
+
     belongs_to :event, Event
     belongs_to :user, User
 
@@ -18,7 +22,7 @@ defmodule Atomic.Events.Enrollment do
   @doc false
   def changeset(enrollment, attrs) do
     enrollment
-    |> cast(attrs, [:event_id, :user_id, :present])
-    |> validate_required([:event_id, :user_id])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

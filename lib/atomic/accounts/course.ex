@@ -21,5 +21,6 @@ defmodule Atomic.Accounts.Course do
   def changeset(course, attrs) do
     course
     |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

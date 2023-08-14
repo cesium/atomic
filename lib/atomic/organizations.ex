@@ -2,7 +2,6 @@ defmodule Atomic.Organizations do
   @moduledoc """
   The Organizations context.
   """
-
   use Atomic.Context
 
   alias Atomic.Accounts.User
