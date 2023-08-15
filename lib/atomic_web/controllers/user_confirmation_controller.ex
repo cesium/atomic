@@ -4,7 +4,7 @@ defmodule AtomicWeb.UserConfirmationController do
   alias Atomic.Accounts
 
   def new(conn, _params) do
-    render(conn, "new.html")
+    render(conn, "new.html", error_message: nil)
   end
 
   def create(conn, %{"user" => %{"email" => email}}) do
@@ -25,7 +25,7 @@ defmodule AtomicWeb.UserConfirmationController do
   end
 
   def edit(conn, %{"token" => token}) do
-    render(conn, "edit.html", token: token)
+    render(conn, "edit.html", token: token, error_message: nil)
   end
 
   # Do not log in the user after confirmation to avoid a
@@ -35,7 +35,7 @@ defmodule AtomicWeb.UserConfirmationController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "User confirmed successfully.")
-        |> redirect(to: "/")
+        |> redirect(to: "/users/log_in")
 
       :error ->
         # If there is a current user and the account was already confirmed,
@@ -49,7 +49,7 @@ defmodule AtomicWeb.UserConfirmationController do
           %{} ->
             conn
             |> put_flash(:error, "User confirmation link is invalid or it has expired.")
-            |> redirect(to: "/")
+            |> redirect(to: "/users/log_in")
         end
     end
   end

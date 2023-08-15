@@ -10,9 +10,14 @@ defmodule AtomicWeb.UserSessionController do
 
   def create(conn, %{"user" => user_params}) do
     %{"email" => email, "password" => password} = user_params
+    user = Accounts.get_user_by_email_and_password(email, password)
 
-    if user = Accounts.get_user_by_email_and_password(email, password) do
-      UserAuth.log_in_user(conn, user, user_params)
+    if user do
+      if is_nil(user.confirmed_at) do
+        render(conn, "new.html", error_message: "Confirm your email before continuing")
+      else
+        UserAuth.log_in_user(conn, user, user_params)
+      end
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       render(conn, "new.html", error_message: "Invalid email or password")

@@ -3,7 +3,6 @@ defmodule AtomicWeb.UserRegistrationController do
 
   alias Atomic.Accounts
   alias Atomic.Accounts.User
-  alias AtomicWeb.UserAuth
 
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
@@ -25,8 +24,8 @@ defmodule AtomicWeb.UserRegistrationController do
           )
 
         conn
-        |> put_flash(:info, "User created successfully.")
-        |> UserAuth.log_in_user(user)
+        |> put_flash(:info, "Registered successfully. Check your email inbox before continuing")
+        |> render("new.html", changeset: Accounts.change_user_registration(user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
