@@ -3,7 +3,7 @@ defmodule AtomicWeb.PartnerLive.Index do
 
   alias Atomic.Organizations
   alias Atomic.Partnerships
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
