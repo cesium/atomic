@@ -63,9 +63,10 @@ defmodule AtomicWeb.ActivityLive.Show do
          |> set_enrolled(socket.assigns.id, socket.assigns.current_user)}
 
       {:error, changeset} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
+        case is_nil(changeset.errors[:session_id]) do
+          true -> {:noreply, socket |> put_flash(:error, "Unable to enroll")}
+          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
+        end
     end
   end
 
