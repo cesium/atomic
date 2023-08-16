@@ -203,9 +203,12 @@
             <% end %>
             <%= live_redirect to: Routes.user_settings_path(@socket, :edit), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
               <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                <%= Atomic.Accounts.extract_initials(@current_user.email) %>
+                <%= Atomic.Accounts.extract_initials(@current_user.name) %>
               </span>
-              <span aria-hidden="true"><%= @current_user.email %></span>
+              <span>
+                <p aria-hidden="true"><%= @current_user.name %></p>
+                <p class="text-zinc-500 text-xs font-normal" aria-hidden="true">@<%= @current_user.handle %></p>
+              </span>
             <% end %>
           </div>
         </nav>
