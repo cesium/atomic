@@ -5,7 +5,7 @@ defmodule Atomic.PartnershipsTest do
 
   describe "partnerships" do
     alias Atomic.OrganizationsFixtures
-    alias Atomic.Partnerships.Partner
+    alias Atomic.Organizations.Partner
     import Atomic.PartnershipsFixtures
 
     @invalid_attrs %{description: nil, name: nil}
