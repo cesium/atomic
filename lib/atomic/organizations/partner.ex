@@ -1,4 +1,4 @@
-defmodule Atomic.Partnerships.Partner do
+defmodule Atomic.Organizations.Partner do
   @moduledoc """
     A partnership.
   """
