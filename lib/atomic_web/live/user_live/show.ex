@@ -12,6 +12,8 @@ defmodule AtomicWeb.UserLive.Show do
   def handle_params(%{"handle" => user_handle}, _, socket) do
     user = Accounts.get_user_by_handle(user_handle)
 
+    organizations = Accounts.get_user_organizations(user)
+
     entries = [
       %{
         name: gettext("%{name}", name: user.name),
@@ -24,6 +26,7 @@ defmodule AtomicWeb.UserLive.Show do
     |> assign(:page_title, user.name)
     |> assign(:current_page, :profile)
     |> assign(:breadcrumb_entries, entries)
-    |> assign(:user, user)}
+    |> assign(:user, user)
+    |> assign(:organizations, organizations)}
   end
 end

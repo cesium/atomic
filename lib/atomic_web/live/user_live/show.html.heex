@@ -1,12 +1,53 @@
 <div>
-    <div class="relative flex-shrink-0 w-24 h-24 rounded-full ring-4 ring-zinc-300 bg-zinc-400 sm:w-32 sm:h-32">
-        <span class="inline-flex justify-center items-center w-24 h-24 rounded-full sm:w-32 sm:h-32 bg-secondary">
-            <span class="text-4xl font-medium leading-none select-none text-white sm:text-5xl">
-                <%= Atomic.Accounts.extract_initials(@user.name) %>
-            </span>
-        </span>
+    <div class="pt-4 px-4">
+        <div class="flex items-center justify-between">
+            <div class="min-w-0 flex-1 space-y-2">
+                <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
+                    <%= @user.name %>
+                </h2>
+                <p class="text-zinc-500">@<%= @user.handle %></p>
+            </div>
+            <div class="relative flex-shrink-0 w-24 h-24 rounded-full ring-2 ring-zinc-300 bg-zinc-400 sm:w-44 sm:h-44">
+                <span class="inline-flex justify-center items-center w-24 h-24 rounded-full sm:w-44 sm:h-44 bg-secondary">
+                    <span class="text-4xl font-medium leading-none select-none text-white sm:text-6xl">
+                        <%= Atomic.Accounts.extract_initials(@user.name) %>
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <h3 class="text-xl font-semibold leading-7 text-zinc-900 sm:text-1xl">
+            <%= gettext("Organizations") %>
+        </h3>
+
+        <div class="grid grid-cols-1 gap-4 py-6 mb-2 border-b border-gray-200 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <%= for {organization, index} <- Enum.with_index(@organizations) do %>
+                <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
+                    <div id={"organization-#{index}"} class="flex flex-row gap-x-4 items-center p-2 w-full h-20 rounded-xl border border-gray-200 hover:bg-gray-50">
+                        <div>
+                            <%= if organization.logo do %>
+                                <span class="inline-flex justify-center items-center w-10 h-10 rounded-lg align-middle">
+                                    <img src={Atomic.Uploaders.Logo.url({organization.logo, organization}, :original)} class="w-10 h-10 rounded-lg" />
+                                </span>
+                            <% else %>
+                                <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
+                                    <span class="text-lg font-medium leading-none text-white">
+                                        <%= Atomic.Accounts.extract_initials(organization.name) %>
+                                    </span>
+                                </span>
+                            <% end %>
+                        </div>
+                        <div class="flex overflow-hidden flex-col w-full">
+                            <span class="font-medium inline-block overflow-hidden w-full text-base whitespace-nowrap text-ellipsis">
+                                <%= organization.name %>
+                            </span>
+                            <span class="text-sm font-light capitalize text-zinc-500">
+                                <%= Atomic.Organizations.get_role(@user.id, organization.id) %>
+                            </span>
+                        </div>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
     </div>
-    <p><%= @user.name %></p>
-    <p>@<%= @user.handle %></p>
-    <p><%= @user.email %></p>
 </div>
