@@ -1,0 +1,12 @@
+<div>
+    <div class="relative flex-shrink-0 w-24 h-24 rounded-full ring-4 ring-zinc-300 bg-zinc-400 sm:w-32 sm:h-32">
+        <span class="inline-flex justify-center items-center w-24 h-24 rounded-full sm:w-32 sm:h-32 bg-secondary">
+            <span class="text-4xl font-medium leading-none select-none text-white sm:text-5xl">
+                <%= Atomic.Accounts.extract_initials(@user.name) %>
+            </span>
+        </span>
+    </div>
+    <p><%= @user.name %></p>
+    <p>@<%= @user.handle %></p>
+    <p><%= @user.email %></p>
+</div>

@@ -27,6 +27,22 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Gets a user by handle.
+
+  ## Examples
+
+      iex> get_user_by_handle("foo_bar")
+      %User{}
+
+      iex> get_user_by_handle("unknown")
+      nil
+
+  """
+  def get_user_by_handle(handle) when is_binary(handle) do
+    Repo.get_by(User, handle: handle)
+  end
+
+  @doc """
   Gets a user by email and password.
 
   ## Examples
