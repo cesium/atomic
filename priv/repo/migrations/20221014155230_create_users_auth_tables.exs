@@ -21,7 +21,8 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       timestamps()
     end
 
-    create unique_index(:users, [:email, :handle])
+    create unique_index(:users, [:email])
+    create unique_index(:users, [:handle])
 
     create table(:users_tokens, primary_key: false) do
       add :id, :binary_id, primary_key: true
