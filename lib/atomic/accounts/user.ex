@@ -85,7 +85,10 @@ defmodule Atomic.Accounts.User do
     changeset
     |> validate_required([:handle])
     |> validate_format(:handle, ~r/^[a-zA-Z0-9_.]+$/,
-      message: "must only contain alphanumeric characters, numbers, underscores and periods"
+      message:
+        Gettext.gettext(
+          "must only contain alphanumeric characters, numbers, underscores and periods"
+        )
     )
     |> validate_length(:handle, min: 3, max: 30)
     |> unsafe_validate_unique(:handle, Atomic.Repo)
