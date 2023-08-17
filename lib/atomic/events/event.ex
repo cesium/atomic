@@ -23,7 +23,6 @@ defmodule Atomic.Events.Event do
     timestamps()
   end
 
-  @doc false
   def changeset(events, attrs) do
     events
     |> cast(attrs, @required_fields ++ @optional_fields)

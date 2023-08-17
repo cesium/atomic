@@ -20,7 +20,6 @@ defmodule Atomic.Activities.Speaker do
     timestamps()
   end
 
-  @doc false
   def changeset(speaker, attrs) do
     speaker
     |> cast(attrs, @required_fields)

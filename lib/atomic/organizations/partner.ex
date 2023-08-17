@@ -1,4 +1,4 @@
-defmodule Atomic.Partnerships.Partner do
+defmodule Atomic.Organizations.Partner do
   @moduledoc """
     A partnership.
   """
@@ -31,12 +31,16 @@ defmodule Atomic.Partnerships.Partner do
     timestamps()
   end
 
-  @doc false
   def changeset(partner, attrs) do
     partner
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
+  end
+
+  def image_changeset(partner, attrs) do
+    partner
+    |> cast_attachments(attrs, [:image])
   end
 end

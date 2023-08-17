@@ -17,7 +17,6 @@ defmodule Atomic.Organizations.BoardDepartments do
     timestamps()
   end
 
-  @doc false
   def changeset(board_departments, attrs) do
     board_departments
     |> cast(attrs, @required_fields)

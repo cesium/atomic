@@ -14,7 +14,6 @@ defmodule Atomic.Events.EventOrganization do
     timestamps()
   end
 
-  @doc false
   def changeset(event_organization, attrs) do
     event_organization
     |> cast(attrs, @required_fields)

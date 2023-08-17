@@ -43,13 +43,13 @@ defmodule Atomic.Activities.Session do
     timestamps()
   end
 
-  @doc false
   def changeset(session, attrs) do
     session
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_embed(:location, with: &Location.changeset/2)
     |> cast_attachments(attrs, [:session_image])
     |> validate_required(@required_fields)
+    |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)

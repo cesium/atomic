@@ -4,7 +4,7 @@ defmodule Atomic.Partnerships do
   """
   use Atomic.Context
 
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
 
   @doc """
   Returns the list of partnerships.

@@ -21,7 +21,6 @@ defmodule Atomic.Organizations.Membership do
     timestamps()
   end
 
-  @doc false
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)

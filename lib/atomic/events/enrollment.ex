@@ -19,7 +19,6 @@ defmodule Atomic.Events.Enrollment do
     timestamps()
   end
 
-  @doc false
   def changeset(enrollment, attrs) do
     enrollment
     |> cast(attrs, @required_fields ++ @optional_fields)

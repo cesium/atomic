@@ -25,7 +25,6 @@ defmodule Atomic.Activities.Activity do
     timestamps()
   end
 
-  @doc false
   def changeset(activity, attrs) do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)

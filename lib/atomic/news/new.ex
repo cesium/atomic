@@ -16,7 +16,6 @@ defmodule Atomic.News.New do
     timestamps()
   end
 
-  @doc false
   def changeset(new, attrs) do
     new
     |> cast(attrs, @required_fields)

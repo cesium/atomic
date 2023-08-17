@@ -9,7 +9,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Organizations.Card
   alias Atomic.Organizations.Department
   alias Atomic.Organizations.Membership
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
   alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
@@ -51,7 +51,6 @@ defmodule Atomic.Organizations.Organization do
     timestamps()
   end
 
-  @doc false
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
