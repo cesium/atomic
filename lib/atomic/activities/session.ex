@@ -48,6 +48,7 @@ defmodule Atomic.Activities.Session do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> validate_location()
+    |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)

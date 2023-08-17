@@ -4,6 +4,7 @@ defmodule Atomic.Repo.Seeds.Activities do
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
+  alias Atomic.Activities
   alias Atomic.Activities.SessionDepartment
   alias Atomic.Activities.Session
   alias Atomic.Organizations.Organization
@@ -173,7 +174,7 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 minimum_entries: 0,
-                maximum_entries: 10,
+                maximum_entries: Enum.random(10..50),
                 enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
@@ -206,17 +207,16 @@ defmodule Atomic.Repo.Seeds.Activities do
   end
 
   def seed_enrollments() do
+    sessions = Repo.all(Session)
+
     case Repo.all(Enrollment) do
       [] ->
-        for session <- Repo.all(Session) do
-          for user <- Repo.all(User) do
-            %Enrollment{}
-            |> Enrollment.changeset(%{
-              user_id: user.id,
-              session_id: session.id,
-              present: Enum.random([true, false])
-            })
-            |> Repo.insert!()
+        for user <- Repo.all(User) do
+          for _ <- 1..Enum.random(1..2) do
+            Activities.create_enrollment(
+              Enum.random(sessions).id,
+              user
+            )
           end
         end
     end
