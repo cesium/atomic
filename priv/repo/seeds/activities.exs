@@ -16,13 +16,13 @@ defmodule Atomic.Repo.Seeds.Activities do
   end
 
   def seed_activities() do
-    location = %{
-      name: "Departamento de Informática da Universidade do Minho",
-      url: "https://web.di.uminho.pt"
-    }
-
     case Repo.all(Activity) do
       [] ->
+        location = %{
+          name: "Departamento de Informática da Universidade do Minho",
+          url: "https://web.di.uminho.pt"
+        }
+
         Activity.changeset(
           %Activity{},
           %{
@@ -173,7 +173,7 @@ defmodule Atomic.Repo.Seeds.Activities do
             activity_sessions: [
               %{
                 minimum_entries: 0,
-                maximum_entries: 10,
+                maximum_entries: Enum.random(10..50),
                 enrolled: 0,
                 start: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
                 finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
@@ -190,10 +190,9 @@ defmodule Atomic.Repo.Seeds.Activities do
   end
 
   def seed_activities_departments() do
-    department = Repo.get_by(Department, name: "Merchandise and Partnerships")
-
     case Repo.all(SessionDepartment) do
       [] ->
+        department = Repo.get_by(Department, name: "Merchandise and Partnerships")
         activities = Repo.all(Activity)
 
         for activity <- activities do

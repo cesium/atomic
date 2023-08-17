@@ -1,5 +1,5 @@
 defmodule Atomic.Repo.Seeds.Partners do
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
 

@@ -147,7 +147,7 @@ defmodule Atomic.ActivitiesTest do
 
     test "update_enrollment/2 with valid data updates the enrollment" do
       enrollment = insert(:enrollment)
-      update_attrs = %{}
+      update_attrs = %{present: true}
 
       assert {:ok, %Enrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
     end
