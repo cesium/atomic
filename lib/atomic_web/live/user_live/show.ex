@@ -22,11 +22,11 @@ defmodule AtomicWeb.UserLive.Show do
     ]
 
     {:noreply,
-    socket
-    |> assign(:page_title, user.name)
-    |> assign(:current_page, :profile)
-    |> assign(:breadcrumb_entries, entries)
-    |> assign(:user, user)
-    |> assign(:organizations, organizations)}
+     socket
+     |> assign(:page_title, user.name)
+     |> assign(:current_page, :profile)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:user, user)
+     |> assign(:organizations, organizations)}
   end
 end

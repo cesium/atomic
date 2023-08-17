@@ -111,7 +111,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
-      handle = (character |> String.downcase() |> String.replace(~r/\s/, "_"))
+      handle = character |> String.downcase() |> String.replace(~r/\s/, "_")
 
       user = %{
         "name" => character,

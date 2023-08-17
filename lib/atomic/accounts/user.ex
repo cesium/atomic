@@ -84,7 +84,9 @@ defmodule Atomic.Accounts.User do
   defp validate_handle(changeset) do
     changeset
     |> validate_required([:handle])
-    |> validate_format(:handle, ~r/^[a-z0-9_]+$/, message: "must only contain lowercase characters, numbers, and underscores")
+    |> validate_format(:handle, ~r/^[a-z0-9_]+$/,
+      message: "must only contain lowercase characters, numbers, and underscores"
+    )
     |> validate_length(:handle, min: 3, max: 30)
     |> unsafe_validate_unique(:handle, Atomic.Repo)
     |> unique_constraint(:handle)
