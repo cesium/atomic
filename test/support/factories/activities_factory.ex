@@ -25,8 +25,8 @@ defmodule Atomic.Factories.ActivityFactory do
 
       def session_factory do
         %Session{
-          minimum_entries: 5,
-          maximum_entries: 50,
+          minimum_entries: Enum.random(1..10),
+          maximum_entries: Enum.random(11..20),
           start: NaiveDateTime.utc_now(),
           finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour)
         }
