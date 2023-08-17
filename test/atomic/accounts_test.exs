@@ -53,19 +53,27 @@ defmodule Atomic.AccountsTest do
              } = errors_on(changeset)
     end
 
-    test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
+    test "validates email, handle and password when given" do
+      {:error, changeset} =
+        Accounts.register_user(%{email: "not valid", handle: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
+               handle: [
+                 "must only contain alphanumeric characters, numbers, underscores and periods"
+               ],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
 
-    test "validates maximum values for email and password for security" do
+    test "validates maximum values for email, handle and password for security" do
       too_long = String.duplicate("db", 100)
-      {:error, changeset} = Accounts.register_user(%{email: too_long, password: too_long})
+
+      {:error, changeset} =
+        Accounts.register_user(%{email: too_long, handle: too_long, password: too_long})
+
       assert "should be at most 160 character(s)" in errors_on(changeset).email
+      assert "should be at most 30 character(s)" in errors_on(changeset).handle
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
@@ -84,6 +92,7 @@ defmodule Atomic.AccountsTest do
       {:ok, user} = Accounts.register_user(user_attrs)
 
       assert user.email == user_attrs.email
+      assert user.handle == user_attrs.handle
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
@@ -99,11 +108,12 @@ defmodule Atomic.AccountsTest do
     test "allows fields to be set" do
       email = Faker.Internet.email()
       password = valid_user_password()
+      handle = Faker.Internet.user_name()
 
       changeset =
         Accounts.change_user_registration(
           %User{},
-          params_for(:user, %{email: email, password: password})
+          params_for(:user, %{email: email, handle: handle, password: password})
         )
 
       assert changeset.valid?
