@@ -7,7 +7,7 @@
     <style>
         /* Inline styles */
         .container {
-            background: url('http://localhost:4000/images/atomic.png') no-repeat center;
+            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic.png" %>') no-repeat center;
             text-align: center;
             width: 1500px;
             height: 1045px;
