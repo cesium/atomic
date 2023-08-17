@@ -8,7 +8,7 @@ defmodule Atomic.Partnerships.Partner do
   alias Atomic.Uploaders
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description)a
+  @optional_fields ~w(description image)a
 
   @derive {
     Flop.Schema,
