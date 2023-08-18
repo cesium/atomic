@@ -20,7 +20,7 @@ workflows:
     run:
       - if: $rule("First run state")
         then:
-          - if: $countUserPullRequests($getAuthor())
+          - if: $countUserPullRequests($getAuthor()) == 1
             then: $info("Thanks for your first contribution!")
             else: $info("Thanks for your contribution!")
           - $warn("Please make sure the CI is green before merging.")
