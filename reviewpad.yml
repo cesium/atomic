@@ -14,7 +14,7 @@ workflows:
   - name: Request review from maintainers
     run:
       - if: $rule("First run state")
-        then: $addReviewers($getTeamMembers("atomic-23/24"))
+        then: $addReviewers($getTeamMembers("atomic-23-24"))
 
   - name: Base message and summary
     run:
