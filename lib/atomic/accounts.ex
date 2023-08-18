@@ -214,6 +214,19 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user handle.
+
+  ## Examples
+
+      iex> change_user_handle(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_handle(user, attrs \\ %{}) do
+    User.handle_changeset(user, attrs)
+  end
+
+  @doc """
   Emulates that the email will change without actually changing
   it in the database.
 

@@ -136,6 +136,21 @@ defmodule Atomic.Accounts.User do
   end
 
   @doc """
+  A user changeset for changing the handle.
+
+  It requires the handle to change otherwise an error is added.
+  """
+  def handle_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:handle])
+    |> validate_handle()
+    |> case do
+      %{changes: %{handle: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :handle, "did not change")
+    end
+  end
+
+  @doc """
   A user changeset for changing the password.
 
   ## Options

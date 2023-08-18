@@ -87,6 +87,16 @@ defmodule Atomic.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
+    test "validates handle uniqueness" do
+      %{handle: handle} = insert(:user)
+      {:error, changeset} = Accounts.register_user(%{handle: handle})
+      assert "has already been taken" in errors_on(changeset).handle
+
+      # Now try with the upper cased handle too, to check that handle case is ignored.
+      {:error, changeset} = Accounts.register_user(%{handle: String.upcase(handle)})
+      assert "has already been taken" in errors_on(changeset).handle
+    end
+
     test "registers users with a hashed password" do
       user_attrs = params_for(:user) |> Map.put(:password, valid_user_password())
       {:ok, user} = Accounts.register_user(user_attrs)
@@ -127,6 +137,13 @@ defmodule Atomic.AccountsTest do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_email(%User{})
       assert changeset.required == [:email]
+    end
+  end
+
+  describe "change_user_handle/2" do
+    test "returns a user changeset" do
+      assert %Ecto.Changeset{} = changeset = Accounts.change_user_handle(%User{})
+      assert changeset.required == [:handle]
     end
   end
 
