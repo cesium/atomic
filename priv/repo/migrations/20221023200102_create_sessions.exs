@@ -18,5 +18,9 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
     end
 
     create index(:sessions, [:activity_id])
+
+    create constraint(:sessions, :minimum_entries_lower_than_maximum_entries,
+             check: "minimum_entries < maximum_entries"
+           )
   end
 end

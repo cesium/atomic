@@ -143,19 +143,21 @@
                   </button>
                 </dd>
               <% else %>
-                <div class="flex flex-col">
-                  <dt class="text-sm font-medium text-zinc-500">
-                    <%= gettext("You are not enrolled in this activity") %>
-                  </dt>
-                  <button
-                    phx-click="enroll"
-                    phx-disable-with={gettext("Enrolling...")}
-                    phx-throttle="0"
-                    class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <%= gettext("Enroll") %>
-                  </button>
-                </div>
+                <%= if @max_enrolled? do %>
+                  <div class="flex flex-col">
+                    <dt class="text-sm font-medium text-zinc-500">
+                      <%= gettext("You are not enrolled in this activity") %>
+                    </dt>
+                    <button
+                      phx-click="enroll"
+                      phx-disable-with={gettext("Enrolling...")}
+                      phx-throttle="0"
+                      class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                      <%= gettext("Enroll") %>
+                    </button>
+                  </div>
+                <% end %>
               <% end %>
             </div>
           </dl>
@@ -166,7 +168,7 @@
 </div>
 
 <div class="flex flex-row space-x-1">
-  <%= if @current_user.role in [:admin] or Organizations.is_admin?(@current_user, @activity.departments) do %>
+  <%= if @current_user.role in [:admin] or Organizations.is_admin?(@current_user, @session.departments) do %>
     <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @activity, @current_organization), class: "button" do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
         <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit

@@ -29,7 +29,7 @@ defmodule Atomic.ActivitiesFixtures do
       attrs
       |> Enum.into(%{
         maximum_entries: 42,
-        minimum_entries: 42,
+        minimum_entries: 0,
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00]
       })

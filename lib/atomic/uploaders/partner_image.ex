@@ -6,7 +6,7 @@ defmodule Atomic.Uploaders.PartnerImage do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
-  alias Atomic.Partnerships.Partner
+  alias Atomic.Organizations.Partner
 
   @versions [:original, :medium, :thumb]
   @extension_whitelist ~w(.jpg .jpeg .png)
