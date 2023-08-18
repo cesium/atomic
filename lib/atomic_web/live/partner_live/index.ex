@@ -2,8 +2,8 @@ defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Organizations
-  alias Atomic.Partnerships
   alias Atomic.Organizations.Partner
+  alias Atomic.Partnerships
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
