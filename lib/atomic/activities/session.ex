@@ -65,7 +65,11 @@ defmodule Atomic.Activities.Session do
     maximum_entries = get_change(changeset, :maximum_entries)
 
     if minimum_entries > maximum_entries do
-      add_error(changeset, :maximum_entries, "must be greater than minimum entries")
+      add_error(
+        changeset,
+        :maximum_entries,
+        Gettext.gettext("must be greater than minimum entries")
+      )
     else
       changeset
     end
