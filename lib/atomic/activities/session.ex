@@ -50,7 +50,6 @@ defmodule Atomic.Activities.Session do
     |> validate_location()
     |> validate_dates()
     |> validate_entries_number()
-    |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)
