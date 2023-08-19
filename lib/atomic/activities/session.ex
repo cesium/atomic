@@ -76,7 +76,7 @@ defmodule Atomic.Activities.Session do
     start = get_change(changeset, :start)
     finish = get_change(changeset, :finish)
 
-    if start && finish && start > finish do
+    if start && finish && Date.compare(start, finish) == :gt do
       add_error(changeset, :finish, "must be after starting date")
     else
       changeset
