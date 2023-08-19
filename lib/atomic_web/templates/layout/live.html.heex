@@ -201,11 +201,14 @@
               <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
               <span class="">Calendar</span>
             <% end %>
-            <%= live_redirect to: Routes.user_settings_path(@socket, :edit), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
+            <%= live_redirect to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
               <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                <%= Atomic.Accounts.extract_initials(@current_user.email) %>
+                <%= Atomic.Accounts.extract_initials(@current_user.name) %>
               </span>
-              <span aria-hidden="true"><%= @current_user.email %></span>
+              <span>
+                <p aria-hidden="true"><%= @current_user.name %></p>
+                <p class="text-zinc-500 text-xs font-normal" aria-hidden="true">@<%= @current_user.handle %></p>
+              </span>
             <% end %>
           </div>
         </nav>
@@ -217,7 +220,7 @@
           <%= if @current_organization do %>
             <li>
               <div>
-                <%= live_redirect to: Routes.activity_index_path(@socket, :index, @current_organization), class: "text-zinc-400 hover:text-zinc-500" do %>
+                <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
                   <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
                   </svg>
