@@ -11,7 +11,7 @@ The following software is required to be installed on your system:
 
 - [Erlang 25+](https://www.erlang.org/downloads)
 - [Elixir 1.14+](https://elixir-lang.org/install.html)
-- [PostgreSQL 13+](https://www.postgresql.org/download/)(^See [this section](#-docker) for setting up with docker.)
+- [PostgreSQL 13+](https://www.postgresql.org/download/)(see [this section](#-docker) for setting up with docker)
 
 We recommend using [asdf version manager][asdf-vm] to install and manage all
 the programming languages' requirements.
@@ -25,6 +25,7 @@ First, clone the repository:
 ```
 git clone git@github.com:cesium/atomic.git
 cd atomic
+git checkout develop
 ```
 
 Then, run the setup script to get all dependencies configured. Make sure the database is up and running.
@@ -71,7 +72,7 @@ PostgreSQL up and running.
 If you want to setup the required database using docker containers you can
 easily do it with [docker-compose](https://docs.docker.com/compose/install/).
 
-Create and start the database containers.
+Create and start the database containers. You should use `linux.yml` if running on Linux and `darwin.yml` if running on macOS.
 
 ```
 cp .env.dev.sample .env.dev
@@ -106,3 +107,4 @@ uses.
 - [Elixir School Course](https://elixirschool.com/en/)
 - [Phoenix Guides Overview](https://hexdocs.pm/phoenix/overview.html)
 - [Phoenix Documentation](https://hexdocs.pm/phoenix)
+- [Ecto Documentation](https://hexdocs.pm/ecto)
