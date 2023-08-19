@@ -12,7 +12,8 @@ defmodule AtomicWeb.UserLive.Show do
   def handle_params(%{"handle" => user_handle}, _, socket) do
     user = Accounts.get_user_by_handle(user_handle)
 
-    is_current_user = Map.has_key?(socket.assigns, :current_user) and socket.assigns.current_user.id == user.id
+    is_current_user =
+      Map.has_key?(socket.assigns, :current_user) and socket.assigns.current_user.id == user.id
 
     organizations = Accounts.get_user_organizations(user)
 
@@ -30,7 +31,6 @@ defmodule AtomicWeb.UserLive.Show do
      |> assign(:breadcrumb_entries, entries)
      |> assign(:user, user)
      |> assign(:organizations, organizations)
-     |> assign(:is_current_user, is_current_user)
-    }
+     |> assign(:is_current_user, is_current_user)}
   end
 end

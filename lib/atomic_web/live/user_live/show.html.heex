@@ -9,7 +9,7 @@
           <%= if @is_current_user do %>
             <%= live_redirect to: Routes.user_settings_path(@socket, :edit) do %>
               <div class="ml-4 outline-1 w-6 h-6 sm:w-8 sm:h-8 align-middle self-center sm:py-1">
-                <Heroicons.Outline.pencil class="p-[0.15rem] border sm:p-1 sm:border-2 stroke-zinc-400 rounded-lg border-zinc-400 hover:stroke-orange-400 hover:border-orange-400"/>
+                <Heroicons.Outline.pencil class="p-[0.15rem] border sm:p-1 sm:border-2 stroke-zinc-400 rounded-lg border-zinc-400 hover:stroke-orange-400 hover:border-orange-400" />
               </div>
             <% end %>
           <% end %>
