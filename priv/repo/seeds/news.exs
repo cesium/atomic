@@ -1,6 +1,5 @@
 defmodule Atomic.Repo.Seeds.News do
-  alias Atomic.News.New
-  alias Atomic.Organizations.Organization
+  alias Atomic.Organizations.{News, Organization}
   alias Atomic.Repo
 
   def run do
@@ -8,7 +7,7 @@ defmodule Atomic.Repo.Seeds.News do
   end
 
   def seed_news() do
-    case Repo.all(New) do
+    case Repo.all(News) do
       [] ->
         organizations = Repo.all(Organization)
 
