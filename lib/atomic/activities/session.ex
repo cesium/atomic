@@ -48,6 +48,8 @@ defmodule Atomic.Activities.Session do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> validate_location()
+    |> validate_dates()
+    |> validate_entries_number()
     |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
@@ -57,6 +59,28 @@ defmodule Atomic.Activities.Session do
   defp validate_location(changeset) do
     changeset
     |> cast_embed(:location, with: &Location.changeset/2)
+  end
+
+  defp validate_entries_number(changeset) do
+    minimum_entries = get_change(changeset, :minimum_entries)
+    maximum_entries = get_change(changeset, :maximum_entries)
+
+    if minimum_entries && maximum_entries && minimum_entries > maximum_entries do
+      add_error(changeset, :maximum_entries, "must be greater than minimum entries")
+    else
+      changeset
+    end
+  end
+
+  defp validate_dates(changeset) do
+    start = get_change(changeset, :start)
+    finish = get_change(changeset, :finish)
+
+    if start && finish && start > finish do
+      add_error(changeset, :finish, "must be after starting date")
+    else
+      changeset
+    end
   end
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
