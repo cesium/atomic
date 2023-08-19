@@ -2,8 +2,9 @@ defmodule Atomic.Factories.OrganizationFactory do
   @moduledoc """
   A factory to generate account related structs
   """
-
   alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
+
+  import AtomicWeb.Helpers
 
   defmacro __using__(_opts) do
     quote do
@@ -27,7 +28,7 @@ defmodule Atomic.Factories.OrganizationFactory do
 
       def board_factory do
         %Board{
-          year: "2023/2024",
+          year: build_current_academic_year(),
           organization: build(:organization)
         }
       end
