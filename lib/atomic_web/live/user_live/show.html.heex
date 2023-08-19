@@ -6,13 +6,6 @@
           <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
             <%= @user.name %>
           </h2>
-          <%= if @is_current_user do %>
-            <%= live_redirect to: Routes.user_settings_path(@socket, :edit) do %>
-              <div class="ml-4 outline-1 w-6 h-6 sm:w-8 sm:h-8 align-middle self-center sm:py-1">
-                <Heroicons.Outline.pencil class="p-[0.15rem] border sm:p-1 sm:border-2 stroke-zinc-400 rounded-lg border-zinc-400 hover:stroke-orange-400 hover:border-orange-400" />
-              </div>
-            <% end %>
-          <% end %>
         </div>
         <p class="text-zinc-500">@<%= @user.handle %></p>
       </div>
@@ -58,5 +51,12 @@
         <% end %>
       <% end %>
     </div>
+    <%= if @is_current_user do %>
+      <div class="w-full flex flex-row-reverse py-2">
+        <%= live_patch to: Routes.user_settings_path(@socket, :edit), class: "inline-flex px-6 py-2 text-sm font-medium text-orange-500 bg-white border-2 border-orange-500 rounded-md shadow-sm hover:bg-orange-500 hover:text-white" do %>
+          <Heroicons.Solid.pencil class="mr-2 -ml-1 w-5 h-5" /> Edit
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
