@@ -158,13 +158,47 @@ defmodule AtomicWeb.Helpers do
     ## Examples
 
         iex> build_current_academic_year()
-        "2023/2024"
+        "2022/2023"
   """
   def build_current_academic_year do
-    current_year = Timex.now() |> Timex.format!("{YYYY}")
-    next_year = Timex.now() |> Timex.shift(years: 1) |> Timex.format!("{YYYY}")
+    now = Date.utc_today()
+    start_year = calculate_academic_start_year(now)
 
-    "#{current_year}/#{next_year}"
+    "#{start_year}/#{start_year + 1}"
+  end
+
+  @doc """
+    Returns the start year of the academic year of a given date
+
+    ## Examples
+
+        iex> calculate_academic_start_year(~D[2020-01-01])
+        2019
+
+        iex> calculate_academic_start_year(~D[2020-09-01])
+        2020
+
+        iex> calculate_academic_start_year(~D[2022-05-31])
+        2021
+
+        iex> calculate_academic_start_year(~D[2022-08-31])
+        2021
+
+        iex> calculate_academic_start_year(~D[2023-12-05])
+        2023
+  """
+  def calculate_academic_start_year(date) do
+    current_year = date.year
+    next_year = current_year + 1
+
+    academic_year_start = Timex.parse!("01-09-#{current_year}", "{0D}-{0M}-{YYYY}")
+    academic_year_end = Timex.parse!("31-08-#{next_year}", "{0D}-{0M}-{YYYY}")
+
+    if Timex.between?(date, academic_year_start, academic_year_end, inclusive: true) do
+      current_year
+    else
+      current_year - 1
+    end
   end
 
   def build_path(current_path, params) do

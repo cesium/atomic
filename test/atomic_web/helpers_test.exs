@@ -6,5 +6,5 @@ defmodule AtomicWeb.HelpersTest do
 
   import AtomicWeb.Helpers
 
-  doctest AtomicWeb.Helpers
+  doctest AtomicWeb.Helpers, except: [build_current_academic_year: 0]
 end
