@@ -1,4 +1,3 @@
-Ciências da Educação
 Administração Pública
 Arqueologia
 Artes Visuais
@@ -6,6 +5,7 @@ Biologia Aplicada
 Biologia e Geologia
 Bioquímica
 Ciência de Dados
+Ciências da Educação
 Ciência Política
 Ciências da Computação
 Ciências da Comunicação
@@ -45,6 +45,7 @@ Gestão
 História
 Línguas Aplicadas
 Línguas e Literaturas Europeias
+Medicina
 Marketing
 Matemática
 Música
