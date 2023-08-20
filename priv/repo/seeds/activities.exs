@@ -1,13 +1,8 @@
 defmodule Atomic.Repo.Seeds.Activities do
-  alias Atomic.Activities.SessionDepartment
-  alias Atomic.Repo
-
   alias Atomic.Accounts.User
+  alias Atomic.Activities.{Activity, ActivitySession, Enrollment, Session, SessionDepartment}
   alias Atomic.Organizations.Department
-  alias Atomic.Activities
-  alias Atomic.Activities.SessionDepartment
-  alias Atomic.Activities.Session
-  alias Atomic.Activities.{Activity, Enrollment}
+  alias Atomic.Repo
 
   def run do
     seed_activities()
@@ -15,7 +10,7 @@ defmodule Atomic.Repo.Seeds.Activities do
     seed_session_departments()
   end
 
-  def seed_activities() do
+  def seed_activities do
     case Repo.all(Activity) do
       [] ->
         location = %{
@@ -189,7 +184,7 @@ defmodule Atomic.Repo.Seeds.Activities do
     end
   end
 
-  def seed_activities_departments() do
+  def seed_activities_departments do
     case Repo.all(SessionDepartment) do
       [] ->
         department = Repo.get_by(Department, name: "Merchandise and Partnerships")
@@ -209,7 +204,7 @@ defmodule Atomic.Repo.Seeds.Activities do
     end
   end
 
-  def seed_enrollments() do
+  def seed_enrollments do
     case Repo.all(Enrollment) do
       [] ->
         users = Repo.all(User)
@@ -229,7 +224,7 @@ defmodule Atomic.Repo.Seeds.Activities do
     end
   end
 
-  def seed_session_departments() do
+  def seed_session_departments do
     case Repo.all(SessionDepartment) do
       [] ->
         department = Repo.get_by(Department, name: "CAOS")

@@ -6,8 +6,8 @@ defmodule Atomic.Repo.Seeds.News do
     seed_news()
   end
 
-  def seed_news() do
-    case Repo.all(News) do
+  def seed_news do
+    case Repo.all(New) do
       [] ->
         organizations = Repo.all(Organization)
 

@@ -1,14 +1,12 @@
 defmodule Atomic.Repo.Seeds.Departments do
+  alias Atomic.Organizations.{Department, Organization}
   alias Atomic.Repo
-
-  alias Atomic.Organizations.Department
-  alias Atomic.Organizations.Organization
 
   def run do
     seed_departments()
   end
 
-  def seed_departments() do
+  def seed_departments do
     case Repo.all(Department) do
       [] ->
         Department.changeset(
