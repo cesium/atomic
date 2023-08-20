@@ -1,7 +1,5 @@
 defmodule Atomic.Repo.Seeds.Courses do
-  alias Atomic.Accounts
-  alias Atomic.Accounts.Course
-  alias Atomic.Repo
+  @cycles ~w(Bachelors Masters PhD)a
 
   def run do
     case Repo.all(Course) do
@@ -17,7 +15,9 @@ defmodule Atomic.Repo.Seeds.Courses do
     File.read!("data/courses.txt")
     |> String.split("\n")
     |> Enum.filter(fn name -> name != "" end)
-    |> Enum.map(fn name -> Accounts.create_course(%{name: name}) end)
+    |> Enum.map(fn name ->
+      Atomic.Accounts.create_course(%{name: name, cycle: Enum.random(@cycles)})
+    end)
   end
 end
 
