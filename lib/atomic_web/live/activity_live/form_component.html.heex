@@ -2,12 +2,8 @@
   <.form let={f} for={@changeset} id="activity-form" phx-target={@myself} phx-change="validate" phx-submit="save">
     <div class="relative py-5 px-4 border-b border-gray-200 sm:py-6 sm:px-6 lg:px-8 xl:px-6">
       <div class="flex flex-col gap-y-3 lg:self-end">
-
-        <div class="flex justify-between">
-          <%= live_redirect("< Back", to: @return_to, class: "hover:underline inline-flex items-center justify-center whitespace-nowrap") %>
-          <div>
-            <%= submit("Save", phx_disable_with: "Saving...", class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
-          </div>
+        <div class="flex justify-end">
+          <%= submit("Save", phx_disable_with: "Saving...", class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
         </div>
 
         <div class="w-full">
@@ -25,12 +21,11 @@
         <div class="flex text-red-500">
           <%= error_tag(f, :description) %>
         </div>
-
       </div>
     </div>
 
     <div clas="flex flex-col">
-      <div class="flex justify-between gap-x-4 sm:flex-row">
+      <div class="flex justify-between gap-x-4 sm:flex-row py-2">
         <span class="flex items-center pl-1 text-lg font-medium text-gray-800 sm:text-xl">
           Sessions
         </span>
@@ -47,121 +42,120 @@
                 Session <%= fs.index + 1 %>
               </span>
               <%= if fs.index != 0 do %>
-                <%= if is_nil(fs.data.id) do %>
-                  <a phx-click="rm-task" phx-target={@myself} phx-value-index={fs.index} class="justify-center py-2 px-4 text-sm font-medium bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50 text-primary">
-                    Delete
-                  </a>
-                <% else %>
-                  <a onclick={"document.getElementById('#{fs.data.id}').click()"} x-on:click="show = false" class="justify-center py-2 px-4 text-sm font-medium bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50 text-primary">
-                    Delete
-                  </a>
-                  <%= checkbox(fs, :delete, id: fs.data.id, class: "hidden") %>
-                <% end %>
+                <a phx-click="rm-session" phx-target={@myself} phx-value-index={fs.index} class="justify-center py-2 px-4 text-sm font-medium bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50 text-red-600">
+                  Delete
+                </a>
+                <%= checkbox(fs, :delete, id: fs.data.id, class: "hidden") %>
               <% end %>
             </div>
 
-            <div class="flex flex-col gap-x-4 sm:flex-row">
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Starting date
-                </span>
-                <div>
-                  <%= datetime_local_input(fs, :start, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :start) %>
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Finishing date
-                </span>
-                <div>
-                  <%= datetime_local_input(fs, :finish, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :finish) %>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="flex flex-col gap-x-4 sm:flex-row">
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Departments 
-                </span>
-                <div>
-                  <%= multiple_select(fs, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id), on_change: "update_departments", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :departments) %>
+            <div class="flex flex-col gap-x-10 sm:flex-row">
+              <div>
+                <div class="flex flex-col mb-4 gap-x-10 sm:flex-row">
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Starting date
+                    </span>
+                    <div>
+                      <%= datetime_local_input(fs, :start, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :start) %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Finishing date
+                    </span>
+                    <div>
+                      <%= datetime_local_input(fs, :finish, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :finish) %>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Speaker 
-                </span>
-                <div>
-                  <%= multiple_select(fs, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :speakers) %>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="flex flex-col gap-x-4 sm:flex-row">
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Minimum entries 
-                </span>
-                <div>
-                  <%= number_input(fs, :minimum_entries, prompt: "Minimum entries", placeholder: "Choose minimum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :minimum_entries) %>
+                <div class="flex flex-col mb-4 gap-x-10 sm:flex-row">
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Minimum entries 
+                    </span>
+                    <div>
+                      <%= number_input(fs, :minimum_entries, prompt: "Minimum entries", placeholder: "Choose minimum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :minimum_entries) %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Maximum entries 
+                    </span>
+                    <div>
+                      <%= number_input(fs, :maximum_entries, prompt: "Maximum entries", placeholder: "Choose maximum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :maximum_entries) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-col mb-4 gap-x-10 sm:flex-row">
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Departments 
+                    </span>
+                    <div>
+                      <%= multiple_select(fs, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id), on_change: "update_departments", class: "block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:text-sm sm:leading-6") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :departments) %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex flex-col gap-y-1">
+                    <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
+                      Speaker 
+                    </span>
+                    <div>
+                      <%= multiple_select(fs, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers", class: "block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:text-sm sm:leading-6") %>
+                      <div class="text-red-500">
+                        <%= error_tag(fs, :speakers) %>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col gap-y-1">
-                <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
-                  Maximum entries 
-                </span>
-                <div>
-                  <%= number_input(fs, :maximum_entries, prompt: "Maximum entries", placeholder: "Choose maximum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                  <div class="text-red-500">
-                    <%= error_tag(fs, :maximum_entries) %>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-
-            <div>
-              <%= inputs_for fs, :location, fn fl -> %>
-                <div class="flex flex-col gap-x-4 sm:flex-row">
-                  <div class="w-full">
+              <div>
+                <%= inputs_for fs, :location, fn fl -> %>
+                  <div class="flex flex-col mb-4 gap-y-1">
                     <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
                       Location 
                     </span>
-                    <%= text_input(fl, :name, placeholder: "Choose location name", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                    <div class="flex text-red-500">
-                      <%= error_tag(fl, :name) %>
+                    <div>
+                      <%= text_input(fl, :name, placeholder: "Choose location name", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="flex text-red-500">
+                        <%= error_tag(fl, :name) %>
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div class="flex flex-col gap-x-4 sm:flex-row">
-                  <div class="w-full">
+                  
+                  <div class="flex flex-col mb-4 gap-y-1">
                     <span class="pl-1 text-base font-medium text-gray-800 sm:text-lg">
                       URL 
                     </span>
-                    <%= text_input(fl, :url, placeholder: "Choose event URL", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                    <div class="flex text-red-500">
-                      <%= error_tag(fl, :url) %>
+                    <div>
+                      <%= text_input(fl, :url, placeholder: "Choose event URL", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
+                      <div class="flex text-red-500">
+                        <%= error_tag(fl, :url) %>
+                      </div>
                     </div>
                   </div>
-                </div>
-              <% end %>
+                <% end %>
+              </div>
             </div>
 
           </div>
