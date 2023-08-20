@@ -35,46 +35,40 @@
 
 <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for news <- @all_news do %>
-    <li class="col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
-      <%= live_patch to: Routes.news_show_path(@socket, :show, @current_organization, news), class: "" do %>
-        <div class="flex-1 flex-col w-full p-4">
-          <h3 class="text-md font-medium text-gray-900"><%= news.title %></h3>
-          <span class="text-md font-semibold text-gray-500">
-            <%= news.description %>
-          </span>
-        </div>
-        <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
-          <div>
-            <div class="flex py-2">
-              <div class="flex flex-1 z-1">
-                <%= live_patch(
-                  to: Routes.news_edit_path(@socket, :edit, @current_organization, news),
-                  class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-semibold text-gray-900"
-                ) do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-200" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.pencil class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
-                    <p class="hidden xl:inline">Edit</p>
-                  </div>
-                <% end %>
-              </div>
+    <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
+      <div class="flex flex-1 flex-col p-2">
+        <h3 class="mt-1 text-sm font-medium text-gray-900"><%= news.title %></h3>
+        <dl class="my-1 flex flex-grow flex-col justify-between">
+          <dd class="text-sm text-gray-500"><%= news.description %></dd>
+        </dl>
+      </div>
 
-              <div class="flex w-0 flex-1">
-                <%= link(
-                  to: "#",
-                  phx_click: "delete",
-                  class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-semibold text-gray-900",
-                  phx_value_id: news.id,
-                  data: [confirm: "Are you sure?"])
-                do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.x class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
-                    <p class="hidden xl:inline">Delete</p>
-                  </div>
-                <% end %>
-              </div>
+      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+        <div>
+          <div class="-mt-px flex divide-x divide-gray-200">
+            <div class="flex w-0 flex-1">
+              <%= live_patch(
+                to: Routes.news_edit_path(@socket, :edit, @current_organization, news),
+                class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium hover:bg-gray-50"
+              ) do %>
+                <Heroicons.Solid.pencil class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
+                <p class="hidden lg:inline">Edit</p>
+              <% end %>
+            </div>
+            <div class="-ml-px w-0 flex-1 flex">
+              <%= link(
+                to: "#",
+                phx_click: "delete",
+                class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-medium hover:bg-gray-50",
+                phx_value_id: news.id,
+                data: [confirm: "Are you sure?"]
+              ) do %>
+                <Heroicons.Solid.trash class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
+                <p class="hidden lg:inline">Delete</p>
+              <% end %>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </li>
   <% end %>
