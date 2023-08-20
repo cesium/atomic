@@ -96,7 +96,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   defp maybe_update_default_organization(user, organization) do
-    if user.default_organization_id == nil do
+    if is_nil(user.default_organization_id) do
       Accounts.update_user(user, %{
         default_organization_id: organization.id
       })
