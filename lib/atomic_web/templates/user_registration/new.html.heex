@@ -20,15 +20,6 @@
         <%= error_tag(f, :email) %>
       </div>
       <div class="flex justify-center">
-        <%= label(f, :handle, class: "sr-only") %>
-        <%= text_input(f, :handle,
-          required: true,
-          placeholder: gettext("Username"),
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-        ) %>
-        <%= error_tag(f, :handle) %>
-      </div>
-      <div class="flex justify-center">
         <%= label(f, :password, class: "sr-only") %>
         <%= password_input(f, :password,
           required: true,
@@ -37,6 +28,16 @@
           class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
         <%= error_tag(f, :password) %>
+      </div>
+      <div class="flex justify-center">
+        <%= label(f, :password_confirmation, class: "sr-only") %>
+        <%= password_input(f, :password_confirmation,
+          required: true,
+          placeholder: gettext("Confirm password"),
+          autocomplete: "current-password",
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+        ) %>
+        <%= error_tag(f, :password_confirmation) %>
       </div>
     </div>
 
