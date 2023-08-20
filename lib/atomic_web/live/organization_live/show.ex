@@ -65,7 +65,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply,
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
-         |> push_redirect(to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id))}
+         |> assign(:following, true)
+         |> push_patch(to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
