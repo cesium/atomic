@@ -19,7 +19,7 @@ defmodule AtomicWeb.NewsLive.Edit do
         route: Routes.news_index_path(socket, :index, organization_id)
       },
       %{
-        name: gettext("Edit New"),
+        name: gettext("Edit News"),
         route: Routes.news_edit_path(socket, :edit, id, organization_id)
       }
     ]
