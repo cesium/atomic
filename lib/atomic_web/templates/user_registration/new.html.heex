@@ -17,6 +17,14 @@
     ) %>
     <%= error_tag(f, :email) %>
 
+    <%= label(f, :handle, class: "sr-only") %>
+    <%= text_input(f, :handle,
+      required: true,
+      placeholder: gettext("Username"),
+      class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+    ) %>
+    <%= error_tag(f, :handle) %>
+
     <%= label(f, :password, class: "sr-only") %>
     <%= password_input(f, :password,
       required: true,

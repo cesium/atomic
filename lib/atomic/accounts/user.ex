@@ -9,7 +9,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email password)a
+  @required_fields ~w(email handle password)a
   @optional_fields ~w(name role confirmed_at course_id default_organization_id)a
 
   @roles ~w(admin student)a
@@ -17,6 +17,7 @@ defmodule Atomic.Accounts.User do
   schema "users" do
     field :name, :string
     field :email, :string
+    field :handle, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
@@ -53,6 +54,7 @@ defmodule Atomic.Accounts.User do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email()
+    |> validate_handle()
     |> validate_password(opts)
   end
 
@@ -77,6 +79,20 @@ defmodule Atomic.Accounts.User do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Atomic.Repo)
     |> unique_constraint(:email)
+  end
+
+  defp validate_handle(changeset) do
+    changeset
+    |> validate_required([:handle])
+    |> validate_format(:handle, ~r/^[a-zA-Z0-9_.]+$/,
+      message:
+        Gettext.gettext(
+          "must only contain alphanumeric characters, numbers, underscores and periods"
+        )
+    )
+    |> validate_length(:handle, min: 3, max: 30)
+    |> unsafe_validate_unique(:handle, Atomic.Repo)
+    |> unique_constraint(:handle)
   end
 
   defp validate_password(changeset, opts) do
@@ -116,6 +132,21 @@ defmodule Atomic.Accounts.User do
     |> case do
       %{changes: %{email: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
+    end
+  end
+
+  @doc """
+  A user changeset for changing the handle.
+
+  It requires the handle to change otherwise an error is added.
+  """
+  def handle_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:handle])
+    |> validate_handle()
+    |> case do
+      %{changes: %{handle: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :handle, "did not change")
     end
   end
 
