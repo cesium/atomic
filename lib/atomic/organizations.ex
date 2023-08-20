@@ -6,10 +6,7 @@ defmodule Atomic.Organizations do
   use Atomic.Context
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Membership
-  alias Atomic.Organizations.Organization
-  alias Atomic.Organizations.UserOrganization
-  alias Atomic.Repo
+  alias Atomic.Organizations.{Membership, News, Organization, UserOrganization}
 
   @doc """
   Returns the list of organizations.
@@ -482,5 +479,115 @@ defmodule Atomic.Organizations do
   def get_total_organization_members(organization_id) do
     from(m in Membership, where: m.organization_id == ^organization_id)
     |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns the list of news.
+
+  ## Examples
+
+      iex> list_news()
+      [%News{}, ...]
+
+  """
+  def list_news do
+    Repo.all(News)
+  end
+
+  @doc """
+  Returns the list of news belonging to an organization.
+
+  ## Examples
+
+      iex> list_news_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%News{}, ...]
+
+  """
+  def list_news_by_organization_id(id, preloads \\ []) do
+    News
+    |> apply_filters(preloads)
+    |> where(organization_id: ^id)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single news.
+
+  Raises `Ecto.NoResultsError` if the new does not exist.
+
+  ## Examples
+
+      iex> get_news!(123)
+      %News{}
+
+      iex> get_news!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_news!(id), do: Repo.get!(News, id)
+
+  @doc """
+  Creates a news.
+
+  ## Examples
+
+      iex> create_news(%{field: value})
+      {:ok, %News{}}
+
+      iex> create_news(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_news(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+    %News{}
+    |> News.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a news.
+
+  ## Examples
+
+      iex> update_news(new, %{field: new_value})
+      {:ok, %News{}}
+
+      iex> update_news(new, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_news(%News{} = new, attrs, _after_save \\ &{:ok, &1}) do
+    new
+    |> News.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a new.
+
+  ## Examples
+
+      iex> delete_news(News)
+      {:ok, %News{}}
+
+      iex> delete_news(News)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_news(%News{} = new) do
+    Repo.delete(new)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking new changes.
+
+  ## Examples
+
+      iex> change_news(new)
+      %Ecto.Changeset{data: %News{}}
+
+  """
+  def change_news(%News{} = new, attrs \\ %{}) do
+    News.changeset(new, attrs)
   end
 end
