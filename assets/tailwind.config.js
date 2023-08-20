@@ -15,7 +15,7 @@ module.exports = {
         '1': '1px'
       },
       backgroundImage: {
-        'hero-pattern': "url('/images/atomic.png')",
+        'hero-pattern': "url('/images/atomic_background.svg')",
       },
     },
   },

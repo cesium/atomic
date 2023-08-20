@@ -1,7 +1,7 @@
-<div class="flex flex-col items-center w-screen h-screen justify-center bg-[url('/images/atomic.png')] bg-cover bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
   <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
-    <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
-      <span><%= gettext("Log") %><%= gettext("in", class: "text-orange-400 inline") %></span>
+    <h2 class="mt-6 text-center text-5xl font-bold text-zinc-900 select-none">
+      <%= gettext("Log") %><span class="text-orange-400"><%= gettext("in") %></span>
     </h2>
     <%= if @error_message do %>
       <div class="alert alert-danger">
@@ -9,46 +9,48 @@
       </div>
     <% end %>
 
-    <div class="-space-y-px rounded-md shadow-sm">
-      <div>
+    <div class="space-y-3 rounded-md w-full flex-col">
+      <div class="flex justify-center">
         <%= label(f, :email, class: "sr-only") %>
         <%= email_input(f, :email,
           required: true,
           placeholder: gettext("Email address"),
-          class: "relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
       </div>
-      <div>
+      <div class="flex justify-center">
         <%= label(f, :password, class: "sr-only") %>
         <%= password_input(f, :password,
           required: true,
           placeholder: gettext("Password"),
           autocomplete: "current-password",
-          class: "mt-1 relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
       </div>
     </div>
 
-    <div class="flex flex-row space-x-32">
-      <div class="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+    <div class="flex flex-row w-full sm:w-96 justify-between">
+      <div class="ml-4 sm:ml-1 flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div class="flex items-center">
-          <%= checkbox(f, :remember_me, class: "h-4 w-4 rounded border-zinc-300 text-indigo-300 focus:ring-indigo-400") %>
+          <%= checkbox(f, :remember_me, class: "h-4 w-4 rounded border-zinc-300 text-orange-400 fill-indigo-400 focus:ring-orange-400") %>
           <%= label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-zinc-900") %>
         </div>
       </div>
 
-      <div class="text-sm">
+      <div class="mr-4 sm:mr-1 text-sm">
         <span>
           New here?
         </span>
-        <%= link("Register", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-orange-400 hover:text-indigo-500 focus:outline-none") %>
+        <%= link("Register", to: Routes.user_registration_path(@conn, :new), class: "font-medium text-orange-400 hover:text-orange-500 focus:outline-none") %>
       </div>
     </div>
 
-    <div>
-      <%= submit class: "w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
-        <%= gettext("Log in") %>
-      <% end %>
+    <div class="w-full flex-col">
+      <div class="mx-4 justify-center flex select-none">
+        <%= submit class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96" do %>
+          <%= gettext("Log in") %>
+        <% end %>
+      </div>
     </div>
 
     <div class="flex flex-col space-y-2">
