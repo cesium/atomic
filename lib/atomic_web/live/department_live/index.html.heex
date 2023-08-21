@@ -34,8 +34,6 @@
 
 <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for department <- @departments do %>
-    <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
-      <AtomicWeb.Components.Button.action title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_show_path(@socket, :show, @current_organization, department)} />
-    </li>
+    <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_show_path(@socket, :show, @current_organization, department)} />
   <% end %>
 </ul>
