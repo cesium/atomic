@@ -30,22 +30,6 @@ defmodule AtomicWeb.Router do
   end
 
   scope "/", AtomicWeb do
-    pipe_through :browser
-
-    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
-      live "/organizations", OrganizationLive.Index, :index
-      live "/organizations/:organization_id", OrganizationLive.Show, :show
-
-      live "/profile/:handle", UserLive.Show, :show
-
-      scope "/organizations/:organization_id" do
-        live "/board/", BoardLive.Index, :index
-        live "/board/:id", BoardLive.Show, :show
-      end
-    end
-  end
-
-  scope "/", AtomicWeb do
     pipe_through [:browser, :require_authenticated_user, :require_confirmed_user]
 
     get "/users/settings", UserSettingsController, :edit
@@ -112,6 +96,22 @@ defmodule AtomicWeb.Router do
 
       pipe_through :member
       live "/card/:membership_id", CardLive.Show, :show
+    end
+  end
+
+  scope "/", AtomicWeb do
+    pipe_through :browser
+
+    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
+      live "/organizations", OrganizationLive.Index, :index
+      live "/organizations/:organization_id", OrganizationLive.Show, :show
+
+      live "/profile/:handle", UserLive.Show, :show
+
+      scope "/organizations/:organization_id" do
+        live "/board/", BoardLive.Index, :index
+        live "/board/:id", BoardLive.Show, :show
+      end
     end
   end
 

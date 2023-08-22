@@ -39,7 +39,7 @@
       <div class="flex flex-1 flex-col p-2">
         <h3 class="mt-1 text-sm font-medium text-gray-900"><%= news.title %></h3>
         <dl class="my-1 flex flex-grow flex-col justify-between">
-          <dd class="text-sm text-gray-500"><%= news.description %></dd>
+          <dd class="text-sm text-gray-500"><%= maybe_slice_string(news.description) %></dd>
         </dl>
       </div>
 
