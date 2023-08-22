@@ -60,24 +60,19 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
     case Organizations.create_membership(attrs) do
       {:ok, _organization} ->
+        maybe_update_default_organization(current_user, socket.assigns.organization)
+
         {:noreply,
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
-         |> push_redirect(to: Routes.organization_index_path(socket, :index))}
+         |> assign(:following, true)
+         |> push_patch(
+           to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
+         )}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
-
-    if current_user.default_organization_id == nil do
-      Accounts.update_user(current_user, %{
-        default_organization_id: socket.assigns.organization.id
-      })
-    end
-
-    {:noreply,
-     socket
-     |> assign(:current_user, current_user)}
   end
 
   @impl true
@@ -97,6 +92,14 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp maybe_update_default_organization(user, organization) do
+    if is_nil(user.default_organization_id) do
+      Accounts.update_user(user, %{
+        default_organization_id: organization.id
+      })
     end
   end
 

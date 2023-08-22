@@ -1,5 +1,6 @@
 defmodule Atomic.Repo.Seeds.Activities do
   alias Atomic.Accounts.User
+  alias Atomic.Activities
   alias Atomic.Activities.{Activity, ActivitySession, Enrollment, Session, SessionDepartment}
   alias Atomic.Organizations.Department
   alias Atomic.Repo
