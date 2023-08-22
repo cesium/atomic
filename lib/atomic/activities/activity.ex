@@ -28,7 +28,7 @@ defmodule Atomic.Activities.Activity do
   def changeset(activity, attrs) do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> cast_assoc(:sessions, with: &Session.changeset/2)
+    |> cast_assoc(:sessions)
     |> validate_required(@required_fields)
   end
 end

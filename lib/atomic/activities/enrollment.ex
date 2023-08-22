@@ -36,7 +36,7 @@ defmodule Atomic.Activities.Enrollment do
     enrolled = Activities.get_total_enrolled(session.id)
 
     if session.maximum_entries <= enrolled do
-      add_error(changeset, :session_id, Gettext.gettext("maximum number of enrollments reached"))
+      add_error(changeset, :session_id, gettext("maximum number of enrollments reached"))
     else
       changeset
     end

@@ -19,7 +19,7 @@ defmodule Atomic.Activities.Session do
   alias Atomic.Organizations.Department
   alias Atomic.Uploaders
 
-  @required_fields ~w(start finish minimum_entries maximum_entries)a
+  @required_fields ~w(start finish minimum_entries maximum_entries activity_id)a
   @optional_fields ~w(delete session_image)a
 
   schema "sessions" do
@@ -69,7 +69,7 @@ defmodule Atomic.Activities.Session do
       add_error(
         changeset,
         :maximum_entries,
-        Gettext.gettext("must be greater than minimum entries")
+        gettext("must be greater than minimum entries")
       )
     else
       changeset
@@ -81,7 +81,7 @@ defmodule Atomic.Activities.Session do
     finish = get_change(changeset, :finish)
 
     if start && finish && Date.compare(start, finish) == :gt do
-      add_error(changeset, :finish, Gettext.gettext("must be after starting date"))
+      add_error(changeset, :finish, gettext("must be after starting date"))
     else
       changeset
     end
