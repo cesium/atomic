@@ -3,6 +3,7 @@ defmodule AtomicWeb.NewsLive.Index do
 
   alias Atomic.Organizations
   alias Atomic.Organizations.News
+  alias Atomic.Uploaders.Logo
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
@@ -37,7 +38,6 @@ defmodule AtomicWeb.NewsLive.Index do
       socket
       |> assign(:page_title, "Edit News")
       |> assign(:news, Organizations.get_news!(id))
-      |> assign(:organization, Organizations.get_organization!(organization_id))
     else
       raise AtomicWeb.MismatchError
     end

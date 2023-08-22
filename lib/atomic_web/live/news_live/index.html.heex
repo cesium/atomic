@@ -35,7 +35,7 @@
 
 <ul role="list" class="relative z-0 divide-y divide-gray-200">
   <%= for news <- @all_news do %>
-    <%# <%= live_patch to: Routes.news_show_path(@socket, :show, announcement), class: "group" do %1> %>
+    <%= live_redirect to: Routes.news_show_path(@socket, :show, @current_organization, news.id), class: "group" do %>
       <li id={"announcement-#{news.id}"} class="relative py-5 pr-6 pl-4 border-b border-gray-200 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6 hover:bg-gray-50">
         <div>
           <h3 class="text-sm font-semibold text-gray-800 hover:underline focus:outline-none">
@@ -55,7 +55,7 @@
               </span>
             <% else %>
               <div class="relative flex-shrink-0 mr-2 w-6 h-6 bg-white rounded-full">
-                <%# <img src={Parzival.Uploaders.ProfilePicture.url({announcement.author.picture, announcement.author}, :medium)} class="object-center w-6 h-6 rounded-full" /> %>
+                <img src={Logo.url({@current_organization.logo, @current_organization}, :original)} class="object-center w-6 h-6 rounded-full" />
               </div>
             <% end %>
             <p class="text-sm text-gray-500">
@@ -70,43 +70,6 @@
           </div>
         </div>
       </li>
-    <%# <% end %1> %>
+    <% end %>
   <% end %>
-    <%# <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"> %>
-    <%#   <div class="flex flex-1 flex-col p-2"> %>
-    <%#     <h3 class="mt-1 text-sm font-medium text-gray-900"><%= news.title %1></h3> %>
-    <%#     <dl class="my-1 flex flex-grow flex-col justify-between"> %>
-    <%#       <dd class="text-sm text-gray-500"><%= news.description %1></dd> %>
-    <%#     </dl> %>
-    <%#   </div> %>
-
-    <%#   <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %1> %>
-    <%#     <div> %>
-    <%#       <div class="-mt-px flex divide-x divide-gray-200"> %>
-    <%#         <div class="flex w-0 flex-1"> %>
-    <%#           <%= live_patch( %>
-    <%#             to: Routes.news_edit_path(@socket, :edit, @current_organization, news), %>
-    <%#             class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium hover:bg-gray-50" %>
-    <%#           ) do %1> %>
-    <%#             <Heroicons.Solid.pencil class="1.5xl:mr-3 w-5 h-5 text-gray-400" /> %>
-    <%#             <p class="hidden lg:inline">Edit</p> %>
-    <%#           <% end %1> %>
-    <%#         </div> %>
-    <%#         <div class="-ml-px w-0 flex-1 flex"> %>
-    <%#           <%= link( %>
-    <%#             to: "#", %>
-    <%#             phx_click: "delete", %>
-    <%#             class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-medium hover:bg-gray-50", %>
-    <%#             phx_value_id: news.id, %>
-    <%#             data: [confirm: "Are you sure?"] %>
-    <%#           ) do %1> %>
-    <%#             <Heroicons.Solid.trash class="1.5xl:mr-3 w-5 h-5 text-gray-400" /> %>
-    <%#             <p class="hidden lg:inline">Delete</p> %>
-    <%#           <% end %1> %>
-    <%#         </div> %>
-    <%#       </div> %>
-    <%#     </div> %>
-    <%#   <% end %1> %>
-    <%# </li> %>
-  <%# <% end %1> %>
 </ul>
