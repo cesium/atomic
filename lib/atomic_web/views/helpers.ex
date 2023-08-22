@@ -160,6 +160,7 @@ defmodule AtomicWeb.Helpers do
         iex> build_current_academic_year()
         "2022/2023"
   """
+  @spec build_current_academic_year() :: String.t()
   def build_current_academic_year do
     now = Date.utc_today()
     start_year = calculate_academic_start_year(now)
@@ -187,6 +188,7 @@ defmodule AtomicWeb.Helpers do
         iex> calculate_academic_start_year(~D[2023-12-05])
         2023
   """
+  @spec calculate_academic_start_year(Date.t()) :: integer()
   def calculate_academic_start_year(date) do
     current_year = date.year
     next_year = current_year + 1
