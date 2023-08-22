@@ -1,4 +1,4 @@
-defmodule Atomic.Repo.Migrations.AddUsersOrganizations do
+defmodule Atomic.Repo.Migrations.CreateUsersOrganizations do
   use Ecto.Migration
 
   def change do

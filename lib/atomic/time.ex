@@ -3,10 +3,18 @@ defmodule Atomic.Time do
     This module provide time utilities.
   """
 
-  @doc """
-    Returns the current time in Lisbon.
-  """
+  @timezone "Europe/Lisbon"
+
   def lisbon_now do
-    Timex.now() |> Timex.Timezone.convert(Timex.Timezone.get("Europe/Lisbon"))
+    Timex.now()
+    |> Timex.Timezone.convert(timezone())
+  end
+
+  def convert_to_lisbon(datetime) do
+    Timex.Timezone.convert(datetime, timezone())
+  end
+
+  defp timezone do
+    Timex.Timezone.get(@timezone)
   end
 end

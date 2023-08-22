@@ -4,7 +4,7 @@ defmodule Atomic.News do
   """
   use Atomic.Context
 
-  alias Atomic.News.New
+  alias Atomic.Organizations.News
 
   @doc """
   Returns the list of news.
@@ -12,11 +12,11 @@ defmodule Atomic.News do
   ## Examples
 
       iex> list_news()
-      [%New{}, ...]
+      [%News{}, ...]
 
   """
   def list_news do
-    Repo.all(New)
+    Repo.all(News)
   end
 
   @doc """
@@ -25,11 +25,11 @@ defmodule Atomic.News do
   ## Examples
 
       iex> list_news_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%New{}, ...]
+      [%News{}, ...]
 
   """
   def list_news_by_organization_id(id) do
-    Repo.all(New)
+    Repo.all(News)
     |> Enum.filter(fn new -> new.organization_id == id end)
   end
 
@@ -41,13 +41,13 @@ defmodule Atomic.News do
   ## Examples
 
       iex> get_new!(123)
-      %New{}
+      %News{}
 
       iex> get_new!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_new!(id), do: Repo.get!(New, id)
+  def get_new!(id), do: Repo.get!(News, id)
 
   @doc """
   Creates a new.
@@ -55,15 +55,15 @@ defmodule Atomic.News do
   ## Examples
 
       iex> create_new(%{field: value})
-      {:ok, %New{}}
+      {:ok, %News{}}
 
       iex> create_new(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
   def create_new(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
-    %New{}
-    |> New.changeset(attrs)
+    %News{}
+    |> News.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -73,15 +73,15 @@ defmodule Atomic.News do
   ## Examples
 
       iex> update_new(new, %{field: new_value})
-      {:ok, %New{}}
+      {:ok, %News{}}
 
       iex> update_new(new, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_new(%New{} = new, attrs, _after_save \\ &{:ok, &1}) do
+  def update_new(%News{} = new, attrs, _after_save \\ &{:ok, &1}) do
     new
-    |> New.changeset(attrs)
+    |> News.changeset(attrs)
     |> Repo.update()
   end
 
@@ -90,14 +90,14 @@ defmodule Atomic.News do
 
   ## Examples
 
-      iex> delete_new(New)
-      {:ok, %New{}}
+      iex> delete_new(News)
+      {:ok, %News{}}
 
-      iex> delete_new(New)
+      iex> delete_new(News)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_new(%New{} = new) do
+  def delete_new(%News{} = new) do
     Repo.delete(new)
   end
 
@@ -107,10 +107,10 @@ defmodule Atomic.News do
   ## Examples
 
       iex> change_new(new)
-      %Ecto.Changeset{data: %New{}}
+      %Ecto.Changeset{data: %News{}}
 
   """
-  def change_new(%New{} = new, attrs \\ %{}) do
-    New.changeset(new, attrs)
+  def change_new(%News{} = new, attrs \\ %{}) do
+    News.changeset(new, attrs)
   end
 end

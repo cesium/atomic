@@ -1,8 +1,8 @@
 defmodule Atomic.Repo.Seeds.Accounts do
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
-  alias Atomic.Repo
   alias Atomic.Organizations.Organization
+  alias Atomic.Repo
 
   def run do
     case Repo.all(User) do
@@ -111,10 +111,12 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
+      handle = character |> String.downcase() |> String.replace(~r/\s/, "_")
 
       user = %{
         "name" => character,
         "email" => email,
+        "handle" => handle,
         "password" => "password1234",
         "role" => role,
         "course_id" => Enum.random(courses).id,

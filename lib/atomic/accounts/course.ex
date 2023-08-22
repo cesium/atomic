@@ -6,10 +6,12 @@ defmodule Atomic.Accounts.Course do
 
   alias Atomic.Accounts.User
 
-  @required_fields ~w(name)a
+  @required_fields ~w(name cycle)a
+  @cycles ~w(Bachelors Masters PhD)a
 
   schema "courses" do
     field :name, :string
+    field :cycle, Ecto.Enum, values: @cycles
     has_many :users, User
 
     timestamps()

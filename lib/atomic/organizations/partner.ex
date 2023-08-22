@@ -1,6 +1,6 @@
 defmodule Atomic.Organizations.Partner do
   @moduledoc """
-    A partnership.
+    A partnership between an organization and a partner.
   """
   use Atomic.Schema
 
@@ -8,7 +8,8 @@ defmodule Atomic.Organizations.Partner do
   alias Atomic.Uploaders
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description image)a
+  @optional_fields ~w(description state image)a
+  @states ~w(active inactive)a
 
   @derive {
     Flop.Schema,
@@ -24,6 +25,7 @@ defmodule Atomic.Organizations.Partner do
   schema "partnerships" do
     field :name, :string
     field :description, :string
+    field :state, Ecto.Enum, values: @states, default: :active
     field :image, Uploaders.Image.Type
 
     belongs_to :organization, Organization

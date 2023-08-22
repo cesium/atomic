@@ -1,4 +1,4 @@
-defmodule Atomic.Repo.Migrations.CreateBoard do
+defmodule Atomic.Repo.Migrations.CreateBoards do
   use Ecto.Migration
 
   def change do

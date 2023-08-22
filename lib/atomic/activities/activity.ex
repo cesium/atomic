@@ -14,7 +14,7 @@ defmodule Atomic.Activities.Activity do
     field :title, :string
     field :description, :string
 
-    has_many :activity_sessions, Session,
+    has_many :sessions, Session,
       on_delete: :delete_all,
       on_replace: :delete_if_exists,
       foreign_key: :activity_id,
@@ -28,7 +28,7 @@ defmodule Atomic.Activities.Activity do
   def changeset(activity, attrs) do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> cast_assoc(:activity_sessions, with: &Session.changeset/2)
+    |> cast_assoc(:sessions, with: &Session.changeset/2)
     |> validate_required(@required_fields)
   end
 end

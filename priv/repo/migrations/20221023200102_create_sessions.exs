@@ -11,17 +11,12 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
       add :maximum_entries, :integer, null: false
       add :session_image, :string
 
-      add :activity_id,
-          references(:activities, on_delete: :delete_all, type: :binary_id),
-          null: false
+      add :activity_id, references(:activities, on_delete: :delete_all, type: :binary_id),
+        null: false
 
       timestamps()
     end
 
     create index(:sessions, [:activity_id])
-
-    create constraint(:sessions, :minimum_entries_lower_than_maximum_entries,
-             check: "minimum_entries < maximum_entries"
-           )
   end
 end

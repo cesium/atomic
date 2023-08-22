@@ -3,12 +3,12 @@ defmodule Atomic.Factories.NewFactory do
   A factory to generate account related structs
   """
 
-  alias Atomic.News.New
+  alias Atomic.Organizations.News
 
   defmacro __using__(_opts) do
     quote do
       def new_factory do
-        %New{
+        %News{
           title: "News title",
           description: "News description"
         }

@@ -19,7 +19,7 @@ defmodule Atomic.Activities.Session do
   alias Atomic.Organizations.Department
   alias Atomic.Uploaders
 
-  @required_fields ~w(start finish minimum_entries maximum_entries activity_id)a
+  @required_fields ~w(start finish minimum_entries maximum_entries)a
   @optional_fields ~w(delete session_image)a
 
   schema "sessions" do
@@ -49,7 +49,8 @@ defmodule Atomic.Activities.Session do
     |> cast_embed(:location, with: &Location.changeset/2)
     |> cast_attachments(attrs, [:session_image])
     |> validate_required(@required_fields)
-    |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
+    |> validate_dates()
+    |> validate_entries_number()
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)
@@ -58,6 +59,32 @@ defmodule Atomic.Activities.Session do
   def session_image_changeset(session, attrs) do
     session
     |> cast_attachments(attrs, [:session_image])
+  end
+
+  defp validate_entries_number(changeset) do
+    minimum_entries = get_change(changeset, :minimum_entries)
+    maximum_entries = get_change(changeset, :maximum_entries)
+
+    if minimum_entries > maximum_entries do
+      add_error(
+        changeset,
+        :maximum_entries,
+        Gettext.gettext("must be greater than minimum entries")
+      )
+    else
+      changeset
+    end
+  end
+
+  defp validate_dates(changeset) do
+    start = get_change(changeset, :start)
+    finish = get_change(changeset, :finish)
+
+    if start && finish && Date.compare(start, finish) == :gt do
+      add_error(changeset, :finish, Gettext.gettext("must be after starting date"))
+    else
+      changeset
+    end
   end
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
