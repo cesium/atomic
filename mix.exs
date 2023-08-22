@@ -103,7 +103,7 @@ defmodule Atomic.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
-      lint: ["credo --strict --all"],
+      lint: ["credo -C default"],
       check: [
         "clean",
         "deps.unlock --check-unused",

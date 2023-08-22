@@ -24,7 +24,7 @@
           <%= gettext("News") %>
         </h2>
         <Heroicons.Solid.newspaper class="ml-2 h-5 w-5 text-zinc-400 inline" />
-        <%= live_patch("See all", to: Routes.partner_index_path(@socket, :index, @current_organization), class: "text-sm font-semibold text-gray-300 ml-4") %>
+        <%= live_patch("See all", to: Routes.news_index_path(@socket, :index, @current_organization), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
       <ul class="">
         <%= for new <- Enum.take(@news,5) do %>
@@ -35,11 +35,11 @@
                   <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400 inline" />
                   <%= new.title %>
                 </h3>
-                <span class="text-md font-semibold text-gray-700">
+                <span class="text-md font-medium text-gray-700">
                   <%= display_date(new.inserted_at) %> <%= display_time(new.inserted_at) %>
                 </span>
-                <span class="text-md font-semibold text-gray-500">
-                  <%= new.description %>
+                <span class="text-md font-medium text-gray-500">
+                  <%= maybe_slice_string(new.description, 150) %>
                 </span>
               </div>
             </div>

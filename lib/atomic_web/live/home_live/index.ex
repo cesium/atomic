@@ -3,7 +3,7 @@ defmodule AtomicWeb.HomeLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
-  alias Atomic.News
+  alias Atomic.Organizations
   alias Atomic.Partnerships
   alias Atomic.Uploaders.Logo
 
@@ -24,7 +24,7 @@ defmodule AtomicWeb.HomeLive.Index do
     sessions =
       Activities.list_sessions_by_organization_id(socket.assigns.current_organization.id, [])
 
-    news = News.list_news_by_organization_id(socket.assigns.current_organization.id)
+    news = Organizations.list_news_by_organization_id(socket.assigns.current_organization.id)
 
     mode = params["mode"] || "month"
 
