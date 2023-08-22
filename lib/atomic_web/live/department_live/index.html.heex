@@ -34,6 +34,6 @@
 
 <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for department <- @departments do %>
-    <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_show_path(@socket, :show, @current_organization, department)} />
+    <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_index_path(@socket, :edit, @current_organization, department)} />
   <% end %>
 </ul>

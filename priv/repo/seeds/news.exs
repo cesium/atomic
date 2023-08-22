@@ -6,17 +6,17 @@ defmodule Atomic.Repo.Seeds.News do
     seed_news()
   end
 
-  def seed_news() do
+  def seed_news do
     case Repo.all(News) do
       [] ->
         organizations = Repo.all(Organization)
 
         for organization <- organizations do
-          for i <- 1..10 do
+          for _ <- 1..10 do
             %News{}
             |> News.changeset(%{
-              title: "News title #{organization.name} #{i}",
-              description: "News description #{organization.name} #{i}",
+              title: Faker.Lorem.sentence(),
+              description: Faker.Lorem.paragraph(),
               organization_id: organization.id
             })
             |> Repo.insert!()

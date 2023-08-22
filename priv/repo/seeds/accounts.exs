@@ -1,8 +1,8 @@
 defmodule Atomic.Repo.Seeds.Accounts do
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
-  alias Atomic.Repo
   alias Atomic.Organizations.Organization
+  alias Atomic.Repo
 
   def run do
     case Repo.all(User) do

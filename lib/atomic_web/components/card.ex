@@ -9,7 +9,7 @@ defmodule AtomicWeb.Components.Card do
   def card(assigns) do
     ~H"""
     <div class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
-      <div class="flex flex-1 flex-col p-2">
+      <div class="flex flex-1 flex-col p-4">
         <h3 class="mt-1 text-sm font-medium text-gray-900"><%= @title %></h3>
         <dl class="my-1 flex flex-grow flex-col justify-between">
           <dd class="text-sm text-gray-500"><%= @description %></dd>
