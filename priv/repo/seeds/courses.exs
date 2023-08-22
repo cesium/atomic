@@ -1,4 +1,7 @@
 defmodule Atomic.Repo.Seeds.Courses do
+  alias Atomic.Accounts.Course
+  alias Atomic.Repo
+
   @cycles ~w(Bachelors Masters PhD)a
 
   def run do

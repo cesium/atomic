@@ -35,7 +35,7 @@
 
 <ul role="list" class="relative z-0 divide-y divide-gray-200">
   <%= for news <- @all_news do %>
-    <%= live_patch to: Routes.news_show_path(@socket, :show, announcement), class: "group" do %>
+    <%# <%= live_patch to: Routes.news_show_path(@socket, :show, announcement), class: "group" do %1> %>
       <li id={"announcement-#{news.id}"} class="relative py-5 pr-6 pl-4 border-b border-gray-200 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6 hover:bg-gray-50">
         <div>
           <h3 class="text-sm font-semibold text-gray-800 hover:underline focus:outline-none">
@@ -70,7 +70,7 @@
           </div>
         </div>
       </li>
-    <% end %>
+    <%# <% end %1> %>
   <% end %>
     <%# <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"> %>
     <%#   <div class="flex flex-1 flex-col p-2"> %>
