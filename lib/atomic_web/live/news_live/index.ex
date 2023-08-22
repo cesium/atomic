@@ -6,7 +6,12 @@ defmodule AtomicWeb.NewsLive.Index do
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :all_news, list_news(organization_id))}
+    socket =
+      socket
+      |> assign(:organization, Organizations.get_organization!(organization_id))
+      |> assign(:all_news, list_news(organization_id))
+
+    {:ok, socket}
   end
 
   @impl true
@@ -32,6 +37,7 @@ defmodule AtomicWeb.NewsLive.Index do
       socket
       |> assign(:page_title, "Edit News")
       |> assign(:news, Organizations.get_news!(id))
+      |> assign(:organization, Organizations.get_organization!(organization_id))
     else
       raise AtomicWeb.MismatchError
     end
@@ -61,6 +67,6 @@ defmodule AtomicWeb.NewsLive.Index do
   end
 
   defp list_news(organization_id) do
-    Organizations.list_news_by_organization_id(organization_id)
+    Organizations.list_news_by_organization_id(organization_id, [:organization])
   end
 end

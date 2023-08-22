@@ -33,43 +33,80 @@
   </div>
 </div>
 
-<ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+<ul role="list" class="relative z-0 divide-y divide-gray-200">
   <%= for news <- @all_news do %>
-    <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
-      <div class="flex flex-1 flex-col p-2">
-        <h3 class="mt-1 text-sm font-medium text-gray-900"><%= news.title %></h3>
-        <dl class="my-1 flex flex-grow flex-col justify-between">
-          <dd class="text-sm text-gray-500"><%= news.description %></dd>
-        </dl>
-      </div>
-
-      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+    <%= live_patch to: Routes.news_show_path(@socket, :show, announcement), class: "group" do %>
+      <li id={"announcement-#{news.id}"} class="relative py-5 pr-6 pl-4 border-b border-gray-200 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6 hover:bg-gray-50">
         <div>
-          <div class="-mt-px flex divide-x divide-gray-200">
-            <div class="flex w-0 flex-1">
-              <%= live_patch(
-                to: Routes.news_edit_path(@socket, :edit, @current_organization, news),
-                class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium hover:bg-gray-50"
-              ) do %>
-                <Heroicons.Solid.pencil class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
-                <p class="hidden lg:inline">Edit</p>
-              <% end %>
-            </div>
-            <div class="-ml-px w-0 flex-1 flex">
-              <%= link(
-                to: "#",
-                phx_click: "delete",
-                class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-medium hover:bg-gray-50",
-                phx_value_id: news.id,
-                data: [confirm: "Are you sure?"]
-              ) do %>
-                <Heroicons.Solid.trash class="1.5xl:mr-3 w-5 h-5 text-gray-400" />
-                <p class="hidden lg:inline">Delete</p>
-              <% end %>
-            </div>
+          <h3 class="text-sm font-semibold text-gray-800 hover:underline focus:outline-none">
+            <%= news.title %>
+          </h3>
+          <article class="mt-1 text-sm text-gray-600 line-clamp-3">
+            <dd class="text-sm text-gray-500"><%= news.description %></dd>
+          </article>
+        </div>
+        <div class="flex flex-shrink-0 justify-between mt-1">
+          <div class="flex items-center">
+            <%= if is_nil(@organization.logo) do %>
+              <span class="inline-flex justify-center items-center mr-2 w-6 h-6 bg-gray-500 rounded-full">
+                <span class="text-xs font-medium leading-none text-white">
+                  <%= Atomic.Accounts.extract_initials(@organization.name) %>
+                </span>
+              </span>
+            <% else %>
+              <div class="relative flex-shrink-0 mr-2 w-6 h-6 bg-white rounded-full">
+                <%# <img src={Parzival.Uploaders.ProfilePicture.url({announcement.author.picture, announcement.author}, :medium)} class="object-center w-6 h-6 rounded-full" /> %>
+              </div>
+            <% end %>
+            <p class="text-sm text-gray-500">
+              <%= @organization.name %>
+            </p>
+          </div>
+          <div class="flex">
+            <Heroicons.Solid.calendar class="w-5 h-5 text-gray-500" />
+            <p class="block pl-1.5 text-sm text-gray-600">
+              <%= relative_datetime(news.inserted_at) %>
+            </p>
           </div>
         </div>
-      <% end %>
-    </li>
+      </li>
+    <% end %>
   <% end %>
+    <%# <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"> %>
+    <%#   <div class="flex flex-1 flex-col p-2"> %>
+    <%#     <h3 class="mt-1 text-sm font-medium text-gray-900"><%= news.title %1></h3> %>
+    <%#     <dl class="my-1 flex flex-grow flex-col justify-between"> %>
+    <%#       <dd class="text-sm text-gray-500"><%= news.description %1></dd> %>
+    <%#     </dl> %>
+    <%#   </div> %>
+
+    <%#   <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %1> %>
+    <%#     <div> %>
+    <%#       <div class="-mt-px flex divide-x divide-gray-200"> %>
+    <%#         <div class="flex w-0 flex-1"> %>
+    <%#           <%= live_patch( %>
+    <%#             to: Routes.news_edit_path(@socket, :edit, @current_organization, news), %>
+    <%#             class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium hover:bg-gray-50" %>
+    <%#           ) do %1> %>
+    <%#             <Heroicons.Solid.pencil class="1.5xl:mr-3 w-5 h-5 text-gray-400" /> %>
+    <%#             <p class="hidden lg:inline">Edit</p> %>
+    <%#           <% end %1> %>
+    <%#         </div> %>
+    <%#         <div class="-ml-px w-0 flex-1 flex"> %>
+    <%#           <%= link( %>
+    <%#             to: "#", %>
+    <%#             phx_click: "delete", %>
+    <%#             class: "w-full relative inline-flex flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-medium hover:bg-gray-50", %>
+    <%#             phx_value_id: news.id, %>
+    <%#             data: [confirm: "Are you sure?"] %>
+    <%#           ) do %1> %>
+    <%#             <Heroicons.Solid.trash class="1.5xl:mr-3 w-5 h-5 text-gray-400" /> %>
+    <%#             <p class="hidden lg:inline">Delete</p> %>
+    <%#           <% end %1> %>
+    <%#         </div> %>
+    <%#       </div> %>
+    <%#     </div> %>
+    <%#   <% end %1> %>
+    <%# </li> %>
+  <%# <% end %1> %>
 </ul>
