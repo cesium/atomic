@@ -2,15 +2,9 @@
 
 set -Eeuo pipefail
 
-import() {
-  local -r SCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]:-$0}")
 
-  # shellcheck source=/dev/null
-  . "${SCRIPTS_DIR}/${1}"
-}
-
-# shellcheck source=./helpers.sh
-import helpers.sh
+. "${SCRIPT_DIR}/helpers.sh"
 
 function get_default_repo_branch() {
   # Check if main exists and use instead of master
