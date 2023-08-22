@@ -20,3 +20,6 @@ function get_default_repo_branch() {
 }
 
 ([ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.14.0) || true
+
+default_branch=$(get_default_repo_branch)
+echo "The default repo branch is ${default_branch}"
