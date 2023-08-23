@@ -10,8 +10,7 @@ defmodule Atomic.Factories.ActivityFactory do
       def activity_factory do
         %Activity{
           title: Faker.Beer.brand(),
-          description: Faker.Lorem.paragraph(),
-          activity_sessions: [build(:session)]
+          description: Faker.Lorem.paragraph()
         }
       end
 
@@ -28,7 +27,8 @@ defmodule Atomic.Factories.ActivityFactory do
           minimum_entries: Enum.random(1..10),
           maximum_entries: Enum.random(11..20),
           start: NaiveDateTime.utc_now(),
-          finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour)
+          finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour),
+          activity: build(:activity)
         }
       end
     end

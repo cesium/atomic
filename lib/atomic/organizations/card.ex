@@ -5,17 +5,18 @@ defmodule Atomic.Organizations.Card do
   use Atomic.Schema
   import Ecto.Changeset
 
-  @optional_fields [
-    :name_size,
-    :name_color,
-    :name_x,
-    :name_y,
-    :number_size,
-    :number_color,
-    :number_x,
-    :number_y
-  ]
+  @optional_fields ~w(
+    name_size
+    name_color
+    name_x
+    name_y
+    number_size
+    number_color
+    number_x
+    number_y
+  )a
 
+  @derive Jason.Encoder
   @primary_key false
   embedded_schema do
     field :name_size, :float
