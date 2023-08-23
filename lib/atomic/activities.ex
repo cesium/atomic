@@ -391,7 +391,7 @@ defmodule Atomic.Activities do
     for activity_id <- activities_ids,
         do:
           get_activity!(activity_id)
-          |> Repo.preload([:enrollments, :activity_sessions, :speakers])
+          |> Repo.preload([:enrollments, :sessions, :speakers])
   end
 
   @doc """

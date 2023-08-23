@@ -106,6 +106,29 @@ defmodule AtomicWeb.ViewUtils do
     |> Enum.map_join(" ", &elem(&1, 0))
   end
 
+  @doc """
+  Slices a string if it is longer than the given length
+
+  ## Examples
+
+        iex> maybe_slice_string("This is a very long string", 10)
+        "This is a ..."
+
+        iex> maybe_slice_string("This is a very long string", 30)
+        "This is a very long string"
+
+        iex> maybe_slice_string("This is a very long string")
+        "This is a very long string"
+  """
+  @spec maybe_slice_string(String.t()) :: String.t()
+  def maybe_slice_string(string, length \\ 30) do
+    if String.length(string) > length do
+      String.slice(string, 0, length) <> "..."
+    else
+      string
+    end
+  end
+
   @doc ~S"""
     Returns the class name for a given column
 

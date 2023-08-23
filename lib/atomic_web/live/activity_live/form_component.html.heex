@@ -35,8 +35,8 @@
         New Session
       </a>
 
-      <%= label(f, :activity_sessions) %>
-      <%= inputs_for f, :activity_sessions, fn fs -> %>
+      <%= label(f, :sessions) %>
+      <%= inputs_for f, :sessions, fn fs -> %>
         <%= label(fs, :start) %>
         <%= datetime_local_input(fs, :start) %>
         <%= error_tag(fs, :start) %>
