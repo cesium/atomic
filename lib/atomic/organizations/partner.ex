@@ -7,8 +7,8 @@ defmodule Atomic.Organizations.Partner do
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(name description organization_id)a
-  @optional_fields ~w(state image)a
+  @required_fields ~w(name organization_id)a
+  @optional_fields ~w(description state image)a
   @states ~w(active inactive)a
 
   @derive {
@@ -39,5 +39,10 @@ defmodule Atomic.Organizations.Partner do
     |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
+  end
+
+  def image_changeset(partner, attrs) do
+    partner
+    |> cast_attachments(attrs, [:image])
   end
 end

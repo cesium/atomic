@@ -1,5 +1,6 @@
 defmodule Atomic.Repo.Seeds.Memberships do
   alias Atomic.Accounts.User
+  alias Atomic.Organization
   alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
   alias Atomic.Repo
 

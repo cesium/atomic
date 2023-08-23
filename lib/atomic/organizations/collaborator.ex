@@ -13,7 +13,9 @@ defmodule Atomic.Organizations.Collaborator do
   schema "collaborators" do
     belongs_to :user, User
     belongs_to :department, Department
+
     field :accepted, :boolean, default: false
+
     timestamps()
   end
 
