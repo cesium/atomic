@@ -107,9 +107,7 @@ function execute() {
   __set_trap "EXIT" "__kill_all_subprocesses"
 
   # Execute commands in background
-  eval "$CMDS" \
-    &>/dev/null \
-    2>"$TMP_FILE" &
+  eval "$CMDS" &>"$TMP_FILE" &
 
   cmdsPID=$!
 
@@ -133,4 +131,4 @@ function execute() {
   return $exitCode
 }
 
-[ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.5.5 || true
+([ "$0" = "${BASH_SOURCE[0]}" ] && display_version 0.14.0) || true
