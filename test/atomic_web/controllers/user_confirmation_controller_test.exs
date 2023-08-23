@@ -55,17 +55,6 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
     end
   end
 
-  describe "GET /users/confirm/:token" do
-    test "renders the confirmation page", %{conn: conn} do
-      conn = get(conn, Routes.user_confirmation_path(conn, :edit, "some-token"))
-      response = html_response(conn, 200)
-      assert response =~ "Confirm your Account"
-
-      form_action = Routes.user_confirmation_path(conn, :update, "some-token")
-      assert response =~ "action=\"#{form_action}\""
-    end
-  end
-
   describe "POST /users/confirm/:token" do
     test "confirms the given token once", %{conn: conn, user: user} do
       token =

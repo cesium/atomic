@@ -39,8 +39,7 @@
       </div>
       <div class="flex justify-center">
         <%= label(f, :course_id, class: "sr-only") %>
-        <%= select(f, :course_id,
-          Enum.map(@courses, &{&1.name, &1.id}),
+        <%= select(f, :course_id, Enum.map(@courses, &{&1.name, &1.id}),
           required: true,
           placeholder: gettext("Course"),
           prompt: gettext("Select a course"),
