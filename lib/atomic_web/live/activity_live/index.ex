@@ -5,6 +5,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities
   alias Atomic.Activities.Activity
   alias Atomic.Organizations
+  import AtomicWeb.Components.Header
 
   @impl true
   def mount(params, _session, socket) do

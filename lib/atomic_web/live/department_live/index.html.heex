@@ -3,6 +3,7 @@
     <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
+
 <div class="bg-white">
   <div class="pt-4 px-4">
     <div class="flex items-center justify-between">
