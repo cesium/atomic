@@ -21,10 +21,4 @@ defmodule Atomic.Activities.SessionDepartment do
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
   end
-
-  def create_changeset(activity_speakers, attrs) do
-    activity_speakers
-    |> cast(attrs, @required_fields)
-    |> validate_required(@required_fields)
-  end
 end

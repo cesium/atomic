@@ -11,7 +11,7 @@ defmodule Atomic.Repo.Migrations.CreateCourses do
     end
 
     alter table(:users) do
-      add :course_id, references(:courses, on_delete: :nothing, type: :binary_id), null: true
+      add :course_id, references(:courses, on_delete: :nothing, type: :binary_id)
     end
   end
 end
