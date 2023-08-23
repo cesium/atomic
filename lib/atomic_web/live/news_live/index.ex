@@ -1,9 +1,10 @@
 defmodule AtomicWeb.NewsLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Announcement
+
   alias Atomic.Organizations
   alias Atomic.Organizations.News
-  alias Atomic.Uploaders.Logo
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
