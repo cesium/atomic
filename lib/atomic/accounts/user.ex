@@ -124,7 +124,7 @@ defmodule Atomic.Accounts.User do
   """
   def setup_changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :handle])
+    |> cast(attrs, [:name, :handle, :course_id])
     |> validate_handle()
   end
 

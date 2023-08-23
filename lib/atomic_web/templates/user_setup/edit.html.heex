@@ -28,7 +28,7 @@
       <div class="flex justify-center">
         <%= label(f, :handle, class: "sr-only") %>
         <div class="flex flex-row relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
-          <span class="self-center">@</span>
+          <span class="self-center select-none">@</span>
           <%= text_input(f, :handle,
             required: true,
             placeholder: gettext("username"),
@@ -37,9 +37,20 @@
         </div>
         <%= error_tag(f, :handle) %>
       </div>
+      <div class="flex justify-center">
+        <%= label(f, :course_id, class: "sr-only") %>
+        <%= select(f, :course_id,
+          Enum.map(@courses, &{&1.name, &1.id}),
+          required: true,
+          placeholder: gettext("Course"),
+          prompt: gettext("Select a course"),
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+        ) %>
+        <%= error_tag(f, :course_id) %>
+      </div>
     </div>
 
-    <div class="mt-4 w-full flex-col">
+    <div class="mt-6 w-full flex-col">
       <div class="mx-4 justify-center flex select-none">
         <%= submit("Next Step", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
       </div>

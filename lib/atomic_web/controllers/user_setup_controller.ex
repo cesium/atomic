@@ -7,6 +7,7 @@ defmodule AtomicWeb.UserSetupController do
 
   def edit(conn, _params) do
     user = conn.assigns.current_user
+    courses = Accounts.list_courses()
 
     recommended_handle =
       String.replace(
@@ -17,7 +18,7 @@ defmodule AtomicWeb.UserSetupController do
 
     changeset = Accounts.change_user_setup(Map.put(user, :handle, recommended_handle))
 
-    render(conn, "edit.html", changeset: changeset)
+    render(conn, "edit.html", changeset: changeset, courses: courses)
   end
 
   def finish(conn, %{"user" => user_params}) do
