@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Announcement do
             <%= @news.title %>
           </h3>
           <article class="mt-1 text-sm text-gray-600 line-clamp-3">
-            <dd class="text-sm text-gray-500"><%= @news.description %></dd>
+            <dd class="text-sm text-gray-500"><%= maybe_slice_string(@news.description, 250) %></dd>
           </article>
         </div>
         <div class="flex flex-shrink-0 justify-between mt-1">
