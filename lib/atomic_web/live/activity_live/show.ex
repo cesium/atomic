@@ -35,6 +35,8 @@ defmodule AtomicWeb.ActivityLive.Show do
       }
     ]
 
+    organization_id = "aahus"
+
     if organization_id in organizations do
       {:noreply,
        socket
