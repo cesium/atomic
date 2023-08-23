@@ -9,7 +9,7 @@ defmodule Atomic.Uploader do
       use Waffle.Ecto.Definition
 
       @versions [:original, :medium, :thumb]
-      @extension_whitelist ~w(.jpg .jpeg .png)
+      @extension_whitelist ~w(.jpg .jpeg .png .svg)
 
       def validate({file, _}) do
         file.file_name
