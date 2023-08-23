@@ -83,7 +83,8 @@ defmodule Atomic.ActivitiesTest do
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00],
         minimum_entries: 0,
-        maximum_entries: 10
+        maximum_entries: 10,
+        activity_id: insert(:activity).id
       }
 
       assert {:ok, %Session{} = session} = Activities.create_session(valid_attrs)
@@ -93,6 +94,28 @@ defmodule Atomic.ActivitiesTest do
 
     test "create_session/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Activities.create_session(@invalid_attrs)
+    end
+
+    test "create_session/1 with maximum_entries lower than minimum_entries" do
+      valid_attrs = %{
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-22 20:00:00],
+        minimum_entries: 10,
+        maximum_entries: 1
+      }
+
+      assert {:error, %Ecto.Changeset{}} = Activities.create_session(valid_attrs)
+    end
+
+    test "create_session/1 with finish date before start date" do
+      valid_attrs = %{
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-23 20:00:00],
+        minimum_entries: 0,
+        maximum_entries: 10
+      }
+
+      assert {:error, %Ecto.Changeset{}} = Activities.create_session(valid_attrs)
     end
 
     test "update_session/2 with valid data updates the session" do

@@ -12,7 +12,6 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
       add :profile_picture, :string
-
       add :role, :string, null: false, default: "student"
 
       add :default_organization_id,

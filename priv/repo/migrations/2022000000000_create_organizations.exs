@@ -8,6 +8,7 @@ defmodule Atomic.Repo.Migrations.CreateOrganizations do
       add :description, :text, null: false
       add :location, :map
       add :logo, :string
+
       timestamps()
     end
 

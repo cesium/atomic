@@ -1,15 +1,15 @@
 defmodule Atomic.Organizations.Partner do
   @moduledoc """
-    A partnership.
+    A partnership between an organization and a partner.
   """
   use Atomic.Schema
-  import Ecto.Changeset
+
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(name description organization_id)a
-
-  @optional_fields []
+  @required_fields ~w(name organization_id)a
+  @optional_fields ~w(description state image)a
+  @states ~w(active inactive)a
 
   @derive {
     Flop.Schema,
@@ -23,19 +23,26 @@ defmodule Atomic.Organizations.Partner do
   }
 
   schema "partnerships" do
-    field :description, :string
     field :name, :string
+    field :description, :string
+    field :state, Ecto.Enum, values: @states, default: :active
     field :image, Uploaders.Image.Type
+
     belongs_to :organization, Organization
+
     timestamps()
   end
 
-  @doc false
   def changeset(partner, attrs) do
     partner
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
+  end
+
+  def image_changeset(partner, attrs) do
+    partner
+    |> cast_attachments(attrs, [:image])
   end
 end

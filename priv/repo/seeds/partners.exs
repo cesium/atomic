@@ -1,13 +1,12 @@
 defmodule Atomic.Repo.Seeds.Partners do
-  alias Atomic.Organizations.Partner
-  alias Atomic.Organizations.Organization
+  alias Atomic.Organizations.{Organization, Partner}
   alias Atomic.Repo
 
   def run do
     seed_partners()
   end
 
-  def seed_partners() do
+  def seed_partners do
     case Repo.all(Partner) do
       [] ->
         organizations = Repo.all(Organization)

@@ -30,28 +30,7 @@ defmodule AtomicWeb.Router do
   end
 
   scope "/", AtomicWeb do
-    pipe_through :browser
-
-    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
-      live "/organizations", OrganizationLive.Index, :index
-      live "/organizations/:organization_id", OrganizationLive.Show, :show
-
-      live "/profile/:handle", UserLive.Show, :show
-
-      scope "/organizations/:organization_id" do
-        live "/board/", BoardLive.Index, :index
-        live "/board/:id", BoardLive.Show, :show
-      end
-    end
-  end
-
-  scope "/", AtomicWeb do
-    pipe_through [
-      :browser,
-      :require_authenticated_user,
-      :require_confirmed_user,
-      :require_finished_user_setup
-    ]
+    pipe_through [:browser, :require_authenticated_user, :require_confirmed_user, :require_finished_user_setup]
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
@@ -88,6 +67,9 @@ defmodule AtomicWeb.Router do
         live "/memberships/new", MembershipLive.New, :new
         live "/memberships/:id", MembershipLive.Show, :show
         live "/memberships/:id/edit", MembershipLive.Edit, :edit
+
+        live "/news/new", NewsLive.New, :new
+        live "/news/:id/edit", NewsLive.Edit, :edit
       end
 
       scope "/organizations/:organization_id" do
@@ -103,6 +85,9 @@ defmodule AtomicWeb.Router do
 
         live "/speakers", SpeakerLive.Index, :index
         live "/speakers/:id", SpeakerLive.Show, :show
+
+        live "/news", NewsLive.Index, :index
+        live "/news/:id", NewsLive.Show, :show
       end
 
       live "/organizations/new", OrganizationLive.Index, :new
@@ -111,6 +96,22 @@ defmodule AtomicWeb.Router do
 
       pipe_through :member
       live "/card/:membership_id", CardLive.Show, :show
+    end
+  end
+
+  scope "/", AtomicWeb do
+    pipe_through :browser
+
+    live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
+      live "/organizations", OrganizationLive.Index, :index
+      live "/organizations/:organization_id", OrganizationLive.Show, :show
+
+      live "/profile/:handle", UserLive.Show, :show
+
+      scope "/organizations/:organization_id" do
+        live "/board/", BoardLive.Index, :index
+        live "/board/:id", BoardLive.Show, :show
+      end
     end
   end
 

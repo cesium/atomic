@@ -6,13 +6,14 @@ defmodule Atomic.Organizations.Membership do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(user_id organization_id created_by_id role)a
-  @optional_fields [:number]
+  @optional_fields ~w(number)a
 
   @roles ~w(follower member admin owner)a
 
   schema "memberships" do
     field :number, :integer, read_after_writes: true
     field :role, Ecto.Enum, values: @roles
+
     belongs_to :created_by, User
     belongs_to :user, User
     belongs_to :organization, Organization
@@ -20,7 +21,6 @@ defmodule Atomic.Organizations.Membership do
     timestamps()
   end
 
-  @doc false
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)

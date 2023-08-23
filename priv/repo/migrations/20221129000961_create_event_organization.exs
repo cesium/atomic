@@ -6,7 +6,6 @@ defmodule Atomic.Repo.Migrations.CreateEventOrganization do
       add :id, :binary_id, primary_key: true
 
       add :organization_id, references(:organizations, on_delete: :nothing, type: :binary_id)
-
       add :event_id, references(:events, on_delete: :nothing, type: :binary_id)
 
       timestamps()
