@@ -2,15 +2,15 @@ defmodule Atomic.Activities.Location do
   @moduledoc """
   An activity location embedded struct schema.
   """
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Atomic.Schema
 
-  @required_fields [:name]
-  @optional_fields [:url]
+  @required_fields ~w(name)a
+  @optional_fields ~w(url)a
 
+  @derive Jason.Encoder
   @primary_key false
   embedded_schema do
-    field :name
+    field :name, :string
     field :url, :string
   end
 

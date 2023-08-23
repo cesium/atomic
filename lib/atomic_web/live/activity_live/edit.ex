@@ -11,8 +11,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id} = _params, _url, socket) do
-    activity =
-      Activities.get_activity!(id, preloads: [:activity_sessions, :departments, :speakers])
+    activity = Activities.get_activity!(id, preloads: [:sessions, :departments, :speakers])
 
     entries = [
       %{
@@ -35,7 +34,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
        |> assign(:page_title, gettext("Edit Activity"))
        |> assign(
          :activity,
-         Activities.get_activity!(id, [:activity_sessions, :speakers, :departments])
+         Activities.get_activity!(id, [:sessions, :speakers, :departments])
        )}
     else
       raise AtomicWeb.MismatchError

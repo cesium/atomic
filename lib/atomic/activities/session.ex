@@ -19,7 +19,7 @@ defmodule Atomic.Activities.Session do
   alias Atomic.Organizations.Department
   alias Atomic.Uploaders
 
-  @required_fields ~w(start finish minimum_entries maximum_entries)a
+  @required_fields ~w(start finish minimum_entries maximum_entries activity_id)a
   @optional_fields ~w(delete session_image)a
 
   schema "sessions" do
@@ -29,34 +29,62 @@ defmodule Atomic.Activities.Session do
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
-
     embeds_one :location, Location, on_replace: :delete
+
+    belongs_to :activity, Activity
+
+    field :delete, :boolean, virtual: true
 
     many_to_many :speakers, Speaker, join_through: SessionSpeaker, on_replace: :delete
     many_to_many :departments, Department, join_through: SessionDepartment, on_replace: :delete
 
-    field :delete, :boolean, virtual: true
     has_many :enrollments, Enrollment, foreign_key: :session_id
-    belongs_to :activity, Activity
 
     timestamps()
   end
 
-  @doc false
   def changeset(session, attrs) do
     session
     |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_embed(:location, with: &Location.changeset/2)
+    |> cast_attachments(attrs, [:session_image])
     |> validate_required(@required_fields)
-    |> validate_location()
-    |> check_constraint(:minimum_entries, name: :minimum_entries_lower_than_maximum_entries)
+    |> validate_dates()
+    |> validate_entries_number()
     |> maybe_mark_for_deletion()
     |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)
   end
 
-  defp validate_location(changeset) do
-    changeset
-    |> cast_embed(:location, with: &Location.changeset/2)
+  def session_image_changeset(session, attrs) do
+    session
+    |> cast_attachments(attrs, [:session_image])
+  end
+
+  defp validate_entries_number(changeset) do
+    minimum_entries = get_change(changeset, :minimum_entries)
+    maximum_entries = get_change(changeset, :maximum_entries)
+
+    if minimum_entries > maximum_entries do
+      add_error(
+        changeset,
+        :maximum_entries,
+        gettext("must be greater than minimum entries")
+      )
+    else
+      changeset
+    end
+  end
+
+  defp validate_dates(changeset) do
+    start = get_change(changeset, :start)
+    finish = get_change(changeset, :finish)
+
+    if start && finish && Date.compare(start, finish) == :gt do
+      add_error(changeset, :finish, gettext("must be after starting date"))
+    else
+      changeset
+    end
   end
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset

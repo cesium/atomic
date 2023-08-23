@@ -1,10 +1,7 @@
 defmodule Atomic.Repo.Seeds.Memberships do
-  alias Atomic.Organizations.Organization
-  alias Atomic.Organizations.Membership
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Board
-  alias Atomic.Organizations.BoardDepartments
-  alias Atomic.Organizations.UserOrganization
+  alias Atomic.Organization
+  alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
   alias Atomic.Repo
 
   import AtomicWeb.Helpers
@@ -16,7 +13,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
     seed_user_organizations()
   end
 
-  def seed_memberships() do
+  def seed_memberships do
     case Repo.all(Membership) do
       [] ->
         users = Repo.all(User)

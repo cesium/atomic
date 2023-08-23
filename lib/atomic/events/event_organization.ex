@@ -1,10 +1,11 @@
 defmodule Atomic.Events.EventOrganization do
   @moduledoc false
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Atomic.Schema
 
   alias Atomic.Events.Event
   alias Atomic.Organizations.Organization
+
+  @required_fields ~w(event_id organization_id)a
 
   schema "event_organizations" do
     belongs_to :event, Event
@@ -13,10 +14,9 @@ defmodule Atomic.Events.EventOrganization do
     timestamps()
   end
 
-  @doc false
   def changeset(event_organization, attrs) do
     event_organization
-    |> cast(attrs, [:event_id, :organization_id])
-    |> validate_required([])
+    |> cast(attrs, @required_fields)
+    |> validate_required(@required_fields)
   end
 end
