@@ -3,17 +3,14 @@ defmodule AtomicWeb.MembershipLive.Index do
 
   alias Atomic.Organizations
   import AtomicWeb.ViewUtils
+  import AtomicWeb.Components.Pagination
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"organization_id" => id}, _, socket) do
-    memberships =
-      Organizations.list_memberships(%{"organization_id" => id}, [:user, :created_by])
-      |> Enum.sort_by(& &1.user.name)
-
+  def handle_params(%{"organization_id" => id} = params, _, socket) do
     organization = Organizations.get_organization!(id)
 
     entries = [
@@ -28,7 +25,17 @@ defmodule AtomicWeb.MembershipLive.Index do
      |> assign(:current_page, :memberships)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
-     |> assign(:memberships, memberships)}
+     |> assign(:params, params)
+     |> assign(list_memberships(id, params))}
+  end
+
+  defp list_memberships(id, params) do
+    case Organizations.list_memberships(params, where: [organization_id: id], preloads: [:user, :created_by]) do
+      {:ok, {memberships, meta}} ->
+        %{memberships: memberships, meta: meta}
+      {:error, flop} ->
+        %{memberships: [], meta: flop}
+    end
   end
 
   defp page_title(:index, organization), do: "#{organization.name}'s Memberships"

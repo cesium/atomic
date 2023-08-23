@@ -10,6 +10,17 @@ defmodule Atomic.Organizations.Membership do
 
   @roles ~w(follower member admin owner)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:inserted_at],
+    compound_fields: [],
+    default_order: %{
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    }
+  }
+
   schema "memberships" do
     field :number, :integer, read_after_writes: true
     field :role, Ecto.Enum, values: @roles

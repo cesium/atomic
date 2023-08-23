@@ -5,9 +5,11 @@ defmodule AtomicWeb.PartnerLive.Index do
   alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships(organization_id))}
+  def mount(%{"organization_id" => organization_id} = params, _session, socket) do
+    {:ok, assign(socket, list_partnerships(organization_id, params))}
   end
 
   @impl true
@@ -22,7 +24,9 @@ defmodule AtomicWeb.PartnerLive.Index do
     {:noreply,
      socket
      |> assign(:current_page, :partners)
+     |> assign(list_partnerships(params["organization_id"], params))
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:params, params)
      |> apply_action(socket.assigns.live_action, params)}
   end
 
@@ -58,10 +62,15 @@ defmodule AtomicWeb.PartnerLive.Index do
     {:ok, _} = Partnerships.delete_partner(partner)
 
     {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
+     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id, socket.params))}
   end
 
-  defp list_partnerships(id) do
-    Partnerships.list_partnerships_by_organization_id(id)
+  defp list_partnerships(id, params) do
+    case Partnerships.list_partnerships(params, where: [organization_id: id]) do
+      {:ok, {partnerships, meta}} ->
+        %{partnerships: partnerships, meta: meta}
+      {:error, flop} ->
+        %{partnerships: [], meta: flop}
+    end
   end
 end

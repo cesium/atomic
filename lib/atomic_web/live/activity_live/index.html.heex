@@ -30,12 +30,12 @@
         </div>
       </div>
     </div>
-
+    
     <div>
       <div class="overflow-hidden bg-white">
         <ul role="list" class="divide-y divide-zinc-200">
           <%= for session <- @sessions do %>
-            <li>
+            <li id={session.id}>
               <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "block hover:bg-zinc-50", replace: false do %>
                 <div class="px-4 py-4 lg:px-6">
                   <div class="flex items-center justify-between">

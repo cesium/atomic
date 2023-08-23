@@ -23,6 +23,12 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  def list_organizations(%{} = flop, opts) when is_list(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Organization)
+  end
+
   @doc """
   Gets a single organization.
 
@@ -159,6 +165,12 @@ defmodule Atomic.Organizations do
 
   """
   def list_memberships(params, preloads \\ [])
+
+  def list_memberships(%{} = flop, opts) when is_list(opts) do
+    Membership
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
+  end
 
   def list_memberships(%{"organization_id" => organization_id}, preloads) do
     Membership
