@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
-  @optional_fields []
+  @optional_fields ~w(card_image logo)a
 
   schema "organizations" do
     field :name, :string
@@ -49,26 +49,17 @@ defmodule Atomic.Organizations.Organization do
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> validate_required(@required_fields)
-    |> cast_attachments(attrs, [:card_image])
-    |> validate_location()
-    |> validate_card()
-  end
-
-  defp validate_location(changeset) do
-    changeset
     |> cast_embed(:location, with: &Location.changeset/2)
-  end
-
-  defp validate_card(changeset) do
-    changeset
     |> cast_embed(:card, with: &Card.changeset/2)
+    |> cast_attachments(attrs, [:card_image, :logo])
+    |> validate_required(@required_fields)
+    |> unique_constraint(:name)
   end
 
   def card_changeset(organization, attrs) do
     organization
     |> cast_attachments(attrs, [:card_image])
-    |> validate_card()
+    |> cast_embed(:card, with: &Card.changeset/2)
   end
 
   def logo_changeset(organization, attrs) do

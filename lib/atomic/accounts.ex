@@ -2,9 +2,7 @@ defmodule Atomic.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
-  import Ecto.Query, warn: false
-  alias Atomic.Repo
+  use Atomic.Context
 
   alias Atomic.Accounts.{Course, User, UserNotifier, UserToken}
 

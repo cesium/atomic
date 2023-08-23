@@ -17,7 +17,6 @@ defmodule Atomic.Organizations.Board do
     timestamps()
   end
 
-  @doc false
   def changeset(board, attrs) do
     board
     |> cast(attrs, @required_fields)

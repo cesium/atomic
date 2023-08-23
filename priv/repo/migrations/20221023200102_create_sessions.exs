@@ -4,15 +4,15 @@ defmodule Atomic.Repo.Migrations.CreateSessions do
   def change do
     create table(:sessions, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :start, :utc_datetime
-      add :finish, :utc_datetime
+      add :start, :naive_datetime, null: false
+      add :finish, :naive_datetime, null: false
       add :location, :map
-      add :minimum_entries, :integer
-      add :maximum_entries, :integer
+      add :minimum_entries, :integer, null: false
+      add :maximum_entries, :integer, null: false
       add :session_image, :string
 
-      add :activity_id,
-          references(:activities, on_delete: :delete_all, type: :binary_id)
+      add :activity_id, references(:activities, on_delete: :delete_all, type: :binary_id),
+        null: false
 
       timestamps()
     end

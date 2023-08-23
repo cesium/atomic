@@ -6,7 +6,7 @@ defmodule Atomic.Repo.Migrations.CreateBoards do
       add :id, :binary_id, primary_key: true
       add :year, :string, null: false
 
-      add :organization_id, references(:organizations, type: :binary_id, null: false)
+      add :organization_id, references(:organizations, type: :binary_id), null: false
 
       timestamps()
     end

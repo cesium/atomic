@@ -13,10 +13,10 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   """
   import Ecto.Query, warn: false
+
   alias Atomic.Mailer
   alias Atomic.Repo
   alias Atomic.Activities.{Enrollment, Session}
-
   alias AtomicWeb.ActivityEmails
 
   @doc """

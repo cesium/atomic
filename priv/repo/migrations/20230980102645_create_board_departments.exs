@@ -4,10 +4,10 @@ defmodule Atomic.Repo.Migrations.CreateBoardDepartments do
   def change do
     create table(:board_departments, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :name, :string
-      add :priority, :integer
+      add :name, :string, null: false
+      add :priority, :integer, null: false
 
-      add :board_id, references(:boards, type: :binary_id, null: false)
+      add :board_id, references(:boards, type: :binary_id), null: false
 
       timestamps()
     end
