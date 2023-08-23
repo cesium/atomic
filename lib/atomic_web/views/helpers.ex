@@ -191,7 +191,7 @@ defmodule AtomicWeb.Helpers do
     |> URI.to_string()
   end
 
-  @doc ~S"""
+  @doc """
   Converts an enumeration of names into a string that can be displayed
   in HTML.
 
