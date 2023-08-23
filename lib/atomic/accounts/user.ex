@@ -120,6 +120,15 @@ defmodule Atomic.Accounts.User do
   end
 
   @doc """
+  A user changeset for initial account setup.
+  """
+  def setup_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :handle])
+    |> validate_handle()
+  end
+
+  @doc """
   A user changeset for changing the email.
 
   It requires the email to change otherwise an error is added.

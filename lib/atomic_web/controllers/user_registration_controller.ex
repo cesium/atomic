@@ -33,8 +33,10 @@ defmodule AtomicWeb.UserRegistrationController do
       end
     else
       conn
-        |> put_flash(:error, "Passwords don't match.")
-        |> render("new.html", changeset: Accounts.change_user_registration(%User{email: user_params["email"]}))
+      |> put_flash(:error, "Passwords don't match.")
+      |> render("new.html",
+        changeset: Accounts.change_user_registration(%User{email: user_params["email"]})
+      )
     end
   end
 end

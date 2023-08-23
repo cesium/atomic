@@ -97,6 +97,24 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Finishes user setup.
+
+  ## Examples
+
+      iex> finish_user_setup(user, %{field: value})
+      {:ok, %User{}}
+
+      iex> finish_user_setup(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def finish_user_setup(user, attrs) do
+    user
+    |> User.setup_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
     List all users.
 
     ## Examples
@@ -186,6 +204,24 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Return the local part of an email address.
+
+  ## Examples
+
+        iex> extract_email_address_local_part("john_doe@mail.com")
+        "john_doe"
+        ""
+
+  """
+  def extract_email_address_local_part(email) do
+    segments =
+      email
+      |> String.split("@")
+
+    List.first(segments)
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples
@@ -196,6 +232,19 @@ defmodule Atomic.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_user_registration(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_setup(%User{} = user, attrs \\ %{}) do
+    User.setup_changeset(user, attrs)
   end
 
   ## Settings

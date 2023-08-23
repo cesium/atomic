@@ -34,7 +34,10 @@ defmodule AtomicWeb.UserConfirmationController do
     case Accounts.confirm_user(token) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "User confirmed successfully. Please log in to continue account setup.")
+        |> put_flash(
+          :info,
+          "User confirmed successfully. Please log in to continue account setup."
+        )
         |> redirect(to: "/users/log_in")
 
       :error ->
