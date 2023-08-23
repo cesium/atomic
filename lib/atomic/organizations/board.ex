@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.Board do
 
   @required_fields ~w(year organization_id)a
 
-  schema "board" do
+  schema "boards" do
     field :year, Year
     has_many :board_departments, BoardDepartments
 
