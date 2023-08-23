@@ -33,8 +33,8 @@
   </div>
 </div>
 
-<ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+<ul role="list" class="relative z-0 divide-y divide-gray-200">
   <%= for news <- @all_news do %>
-    <.card title={news.title} description={news.description} id={news.id} current_organization={@current_organization} current_user={@current_user} url={Routes.news_edit_path(@socket, :edit, @current_organization, news)} />
+    <.announcement organization={@current_organization} news={news} url={Routes.news_show_path(@socket, :show, @current_organization, news.id)} />
   <% end %>
 </ul>
