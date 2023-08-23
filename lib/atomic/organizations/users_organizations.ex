@@ -17,7 +17,6 @@ defmodule Atomic.Organizations.UserOrganization do
     timestamps()
   end
 
-  @doc false
   def changeset(user_organization, attrs) do
     user_organization
     |> cast(attrs, @required_fields)

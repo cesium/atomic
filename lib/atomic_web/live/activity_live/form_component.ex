@@ -54,8 +54,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     existing_sessions =
       Map.get(
         socket.assigns.changeset.changes,
-        :activity_sessions,
-        socket.assigns.activity.activity_sessions
+        :sessions,
+        socket.assigns.activity.sessions
       )
 
     sessions =
@@ -64,19 +64,19 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     changeset =
       socket.assigns.changeset
-      |> Ecto.Changeset.put_assoc(:activity_sessions, sessions)
+      |> Ecto.Changeset.put_assoc(:sessions, sessions)
 
     {:noreply, assign(socket, changeset: changeset)}
   end
 
   def handle_event("rm-session", %{"index" => index}, socket) do
     new_sessions =
-      Map.get(socket.assigns.changeset.changes, :activity_sessions)
+      Map.get(socket.assigns.changeset.changes, :sessions)
       |> List.delete_at(String.to_integer(index))
 
     changeset =
       socket.assigns.changeset
-      |> Ecto.Changeset.put_assoc(:activity_sessions, new_sessions)
+      |> Ecto.Changeset.put_assoc(:sessions, new_sessions)
 
     {:noreply, assign(socket, changeset: changeset)}
   end
