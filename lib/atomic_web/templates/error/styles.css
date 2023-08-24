@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    background-color: aquamarine;
+    padding: 0;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-container {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding-right: 40px;
+    
+    
+}
+.text{
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bolder;
+    font-size: xx-large;
+    margin-bottom: 90px;
+    color: #435334;
+}
+.button-container {
+    margin-top: 10px;
+    display: flex; /* Ensure button container takes the height of the button */
+    justify-content: flex-end; /* Align the button to the bottom right */
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #f5cb76;
+    color: #435334;
+    font-family: 'Roboto Mono', monospace;
+    text-decoration: none; /* Remove default underline for links */
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute; /* Position the button absolutely */
+    bottom: 300px; /* Align the button to the bottom */
+    right: 200px; /* Align the button to the right */
+    transition: transform 300ms ease;
+}
+.button:hover{
+    cursor: pointer;
+    transform: translateY(-10px);
+}

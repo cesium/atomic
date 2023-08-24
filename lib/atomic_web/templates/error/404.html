@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content={csrf_token_value()} />
+    <link rel="apple-touch-icon" sizes="180x180" href={Routes.static_path(@conn, "/favicon/apple-touch-icon.png")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={Routes.static_path(@conn, "/favicon/favicon-32x32.png")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={Routes.static_path(@conn, "/favicon/favicon-16x16.png")} />
+    <link rel="manifest" href={Routes.static_path(@conn, "/favicon/site.webmanifest")} />
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="main-container">
+z        <img width="68%" height="100%" src="./13.png" alt="error-img">
+      <div class="text-container">
+        <p class="text">We can't seem to find the page you're looking for.<br /></p>
+        <div class="button-container">
+          <a href="/" class="button">Return home</a>
+      </div>
+      </div>
+    </div>
+  </body>
+
+</html>

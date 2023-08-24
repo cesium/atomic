@@ -86,6 +86,10 @@ header nav ul {
 header nav a {
   display: block;
 }
+.error-img{
+  max-width:100%; 
+  height:auto;
+}
 
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
   header section {
