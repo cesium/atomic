@@ -89,7 +89,7 @@
                         <%= @current_organization.name %>
                       </span>
                       <span class="truncate text text-zinc-500">
-                        <%= AtomicWeb.ViewUtils.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
+                        <%= AtomicWeb.Helpers.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
                       </span>
                     </span>
                   </span>
@@ -128,7 +128,7 @@
         <nav class="flex flex-col h-full justify-between">
           <div class="hidden lg:block">
             <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization, @current_user) do %>
-              <%= if page.tabs == [] and page.title != "Calendar" and page.title != "Settings" do %>
+              <%= if page.tabs == [] and page.title != "Calendar" and page.title != "Profile" and page.title != "Logout" do %>
                 <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
                   <Heroicons.Outline.render
                     icon={page.icon}
@@ -201,15 +201,75 @@
               <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
               <span class="">Calendar</span>
             <% end %>
-            <%= live_redirect to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "bg-zinc-200 flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900" do %>
-              <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                <%= Atomic.Accounts.extract_initials(@current_user.name) %>
-              </span>
-              <span>
-                <p aria-hidden="true"><%= @current_user.name %></p>
-                <p class="text-zinc-500 text-xs font-normal" aria-hidden="true">@<%= @current_user.handle %></p>
-              </span>
-            <% end %>
+            <div class="flex flex-col" x-data="{ profile: false}" @click.away="profile = false">
+              <button @click="profile = !profile" @keydown.escape.stop="profile = false" @keydown.enter.prevent="profile = !profile" type="button" class="flex flex-row space-x-2 bg-zinc-200 px-5 py-3" id="options-menu-button" aria-expanded="false" aria-haspopup="true">
+                <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
+                  <%= Atomic.Accounts.extract_initials(@current_user.name) %>
+                </span>
+                <span>
+                  <p aria-hidden="true"><%= @current_user.name %></p>
+                  <p class="text-zinc-500 text-xs font-normal" aria-hidden="true">@<%= @current_user.handle %></p>
+                </span>
+              </button>
+              <div class="relative">
+                <div
+                  @click="profile = !profile"
+                  @keydown.escape.stop="profile = false"
+                  @keydown.enter.prevent="profile = !profile"
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="transform opacity-0 scale-95"
+                  x-transition:enter-end="transform opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="transform opacity-100 scale-100"
+                  x-transition:leave-end="transform opacity-0 scale-95"
+                  x-show="profile"
+                  class="absolute bottom-2 right-0 left-0 z-10 origin-top divide-y divide-zinc-200 mx-3 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="options-menu-button"
+                  tabindex="-1"
+                >
+                  <div class="profile">
+                    <div role="none">
+                      <%= live_redirect to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" do %>
+                        <span class="flex w-full items-center justify-between">
+                          <span class="flex min-w-0 items-center justify-between space-x-3">
+                            <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 rounded-lg">
+                              <span class="text-lg font-medium leading-none text-white">
+                                <Heroicons.Solid.user_circle class="w-10 h-10 text-zinc-500" />
+                              </span>
+                            </span>
+                            <span class="flex min-w-0 flex-1 flex-col">
+                              <span class="truncate text-sm text-zinc-600">
+                                Profile
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                      <% end %>
+                    </div>
+                    <div role="none">
+                      <div class="w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300">
+                        <span class="flex w-full items-center justify-between">
+                          <span class="flex min-w-0 items-center justify-between space-x-3">
+                            <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 rounded-lg">
+                              <span class="text-lg font-medium leading-none text-white">
+                                <Heroicons.Outline.render icon={:logout} class="w-8 h-8 text-zinc-500" />
+                              </span>
+                            </span>
+                            <span class="flex items-center min-w-0 flex-1 flex-col">
+                              <span class="truncate text-sm text-zinc-600">
+                                <%= link("Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "") %>
+                              </span>
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </nav>
       </div>

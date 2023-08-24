@@ -3,6 +3,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   alias Atomic.Board
   alias Atomic.Organizations
+  import AtomicWeb.Helpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -11,8 +12,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
-    year = "2023/2024"
-    board = Board.get_organization_board_by_year(year, id)
+    board = Board.get_organization_board_by_year(build_current_academic_year(), id)
 
     board_departments =
       case board do
@@ -38,7 +38,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
-     |> assign(:year, year)
+     |> assign(:year, build_current_academic_year())
      |> assign(:id, id)}
   end
 

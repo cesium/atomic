@@ -9,9 +9,9 @@ defmodule AtomicWeb.Config do
     if current_organization do
       if current_user.role in [:admin] or
            Organizations.get_role(current_user.id, current_organization.id) in [:admin, :owner] do
-        admin_pages(conn, current_organization)
+        admin_pages(conn, current_organization, current_user)
       else
-        user_pages(conn, current_organization)
+        user_pages(conn, current_organization, current_user)
       end
     else
       default_pages(conn)
@@ -30,7 +30,7 @@ defmodule AtomicWeb.Config do
     ]
   end
 
-  def admin_pages(conn, current_organization) do
+  def admin_pages(conn, current_organization, current_user) do
     [
       %{
         key: :home,
@@ -97,15 +97,22 @@ defmodule AtomicWeb.Config do
       },
       %{
         key: :profile,
-        title: "Settings",
-        icon: :cog,
-        url: Routes.user_settings_path(conn, :edit),
+        title: "Profile",
+        icon: :user,
+        url: Routes.user_show_path(conn, :show, current_user.handle),
+        tabs: []
+      },
+      %{
+        key: :logout,
+        title: "Logout",
+        icon: :logout,
+        url: Routes.user_session_path(conn, :delete),
         tabs: []
       }
     ]
   end
 
-  def user_pages(conn, current_organization) do
+  def user_pages(conn, current_organization, current_user) do
     [
       %{
         key: :home,
@@ -157,10 +164,17 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
-        key: :profile,
-        title: "Settings",
-        icon: :cog,
-        url: Routes.user_settings_path(conn, :edit),
+        key: :user,
+        title: "Profile",
+        icon: :user,
+        url: Routes.user_show_path(conn, :show, current_user.handle),
+        tabs: []
+      },
+      %{
+        key: :logout,
+        title: "Logout",
+        icon: :logout,
+        url: Routes.user_session_path(conn, :delete),
         tabs: []
       }
     ]
