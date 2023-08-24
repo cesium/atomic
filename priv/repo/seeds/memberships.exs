@@ -4,6 +4,8 @@ defmodule Atomic.Repo.Seeds.Memberships do
   alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
   alias Atomic.Repo
 
+  import AtomicWeb.Helpers
+
   def run do
     seed_memberships()
     seed_board()
@@ -49,7 +51,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
           %Board{}
           |> Board.changeset(%{
             "organization_id" => organization.id,
-            "year" => "2023/2024"
+            "year" => build_current_academic_year()
           })
           |> Repo.insert!()
         end
