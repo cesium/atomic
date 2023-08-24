@@ -37,7 +37,7 @@ defmodule AtomicWeb.Components.Organizations do
                       <%= organization.name %>
                     </span>
                     <span class="truncate text-xs text-zinc-500">
-                      <%= AtomicWeb.ViewUtils.capitalize_first_letter(Atomic.Organizations.get_role(current_user.id, organization.id)) %>
+                      <%= AtomicWeb.Helpers.capitalize_first_letter(Atomic.Organizations.get_role(current_user.id, organization.id)) %>
                     </span>
                   </span>
                 </span>

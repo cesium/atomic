@@ -89,7 +89,7 @@
                         <%= @current_organization.name %>
                       </span>
                       <span class="truncate text text-zinc-500">
-                        <%= AtomicWeb.ViewUtils.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
+                        <%= AtomicWeb.Helpers.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
                       </span>
                     </span>
                   </span>
