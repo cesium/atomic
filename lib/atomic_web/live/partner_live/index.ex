@@ -26,7 +26,6 @@ defmodule AtomicWeb.PartnerLive.Index do
      |> assign(:current_page, :partners)
      |> assign(list_partnerships(params["organization_id"], params))
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:params, params)
      |> apply_action(socket.assigns.live_action, params)}
   end
 

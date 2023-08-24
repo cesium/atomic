@@ -27,7 +27,6 @@ defmodule AtomicWeb.MembershipLive.Index do
      |> assign(:current_page, :memberships)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
-     |> assign(:params, params)
      |> assign(list_memberships(id, params))}
   end
 
