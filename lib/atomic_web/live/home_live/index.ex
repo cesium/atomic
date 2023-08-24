@@ -9,7 +9,7 @@ defmodule AtomicWeb.HomeLive.Index do
 
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.Calendar
-  import AtomicWeb.ViewUtils
+  import AtomicWeb.Helpers
 
   @impl true
   def mount(_params, _session, socket) do
