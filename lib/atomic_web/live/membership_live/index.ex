@@ -2,8 +2,10 @@ defmodule AtomicWeb.MembershipLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Organizations
-  import AtomicWeb.ViewUtils
+
   import AtomicWeb.Components.Pagination
+  import AtomicWeb.Helpers
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

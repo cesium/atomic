@@ -52,18 +52,18 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, :sessions, list_sessions(socket.assigns.current_organization.id))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, :sessions, list_sessions(socket.assigns.current_organization.id))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
     user = socket.assigns.current_user
-    activities = Activities.get_user_activities(user.id)
+    sessions = Activities.list_sessions_enrolled(user.id, [])
 
-    {:noreply, assign(socket, :activities, activities)}
+    {:noreply, assign(socket, :sessions, sessions)}
   end
 
   defp list_sessions(organization_id) do

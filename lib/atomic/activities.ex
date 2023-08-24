@@ -68,6 +68,16 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
+
+
+  def list_sessions_enrolled(user_id, opts) do
+    from(s in Session,
+      join: e in assoc(s, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
   @doc """
   Gets a single activity.
 
@@ -430,7 +440,7 @@ defmodule Atomic.Activities do
   """
   def update_enrollment(%Enrollment{} = enrollment, attrs) do
     enrollment
-    |> Enrollment.changeset(attrs)
+    |> Enrollment.update_changeset(attrs)
     |> Repo.update()
   end
 
