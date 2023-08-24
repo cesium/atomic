@@ -68,8 +68,6 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-
-
   def list_sessions_enrolled(user_id, opts) do
     from(s in Session,
       join: e in assoc(s, :enrollments),
@@ -78,6 +76,7 @@ defmodule Atomic.Activities do
     |> apply_filters(opts)
     |> Repo.all()
   end
+
   @doc """
   Gets a single activity.
 

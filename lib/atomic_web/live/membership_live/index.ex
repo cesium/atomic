@@ -32,9 +32,13 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   defp list_memberships(id, params) do
-    case Organizations.list_memberships(params, where: [organization_id: id], preloads: [:user, :created_by]) do
+    case Organizations.list_memberships(params,
+           where: [organization_id: id],
+           preloads: [:user, :created_by]
+         ) do
       {:ok, {memberships, meta}} ->
         %{memberships: memberships, meta: meta}
+
       {:error, flop} ->
         %{memberships: [], meta: flop}
     end

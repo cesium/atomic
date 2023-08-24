@@ -18,7 +18,7 @@ defmodule Atomic.Organizations.Organization do
     default_order: %{
       order_by: [:name],
       order_directions: [:asc]
-    },
+    }
   }
 
   schema "organizations" do

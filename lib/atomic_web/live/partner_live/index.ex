@@ -62,13 +62,18 @@ defmodule AtomicWeb.PartnerLive.Index do
     {:ok, _} = Partnerships.delete_partner(partner)
 
     {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id, socket.params))}
+     assign(
+       socket,
+       :partnerships,
+       list_partnerships(socket.assigns.current_organization.id, socket.params)
+     )}
   end
 
   defp list_partnerships(id, params) do
     case Partnerships.list_partnerships(params, where: [organization_id: id]) do
       {:ok, {partnerships, meta}} ->
         %{partnerships: partnerships, meta: meta}
+
       {:error, flop} ->
         %{partnerships: [], meta: flop}
     end

@@ -67,6 +67,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     case Organizations.list_organizations(Map.put(params, "page_size", 4), []) do
       {:ok, {organizations, meta}} ->
         %{organizations: organizations, meta: meta}
+
       {:error, flop} ->
         %{organizations: [], meta: flop}
     end
