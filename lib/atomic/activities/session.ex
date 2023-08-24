@@ -22,6 +22,16 @@ defmodule Atomic.Activities.Session do
   @required_fields ~w(start finish minimum_entries maximum_entries activity_id)a
   @optional_fields ~w(delete session_image)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:start],
+    default_order: %{
+      order_by: [:start],
+      order_directions: [:asc]
+    }
+  }
+
   schema "sessions" do
     field :start, :naive_datetime
     field :finish, :naive_datetime

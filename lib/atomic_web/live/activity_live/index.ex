@@ -6,9 +6,11 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
   alias Atomic.Organizations
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
-  def mount(params, _session, socket) do
-    {:ok, assign(socket, :sessions, list_sessions(params["organization_id"]))}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
@@ -24,6 +26,7 @@ defmodule AtomicWeb.ActivityLive.Index do
      socket
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(list_sessions(params["organization_id"], params))
      |> apply_action(socket.assigns.live_action, params)}
   end
 
@@ -52,23 +55,31 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :sessions, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, list_sessions(socket.assigns.current_organization.id, %{}))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, :sessions, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, list_sessions(socket.assigns.current_organization.id, %{}))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
     user = socket.assigns.current_user
-    sessions = Activities.list_sessions_enrolled(user.id, [:activity])
+    sessions = Activities.list_sessions_enrolled(user.id, %{page_size: 6}, preloads: [:activity, :speakers, :enrollments, :departments])
 
-    {:noreply, assign(socket, :sessions, sessions)}
+    case sessions do
+      {:ok, {sessions, meta}} ->
+        {:noreply, assign(socket, %{sessions: sessions, meta: meta})}
+      {:error, flop} ->
+        {:noreply, assign(socket, %{sessions: [], meta: flop})}
+    end
   end
 
-  defp list_sessions(organization_id) do
-    Activities.list_sessions_by_organization_id(organization_id,
-      preloads: [:activity, :speakers, :enrollments]
-    )
+  defp list_sessions(id, params) do
+    case Activities.list_sessions_by_organization_id(id, Map.put(params, "page_size", 6), preloads: [:activity, :speakers, :enrollments]) do
+      {:ok, {sessions, meta}} ->
+        %{sessions: sessions, meta: meta}
+      {:error, flop} ->
+        %{sessions: [], meta: flop}
+    end
   end
 end

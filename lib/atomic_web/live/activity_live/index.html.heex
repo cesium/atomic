@@ -33,7 +33,7 @@
 
     <div>
       <div class="overflow-hidden bg-white">
-        <ul role="list" class="divide-y divide-zinc-200">
+        <ul role="list" class="divide-y divide-zinc-200 h-[70vh] overflow-auto">
           <%= for session <- @sessions do %>
             <li id={session.id}>
               <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "block hover:bg-zinc-50", replace: false do %>
@@ -95,6 +95,7 @@
             </li>
           <% end %>
         </ul>
+        <.pagination items={@sessions} meta={@meta} params={%{}} class="mt-4 flex w-full items-center justify-between" />
       </div>
     </div>
   </div>

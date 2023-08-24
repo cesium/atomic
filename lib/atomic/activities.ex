@@ -46,6 +46,15 @@ defmodule Atomic.Activities do
     |> Repo.preload([:activity])
   end
 
+  def list_sessions_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
+    from(s in Session,
+      join: d in assoc(s, :departments),
+      where: d.organization_id == ^organization_id
+    )
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Session)
+  end
+
   @doc """
   Returns the list of activity sessions starting and ending between two given dates.
 
@@ -76,6 +85,15 @@ defmodule Atomic.Activities do
     |> apply_filters(opts)
     |> Repo.all()
     |> Repo.preload([:activity, :enrollments, :departments, :speakers])
+  end
+
+  def list_sessions_enrolled(user_id, %{} = flop, opts) when is_list(opts) do
+    from(s in Session,
+      join: e in assoc(s, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Session)
   end
 
   @doc """
