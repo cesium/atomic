@@ -2,8 +2,8 @@ defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Board
+  alias Atomic.Ecto.Year
   alias Atomic.Organizations
-  import AtomicWeb.Helpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,7 +12,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
-    board = Board.get_organization_board_by_year(build_current_academic_year(), id)
+    board = Board.get_organization_board_by_year(Year.current_year(), id)
 
     board_departments =
       case board do
@@ -38,7 +38,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
-     |> assign(:year, build_current_academic_year())
+     |> assign(:year, Year.current_year())
      |> assign(:id, id)}
   end
 
@@ -58,14 +58,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   @impl true
   def handle_event("previous_year", %{"organization-id" => organization_id}, socket) do
-    year = socket.assigns.year
-
-    year =
-      year
-      |> String.split("/")
-      |> Enum.map(fn x -> String.to_integer(x) end)
-      |> Enum.map(fn x -> x - 1 end)
-      |> Enum.map_join("/", fn x -> Integer.to_string(x) end)
+    year = Year.previous_year(socket.assigns.year)
 
     board = Board.get_organization_board_by_year(year, organization_id)
 
@@ -82,14 +75,7 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   def handle_event("next_year", %{"organization-id" => organization_id}, socket) do
-    year = socket.assigns.year
-
-    year =
-      year
-      |> String.split("/")
-      |> Enum.map(fn x -> String.to_integer(x) end)
-      |> Enum.map(fn x -> x + 1 end)
-      |> Enum.map_join("/", fn x -> Integer.to_string(x) end)
+    year = Year.next_year(socket.assigns.year)
 
     board = Board.get_organization_board_by_year(year, organization_id)
 
