@@ -17,6 +17,9 @@ module.exports = {
       backgroundImage: {
         'hero-pattern': "url('/images/atomic.png')",
       },
+      backgroundSize: {
+        '75': '75%'
+      }
     },
   },
   plugins: [
