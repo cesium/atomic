@@ -27,10 +27,14 @@ defmodule Atomic.Activities.Enrollment do
     |> validate_required(@required_fields)
   end
 
-  @doc """
-    Validates if the maximum number of enrollments has been reached.
-  """
-  def validate_maximum_entries(changeset) do
+  def update_changeset(enrollment, attrs) do
+    enrollment
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
+  # Validates if the maximum number of enrollments has been reached.
+  defp validate_maximum_entries(changeset) do
     session_id = get_field(changeset, :session_id)
     session = Activities.get_session!(session_id)
     enrolled = Activities.get_total_enrolled(session.id)
