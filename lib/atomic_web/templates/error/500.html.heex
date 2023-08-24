@@ -1,40 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content={csrf_token_value()} />
-    <%= live_title_tag(assigns[:page_title] || "Atomic", suffix: " · 500") %>
+    <%= live_title_tag(assigns[:page_title] || "Home", suffix: " · Atomic") %>
     <link rel="apple-touch-icon" sizes="180x180" href={Routes.static_path(@conn, "/favicon/apple-touch-icon.png")} />
     <link rel="icon" type="image/png" sizes="32x32" href={Routes.static_path(@conn, "/favicon/favicon-32x32.png")} />
     <link rel="icon" type="image/png" sizes="16x16" href={Routes.static_path(@conn, "/favicon/favicon-16x16.png")} />
     <link rel="manifest" href={Routes.static_path(@conn, "/favicon/site.webmanifest")} />
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
   </head>
-  <div class="grid h-screen place-items-center bg-hero-pattern bg-cover lg:bg-75 bg-no-repeat bg-center">
-    <div class="px-4">
-      <div class="pb-2 text-center font-bold">
-        <div class="text-3xl">
-          <p>Error 500</p>
-        </div>
-        <p class="text-md">Internal Server Error</p>
-      </div>
-      <div class="pt-4 text-center break-normal">
-        <p>
-          Oops! It appears that something went wrong on our end.
-        </p>
-        <p>
-          Rest assured, we value your presence and are working diligently to resolve the issue. Please try again later or contact our support team for further assistance. In the mean time, you can return to Atomic homepage.
-        </p>
-        <div class="pt-8">
-          <a href="/">
-            <button type="button" class="inline-flex w-96 items-center border-2 border-gray-200 bg-black py-4 font-bold text-white shadow-sm hover:border-[#f47c58] hover:bg-[#f47c58] hover:border-2 hover:text-white">
-              <span class="w-full text-center">Return home</span>
-            </button>
-          </a>
-        </div>
+  <body class="flex flex-row justify-center items-center overflow-x-hidden bg-hero-pattern bg-cover lg:bg-75 bg-no-repeat bg-center h-screen w-screen">
+    <div class="py-16 px-8 sm:py-24 sm:px-6 md:grid md:place-items-center lg:px-8">
+      <div class="mx-auto max-w-max">
+        <main class="flex flex-col items-center justify-center">
+          <p class="text-4xl inline-flex items-center justify-center font-extrabold sm:text-5xl text-black">Error 500</p>
+          <div class="ml-6 lg:m-0">
+            <div class="flex flex-col items-center pl-6 sm:border-l sm:border-gray-200">
+              <h1 class="text-xl font-extrabold tracking-tight text-black sm:text-5xl">Oops! It appears that something went wrong on our end.</h1>
+              <p class="mt-1 text-base text-black">Rest assured, we value your presence and are working diligently to resolve the issue.</p>
+              <p class="mt-1 text-base text-black">Please try again later or contact our support team for further assistance. In the mean time, you can return to Atomic homepage.</p>
+            </div>
+            <div class="flex items-center justify-center mt-10 space-x-3 sm:pl-6 sm:border-l sm:border-transparent">
+              <a
+                href="/"
+                class="inline-flex items-center justify-center py-2 px-4 text-sm font-bold text-white rounded-md border border-transparent shadow-sm hover:bg-red-800 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none bg-primary inline-flex w-96 items-center border-2 border-gray-200 bg-black py-4 font-bold text-white shadow-sm hover:border-[#f47c58] hover:bg-[#f47c58] hover:border-2 hover:text-white"
+              >
+                Go back home
+              </a>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
-  </div>
+  </body>
 </html>
