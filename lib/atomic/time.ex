@@ -1,6 +1,6 @@
 defmodule Atomic.Time do
   @moduledoc """
-  Time related utilities.
+    This module provide time utilities.
   """
 
   @timezone "Europe/Lisbon"

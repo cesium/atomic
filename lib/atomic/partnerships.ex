@@ -2,9 +2,7 @@ defmodule Atomic.Partnerships do
   @moduledoc """
   The Partnerships context.
   """
-
-  import Ecto.Query, warn: false
-  alias Atomic.Repo
+  use Atomic.Context
 
   alias Atomic.Organizations.Partner
 
