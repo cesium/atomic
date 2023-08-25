@@ -95,6 +95,24 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Finishes user setup.
+
+  ## Examples
+
+      iex> finish_user_setup(user, %{field: value})
+      {:ok, %User{}}
+
+      iex> finish_user_setup(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def finish_user_setup(user, attrs) do
+    user
+    |> User.setup_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
     List all users.
 
     ## Examples
@@ -194,6 +212,19 @@ defmodule Atomic.Accounts do
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_user_registration(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_setup(%User{} = user, attrs \\ %{}) do
+    User.setup_changeset(user, attrs)
   end
 
   ## Settings

@@ -8,7 +8,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :id, :binary_id, primary_key: true
       add :name, :string
       add :email, :citext, null: false
-      add :handle, :citext, null: false
+      add :handle, :citext
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
       add :profile_picture, :string
