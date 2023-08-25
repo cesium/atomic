@@ -11,7 +11,7 @@ defmodule AtomicWeb.UserSetupController do
 
     recommended_handle =
       String.replace(
-        Accounts.extract_email_address_local_part(user.email),
+        extract_email_address_local_part(user.email),
         ~r/[#{@forbidden_characters}]+/,
         ""
       )
@@ -33,5 +33,13 @@ defmodule AtomicWeb.UserSetupController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", changeset: changeset, courses: Accounts.list_courses())
     end
+  end
+
+  defp extract_email_address_local_part(email) do
+    segments =
+      email
+      |> String.split("@")
+
+    List.first(segments)
   end
 end

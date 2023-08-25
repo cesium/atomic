@@ -202,24 +202,6 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Return the local part of an email address.
-
-  ## Examples
-
-        iex> extract_email_address_local_part("john_doe@mail.com")
-        "john_doe"
-        ""
-
-  """
-  def extract_email_address_local_part(email) do
-    segments =
-      email
-      |> String.split("@")
-
-    List.first(segments)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples
