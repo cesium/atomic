@@ -522,13 +522,9 @@ defmodule Atomic.Organizations do
     News
     |> apply_filters(preloads)
     |> where(organization_id: ^id)
+    |> where([n], fragment("now() > ?", n.publish_at))
+    |> order_by([n], desc: n.publish_at)
     |> Repo.all()
-    |> Enum.filter(fn news ->
-      NaiveDateTime.compare(news.publish_at, NaiveDateTime.utc_now()) == :lt
-    end)
-    |> Enum.sort(fn news1, news2 ->
-      NaiveDateTime.compare(news1.publish_at, news2.publish_at) == :gt
-    end)
   end
 
   @doc """
