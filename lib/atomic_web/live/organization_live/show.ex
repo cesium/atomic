@@ -32,7 +32,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     ]
 
     mode = "month"
-    followers =  Enum.count(Atomic.Organizations.list_memberships(%{"organization_id" => id}, []))
+    followers = Enum.count(Atomic.Organizations.list_memberships(%{"organization_id" => id}, []))
 
     {:noreply,
      socket

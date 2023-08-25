@@ -39,7 +39,7 @@
                     <span class="text-xl text-zinc-900 font-bold inline-flex items-center"><%= @followers %></span>
                     <span class="ml-2 text-xl text-zinc-900 w-full inline-flex items-center">Followers</span>
                   </div>
-                </div>  
+                </div>
                 <%= if not @following do %>
                   <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
                 <% else %>
