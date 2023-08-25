@@ -1,25 +1,27 @@
-<%= if @empty do %>
-  <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @id)} placeholder="board" icon={:users} />
-<% else %>
-  <div class="bg-white py-8">
-    <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="flex items-center border-b-2 border-gray-200 justify-between">
-        <div class="min-w-0 flex flex-row items-center justsiy-center">
-          <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-gray-400" phx-click="previous_year" phx-value-organization_id={@current_organization.id} />
-          <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
-            <%= gettext("Board %{year}", year: @year) %>
-          </h2>
-          <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-gray-400" phx-click="next_year" phx-value-organization_id={@current_organization.id} />
-        </div>
-        <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
-          <div class="hidden lg:border-orange-500 mb-2 lg:block">
-            <%= live_patch("+ New Board Member",
-              to: Routes.board_new_path(@socket, :new, @id),
-              class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
-            ) %>
-          </div>
-        <% end %>
+<div class="bg-white py-8">
+  <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="flex items-center border-b-2 border-gray-200 justify-between">
+      <div class="min-w-0 flex flex-row items-center justsiy-center">
+        <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-gray-400" phx-click="previous_year" phx-value-organization_id={@current_organization.id} />
+        <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
+          <%= gettext("Board %{year}", year: @year) %>
+        </h2>
+        <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-gray-400" phx-click="next_year" phx-value-organization_id={@current_organization.id} />
       </div>
+      <%= if not @empty and @has_permissions do %>
+        <div class="hidden lg:border-orange-500 mb-2 lg:block">
+          <%= live_patch("+ New Board Member",
+            to: Routes.board_new_path(@socket, :new, @id),
+            class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+          ) %>
+        </div>
+      <% end %>
+    </div>
+    <%= if @empty do %>
+      <div class="mt-32">
+        <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @id)} placeholder="board member" />
+      </div>
+    <% else %>
       <%= for board_department <- @board_departments do %>
         <li id={"board-department-#{board_department.id}"} role="list" class="flex flex-col items-center mt-10 grid max-w-2xl gap-x-8 text-center lg:mx-0 lg:max-w-none">
           <div class="flex flex-row items-center space-x-8">
@@ -41,6 +43,6 @@
           </div>
         </li>
       <% end %>
-    </ul>
-  </div>
-<% end %>
+    <% end %>
+  </ul>
+</div>

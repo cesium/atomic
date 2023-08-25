@@ -7,7 +7,7 @@
             <%= gettext("Activities") %>
           </h2>
         </div>
-        <%= if ! @empty do %>
+        <%= if not @empty and @has_permissions do %>
           <div class="hidden lg:border-orange-500 lg:block">
             <%= live_patch("+ New Activity",
               to: Routes.activity_new_path(@socket, :new, @current_organization),
@@ -31,7 +31,9 @@
       </div>
     </div>
     <%= if @empty do %>
-      <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" icon={:academic_cap} />
+      <div class="mt-32">
+        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
+      </div>
     <% else %>
       <div>
         <div class="overflow-hidden bg-white">
