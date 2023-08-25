@@ -31,7 +31,7 @@ defmodule AtomicWeb.UserSetupController do
         |> redirect(to: "/organizations")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, courses: Accounts.list_courses())
     end
   end
 end

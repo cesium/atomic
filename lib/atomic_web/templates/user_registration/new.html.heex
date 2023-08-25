@@ -4,22 +4,27 @@
       <span><%= gettext("Register") %></span>
     </h2>
     <%= if @changeset.action do %>
-      <div class="alert alert-danger">
-        <p>Oops, something went wrong! Please check the errors below.</p>
+      <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
+        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-red-400 text-red-700 px-4 py-4">
+          <Heroicons.Solid.exclamation class="w-5 h-5 mr-2 text-red-400" />
+          <div>
+            <p>Oops, something went wrong!</p>
+          </div>
+        </div>
       </div>
     <% end %>
 
     <div class="space-y-3 rounded-md w-full flex-col mt-6">
-      <div class="flex justify-center">
+      <div class="flex flex-col items-center justify-center mx-4">
         <%= label(f, :email, class: "sr-only") %>
         <%= email_input(f, :email,
           required: true,
           placeholder: gettext("Email address"),
           class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
-        <%= error_tag(f, :email) %>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :email) %></span>
       </div>
-      <div class="flex justify-center">
+      <div class="flex flex-col items-center justify-center mx-4">
         <%= label(f, :password, class: "sr-only") %>
         <%= password_input(f, :password,
           required: true,
@@ -27,9 +32,9 @@
           autocomplete: "current-password",
           class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
-        <%= error_tag(f, :password) %>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password) %></span>
       </div>
-      <div class="flex justify-center">
+      <div class="flex flex-col items-center justify-center mx-4">
         <%= label(f, :password_confirmation, class: "sr-only") %>
         <%= password_input(f, :password_confirmation,
           required: true,
@@ -37,7 +42,7 @@
           autocomplete: "current-password",
           class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
-        <%= error_tag(f, :password_confirmation) %>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password_confirmation) %></span>
       </div>
     </div>
 
