@@ -53,27 +53,21 @@ defmodule Atomic.AccountsTest do
              } = errors_on(changeset)
     end
 
-    test "validates email, handle and password when given" do
-      {:error, changeset} =
-        Accounts.register_user(%{email: "not valid", handle: "not valid", password: "not valid"})
+    test "validates email and password when given" do
+      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               handle: [
-                 "must only contain alphanumeric characters, numbers, underscores and periods"
-               ],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
 
-    test "validates maximum values for email, handle and password for security" do
+    test "validates maximum values for email and password for security" do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.register_user(%{email: too_long, handle: too_long, password: too_long})
+      {:error, changeset} = Accounts.register_user(%{email: too_long, password: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
-      assert "should be at most 30 character(s)" in errors_on(changeset).handle
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
@@ -89,11 +83,11 @@ defmodule Atomic.AccountsTest do
 
     test "validates handle uniqueness" do
       %{handle: handle} = insert(:user)
-      {:error, changeset} = Accounts.register_user(%{handle: handle})
+      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{handle: handle})
       assert "has already been taken" in errors_on(changeset).handle
 
       # Now try with the upper cased handle too, to check that handle case is ignored.
-      {:error, changeset} = Accounts.register_user(%{handle: String.upcase(handle)})
+      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{handle: handle})
       assert "has already been taken" in errors_on(changeset).handle
     end
 
@@ -112,18 +106,17 @@ defmodule Atomic.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :handle, :email]
+      assert changeset.required == [:password, :email]
     end
 
     test "allows fields to be set" do
       email = Faker.Internet.email()
       password = valid_user_password()
-      handle = Faker.Internet.user_name()
 
       changeset =
         Accounts.change_user_registration(
           %User{},
-          params_for(:user, %{email: email, handle: handle, password: password})
+          params_for(:user, %{email: email, password: password})
         )
 
       assert changeset.valid?
