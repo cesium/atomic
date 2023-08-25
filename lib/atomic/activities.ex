@@ -36,7 +36,7 @@ defmodule Atomic.Activities do
       iex> list_sessions_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
       ** (Ecto.NoResultsError)
   """
-  def list_sessions_by_organization_id(organization_id, opts) when is_list(opts) do
+  def list_sessions_by_organization_id(organization_id, opts \\ []) do
     from(s in Session,
       join: d in assoc(s, :departments),
       where: d.organization_id == ^organization_id
