@@ -1,39 +1,38 @@
-<%= if @empty do %>
-  <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" icon={:academic_cap} />
-<% else %>
-  <div x-data="{ open: true }" class="inline-block min-w-full align-middle">
-    <div class="bg-white">
-      <div class="pt-4 px-4">
-        <div class="flex items-center justify-between">
-          <div class="min-w-0 flex-1">
-            <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-              <%= gettext("Activities") %>
-            </h2>
-          </div>
-          <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
-            <div class="hidden lg:border-orange-500 lg:block">
-              <%= live_patch("+ New Activity",
-                to: Routes.activity_new_path(@socket, :new, @current_organization),
-                class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
-              ) %>
-            </div>
-          <% end %>
+<div x-data="{ open: true }" class="inline-block min-w-full align-middle">
+  <div class="bg-white">
+    <div class="pt-4 px-4">
+      <div class="flex items-center justify-between">
+        <div class="min-w-0 flex-1">
+          <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
+            <%= gettext("Activities") %>
+          </h2>
         </div>
-        <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-          <div x-data="{option: 'enrollments'}" class="flex w-full items-center justify-between">
-            <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-              <div x-on:click="option = 'enrollments'" x-bind:class="option == 'enrollments' ? 'border-zinc-800' : 'border-transparent'" phx-click="open-enrollments" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-                <%= gettext("Open Enrollments") %>
-              </div>
-
-              <div x-on:click="option = 'activities'" x-bind:class="option == 'activities' ? 'border-zinc-800' : 'border-transparent'" phx-click="activities-enrolled" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-                <%= gettext("Activities Enrolled") %>
-              </div>
-            </nav>
+        <%= if ! @empty do %>
+          <div class="hidden lg:border-orange-500 lg:block">
+            <%= live_patch("+ New Activity",
+              to: Routes.activity_new_path(@socket, :new, @current_organization),
+              class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+            ) %>
           </div>
+        <% end %>
+      </div>
+      <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+        <div x-data="{option: 'enrollments'}" class="flex w-full items-center justify-between">
+          <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+            <div x-on:click="option = 'enrollments'" x-bind:class="option == 'enrollments' ? 'border-zinc-800' : 'border-transparent'" phx-click="open-enrollments" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+              <%= gettext("Open Enrollments") %>
+            </div>
+
+            <div x-on:click="option = 'activities'" x-bind:class="option == 'activities' ? 'border-zinc-800' : 'border-transparent'" phx-click="activities-enrolled" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+              <%= gettext("Activities Enrolled") %>
+            </div>
+          </nav>
         </div>
       </div>
-
+    </div>
+    <%= if @empty do %>
+      <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" icon={:academic_cap} />
+    <% else %>
       <div>
         <div class="overflow-hidden bg-white">
           <ul role="list" class="divide-y divide-zinc-200">
@@ -100,6 +99,6 @@
           </ul>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

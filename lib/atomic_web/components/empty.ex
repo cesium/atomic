@@ -10,7 +10,7 @@ defmodule AtomicWeb.Components.Empty do
         } = assigns
       ) do
     ~H"""
-    <div class="h-screen flex items-center justify-center">
+    <div class="flex items-center justify-center mt-32">
       <div class="flex flex-col items-center justify-center text-center lg:w-1/2 rounded-lg border-2 p-12 border-dashed border-orange-300 hover:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
         <Heroicons.Outline.render icon={icon} class="h-10" />
         <h3 class="mt-2 text-sm font-semibold text-gray-900">No <%= placeholder %>s</h3>
