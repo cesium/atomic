@@ -14,13 +14,13 @@ defmodule AtomicWeb.UserSessionController do
 
     if user do
       if is_nil(user.confirmed_at) do
-        render(conn, "new.html", error_message: "Confirm your email before continuing")
+        render(conn, "new.html", error_message: "Confirm your email before continuing.")
       else
         UserAuth.log_in_user(conn, user, user_params)
       end
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
-      render(conn, "new.html", error_message: "Invalid email or password")
+      render(conn, "new.html", error_message: "Invalid email or password.")
     end
   end
 

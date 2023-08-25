@@ -55,17 +55,6 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
     end
   end
 
-  describe "GET /users/confirm/:token" do
-    test "renders the confirmation page", %{conn: conn} do
-      conn = get(conn, Routes.user_confirmation_path(conn, :edit, "some-token"))
-      response = html_response(conn, 200)
-      assert response =~ "Confirm your Account"
-
-      form_action = Routes.user_confirmation_path(conn, :update, "some-token")
-      assert response =~ "action=\"#{form_action}\""
-    end
-  end
-
   describe "POST /users/confirm/:token" do
     test "confirms the given token once", %{conn: conn, user: user} do
       token =
@@ -73,7 +62,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
           Accounts.deliver_user_confirmation_instructions(user, url)
         end)
 
-      conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
+      conn = get(conn, Routes.user_confirmation_path(conn, :edit, token))
       assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :info) =~ "User confirmed successfully"
       assert Accounts.get_user!(user.id).confirmed_at
@@ -81,7 +70,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
       assert Repo.all(Accounts.UserToken) == []
 
       # When not logged in
-      conn = post(conn, Routes.user_confirmation_path(conn, :update, token))
+      conn = get(conn, Routes.user_confirmation_path(conn, :edit, token))
       assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
 
@@ -89,14 +78,14 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
       conn =
         build_conn()
         |> log_in_user(user)
-        |> post(Routes.user_confirmation_path(conn, :update, token))
+        |> get(Routes.user_confirmation_path(conn, :edit, token))
 
       assert redirected_to(conn) == "/"
       refute get_flash(conn, :error)
     end
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
-      conn = post(conn, Routes.user_confirmation_path(conn, :update, "oops"))
+      conn = get(conn, Routes.user_confirmation_path(conn, :edit, "oops"))
       assert redirected_to(conn) == "/users/log_in"
       assert get_flash(conn, :error) =~ "User confirmation link is invalid or it has expired"
       refute Accounts.get_user!(user.id).confirmed_at

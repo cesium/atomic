@@ -32,27 +32,40 @@ defmodule AtomicWeb.UserAuth do
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
 
-    case user.default_organization_id do
-      nil ->
-        conn
-        |> renew_session()
-        |> put_session(:user_token, token)
-        |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-        |> maybe_write_remember_me_cookie(token, params)
-        |> redirect(to: "/organizations")
+    if has_finished_account_setup(user) do
+      case user.default_organization_id do
+        nil ->
+          conn
+          |> renew_session()
+          |> put_session(:user_token, token)
+          |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+          |> maybe_write_remember_me_cookie(token, params)
+          |> redirect(to: "/organizations")
 
-      _ ->
-        conn
-        |> renew_session()
-        |> put_session(:user_token, token)
-        |> put_session(
-          :current_organization,
-          Organizations.get_organization!(user.default_organization_id)
-        )
-        |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-        |> maybe_write_remember_me_cookie(token, params)
-        |> redirect(to: user_return_to || signed_in_path(conn))
+        _ ->
+          conn
+          |> renew_session()
+          |> put_session(:user_token, token)
+          |> put_session(
+            :current_organization,
+            Organizations.get_organization!(user.default_organization_id)
+          )
+          |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+          |> maybe_write_remember_me_cookie(token, params)
+          |> redirect(to: user_return_to || signed_in_path(conn))
+      end
+    else
+      conn
+      |> renew_session()
+      |> put_session(:user_token, token)
+      |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+      |> maybe_write_remember_me_cookie(token, params)
+      |> redirect(to: "/users/setup")
     end
+  end
+
+  defp has_finished_account_setup(user) do
+    user.handle != nil
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -143,6 +156,19 @@ defmodule AtomicWeb.UserAuth do
   end
 
   @doc """
+  Used for routes that require the user to not have finished the account setup.
+  """
+  def redirect_if_user_has_finished_account_setup(conn, _opts) do
+    if conn.assigns[:current_user] && not is_nil(conn.assigns[:current_user].handle) do
+      conn
+      |> redirect(to: "/organizations")
+      |> halt()
+    else
+      conn
+    end
+  end
+
+  @doc """
   Used for routes that require the user to be authenticated.
 
   If you want to enforce the user email is confirmed before
@@ -169,6 +195,19 @@ defmodule AtomicWeb.UserAuth do
       conn
       |> put_flash(:error, "You must confirm your account in order to access this page.")
       |> redirect(to: "/404")
+      |> halt()
+    end
+  end
+
+  def require_finished_user_setup(conn, _opts) do
+    current_user = conn.assigns[:current_user]
+
+    if conn.assigns[:current_user] && not is_nil(current_user.handle) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must finish the account setup in order to access this page.")
+      |> redirect(to: "/users/setup")
       |> halt()
     end
   end

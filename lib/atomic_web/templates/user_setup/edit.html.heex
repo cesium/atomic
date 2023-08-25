@@ -1,0 +1,63 @@
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
+  <.form let={f} for={@changeset} action={Routes.user_setup_path(@conn, :finish)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 sm:mx-0">
+    <div class="flex-row flex select-none">
+      <p class="mt-6 uppercase tracking-widest"><%= gettext("Welcome to Atomic!") %></p>
+      <p class="ml-2 animate-wave text-2xl self-end">👋</p>
+    </div>
+    <div class="sm:w-96 mx-4">
+      <h2 class="mt-1 text-center text-xl font-bold text-zinc-900 select-none">
+        <%= gettext("Please finish setting up your account") %>
+      </h2>
+    </div>
+    <%= if @changeset.action do %>
+      <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
+        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-red-400 text-red-700 px-4 py-4">
+          <Heroicons.Solid.exclamation class="w-5 h-5 mr-2 text-red-400" />
+          <div>
+            <p>Oops, something went wrong!</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="space-y-3 rounded-md w-full flex-col mt-6">
+      <div class="flex flex-col items-center justify-center mx-4">
+        <%= label(f, :name, class: "sr-only") %>
+        <%= text_input(f, :name,
+          required: true,
+          placeholder: gettext("Name"),
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+        ) %>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :name) %></span>
+      </div>
+      <div class="flex flex-col items-center justify-center mx-4">
+        <%= label(f, :handle, class: "sr-only") %>
+        <div class="flex flex-row relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
+          <span class="self-center select-none">@</span>
+          <%= text_input(f, :handle,
+            required: true,
+            placeholder: gettext("username"),
+            class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"
+          ) %>
+        </div>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :handle) %></span>
+      </div>
+      <div class="flex flex-col items-center justify-center mx-4">
+        <%= label(f, :course_id, class: "sr-only") %>
+        <%= select(f, :course_id, Enum.map(@courses, &{&1.name, &1.id}),
+          required: true,
+          placeholder: gettext("Course"),
+          prompt: gettext("Select a course"),
+          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+        ) %>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :course_id) %></span>
+      </div>
+    </div>
+
+    <div class="mt-6 w-full flex-col">
+      <div class="mx-4 justify-center flex select-none">
+        <%= submit("Next Step", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
+      </div>
+    </div>
+  </.form>
+</div>

@@ -26,7 +26,7 @@ defmodule Atomic.Organizations.Partner do
     field :name, :string
     field :description, :string
     field :state, Ecto.Enum, values: @states, default: :active
-    field :image, Uploaders.Image.Type
+    field :image, Uploaders.PartnerImage.Type
 
     belongs_to :organization, Organization
 
