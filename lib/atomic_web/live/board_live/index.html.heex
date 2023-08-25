@@ -1,10 +1,12 @@
 <div class="bg-white py-8">
   <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
     <div class="flex items-center border-b-2 border-gray-200 justify-between">
-      <div class="min-w-0 flex-1">
+      <div class="min-w-0 flex flex-row items-center justsiy-center">
+        <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-gray-400" phx-click="previous_year" phx-value-organization_id={@current_organization.id} />
         <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
-          <%= gettext("Board") %>
+          <%= gettext("Board %{year}", year: @year) %>
         </h2>
+        <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-gray-400" phx-click="next_year" phx-value-organization_id={@current_organization.id} />
       </div>
       <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
