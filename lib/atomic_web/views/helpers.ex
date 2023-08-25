@@ -1,4 +1,4 @@
-defmodule AtomicWeb.ViewUtils do
+defmodule AtomicWeb.Helpers do
   @moduledoc """
   A module with helper functions to display data in views
   """
@@ -6,8 +6,8 @@ defmodule AtomicWeb.ViewUtils do
 
   import AtomicWeb.Gettext
 
-  alias String
   alias Timex.Format.DateTime.Formatters.Relative
+
   require Timex.Translator
 
   @doc """
@@ -37,7 +37,7 @@ defmodule AtomicWeb.ViewUtils do
     Relative.lformat!(datetime, "{relative}", Gettext.get_locale())
   end
 
-  @doc ~S"""
+  @doc """
   Returns a relative date string for the given date.
 
   ## Examples
@@ -63,7 +63,7 @@ defmodule AtomicWeb.ViewUtils do
     Timex.format!(date, "{0D}-{0M}-{YYYY}")
   end
 
-  @doc ~S"""
+  @doc """
   Returns a relative time string for the given time.
 
   ## Examples
@@ -89,7 +89,7 @@ defmodule AtomicWeb.ViewUtils do
     |> Timex.format!("{h24}:{m}")
   end
 
-  @doc ~S"""
+  @doc """
     Returns a list of first element from tuples where the second element is true
 
     ## Examples
@@ -154,7 +154,7 @@ defmodule AtomicWeb.ViewUtils do
     end
   end
 
-  @doc ~S"""
+  @doc """
     Returns the string with the first letter capitalized
 
     ## Examples
@@ -182,7 +182,7 @@ defmodule AtomicWeb.ViewUtils do
     |> URI.to_string()
   end
 
-  @doc ~S"""
+  @doc """
     Appends two lists when a condition is true
 
     ## Examples
@@ -207,7 +207,7 @@ defmodule AtomicWeb.ViewUtils do
     end
   end
 
-  @doc ~S"""
+  @doc """
     Returns an error message for a given error
 
     ## Examples

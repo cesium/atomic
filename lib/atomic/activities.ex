@@ -430,7 +430,7 @@ defmodule Atomic.Activities do
   """
   def update_enrollment(%Enrollment{} = enrollment, attrs) do
     enrollment
-    |> Enrollment.changeset(attrs)
+    |> Enrollment.update_changeset(attrs)
     |> Repo.update()
   end
 

@@ -1,5 +1,6 @@
 defmodule Atomic.Repo.Seeds.Memberships do
   alias Atomic.Accounts.User
+  alias Atomic.Ecto.Year
   alias Atomic.Organization
   alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
   alias Atomic.Repo
@@ -49,7 +50,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
           %Board{}
           |> Board.changeset(%{
             "organization_id" => organization.id,
-            "year" => "2023/2024"
+            "year" => Year.current_year()
           })
           |> Repo.insert!()
         end
