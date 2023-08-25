@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Announcement do
           <div class="flex">
             <Heroicons.Solid.calendar class="w-5 h-5 text-gray-500" />
             <p class="block pl-1.5 text-sm text-gray-600">
-              <%= relative_datetime(@news.inserted_at) %>
+              <%= relative_datetime(@news.publish_at) %>
             </p>
           </div>
         </div>

@@ -68,6 +68,6 @@ defmodule AtomicWeb.NewsLive.Index do
   end
 
   defp list_news(organization_id) do
-    Organizations.list_news_by_organization_id(organization_id, [:organization])
+    Organizations.list_published_news_by_organization_id(organization_id, [:organization])
   end
 end

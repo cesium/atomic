@@ -510,6 +510,28 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Returns the list of published news belonging to an organization.
+
+  ## Examples
+
+      iex> list_published_news_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%News{}, ...]
+
+  """
+  def list_published_news_by_organization_id(id, preloads \\ []) do
+    News
+    |> apply_filters(preloads)
+    |> where(organization_id: ^id)
+    |> Repo.all()
+    |> Enum.filter(fn news ->
+      NaiveDateTime.compare(news.publish_at, NaiveDateTime.utc_now()) == :lt
+    end)
+    |> Enum.sort(fn news1, news2 ->
+      NaiveDateTime.compare(news1.publish_at, news2.publish_at) == :gt
+    end)
+  end
+
+  @doc """
   Gets a single news.
 
   Raises `Ecto.NoResultsError` if the new does not exist.

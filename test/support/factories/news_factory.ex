@@ -10,7 +10,8 @@ defmodule Atomic.Factories.NewFactory do
       def new_factory do
         %News{
           title: "News title",
-          description: "News description"
+          description: "News description",
+          publish_at: NaiveDateTime.utc_now()
         }
       end
     end
