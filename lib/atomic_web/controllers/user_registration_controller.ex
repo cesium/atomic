@@ -16,7 +16,17 @@ defmodule AtomicWeb.UserRegistrationController do
 
   def create(conn, %{"user" => user_params}) do
     if user_params["password"] == user_params["password_confirmation"] do
-      case Accounts.register_user(user_params) do
+      [_username, domain] = String.split(user_params["email"], "@")
+
+      role =
+        case domain do
+          "cesium.di.uminho.pt" -> :admin
+          _ -> :student
+        end
+
+      updated_user_params = Map.put(user_params, "role", role)
+
+      case Accounts.register_user(updated_user_params) do
         {:ok, user} ->
           {:ok, _} =
             Accounts.deliver_user_confirmation_instructions(
