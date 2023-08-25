@@ -9,8 +9,8 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
-  @required_fields ~w(email handle password)a
-  @optional_fields ~w(name role confirmed_at course_id default_organization_id)a
+  @required_fields ~w(email password)a
+  @optional_fields ~w(name handle role confirmed_at course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
@@ -54,7 +54,6 @@ defmodule Atomic.Accounts.User do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_email()
-    |> validate_handle()
     |> validate_password(opts)
   end
 
@@ -116,6 +115,15 @@ defmodule Atomic.Accounts.User do
     else
       changeset
     end
+  end
+
+  @doc """
+  A user changeset for initial account setup.
+  """
+  def setup_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :handle, :course_id])
+    |> validate_handle()
   end
 
   @doc """
