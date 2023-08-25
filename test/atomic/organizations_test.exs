@@ -77,8 +77,14 @@ defmodule Atomic.OrganizationsTest do
       membership = insert(:membership, role: :member)
 
       memberships =
-        Organizations.list_memberships(%{"organization_id" => membership.organization_id})
-        |> Enum.map(& &1.id)
+        case Organizations.list_memberships(%{"organization_id" => membership.organization_id}) do
+          {:ok, {memberships, _}} ->
+            memberships
+            |> Enum.map(& &1.id)
+
+          {:error, _} ->
+            []
+        end
 
       assert memberships == [membership.id]
     end
@@ -87,8 +93,14 @@ defmodule Atomic.OrganizationsTest do
       membership = insert(:membership)
 
       memberships =
-        Organizations.list_memberships(%{"user_id" => membership.user_id})
-        |> Enum.map(& &1.id)
+        case Organizations.list_memberships(%{"user_id" => membership.user_id}) do
+          {:ok, {memberships, _}} ->
+            memberships
+            |> Enum.map(& &1.id)
+
+          {:error, _} ->
+            []
+        end
 
       assert memberships == [membership.id]
     end

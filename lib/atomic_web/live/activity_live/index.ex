@@ -64,20 +64,28 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   def handle_event("activities-enrolled", _payload, socket) do
     user = socket.assigns.current_user
-    sessions = Activities.list_sessions_enrolled(user.id, %{page_size: 6}, preloads: [:activity, :speakers, :enrollments, :departments])
+
+    sessions =
+      Activities.list_sessions_enrolled(user.id, %{page_size: 6},
+        preloads: [:activity, :speakers, :enrollments, :departments]
+      )
 
     case sessions do
       {:ok, {sessions, meta}} ->
         {:noreply, assign(socket, %{sessions: sessions, meta: meta})}
+
       {:error, flop} ->
         {:noreply, assign(socket, %{sessions: [], meta: flop})}
     end
   end
 
   defp list_sessions(id, params) do
-    case Activities.list_sessions_by_organization_id(id, Map.put(params, "page_size", 6), preloads: [:activity, :speakers, :enrollments]) do
+    case Activities.list_sessions_by_organization_id(id, Map.put(params, "page_size", 6),
+           preloads: [:activity, :speakers, :enrollments]
+         ) do
       {:ok, {sessions, meta}} ->
         %{sessions: sessions, meta: meta}
+
       {:error, flop} ->
         %{sessions: [], meta: flop}
     end
