@@ -25,16 +25,19 @@ defmodule AtomicWeb.UserConfirmationController do
   end
 
   def edit(conn, %{"token" => token}) do
-    render(conn, "edit.html", token: token, error_message: nil)
+    update(conn, token)
   end
 
   # Do not log in the user after confirmation to avoid a
   # leaked token giving the user access to the account.
-  def update(conn, %{"token" => token}) do
+  def update(conn, token) do
     case Accounts.confirm_user(token) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "User confirmed successfully.")
+        |> put_flash(
+          :info,
+          "User confirmed successfully. Please log in to continue account setup."
+        )
         |> redirect(to: "/users/log_in")
 
       :error ->
