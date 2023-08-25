@@ -104,25 +104,27 @@
               </button>
             <% end %>
           </div>
-          <div
-            @click="open = !open"
-            @keydown.escape.stop="open = false"
-            @keydown.enter.prevent="open = !open"
-            x-transition:enter="transition ease-out duration-100"
-            x-transition:enter-start="transform opacity-0 scale-95"
-            x-transition:enter-end="transform opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-75"
-            x-transition:leave-start="transform opacity-100 scale-100"
-            x-transition:leave-end="transform opacity-0 scale-95"
-            x-show="open"
-            class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu-button"
-            tabindex="-1"
-          >
-            <.live_component module={AtomicWeb.Components.Organizations} id="organizations" current_organization={@current_organization} current_user={@current_user} />
-          </div>
+          <%= if Enum.count(Atomic.Accounts.get_user_organizations(@current_user)) > 1 do %>
+            <div
+              @click="open = !open"
+              @keydown.escape.stop="open = false"
+              @keydown.enter.prevent="open = !open"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="transform opacity-0 scale-95"
+              x-transition:enter-end="transform opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="transform opacity-100 scale-100"
+              x-transition:leave-end="transform opacity-0 scale-95"
+              x-show="open"
+              class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu-button"
+              tabindex="-1"
+            >
+              <.live_component module={AtomicWeb.Components.Organizations} id="organizations" current_organization={@current_organization} current_user={@current_user} />
+            </div>
+          <% end %>
         </div>
 
         <nav class="flex flex-col h-full justify-between">
