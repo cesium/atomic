@@ -2,7 +2,7 @@ defmodule AtomicWeb.NewsLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Announcement
-
+  import AtomicWeb.Components.Empty
   alias Atomic.Organizations
   alias Atomic.Organizations.News
 
@@ -25,10 +25,19 @@ defmodule AtomicWeb.NewsLive.Index do
       }
     ]
 
+    empty =
+      Enum.empty?(socket.assigns.all_news) and
+        (Organizations.get_role(
+           socket.assigns.current_user.id,
+           socket.assigns.current_organization.id
+         ) in [:owner, :admin] || socket.assigns.current_user.role in [:admin]) and
+        socket.assigns.live_action not in [:new, :edit]
+
     {:noreply,
      socket
      |> assign(:current_page, :news)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, empty)
      |> apply_action(socket.assigns.live_action, params)}
   end
 

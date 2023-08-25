@@ -1,6 +1,7 @@
 defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
@@ -21,10 +22,19 @@ defmodule AtomicWeb.OrganizationLive.Index do
       }
     ]
 
+    empty =
+      Enum.empty?(organizations) and
+        (Organizations.get_role(
+           socket.assigns.current_user.id,
+           socket.assigns.current_organization.id
+         ) in [:owner, :admin] || socket.assigns.current_user.role in [:admin]) and
+        socket.assigns.live_action not in [:new, :edit]
+
     {:noreply,
      socket
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, empty)
      |> assign(:params, params)
      |> assign(:current_organization, socket.assigns.current_organization)
      |> assign(:organizations, organizations)

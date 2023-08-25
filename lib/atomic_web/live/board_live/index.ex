@@ -1,6 +1,7 @@
 defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
   alias Atomic.Board
   alias Atomic.Ecto.Year
   alias Atomic.Organizations
@@ -30,6 +31,14 @@ defmodule AtomicWeb.BoardLive.Index do
       }
     ]
 
+    empty =
+      Enum.empty?(board_departments) and
+        (Organizations.get_role(
+           socket.assigns.current_user.id,
+           socket.assigns.current_organization.id
+         ) in [:owner, :admin] || socket.assigns.current_user.role in [:admin]) and
+        socket.assigns.live_action not in [:new, :edit]
+
     {:noreply,
      socket
      |> assign(:current_page, :board)
@@ -38,6 +47,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
+     |> assign(:empty, empty)
      |> assign(:year, Year.current_year())
      |> assign(:id, id)}
   end
@@ -68,9 +78,18 @@ defmodule AtomicWeb.BoardLive.Index do
         _ -> Board.get_board_departments_by_board_id(board.id)
       end
 
+    empty =
+      Enum.empty?(board_departments) and
+        (Organizations.get_role(
+           socket.assigns.current_user.id,
+           socket.assigns.current_organization.id
+         ) in [:owner, :admin] || socket.assigns.current_user.role in [:admin]) and
+        socket.assigns.live_action not in [:new, :edit]
+
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
+     |> assign(:empty, empty)
      |> assign(:year, year)}
   end
 
@@ -85,9 +104,18 @@ defmodule AtomicWeb.BoardLive.Index do
         _ -> Board.get_board_departments_by_board_id(board.id)
       end
 
+    empty =
+      Enum.empty?(board_departments) and
+        (Organizations.get_role(
+           socket.assigns.current_user.id,
+           socket.assigns.current_organization.id
+         ) in [:owner, :admin] || socket.assigns.current_user.role in [:admin]) and
+        socket.assigns.live_action not in [:new, :edit]
+
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
+     |> assign(:empty, empty)
      |> assign(:year, year)}
   end
 
