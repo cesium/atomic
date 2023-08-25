@@ -39,6 +39,7 @@ defmodule AtomicWeb.Router do
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
+    delete "/users/log_out", UserSessionController, :delete
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :authenticated_user_state}] do
       live "/", HomeLive.Index, :index
@@ -188,7 +189,6 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit

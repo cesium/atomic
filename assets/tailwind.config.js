@@ -32,6 +32,9 @@ module.exports = {
       animation: {
           wave: 'wave 1.5s infinite'
       },
+      backgroundSize: {
+        '75': '75%'
+      }
     },
   },
   plugins: [

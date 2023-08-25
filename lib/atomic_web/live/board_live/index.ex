@@ -2,8 +2,8 @@ defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Board
+  alias Atomic.Ecto.Year
   alias Atomic.Organizations
-  import AtomicWeb.ViewUtils
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,10 +12,13 @@ defmodule AtomicWeb.BoardLive.Index do
 
   @impl true
   def handle_params(%{"organization_id" => id}, _, socket) do
-    board = Board.get_organization_board_by_year("2023/2024", id)
+    board = Board.get_organization_board_by_year(Year.current_year(), id)
 
     board_departments =
-      append_if([], board != nil, Board.get_board_departments_by_board_id(board.id))
+      case board do
+        nil -> []
+        _ -> Board.get_board_departments_by_board_id(board.id)
+      end
 
     organization = Organizations.get_organization!(id)
     role = Organizations.get_role(socket.assigns.current_user.id, id)
@@ -35,6 +38,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
+     |> assign(:year, Year.current_year())
      |> assign(:id, id)}
   end
 
@@ -53,17 +57,38 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    user_organization = Organizations.get_user_organization!(id)
+  def handle_event("previous_year", %{"organization-id" => organization_id}, socket) do
+    year = Year.previous_year(socket.assigns.year)
 
-    {:ok, user_org} = Organizations.delete_user_organization(user_organization)
+    board = Board.get_organization_board_by_year(year, organization_id)
+
+    board_departments =
+      case board do
+        nil -> []
+        _ -> Board.get_board_departments_by_board_id(board.id)
+      end
 
     {:noreply,
-     assign(socket, :users_organizations, list_users_organizations(user_org.organization_id))}
+     socket
+     |> assign(:board_departments, board_departments)
+     |> assign(:year, year)}
   end
 
-  defp list_users_organizations(id) do
-    Organizations.list_users_organizations(where: [organization_id: id])
+  def handle_event("next_year", %{"organization-id" => organization_id}, socket) do
+    year = Year.next_year(socket.assigns.year)
+
+    board = Board.get_organization_board_by_year(year, organization_id)
+
+    board_departments =
+      case board do
+        nil -> []
+        _ -> Board.get_board_departments_by_board_id(board.id)
+      end
+
+    {:noreply,
+     socket
+     |> assign(:board_departments, board_departments)
+     |> assign(:year, year)}
   end
 
   defp page_title(:index, organization), do: "#{organization.name}'s Board"

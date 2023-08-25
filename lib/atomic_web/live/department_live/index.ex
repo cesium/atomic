@@ -1,6 +1,8 @@
 defmodule AtomicWeb.DepartmentLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Card
+
   alias Atomic.Departments
   alias Atomic.Organizations
   alias Atomic.Organizations.Department
