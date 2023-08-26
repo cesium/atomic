@@ -1,8 +1,8 @@
-defmodule Atomic.Repo.Migrations.News do
+defmodule Atomic.Repo.Migrations.CreateAnnouncements do
   use Ecto.Migration
 
   def change do
-    create table(:news, primary_key: false) do
+    create table(:announcements, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :title, :string, null: false
       add :description, :text, null: false

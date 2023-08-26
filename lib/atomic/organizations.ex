@@ -5,7 +5,7 @@ defmodule Atomic.Organizations do
   use Atomic.Context
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.{Membership, News, Organization, UserOrganization}
+  alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
 
   @doc """
   Returns the list of organizations.
@@ -481,45 +481,45 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of news.
+  Returns the list of announcements.
 
   ## Examples
 
-      iex> list_news()
-      [%News{}, ...]
+      iex> list_announcements()
+      [%Announcement{}, ...]
 
   """
-  def list_news do
-    Repo.all(News)
+  def list_announcements do
+    Repo.all(Announcement)
   end
 
   @doc """
-  Returns the list of news belonging to an organization.
+  Returns the list of announcements belonging to an organization.
 
   ## Examples
 
-      iex> list_news_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%News{}, ...]
+      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
 
   """
-  def list_news_by_organization_id(id, preloads \\ []) do
-    News
+  def list_announcements_by_organization_id(id, preloads \\ []) do
+    Announcement
     |> apply_filters(preloads)
     |> where(organization_id: ^id)
     |> Repo.all()
   end
 
   @doc """
-  Returns the list of published news belonging to an organization.
+  Returns the list of published announcements belonging to an organization.
 
   ## Examples
 
-      iex> list_published_news_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%News{}, ...]
+      iex> list_published_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
 
   """
-  def list_published_news_by_organization_id(id, preloads \\ []) do
-    News
+  def list_published_announcements_by_organization_id(id, preloads \\ []) do
+    Announcement
     |> apply_filters(preloads)
     |> where(organization_id: ^id)
     |> where([n], fragment("now() > ?", n.publish_at))
@@ -528,83 +528,83 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Gets a single news.
+  Gets a single announcement.
 
-  Raises `Ecto.NoResultsError` if the new does not exist.
+  Raises `Ecto.NoResultsError` if the announcement does not exist.
 
   ## Examples
 
-      iex> get_news!(123)
-      %News{}
+      iex> get_announcement!(123)
+      %Announcement{}
 
-      iex> get_news!(456)
+      iex> get_announcement!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_news!(id), do: Repo.get!(News, id)
+  def get_announcement!(id), do: Repo.get!(Announcement, id)
 
   @doc """
-  Creates a news.
+  Creates an announcement.
 
   ## Examples
 
-      iex> create_news(%{field: value})
-      {:ok, %News{}}
+      iex> create_announcement(%{field: value})
+      {:ok, %Announcement{}}
 
-      iex> create_news(%{field: bad_value})
+      iex> create_announcement(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_news(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
-    %News{}
-    |> News.changeset(attrs)
+  def create_announcement(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+    %Announcement{}
+    |> Announcement.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a news.
+  Updates an announcement.
 
   ## Examples
 
-      iex> update_news(new, %{field: new_value})
-      {:ok, %News{}}
+      iex> update_announcement(announcement, %{field: new_value})
+      {:ok, %Announcement{}}
 
-      iex> update_news(new, %{field: bad_value})
+      iex> update_announcement(announcement, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_news(%News{} = new, attrs, _after_save \\ &{:ok, &1}) do
-    new
-    |> News.changeset(attrs)
+  def update_announcement(%Announcement{} = announcement, attrs, _after_save \\ &{:ok, &1}) do
+    announcement
+    |> Announcement.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a new.
+  Deletes an announcement.
 
   ## Examples
 
-      iex> delete_news(News)
-      {:ok, %News{}}
+      iex> delete_announcement(announcement)
+      {:ok, %Announcement{}}
 
-      iex> delete_news(News)
+      iex> delete_announcement(announcement)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_news(%News{} = new) do
-    Repo.delete(new)
+  def delete_announcement(%Announcement{} = announcement) do
+    Repo.delete(announcement)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking new changes.
+  Returns an `%Ecto.Changeset{}` for tracking announcement changes.
 
   ## Examples
 
-      iex> change_news(new)
-      %Ecto.Changeset{data: %News{}}
+      iex> change_announcement(announcement)
+      %Ecto.Changeset{data: %Announcement{}}
 
   """
-  def change_news(%News{} = new, attrs \\ %{}) do
-    News.changeset(new, attrs)
+  def change_announcement(%Announcement{} = announcement, attrs \\ %{}) do
+    Announcement.changeset(announcement, attrs)
   end
 end

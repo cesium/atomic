@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.partner_show_path(@socket, :show, @current_organization, @partner)}>
-    <.live_component module={AtomicWeb.NewsLive.FormComponent} id={@new.id} title={@page_title} action={@live_action} new={@new} return_to={Routes.news_show_path(@socket, :show, @current_organization, @new)} />
+  <.modal return_to={Routes.announcement_index_path(@socket, :index, @current_organization)}>
+    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_show_path(@socket, :show, @current_organization, @announcement)} />
   </.modal>
 <% end %>
 
@@ -9,18 +9,18 @@
     <div>
       <div class="flex justify-between items-center">
         <h4 class="text-2xl font-bold text-gray-800">
-          <%= @new.title %>
+          <%= @announcement.title %>
         </h4>
       </div>
       <p class="mt-1 text-gray-500">
-        <%= @new.description %>
+        <%= @announcement.description %>
       </p>
     </div>
   </div>
 </div>
 
 <%= if Atomic.Organizations.get_role(@current_user.id, @current_organization.id) do %>
-  <%= live_patch to: Routes.news_edit_path(@socket, :edit, @current_organization, @new), class: "button" do %>
+  <%= live_patch to: Routes.announcement_edit_path(@socket, :edit, @current_organization, @announcement), class: "button" do %>
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
       <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
     </div>

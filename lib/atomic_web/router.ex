@@ -74,8 +74,8 @@ defmodule AtomicWeb.Router do
         live "/memberships/:id", MembershipLive.Show, :show
         live "/memberships/:id/edit", MembershipLive.Edit, :edit
 
-        live "/news/new", NewsLive.New, :new
-        live "/news/:id/edit", NewsLive.Edit, :edit
+        live "/announcements/new", AnnouncementLive.New, :new
+        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
       end
 
       scope "/organizations/:organization_id" do
@@ -92,8 +92,8 @@ defmodule AtomicWeb.Router do
         live "/speakers", SpeakerLive.Index, :index
         live "/speakers/:id", SpeakerLive.Show, :show
 
-        live "/news", NewsLive.Index, :index
-        live "/news/:id", NewsLive.Show, :show
+        live "/announcements", AnnouncementLive.Index, :index
+        live "/announcements/:id", AnnouncementLive.Show, :show
       end
 
       live "/organizations/new", OrganizationLive.Index, :new
