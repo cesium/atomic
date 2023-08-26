@@ -17,7 +17,6 @@ defmodule Atomic.Activities.Session do
 
   alias Atomic.Departments
   alias Atomic.Organizations.Department
-  alias Atomic.Uploaders
 
   @required_fields ~w(start finish minimum_entries maximum_entries activity_id)a
   @optional_fields ~w(delete session_image)a

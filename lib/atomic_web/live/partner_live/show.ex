@@ -23,16 +23,12 @@ defmodule AtomicWeb.PartnerLive.Show do
       }
     ]
 
-    if partner.organization_id == organization_id do
-      {:noreply,
-       socket
-       |> assign(:current_page, :partners)
-       |> assign(:page_title, page_title(socket.assigns.live_action, partner.name))
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:partner, partner)}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:current_page, :partners)
+     |> assign(:page_title, page_title(socket.assigns.live_action, partner.name))
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:partner, partner)}
   end
 
   defp page_title(:show, partner), do: "#{partner}"

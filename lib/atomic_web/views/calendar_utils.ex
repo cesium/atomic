@@ -5,38 +5,58 @@ defmodule AtomicWeb.CalendarUtils do
   use Phoenix.HTML
   use Timex
 
-  def current_from_params(time_zone, %{"day" => day, "month" => month, "year" => year}) do
+  def build_beggining_date(timezone, "month", params) do
+    current = current_from_params(timezone, params)
+    Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
+  end
+
+  def build_beggining_date(timezone, "week", params) do
+    current = current_from_params(timezone, params)
+    Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
+  end
+
+  def build_ending_date(timezone, "month", params) do
+    current = current_from_params(timezone, params)
+    Timex.end_of_month(current) |> Timex.to_naive_datetime()
+  end
+
+  def build_ending_date(timezone, "week", params) do
+    current = current_from_params(timezone, params)
+    Timex.end_of_week(current) |> Timex.to_naive_datetime()
+  end
+
+  def current_from_params(timezone, %{"day" => day, "month" => month, "year" => year}) do
     case Timex.parse("#{year}-#{month}-#{day}", "{YYYY}-{0M}-{D}") do
       {:ok, current} ->
         NaiveDateTime.to_date(current)
 
       _ ->
-        Timex.today(time_zone)
+        Timex.today(timezone)
     end
   end
 
-  def current_from_params(time_zone, %{"month" => month, "year" => year}) do
+  def current_from_params(timezone, %{"month" => month, "year" => year}) do
     case Timex.parse("#{year}-#{month}-01", "{YYYY}-{0M}-{D}") do
       {:ok, current} ->
         NaiveDateTime.to_date(current)
 
       _ ->
-        Timex.today(time_zone)
+        Timex.today(timezone)
     end
   end
 
-  def current_from_params(time_zone, %{"day" => day, "month" => month, "year" => year}) do
+  def current_from_params(timezone, %{"day" => day, "month" => month, "year" => year}) do
     case Timex.parse("#{year}-#{month}-#{day}", "{YYYY}-{Wiso}") do
       {:ok, current} ->
         NaiveDateTime.to_date(current)
 
       _ ->
-        Timex.today(time_zone)
+        Timex.today(timezone)
     end
   end
 
-  def current_from_params(time_zone, _) do
-    Timex.today(time_zone)
+  def current_from_params(timezone, _) do
+    Timex.today(timezone)
   end
 
   def date_to_day(date_time) do

@@ -9,11 +9,11 @@ defmodule AtomicWeb.Components.CalendarWeek do
   def calendar_week(
         %{
           beginning_of_week: beginning_of_week,
-          time_zone: time_zone,
+          timezone: timezone,
           current_organization: organization
         } = assigns
       ) do
-    today = Timex.today(time_zone)
+    today = Timex.today(timezone)
 
     hours = [
       "8H",

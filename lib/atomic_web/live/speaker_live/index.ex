@@ -25,16 +25,10 @@ defmodule AtomicWeb.SpeakerLive.Index do
      |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    speaker = Activities.get_speaker!(id)
-
-    if speaker.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Speaker")
-      |> assign(:speaker, speaker)
-    else
-      raise AtomicWeb.MismatchError
-    end
+  defp apply_action(socket, :edit, %{"organization_id" => _organization_id, "id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Speaker")
+    |> assign(:speaker, Activities.get_speaker!(id))
   end
 
   defp apply_action(socket, :new, _params) do

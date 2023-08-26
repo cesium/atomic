@@ -3,13 +3,13 @@ defmodule Atomic.Uploader do
   A utility context providing common functions to all uploaders modules.
   """
 
+  @versions [:original, :medium, :thumb]
+  @extension_whitelist ~w(.svg .jpg .jpeg .gif .png)
+
   defmacro __using__(_) do
     quote do
       use Waffle.Definition
       use Waffle.Ecto.Definition
-
-      @versions [:original, :medium, :thumb]
-      @extension_whitelist ~w(.jpg .jpeg .png .svg)
 
       def validate({file, _}) do
         file.file_name
@@ -33,4 +33,7 @@ defmodule Atomic.Uploader do
       def filename(version, _), do: version
     end
   end
+
+  def versions, do: @versions
+  def extensions_whitelist, do: @extension_whitelist
 end

@@ -24,15 +24,11 @@ defmodule AtomicWeb.NewsLive.Edit do
       }
     ]
 
-    if organization_id == news.organization_id do
-      {:noreply,
-       socket
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:current_page, :activities)
-       |> assign(:page_title, gettext("Edit News"))
-       |> assign(:news, news)}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:current_page, :activities)
+     |> assign(:page_title, gettext("Edit News"))
+     |> assign(:news, news)}
   end
 end

@@ -2,9 +2,9 @@ defmodule AtomicWeb.Components.Announcement do
   @moduledoc false
   use AtomicWeb, :component
 
-  alias Atomic.Uploaders.Logo
-
   def announcement(assigns) do
+    organization = assigns.news.organization
+
     ~H"""
     <%= live_redirect to: @url, class: "group" do %>
       <li id={"announcement-#{@news.id}"} class="relative py-5 pr-6 pl-4 border-b border-gray-200 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6 hover:bg-gray-50">
@@ -18,19 +18,19 @@ defmodule AtomicWeb.Components.Announcement do
         </div>
         <div class="flex flex-shrink-0 justify-between mt-1">
           <div class="flex items-center">
-            <%= if is_nil(@organization.logo) do %>
+            <%= if is_nil(organization.logo) do %>
               <span class="inline-flex justify-center items-center mr-2 w-6 h-6 bg-gray-500 rounded-full">
                 <span class="text-xs font-medium leading-none text-white">
-                  <%= Atomic.Accounts.extract_initials(@organization.name) %>
+                  <%= Atomic.Accounts.extract_initials(organization.name) %>
                 </span>
               </span>
             <% else %>
               <div class="relative flex-shrink-0 mr-2 w-6 h-6 bg-white rounded-full">
-                <img src={Logo.url({@organization.logo, @organization}, :original)} class="object-center w-6 h-6 rounded-full" />
+                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center w-6 h-6 rounded-full" />
               </div>
             <% end %>
             <p class="text-sm text-gray-500">
-              <%= @organization.name %>
+              <%= organization.name %>
             </p>
           </div>
           <div class="flex">

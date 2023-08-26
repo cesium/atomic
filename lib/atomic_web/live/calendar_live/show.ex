@@ -13,7 +13,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   end
 
   @impl true
-  def handle_params(params, _uri, socket) do
+  def handle_params(params, _url, socket) do
     mode = params["mode"] || "month"
 
     entries = [
@@ -30,30 +30,12 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(:mode, mode)
-     |> assign(
-       list_activities(socket.assigns.time_zone, mode, params, socket.assigns.current_user)
-     )}
+     |> assign(:sessions, list_sessions(socket.assigns.timezone, mode, params))}
   end
 
-  defp list_activities(time_zone, mode, params, _user) do
-    current = current_from_params(time_zone, params)
-
-    start =
-      if mode == "month" do
-        Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    finish =
-      if mode == "month" do
-        Timex.end_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.end_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    %{
-      sessions: Activities.list_sessions_from_to(start, finish, preloads: [:activity])
-    }
+  defp list_sessions(timezone, mode, params) do
+    start = build_beggining_date(timezone, mode, params)
+    finish = build_ending_date(timezone, mode, params)
+    Activities.list_sessions_from_to(start, finish, preloads: [:activity])
   end
 end

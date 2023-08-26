@@ -18,7 +18,13 @@ defmodule Atomic.Activities do
       iex> list_activities(opts)
       [%Activity{}, ...]
 
+      iex> list_activities(opts)
+      [%Activity{}, ...]
   """
+  def list_activities do
+    Repo.all(Activity)
+  end
+
   def list_activities(opts) when is_list(opts) do
     Activity
     |> apply_filters(opts)
@@ -227,6 +233,24 @@ defmodule Atomic.Activities do
   end
 
   @doc """
+  Returns the list of upcoming sessions.
+
+  ## Examples
+
+      iex> list_upcoming_sessions()
+      [%Session{}, ...]
+
+      iex> list_upcoming_sessions(opts)
+      [%Session{}, ...]
+  """
+  def list_upcoming_sessions(opts \\ []) do
+    Session
+    |> where([s], fragment("? > now()", s.start))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single session.
 
   Raises `Ecto.NoResultsError` if the Session does not exist.
@@ -383,15 +407,12 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-  def get_user_activities(user_id) do
-    activities_ids =
-      get_user_enrollments(user_id)
-      |> Enum.map(& &1.activity_id)
-
-    for activity_id <- activities_ids,
-        do:
-          get_activity!(activity_id)
-          |> Repo.preload([:enrollments, :sessions, :speakers])
+  def list_user_sessions(user_id, opts \\ []) do
+    Session
+    |> join(:inner, [s], e in assoc(s, :enrollments))
+    |> where([s, e], e.user_id == ^user_id)
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """

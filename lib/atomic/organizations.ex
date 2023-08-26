@@ -16,10 +16,27 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
+  def list_organizations, do: Repo.all(Organization)
 
   def list_organizations(opts) do
     Organization
     |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of organizations followed by an user.
+
+  ## Examples
+
+      iex> list_organizations_followed_by_user(user_id)
+      [%Organization{}, ...]
+
+  """
+  def list_organizations_followed_by_user(user_id) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role == :follower)
     |> Repo.all()
   end
 
@@ -272,14 +289,14 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> get_membership_by_userid_and_organization_id!(123, 456, [])
+      iex> get_membership_by_user_id_and_organization_id!(123, 456, [])
       %Membership{}
 
-      iex> get_membership_by_userid_and_organization_id!(456, 789, [])
+      iex> get_membership_by_user_id_and_organization_id!(456, 789, [])
       ** (Ecto.NoResultsError)
 
   """
-  def get_membership_by_userid_and_organization_id!(user_id, organization_id, preloads \\ []) do
+  def get_membership_by_user_id_and_organization_id!(user_id, organization_id, preloads \\ []) do
     Membership
     |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
     |> Repo.one!()
@@ -361,6 +378,12 @@ defmodule Atomic.Organizations do
   def roles_bigger_than_or_equal(role) do
     [:follower, :member, :admin, :owner]
     |> Enum.drop_while(fn elem -> elem != role end)
+  end
+
+  def count_followers(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
+    |> Repo.aggregate(:count, :id)
   end
 
   @doc """
@@ -489,8 +512,10 @@ defmodule Atomic.Organizations do
       [%News{}, ...]
 
   """
-  def list_news do
-    Repo.all(News)
+  def list_news(opts \\ []) do
+    News
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
@@ -502,9 +527,9 @@ defmodule Atomic.Organizations do
       [%News{}, ...]
 
   """
-  def list_news_by_organization_id(id, preloads \\ []) do
+  def list_news_by_organization_id(id, opts \\ []) do
     News
-    |> apply_filters(preloads)
+    |> apply_filters(opts)
     |> where(organization_id: ^id)
     |> Repo.all()
   end

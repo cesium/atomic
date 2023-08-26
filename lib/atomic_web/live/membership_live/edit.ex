@@ -13,20 +13,16 @@ defmodule AtomicWeb.MembershipLive.Edit do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
     organization = Organizations.get_organization!(organization_id)
 
-    if membership.organization_id == organization_id do
-      {:noreply,
-       socket
-       |> assign(:page_title, page_title(socket.assigns.live_action, organization))
-       |> assign(:organization, organization_id)
-       |> assign(:membership, membership)
-       |> assign(:current_user, socket.assigns.current_user)
-       |> assign(
-         :allowed_roles,
-         Organizations.roles_less_than_or_equal(socket.assigns.current_user.role)
-       )}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:page_title, page_title(socket.assigns.live_action, organization))
+     |> assign(:organization, organization_id)
+     |> assign(:membership, membership)
+     |> assign(:current_user, socket.assigns.current_user)
+     |> assign(
+       :allowed_roles,
+       Organizations.roles_less_than_or_equal(socket.assigns.current_user.role)
+     )}
   end
 
   defp page_title(:index, organization), do: "#{organization.name}'s Memberships"

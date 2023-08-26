@@ -41,16 +41,10 @@ defmodule AtomicWeb.DepartmentLive.Index do
      assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    department = Departments.get_department!(id)
-
-    if department.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Department")
-      |> assign(:department, Departments.get_department!(id))
-    else
-      raise AtomicWeb.MismatchError
-    end
+  defp apply_action(socket, :edit, %{"organization_id" => _organization_id, "id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Department")
+    |> assign(:department, Departments.get_department!(id))
   end
 
   defp apply_action(socket, :new, _params) do

@@ -13,26 +13,26 @@ defmodule AtomicWeb.Components.Calendar do
           current_path: current_path,
           params: params,
           mode: mode,
-          time_zone: time_zone
+          timezone: timezone
         } = assigns
       ) do
     assigns =
       assigns
-      |> assign_date(current_path, params, time_zone)
+      |> assign_date(current_path, params, timezone)
 
     assigns =
       case mode do
         "week" ->
           assigns
-          |> assigns_week(current_path, time_zone, params)
+          |> assigns_week(current_path, timezone, params)
 
         "month" ->
           assigns
-          |> assigns_month(current_path, time_zone, params)
+          |> assigns_month(current_path, timezone, params)
 
         _ ->
           assigns
-          |> assigns_month(current_path, time_zone, params)
+          |> assigns_month(current_path, timezone, params)
       end
 
     ~H"""
@@ -187,16 +187,16 @@ defmodule AtomicWeb.Components.Calendar do
         </div>
       </header>
       <%= if @mode == "month" do %>
-        <.calendar_month id="calendar_month" current_organization={@current_organization} current_path={@current_path} params={@params} sessions={@sessions} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} time_zone={@time_zone} />
+        <.calendar_month id="calendar_month" current_path={@current_path} params={@params} sessions={@sessions} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
       <% else %>
-        <.calendar_week id="calendar_week" current_organization={@current_organization} current_path={@current_path} current={@current} params={@params} sessions={@sessions} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} time_zone={@time_zone} />
+        <.calendar_week id="calendar_week" current_path={@current_path} current={@current} params={@params} sessions={@sessions} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
     """
   end
 
-  defp assign_date(assigns, current_path, params, time_zone) do
-    current = current_from_params(time_zone, params)
+  defp assign_date(assigns, current_path, params, timezone) do
+    current = current_from_params(timezone, params)
 
     current_year =
       current
@@ -211,15 +211,15 @@ defmodule AtomicWeb.Components.Calendar do
       |> date_to_day()
 
     present_year =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_year()
 
     present_month =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_month()
 
     present_day =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_day()
 
     present_week_path =
@@ -262,8 +262,8 @@ defmodule AtomicWeb.Components.Calendar do
     |> assign(current: current)
   end
 
-  defp assigns_week(assigns, current_path, time_zone, params) do
-    current = current_from_params(time_zone, params)
+  defp assigns_week(assigns, current_path, timezone, params) do
+    current = current_from_params(timezone, params)
     beginning_of_week = Timex.beginning_of_week(current)
     end_of_week = Timex.end_of_week(current)
 
@@ -322,8 +322,8 @@ defmodule AtomicWeb.Components.Calendar do
     |> assign(next_week_path: next_week_path)
   end
 
-  defp assigns_month(assigns, current_path, time_zone, params) do
-    current = current_from_params(time_zone, params)
+  defp assigns_month(assigns, current_path, timezone, params) do
+    current = current_from_params(timezone, params)
     beginning_of_month = Timex.beginning_of_month(current)
     end_of_month = Timex.end_of_month(current)
 

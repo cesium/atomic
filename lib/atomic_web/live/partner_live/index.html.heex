@@ -45,7 +45,7 @@
           <div class="flex gap-x-4">
             <div class="h-12 w-12 flex-none rounded-full bg-gray-50">
               <%= if partner.image do %>
-                <img src={Atomic.Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
+                <img src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
               <% else %>
                 <span class="flex justify-center items-center mr-1.5 w-12 h-12 bg-zinc-500 rounded-xl">
                   <span class="text-lg font-medium leading-none text-white">

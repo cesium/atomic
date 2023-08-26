@@ -175,6 +175,23 @@ defmodule AtomicWeb.Helpers do
     end
   end
 
+  def draw_qr_code(activity, user, _socket) do
+    internal_route = "/redeem/#{activity.id}/#{user.id}/confirm"
+    url = build_url() <> internal_route
+
+    url
+    |> QRCodeEx.encode()
+    |> QRCodeEx.svg(color: "#1F2937", width: 295, background_color: :transparent)
+  end
+
+  defp build_url do
+    if Mix.env() == :dev do
+      "http://localhost:4000"
+    else
+      "https://#{Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
+    end
+  end
+
   def build_path(current_path, params) do
     current_path
     |> URI.parse()

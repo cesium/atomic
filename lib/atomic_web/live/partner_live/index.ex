@@ -40,16 +40,10 @@ defmodule AtomicWeb.PartnerLive.Index do
      assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    partner = Partnerships.get_partner!(id)
-
-    if partner.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Partner")
-      |> assign(:partner, Partnerships.get_partner!(id))
-    else
-      raise AtomicWeb.MismatchError
-    end
+  defp apply_action(socket, :edit, %{"organization_id" => _organization_id, "id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Partner")
+    |> assign(:partner, Partnerships.get_partner!(id))
   end
 
   defp apply_action(socket, :new, _params) do

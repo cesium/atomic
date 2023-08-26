@@ -1,4 +1,5 @@
 defmodule AtomicWeb.DepartmentLive.Show do
+  alias Atomic.Organizations.Collaborator
   use AtomicWeb, :live_view
 
   alias Atomic.Departments
@@ -13,7 +14,9 @@ defmodule AtomicWeb.DepartmentLive.Show do
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     department = Departments.get_department!(id)
     sessions = Departments.get_department_sessions(department.id)
-    collaborator = Departments.get_collaborator!(socket.assigns.current_user.id, department.id)
+
+    collaborator =
+      Departments.get_department_collaborator(department.id, socket.assigns.current_user.id)
 
     entries = [
       %{
@@ -26,22 +29,18 @@ defmodule AtomicWeb.DepartmentLive.Show do
       }
     ]
 
-    if department.organization_id == organization_id do
-      {:noreply,
-       socket
-       |> assign(:current_page, :departments)
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:page_title, page_title(socket.assigns.live_action, department.name))
-       |> assign(:department, department)
-       |> assign(:sessions, sessions)
-       |> assign(:collaborator, collaborator)
-       |> assign(
-         :collaborators,
-         Departments.list_collaborators_by_department_id(department.id, preloads: [:user])
-       )}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:current_page, :departments)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:page_title, page_title(socket.assigns.live_action, department.name))
+     |> assign(:department, department)
+     |> assign(:sessions, sessions)
+     |> assign(:collaborator, collaborator)
+     |> assign(
+       :collaborators,
+       list_collaborators(department.id)
+     )}
   end
 
   @impl true
@@ -50,26 +49,32 @@ defmodule AtomicWeb.DepartmentLive.Show do
     user = socket.assigns.current_user
 
     case Departments.create_collaborator(%{department_id: department.id, user_id: user.id}) do
-      {:ok, _collaborator} ->
+      {:ok, %Collaborator{} = collaborator} ->
         {:noreply,
          socket
          |> put_flash(:success, gettext("Applied to collaborate successfully."))
-         |> push_redirect(
-           to: Routes.department_index_path(socket, :index, department.organization_id)
+         |> assign(:collaborator, collaborator)
+         |> push_patch(
+           to:
+             Routes.department_show_path(socket, :show, department.organization_id, department.id)
          )}
 
-      {:error, changeset} ->
+      {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply,
          socket
          |> assign(:changeset, changeset)
          |> put_flash(
            :error,
-           "There was an error while trying to apply for this organization. Please try again!"
+           "There was an error while trying to apply for this department. Please try again!"
          )
          |> push_redirect(
            to: Routes.department_index_path(socket, :index, department.organization_id)
          )}
     end
+  end
+
+  defp list_collaborators(department_id) do
+    Departments.list_collaborators_by_department_id(department_id, preloads: [:user])
   end
 
   defp page_title(:show, department), do: "Show #{department}"

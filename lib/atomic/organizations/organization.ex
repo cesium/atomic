@@ -5,7 +5,6 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
   alias Atomic.Organizations.{Board, Card, Department, Membership, News, Partner}
-  alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
   @optional_fields ~w(card_image logo)a

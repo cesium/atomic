@@ -376,11 +376,11 @@ defmodule Atomic.Accounts do
   @doc """
   Gets the user with the given signed token.
   """
-  def get_user_by_session_token(token) do
+  def get_user_by_session_token(token, preloads \\ [:organizations, :course]) do
     {:ok, query} = UserToken.verify_session_token_query(token)
 
     Repo.one(query)
-    |> Repo.preload(:organizations)
+    |> Repo.preload(preloads)
   end
 
   @doc """

@@ -6,69 +6,54 @@ defmodule AtomicWeb.NewsLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.News
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    socket =
-      socket
-      |> assign(:organization, Organizations.get_organization!(organization_id))
-      |> assign(:all_news, list_news(organization_id))
-
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(_params, _url, socket) do
     entries = [
       %{
         name: gettext("News"),
-        route: Routes.news_index_path(socket, :index, params["organization_id"])
+        route: Routes.news_index_path(socket, :index)
       }
     ]
 
+    all_news = Organizations.list_news(preloads: [:organization])
+
     {:noreply,
      socket
+     |> assign(:page_title, gettext("News"))
      |> assign(:current_page, :news)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.all_news))
-     |> assign(:has_permissions, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:all_news, all_news)
+     |> assign(:empty, Enum.empty?(all_news))
+     |> assign(:has_permissions, has_permissions?(socket))}
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    news = Organizations.get_news!(id)
-    {:ok, _} = Organizations.delete_news(news)
-
-    {:noreply,
-     socket
-     |> assign(:all_news, list_news(news.organization_id))}
+  def handle_event("all", _payload, socket) do
+    all_news = Organizations.list_news(preloads: [:organization])
+    {:noreply, assign(socket, :all_news, all_news)}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    news = Organizations.get_news!(id)
+  @impl true
+  def handle_event("following", _payload, socket) do
+    organizations =
+      Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
-    if news.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit News")
-      |> assign(:news, Organizations.get_news!(id))
-    else
-      raise AtomicWeb.MismatchError
-    end
+    all_news =
+      Enum.map(organizations, fn organization ->
+        Organizations.list_news_by_organization_id(organization.id, preloads: [:organization])
+      end)
+
+    {:noreply, assign(socket, :all_news, List.flatten(all_news))}
   end
 
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New News")
-    |> assign(:news, %News{})
-  end
-
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
-
-    socket
-    |> assign(:page_title, "#{organization.name}'s News")
+  defp has_permissions?(socket) when not is_map_key(socket.assigns, :current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) do
@@ -77,9 +62,5 @@ defmodule AtomicWeb.NewsLive.Index do
         socket.assigns.current_user.id,
         socket.assigns.current_organization.id
       )
-  end
-
-  defp list_news(organization_id) do
-    Organizations.list_published_news_by_organization_id(organization_id, [:organization])
   end
 end

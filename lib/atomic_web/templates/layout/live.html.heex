@@ -1,5 +1,6 @@
-<div x-data="{ open_menu: false}" x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
+<div x-data="{ menu: false }" x-data="{ navbar: false }" class="lg:flex lg:relative lg:flex-col lg:min-h-screen">
   <div aria-live="assertive" class="flex fixed inset-0 z-50 flex-col gap-y-2 items-end py-6 px-4 pointer-events-none sm:items-start sm:py-16 sm:px-6">
+    <!-- Show flash messages -->
     <%= for {key, message} <- @flash do %>
       <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
         <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
@@ -42,8 +43,9 @@
                   </p>
                 <% end %>
               </div>
+              <!-- Notification close button -->
               <div class="flex flex-shrink-0 ml-4">
-                <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-eeg-red">
+                <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-500">
                   <span class="sr-only">Close</span>
                   <Heroicons.Solid.x class="w-5 h-5" />
                 </button>
@@ -54,83 +56,14 @@
       </div>
     <% end %>
   </div>
-
+  <!-- Static sidebar for desktop -->
   <div class="flex flex-col min-h-max">
     <div x-data="{ open: false}" @click.away="open = false" class="lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-zinc-200 lg:bg-white">
-      <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:space-y-16 lg:bg-zinc-100">
-        <div class="relative inline-blocktext-left">
-          <div>
-            <%= if @current_organization do %>
-              <button
-                @click="open = !open"
-                @keydown.escape.stop="open = false"
-                @keydown.enter.prevent="open = !open"
-                type="button"
-                class="group w-full bg-zinc-200 px-5 py-3 text-left text-sm font-medium text-zinc-700 hover:bg-zinc-200 focus:bg-zinc-300"
-                id="options-menu-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-              >
-                <span class="flex w-full items-center justify-between ">
-                  <span class="flex min-w-0 items-center justify-between space-x-3">
-                    <%= if @current_organization.logo do %>
-                      <span class="inline-flex justify-center items-center w-10 h-10 rounded-lg">
-                        <img src={Atomic.Uploaders.Logo.url({@current_organization.logo, @current_organization}, :original)} class="w-10 h-10 rounded-lg" />
-                      </span>
-                    <% else %>
-                      <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
-                        <span class="text-lg font-medium leading-none text-white">
-                          <%= Atomic.Accounts.extract_initials(@current_organization.name) %>
-                        </span>
-                      </span>
-                    <% end %>
-                    <span class="flex min-w-0 flex-1 flex-col">
-                      <span class="truncate text-lg font-bold text-zinc-900">
-                        <%= @current_organization.name %>
-                      </span>
-                      <span class="truncate text text-zinc-500">
-                        <%= AtomicWeb.Helpers.capitalize_first_letter(Atomic.Organizations.get_role(@current_user.id, @current_organization.id)) %>
-                      </span>
-                    </span>
-                  </span>
-                  <svg class="h-5 w-5 flex-shrink-0 text-zinc-400 group-hover:text-zinc-500 group-focus:text-zinc-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </span>
-              </button>
-            <% end %>
-          </div>
-          <%= if Enum.count(Atomic.Accounts.get_user_organizations(@current_user)) > 1 do %>
-            <div
-              @click="open = !open"
-              @keydown.escape.stop="open = false"
-              @keydown.enter.prevent="open = !open"
-              x-transition:enter="transition ease-out duration-100"
-              x-transition:enter-start="transform opacity-0 scale-95"
-              x-transition:enter-end="transform opacity-100 scale-100"
-              x-transition:leave="transition ease-in duration-75"
-              x-transition:leave-start="transform opacity-100 scale-100"
-              x-transition:leave-end="transform opacity-0 scale-95"
-              x-show="open"
-              class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="options-menu-button"
-              tabindex="-1"
-            >
-              <.live_component module={AtomicWeb.Components.Organizations} id="organizations" current_organization={@current_organization} current_user={@current_user} />
-            </div>
-          <% end %>
-        </div>
-
+      <div class="flex flex-1 flex-col overflow-y-auto lg:space-y-4 lg:h-0 lg:bg-zinc-50">
         <nav class="flex flex-col h-full justify-between">
           <div class="hidden lg:block">
-            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization, @current_user) do %>
-              <%= if page.tabs == [] and page.title != "Calendar" and page.title != "Profile" and page.title != "Logout" do %>
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, nil) do %>
+              <%= if page.tabs == [] do %>
                 <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300" do %>
                   <Heroicons.Outline.render
                     icon={page.icon}
@@ -149,33 +82,22 @@
               <% end %>
             <% end %>
           </div>
-
-          <div @click.away="open_menu = false" x-bind:class="! open_menu ? 'py-0' : 'h-screen'" class="block lg:hidden">
+          <!-- Dynamic mobile menu -->
+          <div @click.away="menu = false" x-bind:class="! menu ? 'py-0' : 'h-screen'" class="block lg:hidden">
             <div class="flex justify-end">
-              <button
-                @click="open_menu = !open_menu"
-                @keydown.escape.stop="open_menu = false"
-                @keydown.enter.prevent="open_menu = !open_menu"
-                type="button"
-                class="flex justify-end w-fit rounded px-5 py-3 text-left text-sm font-medium"
-                id="options-menu-button"
-                aria-expanded="false"
-                aria-haspopup="true"
-              >
-                <div class=" rounded rounded px-5 py-2 font-bold flex justify-end">
-                  <div class="">
-                    <div class="inset-y-0 right-0">
-                      <Icons.FontAwesome.Solid.render icon={:bars} class="h-6 w-6 text-zinc-700" />
-                    </div>
+              <button @click="menu = !menu" @keydown.escape.stop="menu = false" @keydown.enter.prevent="menu = !menu" class="flex justify-end w-fit rounded px-5 py-3 text-left text-sm font-medium" id="options-menu-button" aria-expanded="false" aria-haspopup="true">
+                <div class="rounded px-5 py-2 font-bold flex justify-end">
+                  <div class="inset-y-0 right-0">
+                    <Icons.FontAwesome.Solid.render icon={:bars} class="h-6 w-6 text-zinc-700" />
                   </div>
                 </div>
               </button>
             </div>
-            <%= for page <- AtomicWeb.Config.pages(@socket, @current_organization, @current_user) do %>
-              <div x-show="open_menu" class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1">
+            <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, nil) do %>
+              <div x-show="menu" class="right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-zinc-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="" aria-orientation="vertical" aria-labelledby="options-menu-button" tabindex="-1">
                 <div role="none">
                   <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-400 font-bold" else "text-zinc-700 hover:bg-zinc-200 hover:text-orange-500 focus:bg-zinc-400" end} group flex items-center px-5 text-sm py-2 focus:bg-zinc-300 space-x-2" do %>
-                    <div x-bind:class="! open_menu ? 'py-0' : 'py-4'" class="flex flex-row items-center space-x-2 text-lg">
+                    <div x-bind:class="! menu ? 'py-0' : 'py-4'" class="flex flex-row items-center space-x-2 text-lg">
                       <%= if page.tabs == [] do %>
                         <Heroicons.Outline.render
                           icon={page.icon}
@@ -197,101 +119,24 @@
               </div>
             <% end %>
           </div>
-
-          <div class="hidden mt-auto sticky bottom-0 lg:block">
-            <%= live_redirect to: Routes.calendar_show_path(@socket, :show), class: "flex items-center gap-x-4 px-6 py-3 text-sm text-zinc-700 leading-6" do %>
-              <Heroicons.Solid.calendar class="h-6 w-6 flex-shrink-0 text-zinc-400" />
-              <span class="">Calendar</span>
-            <% end %>
-            <div class="flex flex-col" x-data="{ profile: false}" @click.away="profile = false">
-              <button @click="profile = !profile" @keydown.escape.stop="profile = false" @keydown.enter.prevent="profile = !profile" type="button" class="flex flex-row space-x-2 bg-zinc-200 px-5 py-3" id="options-menu-button" aria-expanded="false" aria-haspopup="true">
-                <span class="bg-zinc-400 rounded-lg w-10 h-10 flex items-center justify-center text-lg font-medium leading-none text-white">
-                  <%= Atomic.Accounts.extract_initials(@current_user.name) %>
-                </span>
-                <span>
-                  <p aria-hidden="true"><%= @current_user.name %></p>
-                  <p class="text-zinc-500 text-xs font-normal" aria-hidden="true">@<%= @current_user.handle %></p>
-                </span>
-              </button>
-              <div class="relative">
-                <div
-                  @click="profile = !profile"
-                  @keydown.escape.stop="profile = false"
-                  @keydown.enter.prevent="profile = !profile"
-                  x-transition:enter="transition ease-out duration-100"
-                  x-transition:enter-start="transform opacity-0 scale-95"
-                  x-transition:enter-end="transform opacity-100 scale-100"
-                  x-transition:leave="transition ease-in duration-75"
-                  x-transition:leave-start="transform opacity-100 scale-100"
-                  x-transition:leave-end="transform opacity-0 scale-95"
-                  x-show="profile"
-                  class="absolute bottom-2 right-0 left-0 z-10 origin-top divide-y divide-zinc-200 mx-3 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="options-menu-button"
-                  tabindex="-1"
-                >
-                  <div class="profile">
-                    <div role="none">
-                      <%= live_redirect to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" do %>
-                        <span class="flex w-full items-center justify-between">
-                          <span class="flex min-w-0 items-center justify-between space-x-3">
-                            <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 rounded-lg">
-                              <span class="text-lg font-medium leading-none text-white">
-                                <Heroicons.Solid.user_circle class="w-10 h-10 text-zinc-500" />
-                              </span>
-                            </span>
-                            <span class="flex min-w-0 flex-1 flex-col">
-                              <span class="truncate text-sm text-zinc-600">
-                                Profile
-                              </span>
-                            </span>
-                          </span>
-                        </span>
-                      <% end %>
-                    </div>
-                    <div role="none">
-                      <div class="w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300">
-                        <span class="flex w-full items-center justify-between">
-                          <span class="flex min-w-0 items-center justify-between space-x-3">
-                            <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 rounded-lg">
-                              <span class="text-lg font-medium leading-none text-white">
-                                <Heroicons.Outline.render icon={:logout} class="w-8 h-8 text-zinc-500" />
-                              </span>
-                            </span>
-                            <span class="flex items-center min-w-0 flex-1 flex-col">
-                              <span class="truncate text-sm text-zinc-600">
-                                <%= link("Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "") %>
-                              </span>
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </nav>
       </div>
     </div>
-    <div x-bind:class="! open_menu ? 'block' : 'hidden'" class="flex flex-col lg:pl-64">
-      <nav class="hidden flex my-5 mx-10 lg:block" aria-label="Breadcrumb">
+    <!-- Breadcrumb entries -->
+    <div x-bind:class="! menu ? 'block' : 'hidden'" class="flex flex-col lg:pl-64">
+      <nav class="flex my-5 mx-10 lg:block" aria-label="Breadcrumb">
         <ol role="list" class=" flex items-center space-x-4">
-          <%= if @current_organization do %>
-            <li>
-              <div>
-                <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
-                  <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="sr-only">Home</span>
-                <% end %>
-              </div>
-            </li>
-          <% end %>
-          <%= for entry <- assigns.breadcrumb_entries do %>
+          <li>
+            <div>
+              <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
+                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Home</span>
+              <% end %>
+            </div>
+          </li>
+          <%= for entry <- @breadcrumb_entries do %>
             <li>
               <div class="flex items-center">
                 <svg class="h-5 w-5 flex-shrink-0 text-zinc-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
@@ -303,8 +148,8 @@
           <% end %>
         </ol>
       </nav>
-
-      <main x-bind:class="! open_menu ? 'block' : 'hidden'" class="flex-1 bg-white mx-5 h-fit lg:mx-20">
+      <!-- Rest of the page -->
+      <main class="flex-1 bg-white mx-5 h-fit lg:mx-20">
         <%= @inner_content %>
       </main>
     </div>

@@ -5,8 +5,6 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.Organization
-  alias Atomic.Uploaders
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,9 +12,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    organizations = list_organizations(params)
-
+  def handle_params(_params, _url, socket) do
     entries = [
       %{
         name: gettext("Organizations"),
@@ -24,55 +20,20 @@ defmodule AtomicWeb.OrganizationLive.Index do
       }
     ]
 
+    organizations = Organizations.list_organizations()
+
     {:noreply,
      socket
-     |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:organizations, organizations)
      |> assign(:empty, Enum.empty?(organizations))
      |> assign(:has_permissions, has_permissions?(socket))
-     |> assign(:params, params)
-     |> assign(:current_organization, socket.assigns.current_organization)
-     |> assign(:organizations, organizations)
      |> assign(:current_page, :organizations)}
   end
 
-  @impl true
-  def handle_event("delete", %{"organization_id" => id}, socket) do
-    organization = Organizations.get_organization!(id)
-    {:ok, _} = Organizations.delete_organization(organization)
-
-    {:noreply, assign(socket, :organizations, list_organizations(socket.assigns.params))}
-  end
-
-  defp apply_action(socket, :show, %{"organization_id" => id}) do
-    socket
-    |> assign(:page_title, "Show Organization")
-    |> assign(:organization, Organizations.get_organization!(id))
-  end
-
-  defp apply_action(socket, :edit, %{"organization_id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Organization")
-    |> assign(:organization, Organizations.get_organization!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Organization")
-    |> assign(:organization, %Organization{})
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Organizations")
-    |> assign(:organization, nil)
-  end
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp has_permissions?(socket) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id)
-  end
-
-  defp list_organizations(params) do
-    Organizations.list_organizations(params)
   end
 end
