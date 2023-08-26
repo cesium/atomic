@@ -60,15 +60,16 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
-    user = socket.assigns.current_user
-    activities = Activities.get_user_activities(user.id)
-
-    {:noreply, assign(socket, :activities, activities)}
+    {:noreply, assign(socket, :activities, list_user_sessions(socket.assigns.current_user.id))}
   end
 
   defp list_sessions(organization_id) do
     Activities.list_sessions_by_organization_id(organization_id,
       preloads: [:activity, :speakers, :enrollments]
     )
+  end
+
+  defp list_user_sessions(user_id) do
+    Activities.get_user_sessions(user_id)
   end
 end

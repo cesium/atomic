@@ -383,15 +383,22 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-  def get_user_activities(user_id) do
-    activities_ids =
-      get_user_enrollments(user_id)
-      |> Enum.map(& &1.activity_id)
+  @doc """
+   Gets all user sessions.
 
-    for activity_id <- activities_ids,
-        do:
-          get_activity!(activity_id)
-          |> Repo.preload([:enrollments, :sessions, :speakers])
+    ## Examples
+
+        iex> get_user_sessions(user)
+        [%Session{}, ...]
+
+        iex> get_user_sessions(user)
+        ** (Ecto.NoResultsError)
+  """
+  def get_user_sessions(user_id) do
+    Session
+    |> join(:inner, [s], e in assoc(s, :enrollments))
+    |> where([s, e], e.user_id == ^user_id)
+    |> Repo.all()
   end
 
   @doc """
