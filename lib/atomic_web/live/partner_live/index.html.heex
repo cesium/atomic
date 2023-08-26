@@ -12,7 +12,7 @@
           <%= gettext("Partners") %>
         </h2>
       </div>
-      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+      <%= if not @empty and @has_permissions do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New Partner",
             to: Routes.partner_index_path(@socket, :new, @current_organization),
@@ -33,28 +33,34 @@
   </div>
 </div>
 
-<ul role="list" class="">
-  <%= for partner <- @partnerships do %>
-    <%= live_redirect to: Routes.partner_show_path(@socket, :show, @current_organization, partner), class: "w-full h-full block hover:bg-zinc-50", replace: false do %>
-      <li class="px-4 flex justify-between border-b-2 border-gray-200 gap-x-6 py-5">
-        <div class="flex gap-x-4">
-          <div class="h-12 w-12 flex-none rounded-full bg-gray-50">
-            <%= if partner.image do %>
-              <img src={Atomic.Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
-            <% else %>
-              <span class="flex justify-center items-center mr-1.5 w-12 h-12 bg-zinc-500 rounded-xl">
-                <span class="text-lg font-medium leading-none text-white">
-                  <%= Atomic.Accounts.extract_initials(partner.name) %>
+<%= if @empty do %>
+  <div class="mt-32">
+    <.empty_state id="empty_state" url={Routes.partner_index_path(@socket, :new, @current_organization)} placeholder="partnership" />
+  </div>
+<% else %>
+  <ul role="list" class="">
+    <%= for partner <- @partnerships do %>
+      <%= live_redirect to: Routes.partner_show_path(@socket, :show, @current_organization, partner), class: "w-full h-full block hover:bg-zinc-50", replace: false do %>
+        <li class="px-4 flex justify-between border-b-2 border-gray-200 gap-x-6 py-5">
+          <div class="flex gap-x-4">
+            <div class="h-12 w-12 flex-none rounded-full bg-gray-50">
+              <%= if partner.image do %>
+                <img src={Atomic.Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
+              <% else %>
+                <span class="flex justify-center items-center mr-1.5 w-12 h-12 bg-zinc-500 rounded-xl">
+                  <span class="text-lg font-medium leading-none text-white">
+                    <%= Atomic.Accounts.extract_initials(partner.name) %>
+                  </span>
                 </span>
-              </span>
-            <% end %>
+              <% end %>
+            </div>
+            <div class="min-w-0 flex-auto">
+              <p class="text-sm font-semibold leading-6 text-gray-900"><%= partner.name %></p>
+              <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= partner.description %></p>
+            </div>
           </div>
-          <div class="min-w-0 flex-auto">
-            <p class="text-sm font-semibold leading-6 text-gray-900"><%= partner.name %></p>
-            <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= partner.description %></p>
-          </div>
-        </div>
-      </li>
+        </li>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+  </ul>
+<% end %>

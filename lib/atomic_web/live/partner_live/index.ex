@@ -1,6 +1,9 @@
 defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
+
+  alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
@@ -23,7 +26,18 @@ defmodule AtomicWeb.PartnerLive.Index do
      socket
      |> assign(:current_page, :partners)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, Enum.empty?(socket.assigns.partnerships))
+     |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    partner = Partnerships.get_partner!(id)
+    {:ok, _} = Partnerships.delete_partner(partner)
+
+    {:noreply,
+     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
@@ -52,13 +66,12 @@ defmodule AtomicWeb.PartnerLive.Index do
     |> assign(:partner, nil)
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
-
-    {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
   end
 
   defp list_partnerships(id) do
