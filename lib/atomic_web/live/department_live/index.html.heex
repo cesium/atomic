@@ -3,6 +3,7 @@
     <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
+
 <div class="bg-white">
   <div class="pt-4 px-4">
     <div class="flex items-center justify-between">
@@ -11,7 +12,7 @@
           <%= gettext("Departments") %>
         </h2>
       </div>
-      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+      <%= if not @empty and @has_permissions do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New Department",
             to: Routes.department_index_path(@socket, :new, @current_organization),
@@ -32,8 +33,14 @@
   </div>
 </div>
 
-<ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  <%= for department <- @departments do %>
-    <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_index_path(@socket, :edit, @current_organization, department)} />
-  <% end %>
-</ul>
+<%= if @empty do %>
+  <div class="mt-32">
+    <.empty_state id="empty_state" url={Routes.department_index_path(@socket, :new, @current_organization)} placeholder="department" />
+  </div>
+<% else %>
+  <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <%= for department <- @departments do %>
+      <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_index_path(@socket, :edit, @current_organization, department)} />
+    <% end %>
+  </ul>
+<% end %>
