@@ -6,12 +6,12 @@ defmodule Atomic.Organizations.News do
 
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description organization_id)a
+  @required_fields ~w(title description publish_at organization_id)a
 
   schema "news" do
     field :title, :string
     field :description, :string
-
+    field :publish_at, :naive_datetime
     belongs_to :organization, Organization
 
     timestamps()

@@ -1,4 +1,4 @@
-defmodule Atomic.Factories.NewFactory do
+defmodule Atomic.Factories.NewsFactory do
   @moduledoc """
   A factory to generate account related structs
   """
@@ -7,10 +7,12 @@ defmodule Atomic.Factories.NewFactory do
 
   defmacro __using__(_opts) do
     quote do
-      def new_factory do
+      def news_factory do
         %News{
+          organization: build(:organization),
           title: "News title",
-          description: "News description"
+          description: "News description",
+          publish_at: NaiveDateTime.utc_now()
         }
       end
     end
