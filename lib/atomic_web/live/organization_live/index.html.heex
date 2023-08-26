@@ -1,10 +1,13 @@
 <div class="min-h-full bg-white">
-  <div class="pt-5 pr-6 pb-5 pl-4 border-gray-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6">
+  <div class="pt-5 pr-6 pb-5 pl-4 border-zinc-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6">
     <div class="flex justify-between items-center h-10">
       <h1 class="text-xl font-bold leading-7 text-zinc-900  sm:truncate sm:text-4xl"><%= gettext("Organizations") %></h1>
       <%= if not @empty and @has_permissions do %>
         <div class="flex flex-col sm:flex-row xl:flex-col">
-          <%= live_patch("+ New Organization", to: Routes.organization_index_path(@socket, :new), class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
+          <%= live_patch("+ New Organization",
+            to: Routes.organization_index_path(@socket, :new),
+            class: "rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          ) %>
         </div>
       <% end %>
     </div>
@@ -14,39 +17,34 @@
       <.empty_state id="empty_state" url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>
   <% else %>
-    <ul role="list" class="relative z-0 border border-gray-200 rounded">
+    <div class="grid grid-cols-4 gap-4">
       <%= for organization <- @organizations do %>
         <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
-          <li id={"organization-#{organization.id}"} class="relative pr-6 border-b border-gray-200 hover:bg-gray-50">
-            <div class="flex justify-between items-center">
-              <div class="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
-                <div class="flex items-center">
-                  <div>
-                    <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
-                      <div class="relative flex-shrink-0 rounded-2xl min-w-24 min-h-24 sm:min-w-32 sm:min-h-32">
-                        <span class="inline-flex justify-center items-center w-24 h-24 rounded-2xl sm:w-32 sm:h-32 bg-gray-400">
-                          <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-                            <%= Atomic.Accounts.extract_initials(organization.name) %>
-                          </span>
-                        </span>
-                      </div>
-                    <% else %>
-                      <div class="relative flex-shrink-0 w-24 h-24 rounded-2xl sm:w-32 sm:h-32">
-                        <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-[98px] h-[98px] sm:w-[130px] sm:h-[130px]" />
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="ml-4">
-                    <div class="font-medium text-lg text-gray-900">
-                      <%= organization.name %>
-                    </div>
-                  </div>
-                </div>
+          <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
+            <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
+              <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
+                <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
+                  <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
+                    <%= Atomic.Accounts.extract_initials(organization.name) %>
+                  </span>
+                </span>
               </div>
+            <% else %>
+              <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
+                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
+              </div>
+            <% end %>
+            <div class="ml-4">
+              <h4 class="font-medium text-lg text-zinc-900">
+                <%= organization.name %>
+              </h4>
+              <p class="text-xs text-zinc-900">
+                <%= organization.long_name %>
+              </p>
             </div>
-          </li>
+          </div>
         <% end %>
       <% end %>
-    </ul>
+    </div>
   <% end %>
 </div>

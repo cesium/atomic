@@ -7,11 +7,12 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Organizations.{Announcement, Board, Card, Department, Membership, Partner}
   alias Atomic.Uploaders
 
-  @required_fields ~w(name description)a
+  @required_fields ~w(name long_name description)a
   @optional_fields ~w(card_image logo)a
 
   schema "organizations" do
     field :name, :string
+    field :long_name, :string
     field :description, :string
     field :card_image, Uploaders.Card.Type
     field :logo, Uploaders.Logo.Type

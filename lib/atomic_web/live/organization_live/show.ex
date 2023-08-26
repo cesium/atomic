@@ -7,8 +7,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.Organizations
   alias Atomic.Uploaders.Logo
 
-  import AtomicWeb.Components.Calendar
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -39,6 +37,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:mode, "month")
      |> assign(:params, params)
      |> assign(:organization, organization)
+     |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:followers_count, followers_count)
      |> assign(:sessions, list_sessions(id))
      |> assign(:departments, list_departments(id))
@@ -88,7 +87,10 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply,
          socket
          |> put_flash(:success, "Stopped following " <> socket.assigns.organization.name)
-         |> push_redirect(to: Routes.organization_index_path(socket, :index))}
+         |> assign(:following, false)
+         |> push_patch(
+           to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
+         )}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

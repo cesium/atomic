@@ -23,6 +23,16 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  def list_organizations_members(%Organization{} = organization) do
+    from(m in Membership,
+      where: m.organization_id == ^organization.id and m.role != :follower,
+      join: u in User,
+      on: u.id == m.user_id,
+      select: u
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single organization.
 
@@ -317,7 +327,12 @@ defmodule Atomic.Organizations do
 
   """
   def delete_membership(%Membership{} = membership) do
-    Repo.delete(membership)
+    organization =
+      from(o in Organization, where: o.id == ^membership.organization_id) |> Repo.one()
+
+    if !(organization.name == "CeSIUM" and membership.role == :follower) do
+      Repo.delete(membership)
+    end
   end
 
   @doc """

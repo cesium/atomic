@@ -25,13 +25,14 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "create_organization/1 with valid data creates a organization" do
-      valid_attrs = %{description: "some description", name: "some name"}
+      valid_attrs = %{description: "some description", name: "SN", long_name: "some name"}
 
       assert {:ok, %Organization{} = organization} =
                Organizations.create_organization(valid_attrs)
 
       assert organization.description == "some description"
-      assert organization.name == "some name"
+      assert organization.name == "SN"
+      assert organization.long_name == "some name"
     end
 
     test "create_organization/1 with invalid data returns error changeset" do
