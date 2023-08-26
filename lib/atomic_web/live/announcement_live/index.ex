@@ -1,4 +1,4 @@
-defmodule AtomicWeb.NewsLive.Index do
+defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Announcement
@@ -6,14 +6,14 @@ defmodule AtomicWeb.NewsLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.News
+  alias Atomic.Organizations.Announcement
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do
     socket =
       socket
       |> assign(:organization, Organizations.get_organization!(organization_id))
-      |> assign(:all_news, list_news(organization_id))
+      |> assign(:announcements, list_announcements(organization_id))
 
     {:ok, socket}
   end
@@ -22,37 +22,37 @@ defmodule AtomicWeb.NewsLive.Index do
   def handle_params(params, _url, socket) do
     entries = [
       %{
-        name: gettext("News"),
-        route: Routes.news_index_path(socket, :index, params["organization_id"])
+        name: gettext("Announcement"),
+        route: Routes.announcement_index_path(socket, :index, params["organization_id"])
       }
     ]
 
     {:noreply,
      socket
-     |> assign(:current_page, :news)
+     |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.all_news))
+     |> assign(:empty, Enum.empty?(socket.assigns.announcements))
      |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    news = Organizations.get_news!(id)
-    {:ok, _} = Organizations.delete_news(news)
+    announcement = Organizations.get_announcement!(id)
+    {:ok, _} = Organizations.delete_announcement(announcement)
 
     {:noreply,
      socket
-     |> assign(:all_news, list_news(news.organization_id))}
+     |> assign(:announcement, list_announcements(announcement.organization_id))}
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    news = Organizations.get_news!(id)
+    announcement = Organizations.get_announcement!(id)
 
-    if news.organization_id == organization_id do
+    if announcement.organization_id == organization_id do
       socket
-      |> assign(:page_title, "Edit News")
-      |> assign(:news, Organizations.get_news!(id))
+      |> assign(:page_title, "Edit Announcement")
+      |> assign(:announcement, Organizations.get_announcement!(id))
     else
       raise AtomicWeb.MismatchError
     end
@@ -60,15 +60,15 @@ defmodule AtomicWeb.NewsLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New News")
-    |> assign(:news, %News{})
+    |> assign(:page_title, "New Announcement")
+    |> assign(:announcement, %Announcement{})
   end
 
   defp apply_action(socket, :index, params) do
     organization = Organizations.get_organization!(params["organization_id"])
 
     socket
-    |> assign(:page_title, "#{organization.name}'s News")
+    |> assign(:page_title, "#{organization.name}'s Announcement")
   end
 
   defp has_permissions?(socket) do
@@ -79,7 +79,7 @@ defmodule AtomicWeb.NewsLive.Index do
       )
   end
 
-  defp list_news(organization_id) do
-    Organizations.list_published_news_by_organization_id(organization_id, [:organization])
+  defp list_announcements(organization_id) do
+    Organizations.list_published_announcements_by_organization_id(organization_id, [:organization])
   end
 end

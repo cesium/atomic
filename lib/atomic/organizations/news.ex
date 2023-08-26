@@ -1,6 +1,6 @@
-defmodule Atomic.Organizations.News do
+defmodule Atomic.Organizations.Announcement do
   @moduledoc """
-  The news that can be published by an organization.
+  The announcements that can be published by an organization.
   """
   use Atomic.Schema
 
@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.News do
 
   @required_fields ~w(title description publish_at organization_id)a
 
-  schema "news" do
+  schema "announcements" do
     field :title, :string
     field :description, :string
     field :publish_at, :naive_datetime
@@ -17,8 +17,8 @@ defmodule Atomic.Organizations.News do
     timestamps()
   end
 
-  def changeset(news, attrs) do
-    news
+  def changeset(announcements, attrs) do
+    announcements
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
   end
