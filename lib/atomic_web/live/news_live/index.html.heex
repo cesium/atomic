@@ -12,7 +12,7 @@
           <%= gettext("News") %>
         </h2>
       </div>
-      <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+      <%= if not @empty and @has_permissions do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New News",
             to: Routes.news_new_path(@socket, :new, @current_organization),
@@ -33,8 +33,14 @@
   </div>
 </div>
 
-<ul role="list" class="relative z-0 divide-y divide-gray-200">
-  <%= for news <- @all_news do %>
-    <.announcement organization={@current_organization} news={news} url={Routes.news_show_path(@socket, :show, @current_organization, news.id)} />
-  <% end %>
-</ul>
+<%= if @empty do %>
+  <div class="mt-32">
+    <.empty_state id="empty_state" url={Routes.news_new_path(@socket, :new, @current_organization)} placeholder="news" />
+  </div>
+<% else %>
+  <ul role="list" class="relative z-0 divide-y divide-gray-200">
+    <%= for news <- @all_news do %>
+      <.announcement organization={@current_organization} news={news} url={Routes.news_show_path(@socket, :show, @current_organization, news.id)} />
+    <% end %>
+  </ul>
+<% end %>

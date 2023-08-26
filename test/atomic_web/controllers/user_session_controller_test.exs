@@ -16,7 +16,8 @@ defmodule AtomicWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<span>Login</span>"
+      assert response =~ "Log<span"
+      assert response =~ "in</span>"
       assert response =~ "Register</a>"
       assert response =~ "Forgot your password?</a>"
     end
@@ -78,7 +79,8 @@ defmodule AtomicWeb.UserSessionControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<span>Login</span>"
+      assert response =~ "Log<span"
+      assert response =~ "in</span>"
       assert response =~ "Invalid email or password"
     end
   end

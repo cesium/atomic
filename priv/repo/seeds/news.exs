@@ -17,6 +17,7 @@ defmodule Atomic.Repo.Seeds.News do
             |> News.changeset(%{
               title: Faker.Lorem.sentence(),
               description: Faker.Lorem.paragraph(),
+              publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :minute),
               organization_id: organization.id
             })
             |> Repo.insert!()

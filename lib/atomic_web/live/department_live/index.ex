@@ -2,7 +2,9 @@ defmodule AtomicWeb.DepartmentLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Card
+  import AtomicWeb.Components.Empty
 
+  alias Atomic.Accounts
   alias Atomic.Departments
   alias Atomic.Organizations
   alias Atomic.Organizations.Department
@@ -25,7 +27,18 @@ defmodule AtomicWeb.DepartmentLive.Index do
      socket
      |> assign(:current_page, :departments)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, Enum.empty?(socket.assigns.departments))
+     |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    department = Departments.get_department!(id)
+    {:ok, _} = Departments.delete_department(department)
+
+    {:noreply,
+     assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
@@ -54,13 +67,12 @@ defmodule AtomicWeb.DepartmentLive.Index do
     |> assign(:department, nil)
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    department = Departments.get_department!(id)
-    {:ok, _} = Departments.delete_department(department)
-
-    {:noreply,
-     assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
   end
 
   defp list_departments(id) do
