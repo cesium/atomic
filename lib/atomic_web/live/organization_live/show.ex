@@ -29,6 +29,9 @@ defmodule AtomicWeb.OrganizationLive.Show do
       }
     ]
 
+    followers_count =
+      Enum.count(Atomic.Organizations.list_memberships(%{"organization_id" => id}, []))
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action, organization.name))
@@ -36,6 +39,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:mode, "month")
      |> assign(:params, params)
      |> assign(:organization, organization)
+     |> assign(:followers_count, followers_count)
      |> assign(:sessions, list_sessions(id))
      |> assign(:departments, list_departments(id))
      |> assign(:breadcrumb_entries, entries)
