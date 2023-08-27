@@ -9,11 +9,13 @@ defmodule AtomicWeb.MembershipLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"handle" => handle, "id" => _id}, _, socket) do
+    organization = Organizations.get_organization_by_handle(handle)
 
-    if membership.organization_id == organization_id do
+    membership =
+      Organizations.get_membership!(organization.id, [:user, :organization, :created_by])
+
+    if membership.organization_id == organization.id do
       {:noreply,
        socket
        |> assign(:page_title, page_title(socket.assigns.live_action, organization))

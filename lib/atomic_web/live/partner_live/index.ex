@@ -9,8 +9,9 @@ defmodule AtomicWeb.PartnerLive.Index do
   alias Atomic.Partnerships
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships(organization_id))}
+  def mount(%{"handle" => handle}, _session, socket) do
+    organization = Organizations.get_organization_by_handle(handle)
+    {:ok, assign(socket, :partnerships, list_partnerships(organization.id))}
   end
 
   @impl true
@@ -18,7 +19,7 @@ defmodule AtomicWeb.PartnerLive.Index do
     entries = [
       %{
         name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, params["organization_id"])
+        route: Routes.partner_index_path(socket, :index, params["handle"])
       }
     ]
 
@@ -40,10 +41,11 @@ defmodule AtomicWeb.PartnerLive.Index do
      assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
+  defp apply_action(socket, :edit, %{"handle" => handle, "id" => id}) do
     partner = Partnerships.get_partner!(id)
+    organization = Organizations.get_organization_by_handle(handle)
 
-    if partner.organization_id == organization_id do
+    if partner.organization_id == organization.id do
       socket
       |> assign(:page_title, "Edit Partner")
       |> assign(:partner, Partnerships.get_partner!(id))
@@ -59,7 +61,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
+    organization = Organizations.get_organization_by_handle(params["handle"])
 
     socket
     |> assign(:page_title, "#{organization.name}'s Partners")

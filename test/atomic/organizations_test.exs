@@ -7,7 +7,7 @@ defmodule Atomic.OrganizationsTest do
   describe "organizations" do
     alias Atomic.Organizations.Organization
 
-    @invalid_attrs %{description: nil, name: nil}
+    @invalid_attrs %{description: nil, name: nil, handle: nil}
 
     test "list_organizations/0 returns all organizations" do
       organization = insert(:organization)
@@ -25,13 +25,14 @@ defmodule Atomic.OrganizationsTest do
     end
 
     test "create_organization/1 with valid data creates a organization" do
-      valid_attrs = %{description: "some description", name: "some name"}
+      valid_attrs = %{description: "some description", name: "some name", handle: "some_handle"}
 
       assert {:ok, %Organization{} = organization} =
                Organizations.create_organization(valid_attrs)
 
       assert organization.description == "some description"
       assert organization.name == "some name"
+      assert organization.handle == "some_handle"
     end
 
     test "create_organization/1 with invalid data returns error changeset" do

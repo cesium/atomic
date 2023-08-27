@@ -45,7 +45,7 @@ defmodule AtomicWeb.Router do
       live "/scanner", ScannerLive.Index, :index
       live "/calendar", CalendarLive.Show, :show
 
-      scope "/organizations/:organization_id" do
+      scope "/organizations/:handle" do
         pipe_through :admin
         live "/edit", OrganizationLive.Index, :edit
         live "/show/edit", OrganizationLive.Show, :edit
@@ -77,7 +77,7 @@ defmodule AtomicWeb.Router do
         live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
       end
 
-      scope "/organizations/:organization_id" do
+      scope "/organizations/:handle" do
         pipe_through :follower
         live "/activities", ActivityLive.Index, :index
         live "/activities/:id", ActivityLive.Show, :show
@@ -109,11 +109,11 @@ defmodule AtomicWeb.Router do
 
     live_session :general, on_mount: [{AtomicWeb.Hooks, :general_user_state}] do
       live "/organizations", OrganizationLive.Index, :index
-      live "/organizations/:organization_id", OrganizationLive.Show, :show
+      live "/organizations/:handle", OrganizationLive.Show, :show
 
       live "/profile/:handle", UserLive.Show, :show
 
-      scope "/organizations/:organization_id" do
+      scope "/organizations/:handle" do
         live "/board/", BoardLive.Index, :index
         live "/board/:id", BoardLive.Show, :show
       end

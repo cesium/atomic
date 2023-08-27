@@ -8,7 +8,10 @@ defmodule AtomicWeb.Config do
   def pages(conn, current_organization, current_user) do
     if current_organization do
       if current_user.role in [:admin] or
-           Organizations.get_role(current_user.id, current_organization.id) in [:admin, :owner] do
+           Organizations.get_role(current_user.id, current_organization.id) in [
+             :admin,
+             :owner
+           ] do
         admin_pages(conn, current_organization, current_user)
       else
         user_pages(conn, current_organization, current_user)
@@ -50,35 +53,35 @@ defmodule AtomicWeb.Config do
         key: :activities,
         title: "Activities",
         icon: :academic_cap,
-        url: Routes.activity_index_path(conn, :index, current_organization.id),
+        url: Routes.activity_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :departments,
         title: "Departments",
         icon: :cube,
-        url: Routes.department_index_path(conn, :index, current_organization.id),
+        url: Routes.department_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :partners,
         title: "Partners",
         icon: :user_group,
-        url: Routes.partner_index_path(conn, :index, current_organization.id),
+        url: Routes.partner_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :memberships,
         title: "Memberships",
         icon: :user_add,
-        url: Routes.membership_index_path(conn, :index, current_organization.id),
+        url: Routes.membership_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :board,
         title: "Board",
         icon: :users,
-        url: Routes.board_index_path(conn, :index, current_organization.id),
+        url: Routes.board_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
@@ -132,28 +135,28 @@ defmodule AtomicWeb.Config do
         key: :activities,
         title: "Activities",
         icon: :academic_cap,
-        url: Routes.activity_index_path(conn, :index, current_organization.id),
+        url: Routes.activity_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :departments,
         title: "Departments",
         icon: :cube,
-        url: Routes.department_index_path(conn, :index, current_organization.id),
+        url: Routes.department_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :partners,
         title: "Partners",
         icon: :user_group,
-        url: Routes.partner_index_path(conn, :index, current_organization.id),
+        url: Routes.partner_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{
         key: :board,
         title: "Board",
         icon: :users,
-        url: Routes.board_index_path(conn, :index, current_organization.id),
+        url: Routes.board_index_path(conn, :index, current_organization.handle),
         tabs: []
       },
       %{

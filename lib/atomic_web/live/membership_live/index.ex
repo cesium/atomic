@@ -9,17 +9,17 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => id}, _, socket) do
-    memberships =
-      Organizations.list_memberships(%{"organization_id" => id}, [:user, :created_by])
-      |> Enum.sort_by(& &1.user.name)
+  def handle_params(%{"handle" => handle}, _, socket) do
+    organization = Organizations.get_organization_by_handle(handle)
 
-    organization = Organizations.get_organization!(id)
+    memberships =
+      Organizations.list_memberships(%{"organization_id" => organization.id}, [:user, :created_by])
+      |> Enum.sort_by(& &1.user.name)
 
     entries = [
       %{
         name: gettext("Memberships"),
-        route: Routes.membership_index_path(socket, :index, id)
+        route: Routes.membership_index_path(socket, :index, handle)
       }
     ]
 

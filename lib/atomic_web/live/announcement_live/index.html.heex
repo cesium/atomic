@@ -15,7 +15,7 @@
       <%= if not @empty and @has_permissions do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New Announcement",
-            to: Routes.announcement_new_path(@socket, :new, @current_organization),
+            to: Routes.announcement_new_path(@socket, :new, @current_organization.handle),
             class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
           ) %>
         </div>
@@ -35,12 +35,12 @@
 
 <%= if @empty do %>
   <div class="mt-32">
-    <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
+    <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization.handle)} placeholder="announcement" />
   </div>
 <% else %>
   <ul role="list" class="relative z-0 divide-y divide-gray-200">
     <%= for announcement <- @announcements do %>
-      <.announcement organization={@current_organization} announcement={announcement} url={Routes.announcement_show_path(@socket, :show, @current_organization, announcement.id)} />
+      <.announcement organization={@current_organization} announcement={announcement} url={Routes.announcement_show_path(@socket, :show, @current_organization.handle, announcement.id)} />
     <% end %>
   </ul>
 <% end %>

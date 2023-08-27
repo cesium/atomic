@@ -12,6 +12,7 @@ defmodule Atomic.Factories.OrganizationFactory do
       def organization_factory do
         %Organization{
           name: Faker.Company.name(),
+          handle: Faker.Internet.user_name(),
           description: Faker.Lorem.paragraph()
         }
       end

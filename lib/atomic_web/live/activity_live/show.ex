@@ -7,19 +7,21 @@ defmodule AtomicWeb.ActivityLive.Show do
   alias AtomicWeb.MismatchError
 
   @impl true
-  def mount(%{"id" => id}, _session, socket) do
+  def mount(%{"handle" => handle, "id" => id}, _session, socket) do
     if connected?(socket) do
       Activities.subscribe("new_enrollment")
       Activities.subscribe("deleted_enrollment")
     end
 
-    {:ok, assign(socket, :id, id)}
+    {:ok,
+     socket
+     |> assign(:id, id)
+     |> assign(:handle, handle)}
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
     session = Activities.get_session!(id, [:activity, :speakers, :departments])
-
     activity = Activities.get_activity!(session.activity_id, [:sessions])
 
     organizations = Activities.get_session_organizations!(session, [:departments])
@@ -27,15 +29,15 @@ defmodule AtomicWeb.ActivityLive.Show do
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index, organization_id)
+        route: Routes.activity_index_path(socket, :index, handle)
       },
       %{
         name: activity.title,
-        route: Routes.activity_show_path(socket, :show, organization_id, session.id)
+        route: Routes.activity_show_path(socket, :show, handle, session.id)
       }
     ]
 
-    if organization_id in organizations do
+    if handle in organizations do
       {:noreply,
        socket
        |> assign(

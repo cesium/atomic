@@ -15,8 +15,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => id} = params, _, socket) do
-    organization = Organizations.get_organization!(id)
+  def handle_params(%{"handle" => handle} = params, _, socket) do
+    organization = Organizations.get_organization_by_handle(handle)
 
     entries = [
       %{
@@ -25,12 +25,14 @@ defmodule AtomicWeb.OrganizationLive.Show do
       },
       %{
         name: gettext("%{name}", name: organization.name),
-        route: Routes.organization_show_path(socket, :show, id)
+        route: Routes.organization_show_path(socket, :show, handle)
       }
     ]
 
     followers_count =
-      Enum.count(Atomic.Organizations.list_memberships(%{"organization_id" => id}, []))
+      Enum.count(
+        Atomic.Organizations.list_memberships(%{"organization_id" => organization.id}, [])
+      )
 
     {:noreply,
      socket
@@ -40,8 +42,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(:followers_count, followers_count)
-     |> assign(:sessions, list_sessions(id))
-     |> assign(:departments, list_departments(id))
+     |> assign(:sessions, list_sessions(organization.id))
+     |> assign(:departments, list_departments(organization.id))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
      |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))}

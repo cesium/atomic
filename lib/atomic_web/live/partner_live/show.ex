@@ -1,6 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Organizations
   alias Atomic.Partnerships
 
   @impl true
@@ -9,21 +10,22 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
     partner = Partnerships.get_partner!(id)
+    organization = Organizations.get_organization_by_handle(handle)
 
     entries = [
       %{
         name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, organization_id)
+        route: Routes.partner_index_path(socket, :index, handle)
       },
       %{
         name: gettext("%{name}", name: partner.name),
-        route: Routes.partner_show_path(socket, :show, organization_id, id)
+        route: Routes.partner_show_path(socket, :show, handle, id)
       }
     ]
 
-    if partner.organization_id == organization_id do
+    if partner.organization_id == organization.id do
       {:noreply,
        socket
        |> assign(:current_page, :partners)

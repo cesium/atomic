@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.partner_show_path(@socket, :show, @current_organization, @partner)}>
-    <.live_component module={AtomicWeb.PartnerLive.FormComponent} id={@partner.id} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_show_path(@socket, :show, @current_organization, @partner)} />
+  <.modal return_to={Routes.partner_show_path(@socket, :show, @current_organization.handle, @partner)}>
+    <.live_component module={AtomicWeb.PartnerLive.FormComponent} id={@partner.id} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_show_path(@socket, :show, @current_organization.handle, @partner)} />
   </.modal>
 <% end %>
 
@@ -35,7 +35,7 @@
 </div>
 
 <%= if Atomic.Organizations.get_role(@current_user.id, @current_organization.id) in [:admin, :owner] do %>
-  <%= live_patch to: Routes.partner_show_path(@socket, :edit, @current_organization, @partner), class: "button" do %>
+  <%= live_patch to: Routes.partner_show_path(@socket, :edit, @current_organization.handle, @partner), class: "button" do %>
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
       <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
     </div>

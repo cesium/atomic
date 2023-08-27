@@ -9,10 +9,11 @@ defmodule AtomicWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
+    organization = Organizations.get_organization_by_handle(handle)
     user_organization = Organizations.get_user_organization!(id, [:user, :organization])
 
-    if user_organization.organization_id == organization_id do
+    if user_organization.organization_id == organization.id do
       {:noreply,
        socket
        |> assign(:page_title, page_title(socket.assigns.live_action))

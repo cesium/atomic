@@ -82,6 +82,31 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Gets an organization by handle.
+
+  ## Examples
+      iex> get_organization_by_handle("foo_bar")
+      %Organization{}
+      iex> get_organization_by_handle("unknown")
+      nil
+
+  """
+  def get_organization_by_handle(handle) when is_binary(handle) do
+    Repo.get_by(Organization, handle: handle)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for changing the organization handle.
+
+  ## Examples
+      iex> change_organization_handle(organization)
+      %Ecto.Changeset{data: %Organization{}}
+  """
+  def change_organization_handle(organization, attrs \\ %{}) do
+    Organization.handle_changeset(organization, attrs)
+  end
+
+  @doc """
   Updates an organization card image.
 
   ## Examples
@@ -213,7 +238,7 @@ defmodule Atomic.Organizations do
       nil
 
   """
-  def get_role(user_id, organization_id) do
+  def get_role(user_id, organization_id) when is_binary(user_id) and is_binary(organization_id) do
     Membership
     |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
     |> Repo.one()

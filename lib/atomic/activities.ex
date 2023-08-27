@@ -9,6 +9,7 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.Enrollment
   alias Atomic.Activities.Session
   alias Atomic.Activities.Speaker
+  alias Atomic.Organizations
 
   @doc """
   Returns the list of activities.
@@ -100,8 +101,11 @@ defmodule Atomic.Activities do
   """
   def get_session_organizations!(session, preloads \\ [:departments]) do
     Repo.preload(session, preloads)
-    |> Map.get(:departments, [])
+    |> Map.get(:departments)
     |> Enum.map(& &1.organization_id)
+    |> Enum.map(fn id ->
+      Organizations.get_organization!(id).handle
+    end)
   end
 
   @doc """
