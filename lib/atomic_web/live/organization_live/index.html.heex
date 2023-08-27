@@ -44,5 +44,7 @@
       <% end %>
     <% end %>
   </ul>
-  <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+  <div class="mt-2 flex w-full items-center justify-between">
+    <Flop.Phoenix.pagination meta={@meta} path_helper={{Routes, :organization_index_path, [@socket, :index]}} />
+  </div>
 </div>

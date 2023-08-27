@@ -3,7 +3,6 @@ defmodule AtomicWeb.MembershipLive.Index do
 
   alias Atomic.Organizations
 
-  import AtomicWeb.Components.Pagination
   import AtomicWeb.Helpers
 
   @impl true

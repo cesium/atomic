@@ -12,13 +12,15 @@ defmodule Atomic.Organizations.Membership do
 
   @derive {
     Flop.Schema,
-    filterable: [],
-    sortable: [:inserted_at],
-    compound_fields: [],
+    filterable: [:member_name],
+    sortable: [:member_name, :inserted_at, :updated_at, :number],
     default_order: %{
       order_by: [:inserted_at],
       order_directions: [:desc]
-    }
+    },
+    join_fields: [
+      member_name: [binding: :user, field: :name, path: [:user, :name]]
+    ]
   }
 
   schema "memberships" do
