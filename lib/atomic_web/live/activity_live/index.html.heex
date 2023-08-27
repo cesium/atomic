@@ -95,9 +95,7 @@
             </li>
           <% end %>
         </ul>
-        <div class="mt-4 flex w-full items-center justify-between">
-          <Flop.Phoenix.pagination meta={@meta} path_helper={{Routes, :activity_index_path, [@socket, :index, @current_organization.id]}} />
-        </div>
+        <.pagination items={@sessions} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
       </div>
     </div>
   </div>

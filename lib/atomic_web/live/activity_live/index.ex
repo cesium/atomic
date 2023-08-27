@@ -6,6 +6,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
   alias Atomic.Organizations
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

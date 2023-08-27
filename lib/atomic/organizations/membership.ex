@@ -12,7 +12,7 @@ defmodule Atomic.Organizations.Membership do
 
   @derive {
     Flop.Schema,
-    filterable: [:member_name],
+    filterable: [:member_name, :inserted_at],
     sortable: [:member_name, :inserted_at, :updated_at, :number],
     default_order: %{
       order_by: [:inserted_at],

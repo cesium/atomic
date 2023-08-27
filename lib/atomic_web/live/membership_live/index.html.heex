@@ -8,22 +8,10 @@
   </div>
 
   <div class="flow-root">
-    <div class="flex flex-row-reverse mb-4">
-      <.form let={f} for={@meta}>
-        <Flop.Phoenix.filter_fields let={entry} form={f} fields={[member_name: [op: :ilike_and]]} input_opts={[class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"]}>
-          <div class="flex w-64 relative appearance-none rounded-lg border border-zinc-300 px-3 py- text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-zinc-400 focus-within:ring-zinc-400 focus-within:outline-none sm:text-sm">
-            <span class="self-center select-none text-gray-400">
-              <Heroicons.Solid.search class="mr-3 w-5 h-5" />
-            </span>
-            <%= entry.input %>
-          </div>
-        </Flop.Phoenix.filter_fields>
-      </.form>
-    </div>
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 mt-6">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg min-h-[70vh]">
-          <Flop.Phoenix.table items={@memberships} meta={@meta} path_helper={{Routes, :membership_index_path, [@socket, :index, @current_organization.id]}}>
+        <div class="overflow-hidden shadow border-[1px] border-r-0  ring-opacity-5 sm:rounded-lg">
+          <.table items={@memberships} meta={@meta} filter={[member_name: [op: :ilike_and]]}>
             <:col let={membership} label="Number" field={:number}><%= membership.number %></:col>
             <:col let={membership} label="Name" field={:member_name}><%= membership.user.name %></:col>
             <:col let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
@@ -38,10 +26,8 @@
                 </div>
               <% end %>
             </:col>
-          </Flop.Phoenix.table>
-          <div class="mt-2 flex w-full items-center justify-between">
-            <Flop.Phoenix.pagination meta={@meta} path_helper={{Routes, :membership_index_path, [@socket, :index, @current_organization.id]}} />
-          </div>
+          </.table>
+          <.pagination items={@memberships} meta={@meta} class="mt-2 flex w-full items-center justify-between border-r-[1px]" />
         </div>
       </div>
     </div>

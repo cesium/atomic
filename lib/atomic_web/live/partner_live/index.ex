@@ -5,6 +5,8 @@ defmodule AtomicWeb.PartnerLive.Index do
   alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
   def mount(%{"organization_id" => organization_id} = params, _session, socket) do
     {:ok, assign(socket, list_partnerships(organization_id, params))}

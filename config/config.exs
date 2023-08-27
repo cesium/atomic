@@ -33,10 +33,6 @@ config :flop,
   default_limit: 7,
   repo: Atomic.Repo
 
-config :flop_phoenix,
-  table: [opts: {AtomicWeb.Helpers, :table_opts}],
-  pagination: [opts: {AtomicWeb.Helpers, :pagination_opts}]
-
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

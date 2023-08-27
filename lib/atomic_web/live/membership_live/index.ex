@@ -4,6 +4,8 @@ defmodule AtomicWeb.MembershipLive.Index do
   alias Atomic.Organizations
 
   import AtomicWeb.Helpers
+  import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.Table
 
   @impl true
   def mount(_params, _session, socket) do
@@ -30,7 +32,7 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   defp list_memberships(id, params) do
-    case Organizations.list_memberships(params,
+    case Organizations.list_memberships(Map.put(params, "page_size", 9),
            where: [organization_id: id],
            preloads: [:user, :created_by]
          ) do
