@@ -39,7 +39,6 @@ defmodule AtomicWeb.Router do
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
-    delete "/users/log_out", UserSessionController, :delete
 
     live_session :logged_in, on_mount: [{AtomicWeb.Hooks, :authenticated_user_state}] do
       live "/", HomeLive.Index, :index
@@ -74,8 +73,8 @@ defmodule AtomicWeb.Router do
         live "/memberships/:id", MembershipLive.Show, :show
         live "/memberships/:id/edit", MembershipLive.Edit, :edit
 
-        live "/news/new", NewsLive.New, :new
-        live "/news/:id/edit", NewsLive.Edit, :edit
+        live "/announcements/new", AnnouncementLive.New, :new
+        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
       end
 
       scope "/organizations/:organization_id" do
@@ -92,8 +91,8 @@ defmodule AtomicWeb.Router do
         live "/speakers", SpeakerLive.Index, :index
         live "/speakers/:id", SpeakerLive.Show, :show
 
-        live "/news", NewsLive.Index, :index
-        live "/news/:id", NewsLive.Show, :show
+        live "/announcements", AnnouncementLive.Index, :index
+        live "/announcements/:id", AnnouncementLive.Show, :show
       end
 
       live "/organizations/new", OrganizationLive.Index, :new
@@ -118,40 +117,6 @@ defmodule AtomicWeb.Router do
         live "/board/", BoardLive.Index, :index
         live "/board/:id", BoardLive.Show, :show
       end
-    end
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", AtomicWeb do
-  #   pipe_through :api
-  # end
-
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-
-      live_dashboard "/dashboard", metrics: AtomicWeb.Telemetry
-    end
-  end
-
-  # Enables the Swoosh mailbox preview in development.
-  #
-  # Note that preview only shows emails that were sent by the same
-  # node running the Phoenix server.
-  if Mix.env() == :dev do
-    scope "/dev" do
-      pipe_through :browser
-
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
 
@@ -189,9 +154,44 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser]
 
+    delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
+  end
+
+  # Enables the Swoosh mailbox preview in development.
+  #
+  # Note that preview only shows emails that were sent by the same
+  # node running the Phoenix server.
+  if Mix.env() == :dev do
+    scope "/dev" do
+      pipe_through :browser
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", AtomicWeb do
+  #   pipe_through :api
+  # end
+
+  # Enables LiveDashboard only for development
+  #
+  # If you want to use the LiveDashboard in production, you should put
+  # it behind authentication and allow only admins to access it.
+  # If your application does not have an admins-only section yet,
+  # you can use Plug.BasicAuth to set up some basic authentication
+  # as long as you are also using SSL (which you should anyway).
+  if Mix.env() in [:dev, :test] do
+    import Phoenix.LiveDashboard.Router
+
+    scope "/" do
+      pipe_through :browser
+
+      live_dashboard "/dashboard", metrics: AtomicWeb.Telemetry
+    end
   end
 end

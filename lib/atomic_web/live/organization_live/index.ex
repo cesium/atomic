@@ -1,6 +1,9 @@
 defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
+
+  alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
@@ -25,10 +28,20 @@ defmodule AtomicWeb.OrganizationLive.Index do
      socket
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, Enum.empty?(organizations))
+     |> assign(:has_permissions, has_permissions?(socket))
      |> assign(:params, params)
      |> assign(:current_organization, socket.assigns.current_organization)
      |> assign(list_organizations(params))
      |> assign(:current_page, :organizations)}
+  end
+
+  @impl true
+  def handle_event("delete", %{"organization_id" => id}, socket) do
+    organization = Organizations.get_organization!(id)
+    {:ok, _} = Organizations.delete_organization(organization)
+
+    {:noreply, assign(socket, :organizations, list_organizations(socket.assigns.params))}
   end
 
   defp apply_action(socket, :show, %{"organization_id" => id}) do
@@ -55,12 +68,8 @@ defmodule AtomicWeb.OrganizationLive.Index do
     |> assign(:organization, nil)
   end
 
-  @impl true
-  def handle_event("delete", %{"organization_id" => id}, socket) do
-    organization = Organizations.get_organization!(id)
-    {:ok, _} = Organizations.delete_organization(organization)
-
-    {:noreply, assign(socket, :organizations, list_organizations(socket.assigns.params))}
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
   defp list_organizations(params) do

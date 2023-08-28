@@ -24,7 +24,8 @@ defmodule AtomicWeb.HomeLive.Index do
     sessions =
       Activities.list_sessions_by_organization_id(socket.assigns.current_organization.id, [])
 
-    news = Organizations.list_news_by_organization_id(socket.assigns.current_organization.id)
+    announcements =
+      Organizations.list_announcements_by_organization_id(socket.assigns.current_organization.id)
 
     mode = params["mode"] || "month"
 
@@ -40,7 +41,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:page_title, "Home")
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :home)
-     |> assign(:news, news)
+     |> assign(:announcements, announcements)
      |> assign(:partners, partners)
      |> assign(:sessions, sessions)
      |> assign(:time_zone, socket.assigns.time_zone)

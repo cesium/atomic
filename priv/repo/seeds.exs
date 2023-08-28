@@ -13,7 +13,7 @@ defmodule Atomic.Repo.Seeds do
       "departments.exs",
       "activities.exs",
       "memberships.exs",
-      "news.exs",
+      "announcements.exs",
       "partners.exs"
     ]
     |> Enum.each(fn file ->

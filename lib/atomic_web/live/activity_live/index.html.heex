@@ -7,7 +7,7 @@
             <%= gettext("Activities") %>
           </h2>
         </div>
-        <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
+        <%= if not @empty and @has_permissions do %>
           <div class="hidden lg:border-orange-500 lg:block">
             <%= live_patch("+ New Activity",
               to: Routes.activity_new_path(@socket, :new, @current_organization),
@@ -30,73 +30,78 @@
         </div>
       </div>
     </div>
-
-    <div>
-      <div class="overflow-hidden bg-white">
-        <ul role="list" class="divide-y divide-zinc-200 h-[70vh] overflow-auto">
-          <%= for session <- @sessions do %>
-            <li id={session.id}>
-              <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "block hover:bg-zinc-50", replace: false do %>
-                <div class="px-4 py-4 lg:px-6">
-                  <div class="flex items-center justify-between">
-                    <p class="truncate text-sm font-medium text-zinc-900">
-                      <%= session.activity.title %>
-                    </p>
-                  </div>
-                  <div class="mt-2 lg:flex lg:justify-between">
-                    <div class="lg:flex lg:space-x-3">
-                      <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                        <%= Enum.count(session.enrollments) %> / <%= session.maximum_entries %>
+    <%= if @empty do %>
+      <div class="mt-32">
+        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
+      </div>
+    <% else %>
+       <div>
+        <div class="overflow-hidden bg-white">
+          <ul role="list" class="divide-y divide-zinc-200 h-[70vh] overflow-auto">
+            <%= for session <- @sessions do %>
+              <li id={session.id}>
+                <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, session), class: "block hover:bg-zinc-50", replace: false do %>
+                  <div class="px-4 py-4 lg:px-6">
+                    <div class="flex items-center justify-between">
+                      <p class="truncate text-sm font-medium text-zinc-900">
+                        <%= session.activity.title %>
                       </p>
-                      <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                        <%= if session do %>
-                          <%= AtomicWeb.Helpers.display_date(session.start) %>
-                        <% end %>
-                      </p>
-                      <%= if not is_nil(session.location) do %>
+                    </div>
+                    <div class="mt-2 lg:flex lg:justify-between">
+                      <div class="lg:flex lg:space-x-3">
                         <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                          <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                          <%= if session.location do %>
-                            <%= session.location && session.location.name %>
+                          <Heroicons.Solid.users class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                          <%= Enum.count(session.enrollments) %> / <%= session.maximum_entries %>
+                        </p>
+                        <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                          <%= if session do %>
+                            <%= AtomicWeb.Helpers.display_date(session.start) %>
                           <% end %>
                         </p>
-                      <% end %>
-                    </div>
-                  </div>
-                  <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
-                    <%= if Activities.verify_maximum_enrollments?(session.id) do %>
-                      <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
-                      </div>
-                    <% else %>
-                      <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
-                      </div>
-                    <% end %>
-                    <div class="flex flex-row space-x-2">
-                      <%= for speaker <- session.speakers do %>
-                        <div class="mt-2 flex items-center">
-                          <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
-                            <span class="text-xs font-medium leading-none text-white">
-                              <%= Accounts.extract_initials(speaker.name) %>
-                            </span>
-                          </span>
-                          <p class="text-sm text-zinc-500">
-                            <%= Accounts.extract_first_last_name(speaker.name) %>
+                        <%= if not is_nil(session.location) do %>
+                          <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                            <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                            <%= if session.location do %>
+                              <%= session.location && session.location.name %>
+                            <% end %>
                           </p>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
+                      <%= if Activities.verify_maximum_enrollments?(session.id) do %>
+                        <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
+                        </div>
+                      <% else %>
+                        <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                          <Heroicons.Solid.bell class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
                         </div>
                       <% end %>
+                      <div class="flex flex-row space-x-2">
+                        <%= for speaker <- session.speakers do %>
+                          <div class="mt-2 flex items-center">
+                            <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
+                              <span class="text-xs font-medium leading-none text-white">
+                                <%= Accounts.extract_initials(speaker.name) %>
+                              </span>
+                            </span>
+                            <p class="text-sm text-zinc-500">
+                              <%= Accounts.extract_first_last_name(speaker.name) %>
+                            </p>
+                          </div>
+                        <% end %>
+                      </div>
                     </div>
                   </div>
-                </div>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-        <.pagination items={@sessions} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <.pagination items={@sessions} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </div>

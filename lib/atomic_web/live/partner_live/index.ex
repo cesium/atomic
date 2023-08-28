@@ -1,6 +1,9 @@
 defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
+
+  alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
@@ -26,6 +29,8 @@ defmodule AtomicWeb.PartnerLive.Index do
      |> assign(:current_page, :partners)
      |> assign(list_partnerships(params["organization_id"], params))
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, Enum.empty?(socket.assigns.partnerships))
+     |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
 
@@ -66,6 +71,14 @@ defmodule AtomicWeb.PartnerLive.Index do
        :partnerships,
        list_partnerships(socket.assigns.current_organization.id, socket.params)
      )}
+  end
+
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
   end
 
   defp list_partnerships(id, params) do

@@ -1,6 +1,6 @@
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.department_index_path(@socket, :index, @current_organization)}>
-    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id || :new} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_index_path(@socket, :index, @current_organization)} />
+  <.modal return_to={Routes.announcement_index_path(@socket, :index, @current_organization)}>
+    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id || :new} organization={@current_organization} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
 
@@ -9,13 +9,13 @@
     <div class="flex items-center justify-between">
       <div class="min-w-0 flex-1">
         <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-          <%= gettext("Departments") %>
+          <%= gettext("Announcements") %>
         </h2>
       </div>
       <%= if not @empty and @has_permissions do %>
         <div class="hidden lg:border-orange-500 lg:block">
-          <%= live_patch("+ New Department",
-            to: Routes.department_index_path(@socket, :new, @current_organization),
+          <%= live_patch("+ New Announcement",
+            to: Routes.announcement_new_path(@socket, :new, @current_organization),
             class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
           ) %>
         </div>
@@ -25,7 +25,7 @@
       <div class="flex w-full items-center justify-between">
         <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
           <div class="text-zinc-500 border-zinc-800 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
-            <%= gettext("Current Departments") %>
+            <%= gettext("Current Announcements") %>
           </div>
         </nav>
       </div>
@@ -35,12 +35,12 @@
 
 <%= if @empty do %>
   <div class="mt-32">
-    <.empty_state id="empty_state" url={Routes.department_index_path(@socket, :new, @current_organization)} placeholder="department" />
+    <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
   </div>
 <% else %>
-  <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    <%= for department <- @departments do %>
-      <.card title={department.name} description={department.description} id={department.id} current_organization={@current_organization} current_user={@current_user} url={Routes.department_index_path(@socket, :edit, @current_organization, department)} />
+  <ul role="list" class="relative z-0 divide-y divide-gray-200">
+    <%= for announcement <- @announcements do %>
+      <.announcement organization={@current_organization} announcement={announcement} url={Routes.announcement_show_path(@socket, :show, @current_organization, announcement.id)} />
     <% end %>
   </ul>
 <% end %>

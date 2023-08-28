@@ -1,6 +1,9 @@
 defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Empty
+
+  alias Atomic.Accounts
   alias Atomic.Board
   alias Atomic.Ecto.Year
   alias Atomic.Organizations
@@ -35,6 +38,8 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:current_page, :board)
      |> assign(:current_organization, organization)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:empty, Enum.empty?(board_departments))
+     |> assign(:has_permissions, has_permissions?(socket))
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
@@ -42,6 +47,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:id, id)}
   end
 
+  @impl true
   def handle_event("update-sorting", %{"ids" => ids}, socket) do
     ids = Enum.filter(ids, fn id -> String.length(id) > 0 end)
 
@@ -71,9 +77,11 @@ defmodule AtomicWeb.BoardLive.Index do
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
+     |> assign(:empty, Enum.empty?(board_departments))
      |> assign(:year, year)}
   end
 
+  @impl true
   def handle_event("next_year", %{"organization-id" => organization_id}, socket) do
     year = Year.next_year(socket.assigns.year)
 
@@ -88,7 +96,16 @@ defmodule AtomicWeb.BoardLive.Index do
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
+     |> assign(:empty, Enum.empty?(board_departments))
      |> assign(:year, year)}
+  end
+
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
   end
 
   defp page_title(:index, organization), do: "#{organization.name}'s Board"
