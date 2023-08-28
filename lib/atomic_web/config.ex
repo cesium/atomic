@@ -127,7 +127,7 @@ defmodule AtomicWeb.Config do
     ]
   end
 
-  # Returns true if the user has permissions to access the page
+  # Returns true if the user has permissions to access the organization admin pages
   defp has_permissions?(_current_user, nil), do: false
 
   defp has_permissions?(current_user, current_organization) do

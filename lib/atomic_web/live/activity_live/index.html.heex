@@ -7,6 +7,7 @@
             <%= gettext("Activities") %>
           </h2>
         </div>
+        <!-- New activity button -->
         <%= if not @empty and @has_permissions do %>
           <div class="hidden lg:border-orange-500 lg:block">
             <%= live_patch("+ New Activity",
@@ -16,6 +17,7 @@
           </div>
         <% end %>
       </div>
+      <!-- Tabs -->
       <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
         <div x-data="{option: 'all'}" class="flex w-full items-center justify-between">
           <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
@@ -38,10 +40,12 @@
         </div>
       </div>
     </div>
-    <%= if @empty do %>
+    <!-- When there aren't any activities -->
+    <%= if @empty and @has_permissions do %>
       <div class="mt-32">
-        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new)} plural_placeholder="activities" placeholder="activity" />
+        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
       </div>
+      <!-- Activities listing -->
     <% else %>
       <div>
         <div class="overflow-hidden bg-white">
@@ -64,7 +68,7 @@
                         <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                           <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                           <%= if session do %>
-                            <%= AtomicWeb.Helpers.display_date(session.start) %>
+                            <%= display_date(session.start) %>
                           <% end %>
                         </p>
                         <%= if not is_nil(session.location) do %>
@@ -92,11 +96,11 @@
                           <div class="mt-2 flex items-center">
                             <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
                               <span class="text-xs font-medium leading-none text-white">
-                                <%= Accounts.extract_initials(speaker.name) %>
+                                <%= extract_initials(speaker.name) %>
                               </span>
                             </span>
                             <p class="text-sm text-zinc-500">
-                              <%= Accounts.extract_first_last_name(speaker.name) %>
+                              <%= extract_first_last_name(speaker.name) %>
                             </p>
                           </div>
                         <% end %>

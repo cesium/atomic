@@ -120,7 +120,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "password" => "password1234",
         "role" => role,
         "course_id" => Enum.random(courses).id,
-        "default_organization_id" => Enum.random(organizations).id,
         "confirmed_at" => DateTime.utc_now()
       }
 

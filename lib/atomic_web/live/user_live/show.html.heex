@@ -12,7 +12,7 @@
       <div class="relative flex-shrink-0 w-24 h-24 rounded-full ring-2 ring-zinc-300 bg-zinc-400 sm:w-44 sm:h-44">
         <span class="inline-flex justify-center items-center w-24 h-24 rounded-full sm:w-44 sm:h-44 bg-secondary">
           <span class="text-4xl font-medium leading-none select-none text-white sm:text-6xl">
-            <%= Atomic.Accounts.extract_initials(@user.name) %>
+            <%= extract_initials(@user.name) %>
           </span>
         </span>
       </div>
@@ -34,7 +34,7 @@
               <% else %>
                 <span class="inline-flex justify-center items-center w-10 h-10 bg-zinc-300 rounded-lg">
                   <span class="text-lg font-medium leading-none text-white">
-                    <%= Atomic.Accounts.extract_initials(organization.name) %>
+                    <%= extract_initials(organization.name) %>
                   </span>
                 </span>
               <% end %>

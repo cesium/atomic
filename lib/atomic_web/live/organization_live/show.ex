@@ -48,11 +48,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
     case Organizations.create_membership(attrs) do
       {:ok, _organization} ->
-        maybe_update_default_organization(
-          socket.assigns.current_user,
-          socket.assigns.organization
-        )
-
         {:noreply,
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
@@ -86,14 +81,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
-    end
-  end
-
-  defp maybe_update_default_organization(user, organization) do
-    if is_nil(user.default_organization_id) do
-      Accounts.update_user(user, %{
-        default_organization_id: organization.id
-      })
     end
   end
 

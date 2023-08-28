@@ -49,7 +49,6 @@ defmodule Atomic.Activities do
     )
     |> apply_filters(opts)
     |> Repo.all()
-    |> Repo.preload([:activity])
   end
 
   @doc """

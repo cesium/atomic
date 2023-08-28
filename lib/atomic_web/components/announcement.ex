@@ -21,7 +21,7 @@ defmodule AtomicWeb.Components.Announcement do
             <%= if is_nil(organization.logo) do %>
               <span class="inline-flex justify-center items-center mr-2 w-6 h-6 bg-gray-500 rounded-full">
                 <span class="text-xs font-medium leading-none text-white">
-                  <%= Atomic.Accounts.extract_initials(organization.name) %>
+                  <%= extract_initials(organization.name) %>
                 </span>
               </span>
             <% else %>

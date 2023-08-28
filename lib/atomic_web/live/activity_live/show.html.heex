@@ -108,11 +108,11 @@
                       <div class="mt-1 flex items-center">
                         <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
                           <span class="text-md font-medium leading-none text-white">
-                            <%= Accounts.extract_initials(speaker.name) %>
+                            <%= extract_initials(speaker.name) %>
                           </span>
                         </span>
                         <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @current_organization, speaker), class: "text-md text-blue-500" do %>
-                          <%= Accounts.extract_first_last_name(speaker.name) %>
+                          <%= extract_first_last_name(speaker.name) %>
                         <% end %>
                       </div>
                     </div>

@@ -17,6 +17,7 @@ defmodule AtomicWeb.Hooks do
     {:cont,
      socket
      |> assign(:current_user, current_user)
+     |> assign(:current_organization, maybe_get_current_organization(session))
      |> assign(:is_authenticated?, !is_nil(current_user))}
   end
 
@@ -27,6 +28,16 @@ defmodule AtomicWeb.Hooks do
 
       user_token ->
         Accounts.get_user_by_session_token(user_token)
+    end
+  end
+
+  defp maybe_get_current_organization(session) do
+    case maybe_get_current_user(session) do
+      nil ->
+        nil
+
+      current_user ->
+        current_user.current_organization
     end
   end
 

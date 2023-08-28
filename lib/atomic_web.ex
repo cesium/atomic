@@ -99,7 +99,6 @@ defmodule AtomicWeb do
       import AtomicWeb.ErrorHelpers
       import AtomicWeb.Gettext
       import AtomicWeb.Helpers
-      import Atomic.Uploader
 
       alias Atomic.Uploaders
       alias AtomicWeb.Router.Helpers, as: Routes

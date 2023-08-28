@@ -52,7 +52,9 @@ defmodule AtomicWeb.NewsLive.Index do
     {:noreply, assign(socket, :all_news, List.flatten(all_news))}
   end
 
-  defp has_permissions?(socket) when not is_map_key(socket.assigns, :current_organization) do
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 

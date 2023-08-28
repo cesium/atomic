@@ -46,7 +46,9 @@ defmodule AtomicWeb.ActivityLive.Index do
 
     sessions =
       Enum.map(organizations, fn organization ->
-        Activities.list_sessions_by_organization_id(organization.id)
+        Activities.list_sessions_by_organization_id(organization.id,
+          preloads: [:activity, :speakers, :enrollments]
+        )
       end)
 
     {:noreply, assign(socket, :sessions, List.flatten(sessions))}
@@ -68,7 +70,9 @@ defmodule AtomicWeb.ActivityLive.Index do
     {:noreply, assign(socket, :sessions, sessions)}
   end
 
-  defp has_permissions?(socket) when not is_map_key(socket.assigns, :current_organization) do
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 

@@ -41,6 +41,22 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Returns the list of organizations where an user is an admin or owner.
+
+  ## Examples
+
+      iex> list_user_organizations(user_id)
+      [%Organization{}, ...]
+  """
+  def list_user_organizations(user_id, opts \\ []) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role in [:admin, :owner])
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single organization.
 
   Raises `Ecto.NoResultsError` if the Organization does not exist.
@@ -55,11 +71,8 @@ defmodule Atomic.Organizations do
 
   """
   def get_organization!(id, preloads \\ []) do
-    organization =
-      Repo.get!(Organization, id)
-      |> Repo.preload(preloads)
-
-    organization
+    Repo.get!(Organization, id)
+    |> Repo.preload(preloads)
   end
 
   @doc """

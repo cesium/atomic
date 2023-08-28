@@ -10,7 +10,7 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:card, accept: extensions_whitelist(), max_entries: 1)
+     |> allow_upload(:card, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
      |> assign(:speakers, speakers)}
   end
 
