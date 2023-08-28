@@ -1,4 +1,8 @@
 defmodule AtomicWeb.Components.Helpers do
+  @moduledoc """
+  A module with helper functions to display data in live components
+  """
+
   @doc """
   Converts a Flop struct into a keyword list that can be used as a query with
   Phoenix route helper functions.
