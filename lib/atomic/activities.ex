@@ -110,7 +110,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-    Verifies the maximum number of enrollments for an activity session.
+    Returns true if the maximum number of enrollments has been reached.
 
     ## Examples
 

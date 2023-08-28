@@ -14,7 +14,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _, socket) do
     entries = [
       %{
         name: gettext("Partners"),
@@ -26,8 +26,8 @@ defmodule AtomicWeb.PartnerLive.Index do
      socket
      |> assign(:current_page, :partners)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.partnerships))
-     |> assign(:has_permissions, has_permissions?(socket))
+     |> assign(:empty?, Enum.empty?(socket.assigns.partnerships))
+     |> assign(:has_permissions?, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
 

@@ -30,10 +30,10 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:page_title, organization.name)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
-     |> assign(:has_permissions?, has_permissions?(socket.assigns.current_user, organization))
+     |> assign(:has_permissions?, has_permissions?(socket))
      |> assign(:followers_count, Organizations.count_followers(organization_id))
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))
+     |> assign(:following, maybe_put_following(socket))
      |> assign(:current_page, :organizations)}
   end
 
@@ -84,11 +84,33 @@ defmodule AtomicWeb.OrganizationLive.Show do
     end
   end
 
-  defp has_permissions?(current_user, current_organization) do
-    Accounts.has_master_permissions?(current_user.id) ||
+  @impl true
+  def handle_event("must-login", _payload, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:error, gettext("You must be logged in to follow an organization."))
+     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+  end
+
+  defp maybe_put_following(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp maybe_put_following(socket) do
+    Organizations.is_member_of?(socket.assigns.current_user, socket.assigns.organization)
+  end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
-        current_user.id,
-        current_organization.id
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
       )
   end
 end

@@ -1,4 +1,4 @@
-defmodule AtomicWeb.NewsLive.Index do
+defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Announcement
@@ -13,30 +13,31 @@ defmodule AtomicWeb.NewsLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
-        name: gettext("News"),
-        route: Routes.news_index_path(socket, :index)
+        name: gettext("Announcements"),
+        route: Routes.announcement_index_path(socket, :index)
       }
     ]
 
-    all_news = Organizations.list_news(preloads: [:organization])
+    announcements = Organizations.list_announcements(preloads: [:organization])
 
     {:noreply,
      socket
-     |> assign(:page_title, gettext("News"))
-     |> assign(:current_page, :news)
+     |> assign(:page_title, gettext("Announcements"))
+     |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:all_news, all_news)
-     |> assign(:empty, Enum.empty?(all_news))
-     |> assign(:has_permissions, has_permissions?(socket))}
+     |> assign(:announcements, announcements)
+     |> assign(:empty?, Enum.empty?(announcements))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   @impl true
   def handle_event("all", _payload, socket) do
-    all_news = Organizations.list_news(preloads: [:organization])
-    {:noreply, assign(socket, :all_news, all_news)}
+    announcements = Organizations.list_published_announcements(preloads: [:organization])
+
+    {:noreply, assign(socket, :announcements, announcements)}
   end
 
   @impl true
@@ -44,13 +45,17 @@ defmodule AtomicWeb.NewsLive.Index do
     organizations =
       Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
-    all_news =
+    announcements =
       Enum.map(organizations, fn organization ->
-        Organizations.list_news_by_organization_id(organization.id, preloads: [:organization])
+        Organizations.list_announcements_by_organization_id(organization.id,
+          preloads: [:organization]
+        )
       end)
 
-    {:noreply, assign(socket, :all_news, List.flatten(all_news))}
+    {:noreply, assign(socket, :announcements, List.flatten(announcements))}
   end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp has_permissions?(socket)
        when not is_map_key(socket.assigns, :current_organization) or

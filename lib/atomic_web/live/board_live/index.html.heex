@@ -8,7 +8,7 @@
         </h2>
         <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-gray-400" phx-click="next_year" phx-value-organization_id={@current_organization.id} />
       </div>
-      <%= if not @empty and @has_permissions do %>
+      <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
           <%= live_patch("+ New Board Member",
             to: Routes.board_new_path(@socket, :new, @id),
@@ -17,7 +17,7 @@
         </div>
       <% end %>
     </div>
-    <%= if @empty do %>
+    <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
         <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @id)} placeholder="board member" />
       </div>

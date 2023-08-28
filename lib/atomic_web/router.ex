@@ -37,11 +37,11 @@ defmodule AtomicWeb.Router do
       live "/calendar", CalendarLive.Show, :show
       live "/activities", ActivityLive.Index, :index
       live "/organizations", OrganizationLive.Index, :index
-      live "/news", NewsLive.Index, :index
+      live "/announcements", AnnouncementLive.Index, :index
 
       live "/activities/:id", ActivityLive.Show, :show
       live "/organizations/:organization_id", OrganizationLive.Show, :show
-      live "/news/:id", NewsLive.Show, :show
+      live "/announcements/:id", AnnouncementLive.Show, :show
 
       live "/profile/:handle", UserLive.Show, :show
 
@@ -78,8 +78,8 @@ defmodule AtomicWeb.Router do
         live "/activities/new", ActivityLive.New, :new
         live "/activities/:id/edit", ActivityLive.Edit, :edit
 
-        live "/news/new", NewsLive.New, :new
-        live "/news/:id/edit", NewsLive.Edit, :edit
+        live "/announcements/new", AnnouncementLive.New, :new
+        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
 
         live "/departments/new", DepartmentLive.New, :new
         live "/departments/:id/edit", DepartmentLive.Index, :edit
@@ -102,7 +102,7 @@ defmodule AtomicWeb.Router do
       pipe_through [:member]
       live "/card/:membership_id", CardLive.Show, :show
 
-      # Only Atomic owners/masters can create organizations
+      # Only Atomic masters can create organizations
       pipe_through [:master]
       live "/organizations/new", OrganizationLive.New, :new
     end

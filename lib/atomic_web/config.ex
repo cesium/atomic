@@ -118,10 +118,10 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
-        key: :news,
-        title: "News",
+        key: :announcements,
+        title: "Announcements",
         icon: :newspaper,
-        url: Routes.news_index_path(conn, :index),
+        url: Routes.announcement_index_path(conn, :index),
         tabs: []
       }
     ]

@@ -10,7 +10,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _url, socket) do
+  def handle_params(%{"id" => id}, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),

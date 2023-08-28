@@ -199,17 +199,26 @@ defmodule Atomic.OrganizationsTest do
     end
   end
 
-  describe "news" do
-    test "list_published_news_by_organization_id/1 returns all published news of organization" do
-      new = insert(:news)
-      news_published = Organizations.list_published_news_by_organization_id(new.organization_id)
+  describe "announcement" do
+    test "list_published_announcements_by_organization_id/1 returns all published announcement of organization" do
+      announcement = insert(:announcement)
 
-      assert new.id == hd(news_published).id
+      announcements_published =
+        Organizations.list_published_announcements_by_organization_id(
+          announcement.organization_id
+        )
 
-      new = insert(:news, publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :day))
-      news_published = Organizations.list_published_news_by_organization_id(new.organization_id)
+      assert announcement.id == hd(announcements_published).id
 
-      assert news_published == []
+      announcement =
+        insert(:announcement, publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :day))
+
+      announcements_published =
+        Organizations.list_published_announcements_by_organization_id(
+          announcement.organization_id
+        )
+
+      assert announcements_published == []
     end
   end
 end

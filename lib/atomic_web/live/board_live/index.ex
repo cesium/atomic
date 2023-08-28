@@ -38,8 +38,8 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:current_page, :board)
      |> assign(:current_organization, organization)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(board_departments))
-     |> assign(:has_permissions, has_permissions?(socket))
+     |> assign(:empty?, Enum.empty?(board_departments))
+     |> assign(:has_permissions?, has_permissions?(socket))
      |> assign(:board_departments, board_departments)
      |> assign(:page_title, page_title(socket.assigns.live_action, organization))
      |> assign(:role, role)
@@ -77,7 +77,7 @@ defmodule AtomicWeb.BoardLive.Index do
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
-     |> assign(:empty, Enum.empty?(board_departments))
+     |> assign(:empty?, Enum.empty?(board_departments))
      |> assign(:year, year)}
   end
 
@@ -96,7 +96,7 @@ defmodule AtomicWeb.BoardLive.Index do
     {:noreply,
      socket
      |> assign(:board_departments, board_departments)
-     |> assign(:empty, Enum.empty?(board_departments))
+     |> assign(:empty?, Enum.empty?(board_departments))
      |> assign(:year, year)}
   end
 

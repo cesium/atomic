@@ -1,20 +1,20 @@
-defmodule Atomic.Repo.Seeds.News do
-  alias Atomic.Organizations.{News, Organization}
+defmodule Atomic.Repo.Seeds.Announcement do
+  alias Atomic.Organizations.{Announcement, Organization}
   alias Atomic.Repo
 
   def run do
-    seed_news()
+    seed_announcements()
   end
 
-  def seed_news do
-    case Repo.all(News) do
+  def seed_announcements do
+    case Repo.all(Announcement) do
       [] ->
         organizations = Repo.all(Organization)
 
         for organization <- organizations do
           for _ <- 1..10 do
-            %News{}
-            |> News.changeset(%{
+            %Announcement{}
+            |> Announcement.changeset(%{
               title: Faker.Lorem.sentence(),
               description: Faker.Lorem.paragraph(),
               publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :minute),
@@ -25,9 +25,9 @@ defmodule Atomic.Repo.Seeds.News do
         end
 
       _ ->
-        Mix.shell().error("Found news, aborting seeding news.")
+        Mix.shell().error("Found announcements, aborting seeding announcements.")
     end
   end
 end
 
-Atomic.Repo.Seeds.News.run()
+Atomic.Repo.Seeds.Announcement.run()

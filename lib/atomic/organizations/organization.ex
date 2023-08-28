@@ -4,7 +4,8 @@ defmodule Atomic.Organizations.Organization do
 
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
-  alias Atomic.Organizations.{Board, Card, Department, Membership, News, Partner}
+  alias Atomic.Organizations.{Announcement, Board, Card, Department, Membership, Partner}
+  alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
   @optional_fields ~w(card_image logo)a
@@ -32,7 +33,7 @@ defmodule Atomic.Organizations.Organization do
     embeds_one :location, Location, on_replace: :delete
     embeds_one :card, Card, on_replace: :delete
 
-    has_many :news, News,
+    has_many :announcements, Announcement,
       on_replace: :delete,
       preload_order: [asc: :inserted_at]
 

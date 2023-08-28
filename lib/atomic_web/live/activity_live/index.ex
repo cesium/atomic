@@ -13,7 +13,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),
@@ -29,8 +29,8 @@ defmodule AtomicWeb.ActivityLive.Index do
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:sessions, sessions)
-     |> assign(:empty, Enum.empty?(sessions))
-     |> assign(:has_permissions, has_permissions?(socket))}
+     |> assign(:empty?, Enum.empty?(sessions))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   @impl true
@@ -69,6 +69,8 @@ defmodule AtomicWeb.ActivityLive.Index do
 
     {:noreply, assign(socket, :sessions, sessions)}
   end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp has_permissions?(socket)
        when not is_map_key(socket.assigns, :current_organization) or

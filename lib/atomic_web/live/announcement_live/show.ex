@@ -1,4 +1,4 @@
-defmodule AtomicWeb.NewsLive.Show do
+defmodule AtomicWeb.AnnouncementLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Accounts
@@ -11,27 +11,29 @@ defmodule AtomicWeb.NewsLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    news = Organizations.get_news!(id)
+    announcement = Organizations.get_announcement!(id, preloads: [:organization])
 
     entries = [
       %{
-        name: gettext("News"),
-        route: Routes.news_index_path(socket, :index)
+        name: gettext("Announcements"),
+        route: Routes.announcement_index_path(socket, :index)
       },
       %{
-        name: gettext("%{title}", title: news.title),
-        route: Routes.news_show_path(socket, :show, id)
+        name: announcement.title,
+        route: Routes.announcement_show_path(socket, :show, id)
       }
     ]
 
     {:noreply,
      socket
-     |> assign(:page_title, "Show #{news.title}")
-     |> assign(:current_page, :departments)
+     |> assign(:page_title, "#{announcement.title}")
+     |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:news, news)
-     |> assign(:has_permissions, has_permissions?(socket))}
+     |> assign(:announcement, announcement)
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp has_permissions?(socket)
        when not is_map_key(socket.assigns, :current_organization) or

@@ -12,7 +12,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
         name: gettext("Organizations"),
@@ -26,8 +26,8 @@ defmodule AtomicWeb.OrganizationLive.Index do
      socket
      |> assign(:breadcrumb_entries, entries)
      |> assign(:organizations, organizations)
-     |> assign(:empty, Enum.empty?(organizations))
-     |> assign(:has_permissions, has_permissions?(socket))
+     |> assign(:empty?, Enum.empty?(organizations))
+     |> assign(:has_permissions?, has_permissions?(socket))
      |> assign(:current_page, :organizations)}
   end
 

@@ -12,7 +12,7 @@
           <%= gettext("Departments") %>
         </h2>
       </div>
-      <%= if not @empty and @has_permissions do %>
+      <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New Department",
             to: Routes.department_index_path(@socket, :new, @current_organization),
@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<%= if @empty do %>
+<%= if @empty? do %>
   <div class="mt-32">
     <.empty_state id="empty_state" url={Routes.department_index_path(@socket, :new, @current_organization)} placeholder="department" />
   </div>

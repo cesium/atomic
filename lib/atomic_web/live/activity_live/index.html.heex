@@ -8,7 +8,7 @@
           </h2>
         </div>
         <!-- New activity button -->
-        <%= if not @empty and @has_permissions do %>
+        <%= if not @empty? and @has_permissions? do %>
           <div class="hidden lg:border-orange-500 lg:block">
             <%= live_patch("+ New Activity",
               to: Routes.activity_new_path(@socket, :new, @current_organization),
@@ -25,28 +25,32 @@
               <%= gettext("All") %>
             </div>
 
-            <div x-on:click="option = 'following'" x-bind:class="option == 'following' ? 'border-zinc-800' : 'border-transparent'" phx-click="following" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-              <%= gettext("Following") %>
-            </div>
+            <%= if @is_authenticated? do %>
+              <div x-on:click="option = 'following'" x-bind:class="option == 'following' ? 'border-zinc-800' : 'border-transparent'" phx-click="following" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+                <%= gettext("Following") %>
+              </div>
+            <% end %>
 
             <div x-on:click="option = 'upcoming'" x-bind:class="option == 'upcoming' ? 'border-zinc-800' : 'border-transparent'" phx-click="upcoming" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
               <%= gettext("Upcoming") %>
             </div>
 
-            <div x-on:click="option = 'enrolled'" x-bind:class="option == 'enrolled' ? 'border-zinc-800' : 'border-transparent'" phx-click="enrolled" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-              <%= gettext("Enrolled") %>
-            </div>
+            <%= if @is_authenticated? do %>
+              <div x-on:click="option = 'enrolled'" x-bind:class="option == 'enrolled' ? 'border-zinc-800' : 'border-transparent'" phx-click="enrolled" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+                <%= gettext("Enrolled") %>
+              </div>
+            <% end %>
           </nav>
         </div>
       </div>
     </div>
     <!-- When there aren't any activities -->
-    <%= if @empty and @has_permissions do %>
+    <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
         <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
       </div>
-      <!-- Activities listing -->
     <% else %>
+      <!-- Activities listing -->
       <div>
         <div class="overflow-hidden bg-white">
           <ul role="list" class="divide-y divide-zinc-200">

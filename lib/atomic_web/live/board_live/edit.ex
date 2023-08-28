@@ -10,7 +10,7 @@ defmodule AtomicWeb.BoardLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => _organization_id, "id" => id}, _url, socket) do
+  def handle_params(%{"organization_id" => _organization_id, "id" => id}, _, socket) do
     user_organization = Organizations.get_user_organization!(id, [:user, :organization])
     users = Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end)
     organization = user_organization.organization

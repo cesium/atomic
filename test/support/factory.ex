@@ -7,6 +7,6 @@ defmodule Atomic.Factory do
     DepartmentFactory,
     ActivityFactory,
     OrganizationFactory,
-    NewsFactory
+    AnnouncementFactory
   }
 end

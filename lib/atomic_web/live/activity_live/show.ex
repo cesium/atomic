@@ -1,9 +1,9 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Activities.Enrollment
-  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -33,16 +33,14 @@ defmodule AtomicWeb.ActivityLive.Show do
 
     {:noreply,
      socket
-     |> assign(
-       :enrolled?,
-       Activities.is_participating?(id, socket.assigns.current_user.id)
-     )
-     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:page_title, "#{activity.title}")
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
      |> assign(:session, %{session | enrolled: Activities.get_total_enrolled(id)})
+     |> assign(:activity, activity)
+     |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(session.id))
-     |> assign(:activity, activity)}
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   @impl true
@@ -55,7 +53,6 @@ defmodule AtomicWeb.ActivityLive.Show do
          |> assign(:enrolled?, true)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        # FIXME: Improve error handling
         case is_nil(changeset.errors[:session_id]) do
           true -> {:noreply, socket |> put_flash(:error, "Unable to enroll")}
           _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
@@ -80,13 +77,11 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   @impl true
-  def handle_event("delete", _payload, socket) do
-    {:ok, _} = Activities.delete_activity(socket.assigns.activity)
-
+  def handle_event("must-login", _payload, socket) do
     {:noreply,
-     push_redirect(socket,
-       to: Routes.activity_index_path(socket, :index)
-     )}
+     socket
+     |> put_flash(:error, gettext("You must be logged in to enroll in an activity."))
+     |> push_redirect(to: Routes.user_session_path(socket, :new))}
   end
 
   @impl true
@@ -97,13 +92,29 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   defp reload(socket) do
     socket
-    |> assign(
-      :enrolled?,
-      Activities.is_participating?(socket.assigns.id, socket.assigns.current_user.id)
-    )
+    |> assign(:enrolled?, maybe_put_enrolled(socket))
     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
   end
 
-  defp page_title(:show), do: "Show Activity"
-  defp page_title(:edit), do: "Edit Activity"
+  defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp maybe_put_enrolled(socket) do
+    Activities.is_participating?(socket.assigns.id, socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
+  end
 end

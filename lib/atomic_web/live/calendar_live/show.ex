@@ -13,7 +13,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _, socket) do
     mode = params["mode"] || "month"
 
     entries = [
