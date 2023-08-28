@@ -5,7 +5,7 @@ defmodule AtomicWeb.Components.Picker do
   alias Atomic.Accounts
   alias Atomic.Organizations
 
-  # TODO: After upgrading to LiveView 0.18, should use attr/3 macro instead (same for the other private components)
+  # TODO: After upgrading to LiveView 0.18, should use attr/3 macro instead (same for the other components)
   @impl true
   def render(assigns) do
     ~H"""
