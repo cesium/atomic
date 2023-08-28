@@ -12,7 +12,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     department = Departments.get_department!(id)
-    sessions = Departments.get_department_sessions(department.id)
+    sessions = Departments.get_department_activities(department.id)
     collaborator = Departments.get_collaborator!(socket.assigns.current_user.id, department.id)
 
     entries = [

@@ -5,7 +5,7 @@ defmodule Atomic.Activities.Speaker do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
-  alias Atomic.Activities.SessionSpeaker
+  alias Atomic.Activities.ActivitySpeaker
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(name bio organization_id)a
@@ -14,7 +14,7 @@ defmodule Atomic.Activities.Speaker do
     field :name, :string
     field :bio, :string
 
-    many_to_many :activities, Activity, join_through: SessionSpeaker, on_replace: :delete
+    many_to_many :activities, Activity, join_through: ActivitySpeaker, on_replace: :delete
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()

@@ -104,7 +104,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   defp list_sessions(id) do
-    Activities.list_sessions_by_organization_id(id)
+    Activities.list_activities_by_organization_id(id)
   end
 
   defp list_departments(id) do

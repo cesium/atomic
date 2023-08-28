@@ -53,7 +53,7 @@ defmodule AtomicWeb.CalendarLive.Show do
       end
 
     %{
-      sessions: Activities.list_sessions_from_to(start, finish, preloads: [:activity])
+      sessions: Activities.list_activities_from_to(start, finish, preloads: [:activity])
     }
   end
 end
