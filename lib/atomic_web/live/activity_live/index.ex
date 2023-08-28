@@ -24,16 +24,18 @@ defmodule AtomicWeb.ActivityLive.Index do
       }
     ]
 
+    session_listing = list_sessions(params["organization_id"], params)
+
     {:noreply,
      socket
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(list_sessions(params["organization_id"], params))
-     |> assign(:empty, Enum.empty?(socket.assigns.sessions))
+     |> assign(session_listing)
+     |> assign(:empty, Enum.empty?(session_listing.sessions))
      |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
-  
+
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Activity")
@@ -81,6 +83,7 @@ defmodule AtomicWeb.ActivityLive.Index do
       {:error, flop} ->
         {:noreply, assign(socket, %{sessions: [], meta: flop})}
     end
+  end
 
   defp has_permissions?(socket) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||

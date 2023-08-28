@@ -24,15 +24,17 @@ defmodule AtomicWeb.OrganizationLive.Index do
       }
     ]
 
+    organization_listing = list_organizations(params)
+
     {:noreply,
      socket
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(organizations))
+     |> assign(:empty, Enum.empty?(organization_listing.organizations))
      |> assign(:has_permissions, has_permissions?(socket))
      |> assign(:params, params)
      |> assign(:current_organization, socket.assigns.current_organization)
-     |> assign(list_organizations(params))
+     |> assign(organization_listing)
      |> assign(:current_page, :organizations)}
   end
 

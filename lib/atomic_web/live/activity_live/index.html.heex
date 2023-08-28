@@ -35,7 +35,7 @@
         <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
       </div>
     <% else %>
-       <div>
+      <div>
         <div class="overflow-hidden bg-white">
           <ul role="list" class="divide-y divide-zinc-200 h-[70vh] overflow-auto">
             <%= for session <- @sessions do %>
