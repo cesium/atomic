@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.announcement_index_path(@socket, :index, @current_organization.handle)}>
-    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_show_path(@socket, :show, @current_organization.handle, @announcement)} />
+  <.modal return_to={Routes.announcement_index_path(@socket, :index, @current_organization.slug)}>
+    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_show_path(@socket, :show, @current_organization.slug, @announcement)} />
   </.modal>
 <% end %>
 
@@ -20,7 +20,7 @@
 </div>
 
 <%= if Atomic.Organizations.get_role(@current_user.id, @current_organization.id) do %>
-  <%= live_patch to: Routes.announcement_edit_path(@socket, :edit, @current_organization.handle, @announcement), class: "button" do %>
+  <%= live_patch to: Routes.announcement_edit_path(@socket, :edit, @current_organization.slug, @announcement), class: "button" do %>
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
       <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
     </div>

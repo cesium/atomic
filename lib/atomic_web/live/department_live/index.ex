@@ -10,8 +10,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
   alias Atomic.Organizations.Department
 
   @impl true
-  def mount(%{"handle" => handle}, _session, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def mount(%{"slug" => slug}, _session, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
     {:ok, assign(socket, :departments, list_departments(organization.id))}
   end
 
@@ -20,7 +20,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
     entries = [
       %{
         name: gettext("Departments"),
-        route: Routes.department_index_path(socket, :index, params["handle"])
+        route: Routes.department_index_path(socket, :index, params["slug"])
       }
     ]
 
@@ -42,9 +42,9 @@ defmodule AtomicWeb.DepartmentLive.Index do
      assign(socket, :departments, list_departments(socket.assigns.current_organization.id))}
   end
 
-  defp apply_action(socket, :edit, %{"handle" => handle, "id" => id}) do
+  defp apply_action(socket, :edit, %{"slug" => slug, "id" => id}) do
     department = Departments.get_department!(id)
-    organization = Organizations.get_organization_by_handle(handle)
+    organization = Organizations.get_organization_by_slug(slug)
 
     if department.organization_id == organization.id do
       socket
@@ -62,7 +62,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization_by_handle(params["handle"])
+    organization = Organizations.get_organization_by_slug(params["slug"])
 
     socket
     |> assign(:page_title, "#{organization.name}'s Departments")

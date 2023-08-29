@@ -82,28 +82,28 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Gets an organization by handle.
+  Gets an organization by slug.
 
   ## Examples
-      iex> get_organization_by_handle("foo_bar")
+      iex> get_organization_by_slug("foo_bar")
       %Organization{}
-      iex> get_organization_by_handle("unknown")
+      iex> get_organization_by_slug("unknown")
       nil
 
   """
-  def get_organization_by_handle(handle) when is_binary(handle) do
-    Repo.get_by(Organization, handle: handle)
+  def get_organization_by_slug(slug) when is_binary(slug) do
+    Repo.get_by(Organization, slug: slug)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for changing the organization handle.
+  Returns an `%Ecto.Changeset{}` for changing the organization slug.
 
   ## Examples
-      iex> change_organization_handle(organization)
+      iex> change_organization_slug(organization)
       %Ecto.Changeset{data: %Organization{}}
   """
-  def change_organization_handle(organization, attrs \\ %{}) do
-    Organization.handle_changeset(organization, attrs)
+  def change_organization_slug(organization, attrs \\ %{}) do
+    Organization.slug_changeset(organization, attrs)
   end
 
   @doc """

@@ -104,7 +104,7 @@ defmodule Atomic.Activities do
     |> Map.get(:departments)
     |> Enum.map(& &1.organization_id)
     |> Enum.map(fn id ->
-      Organizations.get_organization!(id).handle
+      Organizations.get_organization!(id).slug
     end)
   end
 

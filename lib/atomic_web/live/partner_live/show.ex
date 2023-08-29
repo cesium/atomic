@@ -10,18 +10,18 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
+  def handle_params(%{"slug" => slug, "id" => id}, _, socket) do
     partner = Partnerships.get_partner!(id)
-    organization = Organizations.get_organization_by_handle(handle)
+    organization = Organizations.get_organization_by_slug(slug)
 
     entries = [
       %{
         name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, handle)
+        route: Routes.partner_index_path(socket, :index, slug)
       },
       %{
         name: gettext("%{name}", name: partner.name),
-        route: Routes.partner_show_path(socket, :show, handle, id)
+        route: Routes.partner_show_path(socket, :show, slug, id)
       }
     ]
 

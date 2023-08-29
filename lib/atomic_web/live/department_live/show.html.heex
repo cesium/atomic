@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.department_show_path(@socket, :show, @current_organization.handle, @department)}>
-    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_show_path(@socket, :show, @current_organization.handle, @department)} />
+  <.modal return_to={Routes.department_show_path(@socket, :show, @current_organization.slug, @department)}>
+    <.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_show_path(@socket, :show, @current_organization.slug, @department)} />
   </.modal>
 <% end %>
 
@@ -59,7 +59,7 @@
       <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
         <%= for session <- @sessions do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
-            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization.handle, session), class: "" do %>
+            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization.slug, session), class: "" do %>
               <div class="flex flex-1 flex-col p-4">
                 <h3 class="mt-6 text-md font-bold font-medium text-gray-900"><%= session.activity.title %></h3>
               </div>
@@ -103,7 +103,7 @@
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <%= live_patch to: Routes.department_show_path(@socket, :edit, @current_organization.handle, @department), class: "button" do %>
+                      <%= live_patch to: Routes.department_show_path(@socket, :edit, @current_organization.slug, @department), class: "button" do %>
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                           <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
                         </div>
@@ -121,7 +121,7 @@
 </div>
 
 <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] do %>
-  <%= live_patch to: Routes.department_show_path(@socket, :edit, @current_organization.handle, @department), class: "button" do %>
+  <%= live_patch to: Routes.department_show_path(@socket, :edit, @current_organization.slug, @department), class: "button" do %>
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
       <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
     </div>

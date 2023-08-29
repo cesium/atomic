@@ -6,8 +6,8 @@ defmodule AtomicWeb.SpeakerLive.Index do
   alias Atomic.Organizations
 
   @impl true
-  def mount(%{"handle" => handle}, _session, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def mount(%{"slug" => slug}, _session, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
     {:ok, assign(socket, :speakers, list_speakers(organization.id))}
   end
 
@@ -16,7 +16,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
     entries = [
       %{
         name: gettext("Speakers"),
-        route: Routes.speaker_index_path(socket, :index, params["handle"])
+        route: Routes.speaker_index_path(socket, :index, params["slug"])
       }
     ]
 
@@ -27,9 +27,9 @@ defmodule AtomicWeb.SpeakerLive.Index do
      |> apply_action(socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"handle" => handle, "id" => id}) do
+  defp apply_action(socket, :edit, %{"slug" => slug, "id" => id}) do
     speaker = Activities.get_speaker!(id)
-    organization = Organizations.get_organization_by_handle(handle)
+    organization = Organizations.get_organization_by_slug(slug)
 
     if speaker.organization_id == organization.id do
       socket

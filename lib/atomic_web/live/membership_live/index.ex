@@ -9,8 +9,8 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle}, _, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def handle_params(%{"slug" => slug}, _, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
 
     memberships =
       Organizations.list_memberships(%{"organization_id" => organization.id}, [:user, :created_by])
@@ -19,7 +19,7 @@ defmodule AtomicWeb.MembershipLive.Index do
     entries = [
       %{
         name: gettext("Memberships"),
-        route: Routes.membership_index_path(socket, :index, handle)
+        route: Routes.membership_index_path(socket, :index, slug)
       }
     ]
 

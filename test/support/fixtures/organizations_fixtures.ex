@@ -12,7 +12,7 @@ defmodule Atomic.OrganizationsFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        handle: "some_handle",
+        slug: "some_slug",
         name: "some name"
       })
       |> Atomic.Organizations.create_organization()

@@ -10,7 +10,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def mount(params, _session, socket) do
-    organization = Organizations.get_organization_by_handle(params["handle"])
+    organization = Organizations.get_organization_by_slug(params["slug"])
     {:ok, assign(socket, :sessions, list_sessions(organization.id))}
   end
 
@@ -19,7 +19,7 @@ defmodule AtomicWeb.ActivityLive.Index do
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index, params["handle"])
+        route: Routes.activity_index_path(socket, :index, params["slug"])
       }
     ]
 
@@ -61,7 +61,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization_by_handle(params["handle"])
+    organization = Organizations.get_organization_by_slug(params["slug"])
 
     socket
     |> assign(:page_title, "#{organization.name}'s Activities")

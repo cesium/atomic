@@ -15,8 +15,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle} = params, _, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def handle_params(%{"slug" => slug} = params, _, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
 
     entries = [
       %{
@@ -25,7 +25,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
       },
       %{
         name: gettext("%{name}", name: organization.name),
-        route: Routes.organization_show_path(socket, :show, handle)
+        route: Routes.organization_show_path(socket, :show, slug)
       }
     ]
 

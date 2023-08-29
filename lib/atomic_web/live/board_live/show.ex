@@ -9,8 +9,8 @@ defmodule AtomicWeb.BoardLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def handle_params(%{"slug" => slug, "id" => id}, _, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
     user_organization = Organizations.get_user_organization!(id, [:user, :organization])
 
     if user_organization.organization_id == organization.id do

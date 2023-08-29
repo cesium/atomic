@@ -9,17 +9,17 @@ defmodule AtomicWeb.AnnouncementLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
+  def handle_params(%{"slug" => slug, "id" => id}, _, socket) do
     announcement = Organizations.get_announcement!(id)
 
     entries = [
       %{
         name: gettext("Announcement"),
-        route: Routes.announcement_index_path(socket, :index, handle)
+        route: Routes.announcement_index_path(socket, :index, slug)
       },
       %{
         name: gettext("%{title}", title: announcement.title),
-        route: Routes.announcement_show_path(socket, :show, handle, id)
+        route: Routes.announcement_show_path(socket, :show, slug, id)
       }
     ]
 

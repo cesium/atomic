@@ -24,7 +24,7 @@
           <%= gettext("Announcements") %>
         </h2>
         <Heroicons.Solid.newspaper class="ml-2 h-5 w-5 text-zinc-400 inline" />
-        <%= live_patch("See all", to: Routes.announcement_index_path(@socket, :index, @current_organization.handle), class: "text-sm font-semibold text-gray-300 ml-4") %>
+        <%= live_patch("See all", to: Routes.announcement_index_path(@socket, :index, @current_organization.slug), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
       <ul class="">
         <%= for announcement <- Enum.take(@announcements,5) do %>
@@ -54,7 +54,7 @@
           <%= gettext("Partners") %>
         </h2>
         <Heroicons.Solid.user_group class="ml-2 h-5 w-5 text-zinc-400 inline" />
-        <%= live_patch("See all", to: Routes.partner_index_path(@socket, :index, @current_organization.handle), class: "text-sm font-semibold text-gray-300 ml-4") %>
+        <%= live_patch("See all", to: Routes.partner_index_path(@socket, :index, @current_organization.slug), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
       <ul class="">
         <%= for partner <- Enum.take(@partners,5) do %>
@@ -92,7 +92,7 @@
         <div class="w-full flex flex-row items-center">
           <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
           <Heroicons.Solid.academic_cap class="ml-2 h-5 w-5 text-zinc-400 inline" />
-          <%= live_patch("See all", to: Routes.activity_index_path(@socket, :index, @current_organization.handle), class: "text-sm font-semibold text-gray-300 ml-4") %>
+          <%= live_patch("See all", to: Routes.activity_index_path(@socket, :index, @current_organization.slug), class: "text-sm font-semibold text-gray-300 ml-4") %>
         </div>
         <.calendar id="calendar" current_path={Routes.calendar_show_path(@socket, :show)} sessions={@sessions} params={@params} mode={@mode} time_zone={@time_zone} current_organization={@current_organization} />
       </div>

@@ -14,8 +14,8 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle}, _, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def handle_params(%{"slug" => slug}, _, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
     board = Board.get_organization_board_by_year(Year.current_year(), organization.id)
 
     board_departments =
@@ -29,7 +29,7 @@ defmodule AtomicWeb.BoardLive.Index do
     entries = [
       %{
         name: gettext("%{name}'s Board", name: organization.name),
-        route: Routes.board_index_path(socket, :index, handle)
+        route: Routes.board_index_path(socket, :index, slug)
       }
     ]
 

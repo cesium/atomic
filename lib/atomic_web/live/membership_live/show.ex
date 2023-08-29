@@ -9,8 +9,8 @@ defmodule AtomicWeb.MembershipLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => _id}, _, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def handle_params(%{"slug" => slug, "id" => _id}, _, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
 
     membership =
       Organizations.get_membership!(organization.id, [:user, :organization, :created_by])

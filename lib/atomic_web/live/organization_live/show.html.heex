@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.organization_show_path(@socket, :show, @organization.handle)}>
-    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_show_path(@socket, :show, @organization.handle)} />
+  <.modal return_to={Routes.organization_show_path(@socket, :show, @organization.slug)}>
+    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_show_path(@socket, :show, @organization.slug)} />
   </.modal>
 <% end %>
 
@@ -72,7 +72,7 @@
       <div class="w-full flex flex-row items-center">
         <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
         <Heroicons.Solid.academic_cap class="ml-2 h-5 w-5 text-zinc-400 inline" />
-        <%= live_patch("See all", to: Routes.activity_index_path(@socket, :index, @organization.handle), class: "text-sm font-semibold text-gray-300 ml-4") %>
+        <%= live_patch("See all", to: Routes.activity_index_path(@socket, :index, @organization.slug), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
     </div>
     <div class="w-full flex flex-col lg:flex-row items-center justify-center mt-2 lg:w-full">
@@ -106,7 +106,7 @@
     <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <%= for department <- @departments do %>
         <li class="col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
-          <%= live_patch to: Routes.department_show_path(@socket, :show, @organization.handle, department), class: "" do %>
+          <%= live_patch to: Routes.department_show_path(@socket, :show, @organization.slug, department), class: "" do %>
             <div class="flex flex-1 flex-col w-full p-4">
               <span class="w-full flex items-center justify-center">
                 <span class="flex justify-center items-center mr-1.5 w-16 h-16 bg-zinc-500 rounded-xl">
@@ -124,7 +124,7 @@
               <div class="-mt-px flex divide-x divide-gray-200">
                 <div class="-ml-px flex w-0 flex-1 z-1">
                   <%= live_patch("Edit",
-                    to: Routes.department_index_path(@socket, :edit, @organization.handle, department),
+                    to: Routes.department_index_path(@socket, :edit, @organization.slug, department),
                     class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900 hover:bg-gray-300"
                   ) %>
                 </div>

@@ -10,7 +10,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
+  def handle_params(%{"slug" => slug, "id" => id}, _, socket) do
     department = Departments.get_department!(id)
     sessions = Departments.get_department_sessions(department.id)
     collaborator = Departments.get_collaborator!(socket.assigns.current_user.id, department.id)
@@ -18,15 +18,15 @@ defmodule AtomicWeb.DepartmentLive.Show do
     entries = [
       %{
         name: gettext("Departments"),
-        route: Routes.department_index_path(socket, :index, handle)
+        route: Routes.department_index_path(socket, :index, slug)
       },
       %{
         name: gettext("%{name}", name: department.name),
-        route: Routes.department_show_path(socket, :show, handle, id)
+        route: Routes.department_show_path(socket, :show, slug, id)
       }
     ]
 
-    organization = Organizations.get_organization_by_handle(handle)
+    organization = Organizations.get_organization_by_slug(slug)
 
     if department.organization_id == organization.id do
       {:noreply,

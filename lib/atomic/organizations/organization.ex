@@ -7,7 +7,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Organizations.{Announcement, Board, Card, Department, Membership, Partner}
   alias Atomic.Uploaders
 
-  @required_fields ~w(name handle description)a
+  @required_fields ~w(name slug description)a
   @optional_fields ~w(card_image logo)a
 
   schema "organizations" do
@@ -15,7 +15,7 @@ defmodule Atomic.Organizations.Organization do
     field :description, :string
     field :card_image, Uploaders.Card.Type
     field :logo, Uploaders.Logo.Type
-    field :handle, :string
+    field :slug, :string
 
     has_many :departments, Department,
       on_replace: :delete_if_exists,
@@ -54,7 +54,7 @@ defmodule Atomic.Organizations.Organization do
     |> cast_embed(:card, with: &Card.changeset/2)
     |> cast_attachments(attrs, [:card_image, :logo])
     |> validate_required(@required_fields)
-    |> validate_handle()
+    |> validate_slug()
     |> unique_constraint(:name)
   end
 
@@ -70,28 +70,28 @@ defmodule Atomic.Organizations.Organization do
   end
 
   @doc """
-    An organization changeset for changing the handle.
-    It requires the handle to change otherwise an error is added.
+    An organization changeset for changing the slug.
+    It requires the slug to change otherwise an error is added.
   """
-  def handle_changeset(organization, attrs) do
+  def slug_changeset(organization, attrs) do
     organization
-    |> cast(attrs, [:handle])
-    |> validate_handle()
+    |> cast(attrs, [:slug])
+    |> validate_slug()
     |> case do
-      %{changes: %{handle: _}} = changeset -> changeset
-      %{} = changeset -> add_error(changeset, :handle, "did not change")
+      %{changes: %{slug: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :slug, "did not change")
     end
   end
 
-  defp validate_handle(changeset) do
+  defp validate_slug(changeset) do
     changeset
-    |> validate_required([:handle])
-    |> validate_format(:handle, ~r/^[a-zA-Z0-9_.]+$/,
+    |> validate_required([:slug])
+    |> validate_format(:slug, ~r/^[a-zA-Z0-9_.]+$/,
       message:
         gettext("must only contain alphanumeric characters, numbers, underscores and periods")
     )
-    |> validate_length(:handle, min: 3, max: 30)
-    |> unsafe_validate_unique(:handle, Atomic.Repo)
-    |> unique_constraint(:handle)
+    |> validate_length(:slug, min: 3, max: 30)
+    |> unsafe_validate_unique(:slug, Atomic.Repo)
+    |> unique_constraint(:slug)
   end
 end

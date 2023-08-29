@@ -1,6 +1,6 @@
 <%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization.handle, @activity)}>
-    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization.handle, @activity)} />
+  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization.slug, @activity)}>
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization.slug, @activity)} />
   </.modal>
 <% end %>
 
@@ -111,7 +111,7 @@
                             <%= Accounts.extract_initials(speaker.name) %>
                           </span>
                         </span>
-                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @current_organization.handle, speaker), class: "text-md text-blue-500" do %>
+                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @current_organization.slug, speaker), class: "text-md text-blue-500" do %>
                           <%= Accounts.extract_first_last_name(speaker.name) %>
                         <% end %>
                       </div>
@@ -163,7 +163,7 @@
 
 <div class="flex flex-row space-x-1">
   <%= if @current_user.role in [:admin] or Organizations.is_admin?(@current_user, @session.departments) do %>
-    <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @current_organization.handle, @activity), class: "button" do %>
+    <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @current_organization.slug, @activity), class: "button" do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
         <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
       </div>

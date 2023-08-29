@@ -3,24 +3,25 @@ defmodule AtomicWeb.SpeakerLive.Show do
 
   alias Atomic.Activities
   alias Atomic.Organizations
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"handle" => handle, "id" => id}, _, socket) do
+  def handle_params(%{"slug" => slug, "id" => id}, _, socket) do
     speaker = Activities.get_speaker!(id)
-    organization = Organizations.get_organization_by_handle(handle)
+    organization = Organizations.get_organization_by_slug(slug)
 
     entries = [
       %{
         name: gettext("Speakers"),
-        route: Routes.speaker_index_path(socket, :index, handle)
+        route: Routes.speaker_index_path(socket, :index, slug)
       },
       %{
         name: gettext("Show"),
-        route: Routes.speaker_show_path(socket, :show, handle, id)
+        route: Routes.speaker_show_path(socket, :show, slug, id)
       }
     ]
 

@@ -9,8 +9,8 @@ defmodule AtomicWeb.AnnouncementLive.Index do
   alias Atomic.Organizations.Announcement
 
   @impl true
-  def mount(%{"handle" => handle}, _session, socket) do
-    organization = Organizations.get_organization_by_handle(handle)
+  def mount(%{"slug" => slug}, _session, socket) do
+    organization = Organizations.get_organization_by_slug(slug)
 
     socket =
       socket
@@ -25,7 +25,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
     entries = [
       %{
         name: gettext("Announcement"),
-        route: Routes.announcement_index_path(socket, :index, params["handle"])
+        route: Routes.announcement_index_path(socket, :index, params["slug"])
       }
     ]
 
@@ -67,7 +67,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
   end
 
   defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization_by_handle(params["handle"])
+    organization = Organizations.get_organization_by_slug(params["slug"])
 
     socket
     |> assign(:page_title, "#{organization.name}'s Announcement")
