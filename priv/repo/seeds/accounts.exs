@@ -107,7 +107,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
   def create_users(characters, role) do
     courses = Repo.all(Course)
-    organizations = Repo.all(Organization)
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"

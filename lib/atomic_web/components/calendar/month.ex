@@ -43,7 +43,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
         <%= for session <- get_date_sessions(@sessions, current_from_params(@timezone, @params)) do %>
           <%= if session.activity do %>
-            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity) do %>
+            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session) do %>
               <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
                 <div class="flex-auto">
                   <p class="font-semibold text-zinc-900">
