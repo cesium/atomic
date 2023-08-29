@@ -166,13 +166,6 @@ defmodule Atomic.Organizations do
   """
   def list_memberships(params, preloads \\ [])
 
-  def list_memberships(%{} = flop, opts) when is_list(opts) do
-    Membership
-    |> join(:left, [o], p in assoc(o, :user), as: :user)
-    |> apply_filters(opts)
-    |> Flop.validate_and_run(flop, for: Membership)
-  end
-
   def list_memberships(%{"organization_id" => organization_id}, preloads) do
     Membership
     |> where([a], a.organization_id == ^organization_id and a.role != :follower)
@@ -185,6 +178,13 @@ defmodule Atomic.Organizations do
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
+  end
+
+  def list_memberships(%{} = flop, opts) when is_list(opts) do
+    Membership
+    |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
   end
 
   @doc """
