@@ -25,7 +25,7 @@ defmodule AtomicWeb.Components.Badges do
     ~H"""
     <%= live_redirect to: @url, class: "relative inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5" do %>
       <div class="absolute flex flex-shrink-0 items-center justify-center">
-        <span class={"h-1.5 w-1.5 rounded-full #{background}"} aria-hidden="true"></span>
+        <span class={"#{background} h-1.5 w-1.5 rounded-full"} aria-hidden="true"></span>
       </div>
       <div class="ml-3.5 text-sm font-medium text-gray-900">
         <%= render_slot(@inner_block) %>
@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Badges do
     assigns = assign_new(assigns, :color, fn -> :gray end)
 
     ~H"""
-    <span class={"inline-flex items-center px-3 py-0.5 rounded-full text-sm font-semibold #{get_color_classes(@color)}"}>
+    <span class={"#{get_color_classes(@color)} inline-flex items-center rounded-full px-3 py-0.5 text-sm font-semibold"}>
       <%= @text %>
     </span>
     """
