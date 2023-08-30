@@ -25,19 +25,19 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Gets a user by handle.
+  Gets a user by slug.
 
   ## Examples
 
-      iex> get_user_by_handle("foo_bar")
+      iex> get_user_by_slug("foo_bar")
       %User{}
 
-      iex> get_user_by_handle("unknown")
+      iex> get_user_by_slug("unknown")
       nil
 
   """
-  def get_user_by_handle(handle) when is_binary(handle) do
-    Repo.get_by(User, handle: handle)
+  def get_user_by_slug(slug) when is_binary(slug) do
+    Repo.get_by(User, slug: slug)
   end
 
   @doc """
@@ -243,16 +243,16 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for changing the user handle.
+  Returns an `%Ecto.Changeset{}` for changing the user slug.
 
   ## Examples
 
-      iex> change_user_handle(user)
+      iex> change_user_slug(user)
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user_handle(user, attrs \\ %{}) do
-    User.handle_changeset(user, attrs)
+  def change_user_slug(user, attrs \\ %{}) do
+    User.slug_changeset(user, attrs)
   end
 
   @doc """

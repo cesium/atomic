@@ -99,7 +99,7 @@ defmodule AtomicWeb.Config do
         key: :profile,
         title: "Profile",
         icon: :user,
-        url: Routes.user_show_path(conn, :show, current_user.handle),
+        url: Routes.profile_show_path(conn, :show, current_user.slug),
         tabs: []
       },
       %{
@@ -167,7 +167,7 @@ defmodule AtomicWeb.Config do
         key: :user,
         title: "Profile",
         icon: :user,
-        url: Routes.user_show_path(conn, :show, current_user.handle),
+        url: Routes.profile_show_path(conn, :show, current_user.slug),
         tabs: []
       },
       %{

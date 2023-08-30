@@ -65,7 +65,7 @@ defmodule AtomicWeb.UserAuth do
   end
 
   defp has_finished_account_setup(user) do
-    user.handle != nil
+    user.slug != nil
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -159,7 +159,7 @@ defmodule AtomicWeb.UserAuth do
   Used for routes that require the user to not have finished the account setup.
   """
   def redirect_if_user_has_finished_account_setup(conn, _opts) do
-    if conn.assigns[:current_user] && not is_nil(conn.assigns[:current_user].handle) do
+    if conn.assigns[:current_user] && not is_nil(conn.assigns[:current_user].slug) do
       conn
       |> redirect(to: "/organizations")
       |> halt()
@@ -202,7 +202,7 @@ defmodule AtomicWeb.UserAuth do
   def require_finished_user_setup(conn, _opts) do
     current_user = conn.assigns[:current_user]
 
-    if conn.assigns[:current_user] && not is_nil(current_user.handle) do
+    if conn.assigns[:current_user] && not is_nil(current_user.slug) do
       conn
     else
       conn

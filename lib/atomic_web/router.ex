@@ -111,7 +111,7 @@ defmodule AtomicWeb.Router do
       live "/organizations", OrganizationLive.Index, :index
       live "/organizations/:organization_id", OrganizationLive.Show, :show
 
-      live "/profile/:handle", UserLive.Show, :show
+      live "/profile/:slug", ProfileLive.Show, :show
 
       scope "/organizations/:organization_id" do
         live "/board/", BoardLive.Index, :index

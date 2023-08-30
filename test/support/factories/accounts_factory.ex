@@ -13,7 +13,7 @@ defmodule Atomic.Factories.AccountFactory do
         %User{
           name: Faker.Person.name(),
           email: Faker.Internet.email(),
-          handle: Faker.Internet.user_name(),
+          slug: Faker.Internet.user_name(),
           role: Enum.random(@roles),
           hashed_password: Bcrypt.hash_pwd_salt("password1234")
         }

@@ -111,12 +111,12 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
-      handle = character |> String.downcase() |> String.replace(~r/\s/, "_")
+      slug = character |> String.downcase() |> String.replace(~r/\s/, "_")
 
       user = %{
         "name" => character,
         "email" => email,
-        "handle" => handle,
+        "slug" => slug,
         "password" => "password1234",
         "role" => role,
         "course_id" => Enum.random(courses).id,

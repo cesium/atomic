@@ -10,14 +10,14 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name handle role confirmed_at course_id default_organization_id)a
+  @optional_fields ~w(name slug role confirmed_at course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
   schema "users" do
     field :name, :string
     field :email, :string
-    field :handle, :string
+    field :slug, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
@@ -80,16 +80,16 @@ defmodule Atomic.Accounts.User do
     |> unique_constraint(:email)
   end
 
-  defp validate_handle(changeset) do
+  defp validate_slug(changeset) do
     changeset
-    |> validate_required([:handle])
-    |> validate_format(:handle, ~r/^[a-zA-Z0-9_.]+$/,
+    |> validate_required([:slug])
+    |> validate_format(:slug, ~r/^[a-zA-Z0-9_.]+$/,
       message:
         gettext("must only contain alphanumeric characters, numbers, underscores and periods")
     )
-    |> validate_length(:handle, min: 3, max: 30)
-    |> unsafe_validate_unique(:handle, Atomic.Repo)
-    |> unique_constraint(:handle)
+    |> validate_length(:slug, min: 3, max: 30)
+    |> unsafe_validate_unique(:slug, Atomic.Repo)
+    |> unique_constraint(:slug)
   end
 
   defp validate_password(changeset, opts) do
@@ -122,8 +122,8 @@ defmodule Atomic.Accounts.User do
   """
   def setup_changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :handle, :course_id])
-    |> validate_handle()
+    |> cast(attrs, [:name, :slug, :course_id])
+    |> validate_slug()
   end
 
   @doc """
@@ -142,17 +142,17 @@ defmodule Atomic.Accounts.User do
   end
 
   @doc """
-  A user changeset for changing the handle.
+  A user changeset for changing the slug.
 
-  It requires the handle to change otherwise an error is added.
+  It requires the slug to change otherwise an error is added.
   """
-  def handle_changeset(user, attrs) do
+  def slug_changeset(user, attrs) do
     user
-    |> cast(attrs, [:handle])
-    |> validate_handle()
+    |> cast(attrs, [:slug])
+    |> validate_slug()
     |> case do
-      %{changes: %{handle: _}} = changeset -> changeset
-      %{} = changeset -> add_error(changeset, :handle, "did not change")
+      %{changes: %{slug: _}} = changeset -> changeset
+      %{} = changeset -> add_error(changeset, :slug, "did not change")
     end
   end
 
