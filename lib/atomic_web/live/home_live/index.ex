@@ -21,7 +21,7 @@ defmodule AtomicWeb.HomeLive.Index do
     partners =
       Partnerships.list_partnerships_by_organization_id(socket.assigns.current_organization.id)
 
-    activies =
+    activities =
       Activities.list_activities_by_organization_id(socket.assigns.current_organization.id, [])
 
     announcements =
@@ -43,7 +43,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:current_page, :home)
      |> assign(:announcements, announcements)
      |> assign(:partners, partners)
-     |> assign(:activies, activies)
+     |> assign(:activities, activities)
      |> assign(:time_zone, socket.assigns.time_zone)
      |> assign(:params, params)
      |> assign(:mode, mode)

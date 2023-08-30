@@ -100,7 +100,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
               <div class="row-end-1 h-6"></div>
               <%= for hour <- hours do %>
                 <div>
-                  <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400"><%= hour %></div>
+                  <div class="left-0 -mt-2.5 -ml-14 w-12 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
                 </div>
                 <div></div>
               <% end %>
@@ -117,11 +117,11 @@ defmodule AtomicWeb.Components.CalendarWeek do
             </div>
             <!-- Events -->
             <ol class="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:hidden" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
-              <.day date={@current} idx={0} sessions={@sessions} organization={organization} />
+              <.day date={@current} idx={0} activities={@activities} organization={organization} />
             </ol>
             <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
               <%= for idx <- 0..6 do %>
-                <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} sessions={@sessions} organization={organization} />
+                <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} activities={@activities} organization={organization} />
               <% end %>
             </ol>
           </div>
@@ -133,29 +133,29 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
   defp day(assigns) do
     ~H"""
-    <%= for session <- get_date_sessions(@sessions, @date) do %>
-      <%= if session.activity do %>
-        <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(session.start)} / span #{calc_time(session.start, session.finish)}"}>
-          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity, assigns.organization) do %>
-            <div class="bg-indigo-50 hover:bg-indigo-100 group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5">
-              <p class="text-indigo-600 order-1 font-semibold">
-                session.activity.title
+    <%= for activity <- get_date_activities(@activities, @date) do %>
+      <%= if activity do %>
+        <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
+          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity, assigns.organization) do %>
+            <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100">
+              <p class="order-1 font-semibold text-indigo-600">
+                activity.title
                 <%!-- <%= if Gettext.get_locale() == "en" do
-                  if session.activity.title_en do
-                    session.activity.title_en
+                  if activity.title_en do
+                    activity.title_en
                   else
                     ""
                   end
                 else
-                  if session.activity.title_pt do
-                    session.activity.title_pt
+                  if activity.title_pt do
+                    activity.title_pt
                   else
                     ""
                   end
                 end %> --%>
               </p>
               <p class="text-indigo-600 group-hover:text-indigo-800">
-                <time datetime={session.start}><%= Calendar.strftime(session.start, "%Hh%M") %></time>
+                <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
               </p>
             </div>
           <% end %>
