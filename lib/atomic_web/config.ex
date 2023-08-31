@@ -170,7 +170,7 @@ defmodule AtomicWeb.Config do
         key: :user,
         title: "Profile",
         icon: :user,
-        url: Routes.user_show_path(conn, :show, current_user.slug),
+        url: Routes.user_show_path(conn, :show, current_user.handle),
         tabs: []
       },
       %{
