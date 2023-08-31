@@ -60,14 +60,14 @@ defmodule AtomicWeb.Components.Picker do
       >
         <%= if @current_organization do %>
           <div role="none">
-            <a phx-target={@myself} phx-click="delete-current-organization" class="cursor-pointer w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-100">
+            <a phx-target={@myself} phx-click="delete-current-organization" class="block w-full cursor-pointer px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100">
               <.render_user user={@current_user} />
             </a>
           </div>
         <% end %>
         <%= for organization <- list_user_organizations(@current_user) do %>
           <div role="none">
-            <a phx-target={@myself} phx-click="update-current-organization" phx-value-organization_id={organization.id} class="cursor-pointer w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-100">
+            <a phx-target={@myself} phx-click="update-current-organization" phx-value-organization_id={organization.id} class="block w-full cursor-pointer px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100">
               <.render_organization organization={organization} role={get_user_role_inside_organization(@current_user, organization)} />
             </a>
           </div>
@@ -82,20 +82,20 @@ defmodule AtomicWeb.Components.Picker do
     <span class="flex w-full items-center justify-between">
       <span class="flex min-w-0 items-center justify-between space-x-3">
         <%= if user.profile_picture do %>
-          <img src={Uploaders.ProfilePicture.url({user.profile_picture, user}, :original)} class="mr-1.5 w-10 h-10 rounded-full" />
+          <img src={Uploaders.ProfilePicture.url({user.profile_picture, user}, :original)} class="mr-1.5 h-10 w-10 rounded-full" />
         <% else %>
-          <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-full">
+          <span class="mr-1.5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-zinc-500">
             <span class="text-lg font-medium leading-none text-white">
               <%= extract_initials(user.name) %>
             </span>
           </span>
         <% end %>
         <span class="flex min-w-0 flex-1 flex-col">
-          <span class="truncate text-md font-medium text-zinc-900">
+          <span class="text-md truncate font-medium text-zinc-900">
             <%= user.name %>
           </span>
           <%= if user.course do %>
-            <span class="truncate text text-zinc-500">
+            <span class="text truncate text-zinc-500">
               <%= user.course.name %>
             </span>
           <% end %>
@@ -110,19 +110,19 @@ defmodule AtomicWeb.Components.Picker do
     <span class="flex w-full items-center justify-between">
       <span class="flex min-w-0 items-center justify-between space-x-3">
         <%= if organization.logo do %>
-          <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="mr-1.5 w-10 h-10 rounded-full" />
+          <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="mr-1.5 h-10 w-10 rounded-full" />
         <% else %>
-          <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-full">
+          <span class="mr-1.5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-zinc-500">
             <span class="text-lg font-medium leading-none text-white">
               <%= extract_initials(organization.name) %>
             </span>
           </span>
         <% end %>
         <span class="flex min-w-0 flex-1 flex-col">
-          <span class="truncate text-md font-medium text-zinc-900">
+          <span class="text-md truncate font-medium text-zinc-900">
             <%= organization.name %>
           </span>
-          <span class="truncate text text-zinc-500">
+          <span class="text truncate text-zinc-500">
             <%= capitalize_first_letter(role) %>
           </span>
         </span>

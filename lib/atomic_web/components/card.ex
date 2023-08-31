@@ -19,7 +19,7 @@ defmodule AtomicWeb.Components.Card do
       <%= if Organizations.get_role(@current_user.id, @current_organization.id) in [:owner, :admin] or @current_user.role in [:admin] do %>
         <div>
           <div class="-mt-px flex divide-x divide-zinc-200">
-            <div class="-ml-px w-0 flex-1 flex">
+            <div class="-ml-px flex w-0 flex-1">
               <.edit_button url={@url} />
               <.delete_button id={@id} />
             </div>

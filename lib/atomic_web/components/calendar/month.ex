@@ -105,10 +105,10 @@ defmodule AtomicWeb.Components.CalendarMonth do
           <li>
             <%= if session.activity do %>
               <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.id), class: "group flex" do %>
-                <p class="text-zinc-600 group-hover:text-zinc-800 flex-auto truncate font-medium">
+                <p class="flex-auto truncate font-medium text-zinc-600 group-hover:text-zinc-800">
                   <%= session.activity.title %>
                 </p>
-                <time datetime={session.start} class="text-zinc-600 group-hover:text-zinc-800 mx-2 hidden flex-none xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
+                <time datetime={session.start} class="mx-2 hidden flex-none text-zinc-600 group-hover:text-zinc-800 xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
               <% end %>
             <% end %>
           </li>
@@ -136,7 +136,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
       </time>
       <%= if (sessions = get_date_sessions(@sessions, @date)) != [] do %>
         <span class="sr-only">Enum.count(sessions) events</span>
-        <span class="flex flex-wrap-reverse -mx-0.5 mt-auto">
+        <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
           <%= for session <- sessions do %>
             <%= if session.activity do %>
               <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-700"></span>

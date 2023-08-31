@@ -59,18 +59,18 @@ defmodule AtomicWeb.Components.Calendar do
             <div class="flex items-center">
               <div class="flex items-center md:items-stretch">
                 <%= live_patch to: "#{if @mode == "month" do @previous_month_path else @previous_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Previous month</span>
                     <Heroicons.Solid.chevron_left class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @present_month_path else @present_week_path end}" do %>
-                  <button type="button" class="hidden px-3.5 h-full text-sm font-medium text-zinc-700 md:block hover:text-zinc-900 focus:relative hover:bg-zinc-50">
+                  <button type="button" class="hidden h-full px-3.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 focus:relative md:block">
                     <%= gettext("Today") %>
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @next_month_path else @next_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Next month</span>
                     <Heroicons.Solid.chevron_right class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
@@ -78,7 +78,7 @@ defmodule AtomicWeb.Components.Calendar do
               </div>
               <div class="hidden md:ml-4 md:flex md:items-center">
                 <div class="relative">
-                  <a @click="mode_view = !mode_view" class="cursor-pointer flex items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                  <a @click="mode_view = !mode_view" class="flex cursor-pointer items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
                     <%= if @mode == "month" do
                       gettext("Month view")
                     else
@@ -142,7 +142,7 @@ defmodule AtomicWeb.Components.Calendar do
                         <%= gettext("Today") %>
                       </button>
                     <% end %>
-                    <div class="mx-4 border-b border-zinc-200 " />
+                    <div class="mx-4 border-b border-zinc-200" />
                     <%= live_patch to: @present_week_path do %>
                       <button
                         type="button"

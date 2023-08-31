@@ -73,7 +73,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
               <div class="row-end-1 h-6"></div>
               <%= for hour <- hours() do %>
                 <div>
-                  <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400"><%= hour %></div>
+                  <div class="left-0 -mt-2.5 -ml-14 w-12 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
                 </div>
                 <div></div>
               <% end %>
@@ -110,8 +110,8 @@ defmodule AtomicWeb.Components.CalendarWeek do
       <%= if session.activity do %>
         <li class={"#{col_start(@index + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(session.start)} / span #{calc_time(session.start, session.finish)}"}>
           <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session) do %>
-            <div class="bg-indigo-50 hover:bg-indigo-100 group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5">
-              <p class="text-indigo-600 order-1 font-semibold">
+            <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100">
+              <p class="order-1 font-semibold text-indigo-600">
                 <%= session.activity.title %>
               </p>
               <p class="text-indigo-600 group-hover:text-indigo-800">

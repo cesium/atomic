@@ -27,7 +27,7 @@ defmodule AtomicWeb.Components.Organizations do
                 }
                 type="button"
               >
-                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-zinc-400 border-zinc-200 group-hover:border-orange-600 group-hover:text-orange-600">
+                <span class="text-[0.625rem] flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white font-medium text-zinc-400 group-hover:border-orange-600 group-hover:text-orange-600">
                   <%= if organization.logo do %>
                     <%= Uploaders.Logo.url({organization.logo, organization}, :original) %>
                   <% else %>
