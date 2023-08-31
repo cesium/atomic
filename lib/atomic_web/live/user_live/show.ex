@@ -1,6 +1,8 @@
 defmodule AtomicWeb.UserLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Button
+
   alias Atomic.Accounts
   alias Atomic.Organizations
 
@@ -16,7 +18,7 @@ defmodule AtomicWeb.UserLive.Show do
     is_current_user =
       Map.has_key?(socket.assigns, :current_user) and socket.assigns.current_user.id == user.id
 
-    organizations = Organizations.list_user_organizations(user)
+    organizations = Organizations.list_user_organizations(user.id)
 
     entries = [
       %{

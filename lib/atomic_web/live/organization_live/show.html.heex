@@ -1,5 +1,5 @@
 <div x-data="{ option: 'activities' }" class="py-5">
-  <div class="border-b border-gray-200">
+  <div class="border-b border-zinc-200">
     <div class="bg-white">
       <div class="flex justify-between px-4 py-4 sm:px-6">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
@@ -14,13 +14,13 @@
             <div class="flex-1 space-x-2">
               <%= if @has_permissions? do %>
                 <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
+                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                   </div>
                 <% end %>
                 <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.x class="mr-3 w-5 h-5 text-gray-400" /> Delete
+                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
                   </div>
                 <% end %>
               <% end %>
@@ -68,7 +68,7 @@
   <div x-bind:class="option == 'departments' ? 'block' : 'hidden'">
     <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <%= for department <- @departments do %>
-        <li class="col-span-1 flex flex-col border-2 border-gray-200 rounded-lg bg-white text-center shadow hover:bg-gray-50">
+        <li class="col-span-1 flex flex-col border-2 border-zinc-200 rounded-lg bg-white text-center shadow hover:bg-zinc-50">
           <%= live_patch to: Routes.department_show_path(@socket, :show, @organization, department), class: "" do %>
             <div class="flex flex-1 flex-col w-full p-4">
               <span class="w-full flex items-center justify-center">
@@ -78,25 +78,25 @@
                   </span>
                 </span>
               </span>
-              <h3 class="mt-6 text-md font-bold text-gray-900"><%= department.name %></h3>
-              <span class="text-md font-semibold text-gray-500">
+              <h3 class="mt-6 text-md font-bold text-zinc-900"><%= department.name %></h3>
+              <span class="text-md font-semibold text-zinc-500">
                 <%= department.description %>
               </span>
             </div>
             <%= if @has_permissions? do %>
               <div>
-                <div class="-mt-px flex divide-x divide-gray-200">
+                <div class="-mt-px flex divide-x divide-zinc-200">
                   <div class="-ml-px flex w-0 flex-1 z-1">
                     <%= live_patch("Edit",
                       to: Routes.department_index_path(@socket, :edit, @organization, department),
-                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900 hover:bg-gray-300"
+                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-300"
                     ) %>
                   </div>
                   <div class="-ml-px flex w-0 flex-1">
                     <%= link("Delete",
                       to: "#",
                       phx_click: "delete",
-                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900 hover:bg-gray-300",
+                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-300",
                       phx_value_id: department.id,
                       data: [confirm: "Are you sure?"]
                     ) %>

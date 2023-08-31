@@ -33,7 +33,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:has_permissions?, has_permissions?(socket))
      |> assign(:followers_count, Organizations.count_followers(organization_id))
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
-     |> assign(:following, maybe_put_following(socket))
+     |> assign(:following, maybe_put_following(socket, organization))
      |> assign(:current_page, :organizations)}
   end
 
@@ -92,10 +92,11 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> push_redirect(to: Routes.user_session_path(socket, :new))}
   end
 
-  defp maybe_put_following(socket) when not socket.assigns.is_authenticated?, do: false
+  defp maybe_put_following(socket, _organization) when not socket.assigns.is_authenticated?,
+    do: false
 
-  defp maybe_put_following(socket) do
-    Organizations.is_member_of?(socket.assigns.current_user, socket.assigns.organization)
+  defp maybe_put_following(socket, organization) do
+    Organizations.is_member_of?(socket.assigns.current_user, organization)
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false

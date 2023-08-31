@@ -28,13 +28,6 @@ defmodule AtomicWeb.Config do
           icon: :qrcode,
           url: Routes.scanner_index_path(conn, :index),
           tabs: []
-        },
-        %{
-          key: :logout,
-          title: "Logout",
-          icon: :logout,
-          url: Routes.user_session_path(conn, :delete),
-          tabs: []
         }
       ]
   end
@@ -75,13 +68,6 @@ defmodule AtomicWeb.Config do
           title: "Scanner",
           icon: :qrcode,
           url: Routes.scanner_index_path(conn, :index),
-          tabs: []
-        },
-        %{
-          key: :logout,
-          title: "Logout",
-          icon: :logout,
-          url: Routes.user_session_path(conn, :delete),
           tabs: []
         }
       ]

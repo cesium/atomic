@@ -38,7 +38,7 @@
     <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
   </div>
 <% else %>
-  <ul role="list" class="relative z-0 divide-y divide-gray-200">
+  <ul role="list" class="relative z-0 divide-y divide-zinc-200">
     <%= for announcement <- @announcements do %>
       <.render_announcement announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
     <% end %>

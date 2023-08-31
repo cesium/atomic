@@ -71,7 +71,7 @@ config :tailwind,
   ]
 
 config :icons,
-  collection: [Heroicons, Ionicons]
+  collection: [Heroicons]
 
 config :atomic, Atomic.Scheduler,
   jobs: [
