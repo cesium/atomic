@@ -13,7 +13,7 @@
             placeholder: gettext("John Doe"),
             class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
           ) %>
-          <span class="text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :name) %></span>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :name) %></div>
         </div>
         <div class="flex flex-col justify-center">
           <%= label(f, :email, class: "mb-1 text-sm font-medium text-gray-700") %>
@@ -22,7 +22,7 @@
             placeholder: gettext("john_doe@mail.com"),
             class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
           ) %>
-          <span class="text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :email) %></span>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :email) %></div>
         </div>
         <div class="flex flex-col justify-center">
           <%= label(f, :username, class: "mb-1 text-sm font-medium text-gray-700") %>
@@ -35,7 +35,7 @@
               class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"
             ) %>
           </div>
-          <span class="text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :slug) %></span>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :slug) %></div>
         </div>
         <div class="flex flex-col justify-center">
           <%= label(f, :phone_number, class: "mb-1 text-sm font-medium text-gray-700") %>
@@ -44,7 +44,7 @@
             placeholder: gettext("912345678"),
             class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
           ) %>
-          <span class="text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></span>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></div>
         </div>
       </div>
       <%= live_file_input(@uploads.picture, class: "hidden") %>
