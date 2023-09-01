@@ -5,7 +5,7 @@ defmodule AtomicWeb.UserLive.FormComponent do
 
   @impl true
   def update(%{user: user} = assigns, socket) do
-    changeset = Accounts.update_user(user)
+    changeset = Accounts.update_user(user, %{})
 
     {:ok,
      socket
