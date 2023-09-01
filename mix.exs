@@ -60,6 +60,7 @@ defmodule Atomic.MixProject do
 
       # frontend
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
       {:icons, "~> 0.7.1"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:flop_phoenix, "~> 0.14.2"},
