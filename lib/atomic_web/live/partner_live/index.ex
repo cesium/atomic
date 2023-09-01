@@ -5,59 +5,34 @@ defmodule AtomicWeb.PartnerLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships(organization_id))}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _, socket) do
+  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
+
     entries = [
       %{
-        name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, params["organization_id"])
+        name: "#{organization.name}'s #{gettext("Partners")}",
+        route: Routes.partner_index_path(socket, :index, organization_id)
       }
     ]
+
+    partners = Partnerships.list_partnerships_by_organization_id(organization_id)
 
     {:noreply,
      socket
      |> assign(:current_page, :partners)
+     |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty?, Enum.empty?(socket.assigns.partnerships))
-     |> assign(:has_permissions?, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
-
-    {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
-  end
-
-  defp apply_action(socket, :edit, %{"organization_id" => _organization_id, "id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Partner")
-    |> assign(:partner, Partnerships.get_partner!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Partner")
-    |> assign(:partner, %Partner{})
-  end
-
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
-
-    socket
-    |> assign(:page_title, "#{organization.name}'s Partners")
-    |> assign(:partner, nil)
+     |> assign(:partners, partners)
+     |> assign(:empty?, Enum.empty?(partners))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   defp has_permissions?(socket) do
@@ -66,9 +41,5 @@ defmodule AtomicWeb.PartnerLive.Index do
         socket.assigns.current_user.id,
         socket.assigns.current_organization.id
       )
-  end
-
-  defp list_partnerships(id) do
-    Partnerships.list_partnerships_by_organization_id(id)
   end
 end

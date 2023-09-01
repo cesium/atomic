@@ -24,7 +24,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                 <%= Enum.at(@week_mobile, idx) %>
                 <span class={
                   "#{if @today == day_of_week do
-                    "bg-indigo-700 rounded-full text-white"
+                    "bg-orange-700 rounded-full text-white"
                   else
                     if day_of_week |> date_to_day() == @params["day"] do
                       "bg-zinc-900 rounded-full text-white"
@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                   <%= Enum.at(@week, idx) %>
                   <span class={
                     "#{if @today == day_of_week do
-                      "flex ml-1.5 w-8 h-8 text-white bg-indigo-700 rounded-full"
+                      "flex ml-1.5 w-8 h-8 text-white bg-orange-700 rounded-full"
                     else
                       "text-zinc-900"
                     end} items-center justify-center font-semibold"
@@ -110,11 +110,11 @@ defmodule AtomicWeb.Components.CalendarWeek do
       <%= if session.activity do %>
         <li class={"#{col_start(@index + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(session.start)} / span #{calc_time(session.start, session.finish)}"}>
           <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session) do %>
-            <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100">
-              <p class="order-1 font-semibold text-indigo-600">
+            <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
+              <p class="order-1 font-semibold text-orange-600">
                 <%= session.activity.title %>
               </p>
-              <p class="text-indigo-600 group-hover:text-indigo-800">
+              <p class="text-orange-600 group-hover:text-orange-800">
                 <time datetime={session.start}><%= Calendar.strftime(session.start, "%Hh%M") %></time>
               </p>
             </div>

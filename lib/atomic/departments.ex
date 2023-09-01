@@ -30,8 +30,11 @@ defmodule Atomic.Departments do
       [%Department{}, ...]
 
   """
-  def list_departments_by_organization_id(id) do
-    Repo.all(from d in Department, where: d.organization_id == ^id)
+  def list_departments_by_organization_id(id, opts \\ []) do
+    Department
+    |> apply_filters(opts)
+    |> where([d], d.organization_id == ^id)
+    |> Repo.all()
   end
 
   @doc """

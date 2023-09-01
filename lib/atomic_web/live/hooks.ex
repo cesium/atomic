@@ -6,10 +6,6 @@ defmodule AtomicWeb.Hooks do
 
   alias Atomic.Accounts
 
-  def on_mount(:default, _params, _session, socket) do
-    {:cont, assign(socket, :page_title, "Atomic")}
-  end
-
   def on_mount(:current_user_state, _params, session, socket) do
     current_user = maybe_get_current_user(session)
     socket = socket |> assign(:timezone, get_timezone(socket))

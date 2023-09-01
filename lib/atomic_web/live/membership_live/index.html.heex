@@ -41,7 +41,7 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= membership.created_by.name %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-indigo-600 hover:text-indigo-900" do %>
+                    <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-600 hover:text-orange-900" do %>
                       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                         <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                       </div>

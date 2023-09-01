@@ -29,6 +29,47 @@ defmodule AtomicWeb.Router do
     plug AtomicWeb.Plugs.Authorize, :master
   end
 
+  ## Admin routes
+  scope "/", AtomicWeb do
+    pipe_through [
+      :browser,
+      :require_authenticated_user,
+      :require_confirmed_user,
+      :require_finished_user_setup,
+      :admin
+    ]
+
+    live_session :admin, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
+      scope "/organizations/:organization_id" do
+        live "/edit", OrganizationLive.Edit, :edit
+
+        live "/activities/new", ActivityLive.New, :new
+        live "/activities/:id/edit", ActivityLive.Edit, :edit
+
+        live "/announcements/new", AnnouncementLive.New, :new
+        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
+
+        live "/departments/new", DepartmentLive.New, :new
+        live "/departments/:id/edit", DepartmentLive.Index, :edit
+
+        live "/partners/new", PartnerLive.New, :new
+        live "/partners/:id/edit", PartnerLive.Index, :edit
+
+        live "/speakers/new", SpeakerLive.New, :new
+        live "/speakers/:id/edit", SpeakerLive.Edit, :edit
+
+        live "/board/new", BoardLive.New, :new
+        live "/board/:id/edit", BoardLive.Edit, :edit
+
+        live "/memberships", MembershipLive.Index, :index
+        live "/memberships/new", MembershipLive.New, :new
+        live "/memberships/:id", MembershipLive.Show, :show
+        live "/memberships/:id/edit", MembershipLive.Edit, :edit
+      end
+    end
+  end
+
+  ## Normal user routes
   scope "/", AtomicWeb do
     pipe_through [:browser]
 
@@ -58,6 +99,7 @@ defmodule AtomicWeb.Router do
 
       scope "/organizations/:organization_id" do
         live "/departments", DepartmentLive.Index, :index
+
         live "/departments/:id", DepartmentLive.Show, :show
 
         live "/board/", BoardLive.Index, :index
@@ -70,56 +112,29 @@ defmodule AtomicWeb.Router do
         live "/speakers/:id", SpeakerLive.Show, :show
       end
 
-      pipe_through [:admin]
-
-      scope "/organizations/:organization_id" do
-        live "/edit", OrganizationLive.Edit, :edit
-
-        live "/activities/new", ActivityLive.New, :new
-        live "/activities/:id/edit", ActivityLive.Edit, :edit
-
-        live "/announcements/new", AnnouncementLive.New, :new
-        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
-
-        live "/departments/new", DepartmentLive.New, :new
-        live "/departments/:id/edit", DepartmentLive.Index, :edit
-
-        live "/partners/new", PartnerLive.New, :new
-        live "/partners/:id/edit", PartnerLive.Index, :edit
-
-        live "/speakers/new", SpeakerLive.New, :new
-        live "/speakers/:id/edit", SpeakerLive.Edit, :edit
-
-        live "/board/new", BoardLive.New, :new
-        live "/board/:id/edit", BoardLive.Edit, :edit
-
-        live "/memberships", MembershipLive.Index, :index
-        live "/memberships/new", MembershipLive.New, :new
-        live "/memberships/:id", MembershipLive.Show, :show
-        live "/memberships/:id/edit", MembershipLive.Edit, :edit
-      end
-
       pipe_through [:member]
       live "/card/:membership_id", CardLive.Show, :show
 
-      # Only Atomic masters can create organizations
+      # Only masters can create organizations
       pipe_through [:master]
       live "/organizations/new", OrganizationLive.New, :new
     end
   end
 
-  # Authentication routes
+  ## Authentication routes
   scope "/", AtomicWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
+    scope "/users" do
+      get "/register", UserRegistrationController, :new
+      post "/register", UserRegistrationController, :create
+      get "/log_in", UserSessionController, :new
+      post "/log_in", UserSessionController, :create
+      get "/reset_password", UserResetPasswordController, :new
+      post "/reset_password", UserResetPasswordController, :create
+      get "/reset_password/:token", UserResetPasswordController, :edit
+      put "/reset_password/:token", UserResetPasswordController, :update
+    end
   end
 
   scope "/", AtomicWeb do
@@ -141,11 +156,13 @@ defmodule AtomicWeb.Router do
   scope "/", AtomicWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
+    scope "/users" do
+      delete "/log_out", UserSessionController, :delete
+      get "/confirm", UserConfirmationController, :new
+      post "/confirm", UserConfirmationController, :create
+      get "/confirm/:token", UserConfirmationController, :edit
+      post "/confirm/:token", UserConfirmationController, :update
+    end
   end
 
   # Enables the Swoosh mailbox preview in development.

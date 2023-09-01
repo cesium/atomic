@@ -6,13 +6,13 @@ defmodule AtomicWeb.ActivityLive.Show do
   alias Atomic.Activities.Enrollment
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
       Activities.subscribe("new_enrollment")
       Activities.subscribe("deleted_enrollment")
     end
 
-    {:ok, socket}
+    {:ok, socket |> assign(:id, id)}
   end
 
   @impl true

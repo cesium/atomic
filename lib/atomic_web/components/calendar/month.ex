@@ -94,7 +94,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         date-time={@date}
         class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if today? == 0 do
-            "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-400 font-semibold text-white shrink-0"
+            "flex h-6 w-6 items-center justify-center rounded-full bg-orange-400 font-semibold text-white shrink-0"
           end}"
         }
       >
@@ -121,13 +121,13 @@ defmodule AtomicWeb.Components.CalendarMonth do
         class={
           "ml-auto lg:ml-0 #{if current_from_params(@timezone, @params) == @date do
             "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if today? == 0 do
-              "bg-indigo-700"
+              "bg-orange-700"
             else
               "bg-zinc-900"
             end} text-white shirk-0"
           else
             if today? == 0 do
-              "text-indigo-700"
+              "text-orange-700"
             end
           end}"
         }
