@@ -183,6 +183,7 @@ defmodule Atomic.Organizations do
   def list_display_memberships(%{} = flop, opts) when is_list(opts) do
     Membership
     |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> where([a], a.role != :follower)
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Membership)
   end

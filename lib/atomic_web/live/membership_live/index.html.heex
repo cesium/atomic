@@ -15,6 +15,9 @@
             <:col let={membership} label="Number" field={:number}><%= membership.number %></:col>
             <:col let={membership} label="Name" field={:member_name}><%= membership.user.name %></:col>
             <:col let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
+            <:col let={membership} label="Role" field={:role}>
+              <p class="capitalize"><%= membership.role %></p>
+            </:col>
             <:col let={_membership} label="Phone Number" field={:phone_number}>Phone number</:col>
             <:col let={membership} label="Requested At" field={:inserted_at}><%= display_date(membership.inserted_at) %> <%= display_time(membership.inserted_at) %></:col>
             <:col let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
