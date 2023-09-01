@@ -97,6 +97,7 @@ defmodule AtomicWeb.Router do
 
       live "/organizations/new", OrganizationLive.Index, :new
 
+      live "/profile/:slug/edit", ProfileLive.Edit, :edit
       live "/user/edit", UserLive.Edit, :edit
 
       pipe_through :member

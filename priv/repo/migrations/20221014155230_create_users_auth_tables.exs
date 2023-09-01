@@ -9,6 +9,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :name, :string
       add :email, :citext, null: false
       add :slug, :citext
+      add :phone_number, :string
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
       add :profile_picture, :string

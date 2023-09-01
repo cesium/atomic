@@ -10,7 +10,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name slug role confirmed_at course_id default_organization_id)a
+  @optional_fields ~w(name slug role phone_number confirmed_at course_id default_organization_id)a
 
   @roles ~w(admin student)a
 
@@ -22,6 +22,7 @@ defmodule Atomic.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    field :phone_number, :string
     field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles, default: :student
     belongs_to :course, Course
@@ -69,6 +70,9 @@ defmodule Atomic.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_email()
+    |> validate_slug()
+    |> validate_phone_number()
   end
 
   defp validate_email(changeset) do
@@ -90,6 +94,14 @@ defmodule Atomic.Accounts.User do
     |> validate_length(:slug, min: 3, max: 30)
     |> unsafe_validate_unique(:slug, Atomic.Repo)
     |> unique_constraint(:slug)
+  end
+
+  defp validate_phone_number(changeset) do
+    changeset
+    |> validate_format(:phone_number, ~r/^\+?[1-9][0-9]{7,14}$/,
+      message: gettext("must be a valid phone number")
+    )
+    |> validate_length(:phone_number, min: 9, max: 13)
   end
 
   defp validate_password(changeset, opts) do

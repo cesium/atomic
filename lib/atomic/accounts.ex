@@ -227,6 +227,17 @@ defmodule Atomic.Accounts do
     User.setup_changeset(user, attrs)
   end
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+      iex> change_user(user)
+      %Ecto.Changeset{data: %User{}}
+  """
+  def change_user(%User{} = user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
   ## Settings
 
   @doc """
@@ -533,7 +544,7 @@ defmodule Atomic.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs \\ %{}) do
+  def update_user(%User{} = user, attrs, _after_save \\ &{:ok, &1}) do
     user
     |> User.changeset(attrs)
     |> Repo.update()
