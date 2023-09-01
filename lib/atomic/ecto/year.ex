@@ -123,7 +123,7 @@ defmodule Atomic.Ecto.Year do
         iex> next_year("2021/2022")
         "2022/2023"
   """
-  @spec next_year(Date.t()) :: String.t()
+  @spec next_year(String.t()) :: String.t()
   def next_year(year) do
     year
     |> String.split("/")
@@ -143,7 +143,7 @@ defmodule Atomic.Ecto.Year do
         iex> previous_year("2021/2022")
         "2020/2021"
   """
-  @spec previous_year(Date.t()) :: String.t()
+  @spec previous_year(String.t()) :: String.t()
   def previous_year(year) do
     year
     |> String.split("/")
