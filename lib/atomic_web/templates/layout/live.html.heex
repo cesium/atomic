@@ -128,9 +128,7 @@
                 </ul>
               </li>
               <%= if @is_authenticated? do %>
-                <li>
-                  <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
-                </li>
+                <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
               <% end %>
             </ul>
           </nav>
@@ -169,9 +167,7 @@
             </ul>
           </li>
           <%= if @is_authenticated? do %>
-            <li>
-              <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
-            </li>
+            <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
             <!-- Profile dropdown -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>

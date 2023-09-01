@@ -27,14 +27,14 @@ defmodule AtomicWeb.Components.Organizations do
                 }
                 type="button"
               >
-                <span class="text-[0.625rem] flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white font-medium text-zinc-400 group-hover:border-orange-600 group-hover:text-orange-600">
+                <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white font-medium text-zinc-400 group-hover:border-orange-600 group-hover:text-orange-600">
                   <%= if organization.logo do %>
-                    <%= Uploaders.Logo.url({organization.logo, organization}, :original) %>
+                    <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="h-6 w-6 rounded-lg" />
                   <% else %>
                     <%= extract_initials(organization.name) %>
                   <% end %>
                 </span>
-                <span class="truncate"><%= organization.name %></span>
+                <span class="mt-1 truncate"><%= organization.name %></span>
               </div>
             </li>
           <% end %>
