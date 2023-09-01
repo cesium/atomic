@@ -3,4 +3,8 @@ defmodule AtomicWeb.HelpersTest do
   Tests for the AtomicWeb.Helpers module
   """
   use ExUnit.Case, async: true
+
+  import AtomicWeb.Helpers
+
+  doctest AtomicWeb.Helpers
 end

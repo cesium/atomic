@@ -14,7 +14,7 @@ defmodule Atomic.Activities.Speaker do
     field :name, :string
     field :bio, :string
 
-    many_to_many :activities, Activity, join_through: ActivitySpeaker, on_replace: :delete
+    many_to_many :activities, Activity, join_through: ActivitySpeaker
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()

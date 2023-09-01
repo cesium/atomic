@@ -53,7 +53,7 @@ defmodule AtomicWeb.CalendarLive.Show do
       end
 
     %{
-      activities: Activities.list_activities_from_to(start, finish, preloads: [:activity])
+      activities: Activities.list_activities_from_to(start, finish)
     }
   end
 end

@@ -32,10 +32,10 @@ defmodule Atomic.Activities.Activity do
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
-    embeds_one :location, Location, on_replace: :delete
+    embeds_one :location, Location
 
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker, on_replace: :delete
-    many_to_many :departments, Department, join_through: ActivityDepartment, on_replace: :delete
+    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
+    many_to_many :departments, Department, join_through: ActivityDepartment
 
     has_many :enrollments, Enrollment, foreign_key: :activity_id
 
@@ -101,7 +101,6 @@ defmodule Atomic.Activities.Activity do
   defp maybe_put_departments(changeset, attrs) do
     if attrs["departments"] do
       departments = Departments.get_departments(attrs["departments"])
-
       Ecto.Changeset.put_assoc(changeset, :departments, departments)
     else
       changeset

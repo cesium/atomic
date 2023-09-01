@@ -60,10 +60,12 @@ defmodule Atomic.Departments do
       [%Activity{}, ...]
 
   """
-  def get_department_activities(department_id) do
-    Repo.all(from a in ActivityDepartment, where: a.department_id == ^department_id)
-    |> Repo.preload([:activity])
-    |> Enum.map(& &1.activity)
+  def get_department_activities(department_id, opts \\ []) do
+    ActivityDepartment
+    |> where([a], a.department_id == ^department_id)
+    |> select([a], a.activity)
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """

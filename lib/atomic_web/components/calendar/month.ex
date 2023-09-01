@@ -44,7 +44,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
     <div class="py-4 lg:hidden">
       <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
         <%= for activity <- get_date_activities(@activities, current_from_params(@time_zone, @params)) do %>
-          <%= if activity.activity do %>
+          <%= if activity do %>
             <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity, organization) do %>
               <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
                 <div class="flex-auto">
