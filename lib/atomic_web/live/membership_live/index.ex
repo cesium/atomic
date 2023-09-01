@@ -32,7 +32,7 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   defp list_memberships(id, params) do
-    case Organizations.list_memberships(Map.put(params, "page_size", 9),
+    case Organizations.list_display_memberships(Map.put(params, "page_size", 9),
            where: [organization_id: id],
            preloads: [:user, :created_by]
          ) do
