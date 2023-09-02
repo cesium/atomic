@@ -32,8 +32,8 @@ defmodule Atomic.Departments do
   """
   def list_departments_by_organization_id(id, opts \\ []) do
     Department
-    |> apply_filters(opts)
     |> where([d], d.organization_id == ^id)
+    |> apply_filters(opts)  
     |> Repo.all()
   end
 
