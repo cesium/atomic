@@ -1,9 +1,9 @@
 defmodule AtomicWeb.DepartmentLive.Show do
-   use AtomicWeb, :live_view
- 
-   alias Atomic.Accounts
-   alias Atomic.Departments
-   alias Atomic.Organizations.Collaborator
+  use AtomicWeb, :live_view
+
+  alias Atomic.Accounts
+  alias Atomic.Departments
+  alias Atomic.Organizations.Collaborator
 
   @impl true
   def mount(_params, _session, socket) do

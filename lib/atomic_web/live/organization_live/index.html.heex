@@ -9,7 +9,7 @@
       <% end %>
     </div>
   </div>
-  <%= if @empty? do %>
+  <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
       <.empty_state id="empty_state" url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>

@@ -25,12 +25,9 @@ defmodule AtomicWeb.PartnerLive.Show do
 
     {:noreply,
      socket
+     |> assign(:page_title, partner.name)
      |> assign(:current_page, :partners)
-     |> assign(:page_title, page_title(socket.assigns.live_action, partner.name))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:partner, partner)}
   end
-
-  defp page_title(:show, partner), do: "#{partner}"
-  defp page_title(:edit, partner), do: "Edit #{partner}"
 end
