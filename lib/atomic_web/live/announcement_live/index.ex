@@ -21,7 +21,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
       }
     ]
 
-    announcements = Organizations.list_announcements(preloads: [:organization])
+    announcements = list_default_announcements(socket)
 
     {:noreply,
      socket
@@ -53,6 +53,24 @@ defmodule AtomicWeb.AnnouncementLive.Index do
       end)
 
     {:noreply, assign(socket, :announcements, List.flatten(announcements))}
+  end
+
+  defp list_default_announcements(socket) do
+    if socket.assigns.is_authenticated? do
+      organizations =
+        Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
+
+      announcements =
+        Enum.map(organizations, fn organization ->
+          Organizations.list_announcements_by_organization_id(organization.id,
+            preloads: [:organization]
+          )
+        end)
+
+      List.flatten(announcements)
+    else
+      Organizations.list_announcements(preloads: [:organization])
+    end
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false

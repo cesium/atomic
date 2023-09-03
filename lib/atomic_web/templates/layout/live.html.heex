@@ -128,7 +128,13 @@
                 </ul>
               </li>
               <%= if @is_authenticated? do %>
-                <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
+                <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
+                <%= if Enum.count(organizations) > 0 do %>
+                  <li>
+                    <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                    <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
+                  </li>
+                <% end %>
               <% end %>
             </ul>
           </nav>
@@ -167,7 +173,13 @@
             </ul>
           </li>
           <%= if @is_authenticated? do %>
-            <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} />
+            <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
+            <%= if Enum.count(organizations) > 0 do %>
+              <li>
+                <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
+              </li>
+            <% end %>
             <!-- Profile dropdown -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>

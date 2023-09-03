@@ -97,17 +97,17 @@ defmodule AtomicWeb.Config do
         tabs: []
       },
       %{
-        key: :organizations,
-        title: "Organizations",
-        icon: :office_building,
-        url: Routes.organization_index_path(conn, :index),
-        tabs: []
-      },
-      %{
         key: :announcements,
         title: "Announcements",
         icon: :newspaper,
         url: Routes.announcement_index_path(conn, :index),
+        tabs: []
+      },
+      %{
+        key: :organizations,
+        title: "Organizations",
+        icon: :office_building,
+        url: Routes.organization_index_path(conn, :index),
         tabs: []
       }
     ]

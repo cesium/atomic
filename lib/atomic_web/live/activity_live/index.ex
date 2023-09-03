@@ -21,7 +21,7 @@ defmodule AtomicWeb.ActivityLive.Index do
       }
     ]
 
-    sessions = Activities.list_sessions(preloads: [:activity, :speakers, :enrollments])
+    sessions = list_default_sessions(socket)
 
     {:noreply,
      socket
@@ -68,6 +68,24 @@ defmodule AtomicWeb.ActivityLive.Index do
       )
 
     {:noreply, assign(socket, :sessions, sessions)}
+  end
+
+  defp list_default_sessions(socket) do
+    if socket.assigns.is_authenticated? do
+      organizations =
+        Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
+
+      sessions =
+        Enum.map(organizations, fn organization ->
+          Activities.list_sessions_by_organization_id(organization.id,
+            preloads: [:activity, :speakers, :enrollments]
+          )
+        end)
+
+      List.flatten(sessions)
+    else
+      Activities.list_sessions(preloads: [:activity, :speakers, :enrollments])
+    end
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
