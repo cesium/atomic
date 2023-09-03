@@ -10,7 +10,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def mount(params, _session, socket) do
-    {:ok, assign(socket, :sessions, list_sessions(params["organization_id"]))}
+    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
   end
 
   @impl true
@@ -26,7 +26,7 @@ defmodule AtomicWeb.ActivityLive.Index do
      socket
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.sessions))
+     |> assign(:empty, Enum.empty?(socket.assigns.activities))
      |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
@@ -36,15 +36,17 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply,
+     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply,
+     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_user_sessions(socket.assigns.current_user.id))}
+    {:noreply, assign(socket, :activities, list_user_activities(socket.assigns.current_user.id))}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -75,13 +77,13 @@ defmodule AtomicWeb.ActivityLive.Index do
       )
   end
 
-  defp list_sessions(organization_id) do
-    Activities.list_sessions_by_organization_id(organization_id,
-      preloads: [:activity, :speakers, :enrollments]
+  defp list_activities(organization_id) do
+    Activities.list_activities_by_organization_id(organization_id,
+      preloads: [:speakers, :enrollments]
     )
   end
 
-  defp list_user_sessions(user_id) do
+  defp list_user_activities(user_id) do
     Activities.get_user_activities(user_id)
   end
 end

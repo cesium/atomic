@@ -3,7 +3,6 @@ defmodule AtomicWeb.ActivityLive.New do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities.Activity
-  alias Atomic.Activities.Session
 
   @impl true
   def mount(_params, _session, socket) do
@@ -28,8 +27,6 @@ defmodule AtomicWeb.ActivityLive.New do
      |> assign(:page_title, gettext("New Activity"))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
-     |> assign(:activity, %Activity{
-       sessions: [%Session{}]
-     })}
+     |> assign(:activity, %Activity{})}
   end
 end

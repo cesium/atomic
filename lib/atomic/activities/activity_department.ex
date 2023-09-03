@@ -1,16 +1,16 @@
-defmodule Atomic.Activities.SessionDepartment do
+defmodule Atomic.Activities.ActivityDepartment do
   @moduledoc """
     An activity department
   """
   use Atomic.Schema
 
-  alias Atomic.Activities.Session
+  alias Atomic.Activities.Activity
   alias Atomic.Organizations.Department
 
-  @required_fields ~w(session_id department_id)a
+  @required_fields ~w(activity_id department_id)a
 
-  schema "session_departments" do
-    belongs_to :session, Session
+  schema "activity_departments" do
+    belongs_to :activity, Activity
     belongs_to :department, Department
 
     timestamps()
