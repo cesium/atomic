@@ -70,8 +70,9 @@
                 <div class="-mt-px  divide-x divide-zinc-200">
                   <%= session.activity.description %>
                 </div>
-                <!-- FIXME: This is a placeholder image -->
-                <img src="https://picsum.photos/200/300" alt="random image" class="mt-2 w-full h-32 object-cover rounded-b-lg" />
+                <%= if session.activity.post do %>
+                  <img src={Uploaders.Post.url({session.activity.post, session.activity}, :original)} class="mt-2 w-full h-32 object-cover rounded-b-lg" />
+                <% end %>
               </div>
             <% end %>
           </li>
