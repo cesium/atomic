@@ -28,13 +28,13 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign(:current_page, :organizations)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
-     |> assign(:has_permissions?, has_permissions?(socket))
      |> assign(:followers_count, Organizations.count_followers(organization_id))
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
      |> assign(:following, maybe_put_following(socket, organization))
-     |> assign(:current_page, :organizations)}
+     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
   @impl true
@@ -99,19 +99,20 @@ defmodule AtomicWeb.OrganizationLive.Show do
     Organizations.is_member_of?(socket.assigns.current_user, organization)
   end
 
-  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+  defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
+    do: false
 
-  defp has_permissions?(socket)
+  defp has_permissions?(socket, _organization_id)
        when not is_map_key(socket.assigns, :current_organization) or
               is_nil(socket.assigns.current_organization) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
-  defp has_permissions?(socket) do
+  defp has_permissions?(socket, organization_id) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
         socket.assigns.current_user.id,
-        socket.assigns.current_organization.id
+        organization_id
       )
   end
 end

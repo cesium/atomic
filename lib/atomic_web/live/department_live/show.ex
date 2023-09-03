@@ -38,7 +38,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
        :collaborators,
        Departments.list_collaborators_by_department_id(department_id, preloads: [:user])
      )
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
   @impl true
@@ -86,19 +86,20 @@ defmodule AtomicWeb.DepartmentLive.Show do
     Departments.get_department_collaborator(department_id, socket.assigns.current_user.id)
   end
 
-  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+  defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
+    do: false
 
-  defp has_permissions?(socket)
+  defp has_permissions?(socket, _organization_id)
        when not is_map_key(socket.assigns, :current_organization) or
               is_nil(socket.assigns.current_organization) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
-  defp has_permissions?(socket) do
+  defp has_permissions?(socket, organization_id) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
         socket.assigns.current_user.id,
-        socket.assigns.current_organization.id
+        organization_id
       )
   end
 end
