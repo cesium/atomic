@@ -14,7 +14,6 @@ defmodule Atomic.Quantum.CertificateDelivery do
   """
   import Ecto.Query, warn: false
 
-  alias Atomic.Activities
   alias Atomic.Mailer
   alias Atomic.Repo
   alias Atomic.Activities.{Activity, Enrollment}
@@ -34,19 +33,24 @@ defmodule Atomic.Quantum.CertificateDelivery do
   def send_certificates do
     included_enrollments()
     |> Enum.each(fn enrollment ->
-
-      activity = Repo.get_by!(Activity, id: enrollment.activity_id)
+      activity =
+        Repo.get_by!(Activity, id: enrollment.activity_id)
         |> Repo.preload([:departments])
 
-      organizations = activity.departments
-      |> Enum.map(fn d -> d.organization_id end)
-      |> Enum.dedup()
-      |> Enum.map(fn o -> Repo.get_by!(Organization, id: o).name end)
+      organizations =
+        activity.departments
+        |> Enum.map(fn d -> d.organization_id end)
+        |> Enum.dedup()
+        |> Enum.map(fn o -> Repo.get_by!(Organization, id: o).name end)
 
       case generate_certificate(enrollment, activity, organizations) do
         {:ok, certificate} ->
           Mailer.deliver(
-            ActivityEmails.activity_certificate_email(enrollment, activity, organizations, certificate,
+            ActivityEmails.activity_certificate_email(
+              enrollment,
+              activity,
+              organizations,
+              certificate,
               to: enrollment.user.email
             )
           )
