@@ -18,11 +18,11 @@ defmodule Atomic.Repo.Seeds.Partners do
   def seed_partners do
     organizations = Repo.all(Organization)
 
-    for organization <- organizations do
-      for _ <- 0..1 do
+    for {organization, i} <- Enum.with_index(organizations) do
+      for _ <- 0..5 do
         %Partner{}
         |> Partner.changeset(%{
-          name: Faker.Company.name(),
+          name: Faker.Company.name() <> " " <> Integer.to_string(i),
           description: Faker.Company.catch_phrase(),
           organization_id: organization.id
         })

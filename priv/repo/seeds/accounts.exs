@@ -1,4 +1,7 @@
 defmodule Atomic.Repo.Seeds.Accounts do
+  @moduledoc """
+  Seeds the database with users.
+  """
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
   alias Atomic.Organizations.Organization
