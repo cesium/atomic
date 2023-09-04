@@ -1,33 +1,34 @@
-defmodule Atomic.Repo.Seeds.Announcement do
+defmodule Atomic.Repo.Seeds.Announcements do
+  @moduledoc """
+  Seeds the database with announcements.
+  """
+  alias Atomic.Organizations
   alias Atomic.Organizations.{Announcement, Organization}
   alias Atomic.Repo
 
   def run do
-    seed_announcements()
-  end
-
-  def seed_announcements do
     case Repo.all(Announcement) do
       [] ->
-        organizations = Repo.all(Organization)
-
-        for organization <- organizations do
-          for _ <- 1..10 do
-            %Announcement{}
-            |> Announcement.changeset(%{
-              title: Faker.Lorem.sentence(),
-              description: Faker.Lorem.paragraph(),
-              publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :minute),
-              organization_id: organization.id
-            })
-            |> Repo.insert!()
-          end
-        end
+        seed_announcements()
 
       _ ->
         Mix.shell().error("Found announcements, aborting seeding announcements.")
     end
   end
+
+  def seed_announcements do
+    organizations = Repo.all(Organization)
+
+    for _ <- 1..15 do
+      %{
+        title: Faker.Lorem.sentence(),
+        description: Faker.Lorem.paragraph(),
+        publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :second),
+        organization_id: Enum.random(organizations).id
+      }
+      |> Organizations.create_announcement()
+    end
+  end
 end
 
-Atomic.Repo.Seeds.Announcement.run()
+Atomic.Repo.Seeds.Announcements.run()
