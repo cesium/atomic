@@ -8,6 +8,8 @@ defmodule AtomicWeb.OrganizationLive.Index do
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -15,8 +17,6 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    organizations = list_organizations(params)
-
     entries = [
       %{
         name: gettext("Organizations"),
@@ -24,15 +24,17 @@ defmodule AtomicWeb.OrganizationLive.Index do
       }
     ]
 
+    organization_listing = list_organizations(params)
+
     {:noreply,
      socket
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(organizations))
+     |> assign(:empty, Enum.empty?(organization_listing.organizations))
      |> assign(:has_permissions, has_permissions?(socket))
      |> assign(:params, params)
      |> assign(:current_organization, socket.assigns.current_organization)
-     |> assign(:organizations, organizations)
+     |> assign(organization_listing)
      |> assign(:current_page, :organizations)}
   end
 
@@ -73,6 +75,12 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   defp list_organizations(params) do
-    Organizations.list_organizations(params)
+    case Organizations.list_organizations(Map.put(params, "page_size", 4), []) do
+      {:ok, {organizations, meta}} ->
+        %{organizations: organizations, meta: meta}
+
+      {:error, flop} ->
+        %{organizations: [], meta: flop}
+    end
   end
 end

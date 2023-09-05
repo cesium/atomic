@@ -1,7 +1,7 @@
 <div class="min-h-full bg-white">
   <div class="pt-5 pr-6 pb-5 pl-4 border-gray-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6">
     <div class="flex justify-between items-center h-10">
-      <h1 class="text-xl font-bold leading-7 text-zinc-900  sm:truncate sm:text-4xl"><%= gettext("Organizations") %></h1>
+      <h1 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl"><%= gettext("Organizations") %></h1>
       <%= if not @empty and @has_permissions do %>
         <div class="flex flex-col sm:flex-row xl:flex-col">
           <%= live_patch("+ New Organization", to: Routes.organization_index_path(@socket, :new), class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white") %>
@@ -14,7 +14,7 @@
       <.empty_state id="empty_state" url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>
   <% else %>
-    <ul role="list" class="relative z-0 border border-gray-200 rounded">
+    <ul role="list" class="relative z-0 border border-gray-200 rounded h-[70vh] overflow-auto border-b-0">
       <%= for organization <- @organizations do %>
         <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
           <li id={"organization-#{organization.id}"} class="relative pr-6 border-b border-gray-200 hover:bg-gray-50">
@@ -48,5 +48,6 @@
         <% end %>
       <% end %>
     </ul>
+    <.pagination items={@organizations} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
   <% end %>
 </div>

@@ -19,6 +19,12 @@ defmodule Atomic.Partnerships do
     Repo.all(Partner)
   end
 
+  def list_partnerships(%{} = flop, opts) when is_list(opts) do
+    Partner
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Partner)
+  end
+
   @doc """
   Returns the list of partnerships belonging to an organization.
 
