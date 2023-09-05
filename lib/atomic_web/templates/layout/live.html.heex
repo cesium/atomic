@@ -233,7 +233,7 @@
                 >
                   <div class="profile">
                     <div role="none">
-                      <%= live_redirect to: Routes.profile_show_path(@socket, :show, @current_user.slug), class: "w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" do %>
+                      <%= live_redirect to: Routes.profile_show_path(@socket, :show, @current_user), class: "w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" do %>
                         <span class="flex w-full items-center justify-between">
                           <span class="flex min-w-0 items-center justify-between space-x-3">
                             <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 rounded-lg">

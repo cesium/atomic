@@ -14,6 +14,8 @@ defmodule Atomic.Accounts.User do
 
   @roles ~w(admin student)a
 
+  @derive {Phoenix.Param, key: :slug}
+
   schema "users" do
     field :name, :string
     field :email, :string
