@@ -18,11 +18,9 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    session = Activities.get_session!(id, [:activity, :speakers, :departments])
+    activity = Activities.get_activity!(id, [:speakers, :departments])
 
-    activity = Activities.get_activity!(session.activity_id, [:sessions])
-
-    organizations = Activities.get_session_organizations!(session, [:departments])
+    organizations = Activities.get_activity_organizations!(activity, [:departments])
 
     entries = [
       %{
@@ -31,7 +29,7 @@ defmodule AtomicWeb.ActivityLive.Show do
       },
       %{
         name: activity.title,
-        route: Routes.activity_show_path(socket, :show, organization_id, session.id)
+        route: Routes.activity_show_path(socket, :show, organization_id, activity.id)
       }
     ]
 
@@ -45,9 +43,8 @@ defmodule AtomicWeb.ActivityLive.Show do
        |> assign(:page_title, page_title(socket.assigns.live_action))
        |> assign(:breadcrumb_entries, entries)
        |> assign(:current_page, :activities)
-       |> assign(:session, %{session | enrolled: Activities.get_total_enrolled(id)})
-       |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(session.id))
-       |> assign(:activity, activity)}
+       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
+       |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))}
     else
       raise MismatchError
     end
@@ -63,19 +60,19 @@ defmodule AtomicWeb.ActivityLive.Show do
          |> set_enrolled(socket.assigns.id, socket.assigns.current_user)}
 
       {:error, changeset} ->
-        case is_nil(changeset.errors[:session_id]) do
+        case is_nil(changeset.errors[:activity_id]) do
           true -> {:noreply, socket |> put_flash(:error, "Unable to enroll")}
-          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
+          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:activity_id] |> elem(0))}
         end
     end
   end
 
   @impl true
   def handle_event("unenroll", _payload, socket) do
-    session_id = socket.assigns.id
+    activity_id = socket.assigns.id
     current_user = socket.assigns.current_user
 
-    case Activities.delete_enrollment(session_id, current_user) do
+    case Activities.delete_enrollment(activity_id, current_user) do
       {1, nil} ->
         {:noreply,
          socket
@@ -101,11 +98,14 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_info({event, enrollment}, socket) when event in [:new_enrollment] do
-    session = socket.assigns.session
+    activity = socket.assigns.activity
 
-    if session.id == enrollment.session_id do
+    if activity.id == enrollment.activity_id do
       {:noreply,
-       assign(socket, :session, %{session | enrolled: Activities.get_total_enrolled(session.id)})}
+       assign(socket, :activity, %{
+         activity
+         | enrolled: Activities.get_total_enrolled(activity.id)
+       })}
     else
       {:noreply, socket}
     end
@@ -113,10 +113,10 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_info({event, _application}, socket) when event in [:deleted_application] do
-    session = socket.assigns.session
+    activity = socket.assigns.activity
 
     {:noreply,
-     assign(socket, :session, %{session | enrolled: Activities.get_total_enrolled(session.id)})}
+     assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity.id)})}
   end
 
   defp draw_qr_code(activity, user, _socket) do

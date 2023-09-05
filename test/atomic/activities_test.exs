@@ -32,17 +32,40 @@ defmodule Atomic.ActivitiesTest do
       assert {:error, %Ecto.Changeset{}} = Activities.create_activity(@invalid_attrs)
     end
 
+    test "create_activity/1 with maximum_entries lower than minimum_entries" do
+      valid_attrs = %{
+        title: "some updated title",
+        description: "some updated description",
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-22 20:00:00],
+        minimum_entries: 10,
+        maximum_entries: 1
+      }
+
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(valid_attrs)
+    end
+
+    test "create_activity/1 with finish date before start date" do
+      valid_attrs = %{
+        title: "some updated title",
+        description: "some updated description",
+        finish: ~N[2022-10-22 20:00:00],
+        start: ~N[2022-10-23 20:00:00],
+        minimum_entries: 0,
+        maximum_entries: 10
+      }
+
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(valid_attrs)
+    end
+
     test "update_activity/2 with valid data updates the activity" do
       activity = insert(:activity)
 
-      update_attrs = %{
-        description: "some updated description",
-        title: "some updated title"
-      }
+      update_attrs = %{}
 
       assert {:ok, %Activity{} = activity} = Activities.update_activity(activity, update_attrs)
-      assert activity.description == "some updated description"
-      assert activity.title == "some updated title"
+      assert activity.description == activity.description
+      assert activity.title == activity.title
     end
 
     test "update_activity/2 with invalid data returns error changeset" do
@@ -60,88 +83,6 @@ defmodule Atomic.ActivitiesTest do
     test "change_activity/1 returns a activity changeset" do
       activity = insert(:activity)
       assert %Ecto.Changeset{} = Activities.change_activity(activity)
-    end
-  end
-
-  describe "sessions" do
-    alias Atomic.Activities.Session
-
-    @invalid_attrs %{finish: nil, start: nil}
-
-    test "list_sessions/0 returns all sessions" do
-      session = session_fixture()
-      assert Activities.list_sessions([]) == [session]
-    end
-
-    test "get_session!/1 returns the session with given id" do
-      session = session_fixture()
-      assert Activities.get_session!(session.id) == session
-    end
-
-    test "create_session/1 with valid data creates a session" do
-      valid_attrs = %{
-        finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-22 20:00:00],
-        minimum_entries: 0,
-        maximum_entries: 10,
-        activity_id: insert(:activity).id
-      }
-
-      assert {:ok, %Session{} = session} = Activities.create_session(valid_attrs)
-      assert session.finish == ~N[2022-10-22 20:00:00]
-      assert session.start == ~N[2022-10-22 20:00:00]
-    end
-
-    test "create_session/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_session(@invalid_attrs)
-    end
-
-    test "create_session/1 with maximum_entries lower than minimum_entries" do
-      valid_attrs = %{
-        finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-22 20:00:00],
-        minimum_entries: 10,
-        maximum_entries: 1
-      }
-
-      assert {:error, %Ecto.Changeset{}} = Activities.create_session(valid_attrs)
-    end
-
-    test "create_session/1 with finish date before start date" do
-      valid_attrs = %{
-        finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-23 20:00:00],
-        minimum_entries: 0,
-        maximum_entries: 10
-      }
-
-      assert {:error, %Ecto.Changeset{}} = Activities.create_session(valid_attrs)
-    end
-
-    test "update_session/2 with valid data updates the session" do
-      session = session_fixture()
-      update_attrs = %{finish: ~N[2022-10-23 20:00:00], start: ~N[2022-10-23 20:00:00]}
-
-      assert {:ok, %Session{} = session} = Activities.update_session(session, update_attrs)
-      assert session.finish == ~N[2022-10-23 20:00:00]
-      assert session.start == ~N[2022-10-23 20:00:00]
-    end
-
-    test "update_session/2 with invalid data returns error changeset" do
-      session = session_fixture()
-      assert {:error, %Ecto.Changeset{}} = Activities.update_session(session, @invalid_attrs)
-      assert session == Activities.get_session!(session.id)
-    end
-
-    test "delete_session/1 deletes the session" do
-      session = session_fixture()
-      assert {:ok, %Session{}} = Activities.delete_session(session)
-      assert_raise Ecto.NoResultsError, fn -> Activities.get_session!(session.id) end
-    end
-
-    test "change_session/1 returns a session changeset" do
-      session = session_fixture()
-      assert %Ecto.Changeset{} = Activities.change_session(session)
     end
   end
 
@@ -163,9 +104,9 @@ defmodule Atomic.ActivitiesTest do
 
     test "create_enrollment/1 with valid data creates a enrollment" do
       user = insert(:user)
-      session = insert(:session)
+      activity = insert(:activity)
 
-      assert {:ok, %Enrollment{}} = Activities.create_enrollment(session.id, user)
+      assert {:ok, %Enrollment{}} = Activities.create_enrollment(activity.id, user)
     end
 
     test "update_enrollment/2 with valid data updates the enrollment" do
@@ -177,7 +118,7 @@ defmodule Atomic.ActivitiesTest do
 
     test "delete_enrollment/1 deletes the enrollment" do
       enrollment = insert(:enrollment)
-      assert {_, nil} = Activities.delete_enrollment(enrollment.session.id, enrollment.user)
+      assert {_, nil} = Activities.delete_enrollment(enrollment.activity.id, enrollment.user)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_enrollment!(enrollment.id) end
     end
 
