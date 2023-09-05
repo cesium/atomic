@@ -1,9 +1,26 @@
 defmodule Atomic.Repo.Seeds.Activities do
+  @moduledoc """
+  Seeds the database with activities.
+  """
   alias Atomic.Accounts.User
   alias Atomic.Activities
   alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
   alias Atomic.Organizations.Department
   alias Atomic.Repo
+
+  @activity_titles [
+    "Geek Night",
+    "Hack Night",
+    "Hackathon",
+    "Workshop",
+    "Talk",
+    "Meetup",
+    "Conference",
+    "Seminar",
+    "Course",
+    "Bootcamp",
+    "Study session"
+  ]
 
   def run do
     seed_activities()
@@ -14,161 +31,53 @@ defmodule Atomic.Repo.Seeds.Activities do
   def seed_activities do
     case Repo.all(Activity) do
       [] ->
-        location = %{
-          name: "Departamento de Informática da Universidade do Minho",
-          url: "https://web.di.uminho.pt"
-        }
+        for i <- 1..30 do
+          location = %{
+            name: Faker.Address.city(),
+            url: Faker.Internet.url()
+          }
 
-        %Activity{
-          title: "Test Activity",
-          description: "This is a test activity",
-          # We make these dates relative to current date so we are able to quickly test
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), -12, :hour)
-            |> NaiveDateTime.truncate(:second),
-          # the certificate delivery job
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), -8, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location,
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 2",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 3",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 4",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 2, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 2, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 5",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 3, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 3, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 6",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 4, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 4, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 7",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: 10,
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 5, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 5, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
-
-        %Activity{
-          title: "Test Activity 8",
-          description: "This is a test activity",
-          minimum_entries: 0,
-          maximum_entries: Enum.random(10..50),
-          enrolled: 0,
-          start:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 6, :day)
-            |> NaiveDateTime.truncate(:second),
-          finish:
-            NaiveDateTime.add(NaiveDateTime.utc_now(), 6, :day)
-            |> NaiveDateTime.add(2, :hour)
-            |> NaiveDateTime.truncate(:second),
-          location: location
-        }
-        |> Repo.insert!()
+          %{
+            title: Enum.random(@activity_titles),
+            description: Faker.Lorem.paragraph(),
+            start: build_start_date(i),
+            finish: build_finish_date(i),
+            location: location,
+            minimum_entries: Enum.random(1..10),
+            maximum_entries: Enum.random(11..20)
+          }
+          |> Activities.create_activity()
+        end
 
       _ ->
         Mix.shell().error("Found activities, aborting seeding activities.")
     end
   end
 
+  defp build_start_date(i) do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(i, :day)
+    |> NaiveDateTime.truncate(:second)
+  end
+
+  defp build_finish_date(i) do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(i, :day)
+    |> NaiveDateTime.add(2, :hour)
+    |> NaiveDateTime.truncate(:second)
+  end
+
   def seed_activity_departments do
     case Repo.all(ActivityDepartment) do
       [] ->
-        department = Repo.get_by(Department, name: "Merchandise and Partnerships")
         activities = Repo.all(Activity)
+        departments = Repo.all(Department)
 
         for activity <- activities do
           %ActivityDepartment{}
           |> ActivityDepartment.changeset(%{
             activity_id: activity.id,
-            department_id: department.id
+            department_id: Enum.random(departments).id
           })
           |> Repo.insert!()
         end

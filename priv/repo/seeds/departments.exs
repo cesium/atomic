@@ -1,66 +1,45 @@
 defmodule Atomic.Repo.Seeds.Departments do
+  @moduledoc """
+  Seeds the database with departments.
+  """
+  alias Atomic.Departments
   alias Atomic.Organizations.{Department, Organization}
   alias Atomic.Repo
 
-  def run do
-    seed_departments()
-  end
+  @department_names [
+    "CAOS",
+    "Marketing e Conteúdo",
+    "Relações Externas e Parcerias",
+    "Pedagógico",
+    "Recreativo",
+    "Financeiro",
+    "Administrativo",
+    "Comunicação",
+    "Tecnologia",
+    "Design"
+  ]
 
-  def seed_departments do
+  def run do
     case Repo.all(Department) do
       [] ->
-        Department.changeset(
-          %Department{},
-          %{
-            name: "Merchandise and Partnerships",
-            description: "Department responsible for the merchandise and partnerships of CeSIUM.",
-            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-          }
-        )
-        |> Repo.insert!()
-
-        Department.changeset(
-          %Department{},
-          %{
-            name: "Marketing and Content",
-            description: "Department responsible for the marketing and content of CeSIUM.",
-            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-          }
-        )
-        |> Repo.insert!()
-
-        Department.changeset(
-          %Department{},
-          %{
-            name: "Recreative",
-            description: "Department responsible for the recreative activities of CeSIUM.",
-            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-          }
-        )
-        |> Repo.insert!()
-
-        Department.changeset(
-          %Department{},
-          %{
-            name: "Pedagogical",
-            description: "Department responsible for the pedagogical activities of CeSIUM.",
-            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-          }
-        )
-        |> Repo.insert!()
-
-        Department.changeset(
-          %Department{},
-          %{
-            name: "CAOS",
-            description: "Department responsible for the CAOS activities of CeSIUM.",
-            organization_id: Repo.get_by(Organization, name: "CeSIUM") |> Map.get(:id)
-          }
-        )
-        |> Repo.insert!()
+        seed_departments()
 
       _ ->
         Mix.shell().error("Found departments, aborting seeding departments.")
+    end
+  end
+
+  def seed_departments do
+    organizations = Repo.all(Organization)
+
+    for organization <- organizations do
+      for i <- 0..Enum.random(4..(length(@department_names) - 1)) do
+        %{
+          name: Enum.at(@department_names, i),
+          organization_id: organization.id
+        }
+        |> Departments.create_department()
+      end
     end
   end
 end

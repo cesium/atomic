@@ -22,6 +22,16 @@ defmodule Atomic.Activities.Activity do
   @required_fields ~w(title description start finish minimum_entries maximum_entries)a
   @optional_fields ~w(event_id image)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:start],
+    default_order: %{
+      order_by: [:start],
+      order_directions: [:asc]
+    }
+  }
+
   schema "activities" do
     field :title, :string
     field :description, :string

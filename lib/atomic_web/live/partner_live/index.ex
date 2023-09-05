@@ -8,9 +8,11 @@ defmodule AtomicWeb.PartnerLive.Index do
   alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    {:ok, assign(socket, :partnerships, list_partnerships(organization_id))}
+  def mount(%{"organization_id" => organization_id} = params, _session, socket) do
+    {:ok, assign(socket, list_partnerships(organization_id, params))}
   end
 
   @impl true
@@ -25,19 +27,11 @@ defmodule AtomicWeb.PartnerLive.Index do
     {:noreply,
      socket
      |> assign(:current_page, :partners)
+     |> assign(list_partnerships(params["organization_id"], params))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:empty, Enum.empty?(socket.assigns.partnerships))
      |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
-
-    {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id))}
   end
 
   defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
@@ -66,6 +60,19 @@ defmodule AtomicWeb.PartnerLive.Index do
     |> assign(:partner, nil)
   end
 
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    partner = Partnerships.get_partner!(id)
+    {:ok, _} = Partnerships.delete_partner(partner)
+
+    {:noreply,
+     assign(
+       socket,
+       :partnerships,
+       list_partnerships(socket.assigns.current_organization.id, socket.params)
+     )}
+  end
+
   defp has_permissions?(socket) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
@@ -74,7 +81,13 @@ defmodule AtomicWeb.PartnerLive.Index do
       )
   end
 
-  defp list_partnerships(id) do
-    Partnerships.list_partnerships_by_organization_id(id)
+  defp list_partnerships(id, params) do
+    case Partnerships.list_partnerships(params, where: [organization_id: id]) do
+      {:ok, {partnerships, meta}} ->
+        %{partnerships: partnerships, meta: meta}
+
+      {:error, flop} ->
+        %{partnerships: [], meta: flop}
+    end
   end
 end
