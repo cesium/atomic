@@ -1,16 +1,16 @@
-defmodule Atomic.Activities.SessionSpeaker do
+defmodule Atomic.Activities.ActivitySpeaker do
   @moduledoc """
     An activity speaker
   """
   use Atomic.Schema
 
-  alias Atomic.Activities.Session
+  alias Atomic.Activities.Activity
   alias Atomic.Activities.Speaker
 
-  @required_fields ~w(session_id speaker_id)a
+  @required_fields ~w(activity_id speaker_id)a
 
-  schema "session_speakers" do
-    belongs_to :session, Session
+  schema "activity_speakers" do
+    belongs_to :activity, Activity
     belongs_to :speaker, Speaker
 
     timestamps()

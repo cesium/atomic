@@ -6,7 +6,7 @@ defmodule Atomic.Repo.Migrations.CreateEnrollments do
       add :id, :binary_id, primary_key: true
       add :present, :boolean, null: false, default: false
 
-      add :session_id, references(:sessions, on_delete: :delete_all, type: :binary_id)
+      add :activity_id, references(:activities, on_delete: :delete_all, type: :binary_id)
       add :user_id, references(:users, on_delete: :delete_all, type: :binary_id)
 
       timestamps()

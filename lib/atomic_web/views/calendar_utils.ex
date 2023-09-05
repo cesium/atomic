@@ -55,8 +55,8 @@ defmodule AtomicWeb.CalendarUtils do
     Timex.format!(date_time, "{YYYY}")
   end
 
-  def get_date_sessions(sessions, date) do
-    sessions
+  def get_date_activities(activities, date) do
+    activities
     |> Enum.filter(&(NaiveDateTime.to_date(&1.start) == date))
     |> Enum.sort_by(& &1.start, {:asc, NaiveDateTime})
   end

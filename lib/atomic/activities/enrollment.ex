@@ -6,15 +6,15 @@ defmodule Atomic.Activities.Enrollment do
 
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.Session
+  alias Atomic.Activities.Activity
 
-  @required_fields ~w(session_id user_id)a
+  @required_fields ~w(activity_id user_id)a
   @optional_fields ~w(present)a
 
   schema "enrollments" do
     field :present, :boolean, default: false
 
-    belongs_to :session, Session
+    belongs_to :activity, Activity
     belongs_to :user, User
 
     timestamps()
@@ -35,12 +35,12 @@ defmodule Atomic.Activities.Enrollment do
 
   # Validates if the maximum number of enrollments has been reached.
   defp validate_maximum_entries(changeset) do
-    session_id = get_field(changeset, :session_id)
-    session = Activities.get_session!(session_id)
-    enrolled = Activities.get_total_enrolled(session.id)
+    activity_id = get_field(changeset, :activity_id)
+    activity = Activities.get_activity!(activity_id)
+    enrolled = Activities.get_total_enrolled(activity.id)
 
-    if session.maximum_entries <= enrolled do
-      add_error(changeset, :session_id, gettext("maximum number of enrollments reached"))
+    if activity.maximum_entries <= enrolled do
+      add_error(changeset, :activity_id, gettext("maximum number of enrollments reached"))
     else
       changeset
     end

@@ -1,11 +1,11 @@
 defmodule Atomic.Uploaders.Post do
   @moduledoc """
-  Uploader for session images.
+  Uploader for activity images.
   """
   use Atomic.Uploader
-  alias Atomic.Activities.Session
+  alias Atomic.Activities.Activity
 
-  def storage_dir(_version, {_file, %Session{} = scope}) do
-    "uploads/atomic/sessions/#{scope.id}"
+  def storage_dir(_version, {_file, %Activity{} = scope}) do
+    "uploads/atomic/activities/#{scope.id}"
   end
 end
