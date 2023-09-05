@@ -48,13 +48,13 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-  def list_sessions_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
-    from(s in Session,
-      join: d in assoc(s, :departments),
+  def list_activities_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: d in assoc(a, :departments),
       where: d.organization_id == ^organization_id
     )
     |> apply_filters(opts)
-    |> Flop.validate_and_run(flop, for: Session)
+    |> Flop.validate_and_run(flop, for: Activity)
   end
 
   @doc """
@@ -75,25 +75,6 @@ defmodule Atomic.Activities do
     )
     |> apply_filters(opts)
     |> Repo.all()
-  end
-
-  def list_sessions_enrolled(user_id, opts \\ []) do
-    from(s in Session,
-      join: e in assoc(s, :enrollments),
-      where: e.user_id == ^user_id
-    )
-    |> apply_filters(opts)
-    |> Repo.all()
-    |> Repo.preload([:activity, :enrollments, :departments, :speakers])
-  end
-
-  def list_sessions_enrolled(user_id, %{} = flop, opts) when is_list(opts) do
-    from(s in Session,
-      join: e in assoc(s, :enrollments),
-      where: e.user_id == ^user_id
-    )
-    |> apply_filters(opts)
-    |> Flop.validate_and_run(flop, for: Session)
   end
 
   @doc """
@@ -305,15 +286,13 @@ defmodule Atomic.Activities do
     |> Repo.all()
   end
 
-  def get_user_activities(user_id) do
-    activities_ids =
-      get_user_enrollments(user_id)
-      |> Enum.map(& &1.activity_id)
-
-    for activity_id <- activities_ids,
-        do:
-          get_activity!(activity_id)
-          |> Repo.preload([:enrollments, :speakers])
+  def get_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
   end
 
   @doc """

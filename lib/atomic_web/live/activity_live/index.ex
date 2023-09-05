@@ -45,23 +45,34 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, list_activities(socket.assigns.current_organization.id))}
+    activities_listing = list_activities(socket.assigns.current_organization.id)
+
+    {:noreply,
+     socket
+     |> assign(activities_listing)
+     |> assign(:empty, Enum.empty?(activities_listing.activities))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
     user = socket.assigns.current_user
 
-    activites =
-      Activities.list_activities_enrolled(user.id, %{page_size: 6},
-        preloads: [:speakers, :departments]
+    activities =
+      Activities.get_user_activities(user.id, %{page_size: 6},
+        preloads: [:enrollments, :speakers, :departments]
       )
 
-    case activites do
-      {:ok, {activites, meta}} ->
-        {:noreply, assign(socket, %{activites: activites, meta: meta})}
+    case activities do
+      {:ok, {activities, meta}} ->
+        {:noreply,
+         socket
+         |> assign(%{activities: activities, meta: meta})
+         |> assign(:empty, false)}
 
       {:error, flop} ->
-        {:noreply, assign(socket, %{activites: [], meta: flop})}
+        {:noreply,
+         socket
+         |> assign(%{activities: [], meta: flop})
+         |> assign(:empty, true)}
     end
   end
 
@@ -95,16 +106,13 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_activities(id, params \\ %{}) do
     case Activities.list_activities_by_organization_id(id, Map.put(params, "page_size", 6),
-          preloads: [:speakers, :enrollments]
-        ) do
+           preloads: [:speakers, :enrollments]
+         ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
+
       {:error, flop} ->
         %{sessions: [], meta: flop}
     end
-  end
-
-  defp list_user_activities(user_id) do
-    Activities.get_user_activities(user_id)
   end
 end
