@@ -37,15 +37,6 @@ defmodule AtomicWeb.PartnerLive.Index do
      |> apply_action(socket.assigns.live_action, params)}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
-
-    {:noreply,
-     assign(socket, :partnerships, list_partnerships(socket.assigns.current_organization.id, []))}
-  end
-
   defp apply_action(socket, :edit, %{"slug" => slug, "id" => id}) do
     partner = Partnerships.get_partner!(id)
     organization = Organizations.get_organization_by_slug(slug)
