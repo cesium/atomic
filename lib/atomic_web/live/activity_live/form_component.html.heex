@@ -10,10 +10,6 @@
     <%= textarea(f, :description) %>
     <%= error_tag(f, :description) %>
 
-    <%= label(f, :date) %>
-    <%= datetime_local_input(f, :date) %>
-    <%= error_tag(f, :date) %>
-
     <%= label(f, :minimum_entries) %>
     <%= number_input(f, :minimum_entries) %>
     <%= error_tag(f, :minimum_entries) %>
@@ -30,37 +26,23 @@
     <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers") %>
     <%= error_tag(f, :speaker) %>
 
-    <ul>
-      <a href="#" phx-click="add-session" phx-target={@myself}>
-        New Session
-      </a>
+    <%= label(f, :start) %>
+    <%= datetime_local_input(f, :start) %>
+    <%= error_tag(f, :start) %>
 
-      <%= label(f, :sessions) %>
-      <%= inputs_for f, :sessions, fn fs -> %>
-        <%= label(fs, :start) %>
-        <%= datetime_local_input(fs, :start) %>
-        <%= error_tag(fs, :start) %>
+    <%= label(f, :finish) %>
+    <%= datetime_local_input(f, :finish) %>
+    <%= error_tag(f, :finish) %>
 
-        <%= label(fs, :finish) %>
-        <%= datetime_local_input(fs, :finish) %>
-        <%= error_tag(fs, :finish) %>
+    <%= inputs_for f, :location, fn fl -> %>
+      <%= label(f, :location) %>
+      <%= text_input(fl, :name) %>
+      <%= error_tag(fl, :name) %>
 
-        <%= inputs_for fs, :location, fn fl -> %>
-          <%= label(fs, :location) %>
-          <%= text_input(fl, :name) %>
-          <%= error_tag(fl, :name) %>
-
-          <%= label(fl, :url) %>
-          <%= text_input(fl, :url) %>
-          <%= error_tag(fl, :url) %>
-        <% end %>
-
-        <%= if fs.index != 0 do %>
-          <%= label(fs, :delete) %>
-          <%= checkbox(fs, :delete, id: fs.data.id) %>
-        <% end %>
-      <% end %>
-    </ul>
+      <%= label(fl, :url) %>
+      <%= text_input(fl, :url) %>
+      <%= error_tag(fl, :url) %>
+    <% end %>
 
     <div>
       <%= submit("Save", phx_disable_with: "Saving...") %>

@@ -8,10 +8,11 @@ defmodule AtomicWeb.ActivityLive.Index do
   alias Atomic.Activities.Activity
   alias Atomic.Organizations
 
+  import AtomicWeb.Components.Pagination
+
   @impl true
-  def mount(params, _session, socket) do
-    organization = Organizations.get_organization_by_slug(params["slug"])
-    {:ok, assign(socket, :sessions, list_sessions(organization.id))}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
@@ -23,11 +24,15 @@ defmodule AtomicWeb.ActivityLive.Index do
       }
     ]
 
+    organization = Organizations.get_organization_by_slug(params["slug"])
+    activities_listing = list_activities(organization.id, params)
+
     {:noreply,
      socket
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.sessions))
+     |> assign(activities_listing)
+     |> assign(:empty, Enum.empty?(activities_listing.activities))
      |> assign(:has_permissions, has_permissions?(socket))
      |> apply_action(socket.assigns.live_action, params)}
   end
@@ -37,15 +42,39 @@ defmodule AtomicWeb.ActivityLive.Index do
     activity = Activities.get_activity!(id)
     {:ok, _} = Activities.delete_activity(activity)
 
-    {:noreply, assign(socket, :activies, list_sessions(socket.assigns.current_organization.id))}
+    {:noreply, assign(socket, list_activities(socket.assigns.current_organization.id))}
   end
 
   def handle_event("open-enrollments", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_sessions(socket.assigns.current_organization.id))}
+    activities_listing = list_activities(socket.assigns.current_organization.id)
+
+    {:noreply,
+     socket
+     |> assign(activities_listing)
+     |> assign(:empty, Enum.empty?(activities_listing.activities))}
   end
 
   def handle_event("activities-enrolled", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_user_sessions(socket.assigns.current_user.id))}
+    user = socket.assigns.current_user
+
+    activities =
+      Activities.get_user_activities(user.id, %{page_size: 6},
+        preloads: [:enrollments, :speakers, :departments]
+      )
+
+    case activities do
+      {:ok, {activities, meta}} ->
+        {:noreply,
+         socket
+         |> assign(%{activities: activities, meta: meta})
+         |> assign(:empty, false)}
+
+      {:error, flop} ->
+        {:noreply,
+         socket
+         |> assign(%{activities: [], meta: flop})
+         |> assign(:empty, true)}
+    end
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -76,13 +105,15 @@ defmodule AtomicWeb.ActivityLive.Index do
       )
   end
 
-  defp list_sessions(organization_id) do
-    Activities.list_sessions_by_organization_id(organization_id,
-      preloads: [:activity, :speakers, :enrollments]
-    )
-  end
+  defp list_activities(id, params \\ %{}) do
+    case Activities.list_activities_by_organization_id(id, Map.put(params, "page_size", 6),
+           preloads: [:speakers, :enrollments]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
 
-  defp list_user_sessions(user_id) do
-    Activities.get_user_activities(user_id)
+      {:error, flop} ->
+        %{sessions: [], meta: flop}
+    end
   end
 end

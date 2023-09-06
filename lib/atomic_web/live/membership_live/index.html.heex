@@ -7,50 +7,30 @@
     </div>
   </div>
 
-  <div class="mt-8 flow-root">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+  <div class="flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 mt-6">
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-300">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Number</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone Number</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Requested At</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Updated By</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Updated At</th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 bg-white">
-              <%= for membership <- @memberships do %>
-                <tr>
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"><%= membership.number %></td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <%= live_redirect to: Routes.user_show_path(@socket, :show, membership.user.handle) do %>
-                      <%= membership.user.name %>
-                    <% end %>
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= membership.user.email %></td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Phone number</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(membership.inserted_at) %> <%= display_time(membership.inserted_at) %></td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= membership.created_by.name %></td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></td>
-                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <%= link to: Routes.membership_edit_path(@socket, :edit, @current_organization.handle, membership), class: "text-indigo-600 hover:text-indigo-900" do %>
-                      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                        <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
-                      </div>
-                    <% end %>
-                  </td>
-                </tr>
+        <div class="overflow-hidden shadow border-[1px] border-r-0  ring-opacity-5 sm:rounded-lg">
+          <.table items={@memberships} meta={@meta} filter={[member_name: [op: :ilike_and]]}>
+            <:col let={membership} label="Number" field={:number}><%= membership.number %></:col>
+            <:col let={membership} label="Name" field={:member_name}><%= membership.user.name %></:col>
+            <:col let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
+            <:col let={membership} label="Role" field={:role}>
+              <p class="capitalize"><%= membership.role %></p>
+            </:col>
+            <:col let={_membership} label="Phone Number" field={:phone_number}>Phone number</:col>
+            <:col let={membership} label="Requested At" field={:inserted_at}><%= display_date(membership.inserted_at) %> <%= display_time(membership.inserted_at) %></:col>
+            <:col let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
+            <:col let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
+            <:col let={membership}>
+              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-indigo-600 hover:text-indigo-900" do %>
+                <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
+                </div>
               <% end %>
-            </tbody>
-          </table>
+            </:col>
+          </.table>
+          <.pagination items={@memberships} meta={@meta} class="mt-2 flex w-full items-center justify-between border-r-[1px]" />
         </div>
       </div>
     </div>

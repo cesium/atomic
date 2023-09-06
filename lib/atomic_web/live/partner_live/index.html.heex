@@ -38,9 +38,9 @@
     <.empty_state id="empty_state" url={Routes.partner_index_path(@socket, :new, @current_organization.slug)} placeholder="partnership" />
   </div>
 <% else %>
-  <ul role="list" class="">
+  <ul role="list" class="h-[70vh] overflow-auto">
     <%= for partner <- @partnerships do %>
-      <%= live_redirect to: Routes.partner_show_path(@socket, :show, @current_organization.slug, partner), class: "w-full h-full block hover:bg-zinc-50", replace: false do %>
+      <%= live_redirect to: Routes.partner_show_path(@socket, :show, @current_organization.slug, partner), class: "w-full block hover:bg-zinc-50", replace: false do %>
         <li class="px-4 flex justify-between border-b-2 border-gray-200 gap-x-6 py-5">
           <div class="flex gap-x-4">
             <div class="h-12 w-12 flex-none rounded-full bg-gray-50">
@@ -63,4 +63,5 @@
       <% end %>
     <% end %>
   </ul>
+  <.pagination items={@partnerships} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
 <% end %>

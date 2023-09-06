@@ -23,6 +23,12 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  def list_organizations(%{} = flop, opts) when is_list(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Organization)
+  end
+
   @doc """
   Gets a single organization.
 
@@ -197,6 +203,14 @@ defmodule Atomic.Organizations do
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
+  end
+
+  def list_display_memberships(%{} = flop, opts) when is_list(opts) do
+    Membership
+    |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> where([a], a.role != :follower)
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
   end
 
   @doc """
