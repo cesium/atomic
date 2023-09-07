@@ -187,9 +187,9 @@ defmodule AtomicWeb.Components.Calendar do
         </div>
       </header>
       <%= if @mode == "month" do %>
-        <.calendar_month id="calendar_month" current_path={@current_path} params={@params} sessions={@sessions} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
+        <.calendar_month id="calendar_month" current_path={@current_path} params={@params} activities={@activities} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
       <% else %>
-        <.calendar_week id="calendar_week" current_path={@current_path} current={@current} params={@params} sessions={@sessions} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
+        <.calendar_week id="calendar_week" current_path={@current_path} current={@current} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
     """

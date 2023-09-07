@@ -2,6 +2,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Accounts
+  alias Atomic.Activities
   alias Atomic.Departments
   alias Atomic.Organizations
 
@@ -20,7 +21,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
         route: Routes.organization_index_path(socket, :index)
       },
       %{
-        name: gettext("%{name}", name: organization.name),
+        name: organization.name,
         route: Routes.organization_show_path(socket, :show, organization_id)
       }
     ]
@@ -31,9 +32,10 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:current_page, :organizations)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
-     |> assign(:followers_count, Organizations.count_followers(organization_id))
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
-     |> assign(:following, maybe_put_following(socket, organization))
+     |> assign(list_activities(organization_id))
+     |> assign(:followers_count, Organizations.count_followers(organization_id))
+     |> assign(:following?, maybe_put_following(socket, organization))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
@@ -51,7 +53,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply,
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
-         |> assign(:following, true)
+         |> assign(:following?, true)
          |> push_patch(
            to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
          )}
@@ -74,7 +76,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply,
          socket
          |> put_flash(:success, "Stopped following " <> socket.assigns.organization.name)
-         |> assign(:following, false)
+         |> assign(:following?, false)
          |> push_patch(
            to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
          )}
@@ -90,6 +92,16 @@ defmodule AtomicWeb.OrganizationLive.Show do
      socket
      |> put_flash(:error, gettext("You must be logged in to follow an organization."))
      |> push_redirect(to: Routes.user_session_path(socket, :new))}
+  end
+
+  defp list_activities(organization_id) do
+    case Activities.list_activities_by_organization_id(organization_id) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
   defp maybe_put_following(socket, _organization) when not socket.assigns.is_authenticated?,

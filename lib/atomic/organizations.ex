@@ -16,12 +16,22 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations, do: Repo.all(Organization)
+  def list_organizations(params \\ %{})
 
-  def list_organizations(opts) do
+  def list_organizations(opts) when is_list(opts) do
     Organization
     |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  def list_organizations(flop) do
+    Flop.validate_and_run(Organization, flop, for: Organization)
+  end
+
+  def list_organizations(%{} = flop, opts) when is_list(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Organization)
   end
 
   @doc """
@@ -202,6 +212,14 @@ defmodule Atomic.Organizations do
     |> where([a], a.user_id == ^user_id)
     |> Repo.preload(preloads)
     |> Repo.all()
+  end
+
+  def list_display_memberships(%{} = flop, opts \\ []) do
+    Membership
+    |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> where([a], a.role != :follower)
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
   end
 
   @doc """
@@ -393,6 +411,17 @@ defmodule Atomic.Organizations do
     |> Enum.drop_while(fn elem -> elem != role end)
   end
 
+  @doc """
+  Returns the amount of followers in an organization.
+
+  ## Examples
+
+      iex> count_followers(organization_id)
+      5
+
+      iex> count_followers(organization_id) when organization_id == CeSIUM.id
+      100000000000000000000000000
+  """
   def count_followers(organization_id) do
     Membership
     |> where([m], m.organization_id == ^organization_id and m.role == :follower)

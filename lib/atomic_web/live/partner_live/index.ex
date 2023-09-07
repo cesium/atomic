@@ -2,6 +2,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -13,7 +14,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
     entries = [
@@ -23,15 +24,16 @@ defmodule AtomicWeb.PartnerLive.Index do
       }
     ]
 
-    partners = Partnerships.list_partnerships_by_organization_id(organization_id)
+    partners_with_flop = list_partnerships(organization_id)
 
     {:noreply,
      socket
      |> assign(:current_page, :partners)
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:partners, partners)
-     |> assign(:empty?, Enum.empty?(partners))
+     |> assign(:params, params)
+     |> assign(partners_with_flop)
+     |> assign(:empty?, Enum.empty?(partners_with_flop.partners))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
@@ -41,5 +43,15 @@ defmodule AtomicWeb.PartnerLive.Index do
         socket.assigns.current_user.id,
         organization_id
       )
+  end
+
+  defp list_partnerships(id, params \\ %{}) do
+    case Partnerships.list_partnerships(params, where: [organization_id: id]) do
+      {:ok, {partners, meta}} ->
+        %{partners: partners, meta: meta}
+
+      {:error, flop} ->
+        %{partners: [], meta: flop}
+    end
   end
 end

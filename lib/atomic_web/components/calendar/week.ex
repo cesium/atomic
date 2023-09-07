@@ -90,11 +90,11 @@ defmodule AtomicWeb.Components.CalendarWeek do
             </div>
             <!-- Events -->
             <ol class="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:hidden" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
-              <.day date={@current} index={0} sessions={@sessions} />
+              <.day date={@current} idx={0} activities={@activities} />
             </ol>
             <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
               <%= for idx <- 0..6 do %>
-                <.day date={Timex.shift(@beginning_of_week, days: idx)} index={idx} sessions={@sessions} />
+                <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} activities={@activities} />
               <% end %>
             </ol>
           </div>
@@ -106,16 +106,16 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
   defp day(assigns) do
     ~H"""
-    <%= for session <- get_date_sessions(@sessions, @date) do %>
-      <%= if session.activity do %>
-        <li class={"#{col_start(@index + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(session.start)} / span #{calc_time(session.start, session.finish)}"}>
-          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session) do %>
+    <%= for activity <- get_date_activities(@activities, @date) do %>
+      <%= if activity do %>
+        <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
+          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity, assigns.organization) do %>
             <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
               <p class="order-1 font-semibold text-orange-600">
-                <%= session.activity.title %>
+                activity.title
               </p>
               <p class="text-orange-600 group-hover:text-orange-800">
-                <time datetime={session.start}><%= Calendar.strftime(session.start, "%Hh%M") %></time>
+                <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
               </p>
             </div>
           <% end %>

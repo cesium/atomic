@@ -17,8 +17,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    session = Activities.get_session!(id, [:activity, :speakers, :departments])
-    activity = Activities.get_activity!(session.activity_id, [:sessions])
+    activity = Activities.get_activity!(id, [:speakers, :departments])
 
     entries = [
       %{
@@ -27,7 +26,7 @@ defmodule AtomicWeb.ActivityLive.Show do
       },
       %{
         name: activity.title,
-        route: Routes.activity_show_path(socket, :show, session.id)
+        route: Routes.activity_show_path(socket, :show, id)
       }
     ]
 
@@ -36,10 +35,9 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:page_title, "#{activity.title}")
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
-     |> assign(:session, %{session | enrolled: Activities.get_total_enrolled(id)})
-     |> assign(:activity, activity)
+     |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
      |> assign(:enrolled?, maybe_put_enrolled(socket))
-     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(session.id))
+     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
@@ -52,10 +50,10 @@ defmodule AtomicWeb.ActivityLive.Show do
          |> put_flash(:success, "Enrolled successufully!")
          |> assign(:enrolled?, true)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        case is_nil(changeset.errors[:session_id]) do
+      {:error, changeset} ->
+        case is_nil(changeset.errors[:activity_id]) do
           true -> {:noreply, socket |> put_flash(:error, "Unable to enroll")}
-          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:session_id] |> elem(0))}
+          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:activity_id] |> elem(0))}
         end
     end
   end

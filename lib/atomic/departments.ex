@@ -4,9 +4,8 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
-  alias Atomic.Activities.SessionDepartment
-  alias Atomic.Organizations.Collaborator
-  alias Atomic.Organizations.Department
+  alias Atomic.Activities.{Activity, ActivityDepartment}
+  alias Atomic.Organizations.{Collaborator, Department}
 
   @doc """
   Returns the list of departments.
@@ -55,18 +54,20 @@ defmodule Atomic.Departments do
   end
 
   @doc """
-  Returns the list of activity sessions that belong to a department.
+  Returns the list of activities that belong to a department.
 
   ## Examples
 
-      iex> get_department_sessions(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%Session{}, ...]
+      iex> list_activities_by_department_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Activity{}, ...]
 
   """
-  def get_department_sessions(department_id) do
-    Repo.all(from s in SessionDepartment, where: s.department_id == ^department_id)
-    |> Repo.preload([:session, session: :activity])
-    |> Enum.map(& &1.session)
+  def list_activities_by_department_id(id) do
+    ActivityDepartment
+    |> where([ad], ad.department_id == ^id)
+    |> join(:inner, [ad], a in Activity, on: ad.activity_id == a.id)
+    |> select([a], a)
+    |> Repo.all()
   end
 
   @doc """

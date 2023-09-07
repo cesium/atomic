@@ -29,7 +29,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
      |> assign(:page_title, gettext("Edit Activity"))
      |> assign(
        :activity,
-       Activities.get_activity!(id, [:sessions, :speakers, :departments])
+       Activities.get_activity!(id, [:speakers, :departments])
      )}
   end
 end

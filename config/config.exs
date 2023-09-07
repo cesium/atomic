@@ -25,6 +25,10 @@ config :waffle,
   storage_dir_prefix: "priv",
   asset_host: {:system, "ASSET_HOST"}
 
+config :flop,
+  default_limit: 7,
+  repo: Atomic.Repo
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

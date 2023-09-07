@@ -60,18 +60,18 @@
 
     <div x-bind:class="open == 'activities' ? 'block' : 'hidden'" class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
       <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
-        <%= for session <- @sessions do %>
+        <%= for activity <- @activities do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-zinc-200 rounded-lg bg-white text-center shadow hover:bg-zinc-50">
-            <%= live_patch to: Routes.activity_index_path(@socket, :show, session.activity), class: "" do %>
+            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "" do %>
               <div class="flex flex-1 flex-col p-4">
-                <h3 class="mt-6 text-md font-medium text-zinc-900"><%= session.activity.title %></h3>
+                <h3 class="mt-6 text-md font-medium text-zinc-900"><%= activity.title %></h3>
               </div>
               <div class="flex flex-col items-center justify-center">
                 <div class="-mt-px  divide-x divide-zinc-200">
-                  <%= session.activity.description %>
+                  <%= activity.description %>
                 </div>
-                <%= if session.activity.post do %>
-                  <img src={Uploaders.Post.url({session.activity.post, session.activity}, :original)} class="mt-2 w-full h-32 object-cover rounded-b-lg" />
+                <%= if activity.post do %>
+                  <img src={Uploaders.Post.url({activity.post, activity}, :original)} class="mt-2 w-full h-32 object-cover rounded-b-lg" />
                 <% end %>
               </div>
             <% end %>

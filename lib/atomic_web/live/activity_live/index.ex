@@ -2,6 +2,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -13,7 +14,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _, socket) do
+  def handle_params(params, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),
@@ -21,70 +22,85 @@ defmodule AtomicWeb.ActivityLive.Index do
       }
     ]
 
-    sessions = list_default_sessions(socket)
+    activities_with_flop = list_activities(socket, params)
 
     {:noreply,
      socket
      |> assign(:page_title, gettext("Activities"))
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:sessions, sessions)
-     |> assign(:empty?, Enum.empty?(sessions))
+     |> assign(:current_tab, current_tab(socket, params))
+     |> assign(:params, params)
+     |> assign(activities_with_flop)
+     |> assign(:empty?, Enum.empty?(activities_with_flop.activities))
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
-  @impl true
-  def handle_event("all", _payload, socket) do
-    sessions = Activities.list_sessions(preloads: [:activity, :speakers, :enrollments])
-    {:noreply, assign(socket, :sessions, sessions)}
+  defp list_activities(socket, params) do
+    params = Map.put(params, "page_size", 6)
+
+    case current_tab(socket, params) do
+      "all" -> list_all_activities(socket, params)
+      "following" -> list_following_activities(socket, params)
+      "upcoming" -> list_upcoming_activities(socket, params)
+      "enrolled" -> list_enrolled_activities(socket, params)
+    end
   end
 
-  @impl true
-  def handle_event("following", _payload, socket) do
+  defp list_all_activities(_socket, params) do
+    case Activities.list_activities(params, preloads: [:speakers, :enrollments]) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
+  end
+
+  defp list_following_activities(socket, params) do
     organizations =
       Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
-    sessions =
-      Enum.map(organizations, fn organization ->
-        Activities.list_sessions_by_organization_id(organization.id,
-          preloads: [:activity, :speakers, :enrollments]
-        )
-      end)
+    case Activities.list_organizations_activities(organizations, params,
+           preloads: [:speakers, :enrollments]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
 
-    {:noreply, assign(socket, :sessions, List.flatten(sessions))}
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  @impl true
-  def handle_event("upcoming", _payload, socket) do
-    sessions = Activities.list_upcoming_sessions(preloads: [:activity, :speakers, :enrollments])
-    {:noreply, assign(socket, :sessions, sessions)}
+  defp list_upcoming_activities(_socket, params) do
+    case Activities.list_upcoming_activities(params, preloads: [:speakers, :enrollments]) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  @impl true
-  def handle_event("enrolled", _payload, socket) do
-    sessions =
-      Activities.list_user_sessions(socket.assigns.current_user.id,
-        preloads: [:activity, :speakers, :enrollments]
-      )
+  defp list_enrolled_activities(socket, params) do
+    case Activities.list_user_activities(socket.assigns.current_user.id, params,
+           preloads: [:speakers, :enrollments]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
 
-    {:noreply, assign(socket, :sessions, sessions)}
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  defp list_default_sessions(socket) do
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+
+  defp current_tab(socket, _params) do
     if socket.assigns.is_authenticated? do
-      organizations =
-        Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
-
-      sessions =
-        Enum.map(organizations, fn organization ->
-          Activities.list_sessions_by_organization_id(organization.id,
-            preloads: [:activity, :speakers, :enrollments]
-          )
-        end)
-
-      List.flatten(sessions)
+      "following"
     else
-      Activities.list_sessions(preloads: [:activity, :speakers, :enrollments])
+      "all"
     end
   end
 

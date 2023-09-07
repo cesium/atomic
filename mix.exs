@@ -44,6 +44,7 @@ defmodule Atomic.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
+      {:flop, "~> 0.17.0"},
 
       # security
       {:bcrypt_elixir, "~> 3.0"},
@@ -60,9 +61,9 @@ defmodule Atomic.MixProject do
       # frontend
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
-      {:flop, "~> 0.17.0"},
       {:icons, "~> 0.7.1"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:flop_phoenix, "~> 0.14.2"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},

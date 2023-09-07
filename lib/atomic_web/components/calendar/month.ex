@@ -34,33 +34,31 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <div class="flex bg-zinc-200 text-xs leading-6 text-zinc-700 lg:flex-auto">
         <div class="grid w-full grid-cols-7 gap-px overflow-hidden rounded-b-lg">
           <%= for i <- 0..@end_of_month.day - 1 do %>
-            <.day index={i} params={@params} current_path={@current_path} sessions={@sessions} date={Timex.shift(@beginning_of_month, days: i)} timezone={@timezone} />
+            <.day index={i} params={@params} current_path={@current_path} activities={@activities} date={Timex.shift(@beginning_of_month, days: i)} timezone={@timezone} />
           <% end %>
         </div>
       </div>
     </div>
     <div class="py-4 lg:hidden">
       <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
-        <%= for session <- get_date_sessions(@sessions, current_from_params(@timezone, @params)) do %>
-          <%= if session.activity do %>
-            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session) do %>
-              <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
-                <div class="flex-auto">
-                  <p class="font-semibold text-zinc-900">
-                    <%= session.activity.title %>
-                  </p>
-                  <div class="flex flex-row items-center gap-x-2 pt-2">
-                    <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color="purple">
-                      Activity
-                    </.badge_dot>
-                    <time datetime={session.start} class="flex items-center text-zinc-700">
-                      <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
-                      <%= Calendar.strftime(session.start, "%Hh%M") %>
-                    </time>
-                  </div>
+        <%= for activity <- get_date_activities(@activities, current_from_params(@timezone, @params)) do %>
+          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
+            <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
+              <div class="flex-auto">
+                <p class="font-semibold text-zinc-900">
+                  <%= activity.title %>
+                </p>
+                <div class="flex flex-row items-center gap-x-2 pt-2">
+                  <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color="purple">
+                    Activity
+                  </.badge_dot>
+                  <time datetime={activity.start} class="flex items-center text-zinc-700">
+                    <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
+                    <%= Calendar.strftime(activity.start, "%Hh%M") %>
+                  </time>
                 </div>
-              </li>
-            <% end %>
+              </div>
+            </li>
           <% end %>
         <% end %>
       </ol>
@@ -101,15 +99,13 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <%= @text %>
       </time>
       <ol class="mt-3 w-full">
-        <%= for session <- get_date_sessions(@sessions, @date) do %>
+        <%= for activity <- get_date_activities(@activities, @date) do %>
           <li>
-            <%= if session.activity do %>
-              <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.id), class: "group flex" do %>
-                <p class="flex-auto truncate font-medium text-zinc-600 group-hover:text-zinc-800">
-                  <%= session.activity.title %>
-                </p>
-                <time datetime={session.start} class="mx-2 hidden flex-none text-zinc-600 group-hover:text-zinc-800 xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
-              <% end %>
+            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity), class: "group flex" do %>
+              <p class="flex-auto truncate font-medium text-zinc-600 group-hover:text-zinc-800">
+                <%= activity.title %>
+              </p>
+              <time datetime={activity.start} class="mx-2 hidden flex-none text-zinc-600 group-hover:text-zinc-800 xl:block"><%= Calendar.strftime(activity.start, "%Hh") %></time>
             <% end %>
           </li>
         <% end %>
@@ -134,11 +130,11 @@ defmodule AtomicWeb.Components.CalendarMonth do
       >
         <%= @text %>
       </time>
-      <%= if (sessions = get_date_sessions(@sessions, @date)) != [] do %>
-        <span class="sr-only">Enum.count(sessions) events</span>
+      <%= if (activities = get_date_activities(@activities, @date)) != [] do %>
+        <span class="sr-only">Enum.count(activities) events</span>
         <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
-          <%= for session <- sessions do %>
-            <%= if session.activity do %>
+          <%= for activity <- activities do %>
+            <%= if activity do %>
               <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-700"></span>
             <% end %>
           <% end %>

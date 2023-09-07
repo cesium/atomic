@@ -10,6 +10,17 @@ defmodule Atomic.Organizations.Organization do
   @required_fields ~w(name description)a
   @optional_fields ~w(card_image logo)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:name],
+    compound_fields: [search: [:name]],
+    default_order: %{
+      order_by: [:name],
+      order_directions: [:asc]
+    }
+  }
+
   schema "organizations" do
     field :name, :string
     field :description, :string

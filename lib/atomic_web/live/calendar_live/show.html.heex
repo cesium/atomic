@@ -1,4 +1,4 @@
 <h2 class="text-3xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
   <%= gettext("Calendar") %>
 </h2>
-<.calendar id="calendar" current_path={Routes.calendar_show_path(@socket, :show)} sessions={@sessions} params={@params} mode={@mode} timezone={@timezone} />
+<.calendar id="calendar" current_path={Routes.calendar_show_path(@socket, :show)} activities={@activities} params={@params} mode={@mode} timezone={@timezone} />

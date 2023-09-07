@@ -34,7 +34,7 @@
                     <span class="ml-2 text-xl text-zinc-900 w-full inline-flex items-center">Followers</span>
                   </div>
                 </div>
-                <%= if not @following do %>
+                <%= if not @following? do %>
                   <%= if @is_authenticated? do %>
                     <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
                   <% else %>
@@ -62,6 +62,37 @@
           </nav>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div x-bind:class="option == 'activities' ? 'block' : 'hidden'" class="h-full lg:justify-center py-2">
+    <div class="h-max lg:w-full">
+      <div class="w-full flex flex-row items-center">
+        <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
+        <Heroicons.Solid.academic_cap class="ml-2 h-5 w-5 text-zinc-400 inline" />
+      </div>
+    </div>
+    <div class="w-full flex flex-col lg:flex-row items-center justify-center mt-2 lg:w-full">
+      <ul class="mr-8">
+        <%= for activity <- Enum.take(@activities, 5) do %>
+          <li class="w-96 mb-2 items-center justify-between border-b-2 border-zinc-200 gap-x-6 py-2">
+            <div class="">
+              <div class="flex flex-col ml-2">
+                <h3 class="text-lg font-semibold text-zinc-700">
+                  <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400 inline" />
+                  <%= activity.title %>
+                </h3>
+                <span class="text-md font-semibold text-zinc-700">
+                  <%= display_date(activity.inserted_at) %> <%= display_time(activity.inserted_at) %>
+                </span>
+                <span class="text-md font-semibold text-zinc-500">
+                  <%= activity.description %>
+                </span>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 

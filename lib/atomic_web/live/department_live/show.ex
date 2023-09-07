@@ -11,9 +11,9 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => department_id}, _, socket) do
-    department = Departments.get_department!(department_id)
-    sessions = Departments.get_department_sessions(department_id)
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+    department = Departments.get_department!(id)
+    activities = Departments.list_activities_by_department_id(id)
 
     entries = [
       %{
@@ -22,7 +22,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
       },
       %{
         name: department.name,
-        route: Routes.department_show_path(socket, :show, organization_id, department_id)
+        route: Routes.department_show_path(socket, :show, organization_id, department.id)
       }
     ]
 
@@ -32,11 +32,11 @@ defmodule AtomicWeb.DepartmentLive.Show do
      |> assign(:page_title, department.name)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:department, department)
-     |> assign(:sessions, sessions)
-     |> assign(:collaborator, maybe_put_collaborator(socket, department_id))
+     |> assign(:activities, activities)
+     |> assign(:collaborator, maybe_put_collaborator(socket, department.id))
      |> assign(
        :collaborators,
-       Departments.list_collaborators_by_department_id(department_id, preloads: [:user])
+       Departments.list_collaborators_by_department_id(department.id, preloads: [:user])
      )
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
