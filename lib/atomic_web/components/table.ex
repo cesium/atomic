@@ -8,9 +8,9 @@ defmodule AtomicWeb.Components.Table do
 
   def table(assigns) do
     ~H"""
-    <table class="min-w-full border-collapse divide-y divide-gray-300 overflow-auto">
+    <table class="min-w-full border-collapse divide-y divide-zinc-300 overflow-auto">
       <thead>
-        <tr class="select-none bg-gray-50">
+        <tr class="select-none bg-zinc-50">
           <%= for col <- @col do %>
             <.header_column field={col[:field]} label={col[:label]} filter={if Map.has_key?(assigns, :filter), do: @filter, else: nil} meta={@meta} />
           <% end %>
@@ -19,7 +19,7 @@ defmodule AtomicWeb.Components.Table do
           <%= for item <- @items do %>
             <tr class="leading-3" style="height: 30px;">
               <%= for col <- @col do %>
-                <td class="border-b-[1px] border-r-[1px] whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:pl-6">
+                <td class="border-b-[1px] border-r-[1px] whitespace-nowrap px-3 py-4 text-sm text-zinc-500 sm:pl-6">
                   <%= render_slot(col, item) %>
                 </td>
               <% end %>
@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Table do
     direction = order_direction(assigns.meta.flop.order_directions, index)
 
     ~H"""
-    <th class="border-r-[1px] py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6" scope="col">
+    <th class="border-r-[1px] py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-zinc-900 sm:pl-6" scope="col">
       <%= if is_sortable?(@field, @meta.schema) && is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
         <div class="flex justify-between">
           <%= live_patch(to: build_sorting_query(@field, @meta), class: "mr-2 w-full") do %>
@@ -73,7 +73,7 @@ defmodule AtomicWeb.Components.Table do
   defp filter_input(assigns) do
     ~H"""
     <div x-data="{ open: false }">
-      <span @click="open = ! open" class="flex h-5 w-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-gray-200">
+      <span @click="open = ! open" class="flex h-5 w-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
         <span class="self-center">
           <Heroicons.Solid.search class="align-center h-4 w-4" />
         </span>

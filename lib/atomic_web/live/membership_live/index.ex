@@ -1,11 +1,11 @@
 defmodule AtomicWeb.MembershipLive.Index do
   use AtomicWeb, :live_view
 
-  alias Atomic.Organizations
-
   import AtomicWeb.Helpers
   import AtomicWeb.Components.Pagination
   import AtomicWeb.Components.Table
+
+  alias Atomic.Organizations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,22 +13,23 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => id} = params, _, socket) do
-    organization = Organizations.get_organization!(id)
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
 
     entries = [
       %{
-        name: gettext("Memberships"),
-        route: Routes.membership_index_path(socket, :index, id)
+        name: "#{organization.name}'s #{gettext("Memberships")}",
+        route: Routes.membership_index_path(socket, :index, organization_id)
       }
     ]
 
     {:noreply,
      socket
+     |> assign(:page_title, "#{organization.name}'s #{gettext("Memberships")}")
      |> assign(:current_page, :memberships)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:page_title, page_title(socket.assigns.live_action, organization))
-     |> assign(list_memberships(id, params))}
+     |> assign(:params, params)
+     |> assign(list_memberships(organization_id, params))}
   end
 
   defp list_memberships(id, params) do
@@ -43,8 +44,4 @@ defmodule AtomicWeb.MembershipLive.Index do
         %{memberships: [], meta: flop}
     end
   end
-
-  defp page_title(:index, organization), do: "#{organization.name}'s Memberships"
-  defp page_title(:show, organization), do: "#{organization.name}'s Membership"
-  defp page_title(:edit, _), do: "Edit membership"
 end

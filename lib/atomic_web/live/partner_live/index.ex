@@ -2,92 +2,57 @@ defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.Partner
   alias Atomic.Partnerships
 
-  import AtomicWeb.Components.Pagination
-
   @impl true
-  def mount(%{"organization_id" => organization_id} = params, _session, socket) do
-    {:ok, assign(socket, list_partnerships(organization_id, params))}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
+
     entries = [
       %{
-        name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, params["organization_id"])
+        name: "#{organization.name}'s #{gettext("Partners")}",
+        route: Routes.partner_index_path(socket, :index, organization_id)
       }
     ]
 
+    partners_with_flop = list_partnerships(organization_id)
+
     {:noreply,
      socket
+     |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:current_page, :partners)
-     |> assign(list_partnerships(params["organization_id"], params))
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.partnerships))
-     |> assign(:has_permissions, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:params, params)
+     |> assign(:organization, organization)
+     |> assign(partners_with_flop)
+     |> assign(:empty?, Enum.empty?(partners_with_flop.partners))
+     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    partner = Partnerships.get_partner!(id)
-
-    if partner.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Partner")
-      |> assign(:partner, Partnerships.get_partner!(id))
-    else
-      raise AtomicWeb.MismatchError
-    end
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Partner")
-    |> assign(:partner, %Partner{})
-  end
-
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
-
-    socket
-    |> assign(:page_title, "#{organization.name}'s Partners")
-    |> assign(:partner, nil)
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    partner = Partnerships.get_partner!(id)
-    {:ok, _} = Partnerships.delete_partner(partner)
-
-    {:noreply,
-     assign(
-       socket,
-       :partnerships,
-       list_partnerships(socket.assigns.current_organization.id, socket.params)
-     )}
-  end
-
-  defp has_permissions?(socket) do
+  defp has_permissions?(socket, organization_id) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
         socket.assigns.current_user.id,
-        socket.assigns.current_organization.id
+        organization_id
       )
   end
 
-  defp list_partnerships(id, params) do
+  defp list_partnerships(id, params \\ %{}) do
     case Partnerships.list_partnerships(params, where: [organization_id: id]) do
-      {:ok, {partnerships, meta}} ->
-        %{partnerships: partnerships, meta: meta}
+      {:ok, {partners, meta}} ->
+        %{partners: partners, meta: meta}
 
       {:error, flop} ->
-        %{partnerships: [], meta: flop}
+        %{partners: [], meta: flop}
     end
   end
 end

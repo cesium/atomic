@@ -12,6 +12,7 @@ defmodule Atomic.Organizations.Announcement do
     field :title, :string
     field :description, :string
     field :publish_at, :naive_datetime
+
     belongs_to :organization, Organization
 
     timestamps()

@@ -4,15 +4,13 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   alias Atomic.Activities
   alias Atomic.Organizations
 
-  @extensions_whitelist ~w(.svg .jpg .jpeg .gif .png)
-
   @impl true
   def mount(socket) do
     speakers = Activities.list_speakers()
 
     {:ok,
      socket
-     |> allow_upload(:card, accept: @extensions_whitelist, max_entries: 1)
+     |> allow_upload(:card, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
      |> assign(:speakers, speakers)}
   end
 

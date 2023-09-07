@@ -23,14 +23,14 @@
             <:col let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
             <:col let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
             <:col let={membership}>
-              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-indigo-600 hover:text-indigo-900" do %>
-                <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                  <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
+              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-600 hover:text-orange-900" do %>
+                <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                 </div>
               <% end %>
             </:col>
           </.table>
-          <.pagination items={@memberships} meta={@meta} class="mt-2 flex w-full items-center justify-between border-r-[1px]" />
+          <.pagination items={@memberships} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between border-r-[1px]" />
         </div>
       </div>
     </div>

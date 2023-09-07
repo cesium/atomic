@@ -14,18 +14,25 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_activities(opts)
+      iex> list_activities()
       [%Activity{}, ...]
-
   """
-  def list_activities do
-    Repo.all(Activity)
-  end
+  def list_activities(params \\ %{})
 
   def list_activities(opts) when is_list(opts) do
     Activity
     |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  def list_activities(flop) do
+    Flop.validate_and_run(Activity, flop, for: Activity)
+  end
+
+  def list_activities(%{} = flop, opts) when is_list(opts) do
+    Activity
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
   end
 
   @doc """
@@ -39,13 +46,23 @@ defmodule Atomic.Activities do
       iex> list_activities_by_organization_id((99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
       ** (Ecto.NoResultsError)
   """
-  def list_activities_by_organization_id(organization_id, opts \\ []) do
+  def list_activities_by_organization_id(organization_id, params \\ %{})
+
+  def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
     from(a in Activity,
       join: d in assoc(a, :departments),
       where: d.organization_id == ^organization_id
     )
     |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  def list_activities_by_organization_id(organization_id, flop) do
+    from(a in Activity,
+      join: d in assoc(a, :departments),
+      where: d.organization_id == ^organization_id
+    )
+    |> Flop.validate_and_run(flop, for: Activity)
   end
 
   def list_activities_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
@@ -62,19 +79,48 @@ defmodule Atomic.Activities do
 
     ## Examples
 
-        iex> list_activities_from_to(~N[2020-01-01 00:00:00], ~N[2020-01-31 23:59:59], opts)
+        iex> list_activities_from_to(~N[2020-01-01 00:00:00], ~N[2020-01-31 23:59:59])
         [%Activity{}, ...]
 
-        iex> list_activities_from_to(~N[2024-01-01 00:00:00], ~N[2024-01-31 23:59:59], opts)
+        iex> list_activities_from_to(~N[2024-01-01 00:00:00], ~N[2024-01-31 23:59:59])
         ** (Ecto.NoResultsError)
   """
-  def list_activities_from_to(start, finish, opts \\ []) do
+  def list_activities_from_to(start, finish) do
     from(a in Activity,
       where: a.start >= ^start and a.start <= ^finish,
       order_by: [asc: a.start]
     )
-    |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of upcoming activities.
+
+  ## Examples
+
+      iex> list_upcoming_activities()
+      [%Activity{}, ...]
+
+      iex> list_upcoming_activities(opts)
+      [%Activity{}, ...]
+  """
+  def list_upcoming_activities(%{} = flop, opts \\ []) do
+    Activity
+    |> where([a], fragment("? > now()", a.start))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the list of activities belonging to a list of organizations.
+  """
+  def list_organizations_activities(organizations, %{} = flop, opts \\ [])
+      when is_list(organizations) do
+    Activity
+    |> join(:inner, [a], d in assoc(a, :departments))
+    |> where([a, d], d.organization_id in ^Enum.map(organizations, & &1.id))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
   end
 
   @doc """
@@ -97,7 +143,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-    Returns the list of organizations ids that are associated with an activity.
+  Returns the list of organizations ids that are associated with an activity.
 
     ## Examples
 
@@ -114,7 +160,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-    Verifies the maximum number of enrollments for an activity.
+  Returns true if the maximum number of enrollments has been reached.
 
     ## Examples
 
@@ -274,19 +320,27 @@ defmodule Atomic.Activities do
 
     ## Examples
 
-        iex> get_user_enrollments(user)
+        iex> list_user_enrollments(user)
         [%Enrollment{}, ...]
 
-        iex> get_user_enrollments(user)
+        iex> list_user_enrollments(user)
         ** (Ecto.NoResultsError)
   """
-  def get_user_enrollments(user_id) do
+  def list_user_enrollments(user_id) do
     Enrollment
     |> where(user_id: ^user_id)
     |> Repo.all()
   end
 
-  def get_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+  @doc """
+  Returns the list of activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+  def list_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
       join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id

@@ -1,4 +1,4 @@
-<div x-data="{ open: true }" class="inline-block min-w-full align-middle">
+<div class="inline-block min-w-full align-middle">
   <div class="bg-white">
     <div class="pt-4 px-4">
       <div class="flex items-center justify-between">
@@ -7,7 +7,8 @@
             <%= gettext("Activities") %>
           </h2>
         </div>
-        <%= if not @empty and @has_permissions do %>
+        <!-- New activity button -->
+        <%= if not @empty? and @has_permissions? do %>
           <div class="hidden lg:border-orange-500 lg:block">
             <%= live_patch("+ New Activity",
               to: Routes.activity_new_path(@socket, :new, @current_organization),
@@ -16,31 +17,46 @@
           </div>
         <% end %>
       </div>
+      <!-- Tabs -->
       <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-        <div x-data="{option: 'enrollments'}" class="flex w-full items-center justify-between">
+        <div class="flex w-full items-center justify-between">
           <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-            <div x-on:click="option = 'enrollments'" x-bind:class="option == 'enrollments' ? 'border-zinc-800 text-zinc-800' : 'border-transparent'" phx-click="open-enrollments" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-              <%= gettext("Open Enrollments") %>
-            </div>
+            <%= if @is_authenticated? do %>
+              <%= live_patch to: "?tab=following", class: "#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+                <%= gettext("Following") %>
+              <% end %>
+            <% end %>
 
-            <div x-on:click="option = 'activities'" x-bind:class="option == 'activities' ? 'border-zinc-800 text-zinc-800' : 'border-transparent'" phx-click="activities-enrolled" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-              <%= gettext("Activities Enrolled") %>
-            </div>
+            <%= live_patch to: "?tab=all", class: "#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+              <%= gettext("All") %>
+            <% end %>
+
+            <%= live_patch to: "?tab=upcoming", class: "#{@current_tab == "upcoming" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+              <%= gettext("Upcoming") %>
+            <% end %>
+
+            <%= if @is_authenticated? do %>
+              <%= live_patch to: "?tab=enrolled", class: "#{@current_tab == "enrolled" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+                <%= gettext("Enrolled") %>
+              <% end %>
+            <% end %>
           </nav>
         </div>
       </div>
     </div>
-    <%= if @empty do %>
+    <!-- When there aren't any activities -->
+    <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
         <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
       </div>
     <% else %>
+      <!-- Activities listing -->
       <div>
         <div class="overflow-hidden bg-white">
-          <ul role="list" class="divide-y divide-zinc-200 h-[70vh] overflow-auto">
+          <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
             <%= for activity <- @activities do %>
               <li id={activity.id}>
-                <%= live_redirect to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "block hover:bg-zinc-50", replace: false do %>
+                <%= live_redirect to: Routes.activity_show_path(@socket, :show, activity), class: "block hover:bg-zinc-50", replace: false do %>
                   <div class="px-4 py-4 lg:px-6">
                     <div class="flex items-center justify-between">
                       <p class="truncate text-sm font-medium text-zinc-900">
@@ -55,16 +71,14 @@
                         </p>
                         <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                           <Heroicons.Solid.calendar class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                          <%= if activity do %>
-                            <%= AtomicWeb.Helpers.display_date(activity.start) %>
+                          <%= if activity.start do %>
+                            <%= display_date(activity.start) %>
                           <% end %>
                         </p>
-                        <%= if not is_nil(activity.location) do %>
+                        <%= if activity.location do %>
                           <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                             <Heroicons.Solid.location_marker class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                            <%= if activity.location do %>
-                              <%= activity.location && activity.location.name %>
-                            <% end %>
+                            <%= activity.location && activity.location.name %>
                           </p>
                         <% end %>
                       </div>
@@ -84,11 +98,11 @@
                           <div class="mt-2 flex items-center">
                             <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
                               <span class="text-xs font-medium leading-none text-white">
-                                <%= Accounts.extract_initials(speaker.name) %>
+                                <%= extract_initials(speaker.name) %>
                               </span>
                             </span>
                             <p class="text-sm text-zinc-500">
-                              <%= Accounts.extract_first_last_name(speaker.name) %>
+                              <%= extract_first_last_name(speaker.name) %>
                             </p>
                           </div>
                         <% end %>
@@ -99,7 +113,7 @@
               </li>
             <% end %>
           </ul>
-          <.pagination items={@activities} meta={@meta} class="mt-2 flex w-full items-center justify-between" />
+          <.pagination items={@activities} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
         </div>
       </div>
     <% end %>

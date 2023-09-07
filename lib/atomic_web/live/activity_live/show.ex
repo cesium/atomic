@@ -3,8 +3,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Organizations
-  alias AtomicWeb.MismatchError
+  alias Atomic.Activities.Enrollment
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -13,51 +12,43 @@ defmodule AtomicWeb.ActivityLive.Show do
       Activities.subscribe("deleted_enrollment")
     end
 
-    {:ok, assign(socket, :id, id)}
+    {:ok, socket |> assign(:id, id)}
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+  def handle_params(%{"id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:speakers, :departments])
-
-    organizations = Activities.get_activity_organizations!(activity, [:departments])
 
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index, organization_id)
+        route: Routes.activity_index_path(socket, :index)
       },
       %{
         name: activity.title,
-        route: Routes.activity_show_path(socket, :show, organization_id, activity.id)
+        route: Routes.activity_show_path(socket, :show, id)
       }
     ]
 
-    if organization_id in organizations do
-      {:noreply,
-       socket
-       |> assign(
-         :enrolled?,
-         Activities.is_participating?(id, socket.assigns.current_user.id)
-       )
-       |> assign(:page_title, page_title(socket.assigns.live_action))
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:current_page, :activities)
-       |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
-       |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))}
-    else
-      raise MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:page_title, "#{activity.title}")
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:current_page, :activities)
+     |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
+     |> assign(:enrolled?, maybe_put_enrolled(socket))
+     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   @impl true
   def handle_event("enroll", _payload, socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {:ok, _enrollment} ->
+      {:ok, %Enrollment{}} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")
-         |> set_enrolled(socket.assigns.id, socket.assigns.current_user)}
+         |> assign(:enrolled?, true)}
 
       {:error, changeset} ->
         case is_nil(changeset.errors[:activity_id]) do
@@ -69,10 +60,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_event("unenroll", _payload, socket) do
-    activity_id = socket.assigns.id
-    current_user = socket.assigns.current_user
-
-    case Activities.delete_enrollment(activity_id, current_user) do
+    case Activities.delete_enrollment(socket.assigns.id, socket.assigns.current_user) do
       {1, nil} ->
         {:noreply,
          socket
@@ -82,67 +70,49 @@ defmodule AtomicWeb.ActivityLive.Show do
       {_, nil} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Unable to unenroll"))}
+         |> put_flash(:error, gettext("Unable to unenroll. Please try again."))}
     end
   end
 
   @impl true
-  def handle_event("delete", _payload, socket) do
-    {:ok, _} = Activities.delete_activity(socket.assigns.activity)
-
+  def handle_event("must-login", _payload, socket) do
     {:noreply,
-     push_redirect(socket,
-       to: Routes.activity_index_path(socket, :index, socket.assigns.current_organization)
-     )}
+     socket
+     |> put_flash(:error, gettext("You must be logged in to enroll in an activity."))
+     |> push_redirect(to: Routes.user_session_path(socket, :new))}
   end
 
   @impl true
-  def handle_info({event, enrollment}, socket) when event in [:new_enrollment] do
-    activity = socket.assigns.activity
-
-    if activity.id == enrollment.activity_id do
-      {:noreply,
-       assign(socket, :activity, %{
-         activity
-         | enrolled: Activities.get_total_enrolled(activity.id)
-       })}
-    else
-      {:noreply, socket}
-    end
+  def handle_info({event, _changes}, socket)
+      when event in [:new_enrollment, :deleted_enrollment] do
+    {:noreply, reload(socket)}
   end
 
-  @impl true
-  def handle_info({event, _application}, socket) when event in [:deleted_application] do
-    activity = socket.assigns.activity
-
-    {:noreply,
-     assign(socket, :activity, %{activity | enrolled: Activities.get_total_enrolled(activity.id)})}
+  defp reload(socket) do
+    socket
+    |> assign(:enrolled?, maybe_put_enrolled(socket))
+    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
   end
 
-  defp draw_qr_code(activity, user, _socket) do
-    internal_route = "/redeem/#{activity.id}/#{user.id}/confirm"
+  defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
 
-    url = build_url() <> internal_route
-
-    url
-    |> QRCodeEx.encode()
-    |> QRCodeEx.svg(color: "#1F2937", width: 295, background_color: :transparent)
+  defp maybe_put_enrolled(socket) do
+    Activities.is_participating?(socket.assigns.id, socket.assigns.current_user.id)
   end
 
-  defp page_title(:show), do: "Show Activity"
-  defp page_title(:edit), do: "Edit Activity"
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
-  defp set_enrolled(socket, session_id, current_user) do
-    Activities.get_user_enrolled(current_user, session_id)
-
-    {:noreply, socket}
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
-  defp build_url do
-    if Mix.env() == :dev do
-      "http://localhost:4000"
-    else
-      "https://#{Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
-    end
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
   end
 end
