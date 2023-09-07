@@ -28,8 +28,10 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
     {:noreply,
      socket
+     |> assign(:page_title, "#{organization.name}'s #{gettext("Departments")}")
      |> assign(:current_page, :departments)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:organization, organization)
      |> assign(:departments, departments)
      |> assign(:empty?, Enum.empty?(departments))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}

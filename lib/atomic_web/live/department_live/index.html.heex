@@ -9,7 +9,7 @@
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 lg:block">
           <%= live_patch("+ New Department",
-            to: Routes.department_new_path(@socket, :new, @current_organization),
+            to: Routes.department_new_path(@socket, :new, @organization),
             class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
           ) %>
         </div>
@@ -29,12 +29,12 @@
 
 <%= if @empty? and @has_permissions? do %>
   <div class="mt-32">
-    <.empty_state id="empty_state" url={Routes.department_new_path(@socket, :new, @current_organization)} placeholder="department" />
+    <.empty_state id="empty_state" url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
   </div>
 <% else %>
   <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     <%= for department <- @departments do %>
-      <%= live_redirect to: Routes.department_show_path(@socket, :show, department.organization, department), class: "col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow" do %>
+      <%= live_redirect to: Routes.department_show_path(@socket, :show, @organization, department), class: "col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow" do %>
         <div class="flex flex-1 flex-col p-4">
           <h3 class="mt-1 text-sm font-medium text-zinc-900"><%= department.name %></h3>
           <dl class="my-1 flex flex-grow flex-col justify-between">

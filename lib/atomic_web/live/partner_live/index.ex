@@ -28,10 +28,11 @@ defmodule AtomicWeb.PartnerLive.Index do
 
     {:noreply,
      socket
-     |> assign(:current_page, :partners)
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
+     |> assign(:current_page, :partners)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
+     |> assign(:organization, organization)
      |> assign(partners_with_flop)
      |> assign(:empty?, Enum.empty?(partners_with_flop.partners))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}

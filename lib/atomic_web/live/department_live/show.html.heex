@@ -62,7 +62,7 @@
       <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
         <%= for activity <- @activities do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-zinc-200 rounded-lg bg-white text-center shadow hover:bg-zinc-50">
-            <%= live_patch to: Routes.activity_show_path(@socket, :show, @current_organization, activity), class: "" do %>
+            <%= live_patch to: Routes.activity_show_path(@socket, :show, @organization, activity), class: "" do %>
               <div class="flex flex-1 flex-col p-4">
                 <h3 class="mt-6 text-md font-medium text-zinc-900"><%= activity.title %></h3>
               </div>
@@ -126,7 +126,7 @@
 </div>
 
 <%= if @has_permissions? do %>
-  <%= live_patch to: Routes.department_index_path(@socket, :edit, @current_organization, @department), class: "button" do %>
+  <%= live_patch to: Routes.department_index_path(@socket, :edit, @organization, @department), class: "button" do %>
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
       <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
     </div>

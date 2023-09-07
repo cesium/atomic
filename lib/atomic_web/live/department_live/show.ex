@@ -3,6 +3,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Departments
+  alias Atomic.Organizations
   alias Atomic.Organizations.Collaborator
 
   @impl true
@@ -12,6 +13,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
     department = Departments.get_department!(id)
     activities = Departments.list_activities_by_department_id(id)
 
@@ -31,6 +33,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
      |> assign(:current_page, :departments)
      |> assign(:page_title, department.name)
      |> assign(:breadcrumb_entries, entries)
+     |> assign(:organization, organization)
      |> assign(:department, department)
      |> assign(:activities, activities)
      |> assign(:collaborator, maybe_put_collaborator(socket, department.id))
