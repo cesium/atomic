@@ -2,71 +2,114 @@ defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Activities.Activity
   alias Atomic.Organizations
 
   @impl true
-  def mount(params, _session, socket) do
-    {:ok, assign(socket, :activities, list_activities(params["organization_id"]))}
+  def mount(_params, _session, socket) do
+    {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index, params["organization_id"])
+        route: Routes.activity_index_path(socket, :index)
       }
     ]
 
+    activities_with_flop = list_activities(socket, params)
+
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Activities"))
      |> assign(:current_page, :activities)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.activities))
-     |> assign(:has_permissions, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:current_tab, current_tab(socket, params))
+     |> assign(:params, params)
+     |> assign(activities_with_flop)
+     |> assign(:empty?, Enum.empty?(activities_with_flop.activities))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    activity = Activities.get_activity!(id)
-    {:ok, _} = Activities.delete_activity(activity)
+  defp list_activities(socket, params) do
+    params = Map.put(params, "page_size", 6)
 
-    {:noreply,
-     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
+    case current_tab(socket, params) do
+      "all" -> list_all_activities(socket, params)
+      "following" -> list_following_activities(socket, params)
+      "upcoming" -> list_upcoming_activities(socket, params)
+      "enrolled" -> list_enrolled_activities(socket, params)
+    end
   end
 
-  def handle_event("open-enrollments", _payload, socket) do
-    {:noreply,
-     assign(socket, :activities, list_activities(socket.assigns.current_organization.id))}
+  defp list_all_activities(_socket, params) do
+    case Activities.list_activities(params, preloads: [:speakers, :enrollments]) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  def handle_event("activities-enrolled", _payload, socket) do
-    {:noreply, assign(socket, :activities, list_user_activities(socket.assigns.current_user.id))}
+  defp list_following_activities(socket, params) do
+    organizations =
+      Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
+
+    case Activities.list_organizations_activities(organizations, params,
+           preloads: [:speakers, :enrollments]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Activity")
-    |> assign(:activity, Activities.get_activity!(id))
+  defp list_upcoming_activities(_socket, params) do
+    case Activities.list_upcoming_activities(params, preloads: [:speakers, :enrollments]) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Activity")
-    |> assign(:activity, %Activity{})
+  defp list_enrolled_activities(socket, params) do
+    case Activities.list_user_activities(socket.assigns.current_user.id, params,
+           preloads: [:speakers, :enrollments]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
   end
 
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
 
-    socket
-    |> assign(:page_title, "#{organization.name}'s Activities")
-    |> assign(:activity, nil)
+  defp current_tab(socket, _params) do
+    if socket.assigns.is_authenticated? do
+      "following"
+    else
+      "all"
+    end
+  end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) do
@@ -75,15 +118,5 @@ defmodule AtomicWeb.ActivityLive.Index do
         socket.assigns.current_user.id,
         socket.assigns.current_organization.id
       )
-  end
-
-  defp list_activities(organization_id) do
-    Activities.list_activities_by_organization_id(organization_id,
-      preloads: [:speakers, :enrollments]
-    )
-  end
-
-  defp list_user_activities(user_id) do
-    Activities.get_user_activities(user_id)
   end
 end

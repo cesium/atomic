@@ -2,7 +2,6 @@ defmodule AtomicWeb.CardLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Organizations
-  alias Atomic.Uploaders
 
   @impl true
   def mount(_params, _session, socket) do

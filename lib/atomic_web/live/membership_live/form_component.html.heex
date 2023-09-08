@@ -1,6 +1,4 @@
 <div>
-  <h2><%= @title %></h2>
-
   <.form let={f} for={@changeset} id="membership-form" phx-target={@myself} phx-submit="save">
     <%= if @action == :new do %>
       <%= label(f, :user_id) %>

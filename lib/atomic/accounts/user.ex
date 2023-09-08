@@ -10,7 +10,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name slug role phone_number confirmed_at course_id default_organization_id)a
+  @optional_fields ~w(name slug role phone_number confirmed_at course_id current_organization_id)a
 
   @roles ~w(admin student)a
 
@@ -28,7 +28,7 @@ defmodule Atomic.Accounts.User do
     field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles, default: :student
     belongs_to :course, Course
-    belongs_to :default_organization, Organization
+    belongs_to :current_organization, Organization
 
     has_many :enrollments, Enrollment
     many_to_many :organizations, Organization, join_through: Membership

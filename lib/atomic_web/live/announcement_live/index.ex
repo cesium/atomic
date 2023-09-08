@@ -6,69 +6,79 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.Announcement
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    socket =
-      socket
-      |> assign(:organization, Organizations.get_organization!(organization_id))
-      |> assign(:announcements, list_announcements(organization_id))
-
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
-        name: gettext("Announcement"),
-        route: Routes.announcement_index_path(socket, :index, params["organization_id"])
+        name: gettext("Announcements"),
+        route: Routes.announcement_index_path(socket, :index)
       }
     ]
 
+    announcements = list_default_announcements(socket)
+
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Announcements"))
      |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.announcements))
-     |> assign(:has_permissions, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:announcements, announcements)
+     |> assign(:empty?, Enum.empty?(announcements))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    announcement = Organizations.get_announcement!(id)
-    {:ok, _} = Organizations.delete_announcement(announcement)
+  def handle_event("all", _payload, socket) do
+    announcements = Organizations.list_published_announcements(preloads: [:organization])
 
-    {:noreply,
-     socket
-     |> assign(:announcement, list_announcements(announcement.organization_id))}
+    {:noreply, assign(socket, :announcements, announcements)}
   end
 
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    announcement = Organizations.get_announcement!(id)
+  @impl true
+  def handle_event("following", _payload, socket) do
+    organizations =
+      Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
-    if announcement.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Announcement")
-      |> assign(:announcement, Organizations.get_announcement!(id))
+    announcements =
+      Enum.map(organizations, fn organization ->
+        Organizations.list_announcements_by_organization_id(organization.id,
+          preloads: [:organization]
+        )
+      end)
+
+    {:noreply, assign(socket, :announcements, List.flatten(announcements))}
+  end
+
+  defp list_default_announcements(socket) do
+    if socket.assigns.is_authenticated? do
+      organizations =
+        Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
+
+      announcements =
+        Enum.map(organizations, fn organization ->
+          Organizations.list_announcements_by_organization_id(organization.id,
+            preloads: [:organization]
+          )
+        end)
+
+      List.flatten(announcements)
     else
-      raise AtomicWeb.MismatchError
+      Organizations.list_announcements(preloads: [:organization])
     end
   end
 
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Announcement")
-    |> assign(:announcement, %Announcement{})
-  end
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
-
-    socket
-    |> assign(:page_title, "#{organization.name}'s Announcement")
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) do
@@ -77,9 +87,5 @@ defmodule AtomicWeb.AnnouncementLive.Index do
         socket.assigns.current_user.id,
         socket.assigns.current_organization.id
       )
-  end
-
-  defp list_announcements(organization_id) do
-    Organizations.list_published_announcements_by_organization_id(organization_id, [:organization])
   end
 end

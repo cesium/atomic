@@ -5,7 +5,6 @@ defmodule Atomic.Organizations.Partner do
   use Atomic.Schema
 
   alias Atomic.Organizations.Organization
-  alias Atomic.Uploaders
 
   @required_fields ~w(name organization_id)a
   @optional_fields ~w(description state image)a

@@ -2,10 +2,10 @@ defmodule AtomicWeb.CalendarLive.Show do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  alias Atomic.Activities
-
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.Calendar
+
+  alias Atomic.Activities
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   end
 
   @impl true
-  def handle_params(params, _uri, socket) do
+  def handle_params(params, _, socket) do
     mode = params["mode"] || "month"
 
     entries = [
@@ -30,30 +30,13 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(:mode, mode)
-     |> assign(
-       list_activities(socket.assigns.time_zone, mode, params, socket.assigns.current_user)
-     )}
+     |> assign(:activities, list_activities(socket.assigns.timezone, mode, params))}
   end
 
-  defp list_activities(time_zone, mode, params, _user) do
-    current = current_from_params(time_zone, params)
+  defp list_activities(timezone, mode, params) do
+    start = build_beggining_date(timezone, mode, params)
+    finish = build_ending_date(timezone, mode, params)
 
-    start =
-      if mode == "month" do
-        Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    finish =
-      if mode == "month" do
-        Timex.end_of_month(current) |> Timex.to_naive_datetime()
-      else
-        Timex.end_of_week(current) |> Timex.to_naive_datetime()
-      end
-
-    %{
-      activities: Activities.list_activities_from_to(start, finish)
-    }
+    Activities.list_activities_from_to(start, finish)
   end
 end

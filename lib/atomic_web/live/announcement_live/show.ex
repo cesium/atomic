@@ -1,6 +1,7 @@
 defmodule AtomicWeb.AnnouncementLive.Show do
   use AtomicWeb, :live_view
 
+  alias Atomic.Accounts
   alias Atomic.Organizations
 
   @impl true
@@ -9,28 +10,42 @@ defmodule AtomicWeb.AnnouncementLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    announcement = Organizations.get_announcement!(id)
+  def handle_params(%{"id" => id}, _, socket) do
+    announcement = Organizations.get_announcement!(id, preloads: [:organization])
 
     entries = [
       %{
-        name: gettext("Announcement"),
-        route: Routes.announcement_index_path(socket, :index, organization_id)
+        name: gettext("Announcements"),
+        route: Routes.announcement_index_path(socket, :index)
       },
       %{
-        name: gettext("%{title}", title: announcement.title),
-        route: Routes.announcement_show_path(socket, :show, organization_id, id)
+        name: announcement.title,
+        route: Routes.announcement_show_path(socket, :show, id)
       }
     ]
 
     {:noreply,
      socket
-     |> assign(:current_page, :departments)
+     |> assign(:page_title, "#{announcement.title}")
+     |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:page_title, page_title(socket.assigns.live_action, announcement.title))
-     |> assign(:announcement, announcement)}
+     |> assign(:announcement, announcement)
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
-  defp page_title(:show, announcement), do: "Show #{announcement}"
-  defp page_title(:edit, announcement), do: "Edit #{announcement}"
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        socket.assigns.current_organization.id
+      )
+  end
 end

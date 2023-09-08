@@ -1,0 +1,186 @@
+[
+  {
+      "name": "ADAUM",
+      "description": "Associação de Debates Académicos da Universidade do Minho"
+  },
+  {
+      "name": "ADEGE",
+      "description": "Associação de Estudantes de Gestão da Universidade do Minho"
+  },
+  {
+      "name": "AEDUM",
+      "description": "Associação de Estudantes de Direito da Universidade do Minho"
+  },
+  {
+      "name": "AEECUM",
+      "description": "Associação Estudantes Engenharia Civil da Universidade do Minho"
+  },
+  {
+      "name": "AEESECG",
+      "description": "Associação de Estudantes da Escola Superior de Enfermagem Calouste Gulbenkian"
+  },
+  {
+      "name": "AEHUM",
+      "description": "Associação de Estudantes da História da Universidade do Minho"
+  },
+  {
+      "name": "AEPUM",
+      "description": "Associação de Estudantes de Psicologia Universidade do Minho"
+  },
+  {
+      "name": "AIESEC Minho",
+      "description": "Association Internationale des Etudiants en Sciences Economiques et Commerciales – UMinho"
+  },
+  {
+      "name": "AIS.SC",
+      "description": "Association for Information Systems Student Chapter"
+  },
+  {
+      "name": "A3RUM",
+      "description": "Associação de Alunos de Arqueologia da Universidade do Minho"
+  },
+  {
+      "name": "CEAP",
+      "description": "Centro de Estudos de Administração Pública"
+  },
+  {
+      "name": "CECRI",
+      "description": "Centro de Estudos do Curso de Relações Internacionais"
+  },
+  {
+      "name": "CeSIUM",
+      "description": "Centro de Estudantes de Engenharia de Sistemas e Informática da Universidade do Minho"
+  },
+  {
+      "name": "CineFOCUM",
+      "description": "Núcleo de Cinema da Universidade do Minho"
+  },
+  {
+      "name": "ELSA",
+      "description": "European Law Students Association"
+  },
+  {
+      "name": "GAEB",
+      "description": "Grupo de Alunos de Engenharia Biomédica"
+  },
+  {
+      "name": "GACCUM",
+      "description": "Grupo dos Alunos de Ciências da Comunicação"
+  },
+  {
+      "name": "GeoPlanUM",
+      "description": "Associação dos Estudantes de Geografia e Planeamento da Universidade do Minho"
+  },
+  {
+      "name": "Music UM",
+      "description": "Núcleo de Estudantes de Música da Universidade do Minho"
+  },
+  {
+      "name": "NAECUM",
+      "description": "Núcleo de Alunos de Economia da Universidade do Minho"
+  },
+  {
+      "name": "NAMECUM",
+      "description": "Núcleo de Alunos de Engenharia Mecânica da Universidade do Minho"
+  },
+  {
+      "name": "NAQUM",
+      "description": "Núcleo de Alunos de Química da Universidade do Minho"
+  },
+  {
+      "name": "NEAUM",
+      "description": "Núcleo de Estudantes de Arquitetura da Universidade do Minho"
+  },
+  {
+      "name": "NEBAUM",
+      "description": "Núcleo de Estudantes de Biologia Aplicada da Universidade do Minho"
+  },
+  {
+      "name": "NEBQUM",
+      "description": "Núcleo de Estudantes de Bioquímica da Universidade do Minho"
+  },
+  {
+      "name": "NECC",
+      "description": "Núcleo de Estudantes de Ciências da Computação da Universidade do Minho"
+  },
+  {
+      "name": "NECSUM",
+      "description": "Núcleo de Estudantes do Curso de Sociologia da Universidade do Minho"
+  },
+  {
+      "name": "NEDUM",
+      "description": "Núcleo de Estudantes de Educação da Universidade do Minho"
+  },
+  {
+      "name": "NEEB",
+      "description": "Núcleo de Estudos de Engenharia Biológica"
+  },
+  {
+      "name": "NEEBUM",
+      "description": "Núcleo de Estudantes de Educação Básica da Universidade do Minho"
+  },
+  {
+      "name": "NEECUM",
+      "description": "Núcleo de Estudantes de Engenharia de Comunicações da Universidade do Minho"
+  },
+  {
+      "name": "NEEGIUM",
+      "description": "Núcleo de Estudantes de Engenharia e Gestão Industrial da Universidade do Minho"
+  },
+  {
+      "name": "NEEUM-Núcleo de Estudantes de Estatística da Universidade do Minho",
+      "description": ""
+  },
+  {
+      "name": "NEFILUM",
+      "description": "Núcleo de Estudantes de Filosofia"
+  },
+  {
+      "name": "NEFUM",
+      "description": "Núcleo de Estudantes de Física da Universidade do Minho"
+  },
+  {
+      "name": "NEIEEEUM",
+      "description": "Núcleo Estudantil do Institute of Electrical & Electronics Engineers da Universidade do Minho"
+  },
+  {
+      "name": "NELAUM",
+      "description": "Núcleo de Estudantes de Línguas Aplicadas da Universidade do Minho"
+  },
+  {
+      "name": "NEMUM",
+      "description": "Núcleo de Estudantes de Medicina da Universidade do Minho"
+  },
+  {
+      "name": "NENIUM",
+      "description": "Núcleo de Estudantes de Negócios Internacionais da Universidade do Minho"
+  },
+  {
+      "name": "NEOUM",
+      "description": "Núcleo de Estudantes de Optometria da Universidade do Minho"
+  },
+  {
+      "name": "NEPLUM",
+      "description": "Núcleo de Estudantes de Estudos Portugueses e Lusófonos da Universidade do Minho"
+  },
+  {
+      "name": "NEMKT",
+      "description": "Núcleo de Estudantes de Marketing da Universidade do Minho"
+  },
+  {
+    "name": "NUCCLEUM",
+    "description": "Núcleo de Estudantes de Linguas e Literaturas Europeias"
+  },
+  {
+    "name": "Núcleo de Estudante de Contabilidade da Universidade do Minho",
+    "description": ""
+  },
+  {
+    "name": "NUMERUM",
+    "description": "Núcleo de Estudantes de Matemática da Universidade do Minho"
+  },
+  {
+    "name": "PoliticUM",
+    "description": ""
+  }
+]

@@ -15,6 +15,8 @@ defmodule Atomic.Schema do
       import Ecto.Changeset
       import Ecto.Query
 
+      alias Atomic.Uploaders
+
       @primary_key {:id, :binary_id, autogenerate: true}
       @foreign_key_type :binary_id
 

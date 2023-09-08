@@ -11,7 +11,7 @@ defmodule AtomicWeb.ScannerLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
         name: gettext("Scanner"),
