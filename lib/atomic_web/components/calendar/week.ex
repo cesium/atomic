@@ -107,20 +107,18 @@ defmodule AtomicWeb.Components.CalendarWeek do
   defp day(assigns) do
     ~H"""
     <%= for activity <- get_date_activities(@activities, @date) do %>
-      <%= if activity do %>
-        <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
-          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity, assigns.organization) do %>
-            <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
-              <p class="order-1 font-semibold text-orange-600">
-                activity.title
-              </p>
-              <p class="text-orange-600 group-hover:text-orange-800">
-                <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
-              </p>
-            </div>
-          <% end %>
-        </li>
-      <% end %>
+      <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
+        <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
+          <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
+            <p class="order-1 font-semibold text-orange-600">
+              activity.title
+            </p>
+            <p class="text-orange-600 group-hover:text-orange-800">
+              <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
+            </p>
+          </div>
+        <% end %>
+      </li>
     <% end %>
     """
   end

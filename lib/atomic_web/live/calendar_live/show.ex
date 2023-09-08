@@ -14,7 +14,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
   @impl true
   def handle_params(params, _, socket) do
-    mode = params["mode"] || "month"
+    mode = default_mode(params)
 
     entries = [
       %{
@@ -39,4 +39,8 @@ defmodule AtomicWeb.CalendarLive.Show do
 
     Activities.list_activities_from_to(start, finish)
   end
+
+  defp default_mode(params) when is_map_key(params, "mode"), do: params["mode"]
+
+  defp default_mode(_params), do: "month"
 end
