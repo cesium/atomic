@@ -23,12 +23,16 @@ defmodule AtomicWeb.ProfileLive.Edit do
       }
     ]
 
-    {:noreply,
-     socket
-     |> assign(:page_title, user.name)
-     |> assign(:current_page, :profile)
-     |> assign(:breadcrumb_entries, entries)
-     |> assign(:user, user)}
+    if socket.assigns.current_user.slug == user_slug do
+      {:noreply,
+       socket
+       |> assign(:page_title, user.name)
+       |> assign(:current_page, :profile)
+       |> assign(:breadcrumb_entries, entries)
+       |> assign(:user, user)}
+    else
+      {:noreply, socket |> redirect(to: Routes.profile_show_path(socket, :show, user_slug))}
+    end
   end
 
   def handle_params(%{"token" => token}, _, socket) do
