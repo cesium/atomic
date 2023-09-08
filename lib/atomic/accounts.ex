@@ -213,17 +213,13 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> apply_user_email(user, "valid password", %{email: ...})
+      iex> apply_user_email(user, %{email: ...})
       {:ok, %User{}}
 
-      iex> apply_user_email(user, "invalid password", %{email: ...})
-      {:error, %Ecto.Changeset{}}
-
   """
-  def apply_user_email(user, password, attrs) do
+  def apply_user_email(user, attrs) do
     user
     |> User.email_changeset(attrs)
-    |> User.validate_current_password(password)
     |> Ecto.Changeset.apply_action(:update)
   end
 

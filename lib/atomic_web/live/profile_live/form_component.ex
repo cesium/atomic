@@ -33,15 +33,33 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
+    user = socket.assigns.user
+
+    flash_text =
+      if user_params["email"] != user.email do
+        case Accounts.apply_user_email(user, %{email: user_params["email"]}) do
+          {:ok, applied_user} ->
+            Accounts.deliver_update_email_instructions(
+              applied_user,
+              user.email,
+              &Routes.profile_edit_url(socket, :confirm_email, &1)
+            )
+
+            "Profile updated successfully, please check your email to confirm the new address."
+        end
+      else
+        "Profile updated successfully."
+      end
+
     case Accounts.update_user(
-           socket.assigns.user,
-           user_params,
+           user,
+           Map.put(user_params, "email", user.email),
            &consume_image_data(socket, &1)
          ) do
       {:ok, _user} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Profile updated successfully")
+         |> put_flash(:success, flash_text)
          |> push_redirect(to: Routes.profile_show_path(socket, :show, user_params["slug"]))}
 
       {:error, %Ecto.Changeset{} = changeset} ->

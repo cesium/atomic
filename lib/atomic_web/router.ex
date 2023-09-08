@@ -98,6 +98,8 @@ defmodule AtomicWeb.Router do
       get "/users/settings", UserSettingsController, :edit
       put "/users/settings", UserSettingsController, :update
 
+      live "/users/confirm_email/:token", ProfileLive.Edit, :confirm_email
+
       scope "/organizations/:organization_id" do
         live "/departments", DepartmentLive.Index, :index
 
