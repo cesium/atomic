@@ -28,6 +28,7 @@ defmodule AtomicWeb.ActivityLive.Index do
      socket
      |> assign(:page_title, gettext("Activities"))
      |> assign(:current_page, :activities)
+     |> assign(:current_user, socket.assigns.current_user)
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)

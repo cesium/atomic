@@ -4,16 +4,20 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   alias Atomic.Activities
   alias Atomic.Departments
 
+  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
+
   @impl true
   def mount(socket) do
-    {:ok, socket}
+    {:ok,
+     socket
+     |> allow_upload(:image, accept: @extensions_whitelist, max_entries: 1)}
   end
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
     changeset = Activities.change_activity(activity)
 
-    current_organization = socket.assigns.current_organization
+    current_organization = assigns.current_organization
     departments = Departments.list_departments_by_organization_id(current_organization.id)
     speakers = Activities.list_speakers_by_organization_id(current_organization.id)
 
