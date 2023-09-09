@@ -6,6 +6,7 @@ defmodule Atomic.Factory do
     AccountFactory,
     DepartmentFactory,
     ActivityFactory,
-    OrganizationFactory
+    OrganizationFactory,
+    AnnouncementFactory
   }
 end

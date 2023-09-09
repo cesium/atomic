@@ -11,7 +11,7 @@ defmodule AtomicWeb.ScannerLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(_params, _, socket) do
     entries = [
       %{
         name: gettext("Scanner"),
@@ -37,17 +37,17 @@ defmodule AtomicWeb.ScannerLive.Index do
   """
   @impl true
   def handle_event("scan", pathname, socket) do
-    [_, session_id, user_id | _] = String.split(pathname, "/")
+    [_, activity_id, user_id | _] = String.split(pathname, "/")
 
-    session = Activities.get_session!(session_id, [:activity])
-    organizations = Activities.get_session_organizations!(session.activity, [:departments])
+    activity = Activities.get_activity!(activity_id)
+    organizations = Activities.get_activity_organizations!(activity, [:departments])
 
     if (socket.assigns.current_organization.id in organizations &&
           Organizations.get_role(
             socket.assigns.current_user.id,
             socket.assigns.current_organization.id
           ) in [:admin, :owner]) or socket.assigns.current_user.role in [:admin] do
-      confirm_participation(socket, session_id, user_id)
+      confirm_participation(socket, activity_id, user_id)
     else
       {:noreply,
        socket

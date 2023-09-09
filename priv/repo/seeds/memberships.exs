@@ -1,40 +1,63 @@
 defmodule Atomic.Repo.Seeds.Memberships do
-  alias Atomic.Organizations.Organization
-  alias Atomic.Organizations.Membership
+  @moduledoc """
+  Seeds the database with memberships.
+  """
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Board
-  alias Atomic.Organizations.BoardDepartments
-  alias Atomic.Organizations.UserOrganization
+  alias Atomic.Ecto.Year
+  alias Atomic.Organization
+  alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
   alias Atomic.Repo
+
+  @roles ~w(follower member admin owner)a
+
+  @board_department_names [
+    "Presidência",
+    "CAOS",
+    "Marketing e Conteúdo",
+    "Relações Externas e Parcerias",
+    "Pegadógico",
+    "Recreativo",
+    "Vogais",
+    "Mesa da Assembleia Geral",
+    "Conselho Fiscal"
+  ]
+
+  @roles_inside_organization [
+    "Presidente",
+    "Vice-Presidente",
+    "Secretário",
+    "Tesoureiro",
+    "Vogal",
+    "Diretor",
+    "Codiretor"
+  ]
 
   def run do
     seed_memberships()
-    seed_board()
+    seed_boards()
     seed_board_departments()
     seed_user_organizations()
   end
 
-  def seed_memberships() do
+  def seed_memberships do
     case Repo.all(Membership) do
       [] ->
         users = Repo.all(User)
         organizations = Repo.all(Organization)
 
         for user <- users do
-          for organization <- organizations do
-            prob = 50
-            random_number = :rand.uniform(100)
+          random_number = :rand.uniform(100)
 
-            if random_number < prob do
-              %Membership{}
-              |> Membership.changeset(%{
-                "user_id" => user.id,
-                "organization_id" => organization.id,
-                "created_by_id" => Enum.random(users).id,
-                "role" => Enum.random([:follower, :member, :admin, :owner])
-              })
-              |> Repo.insert!()
-            end
+          # 50% chance of having a membership
+          if random_number < 50 do
+            %Membership{}
+            |> Membership.changeset(%{
+              "user_id" => user.id,
+              "organization_id" => Enum.random(organizations).id,
+              "created_by_id" => Enum.random(users).id,
+              "role" => Enum.random(@roles)
+            })
+            |> Repo.insert!()
           end
         end
 
@@ -43,7 +66,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
     end
   end
 
-  def seed_board do
+  def seed_boards do
     case Repo.all(Board) do
       [] ->
         organizations = Repo.all(Organization)
@@ -52,7 +75,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
           %Board{}
           |> Board.changeset(%{
             "organization_id" => organization.id,
-            "year" => "2023/2024"
+            "year" => Year.current_year()
           })
           |> Repo.insert!()
         end
@@ -65,24 +88,14 @@ defmodule Atomic.Repo.Seeds.Memberships do
   def seed_board_departments do
     case Repo.all(BoardDepartments) do
       [] ->
-        departments = [
-          "Conselho Fiscal",
-          "Mesa AG",
-          "CAOS",
-          "DMC",
-          "DMP",
-          "Presidência",
-          "Vogais"
-        ]
-
         boards = Repo.all(Board)
 
         for board <- boards do
-          for i <- 0..6 do
+          for i <- 0..(length(@board_department_names) - 1) do
             %BoardDepartments{}
             |> BoardDepartments.changeset(%{
               "board_id" => board.id,
-              "name" => Enum.at(departments, i),
+              "name" => Enum.at(@board_department_names, i),
               "priority" => i
             })
             |> Repo.insert!()
@@ -97,17 +110,16 @@ defmodule Atomic.Repo.Seeds.Memberships do
   def seed_user_organizations do
     case Repo.all(UserOrganization) do
       [] ->
-        titles = ["Presidente", "Vice-Presidente", "Secretário", "Tesoureiro", "Vogal"]
         users = Repo.all(User)
         board_departments = Repo.all(BoardDepartments)
 
         for board_department <- board_departments do
-          for i <- 0..4 do
+          for i <- 0..(length(@roles_inside_organization) - 1) do
             %UserOrganization{}
             |> UserOrganization.changeset(%{
               "user_id" => Enum.random(users).id,
               "board_departments_id" => board_department.id,
-              "role" => Enum.at(titles, i),
+              "role" => Enum.at(@roles_inside_organization, i),
               "priority" => i
             })
             |> Repo.insert!()

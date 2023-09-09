@@ -14,28 +14,15 @@ defmodule Atomic.ActivitiesFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        title: "some title"
-      })
-      |> Atomic.Activities.create_activity()
-
-    activity
-  end
-
-  @doc """
-  Generate a session.
-  """
-  def session_fixture(attrs \\ %{}) do
-    {:ok, session} =
-      attrs
-      |> Enum.into(%{
+        title: "some title",
         maximum_entries: 42,
         minimum_entries: 0,
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00]
       })
-      |> Atomic.Activities.create_session()
+      |> Atomic.Activities.create_activity()
 
-    session
+    activity
   end
 
   @doc """

@@ -3,26 +3,23 @@ defmodule Atomic.Organizations.Department do
     A department of an organization
   """
   use Atomic.Schema
+  alias Atomic.Activities.Activity
+  alias Atomic.Activities.ActivityDepartment
   alias Atomic.Organizations.Organization
-  alias Atomic.Activities.{Session, SessionDepartment}
 
   @required_fields ~w(name organization_id)a
-
-  @optional_fields [
-    :description
-  ]
+  @optional_fields ~w(description)a
 
   schema "departments" do
     field :name, :string
     field :description, :string
 
-    many_to_many :sessions, Session, join_through: SessionDepartment, on_replace: :delete
+    many_to_many :activities, Activity, join_through: ActivityDepartment
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()
   end
 
-  @doc false
   def changeset(department, attrs) do
     department
     |> cast(attrs, @required_fields ++ @optional_fields)

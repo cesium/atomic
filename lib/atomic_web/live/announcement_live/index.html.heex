@@ -1,0 +1,55 @@
+<div class="bg-white">
+  <div class="pt-4 px-4">
+    <div class="flex items-center justify-between">
+      <div class="min-w-0 flex-1">
+        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
+          <%= gettext("Announcements") %>
+        </h2>
+      </div>
+      <%= if not @empty? and @has_permissions? do %>
+        <div class="hidden lg:border-orange-500 lg:block">
+          <%= live_patch("+ New Announcement",
+            to: Routes.announcement_new_path(@socket, :new, @current_organization),
+            class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+          ) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+      <div
+        x-data={
+          "#{if @is_authenticated? do
+            "{ option: 'following'}"
+          else
+            "{option: 'all'}"
+          end}"
+        }
+        class="flex w-full items-center justify-between"
+      >
+        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+          <%= if @is_authenticated? do %>
+            <div x-on:click="option = 'following'" x-bind:class="option == 'following' ? 'border-zinc-800' : 'border-transparent'" phx-click="following" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+              <%= gettext("Following") %>
+            </div>
+          <% end %>
+
+          <div x-on:click="option = 'all'" x-bind:class="option == 'all' ? 'border-zinc-800' : 'border-transparent'" phx-click="all" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+            <%= gettext("All") %>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if @empty? and @has_permissions? do %>
+  <div class="mt-32">
+    <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
+  </div>
+<% else %>
+  <ul role="list" class="relative z-0 divide-y divide-zinc-200">
+    <%= for announcement <- @announcements do %>
+      <.render_announcement announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
+    <% end %>
+  </ul>
+<% end %>

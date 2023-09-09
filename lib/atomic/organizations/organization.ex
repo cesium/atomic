@@ -1,18 +1,25 @@
 defmodule Atomic.Organizations.Organization do
   @moduledoc false
   use Atomic.Schema
+
   alias Atomic.Accounts.User
   alias Atomic.Activities.Location
-  alias Atomic.News.New
-  alias Atomic.Organizations.Board
-  alias Atomic.Organizations.Card
-  alias Atomic.Organizations.Department
-  alias Atomic.Organizations.Membership
-  alias Atomic.Organizations.Partner
+  alias Atomic.Organizations.{Announcement, Board, Card, Department, Membership, Partner}
   alias Atomic.Uploaders
 
   @required_fields ~w(name description)a
-  @optional_fields []
+  @optional_fields ~w(card_image logo)a
+
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:name],
+    compound_fields: [search: [:name]],
+    default_order: %{
+      order_by: [:name],
+      order_directions: [:asc]
+    }
+  }
 
   schema "organizations" do
     field :name, :string
@@ -37,7 +44,7 @@ defmodule Atomic.Organizations.Organization do
     embeds_one :location, Location, on_replace: :delete
     embeds_one :card, Card, on_replace: :delete
 
-    has_many :news, New,
+    has_many :announcements, Announcement,
       on_replace: :delete,
       preload_order: [asc: :inserted_at]
 
@@ -50,30 +57,20 @@ defmodule Atomic.Organizations.Organization do
     timestamps()
   end
 
-  @doc false
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> validate_required(@required_fields)
-    |> cast_attachments(attrs, [:card_image])
-    |> validate_location()
-    |> validate_card()
-  end
-
-  defp validate_location(changeset) do
-    changeset
     |> cast_embed(:location, with: &Location.changeset/2)
-  end
-
-  defp validate_card(changeset) do
-    changeset
     |> cast_embed(:card, with: &Card.changeset/2)
+    |> cast_attachments(attrs, [:card_image, :logo])
+    |> validate_required(@required_fields)
+    |> unique_constraint(:name)
   end
 
   def card_changeset(organization, attrs) do
     organization
     |> cast_attachments(attrs, [:card_image])
-    |> validate_card()
+    |> cast_embed(:card, with: &Card.changeset/2)
   end
 
   def logo_changeset(organization, attrs) do

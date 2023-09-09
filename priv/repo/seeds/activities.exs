@@ -1,224 +1,102 @@
 defmodule Atomic.Repo.Seeds.Activities do
-  alias Atomic.Activities.SessionDepartment
+  @moduledoc """
+  Seeds the database with activities.
+  """
+  alias Atomic.Accounts.User
+  alias Atomic.Activities
+  alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
+  alias Atomic.Organizations.Department
   alias Atomic.Repo
 
-  alias Atomic.Accounts.User
-  alias Atomic.Organizations.Department
-  alias Atomic.Activities
-  alias Atomic.Activities.SessionDepartment
-  alias Atomic.Activities.Session
-  alias Atomic.Activities.{Activity, Enrollment}
+  @activity_titles [
+    "Geek Night",
+    "Hack Night",
+    "Hackathon",
+    "Workshop",
+    "Talk",
+    "Meetup",
+    "Conference",
+    "Seminar",
+    "Course",
+    "Bootcamp",
+    "Study session"
+  ]
 
   def run do
     seed_activities()
     seed_enrollments()
-    seed_session_departments()
+    seed_activity_departments()
   end
 
-  def seed_activities() do
+  def seed_activities do
     case Repo.all(Activity) do
       [] ->
-        location = %{
-          name: "Departamento de Informática da Universidade do Minho",
-          url: "https://web.di.uminho.pt"
-        }
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                # We make these dates relative to current date so we are able to quickly test
-                start: DateTime.add(DateTime.utc_now(), -12, :hour),
-                # the certificate delivery job
-                finish: DateTime.add(DateTime.utc_now(), -8, :hour),
-                location: location,
-                minimum_entries: 0,
-                maximum_entries: 10
-              }
-            ],
-            enrolled: 0
+        for i <- 1..30 do
+          location = %{
+            name: Faker.Address.city(),
+            url: Faker.Internet.url()
           }
-        )
-        |> Repo.insert!()
 
-        Activity.changeset(
-          %Activity{},
           %{
-            title: "Test Activity 2",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
+            title: Enum.random(@activity_titles),
+            description: Faker.Lorem.paragraph(),
+            start: build_start_date(i),
+            finish: build_finish_date(i),
+            location: location,
+            minimum_entries: Enum.random(1..10),
+            maximum_entries: Enum.random(11..20)
           }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 3",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
-          }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 4",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
-          }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 5",
-            description: "This is a test activity",
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-01 10:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-01 12:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
-          }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 6",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-02 14:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                start: DateTime.from_naive!(~N[2023-04-02 14:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-02 16:00:00], "Etc/UTC"),
-                location: location
-              }
-            ],
-            enrolled: 0
-          }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 7",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-05 11:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: 10,
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-05 11:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-05 13:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
-          }
-        )
-        |> Repo.insert!()
-
-        Activity.changeset(
-          %Activity{},
-          %{
-            title: "Test Activity 8",
-            description: "This is a test activity",
-            date: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
-            activity_sessions: [
-              %{
-                minimum_entries: 0,
-                maximum_entries: Enum.random(10..50),
-                enrolled: 0,
-                start: DateTime.from_naive!(~N[2023-04-06 15:00:00], "Etc/UTC"),
-                finish: DateTime.from_naive!(~N[2023-04-06 17:00:00], "Etc/UTC"),
-                location: location
-              }
-            ]
-          }
-        )
-        |> Repo.insert!()
+          |> Activities.create_activity()
+        end
 
       _ ->
         Mix.shell().error("Found activities, aborting seeding activities.")
     end
   end
 
-  def seed_activities_departments() do
-    case Repo.all(SessionDepartment) do
+  defp build_start_date(i) do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(i, :day)
+    |> NaiveDateTime.truncate(:second)
+  end
+
+  defp build_finish_date(i) do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(i, :day)
+    |> NaiveDateTime.add(2, :hour)
+    |> NaiveDateTime.truncate(:second)
+  end
+
+  def seed_activity_departments do
+    case Repo.all(ActivityDepartment) do
       [] ->
-        department = Repo.get_by(Department, name: "Merchandise and Partnerships")
         activities = Repo.all(Activity)
+        departments = Repo.all(Department)
 
         for activity <- activities do
-          %SessionDepartment{}
-          |> SessionDepartment.changeset(%{
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
             activity_id: activity.id,
-            department_id: department.id
+            department_id: Enum.random(departments).id
           })
           |> Repo.insert!()
         end
 
       _ ->
-        Mix.shell().error("Found session departments, aborting seeding session departments.")
+        Mix.shell().error("Found activity departments, aborting seeding activity departments.")
     end
   end
 
-  def seed_enrollments() do
+  def seed_enrollments do
     case Repo.all(Enrollment) do
       [] ->
         users = Repo.all(User)
-        sessions = Repo.all(Session)
+        activities = Repo.all(Activity)
 
         for user <- users do
           for _ <- 1..Enum.random(1..2) do
             Activities.create_enrollment(
-              Enum.random(sessions).id,
+              Enum.random(activities).id,
               user
             )
           end
@@ -229,23 +107,23 @@ defmodule Atomic.Repo.Seeds.Activities do
     end
   end
 
-  def seed_session_departments() do
-    case Repo.all(SessionDepartment) do
+  def seed_activity_departments do
+    case Repo.all(ActivityDepartment) do
       [] ->
         department = Repo.get_by(Department, name: "CAOS")
-        sessions = Repo.all(Session)
+        activities = Repo.all(Activity)
 
-        for session <- sessions do
-          %SessionDepartment{}
-          |> SessionDepartment.changeset(%{
-            session_id: session.id,
+        for activity <- activities do
+          %ActivityDepartment{}
+          |> ActivityDepartment.changeset(%{
+            activity_id: activity.id,
             department_id: department.id
           })
           |> Repo.insert!()
         end
 
       _ ->
-        Mix.shell().error("Found session departments, aborting seeding session departments.")
+        Mix.shell().error("Found activity departments, aborting seeding activity departments.")
     end
   end
 end

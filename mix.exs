@@ -44,6 +44,7 @@ defmodule Atomic.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
+      {:flop, "~> 0.17.0"},
 
       # security
       {:bcrypt_elixir, "~> 3.0"},
@@ -59,9 +60,10 @@ defmodule Atomic.MixProject do
 
       # frontend
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:flop, "~> 0.17.0"},
+      {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
       {:icons, "~> 0.7.1"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:flop_phoenix, "~> 0.14.2"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
@@ -71,6 +73,7 @@ defmodule Atomic.MixProject do
       # utilities
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
+      {:inflex, "~> 2.0.0"},
 
       # plugs
       {:plug_cowboy, "~> 2.5"},
@@ -103,7 +106,7 @@ defmodule Atomic.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
-      lint: ["credo --strict --all"],
+      lint: ["credo -C default"],
       check: [
         "clean",
         "deps.unlock --check-unused",

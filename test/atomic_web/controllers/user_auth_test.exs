@@ -20,7 +20,7 @@ defmodule AtomicWeb.UserAuthTest do
       conn = UserAuth.log_in_user(conn, user)
       assert token = get_session(conn, :user_token)
       assert get_session(conn, :live_socket_id) == "users_sessions:#{Base.url_encode64(token)}"
-      assert redirected_to(conn) == "/organizations"
+      assert redirected_to(conn) == "/"
       assert Accounts.get_user_by_session_token(token)
     end
 
@@ -30,8 +30,8 @@ defmodule AtomicWeb.UserAuthTest do
     end
 
     test "redirects to the configured path", %{conn: conn, user: user} do
-      conn = conn |> put_session(:user_return_to, "/organizations") |> UserAuth.log_in_user(user)
-      assert redirected_to(conn) == "/organizations"
+      conn = conn |> put_session(:user_return_to, "/") |> UserAuth.log_in_user(user)
+      assert redirected_to(conn) == "/"
     end
 
     test "writes a cookie if remember_me is configured", %{conn: conn, user: user} do
@@ -58,7 +58,7 @@ defmodule AtomicWeb.UserAuthTest do
       refute get_session(conn, :user_token)
       refute conn.cookies[@remember_me_cookie]
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       refute Accounts.get_user_by_session_token(user_token)
     end
 
@@ -77,7 +77,7 @@ defmodule AtomicWeb.UserAuthTest do
       conn = conn |> fetch_cookies() |> UserAuth.log_out_user()
       refute get_session(conn, :user_token)
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
     end
   end
 

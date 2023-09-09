@@ -2,13 +2,26 @@ defmodule Atomic.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
-  import Ecto.Query, warn: false
-  alias Atomic.Repo
+  use Atomic.Context
 
   alias Atomic.Accounts.{Course, User, UserNotifier, UserToken}
 
-  ## Database getters
+  @doc """
+    List all users.
+
+    ## Examples
+
+      iex > list_users()
+      {:ok, [%User{}]}
+
+      iex > list_users()
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def list_users do
+    User
+    |> Repo.all()
+  end
 
   @doc """
   Gets a user by email.
@@ -76,8 +89,6 @@ defmodule Atomic.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
-  ## User registration
-
   @doc """
   Registers a user.
 
@@ -97,20 +108,21 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-    List all users.
+  Finishes user setup.
 
-    ## Examples
+  ## Examples
 
-      iex > list_users()
-      {:ok, [%User{}]}
+      iex> finish_user_setup(user, %{field: value})
+      {:ok, %User{}}
 
-      iex > list_users()
+      iex> finish_user_setup(user, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def list_users do
-    User
-    |> Repo.all()
+  def finish_user_setup(user, attrs) do
+    user
+    |> User.setup_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """
@@ -131,58 +143,16 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Return the initials of a name.
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
 
   ## Examples
 
-      iex> extract_initials("John Doe")
-      "JD"
-
-      iex> extract_initials("John")
-      "J"
-
-      iex> extract_initials(nil)
-      ""
+      iex> change_user_registration(user)
+      %Ecto.Changeset{data: %User{}}
 
   """
-  def extract_initials(nil), do: ""
-
-  def extract_initials(name) do
-    initials = name |> String.upcase() |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1))
-
-    case length(initials) do
-      1 -> hd(initials)
-      _ -> List.first(initials) <> List.last(initials)
-    end
-  end
-
-  @doc """
-  Return the first and last name of a name.
-
-  ## Examples
-
-        iex> extract_first_last_name("John Doe")
-        "John Doe"
-
-        iex> extract_first_last_name("John")
-        "John"
-
-        iex> extract_first_last_name(nil)
-        ""
-
-  """
-  def extract_first_last_name(name) do
-    names =
-      name
-      |> String.split(" ")
-      |> Enum.filter(&String.match?(String.slice(&1, 0, 1), ~r/^\p{L}$/u))
-      |> Enum.map(&String.capitalize/1)
-
-    case length(names) do
-      0 -> ""
-      1 -> hd(names)
-      _ -> List.first(names) <> " " <> List.last(names)
-    end
+  def change_user_registration(%User{} = user, attrs \\ %{}) do
+    User.registration_changeset(user, attrs, hash_password: false)
   end
 
   @doc """
@@ -194,8 +164,8 @@ defmodule Atomic.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
-  def change_user_registration(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs, hash_password: false)
+  def change_user_setup(%User{} = user, attrs \\ %{}) do
+    User.setup_changeset(user, attrs)
   end
 
   ## Settings
@@ -347,11 +317,14 @@ defmodule Atomic.Accounts do
   @doc """
   Gets the user with the given signed token.
   """
-  def get_user_by_session_token(token) do
+  def get_user_by_session_token(
+        token,
+        preloads \\ [:current_organization, :organizations, :course]
+      ) do
     {:ok, query} = UserToken.verify_session_token_query(token)
 
     Repo.one(query)
-    |> Repo.preload(:organizations)
+    |> Repo.preload(preloads)
   end
 
   @doc """
@@ -544,17 +517,35 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
-  Gets an user organizations.
+  Returns true if the user has master permissions inside the application.
 
   ## Examples
 
-      iex> get_user_organizations(user)
-      {:ok,[%Organization{}]}
+      iex> has_master_permissions?(a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6)
+      true
 
-      iex> get_user_organizations(user)
-      {:error, %Ecto.Changeset{}}
+      iex> has_master_permissions?(dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m)
+      false
   """
-  def get_user_organizations(user) do
-    Repo.all(Ecto.assoc(user, :organizations))
+  def has_master_permissions?(user_id) do
+    user = get_user!(user_id)
+    user.role in [:admin]
+  end
+
+  alias Atomic.Organizations
+
+  @doc """
+  Returns true if the user has permissions inside the organization.
+
+  ## Examples
+
+      iex> has_permissions_inside_organization?(a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6, 1)
+      true
+
+      iex> has_permissions_inside_organization?(dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m, 1)
+      false
+  """
+  def has_permissions_inside_organization?(user_id, organization_id) do
+    Organizations.get_role(user_id, organization_id) in [:owner, :admin]
   end
 end

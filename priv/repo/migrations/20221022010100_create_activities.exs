@@ -4,9 +4,17 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
   def change do
     create table(:activities, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :title, :string
-      add :description, :text
+      add :title, :string, null: false
+      add :description, :text, null: false
+      add :start, :naive_datetime, null: false
+      add :finish, :naive_datetime, null: false
+      add :location, :map
+      add :minimum_entries, :integer, null: false
+      add :maximum_entries, :integer, null: false
+      add :image, :string
+
       add :event_id, references(:events, type: :binary_id)
+
       timestamps()
     end
   end

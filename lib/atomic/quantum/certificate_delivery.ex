@@ -3,7 +3,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   Task for sending participation certificates for activities which
   ended less than 24h ago. Activities are said to end when their last
-  session finishes. Only  participants who were present are eligible
+  activity finishes. Only  participants who were present are eligible
   to receive certificates. The certificates are emailed to the participants,
   but should be viewable in Atomic itself.
 
@@ -13,10 +13,10 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   """
   import Ecto.Query, warn: false
+
   alias Atomic.Mailer
   alias Atomic.Repo
-  alias Atomic.Activities.{Enrollment, Session}
-
+  alias Atomic.Activities.{Activity, Enrollment}
   alias AtomicWeb.ActivityEmails
 
   @doc """
@@ -24,7 +24,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   Sends certificates for the activities which ended less than
   24 hours ago.
 
-  Activities are said to end when their last session finishes. Only
+  Activities are said to end when their last activity finishes. Only
   participants who were present are eligible to receive certificates
 
   """
@@ -84,24 +84,20 @@ defmodule Atomic.Quantum.CertificateDelivery do
   # Builds the query to determine the activities to consider for certificate
   # delivery.
 
-  # An activity is considered if its last session
-  # ended less than 24h ago. The last session is the one which finishes
+  # An activity is considered if its last activity
+  # ended less than 24h ago. The last activity is the one which finishes
   # later (not necessary the one that starts later).
 
   # The result of the query is the IDs of the activities, not the structs
   # themselves.
-  defp last_sessions_query do
+  defp last_activities_query do
     now = DateTime.utc_now()
     minimum_finish = DateTime.add(now, -24, :hour)
 
-    sq =
-      from s in Session,
-        where: s.finish >= ^minimum_finish and s.finish <= ^now,
-        group_by: [s.activity_id],
-        select: %{finish: max(s.finish), activity_id: s.activity_id}
-
-    from s in subquery(sq),
-      select: s.activity_id
+    from a in Activity,
+      where: a.finish >= ^minimum_finish and a.finish <= ^now,
+      group_by: [a.activity_id],
+      select: %{finish: max(a.finish), activity_id: a.activity_id}
   end
 
   # Determines all the enrollments eligible to receive participation
@@ -109,14 +105,13 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # An enrollment is eligible if and only if:
 
-  # - The activity it refers to has ended less than 24h ago (meaning its last
-  # session ended less than 24h ago)
-  # - The user has participated in the session (meaning the present field
+  # - The activity it refers to has ended less than 24h ago
+  # - The user has participated in the activity (meaning the present field
   # of the enrollment will be true)
 
   defp included_enrollments do
     enrollments =
-      from s in subquery(last_sessions_query()),
+      from s in subquery(last_activities_query()),
         inner_join: e in Enrollment,
         on: e.activity_id == s.activity_id,
         where: e.present,

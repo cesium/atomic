@@ -1,4 +1,4 @@
-defmodule AtomicWeb.ViewUtils do
+defmodule AtomicWeb.Helpers do
   @moduledoc """
   A module with helper functions to display data in views
   """
@@ -6,8 +6,8 @@ defmodule AtomicWeb.ViewUtils do
 
   import AtomicWeb.Gettext
 
-  alias String
   alias Timex.Format.DateTime.Formatters.Relative
+
   require Timex.Translator
 
   @doc """
@@ -22,11 +22,20 @@ defmodule AtomicWeb.ViewUtils do
 
   ## Examples
 
-      iex> relative_datetime(~N[2020-01-01 00:00:00])
+      iex> relative_datetime(Timex.today() |> Timex.shift(years: -3))
       "3 years ago"
 
-      iex> relative_datetime(~N[2023-01-01 00:00:00] |> Timex.shift(days: 1))
-      "7 months ago"
+      iex> relative_datetime(Timex.today() |> Timex.shift(years: 3))
+      "in 3 years"
+
+      iex> relative_datetime(Timex.today() |> Timex.shift(months: -8))
+      "8 months ago"
+
+      iex> relative_datetime(Timex.today() |> Timex.shift(months: 8))
+      "in 8 months"
+
+      iex> relative_datetime(Timex.today() |> Timex.shift(days: -1))
+      "yesterday"
 
   """
   def relative_datetime(nil), do: ""
@@ -37,7 +46,7 @@ defmodule AtomicWeb.ViewUtils do
     Relative.lformat!(datetime, "{relative}", Gettext.get_locale())
   end
 
-  @doc ~S"""
+  @doc """
   Returns a relative date string for the given date.
 
   ## Examples
@@ -63,7 +72,7 @@ defmodule AtomicWeb.ViewUtils do
     Timex.format!(date, "{0D}-{0M}-{YYYY}")
   end
 
-  @doc ~S"""
+  @doc """
   Returns a relative time string for the given time.
 
   ## Examples
@@ -89,7 +98,7 @@ defmodule AtomicWeb.ViewUtils do
     |> Timex.format!("{h24}:{m}")
   end
 
-  @doc ~S"""
+  @doc """
     Returns a list of first element from tuples where the second element is true
 
     ## Examples
@@ -106,7 +115,115 @@ defmodule AtomicWeb.ViewUtils do
     |> Enum.map_join(" ", &elem(&1, 0))
   end
 
-  @doc ~S"""
+  @doc """
+  Return the initials of a name.
+
+  ## Examples
+
+      iex> extract_initials("John Doe")
+      "JD"
+
+      iex> extract_initials("John")
+      "J"
+
+      iex> extract_initials(nil)
+      ""
+
+  """
+  def extract_initials(nil), do: ""
+
+  def extract_initials(name) do
+    initials = name |> String.upcase() |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1))
+
+    case length(initials) do
+      1 -> hd(initials)
+      _ -> List.first(initials) <> List.last(initials)
+    end
+  end
+
+  @doc """
+  Return the first and last name of a name.
+
+  ## Examples
+
+        iex> extract_first_last_name("John Doe")
+        "John Doe"
+
+        iex> extract_first_last_name("John")
+        "John"
+
+        iex> extract_first_last_name(nil)
+        ""
+
+  """
+  def extract_first_last_name(nil), do: ""
+
+  def extract_first_last_name(name) do
+    names =
+      name
+      |> String.split(" ")
+      |> Enum.filter(&String.match?(String.slice(&1, 0, 1), ~r/^\p{L}$/u))
+      |> Enum.map(&String.capitalize/1)
+
+    case length(names) do
+      0 -> ""
+      1 -> hd(names)
+      _ -> List.first(names) <> " " <> List.last(names)
+    end
+  end
+
+  @doc """
+  Slices a string if it is longer than the given length
+
+  ## Examples
+
+        iex> maybe_slice_string("This is a very long string", 10)
+        "This is a ..."
+
+        iex> maybe_slice_string("This is a very long string", 30)
+        "This is a very long string"
+
+        iex> maybe_slice_string("This is a very long string")
+        "This is a very long string"
+  """
+  @spec maybe_slice_string(String.t()) :: String.t()
+  def maybe_slice_string(string, length \\ 30) do
+    if String.length(string) > length do
+      String.slice(string, 0, length) <> "..."
+    else
+      string
+    end
+  end
+
+  @doc """
+  Capitalizes the first letter of a string.
+
+  ## Examples
+
+        iex> capitalize_first_letter("hello")
+        "Hello"
+
+        iex> capitalize_first_letter("world")
+        "World"
+
+        iex> capitalize_first_letter(:hello)
+        "Hello"
+
+        iex> capitalize_first_letter(:world)
+        "World"
+  """
+  def capitalize_first_letter(word) when is_atom(word) do
+    word
+    |> Atom.to_string()
+    |> capitalize_first_letter()
+  end
+
+  def capitalize_first_letter(word) do
+    word
+    |> String.capitalize()
+  end
+
+  @doc """
     Returns the class name for a given column
 
     ## Examples
@@ -131,24 +248,20 @@ defmodule AtomicWeb.ViewUtils do
     end
   end
 
-  @doc ~S"""
-    Returns the string with the first letter capitalized
+  def draw_qr_code(activity, user, _socket) do
+    internal_route = "/redeem/#{activity.id}/#{user.id}/confirm"
+    url = build_url() <> internal_route
 
-    ## Examples
+    url
+    |> QRCodeEx.encode()
+    |> QRCodeEx.svg(color: "#1F2937", width: 295, background_color: :transparent)
+  end
 
-        iex> capitalize_first_letter(:hello)
-        "Hello"
-
-        iex> capitalize_first_letter(:world)
-        "World"
-  """
-  def capitalize_first_letter(string) do
-    if is_nil(string) do
-      ""
+  defp build_url do
+    if Mix.env() == :dev do
+      "http://localhost:4000"
     else
-      string
-      |> Atom.to_string()
-      |> String.capitalize()
+      "https://#{Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
     end
   end
 
@@ -159,7 +272,7 @@ defmodule AtomicWeb.ViewUtils do
     |> URI.to_string()
   end
 
-  @doc ~S"""
+  @doc """
     Appends two lists when a condition is true
 
     ## Examples
@@ -184,7 +297,7 @@ defmodule AtomicWeb.ViewUtils do
     end
   end
 
-  @doc ~S"""
+  @doc """
     Returns an error message for a given error
 
     ## Examples

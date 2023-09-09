@@ -6,8 +6,6 @@ defmodule AtomicWeb.Components.CalendarMonth do
   import AtomicWeb.Components.Badges
 
   def calendar_month(assigns) do
-    organization = assigns.current_organization
-
     ~H"""
     <div class="rounded-lg shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
       <div class="grid grid-cols-7 gap-px rounded-t-lg border-b border-zinc-300 bg-zinc-200 text-center text-xs font-semibold leading-6 text-zinc-700 lg:flex-none">
@@ -36,46 +34,31 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <div class="flex bg-zinc-200 text-xs leading-6 text-zinc-700 lg:flex-auto">
         <div class="grid w-full grid-cols-7 gap-px overflow-hidden rounded-b-lg">
           <%= for i <- 0..@end_of_month.day - 1 do %>
-            <.day index={i} current_organization={@current_organization} params={@params} current_path={@current_path} sessions={@sessions} date={Timex.shift(@beginning_of_month, days: i)} time_zone={@time_zone} />
+            <.day index={i} params={@params} current_path={@current_path} activities={@activities} date={Timex.shift(@beginning_of_month, days: i)} timezone={@timezone} />
           <% end %>
         </div>
       </div>
     </div>
     <div class="py-4 lg:hidden">
       <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
-        <%= for session <- get_date_sessions(@sessions, current_from_params(@time_zone, @params)) do %>
-          <%= if session.activity do %>
-            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity, organization) do %>
-              <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
-                <div class="flex-auto">
-                  <p class="font-semibold text-zinc-900">
-                    <%= session.activity.title %>
-                    <%!-- <%= if Gettext.get_locale() == "en" do
-                      if session.activity.title_en do
-                        session.activity.title_en
-                      else
-                        ""
-                      end
-                    else
-                      if session.activity.title_pt do
-                        session.activity.title_pt
-                      else
-                        ""
-                      end
-                    end %> --%>
-                  </p>
-                  <div class="flex flex-row items-center gap-x-2 pt-2">
-                    <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index, organization)} color="purple">
-                      Activity
-                    </.badge_dot>
-                    <time datetime={session.start} class="flex items-center text-zinc-700">
-                      <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
-                      <%= Calendar.strftime(session.start, "%Hh%M") %>
-                    </time>
-                  </div>
+        <%= for activity <- get_date_activities(@activities, current_from_params(@timezone, @params)) do %>
+          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
+            <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
+              <div class="flex-auto">
+                <p class="font-semibold text-zinc-900">
+                  <%= activity.title %>
+                </p>
+                <div class="flex flex-row items-center gap-x-2 pt-2">
+                  <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color="purple">
+                    Activity
+                  </.badge_dot>
+                  <time datetime={activity.start} class="flex items-center text-zinc-700">
+                    <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
+                    <%= Calendar.strftime(activity.start, "%Hh%M") %>
+                  </time>
                 </div>
-              </li>
-            <% end %>
+              </div>
+            </li>
           <% end %>
         <% end %>
       </ol>
@@ -83,12 +66,9 @@ defmodule AtomicWeb.Components.CalendarMonth do
     """
   end
 
-  defp day(
-         %{index: index, date: date, time_zone: time_zone, current_organization: organization} =
-           assigns
-       ) do
+  defp day(%{index: index, date: date, timezone: timezone} = assigns) do
     weekday = Timex.weekday(date, :monday)
-    today? = Timex.compare(date, Timex.today(time_zone))
+    today? = Timex.compare(date, Timex.today(timezone))
 
     class =
       class_list([
@@ -112,35 +92,20 @@ defmodule AtomicWeb.Components.CalendarMonth do
         date-time={@date}
         class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if today? == 0 do
-            "flex h-6 w-6 items-center justify-center rounded-full bg-indigo-400 font-semibold text-white shrink-0"
+            "flex h-6 w-6 items-center justify-center rounded-full bg-orange-400 font-semibold text-white shrink-0"
           end}"
         }
       >
         <%= @text %>
       </time>
       <ol class="mt-3 w-full">
-        <%= for session <- get_date_sessions(@sessions, @date) do %>
+        <%= for activity <- get_date_activities(@activities, @date) do %>
           <li>
-            <%= if session.activity do %>
-              <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, organization, session.id), class: "group flex" do %>
-                <p class="text-zinc-600 group-hover:text-zinc-800 flex-auto truncate font-medium">
-                  <%= session.activity.title %>
-                  <%!-- <%= if Gettext.get_locale() == "en" do
-                    if session.activity.title_en do
-                      session.activity.title_en
-                    else
-                      ""
-                    end
-                  else
-                    if session.activity.title_pt do
-                      session.activity.title_pt
-                    else
-                      ""
-                    end
-                  end %> --%>
-                </p>
-                <time datetime={session.start} class="text-zinc-600 group-hover:text-zinc-800 mx-2 hidden flex-none xl:block"><%= Calendar.strftime(session.start, "%Hh") %></time>
-              <% end %>
+            <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity), class: "group flex" do %>
+              <p class="flex-auto truncate font-medium text-zinc-600 group-hover:text-zinc-800">
+                <%= activity.title %>
+              </p>
+              <time datetime={activity.start} class="mx-2 hidden flex-none text-zinc-600 group-hover:text-zinc-800 xl:block"><%= Calendar.strftime(activity.start, "%Hh") %></time>
             <% end %>
           </li>
         <% end %>
@@ -150,26 +115,26 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <time
         date-time={@date}
         class={
-          "ml-auto lg:ml-0 #{if current_from_params(@time_zone, @params) == @date do
+          "ml-auto lg:ml-0 #{if current_from_params(@timezone, @params) == @date do
             "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if today? == 0 do
-              "bg-indigo-700"
+              "bg-orange-700"
             else
               "bg-zinc-900"
             end} text-white shirk-0"
           else
             if today? == 0 do
-              "text-indigo-700"
+              "text-orange-700"
             end
           end}"
         }
       >
         <%= @text %>
       </time>
-      <%= if (sessions = get_date_sessions(@sessions, @date)) != [] do %>
-        <span class="sr-only">Enum.count(sessions) events</span>
-        <span class="flex flex-wrap-reverse -mx-0.5 mt-auto">
-          <%= for session <- sessions do %>
-            <%= if session.activity do %>
+      <%= if (activities = get_date_activities(@activities, @date)) != [] do %>
+        <span class="sr-only">Enum.count(activities) events</span>
+        <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
+          <%= for activity <- activities do %>
+            <%= if activity do %>
               <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-700"></span>
             <% end %>
           <% end %>

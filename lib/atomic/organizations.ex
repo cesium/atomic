@@ -2,14 +2,10 @@ defmodule Atomic.Organizations do
   @moduledoc """
   The Organizations context.
   """
-
   use Atomic.Context
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.Membership
-  alias Atomic.Organizations.Organization
-  alias Atomic.Organizations.UserOrganization
-  alias Atomic.Repo
+  alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
 
   @doc """
   Returns the list of organizations.
@@ -20,9 +16,52 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
+  def list_organizations(params \\ %{})
 
-  def list_organizations(opts) do
+  def list_organizations(opts) when is_list(opts) do
     Organization
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_organizations(flop) do
+    Flop.validate_and_run(Organization, flop, for: Organization)
+  end
+
+  def list_organizations(%{} = flop, opts) when is_list(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Organization)
+  end
+
+  @doc """
+  Returns the list of organizations followed by an user.
+
+  ## Examples
+
+      iex> list_organizations_followed_by_user(user_id)
+      [%Organization{}, ...]
+
+  """
+  def list_organizations_followed_by_user(user_id) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role == :follower)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of organizations where an user is an admin or owner.
+
+  ## Examples
+
+      iex> list_user_organizations(user_id)
+      [%Organization{}, ...]
+  """
+  def list_user_organizations(user_id, opts \\ []) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role in [:admin, :owner])
     |> apply_filters(opts)
     |> Repo.all()
   end
@@ -42,11 +81,8 @@ defmodule Atomic.Organizations do
 
   """
   def get_organization!(id, preloads \\ []) do
-    organization =
-      Repo.get!(Organization, id)
-      |> Repo.preload(preloads)
-
-    organization
+    Repo.get!(Organization, id)
+    |> Repo.preload(preloads)
   end
 
   @doc """
@@ -178,6 +214,14 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  def list_display_memberships(%{} = flop, opts \\ []) do
+    Membership
+    |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> where([a], a.role != :follower)
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
+  end
+
   @doc """
     Verifies if an user is a member of an organization.
 
@@ -276,14 +320,14 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> get_membership_by_userid_and_organization_id!(123, 456, [])
+      iex> get_membership_by_user_id_and_organization_id!(123, 456, [])
       %Membership{}
 
-      iex> get_membership_by_userid_and_organization_id!(456, 789, [])
+      iex> get_membership_by_user_id_and_organization_id!(456, 789, [])
       ** (Ecto.NoResultsError)
 
   """
-  def get_membership_by_userid_and_organization_id!(user_id, organization_id, preloads \\ []) do
+  def get_membership_by_user_id_and_organization_id!(user_id, organization_id, preloads \\ []) do
     Membership
     |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
     |> Repo.one!()
@@ -365,6 +409,23 @@ defmodule Atomic.Organizations do
   def roles_bigger_than_or_equal(role) do
     [:follower, :member, :admin, :owner]
     |> Enum.drop_while(fn elem -> elem != role end)
+  end
+
+  @doc """
+  Returns the amount of followers in an organization.
+
+  ## Examples
+
+      iex> count_followers(organization_id)
+      5
+
+      iex> count_followers(organization_id) when organization_id == CeSIUM.id
+      100000000000000000000000000
+  """
+  def count_followers(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
+    |> Repo.aggregate(:count, :id)
   end
 
   @doc """
@@ -482,5 +543,157 @@ defmodule Atomic.Organizations do
   def get_total_organization_members(organization_id) do
     from(m in Membership, where: m.organization_id == ^organization_id)
     |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Returns the list of announcements.
+
+  ## Examples
+
+      iex> list_announcements()
+      [%Announcement{}, ...]
+
+  """
+  def list_announcements(opts \\ []) do
+    Announcement
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of announcements belonging to an organization.
+
+  ## Examples
+
+      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
+
+  """
+  def list_announcements_by_organization_id(id, opts \\ []) do
+    Announcement
+    |> where(organization_id: ^id)
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of published announcements.
+
+  ## Examples
+
+      iex> list_published_announcements()
+      [%Announcement{}, ...]
+
+  """
+  def list_published_announcements(opts \\ []) do
+    Announcement
+    |> where([n], fragment("now() > ?", n.publish_at))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of published announcements belonging to an organization.
+
+  ## Examples
+
+      iex> list_published_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
+
+  """
+  def list_published_announcements_by_organization_id(id, preloads \\ []) do
+    Announcement
+    |> apply_filters(preloads)
+    |> where(organization_id: ^id)
+    |> where([n], fragment("now() > ?", n.publish_at))
+    |> order_by([n], desc: n.publish_at)
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single announcement.
+
+  Raises `Ecto.NoResultsError` if the announcement does not exist.
+
+  ## Examples
+
+      iex> get_announcement!(123)
+      %Announcement{}
+
+      iex> get_announcement!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_announcement!(id), do: Repo.get!(Announcement, id)
+
+  def get_announcement!(id, opts) when is_list(opts) do
+    Announcement
+    |> apply_filters(opts)
+    |> Repo.get!(id)
+  end
+
+  @doc """
+  Creates an announcement.
+
+  ## Examples
+
+      iex> create_announcement(%{field: value})
+      {:ok, %Announcement{}}
+
+      iex> create_announcement(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_announcement(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+    %Announcement{}
+    |> Announcement.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates an announcement.
+
+  ## Examples
+
+      iex> update_announcement(announcement, %{field: new_value})
+      {:ok, %Announcement{}}
+
+      iex> update_announcement(announcement, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_announcement(%Announcement{} = announcement, attrs, _after_save \\ &{:ok, &1}) do
+    announcement
+    |> Announcement.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes an announcement.
+
+  ## Examples
+
+      iex> delete_announcement(announcement)
+      {:ok, %Announcement{}}
+
+      iex> delete_announcement(announcement)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_announcement(%Announcement{} = announcement) do
+    Repo.delete(announcement)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking announcement changes.
+
+  ## Examples
+
+      iex> change_announcement(announcement)
+      %Ecto.Changeset{data: %Announcement{}}
+
+  """
+  def change_announcement(%Announcement{} = announcement, attrs \\ %{}) do
+    Announcement.changeset(announcement, attrs)
   end
 end

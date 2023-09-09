@@ -2,9 +2,7 @@ defmodule Atomic.Partnerships do
   @moduledoc """
   The Partnerships context.
   """
-
-  import Ecto.Query, warn: false
-  alias Atomic.Repo
+  use Atomic.Context
 
   alias Atomic.Organizations.Partner
 
@@ -19,6 +17,12 @@ defmodule Atomic.Partnerships do
   """
   def list_partnerships do
     Repo.all(Partner)
+  end
+
+  def list_partnerships(%{} = flop, opts) when is_list(opts) do
+    Partner
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Partner)
   end
 
   @doc """

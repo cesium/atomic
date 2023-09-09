@@ -13,26 +13,26 @@ defmodule AtomicWeb.Components.Calendar do
           current_path: current_path,
           params: params,
           mode: mode,
-          time_zone: time_zone
+          timezone: timezone
         } = assigns
       ) do
     assigns =
       assigns
-      |> assign_date(current_path, params, time_zone)
+      |> assign_date(current_path, params, timezone)
 
     assigns =
       case mode do
         "week" ->
           assigns
-          |> assigns_week(current_path, time_zone, params)
+          |> assigns_week(current_path, timezone, params)
 
         "month" ->
           assigns
-          |> assigns_month(current_path, time_zone, params)
+          |> assigns_month(current_path, timezone, params)
 
         _ ->
           assigns
-          |> assigns_month(current_path, time_zone, params)
+          |> assigns_month(current_path, timezone, params)
       end
 
     ~H"""
@@ -59,18 +59,18 @@ defmodule AtomicWeb.Components.Calendar do
             <div class="flex items-center">
               <div class="flex items-center md:items-stretch">
                 <%= live_patch to: "#{if @mode == "month" do @previous_month_path else @previous_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Previous month</span>
                     <Heroicons.Solid.chevron_left class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @present_month_path else @present_week_path end}" do %>
-                  <button type="button" class="hidden px-3.5 h-full text-sm font-medium text-zinc-700 md:block hover:text-zinc-900 focus:relative hover:bg-zinc-50">
+                  <button type="button" class="hidden h-full px-3.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 focus:relative md:block">
                     <%= gettext("Today") %>
                   </button>
                 <% end %>
                 <%= live_patch to: "#{if @mode == "month" do @next_month_path else @next_week_path end}" do %>
-                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:px-2 hover:bg-zinc-50">
+                  <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Next month</span>
                     <Heroicons.Solid.chevron_right class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
@@ -78,7 +78,7 @@ defmodule AtomicWeb.Components.Calendar do
               </div>
               <div class="hidden md:ml-4 md:flex md:items-center">
                 <div class="relative">
-                  <a @click="mode_view = !mode_view" class="cursor-pointer flex items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                  <a @click="mode_view = !mode_view" class="flex cursor-pointer items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
                     <%= if @mode == "month" do
                       gettext("Month view")
                     else
@@ -142,7 +142,7 @@ defmodule AtomicWeb.Components.Calendar do
                         <%= gettext("Today") %>
                       </button>
                     <% end %>
-                    <div class="mx-4 border-b border-zinc-200 " />
+                    <div class="mx-4 border-b border-zinc-200" />
                     <%= live_patch to: @present_week_path do %>
                       <button
                         type="button"
@@ -187,16 +187,16 @@ defmodule AtomicWeb.Components.Calendar do
         </div>
       </header>
       <%= if @mode == "month" do %>
-        <.calendar_month id="calendar_month" current_organization={@current_organization} current_path={@current_path} params={@params} sessions={@sessions} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} time_zone={@time_zone} />
+        <.calendar_month id="calendar_month" current_path={@current_path} params={@params} activities={@activities} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
       <% else %>
-        <.calendar_week id="calendar_week" current_organization={@current_organization} current_path={@current_path} current={@current} params={@params} sessions={@sessions} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} time_zone={@time_zone} />
+        <.calendar_week id="calendar_week" current_path={@current_path} current={@current} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
     """
   end
 
-  defp assign_date(assigns, current_path, params, time_zone) do
-    current = current_from_params(time_zone, params)
+  defp assign_date(assigns, current_path, params, timezone) do
+    current = current_from_params(timezone, params)
 
     current_year =
       current
@@ -211,15 +211,15 @@ defmodule AtomicWeb.Components.Calendar do
       |> date_to_day()
 
     present_year =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_year()
 
     present_month =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_month()
 
     present_day =
-      Timex.today(time_zone)
+      Timex.today(timezone)
       |> date_to_day()
 
     present_week_path =
@@ -262,8 +262,8 @@ defmodule AtomicWeb.Components.Calendar do
     |> assign(current: current)
   end
 
-  defp assigns_week(assigns, current_path, time_zone, params) do
-    current = current_from_params(time_zone, params)
+  defp assigns_week(assigns, current_path, timezone, params) do
+    current = current_from_params(timezone, params)
     beginning_of_week = Timex.beginning_of_week(current)
     end_of_week = Timex.end_of_week(current)
 
@@ -322,8 +322,8 @@ defmodule AtomicWeb.Components.Calendar do
     |> assign(next_week_path: next_week_path)
   end
 
-  defp assigns_month(assigns, current_path, time_zone, params) do
-    current = current_from_params(time_zone, params)
+  defp assigns_month(assigns, current_path, timezone, params) do
+    current = current_from_params(timezone, params)
     beginning_of_month = Timex.beginning_of_month(current)
     end_of_month = Timex.end_of_month(current)
 

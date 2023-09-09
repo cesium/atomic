@@ -1,15 +1,3 @@
-<%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)}>
-    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)} />
-  </.modal>
-<% end %>
-
-<%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)}>
-    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} organization={@current_organization} title={@page_title} action={@live_action} activity={@activity} return_to={Routes.activity_show_path(@socket, :show, @current_organization, @activity)} />
-  </.modal>
-<% end %>
-
 <div>
   <div class="my-4">
     <div class="bg-white">
@@ -36,7 +24,7 @@
             </div>
 
             <div class={
-              if @current_user.role in [:admin, :staff] do
+              if @has_permissions? do
                 "col-span-1"
               else
                 "col-span-2"
@@ -49,7 +37,7 @@
                 <div class="flex w-full">
                   <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
-                    <%= @session.enrolled %> / <%= @session.maximum_entries %>
+                    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                   </div>
                 </div>
               </dd>
@@ -58,42 +46,40 @@
             <div class="col-span-2">
               <dt class="grid grid-cols-2 items-center">
                 <div class="text-sm font-medium text-zinc-500">
-                  <%= gettext("Sessions") %>
+                  <%= gettext("Activities") %>
                 </div>
               </dt>
               <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
-                <%= for session <- @activity.activity_sessions do %>
-                  <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
-                    <div class="flex gap-x-2">
-                      <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                        <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
-                        <p class="block pl-1.5 max-w-6xl">
-                          <%= AtomicWeb.ViewUtils.display_date(session.start) %>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="inset-y-0 my-auto flex md:pl-3">
-                      <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
+                <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
+                  <div class="flex gap-x-2">
+                    <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
+                      <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
                       <p class="block pl-1.5 max-w-6xl">
-                        <%= display_time(session.start) %> - <%= display_time(session.finish) %>
+                        <%= display_date(@activity.start) %>
                       </p>
                     </div>
-                    <div class="flex text-sm md:pl-3">
-                      <%= if (@current_user.role != :student || @enrolled?) && session.location do %>
-                        <Heroicons.Solid.location_marker class="h-5 w-5 text-zinc-400" />
-                        <%= live_redirect to: session.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
-                          <%= session.location.name %>
-                        <% end %>
-                      <% else %>
-                        <%= if session.location do %>
-                          <div class="pl-1.5 text-zinc-900">
-                            <%= session.location.name %>
-                          </div>
-                        <% end %>
-                      <% end %>
-                    </div>
                   </div>
-                <% end %>
+                  <div class="inset-y-0 my-auto flex md:pl-3">
+                    <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
+                    <p class="block pl-1.5 max-w-6xl">
+                      <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
+                    </p>
+                  </div>
+                  <div class="flex text-sm md:pl-3">
+                    <%= if @activity.location do %>
+                      <Heroicons.Solid.location_marker class="h-5 w-5 text-zinc-400" />
+                      <%= live_redirect to: @activity.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
+                        <%= @activity.location.name %>
+                      <% end %>
+                    <% else %>
+                      <%= if @activity.location do %>
+                        <div class="pl-1.5 text-zinc-900">
+                          <%= @activity.location.name %>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
               </dd>
             </div>
             <div class="col-span-2">
@@ -106,19 +92,19 @@
             </div>
             <div class="col-span-2">
               <div class="sm:grid sm:grid-cols-1">
-                <%= if @session.speakers != [] do %>
+                <%= if @activity.speakers != [] do %>
                   <%= gettext("Speaker") %>
-                  <%= for speaker <- @session.speakers do %>
+                  <%= for speaker <- @activity.speakers do %>
                     <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                       <div class="text-sm font-medium text-zinc-500"></div>
                       <div class="mt-1 flex items-center">
                         <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
                           <span class="text-md font-medium leading-none text-white">
-                            <%= Accounts.extract_initials(speaker.name) %>
+                            <%= extract_initials(speaker.name) %>
                           </span>
                         </span>
-                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @current_organization, speaker), class: "text-md text-blue-500" do %>
-                          <%= Accounts.extract_first_last_name(speaker.name) %>
+                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @organization, speaker), class: "text-md text-blue-500" do %>
+                          <%= extract_first_last_name(speaker.name) %>
                         <% end %>
                       </div>
                     </div>
@@ -132,7 +118,7 @@
                   <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
                 </dt>
                 <dd class="mt-1 flex text-sm text-zinc-900">
-                  <%= draw_qr_code(@session, @current_user, @socket) |> raw %>
+                  <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
                 </dd>
                 <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
                   <span>
@@ -143,19 +129,25 @@
                   </button>
                 </dd>
               <% else %>
-                <%= if @max_enrolled? do %>
+                <%= if not @max_enrolled? do %>
                   <div class="flex flex-col">
                     <dt class="text-sm font-medium text-zinc-500">
                       <%= gettext("You are not enrolled in this activity") %>
                     </dt>
-                    <button
-                      phx-click="enroll"
-                      phx-disable-with={gettext("Enrolling...")}
-                      phx-throttle="0"
-                      class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      <%= gettext("Enroll") %>
-                    </button>
+                    <%= if @is_authenticated? do %>
+                      <button
+                        phx-click="enroll"
+                        phx-disable-with={gettext("Enrolling...")}
+                        phx-throttle="0"
+                        class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                      >
+                        <%= gettext("Enroll") %>
+                      </button>
+                    <% else %>
+                      <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                        <%= gettext("Enroll") %>
+                      </button>
+                    <% end %>
                   </div>
                 <% end %>
               <% end %>
@@ -168,15 +160,15 @@
 </div>
 
 <div class="flex flex-row space-x-1">
-  <%= if @current_user.role in [:admin] or Organizations.is_admin?(@current_user, @session.departments) do %>
-    <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @activity, @current_organization), class: "button" do %>
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
+  <%= if @has_permissions? do %>
+    <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @activity, @organization), class: "button" do %>
+      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
       </div>
     <% end %>
     <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.Solid.x class="mr-3 w-5 h-5 text-gray-400" /> Delete
+      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
       </div>
     <% end %>
   <% end %>

@@ -4,19 +4,15 @@ defmodule AtomicWeb.UserSessionControllerTest do
   import Atomic.AccountsFixtures
 
   setup do
-    organization = insert(:organization)
-
-    %{
-      user:
-        insert(:user, default_organization_id: organization.id, confirmed_at: DateTime.utc_now())
-    }
+    %{user: insert(:user, confirmed_at: DateTime.utc_now())}
   end
 
   describe "GET /users/log_in" do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<span>Login</span>"
+      assert response =~ "Log<span"
+      assert response =~ "in</span>"
       assert response =~ "Register</a>"
       assert response =~ "Forgot your password?</a>"
     end
@@ -78,7 +74,8 @@ defmodule AtomicWeb.UserSessionControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<span>Login</span>"
+      assert response =~ "Log<span"
+      assert response =~ "in</span>"
       assert response =~ "Invalid email or password"
     end
   end
@@ -86,16 +83,15 @@ defmodule AtomicWeb.UserSessionControllerTest do
   describe "DELETE /users/log_out" do
     test "logs the user out", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> delete(Routes.user_session_path(conn, :delete))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       refute get_session(conn, :user_token)
       assert get_flash(conn, :info) =~ "Logged out successfully"
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, Routes.user_session_path(conn, :delete))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == "/users/log_in"
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Logged out successfully"
     end
   end
 end
