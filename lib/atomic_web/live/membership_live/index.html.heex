@@ -23,7 +23,7 @@
             <:col let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
             <:col let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
             <:col let={membership}>
-              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-600 hover:text-orange-900" do %>
+              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-500 hover:text-orange-900" do %>
                 <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                   <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                 </div>

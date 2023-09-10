@@ -44,7 +44,7 @@
             </div>
             <!-- Notification close button -->
             <div class="flex flex-shrink-0 ml-4">
-              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-600">
+              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-500">
                 <span class="sr-only">Close</span>
                 <Heroicons.Solid.x class="w-5 h-5" />
               </button>
@@ -110,14 +110,14 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                     <li>
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                         <Heroicons.Outline.render
                           icon={page.icon}
                           class={
                             "#{if @current_page == page.key do
-                              "text-orange-600"
+                              "text-orange-500"
                             else
-                              "text-zinc-400 group-hover:text-orange-600"
+                              "text-zinc-400 group-hover:text-orange-500"
                             end} h-6 w-6 shrink-0"
                           }
                         />
@@ -155,14 +155,14 @@
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                 <li>
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                     <Heroicons.Outline.render
                       icon={page.icon}
                       class={
                         "#{if @current_page == page.key do
-                          "text-orange-600"
+                          "text-orange-500"
                         else
-                          "text-zinc-400 group-hover:text-orange-600"
+                          "text-zinc-400 group-hover:text-orange-500"
                         end} h-6 w-6 shrink-0"
                       }
                     />
