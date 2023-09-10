@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.Department do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description)a
+  @optional_fields ~w(description select)a
 
   schema "departments" do
     field :name, :string
@@ -16,6 +16,8 @@ defmodule Atomic.Organizations.Department do
 
     many_to_many :activities, Activity, join_through: ActivityDepartment
     belongs_to :organization, Organization, on_replace: :delete_if_exists
+
+    field :select, :boolean, virtual: true
 
     timestamps()
   end

@@ -37,12 +37,15 @@ let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: Hooks,
     dom: {
+      onNodeAdded(node) {
+        if (node._x_dataStack) {
+          window.Alpine.initTree(node);
+        }
+      },
       onBeforeElUpdated(from, to) {
-        // If the element we are updating is an Alpine component...
         if (from._x_dataStack) {
-          // Then temporarily clone it (with it's data) to the "to" element.
-          // This should simulate LiveView being aware of Alpine changes.
           window.Alpine.clone(from, to);
+          window.Alpine.initTree(to);
         }
       },
     },
