@@ -10,12 +10,11 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   @impl true
-  def update(%{activity: activity} = assigns, socket) do
+  def update(%{activity: activity, organization: organization_id} = assigns, socket) do
     changeset = Activities.change_activity(activity)
 
-    current_organization = socket.assigns.current_organization
-    departments = Departments.list_departments_by_organization_id(current_organization.id)
-    speakers = Activities.list_speakers_by_organization_id(current_organization.id)
+    departments = Departments.list_departments_by_organization_id(organization_id)
+    speakers = Activities.list_speakers_by_organization_id(organization_id)
 
     {:ok,
      socket

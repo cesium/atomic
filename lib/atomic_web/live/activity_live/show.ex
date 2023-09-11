@@ -38,7 +38,8 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket))
+     |> assign(:organization, activity.departments |> List.first() |> Map.get(:organization_id))}
   end
 
   @impl true

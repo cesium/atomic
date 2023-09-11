@@ -63,10 +63,9 @@ defmodule Atomic.Departments do
 
   """
   def list_activities_by_department_id(id) do
-    ActivityDepartment
-    |> where([ad], ad.department_id == ^id)
-    |> join(:inner, [ad], a in Activity, on: ad.activity_id == a.id)
-    |> select([a], a)
+    Activity
+    |> join(:inner, [a], ad in ActivityDepartment, on: ad.activity_id == a.id)
+    |> where([a, ad], ad.department_id == ^id)
     |> Repo.all()
   end
 

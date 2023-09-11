@@ -16,7 +16,7 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
     entries = [
       %{
         name: gettext("Announcements"),
-        route: Routes.announcement_index_path(socket, :index, organization_id)
+        route: Routes.announcement_index_path(socket, :index)
       },
       %{
         name: gettext("Edit Announcements"),
