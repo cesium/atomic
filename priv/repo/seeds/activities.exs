@@ -2,10 +2,10 @@ defmodule Atomic.Repo.Seeds.Activities do
   @moduledoc """
   Seeds the database with activities.
   """
-  alias Atomic.Departments
   alias Atomic.Accounts.User
   alias Atomic.Activities
   alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
+  alias Atomic.Departments
   alias Atomic.Organizations.Department
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
