@@ -3,7 +3,7 @@ defmodule AtomicWeb.PartnerLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Partnerships
+  alias Atomic.Partners
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule AtomicWeb.PartnerLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     organization = Organizations.get_organization!(organization_id)
-    partner = Partnerships.get_partner!(id)
+    partner = Partners.get_partner!(id)
 
     entries = [
       %{
