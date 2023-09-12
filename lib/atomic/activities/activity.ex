@@ -18,8 +18,9 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Events.Event
   alias Atomic.Organizations.Department
   alias Atomic.Uploaders
+  alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
   @optional_fields ~w(event_id image)a
 
   @derive {
@@ -49,6 +50,7 @@ defmodule Atomic.Activities.Activity do
 
     has_many :enrollments, Enrollment, foreign_key: :activity_id
 
+    belongs_to :organization, Organization
     belongs_to :event, Event
 
     timestamps()
