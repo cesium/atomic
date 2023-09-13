@@ -24,16 +24,6 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
-  def list_organizations_members(%Organization{} = organization) do
-    from(m in Membership,
-      where: m.organization_id == ^organization.id and m.role != :follower,
-      join: u in User,
-      on: u.id == m.user_id,
-      select: u
-    )
-    |> Repo.all()
-  end
-
   def list_organizations(flop) do
     Flop.validate_and_run(Organization, flop, for: Organization)
   end
@@ -42,6 +32,25 @@ defmodule Atomic.Organizations do
     Organization
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Organization)
+  end
+
+  @doc """
+  Returns the list of organizations members.
+
+  ## Examples
+
+      iex> list_organizations()
+      [%Membership{}, ...]
+
+  """
+  def list_organizations_members(%Organization{} = organization) do
+    from(m in Membership,
+      where: m.organization_id == ^organization.id and m.role != :follower,
+      join: u in User,
+      on: u.id == m.user_id,
+      select: u
+    )
+    |> Repo.all()
   end
 
   @doc """
