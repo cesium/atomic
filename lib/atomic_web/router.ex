@@ -17,6 +17,8 @@ defmodule AtomicWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Authorization pipelines
+
   pipeline :admin do
     plug AtomicWeb.Plugs.Authorize, :admin
   end
@@ -27,6 +29,32 @@ defmodule AtomicWeb.Router do
 
   pipeline :master do
     plug AtomicWeb.Plugs.Authorize, :master
+  end
+
+  # Association verification pipelines
+
+  pipeline :confirm_announcement_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Organizations.get_announcement!/1
+  end
+
+  pipeline :confirm_board_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Board.get_board!/1
+  end
+
+  pipeline :confirm_department_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Departments.get_department!/1
+  end
+
+  pipeline :confirm_membership_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Organizations.get_membership!/1
+  end
+
+  pipeline :confirm_partner_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Partners.get_partner!/1
+  end
+
+  pipeline :confirm_speaker_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Activities.get_speaker!/1
   end
 
   ## Admin routes
@@ -43,28 +71,48 @@ defmodule AtomicWeb.Router do
       scope "/organizations/:organization_id" do
         live "/edit", OrganizationLive.Edit, :edit
 
-        live "/activities/new", ActivityLive.New, :new
-        live "/activities/:id/edit", ActivityLive.Edit, :edit
+        scope "/activities" do
+          live "/new", ActivityLive.New, :new
+          live "/:id/edit", ActivityLive.Edit, :edit
+        end
 
-        live "/announcements/new", AnnouncementLive.New, :new
-        live "/announcements/:id/edit", AnnouncementLive.Edit, :edit
+        scope "/announcements" do
+          pipe_through :confirm_announcement_association
+          live "/new", AnnouncementLive.New, :new
+          live "/:id/edit", AnnouncementLive.Edit, :edit
+        end
 
-        live "/departments/new", DepartmentLive.New, :new
-        live "/departments/:id/edit", DepartmentLive.Index, :edit
+        scope "/departments" do
+          pipe_through :confirm_department_association
+          live "/new", DepartmentLive.New, :new
+          live "/:id/edit", DepartmentLive.Index, :edit
+        end
 
-        live "/partners/new", PartnerLive.New, :new
-        live "/partners/:id/edit", PartnerLive.Index, :edit
+        scope "/partners" do
+          pipe_through :confirm_partner_association
+          live "/new", PartnerLive.New, :new
+          live "/:id/edit", PartnerLive.Index, :edit
+        end
 
-        live "/speakers/new", SpeakerLive.New, :new
-        live "/speakers/:id/edit", SpeakerLive.Edit, :edit
+        scope "/speakers" do
+          pipe_through :confirm_speaker_association
+          live "/new", SpeakerLive.New, :new
+          live "/:id/edit", SpeakerLive.Edit, :edit
+        end
 
-        live "/board/new", BoardLive.New, :new
-        live "/board/:id/edit", BoardLive.Edit, :edit
+        scope "/board" do
+          pipe_through :confirm_board_association
+          live "/new", BoardLive.New, :new
+          live "/:id/edit", BoardLive.Edit, :edit
+        end
 
-        live "/memberships", MembershipLive.Index, :index
-        live "/memberships/new", MembershipLive.New, :new
-        live "/memberships/:id", MembershipLive.Show, :show
-        live "/memberships/:id/edit", MembershipLive.Edit, :edit
+        scope "/memberships" do
+          pipe_through :confirm_membership_association
+          live "/", MembershipLive.Index, :index
+          live "/new", MembershipLive.New, :new
+          live "/:id", MembershipLive.Show, :show
+          live "/:id/edit", MembershipLive.Edit, :edit
+        end
       end
     end
   end
@@ -98,18 +146,29 @@ defmodule AtomicWeb.Router do
       put "/users/settings", UserSettingsController, :update
 
       scope "/organizations/:organization_id" do
-        live "/departments", DepartmentLive.Index, :index
+        scope "/departments" do
+          pipe_through :confirm_department_association
+          live "/", DepartmentLive.Index, :index
+          live "/:id", DepartmentLive.Show, :show
+        end
 
-        live "/departments/:id", DepartmentLive.Show, :show
+        scope "/board" do
+          pipe_through :confirm_board_association
+          live "/", BoardLive.Index, :index
+          live "/:id", BoardLive.Show, :show
+        end
 
-        live "/board/", BoardLive.Index, :index
-        live "/board/:id", BoardLive.Show, :show
+        scope "/partners" do
+          pipe_through :confirm_partner_association
+          live "/", PartnerLive.Index, :index
+          live "/:id", PartnerLive.Show, :show
+        end
 
-        live "/partners", PartnerLive.Index, :index
-        live "/partners/:id", PartnerLive.Show, :show
-
-        live "/speakers", SpeakerLive.Index, :index
-        live "/speakers/:id", SpeakerLive.Show, :show
+        scope "/speakers" do
+          pipe_through :confirm_speaker_association
+          live "/", SpeakerLive.Index, :index
+          live "/:id", SpeakerLive.Show, :show
+        end
       end
 
       pipe_through [:member]
