@@ -188,10 +188,12 @@ defmodule Atomic.Board do
     |> Enum.sort_by(& &1.priority)
   end
 
-  def get_board_department_users(board_departments_id) do
-    Repo.all(from d in UserOrganization, where: d.board_departments_id == ^board_departments_id)
-    |> Repo.preload(:user)
-    |> Enum.sort_by(& &1.priority)
+  def get_board_department_users(board_departments_id, opts \\ []) do
+    UserOrganization
+    |> where([u], u.board_departments_id == ^board_departments_id)
+    |> order_by([u], u.priority)
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """

@@ -1,70 +1,67 @@
 defmodule AtomicWeb.Components.Organizations do
-  @moduledoc """
-  This component is used to render the list of organizations in the sidebar.
-  """
-  use Phoenix.LiveComponent
+  @moduledoc false
+  use AtomicWeb, :live_component
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Uploaders.Logo
 
-  def render(
-        %{
-          current_user: current_user,
-          current_organization: current_organization
-        } = assigns
-      ) do
+  @impl true
+  def render(assigns) do
     ~H"""
-    <div class="organizations">
-      <%= for organization <- Accounts.get_user_organizations(current_user) do %>
-        <%= if current_organization && organization.id != current_organization.id do %>
-          <div role="none">
-            <a phx-target={@myself} phx-click="default-organization" phx-value-organization_id={organization.id} class="w-full text-zinc-700 block px-4 py-2 text-sm hover:bg-zinc-200 focus:bg-zinc-300" role="menuitem" tabindex="-1" id="options-menu-item-0">
-              <span class="flex w-full items-center justify-between">
-                <span class="flex min-w-0 items-center justify-between space-x-3">
-                  <%= if organization.logo do %>
-                    <img src={Logo.url({organization.logo, organization}, :original)} class="w-10 h-10 rounded-lg" />
-                  <% else %>
-                    <span class="inline-flex justify-center items-center mr-1.5 w-10 h-10 bg-zinc-500 rounded-lg">
-                      <span class="text-lg font-medium leading-none text-white">
-                        <%= Atomic.Accounts.extract_initials(organization.name) %>
-                      </span>
-                    </span>
-                  <% end %>
-                  <span class="flex min-w-0 flex-1 flex-col">
-                    <span class="truncate text-md font-medium text-zinc-900"></span>
-                    <span class="truncate text-sm text-zinc-600">
-                      <%= organization.name %>
-                    </span>
-                    <span class="truncate text-xs text-zinc-500">
-                      <%= AtomicWeb.Helpers.capitalize_first_letter(Atomic.Organizations.get_role(current_user.id, organization.id)) %>
-                    </span>
-                  </span>
-                </span>
-              </span>
-            </a>
+    <ul role="list" class="-mx-2 mt-2 max-h-72 max-h-72 space-y-1 overflow-y-auto">
+      <%= for organization <- @organizations do %>
+        <li>
+          <div
+            phx-target={@myself}
+            phx-click="select-organization"
+            phx-value-organization_id={organization.id}
+            class={
+              "#{if @current_organization && organization.id == @current_organization.id do
+                "bg-zinc-50 text-orange-600"
+              else
+                "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50"
+              end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
+            }
+            type="button"
+          >
+            <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white font-medium text-zinc-400 group-hover:border-orange-600 group-hover:text-orange-600">
+              <%= if organization.logo do %>
+                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="h-6 w-6 rounded-lg" />
+              <% else %>
+                <%= extract_initials(organization.name) %>
+              <% end %>
+            </span>
+            <span class="mt-1 truncate"><%= organization.name %></span>
           </div>
-        <% end %>
+        </li>
       <% end %>
-    </div>
+    </ul>
     """
   end
 
-  def handle_event("default-organization", %{"organization_id" => organization_id}, socket) do
-    organization = Organizations.get_organization!(organization_id)
-    user = socket.assigns.current_user
+  @impl true
+  def handle_event("select-organization", %{"organization_id" => organization_id}, socket) do
+    if socket.assigns.current_organization &&
+         socket.assigns.current_organization.id == organization_id do
+      Accounts.update_user(socket.assigns.current_user, %{current_organization_id: nil})
 
-    case Accounts.update_user(user, %{default_organization_id: organization.id}) do
-      {:ok, _} ->
-        {:noreply,
-         socket
-         |> assign(:current_organization, organization)
-         |> redirect(to: "/")}
+      {:noreply,
+       socket
+       |> assign(current_organization: nil)
+       |> put_flash(:info, gettext("Now viewing as yourself"))
+       |> push_redirect(to: Routes.home_index_path(socket, :index))}
+    else
+      organization = Organizations.get_organization!(organization_id)
 
-      {:error, _} ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "There was an error updating your current organization")}
+      Accounts.update_user(socket.assigns.current_user, %{
+        current_organization_id: organization.id
+      })
+
+      {:noreply,
+       socket
+       |> assign(current_organization: organization)
+       |> put_flash(:info, "#{gettext("Now editing as")} #{organization.name}")
+       |> push_redirect(to: Routes.organization_show_path(socket, :show, organization))}
     end
   end
 end

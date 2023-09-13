@@ -16,8 +16,9 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
+  def list_organizations(params \\ %{})
 
-  def list_organizations(opts) do
+  def list_organizations(opts) when is_list(opts) do
     Organization
     |> apply_filters(opts)
     |> Repo.all()
@@ -30,6 +31,48 @@ defmodule Atomic.Organizations do
       on: u.id == m.user_id,
       select: u
     )
+    |> Repo.all()
+  end
+
+  def list_organizations(flop) do
+    Flop.validate_and_run(Organization, flop, for: Organization)
+  end
+
+  def list_organizations(%{} = flop, opts) when is_list(opts) do
+    Organization
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Organization)
+  end
+
+  @doc """
+  Returns the list of organizations followed by an user.
+
+  ## Examples
+
+      iex> list_organizations_followed_by_user(user_id)
+      [%Organization{}, ...]
+
+  """
+  def list_organizations_followed_by_user(user_id) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role == :follower)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of organizations where an user is an admin or owner.
+
+  ## Examples
+
+      iex> list_user_organizations(user_id)
+      [%Organization{}, ...]
+  """
+  def list_user_organizations(user_id, opts \\ []) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id == ^user_id and m.role in [:admin, :owner])
+    |> apply_filters(opts)
     |> Repo.all()
   end
 
@@ -48,11 +91,8 @@ defmodule Atomic.Organizations do
 
   """
   def get_organization!(id, preloads \\ []) do
-    organization =
-      Repo.get!(Organization, id)
-      |> Repo.preload(preloads)
-
-    organization
+    Repo.get!(Organization, id)
+    |> Repo.preload(preloads)
   end
 
   @doc """
@@ -184,6 +224,14 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
+  def list_display_memberships(%{} = flop, opts \\ []) do
+    Membership
+    |> join(:left, [o], p in assoc(o, :user), as: :user)
+    |> where([a], a.role != :follower)
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Membership)
+  end
+
   @doc """
     Verifies if an user is a member of an organization.
 
@@ -282,14 +330,14 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> get_membership_by_userid_and_organization_id!(123, 456, [])
+      iex> get_membership_by_user_id_and_organization_id!(123, 456, [])
       %Membership{}
 
-      iex> get_membership_by_userid_and_organization_id!(456, 789, [])
+      iex> get_membership_by_user_id_and_organization_id!(456, 789, [])
       ** (Ecto.NoResultsError)
 
   """
-  def get_membership_by_userid_and_organization_id!(user_id, organization_id, preloads \\ []) do
+  def get_membership_by_user_id_and_organization_id!(user_id, organization_id, preloads \\ []) do
     Membership
     |> where([m], m.user_id == ^user_id and m.organization_id == ^organization_id)
     |> Repo.one!()
@@ -376,6 +424,23 @@ defmodule Atomic.Organizations do
   def roles_bigger_than_or_equal(role) do
     [:follower, :member, :admin, :owner]
     |> Enum.drop_while(fn elem -> elem != role end)
+  end
+
+  @doc """
+  Returns the amount of followers in an organization.
+
+  ## Examples
+
+      iex> count_followers(organization_id)
+      5
+
+      iex> count_followers(organization_id) when organization_id == CeSIUM.id
+      100000000000000000000000000
+  """
+  def count_followers(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
+    |> Repo.aggregate(:count, :id)
   end
 
   @doc """
@@ -504,8 +569,22 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_announcements do
-    Repo.all(Announcement)
+  def list_announcements(params \\ %{})
+
+  def list_announcements(opts) when is_list(opts) do
+    Announcement
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_announcements(flop) do
+    Flop.validate_and_run(Announcement, flop, for: Announcement)
+  end
+
+  def list_announcements(%{} = flop, opts) when is_list(opts) do
+    Announcement
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """
@@ -517,10 +596,26 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_announcements_by_organization_id(id, preloads \\ []) do
+  def list_announcements_by_organization_id(id, opts \\ []) do
     Announcement
-    |> apply_filters(preloads)
     |> where(organization_id: ^id)
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of published announcements.
+
+  ## Examples
+
+      iex> list_published_announcements()
+      [%Announcement{}, ...]
+
+  """
+  def list_published_announcements(opts \\ []) do
+    Announcement
+    |> where([a], fragment("now() > ?", a.publish_at))
+    |> apply_filters(opts)
     |> Repo.all()
   end
 
@@ -533,13 +628,29 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_published_announcements_by_organization_id(id, preloads \\ []) do
+  def list_published_announcements_by_organization_id(id, opts \\ []) do
     Announcement
-    |> apply_filters(preloads)
     |> where(organization_id: ^id)
-    |> where([n], fragment("now() > ?", n.publish_at))
-    |> order_by([n], desc: n.publish_at)
+    |> where([a], fragment("now() > ?", a.publish_at))
+    |> order_by([a], desc: a.publish_at)
+    |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of announcements belonging to an organization.
+
+  ## Examples
+
+      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
+
+  """
+  def list_organizations_announcements(organizations, %{} = flop, opts \\ []) do
+    Announcement
+    |> where([a], a.organization_id in ^Enum.map(organizations, & &1.id))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """
@@ -557,6 +668,12 @@ defmodule Atomic.Organizations do
 
   """
   def get_announcement!(id), do: Repo.get!(Announcement, id)
+
+  def get_announcement!(id, opts) when is_list(opts) do
+    Announcement
+    |> apply_filters(opts)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates an announcement.

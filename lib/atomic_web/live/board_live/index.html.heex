@@ -1,43 +1,49 @@
 <div class="bg-white py-8">
   <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="flex items-center border-b-2 border-gray-200 justify-between">
+    <div class="flex items-center border-b-2 border-zinc-200 justify-between">
       <div class="min-w-0 flex flex-row items-center justsiy-center">
-        <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-gray-400" phx-click="previous_year" phx-value-organization_id={@current_organization.id} />
+        <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
         <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
-          <%= gettext("Board %{year}", year: @year) %>
+          <%= gettext("Board") %> <%= @year %>
         </h2>
-        <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-gray-400" phx-click="next_year" phx-value-organization_id={@current_organization.id} />
+        <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
       </div>
-      <%= if not @empty and @has_permissions do %>
+      <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
           <%= live_patch("+ New Board Member",
-            to: Routes.board_new_path(@socket, :new, @id),
+            to: Routes.board_new_path(@socket, :new, @organization),
             class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
           ) %>
         </div>
       <% end %>
     </div>
-    <%= if @empty do %>
+    <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
-        <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @id)} placeholder="board member" />
+        <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
       </div>
     <% else %>
       <%= for board_department <- @board_departments do %>
-        <li id={"board-department-#{board_department.id}"} role="list" class="flex flex-col items-center mt-10 grid max-w-2xl gap-x-8 text-center lg:mx-0 lg:max-w-none">
+        <li id={"board-department-#{board_department.id}"} class="mt-10 max-w-2xl gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
           <div class="flex flex-row items-center space-x-8">
-            <h1 class="w-fit text-xl font-bold tracking-tight text-gray-900 sm:text-xl"><%= board_department.name %></h1>
+            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
             <%= if @role in [:owner, :admin] do %>
               <span class="handle cursor-row-resize">
-                <Heroicons.Solid.menu class="w-5 h-5 text-gray-400" />
+                <Heroicons.Solid.menu class="w-5 h-5 text-zinc-400" />
               </span>
             <% end %>
           </div>
           <div class="grid lg:grid-flow-col lg:gap-x-24 items-center justify-center mt-10">
-            <%= for user_organization <- Board.get_board_department_users(board_department.id) do %>
+            <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
               <ol class="z-100 flex flex-col items-center justify-center">
-                <img class="mx-auto h-24 w-24 rounded-full" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80" alt="" />
-                <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900"><%= user_organization.user.name %></h3>
-                <p class="text-sm leading-6 text-gray-600"><%= user_organization.role %></p>
+                <%= if user_organization.user.profile_picture do %>
+                  <img class="mx-auto h-24 w-24 rounded-full" src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
+                <% else %>
+                  <span class="flex items-center justify-center h-24 w-24 rounded-full bg-zinc-200 text-zinc-700">
+                    <%= extract_initials(user_organization.user.name) %>
+                  </span>
+                <% end %>
+                <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-zinc-900"><%= user_organization.user.name %></h3>
+                <p class="text-sm leading-6 text-zinc-600"><%= user_organization.role %></p>
               </ol>
             <% end %>
           </div>

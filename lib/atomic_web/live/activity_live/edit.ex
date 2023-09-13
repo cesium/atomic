@@ -10,34 +10,26 @@ defmodule AtomicWeb.ActivityLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id} = _params, _url, socket) do
-    activity = Activities.get_activity!(id, preloads: [:sessions, :departments, :speakers])
-
+  def handle_params(%{"id" => id}, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index, organization_id)
+        route: Routes.activity_index_path(socket, :index)
       },
       %{
         name: gettext("Edit Activity"),
-        route: Routes.activity_edit_path(socket, :edit, id, organization_id)
+        route: Routes.activity_edit_path(socket, :edit, id, socket.assigns.current_organization)
       }
     ]
 
-    organizations = Activities.get_session_organizations!(activity)
-
-    if organization_id in organizations do
-      {:noreply,
-       socket
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:current_page, :activities)
-       |> assign(:page_title, gettext("Edit Activity"))
-       |> assign(
-         :activity,
-         Activities.get_activity!(id, [:sessions, :speakers, :departments])
-       )}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:current_page, :activities)
+     |> assign(:page_title, gettext("Edit Activity"))
+     |> assign(
+       :activity,
+       Activities.get_activity!(id, [:speakers, :departments])
+     )}
   end
 end

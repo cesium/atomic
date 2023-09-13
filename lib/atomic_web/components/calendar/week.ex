@@ -6,39 +6,12 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
   import AtomicWeb.CalendarUtils
 
-  def calendar_week(
-        %{
-          beginning_of_week: beginning_of_week,
-          time_zone: time_zone,
-          current_organization: organization
-        } = assigns
-      ) do
-    today = Timex.today(time_zone)
-
-    hours = [
-      "8H",
-      "9H",
-      "10H",
-      "11H",
-      "12H",
-      "13H",
-      "14H",
-      "15H",
-      "16H",
-      "17H",
-      "18H",
-      "19H",
-      "20H",
-      "21H",
-      "22H"
-    ]
-
+  def calendar_week(%{timezone: timezone} = assigns) do
     assigns =
       assigns
       |> assign(week_mobile: ["M", "T", "W", "T", "F", "S", "S"])
       |> assign(week: ["Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat ", "Sun "])
-      |> assign(beginning_of_week: beginning_of_week)
-      |> assign(today: today)
+      |> assign(today: Timex.today(timezone))
 
     ~H"""
     <div class="flex flex-auto flex-col overflow-auto rounded-lg bg-white">
@@ -46,12 +19,12 @@ defmodule AtomicWeb.Components.CalendarWeek do
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
-              <% day_of_week = beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
+              <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <%= live_patch to: build_path(@current_path, %{"mode" => "week", "day" => day_of_week |> date_to_day(), "month" => @params["month"], "year" => @params["year"]}), class: "flex flex-col items-center py-2" do %>
                 <%= Enum.at(@week_mobile, idx) %>
                 <span class={
                   "#{if @today == day_of_week do
-                    "bg-indigo-700 rounded-full text-white"
+                    "bg-orange-700 rounded-full text-white"
                   else
                     if day_of_week |> date_to_day() == @params["day"] do
                       "bg-zinc-900 rounded-full text-white"
@@ -68,7 +41,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
           <div class="-mr-px hidden grid-cols-7 divide-x divide-zinc-100 border-r border-zinc-100 text-sm leading-6 text-zinc-500 sm:grid">
             <div class="col-end-1 w-12"></div>
             <%= for idx <- 0..6 do %>
-              <% day_of_week = beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
+              <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <div id={"day-of-week-#{idx}"} class="flex h-12 items-center justify-center">
                 <span class={
                   if @today == day_of_week do
@@ -80,7 +53,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                   <%= Enum.at(@week, idx) %>
                   <span class={
                     "#{if @today == day_of_week do
-                      "flex ml-1.5 w-8 h-8 text-white bg-indigo-700 rounded-full"
+                      "flex ml-1.5 w-8 h-8 text-white bg-orange-700 rounded-full"
                     else
                       "text-zinc-900"
                     end} items-center justify-center font-semibold"
@@ -98,9 +71,9 @@ defmodule AtomicWeb.Components.CalendarWeek do
             <!-- Horizontal lines -->
             <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(30, minmax(2.5rem, 1fr))">
               <div class="row-end-1 h-6"></div>
-              <%= for hour <- hours do %>
+              <%= for hour <- hours() do %>
                 <div>
-                  <div class="left-0 pr-2 -mt-2.5 -ml-14 w-12 text-xs leading-5 text-right text-zinc-400"><%= hour %></div>
+                  <div class="left-0 -mt-2.5 -ml-14 w-12 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
                 </div>
                 <div></div>
               <% end %>
@@ -117,11 +90,11 @@ defmodule AtomicWeb.Components.CalendarWeek do
             </div>
             <!-- Events -->
             <ol class="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:hidden" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
-              <.day date={@current} idx={0} sessions={@sessions} organization={organization} />
+              <.day date={@current} idx={0} activities={@activities} />
             </ol>
             <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
               <%= for idx <- 0..6 do %>
-                <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} sessions={@sessions} organization={organization} />
+                <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} activities={@activities} />
               <% end %>
             </ol>
           </div>
@@ -133,34 +106,19 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
   defp day(assigns) do
     ~H"""
-    <%= for session <- get_date_sessions(@sessions, @date) do %>
-      <%= if session.activity do %>
-        <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(session.start)} / span #{calc_time(session.start, session.finish)}"}>
-          <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, session.activity, assigns.organization) do %>
-            <div class="bg-indigo-50 hover:bg-indigo-100 group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5">
-              <p class="text-indigo-600 order-1 font-semibold">
-                session.activity.title
-                <%!-- <%= if Gettext.get_locale() == "en" do
-                  if session.activity.title_en do
-                    session.activity.title_en
-                  else
-                    ""
-                  end
-                else
-                  if session.activity.title_pt do
-                    session.activity.title_pt
-                  else
-                    ""
-                  end
-                end %> --%>
-              </p>
-              <p class="text-indigo-600 group-hover:text-indigo-800">
-                <time datetime={session.start}><%= Calendar.strftime(session.start, "%Hh%M") %></time>
-              </p>
-            </div>
-          <% end %>
-        </li>
-      <% end %>
+    <%= for activity <- get_date_activities(@activities, @date) do %>
+      <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
+        <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
+          <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
+            <p class="order-1 font-semibold text-orange-600">
+              activity.title
+            </p>
+            <p class="text-orange-600 group-hover:text-orange-800">
+              <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
+            </p>
+          </div>
+        <% end %>
+      </li>
     <% end %>
     """
   end
@@ -186,4 +144,23 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
     2 + 20 * time_diff
   end
+
+  defp hours,
+    do: [
+      "8H",
+      "9H",
+      "10H",
+      "11H",
+      "12H",
+      "13H",
+      "14H",
+      "15H",
+      "16H",
+      "17H",
+      "18H",
+      "19H",
+      "20H",
+      "21H",
+      "22H"
+    ]
 end

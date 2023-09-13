@@ -3,72 +3,89 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
   import AtomicWeb.Components.Announcement
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Organizations.Announcement
 
   @impl true
-  def mount(%{"organization_id" => organization_id}, _session, socket) do
-    socket =
-      socket
-      |> assign(:organization, Organizations.get_organization!(organization_id))
-      |> assign(:announcements, list_announcements(organization_id))
-
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _, socket) do
     entries = [
       %{
-        name: gettext("Announcement"),
-        route: Routes.announcement_index_path(socket, :index, params["organization_id"])
+        name: gettext("Announcements"),
+        route: Routes.announcement_index_path(socket, :index)
       }
     ]
 
+    announcements_with_flop = list_announcements(socket, params)
+
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Announcements"))
      |> assign(:current_page, :announcements)
      |> assign(:breadcrumb_entries, entries)
-     |> assign(:empty, Enum.empty?(socket.assigns.announcements))
-     |> assign(:has_permissions, has_permissions?(socket))
-     |> apply_action(socket.assigns.live_action, params)}
+     |> assign(:current_tab, current_tab(socket, params))
+     |> assign(:params, params)
+     |> assign(announcements_with_flop)
+     |> assign(:empty?, Enum.empty?(announcements_with_flop.announcements))
+     |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    announcement = Organizations.get_announcement!(id)
-    {:ok, _} = Organizations.delete_announcement(announcement)
+  defp list_announcements(socket, params) do
+    params = Map.put(params, "page_size", 7)
 
-    {:noreply,
-     socket
-     |> assign(:announcement, list_announcements(announcement.organization_id))}
-  end
-
-  defp apply_action(socket, :edit, %{"organization_id" => organization_id, "id" => id}) do
-    announcement = Organizations.get_announcement!(id)
-
-    if announcement.organization_id == organization_id do
-      socket
-      |> assign(:page_title, "Edit Announcement")
-      |> assign(:announcement, Organizations.get_announcement!(id))
-    else
-      raise AtomicWeb.MismatchError
+    case current_tab(socket, params) do
+      "all" -> list_all_announcements(socket, params)
+      "following" -> list_following_announcements(socket, params)
     end
   end
 
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Announcement")
-    |> assign(:announcement, %Announcement{})
+  defp list_all_announcements(_socket, params) do
+    case Organizations.list_announcements(params, preloads: [:organization]) do
+      {:ok, {announcements, meta}} ->
+        %{announcements: announcements, meta: meta}
+
+      {:error, flop} ->
+        %{announcements: [], meta: flop}
+    end
   end
 
-  defp apply_action(socket, :index, params) do
-    organization = Organizations.get_organization!(params["organization_id"])
+  defp list_following_announcements(socket, params) do
+    organizations =
+      Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
-    socket
-    |> assign(:page_title, "#{organization.name}'s Announcement")
+    case Organizations.list_organizations_announcements(organizations, params,
+           preloads: [:organization]
+         ) do
+      {:ok, {announcements, meta}} ->
+        %{announcements: announcements, meta: meta}
+
+      {:error, flop} ->
+        %{announcements: [], meta: flop}
+    end
+  end
+
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+
+  defp current_tab(socket, _params) do
+    if socket.assigns.is_authenticated? do
+      "following"
+    else
+      "all"
+    end
+  end
+
+  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+
+  defp has_permissions?(socket)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) do
@@ -77,9 +94,5 @@ defmodule AtomicWeb.AnnouncementLive.Index do
         socket.assigns.current_user.id,
         socket.assigns.current_organization.id
       )
-  end
-
-  defp list_announcements(organization_id) do
-    Organizations.list_published_announcements_by_organization_id(organization_id, [:organization])
   end
 end

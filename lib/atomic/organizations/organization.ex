@@ -10,6 +10,17 @@ defmodule Atomic.Organizations.Organization do
   @required_fields ~w(name long_name description)a
   @optional_fields ~w(card_image logo)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:name],
+    compound_fields: [search: [:name]],
+    default_order: %{
+      order_by: [:name],
+      order_directions: [:asc]
+    }
+  }
+
   schema "organizations" do
     field :name, :string
     field :long_name, :string
@@ -25,7 +36,7 @@ defmodule Atomic.Organizations.Organization do
 
     many_to_many :users, User, join_through: Membership
 
-    has_many :partnerships, Partner,
+    has_many :partners, Partner,
       on_replace: :delete_if_exists,
       on_delete: :delete_all,
       foreign_key: :organization_id,

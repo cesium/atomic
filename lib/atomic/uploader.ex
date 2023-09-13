@@ -1,21 +1,22 @@
 defmodule Atomic.Uploader do
   @moduledoc """
-  A utility context providing common functions to all uploaders modules.
+  A utility module providing common functions to all uploaders modules.
+  Put `use Atomic.Uploader` on top of your uploader module to use it.
   """
+
+  @versions [:original, :medium, :thumb]
+  @extensions_whitelist ~w(.svg .jpg .jpeg .png)
 
   defmacro __using__(_) do
     quote do
       use Waffle.Definition
       use Waffle.Ecto.Definition
 
-      @versions [:original, :medium, :thumb]
-      @extension_whitelist ~w(.jpg .jpeg .png .svg)
-
       def validate({file, _}) do
         file.file_name
         |> Path.extname()
         |> String.downcase()
-        |> then(&Enum.member?(@extension_whitelist, &1))
+        |> then(&Enum.member?(Atomic.Uploader.extensions_whitelist(), &1))
         |> case do
           true -> :ok
           false -> {:error, "invalid file type"}
@@ -33,4 +34,7 @@ defmodule Atomic.Uploader do
       def filename(version, _), do: version
     end
   end
+
+  def versions, do: @versions
+  def extensions_whitelist, do: @extensions_whitelist
 end

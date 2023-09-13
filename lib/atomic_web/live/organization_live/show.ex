@@ -13,8 +13,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => id} = params, _, socket) do
-    organization = Organizations.get_organization!(id)
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
 
     entries = [
       %{
@@ -22,28 +22,28 @@ defmodule AtomicWeb.OrganizationLive.Show do
         route: Routes.organization_index_path(socket, :index)
       },
       %{
-        name: gettext("%{name}", name: organization.name),
-        route: Routes.organization_show_path(socket, :show, id)
+        name: organization.name,
+        route: Routes.organization_show_path(socket, :show, organization_id)
       }
     ]
 
-    followers_count =
-      Enum.count(Atomic.Organizations.list_memberships(%{"organization_id" => id}, []))
-
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action, organization.name))
-     |> assign(:time_zone, socket.assigns.time_zone)
+     |> assign(:page_title, organization.name)
+     # |> assign(:time_zone, socket.assigns.time_zone)
      |> assign(:mode, "month")
      |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
-     |> assign(:followers_count, followers_count)
-     |> assign(:sessions, list_sessions(id))
-     |> assign(:departments, list_departments(id))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
-     |> assign(:following, Organizations.is_member_of?(socket.assigns.current_user, organization))}
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:organization, organization)
+     |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
+     |> assign(list_activities(organization_id))
+     |> assign(:followers_count, Organizations.count_followers(organization_id))
+     |> assign(:following?, maybe_put_following(socket, organization))
+     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
   @impl true
@@ -55,16 +55,12 @@ defmodule AtomicWeb.OrganizationLive.Show do
       organization_id: socket.assigns.organization.id
     }
 
-    current_user = socket.assigns.current_user
-
     case Organizations.create_membership(attrs) do
       {:ok, _organization} ->
-        maybe_update_default_organization(current_user, socket.assigns.organization)
-
         {:noreply,
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
-         |> assign(:following, true)
+         |> assign(:following?, true)
          |> push_patch(
            to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
          )}
@@ -77,7 +73,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_event("unfollow", _payload, socket) do
     membership =
-      Organizations.get_membership_by_userid_and_organization_id!(
+      Organizations.get_membership_by_user_id_and_organization_id!(
         socket.assigns.current_user.id,
         socket.assigns.organization.id
       )
@@ -87,7 +83,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
         {:noreply,
          socket
          |> put_flash(:success, "Stopped following " <> socket.assigns.organization.name)
-         |> assign(:following, false)
+         |> assign(:following?, false)
          |> push_patch(
            to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
          )}
@@ -97,22 +93,45 @@ defmodule AtomicWeb.OrganizationLive.Show do
     end
   end
 
-  defp maybe_update_default_organization(user, organization) do
-    if is_nil(user.default_organization_id) do
-      Accounts.update_user(user, %{
-        default_organization_id: organization.id
-      })
+  @impl true
+  def handle_event("must-login", _payload, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:error, gettext("You must be logged in to follow an organization."))
+     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+  end
+
+  defp list_activities(organization_id) do
+    case Activities.list_activities_by_organization_id(organization_id) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
     end
   end
 
-  defp list_sessions(id) do
-    Activities.list_sessions_by_organization_id(id)
+  defp maybe_put_following(socket, _organization) when not socket.assigns.is_authenticated?,
+    do: false
+
+  defp maybe_put_following(socket, organization) do
+    Organizations.is_member_of?(socket.assigns.current_user, organization)
   end
 
-  defp list_departments(id) do
-    Departments.list_departments_by_organization_id(id)
+  defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
+    do: false
+
+  defp has_permissions?(socket, _organization_id)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
   end
 
-  defp page_title(:show, organization), do: "#{organization}"
-  defp page_title(:edit, organization), do: "Edit #{organization}"
+  defp has_permissions?(socket, organization_id) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        organization_id
+      )
+  end
 end

@@ -1,11 +1,5 @@
-<%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.organization_show_path(@socket, :show, @organization)}>
-    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_show_path(@socket, :show, @organization)} />
-  </.modal>
-<% end %>
-
-<div x-data="{option: 'activities'}" class="py-5">
-  <div class="border-b border-gray-200">
+<div x-data="{ option: 'activities' }" class="py-5">
+  <div class="border-b border-zinc-200">
     <div class="bg-white">
       <div class="flex justify-between py-4">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
@@ -31,8 +25,8 @@
                     <span class="text-zinc-900 w-full inline-flex items-center">Followers</span>
                   </div>
                   <div class="flex space-x-2">
-                    <%= if not @following do %>
-                      <button phx-click="follow" type="button" class="w-32 text-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <%= if not @following? do %>
+                      <button phx-click="follow" type="button" class="w-32 text-center rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                         Follow
                       </button>
                     <% else %>
@@ -82,8 +76,8 @@
                         </div>
                       <% end %>
                     <% end %>
-                    <%= if Organizations.get_role(@current_user.id, @organization.id) in [:owner, :admin] do %>
-                      <%= live_patch to: Routes.organization_index_path(@socket, :edit, @organization), class: "button" do %>
+                    <%= if @has_permissions? do %>
+                      <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                           <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
                         </div>
@@ -107,202 +101,7 @@
 </div>
 
 <div class="flex space-x-20 w-full">
-  <div class="sm:w-3/4">
-    <p class="text-md text-zinc-900">
-      Owned Organizations
-    </p>
-    <div class="mt-4 mb-2 grid grid-cols-3 gap-2">
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("CoderDojo") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "CoderDojo" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "CoderDojo Braga" %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("BBUG") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "BBUG" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "Braga BEAM User Group" %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <p class="mt-4 text-md text-zinc-900">
-      Events
-    </p>
-    <div class="mt-4 mb-2 grid grid-cols-3 gap-2">
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("SEI") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "SEI" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "Semana de Engenharia Informática na Universidade do Minho" %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("JOIN") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "JOIN" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "Jornadas de Informática na Universidade do Minho" %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("CodeWeek EU") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "CodeWeek EU" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "" %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("JORDI") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "JORDI" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%= "Jornadas de Direito Informático na Universidade do Minho" %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("BugsByte Hackathon") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "BugsByte Hackathon" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%=  %>
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-        <%!-- <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %> --%>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-          <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= Atomic.Accounts.extract_initials("CeSIUM Cup") %>
-            </span>
-          </span>
-        </div>
-        <%!-- <% else %> --%>
-        <%!-- <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div> --%>
-        <%!-- <% end %> --%>
-        <div class="ml-4">
-          <h4 class="font-medium text-lg text-zinc-900">
-            <%= "CeSIUM Cup" %>
-          </h4>
-          <p class="text-xs text-zinc-900">
-            <%=  %>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="sm:w-3/4"></div>
   <div class="sm:w-1/4">
     <p class="text-md text-zinc-900">
       People
@@ -312,7 +111,7 @@
         <div class="relative flex-shrink-0 w-10 h-10 rounded-full bg-zinc-400">
           <span class="inline-flex justify-center items-center w-10 h-10 rounded-full bg-secondary">
             <span class="font-medium leading-none select-none text-white text-md">
-              <%= Atomic.Accounts.extract_initials(person.name) %>
+              <%= extract_initials(person.name) %>
             </span>
           </span>
         </div>

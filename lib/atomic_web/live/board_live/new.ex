@@ -11,7 +11,7 @@ defmodule AtomicWeb.BoardLive.New do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _url, socket) do
+  def handle_params(%{"organization_id" => organization_id}, _, socket) do
     entries = [
       %{
         name: gettext("New Board"),

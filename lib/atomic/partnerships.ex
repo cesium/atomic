@@ -1,34 +1,40 @@
-defmodule Atomic.Partnerships do
+defmodule Atomic.Partners do
   @moduledoc """
-  The Partnerships context.
+  The Partners context.
   """
   use Atomic.Context
 
   alias Atomic.Organizations.Partner
 
   @doc """
-  Returns the list of partnerships.
+  Returns the list of partners.
 
   ## Examples
 
-      iex> list_partnerships()
+      iex> list_partners()
       [%Partner{}, ...]
 
   """
-  def list_partnerships do
+  def list_partners do
     Repo.all(Partner)
   end
 
+  def list_partners(%{} = flop, opts) when is_list(opts) do
+    Partner
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Partner)
+  end
+
   @doc """
-  Returns the list of partnerships belonging to an organization.
+  Returns the list of partners belonging to an organization.
 
   ## Examples
 
-      iex> list_partnerships_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_partners_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
       [%Partner{}, ...]
 
   """
-  def list_partnerships_by_organization_id(id) do
+  def list_partners_by_organization_id(id) do
     Repo.all(from p in Partner, where: p.organization_id == ^id)
   end
 

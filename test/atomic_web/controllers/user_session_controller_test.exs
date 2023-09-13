@@ -4,12 +4,7 @@ defmodule AtomicWeb.UserSessionControllerTest do
   import Atomic.AccountsFixtures
 
   setup do
-    organization = insert(:organization)
-
-    %{
-      user:
-        insert(:user, default_organization_id: organization.id, confirmed_at: DateTime.utc_now())
-    }
+    %{user: insert(:user, confirmed_at: DateTime.utc_now())}
   end
 
   describe "GET /users/log_in" do
