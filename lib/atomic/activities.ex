@@ -113,6 +113,11 @@ defmodule Atomic.Activities do
 
   @doc """
   Returns the list of activities belonging to a list of organizations.
+
+  ## Examples
+
+      iex> list_organizations_activities(organizations)
+      [%Activity{}, ...]
   """
   def list_organizations_activities(organizations, %{} = flop, opts \\ [])
       when is_list(organizations) do
