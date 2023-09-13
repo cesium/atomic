@@ -1,12 +1,22 @@
 defmodule Atomic.Organizations.Announcement do
   @moduledoc """
-  The announcements that can be published by an organization.
+  An announcement that can be published by an organization.
   """
   use Atomic.Schema
 
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(title description publish_at organization_id)a
+
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:publish_at],
+    default_order: %{
+      order_by: [:publish_at],
+      order_directions: [:desc]
+    }
+  }
 
   schema "announcements" do
     field :title, :string
