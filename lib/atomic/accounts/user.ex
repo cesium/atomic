@@ -5,7 +5,7 @@ defmodule Atomic.Accounts.User do
   use Atomic.Schema
 
   alias Atomic.Accounts.Course
-  alias Atomic.Activities.Enrollment
+  alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Organizations.{Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
@@ -27,7 +27,7 @@ defmodule Atomic.Accounts.User do
     belongs_to :course, Course
     belongs_to :current_organization, Organization
 
-    has_many :enrollments, Enrollment
+    has_many :activity_enrollments, ActivityEnrollment
     many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()

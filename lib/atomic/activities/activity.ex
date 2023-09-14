@@ -8,8 +8,8 @@ defmodule Atomic.Activities.Activity do
 
   alias Atomic.Activities.{
     ActivityDepartment,
+    ActivityEnrollment,
     ActivitySpeaker,
-    Enrollment,
     Location,
     Speaker
   }
@@ -47,7 +47,7 @@ defmodule Atomic.Activities.Activity do
     many_to_many :speakers, Speaker, join_through: ActivitySpeaker
     many_to_many :departments, Department, join_through: ActivityDepartment
 
-    has_many :enrollments, Enrollment, foreign_key: :activity_id
+    has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 
     belongs_to :event, Event
 

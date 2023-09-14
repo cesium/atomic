@@ -3,7 +3,7 @@ defmodule Atomic.Factories.ActivityFactory do
   A factory to generate account related structs
   """
 
-  alias Atomic.Activities.{Activity, Enrollment}
+  alias Atomic.Activities.{Activity, ActivityEnrollment}
 
   defmacro __using__(_opts) do
     quote do
@@ -19,7 +19,7 @@ defmodule Atomic.Factories.ActivityFactory do
       end
 
       def enrollment_factory do
-        %Enrollment{
+        %ActivityEnrollment{
           present: Enum.random([true, false]),
           activity: build(:activity),
           user: build(:user)

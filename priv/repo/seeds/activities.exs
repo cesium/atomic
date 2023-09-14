@@ -4,7 +4,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   """
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
+  alias Atomic.Activities.{Activity, ActivityDepartment, ActivityEnrollment}
   alias Atomic.Organizations.Department
   alias Atomic.Repo
 
@@ -88,7 +88,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   end
 
   def seed_enrollments do
-    case Repo.all(Enrollment) do
+    case Repo.all(ActivityEnrollment) do
       [] ->
         users = Repo.all(User)
         activities = Repo.all(Activity)
