@@ -554,10 +554,22 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_announcements(opts \\ []) do
+  def list_announcements(params \\ %{})
+
+  def list_announcements(opts) when is_list(opts) do
     Announcement
     |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  def list_announcements(flop) do
+    Flop.validate_and_run(Announcement, flop, for: Announcement)
+  end
+
+  def list_announcements(%{} = flop, opts) when is_list(opts) do
+    Announcement
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """
@@ -587,7 +599,7 @@ defmodule Atomic.Organizations do
   """
   def list_published_announcements(opts \\ []) do
     Announcement
-    |> where([n], fragment("now() > ?", n.publish_at))
+    |> where([a], fragment("now() > ?", a.publish_at))
     |> apply_filters(opts)
     |> Repo.all()
   end
@@ -601,13 +613,29 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_published_announcements_by_organization_id(id, preloads \\ []) do
+  def list_published_announcements_by_organization_id(id, opts \\ []) do
     Announcement
-    |> apply_filters(preloads)
     |> where(organization_id: ^id)
-    |> where([n], fragment("now() > ?", n.publish_at))
-    |> order_by([n], desc: n.publish_at)
+    |> where([a], fragment("now() > ?", a.publish_at))
+    |> order_by([a], desc: a.publish_at)
+    |> apply_filters(opts)
     |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of announcements belonging to an organization.
+
+  ## Examples
+
+      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      [%Announcement{}, ...]
+
+  """
+  def list_organizations_announcements(organizations, %{} = flop, opts \\ []) do
+    Announcement
+    |> where([a], a.organization_id in ^Enum.map(organizations, & &1.id))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """

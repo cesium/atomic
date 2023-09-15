@@ -15,27 +15,19 @@
         </div>
       <% end %>
     </div>
+    <!-- Tabs -->
     <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-      <div
-        x-data={
-          "#{if @is_authenticated? do
-            "{ option: 'following'}"
-          else
-            "{option: 'all'}"
-          end}"
-        }
-        class="flex w-full items-center justify-between"
-      >
+      <div class="flex w-full items-center justify-between">
         <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
           <%= if @is_authenticated? do %>
-            <div x-on:click="option = 'following'" x-bind:class="option == 'following' ? 'border-zinc-800' : 'border-transparent'" phx-click="following" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+            <%= live_patch to: "?tab=following", class: "#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
               <%= gettext("Following") %>
-            </div>
+            <% end %>
           <% end %>
 
-          <div x-on:click="option = 'all'" x-bind:class="option == 'all' ? 'border-zinc-800' : 'border-transparent'" phx-click="all" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+          <%= live_patch to: "?tab=all", class: "#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
             <%= gettext("All") %>
-          </div>
+          <% end %>
         </nav>
       </div>
     </div>
@@ -52,4 +44,5 @@
       <.render_announcement announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
     <% end %>
   </ul>
+  <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
 <% end %>
