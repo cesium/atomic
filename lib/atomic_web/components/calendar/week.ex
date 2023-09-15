@@ -111,7 +111,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
         <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
           <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
             <p class="order-1 font-semibold text-orange-600">
-              activity.title
+              <%= activity.title %>
             </p>
             <p class="text-orange-600 group-hover:text-orange-800">
               <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
