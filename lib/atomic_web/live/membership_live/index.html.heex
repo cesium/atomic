@@ -13,7 +13,11 @@
         <div class="overflow-hidden shadow border-[1px] border-r-0  ring-opacity-5 sm:rounded-lg">
           <.table items={@memberships} meta={@meta} filter={[member_name: [op: :ilike_and]]}>
             <:col let={membership} label="Number" field={:number}><%= membership.number %></:col>
-            <:col let={membership} label="Name" field={:member_name}><%= membership.user.name %></:col>
+            <:col let={membership} label="Name" field={:member_name}>
+              <%= live_redirect to: Routes.profile_show_path(@socket, :show, membership.user) do %>
+                <%= membership.user.name %>
+              <% end %>
+            </:col>
             <:col let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
             <:col let={membership} label="Role" field={:role}>
               <p class="capitalize"><%= membership.role %></p>

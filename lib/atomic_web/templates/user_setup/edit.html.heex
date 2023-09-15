@@ -31,16 +31,16 @@
         <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :name) %></span>
       </div>
       <div class="flex flex-col items-center justify-center mx-4">
-        <%= label(f, :handle, class: "sr-only") %>
+        <%= label(f, :slug, class: "sr-only") %>
         <div class="flex flex-row relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
           <span class="self-center select-none">@</span>
-          <%= text_input(f, :handle,
+          <%= text_input(f, :slug,
             required: true,
             placeholder: gettext("username"),
             class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"
           ) %>
         </div>
-        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :handle) %></span>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :slug) %></span>
       </div>
       <div class="flex flex-col items-center justify-center mx-4">
         <%= label(f, :course_id, class: "sr-only") %>

@@ -9,14 +9,14 @@ defmodule AtomicWeb.UserSetupController do
     user = conn.assigns.current_user
     courses = Accounts.list_courses()
 
-    recommended_handle =
+    recommended_slug =
       String.replace(
         extract_email_address_local_part(user.email),
         ~r/[#{@forbidden_characters}]+/,
         ""
       )
 
-    changeset = Accounts.change_user_setup(Map.put(user, :handle, recommended_handle))
+    changeset = Accounts.change_user_setup(Map.put(user, :slug, recommended_slug))
 
     render(conn, "edit.html", changeset: changeset, courses: courses)
   end

@@ -162,7 +162,7 @@
                   @click.away="menu = false"
                   @keydown.escape="menu = false"
                 >
-                  <%= link("Your profile", to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
+                  <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                   <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                 </div>
               </button>
@@ -246,7 +246,7 @@
                 @click.away="menu = false"
                 @keydown.escape="menu = false"
               >
-                <%= link("Your profile", to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
+                <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                 <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
               </div>
             </div>
