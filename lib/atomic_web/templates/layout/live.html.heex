@@ -49,16 +49,16 @@
           </button>
         </div>
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
-            <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-12 w-auto" />
-            <p class="font-bold text-xl text-zinc-500">Atomic</p>
+          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+            <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-12 w-auto" />
+            <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
           </div>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                    <li>
+                    <li class="select-none">
                       <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                         <Heroicons.Outline.render
                           icon={page.icon}
@@ -80,7 +80,7 @@
                 <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
                 <%= if Enum.count(organizations) > 0 do %>
                   <li>
-                    <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                    <div class="text-xs font-semibold leading-6 text-zinc-400 select-none"><%= gettext("Your organizations") %></div>
                     <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
                   </li>
                 <% end %>
@@ -94,16 +94,16 @@
   <!-- Static sidebar for desktop -->
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
-        <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-14 w-auto" />
-        <p class="font-bold text-xl text-zinc-500">Atomic</p>
+      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+        <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-14 w-auto" />
+        <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
       </div>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                <li>
+                <li class="select-none">
                   <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                     <Heroicons.Outline.render
                       icon={page.icon}
@@ -132,7 +132,7 @@
             <!-- Profile dropdown -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>
-              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700">
+              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
                 <%= if @current_user.profile_picture do %>
                   <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user.profile_picture, @current_user}, :original)} />
                 <% else %>
