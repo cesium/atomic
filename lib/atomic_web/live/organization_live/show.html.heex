@@ -8,7 +8,7 @@
               <%= if @organization.logo do %>
                 <img src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-64 h-32 block lg:mb-8" />
               <% else %>
-                <img src={Routes.static_path(@socket, "/images/atomic.png")} class="mb-2 w-64 h-64 block lg:mb-8" />
+                <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="mb-2 w-64 h-64 block lg:mb-8" />
               <% end %>
             </div>
             <div class="flex-1 space-x-2">
