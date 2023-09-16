@@ -2,11 +2,11 @@ defmodule AtomicWeb.Components.Calendar do
   @moduledoc false
   use AtomicWeb, :component
 
-  alias Timex.Duration
-
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.CalendarMonth
   import AtomicWeb.Components.CalendarWeek
+
+  alias Timex.Duration
 
   def calendar(
         %{

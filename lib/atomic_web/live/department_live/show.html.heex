@@ -9,7 +9,7 @@
             </h1>
           </div>
           <%= if ! @collaborator do %>
-            <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
+            <div class="mt-2 h-full lg:border-orange-600 lg:mt-0">
               <button
                 phx-click={
                   "#{if @is_authenticated? do
@@ -18,7 +18,7 @@
                     "must-login"
                   end}"
                 }
-                class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+                class="border-2 rounded-md bg-white border-orange-600 py-2 px-3.5 text-sm font-medium text-orange-600 shadow-sm hover:bg-orange-600 hover:text-white"
               >
                 Collaborate
               </button>
@@ -31,8 +31,8 @@
                 </button>
               </div>
             <% else %>
-              <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
+              <div class="mt-2 h-full lg:border-orange-600 lg:mt-0">
+                <div class="border-2 rounded-md border-orange-600 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-600 text-white">
                   Collaborator
                 </div>
               </div>
@@ -44,12 +44,12 @@
       <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
         <div class="flex w-full items-center justify-between">
           <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-            <div x-on:click="open = 'activities'" x-bind:class="open == 'activities' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+            <div x-on:click="open = 'activities'" :class="open == 'activities' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
               <%= gettext("Latest Activities") %>
             </div>
 
             <%= if @has_permissions? do %>
-              <div x-on:click="open = 'collaborators'" x-bind:class="open == 'collaborators' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+              <div x-on:click="open = 'collaborators'" :class="open == 'collaborators' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
                 <%= gettext("Latest Collaborators") %>
               </div>
             <% end %>
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div x-bind:class="open == 'activities' ? 'block' : 'hidden'" class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
+    <div :class="open == 'activities' ? 'block' : 'hidden'" class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
       <ul role="list" class="flex flex-col items-center mt-5 gap-6 lg:flex-row lg:flex-wrap">
         <%= for activity <- @activities do %>
           <li class="w-72 col-span-1 flex flex-col border-2 border-zinc-200 rounded-lg bg-white text-center shadow hover:bg-zinc-50">
@@ -80,7 +80,7 @@
       </ul>
     </div>
 
-    <div x-bind:class="open == 'collaborators' ? 'block' : 'hidden'" class="mt-8 flow-root">
+    <div :class="open == 'collaborators' ? 'block' : 'hidden'" class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">

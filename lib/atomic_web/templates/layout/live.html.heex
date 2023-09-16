@@ -44,7 +44,7 @@
             </div>
             <!-- Notification close button -->
             <div class="flex flex-shrink-0 ml-4">
-              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-500">
+              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-600">
                 <span class="sr-only">Close</span>
                 <Heroicons.Solid.x class="w-5 h-5" />
               </button>
@@ -56,7 +56,7 @@
   <% end %>
 </div>
 
-<div x-data="{ sidebar: false }">
+<div x-data="{ sidebar: false }" class="overflow-hidden">
   <div
     class="relative z-50 lg:hidden"
     role="dialog"
@@ -99,7 +99,7 @@
             </svg>
           </button>
         </div>
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
           <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
             <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-12 w-auto" />
             <p class="font-bold text-xl text-zinc-500">Atomic</p>
@@ -110,14 +110,14 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                     <li>
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-200" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                         <Heroicons.Outline.render
                           icon={page.icon}
                           class={
                             "#{if @current_page == page.key do
-                              "text-orange-500"
+                              "text-orange-600"
                             else
-                              "text-zinc-400 group-hover:text-orange-500"
+                              "text-zinc-400 group-hover:text-orange-600"
                             end} h-6 w-6 shrink-0"
                           }
                         />
@@ -144,7 +144,7 @@
   </div>
   <!-- Static sidebar for desktop -->
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-    <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
+    <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 px-6 pb-4">
       <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
         <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-14 w-auto" />
         <p class="font-bold text-xl text-zinc-500">Atomic</p>
@@ -155,14 +155,14 @@
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                 <li>
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-200" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                     <Heroicons.Outline.render
                       icon={page.icon}
                       class={
                         "#{if @current_page == page.key do
-                          "text-orange-500"
+                          "text-orange-600"
                         else
-                          "text-zinc-400 group-hover:text-orange-500"
+                          "text-zinc-400 group-hover:text-orange-600"
                         end} h-6 w-6 shrink-0"
                       }
                     />
@@ -232,7 +232,7 @@
   </div>
 
   <div class="lg:pl-72">
-    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:pr-8">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 pr-4 sm:gap-x-6 sm:pr-6 lg:pr-8">
       <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" @click="sidebar = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">

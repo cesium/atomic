@@ -340,6 +340,25 @@ defmodule Atomic.Activities do
       iex> list_user_activities(user_id)
       [%Activity{}, ...]
   """
+  def list_user_activities(user_id, params \\ %{})
+
+  def list_user_activities(user_id, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
   def list_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
       join: e in assoc(a, :enrollments),

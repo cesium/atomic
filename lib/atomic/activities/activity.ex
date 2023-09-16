@@ -1,7 +1,5 @@
 defmodule Atomic.Activities.Activity do
-  @moduledoc """
-    An activity
-  """
+  @moduledoc false
   use Atomic.Schema
 
   alias Atomic.Activities
@@ -16,10 +14,10 @@ defmodule Atomic.Activities.Activity do
 
   alias Atomic.Departments
   alias Atomic.Events.Event
-  alias Atomic.Organizations.Department
+  alias Atomic.Organizations.{Department, Organization}
   alias Atomic.Uploaders
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
   @optional_fields ~w(event_id image)a
 
   @derive {
@@ -44,12 +42,13 @@ defmodule Atomic.Activities.Activity do
     field :enrolled, :integer, virtual: true
     embeds_one :location, Location
 
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
-    many_to_many :departments, Department, join_through: ActivityDepartment
+    belongs_to :organization, Organization
+    belongs_to :event, Event
 
     has_many :enrollments, Enrollment, foreign_key: :activity_id
 
-    belongs_to :event, Event
+    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
+    many_to_many :departments, Department, join_through: ActivityDepartment
 
     timestamps()
   end

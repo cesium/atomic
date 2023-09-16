@@ -36,12 +36,12 @@
                 </div>
                 <%= if not @following? do %>
                   <%= if @is_authenticated? do %>
-                    <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
+                    <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-600 border-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-600">Follow</button>
                   <% else %>
-                    <button phx-click="must-login" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
+                    <button phx-click="must-login" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-600 border-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-600">Follow</button>
                   <% end %>
                 <% else %>
-                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm inline hover:bg-orange-500 hover:text-white">Unfollow</button>
+                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-600 py-2 px-3.5 text-sm font-medium text-orange-600 shadow-sm inline hover:bg-orange-600 hover:text-white">Unfollow</button>
                 <% end %>
               </div>
             </div>
@@ -52,11 +52,11 @@
       <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
         <div class="flex w-full items-center justify-between">
           <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-            <div x-on:click="option = 'activities'" x-bind:class="option == 'activities' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+            <div x-on:click="option = 'activities'" :class="option == 'activities' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
               <%= gettext("Latest Activities") %>
             </div>
 
-            <div x-on:click="option = 'departments'" x-bind:class="option == 'departments' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
+            <div x-on:click="option = 'departments'" :class="option == 'departments' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
               <%= gettext("Departments") %>
             </div>
           </nav>
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <div x-bind:class="option == 'activities' ? 'block' : 'hidden'" class="h-full lg:justify-center py-2">
+  <div :class="option == 'activities' ? 'block' : 'hidden'" class="h-full lg:justify-center py-2">
     <div class="h-max lg:w-full">
       <div class="w-full flex flex-row items-center">
         <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
@@ -96,7 +96,7 @@
     </div>
   </div>
 
-  <div x-bind:class="option == 'departments' ? 'block' : 'hidden'">
+  <div :class="option == 'departments' ? 'block' : 'hidden'">
     <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <%= for department <- @departments do %>
         <li class="col-span-1 flex flex-col border-2 border-zinc-200 rounded-lg bg-white text-center shadow hover:bg-zinc-50">
