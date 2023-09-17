@@ -9,7 +9,7 @@
       </div>
     <% end %>
 
-    <div class="space-y-3 rounded-md w-96 flex-col justify-center items-center mt-6">
+    <div class="space-y-3 rounded-md w-96 flex-col justify-center items-center mt-6 px-3.5 mx-4">
       <div x-data="{ hide: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
         <%= label(f, :password, "New password", class: "sr-only") %>
         <%= password_input(f, :password, required: true, placeholder: gettext("New Password"), class: "relative w-full border-0 rounded text-zinc-900 appearance-none outline-none focus:outline-none focus:ring-0") %>
@@ -38,8 +38,8 @@
       </div>
     </div>
 
-    <div>
-      <%= submit class: "w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
+    <div class="w-96 px-3.5 mx-4">
+      <%= submit class: "w-full border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
         <%= gettext("Reset password") %>
       <% end %>
     </div>
