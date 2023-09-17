@@ -49,27 +49,21 @@ defmodule Atomic.Activities do
   def list_activities_by_organization_id(organization_id, params \\ %{})
 
   def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> apply_filters(opts)
     |> Repo.all()
   end
 
   def list_activities_by_organization_id(organization_id, flop) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> Flop.validate_and_run(flop, for: Activity)
   end
 
   def list_activities_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Activity)
   end
@@ -122,8 +116,7 @@ defmodule Atomic.Activities do
   def list_organizations_activities(organizations, %{} = flop, opts \\ [])
       when is_list(organizations) do
     Activity
-    |> join(:inner, [a], d in assoc(a, :departments))
-    |> where([a, d], d.organization_id in ^Enum.map(organizations, & &1.id))
+    |> where([a], a.organization_id in ^Enum.map(organizations, & &1.id))
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Activity)
   end
@@ -145,23 +138,6 @@ defmodule Atomic.Activities do
   def get_activity!(id, preloads \\ []) do
     Repo.get!(Activity, id)
     |> Repo.preload(preloads)
-  end
-
-  @doc """
-  Returns the list of organizations ids that are associated with an activity.
-
-    ## Examples
-
-        iex> get_activity_organizations!(activity)
-        [19d7c9e5-4212-4f59-a097-28aaa33c2621, ...]
-
-        iex> get_activity_organizations!(activity)
-        ** (Ecto.NoResultsError)
-  """
-  def get_activity_organizations!(activity, preloads \\ [:departments]) do
-    Repo.preload(activity, preloads)
-    |> Map.get(:departments, [])
-    |> Enum.map(& &1.organization_id)
   end
 
   @doc """

@@ -4,7 +4,6 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
-  alias Atomic.Activities.{Activity, ActivityDepartment}
   alias Atomic.Organizations.{Collaborator, Department}
 
   @doc """
@@ -51,22 +50,6 @@ defmodule Atomic.Departments do
 
   def get_departments(ids) do
     Repo.all(from d in Department, where: d.id in ^ids)
-  end
-
-  @doc """
-  Returns the list of activities that belong to a department.
-
-  ## Examples
-
-      iex> list_activities_by_department_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%Activity{}, ...]
-
-  """
-  def list_activities_by_department_id(id) do
-    Activity
-    |> join(:inner, [a], ad in ActivityDepartment, on: ad.activity_id == a.id)
-    |> where([a, ad], ad.department_id == ^id)
-    |> Repo.all()
   end
 
   @doc """

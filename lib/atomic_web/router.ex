@@ -33,6 +33,10 @@ defmodule AtomicWeb.Router do
 
   # Association verification pipelines
 
+  pipeline :confirm_activity_association do
+    plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Activities.get_activity!/1
+  end
+
   pipeline :confirm_announcement_association do
     plug AtomicWeb.Plugs.VerifyAssociation, &Atomic.Organizations.get_announcement!/1
   end
@@ -72,6 +76,7 @@ defmodule AtomicWeb.Router do
         live "/edit", OrganizationLive.Edit, :edit
 
         scope "/activities" do
+          pipe_through :confirm_activity_association
           live "/new", ActivityLive.New, :new
           live "/:id/edit", ActivityLive.Edit, :edit
         end

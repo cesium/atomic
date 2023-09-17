@@ -4,9 +4,7 @@ defmodule Atomic.Repo.Seeds.Activities do
   """
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
-  alias Atomic.Departments
-  alias Atomic.Organizations.Department
+  alias Atomic.Activities.{Activity, Enrollment}
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
@@ -27,7 +25,6 @@ defmodule Atomic.Repo.Seeds.Activities do
   def run do
     seed_activities()
     seed_enrollments()
-    seed_activity_departments()
   end
 
   def seed_activities do
@@ -70,28 +67,6 @@ defmodule Atomic.Repo.Seeds.Activities do
     |> NaiveDateTime.add(i, :day)
     |> NaiveDateTime.add(2, :hour)
     |> NaiveDateTime.truncate(:second)
-  end
-
-  def seed_activity_departments do
-    case Repo.all(ActivityDepartment) do
-      [] ->
-        activities = Repo.all(Activity)
-
-        for activity <- activities do
-          %ActivityDepartment{}
-          |> ActivityDepartment.changeset(%{
-            activity_id: activity.id,
-            department_id:
-              Enum.random(
-                Departments.list_departments_by_organization_id(activity.organization_id)
-              ).id
-          })
-          |> Repo.insert!()
-        end
-
-      _ ->
-        Mix.shell().error("Found activity departments, aborting seeding activity departments.")
-    end
   end
 
   def seed_enrollments do
