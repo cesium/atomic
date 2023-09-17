@@ -18,10 +18,6 @@
     <%= number_input(f, :maximum_entries) %>
     <%= error_tag(f, :maximum_entries) %>
 
-    <%= label(f, :departments) %>
-    <%= multiple_select(f, :departments, Enum.map(@departments, &{&1.name, &1.id}), selected: Enum.map(@departments, & &1.id), on_change: "update_departments") %>
-    <%= error_tag(f, :departments) %>
-
     <%= label(f, :speakers) %>
     <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers") %>
     <%= error_tag(f, :speaker) %>
