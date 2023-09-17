@@ -96,8 +96,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
     from a in Activity,
       where: a.finish >= ^minimum_finish and a.finish <= ^now,
-      group_by: [a.activity_id],
-      select: %{finish: max(a.finish), activity_id: a.activity_id}
+      group_by: [a.id],
+      select: %{finish: max(a.finish), activity_id: a.id}
   end
 
   # Determines all the enrollments eligible to receive participation
