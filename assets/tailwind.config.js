@@ -27,10 +27,15 @@ module.exports = {
             '60%': { transform: 'rotate(10.0deg)' },
             '70%': { transform: 'rotate(0.0deg)' },
             '100%': { transform: 'rotate(0.0deg)' },
+        },
+        progress: {
+            '0%': { width: '0%' },
+            '100%': { width: '100%' },
         }
       },
       animation: {
-          wave: 'wave 1.5s infinite'
+          wave: 'wave 1.5s infinite',
+          progress: 'progress 5s linear 1'
       },
       backgroundSize: {
         '75': '75%'
