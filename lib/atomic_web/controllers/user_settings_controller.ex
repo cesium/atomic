@@ -11,10 +11,10 @@ defmodule AtomicWeb.UserSettingsController do
   end
 
   def update(conn, %{"action" => "update_email"} = params) do
-    %{"current_password" => password, "user" => user_params} = params
+    %{"current_password" => _password, "user" => user_params} = params
     user = conn.assigns.current_user
 
-    case Accounts.apply_user_email(user, password, user_params) do
+    case Accounts.apply_user_email(user, user_params) do
       {:ok, applied_user} ->
         Accounts.deliver_update_email_instructions(
           applied_user,

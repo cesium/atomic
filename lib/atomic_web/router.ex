@@ -132,7 +132,8 @@ defmodule AtomicWeb.Router do
       live "/organizations/:organization_id", OrganizationLive.Show, :show
       live "/announcements/:id", AnnouncementLive.Show, :show
 
-      live "/profile/:handle", UserLive.Show, :show
+      live "/profile/:slug", ProfileLive.Show, :show
+      live "/profile/:slug/edit", ProfileLive.Edit, :edit
 
       pipe_through [
         :require_authenticated_user,
@@ -144,6 +145,8 @@ defmodule AtomicWeb.Router do
 
       get "/users/settings", UserSettingsController, :edit
       put "/users/settings", UserSettingsController, :update
+
+      live "/users/confirm_email/:token", ProfileLive.Edit, :confirm_email
 
       scope "/organizations/:organization_id" do
         scope "/departments" do
