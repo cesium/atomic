@@ -7,19 +7,17 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities
 
   alias Atomic.Activities.{
-    ActivityDepartment,
     ActivityEnrollment,
     ActivitySpeaker,
     Location,
     Speaker
   }
 
-  alias Atomic.Departments
   alias Atomic.Events.Event
-  alias Atomic.Organizations.Department
+  alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
   @optional_fields ~w(event_id image)a
 
   @derive {
@@ -45,10 +43,10 @@ defmodule Atomic.Activities.Activity do
     embeds_one :location, Location
 
     many_to_many :speakers, Speaker, join_through: ActivitySpeaker
-    many_to_many :departments, Department, join_through: ActivityDepartment
 
     has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 
+    belongs_to :organization, Organization
     belongs_to :event, Event
 
     timestamps()
@@ -63,7 +61,6 @@ defmodule Atomic.Activities.Activity do
     |> validate_dates()
     |> validate_entries_number()
     |> maybe_mark_for_deletion()
-    |> maybe_put_departments(attrs)
     |> maybe_put_speakers(attrs)
   end
 
@@ -103,15 +100,6 @@ defmodule Atomic.Activities.Activity do
   defp maybe_mark_for_deletion(changeset) do
     if get_change(changeset, :delete) do
       %{changeset | action: :delete}
-    else
-      changeset
-    end
-  end
-
-  defp maybe_put_departments(changeset, attrs) do
-    if attrs["departments"] do
-      departments = Departments.get_departments(attrs["departments"])
-      Ecto.Changeset.put_assoc(changeset, :departments, departments)
     else
       changeset
     end
