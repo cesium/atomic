@@ -2,7 +2,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Activities.Activity
   alias Atomic.Departments
 
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
@@ -20,7 +19,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     departments = Departments.list_departments_by_organization_id(current_organization.id)
     speakers = Activities.list_speakers_by_organization_id(current_organization.id)
 
-    changeset = Activities.change_activity(%Activity{departments: departments})
+    changeset = Activities.change_activity(activity)
 
     {:ok,
      socket
@@ -42,6 +41,11 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   @impl true
+  def handle_event("cancel-image", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :image, ref)}
+  end
+
+  @impl true
   def handle_event("toggle_option", %{"id" => id}, socket) do
     updated_departments =
       Enum.map(socket.assigns.departments, fn option ->
@@ -60,10 +64,10 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("save", %{"activity" => activity_params}, socket) do
-    options =
-      List.foldl(socket.assigns.departments, [], fn option, acc ->
-        if option.selected do
-          [option.id | acc]
+    departments =
+      List.foldl(socket.assigns.departments, [], fn department, acc ->
+        if department.selected do
+          [department.id | acc]
         else
           acc
         end
@@ -71,13 +75,17 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     activity_params =
       activity_params
-      |> Map.put("departments", options)
+      |> Map.put("departments", departments)
 
     save_activity(socket, socket.assigns.action, activity_params)
   end
 
   defp save_activity(socket, :edit, activity_params) do
-    case Activities.update_activity(socket.assigns.activity, activity_params) do
+    case Activities.update_activity(
+           socket.assigns.activity,
+           activity_params,
+           &consume_image_data(socket, &1)
+         ) do
       {:ok, _activity} ->
         {:noreply,
          socket
@@ -90,7 +98,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   defp save_activity(socket, :new, activity_params) do
-    case Activities.create_activity(activity_params) do
+    case Activities.create_activity(activity_params, &consume_image_data(socket, &1)) do
       {:ok, _activity} ->
         {:noreply,
          socket
@@ -110,5 +118,24 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
         selected: false
       }
     end)
+  end
+
+  defp consume_image_data(socket, activity) do
+    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+      Activities.update_activity_image(activity, %{
+        "image" => %Plug.Upload{
+          content_type: entry.client_type,
+          filename: entry.client_name,
+          path: path
+        }
+      })
+    end)
+    |> case do
+      [{:ok, activity}] ->
+        {:ok, activity}
+
+      _errors ->
+        {:ok, activity}
+    end
   end
 end

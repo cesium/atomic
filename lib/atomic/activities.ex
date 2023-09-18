@@ -206,10 +206,11 @@ defmodule Atomic.Activities do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}) do
+  def create_activity(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Activity{}
     |> Activity.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -224,9 +225,28 @@ defmodule Atomic.Activities do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_activity(%Activity{} = activity, attrs) do
+  def update_activity(%Activity{} = activity, attrs, after_save \\ &{:ok, &1}) do
     activity
     |> Activity.changeset(attrs)
+    |> Repo.update()
+    |> after_save(after_save)
+  end
+
+  @doc """
+  Updates a activity image.
+
+  ## Examples
+
+      iex> update_activity_image(activity, %{field: new_value})
+      {:ok, %Activity{}}
+
+      iex> update_activity_image(activity, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_activity_image(%Activity{} = activity, attrs) do
+    activity
+    |> Activity.image_changeset(attrs)
     |> Repo.update()
   end
 
