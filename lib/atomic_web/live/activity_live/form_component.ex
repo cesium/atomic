@@ -13,7 +13,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def update(%{activity: activity} = assigns, socket) do
     current_organization = assigns.current_organization
-    departments = Departments.list_departments_by_organization_id(current_organization.id)
     speakers = Activities.list_speakers_by_organization_id(current_organization.id)
 
     changeset = Activities.change_activity(activity)
@@ -21,9 +20,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:departments, load_options(departments))
-     |> assign(:selected_departments, [])
-     |> assign(:speakers, speakers)
+     |> assign(:speakers, load_options(speakers))
+     |> assign(:selected_speakers, [])
      |> assign(:changeset, changeset)}
   end
 
@@ -55,16 +53,16 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     {:noreply,
      socket
-     |> assign(:departments, updated_departments)
-     |> assign(:selected_departments, Enum.filter(updated_departments, & &1.selected))}
+     |> assign(:speakers, updated_departments)
+     |> assign(:selected_speakers, Enum.filter(updated_departments, & &1.selected))}
   end
 
   @impl true
   def handle_event("save", %{"activity" => activity_params}, socket) do
-    departments =
-      List.foldl(socket.assigns.departments, [], fn department, acc ->
-        if department.selected do
-          [department.id | acc]
+    speakers =
+      List.foldl(socket.assigns.speakers, [], fn speaker, acc ->
+        if speaker.selected do
+          [speaker.id | acc]
         else
           acc
         end
@@ -72,7 +70,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     activity_params =
       activity_params
-      |> Map.put("departments", departments)
+      |> Map.put("speakers", speakers)
 
     save_activity(socket, socket.assigns.action, activity_params)
   end
@@ -95,6 +93,10 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   defp save_activity(socket, :new, activity_params) do
+    activity_params =
+      activity_params
+      |> Map.put("organization_id", socket.assigns.current_organization.id)
+
     case Activities.create_activity(activity_params, &consume_image_data(socket, &1)) do
       {:ok, _activity} ->
         {:noreply,
