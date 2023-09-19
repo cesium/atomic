@@ -4,13 +4,11 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   alias Atomic.Activities
   alias Atomic.Departments
 
-  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
-
   @impl true
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:image, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)}
   end
 
   @impl true

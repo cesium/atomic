@@ -47,7 +47,7 @@
     <!-- When there aren't any activities -->
     <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
-        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_user.current_organization)} plural_placeholder="activities" placeholder="activity" />
+        <.empty_state id="empty_state" url={Routes.activity_new_path(@socket, :new, @current_organization)} plural_placeholder="activities" placeholder="activity" />
       </div>
     <% else %>
       <!-- Activities listing -->
