@@ -10,7 +10,7 @@ defmodule AtomicWeb.ActivityLive.New do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => _organization_id} = _params, _, socket) do
+  def handle_params(%{"organization_id" => organization_id}, _, socket) do
     entries = [
       %{
         name: gettext("Activities"),
@@ -27,6 +27,6 @@ defmodule AtomicWeb.ActivityLive.New do
      |> assign(:page_title, gettext("New Activity"))
      |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
-     |> assign(:activity, %Activity{})}
+     |> assign(:activity, %Activity{organization_id: organization_id})}
   end
 end

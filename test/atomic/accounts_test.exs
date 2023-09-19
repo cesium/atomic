@@ -81,14 +81,14 @@ defmodule Atomic.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
-    test "validates handle uniqueness" do
-      %{handle: handle} = insert(:user)
-      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{handle: handle})
-      assert "has already been taken" in errors_on(changeset).handle
+    test "validates slug uniqueness" do
+      %{slug: slug} = insert(:user)
+      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{slug: slug})
+      assert "has already been taken" in errors_on(changeset).slug
 
-      # Now try with the upper cased handle too, to check that handle case is ignored.
-      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{handle: handle})
-      assert "has already been taken" in errors_on(changeset).handle
+      # Now try with the upper cased slug too, to check that slug case is ignored.
+      {:error, changeset} = Accounts.finish_user_setup(%User{}, %{slug: slug})
+      assert "has already been taken" in errors_on(changeset).slug
     end
 
     test "registers users with a hashed password" do
@@ -96,7 +96,7 @@ defmodule Atomic.AccountsTest do
       {:ok, user} = Accounts.register_user(user_attrs)
 
       assert user.email == user_attrs.email
-      assert user.handle == user_attrs.handle
+      assert user.slug == user_attrs.slug
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
@@ -133,26 +133,25 @@ defmodule Atomic.AccountsTest do
     end
   end
 
-  describe "change_user_handle/2" do
+  describe "change_user_slug/2" do
     test "returns a user changeset" do
-      assert %Ecto.Changeset{} = changeset = Accounts.change_user_handle(%User{})
-      assert changeset.required == [:handle]
+      assert %Ecto.Changeset{} = changeset = Accounts.change_user_slug(%User{})
+      assert changeset.required == [:slug]
     end
   end
 
-  describe "apply_user_email/3" do
+  describe "apply_user_email/2" do
     setup do
       %{user: insert(:user)}
     end
 
     test "requires email to change", %{user: user} do
-      {:error, changeset} = Accounts.apply_user_email(user, valid_user_password(), %{})
+      {:error, changeset} = Accounts.apply_user_email(user, %{})
       assert %{email: ["did not change"]} = errors_on(changeset)
     end
 
     test "validates email", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: "not valid"})
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
@@ -160,8 +159,7 @@ defmodule Atomic.AccountsTest do
     test "validates maximum value for email for security", %{user: user} do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: too_long})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
@@ -169,22 +167,14 @@ defmodule Atomic.AccountsTest do
     test "validates email uniqueness", %{user: user} do
       %{email: email} = insert(:user)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: email})
+      {:error, changeset} = Accounts.apply_user_email(user, %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
 
-    test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, "invalid", %{email: Faker.Internet.email()})
-
-      assert %{current_password: ["is not valid"]} = errors_on(changeset)
-    end
-
     test "applies the email without persisting it", %{user: user} do
       email = Faker.Internet.email()
-      {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email: email})
+      {:ok, user} = Accounts.apply_user_email(user, %{email: email})
       assert user.email == email
       assert Accounts.get_user!(user.id).email != email
     end

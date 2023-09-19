@@ -2,7 +2,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Departments
 
   @impl true
   def mount(socket) do

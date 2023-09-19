@@ -1,4 +1,4 @@
-defmodule Atomic.Activities.Enrollment do
+defmodule Atomic.Activities.ActivityEnrollment do
   @moduledoc """
   An activity enrollment.
   """
@@ -11,7 +11,7 @@ defmodule Atomic.Activities.Enrollment do
   @required_fields ~w(activity_id user_id)a
   @optional_fields ~w(present)a
 
-  schema "enrollments" do
+  schema "activity_enrollments" do
     field :present, :boolean, default: false
 
     belongs_to :activity, Activity
