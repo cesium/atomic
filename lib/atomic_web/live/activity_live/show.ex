@@ -3,7 +3,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Activities.Enrollment
+  alias Atomic.Activities.ActivityEnrollment
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -46,7 +46,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_event("enroll", _payload, socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {:ok, %Enrollment{}} ->
+      {:ok, %ActivityEnrollment{}} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")
