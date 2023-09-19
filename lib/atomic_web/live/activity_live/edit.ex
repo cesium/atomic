@@ -19,7 +19,11 @@ defmodule AtomicWeb.ActivityLive.Edit do
         route: Routes.activity_index_path(socket, :index)
       },
       %{
-        name: gettext("Edit Activity"),
+        name: activity.title,
+        route: Routes.activity_show_path(socket, :show, activity)
+      },
+      %{
+        name: gettext("Edit"),
         route: Routes.activity_edit_path(socket, :edit, activity.organization_id, id)
       }
     ]

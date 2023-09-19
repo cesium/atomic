@@ -46,6 +46,7 @@ defmodule Atomic.Repo.Seeds.Activities do
             location: location,
             minimum_entries: Enum.random(1..10),
             maximum_entries: Enum.random(11..20),
+            internal: false,
             organization_id: Enum.random(organizations).id
           }
           |> Activities.create_activity()

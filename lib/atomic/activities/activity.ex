@@ -17,7 +17,7 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries internal organization_id)a
   @optional_fields ~w(event_id image)a
 
   @derive {
@@ -39,8 +39,9 @@ defmodule Atomic.Activities.Activity do
     field :image, Uploaders.Post.Type
     field :maximum_entries, :integer
     field :minimum_entries, :integer
+    field :internal, :boolean
     field :enrolled, :integer, virtual: true
-    embeds_one :location, Location
+    embeds_one :location, Location, on_replace: :delete
 
     many_to_many :speakers, Speaker, join_through: ActivitySpeaker
 

@@ -155,7 +155,7 @@ defmodule Atomic.Activities do
     activity = get_activity!(activity_id)
     total_enrolled = get_total_enrolled(activity_id)
 
-    activity.maximum_entries > total_enrolled
+    total_enrolled >= activity.maximum_entries
   end
 
   @doc """

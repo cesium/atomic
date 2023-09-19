@@ -18,6 +18,10 @@
     <%= number_input(f, :maximum_entries) %>
     <%= error_tag(f, :maximum_entries) %>
 
+    <%= label(f, :internal) %>
+    <%= checkbox(f, :internal) %>
+    <%= error_tag(f, :internal) %>
+
     <%= label(f, :speakers) %>
     <%= multiple_select(f, :speakers, Enum.map(@speakers, &{&1.name, &1.id}), selected: Enum.map(@speakers, & &1.id), on_change: "update_speakers") %>
     <%= error_tag(f, :speaker) %>

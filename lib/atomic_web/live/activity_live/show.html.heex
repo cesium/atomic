@@ -2,12 +2,15 @@
   <div class="my-4">
     <div class="bg-white">
       <div class="flex justify-between px-4 py-5 sm:px-6">
-        <div class="my-4 w-full items-center gap-x-4 lg:flex">
+        <div class="my-4 w-full items-center gap-x-4 flex">
           <div class="flex-1">
             <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
               <%= @activity.title %>
             </h1>
           </div>
+          <%= if @activity.internal do %>
+            <p class="bg-zinc-200 text-zinc-500 font-semibold text-sm px-3 py-1 rounded-2xl select-none uppercase"><%= gettext("Not Public") %></p>
+          <% end %>
         </div>
       </div>
 

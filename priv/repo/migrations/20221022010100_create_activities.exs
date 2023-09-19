@@ -11,6 +11,7 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :location, :map
       add :minimum_entries, :integer, null: false
       add :maximum_entries, :integer, null: false
+      add :internal, :boolean, null: false
       add :image, :string
 
       add :event_id, references(:events, type: :binary_id)
