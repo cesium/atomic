@@ -48,7 +48,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_all_activities(_socket, params) do
-    case Activities.list_activities(params, preloads: [:speakers, :enrollments]) do
+    case Activities.list_activities(params, preloads: [:speakers, :activity_enrollments]) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
 
@@ -62,7 +62,7 @@ defmodule AtomicWeb.ActivityLive.Index do
       Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
     case Activities.list_organizations_activities(organizations, params,
-           preloads: [:speakers, :enrollments]
+           preloads: [:speakers, :activity_enrollments]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -73,7 +73,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_upcoming_activities(_socket, params) do
-    case Activities.list_upcoming_activities(params, preloads: [:speakers, :enrollments]) do
+    case Activities.list_upcoming_activities(params, preloads: [:speakers, :activity_enrollments]) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
 
@@ -84,7 +84,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_enrolled_activities(socket, params) do
     case Activities.list_user_activities(socket.assigns.current_user.id, params,
-           preloads: [:speakers, :enrollments]
+           preloads: [:speakers, :activity_enrollments]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}

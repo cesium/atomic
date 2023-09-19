@@ -323,7 +323,7 @@ defmodule Atomic.Activities do
   """
   def list_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :enrollments),
+      join: e in assoc(a, :activity_enrollments),
       where: e.user_id == ^user_id
     )
     |> apply_filters(opts)

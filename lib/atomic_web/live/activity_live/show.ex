@@ -17,7 +17,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:speakers])
+    activity = Activities.get_activity!(id, [:speakers, :organization])
 
     entries = [
       %{
