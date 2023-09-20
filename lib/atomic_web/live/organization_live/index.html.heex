@@ -14,7 +14,7 @@
       <.empty_state id="empty_state" url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>
   <% else %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
       <%= for organization <- @organizations do %>
         <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
