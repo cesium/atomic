@@ -2,26 +2,21 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Departments
 
   @impl true
   def mount(socket) do
-    {:ok,
-     socket
-     |> assign(:departments, [])
-     |> assign(:speakers, [])}
+    {:ok, socket}
   end
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
-    departments = Departments.list_departments_by_organization_id(assigns.organization.id)
-    speakers = Activities.list_speakers_by_organization_id(assigns.organization.id)
     changeset = Activities.change_activity(activity)
+
+    speakers = Activities.list_speakers_by_organization_id(activity.organization_id)
 
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:departments, departments)
      |> assign(:speakers, speakers)
      |> assign(:changeset, changeset)}
   end

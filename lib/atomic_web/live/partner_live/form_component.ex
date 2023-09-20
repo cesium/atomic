@@ -1,19 +1,18 @@
 defmodule AtomicWeb.PartnerLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Partnerships
-  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
+  alias Atomic.Partners
 
   @impl true
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:image, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)}
   end
 
   @impl true
   def update(%{partner: partner} = assigns, socket) do
-    changeset = Partnerships.change_partner(partner)
+    changeset = Partners.change_partner(partner)
 
     {:ok,
      socket
@@ -25,7 +24,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   def handle_event("validate", %{"partner" => partner_params}, socket) do
     changeset =
       socket.assigns.partner
-      |> Partnerships.change_partner(partner_params)
+      |> Partners.change_partner(partner_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -40,7 +39,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :edit, partner_params) do
-    case Partnerships.update_partner(
+    case Partners.update_partner(
            socket.assigns.partner,
            partner_params,
            &consume_image_data(socket, &1)
@@ -59,7 +58,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   defp save_partner(socket, :new, partner_params) do
     partner_params = Map.put(partner_params, "organization_id", socket.assigns.organization.id)
 
-    case Partnerships.create_partner(partner_params, &consume_image_data(socket, &1)) do
+    case Partners.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,
          socket
@@ -73,7 +72,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
   defp consume_image_data(socket, partner) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Partnerships.update_partner(partner, %{
+      Partners.update_partner(partner, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,

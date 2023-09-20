@@ -35,7 +35,7 @@ defmodule Atomic.Organizations.Organization do
 
     many_to_many :users, User, join_through: Membership
 
-    has_many :partnerships, Partner,
+    has_many :partners, Partner,
       on_replace: :delete_if_exists,
       on_delete: :delete_all,
       foreign_key: :organization_id,

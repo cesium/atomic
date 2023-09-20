@@ -16,9 +16,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   alias Atomic.Mailer
   alias Atomic.Repo
-  alias Atomic.Activities.{Activity, Enrollment}
-  alias Atomic.Organizations.Organization
-
+  alias Atomic.Activities.{Activity, ActivityEnrollment}
   alias AtomicWeb.ActivityEmails
 
   @doc """
@@ -72,7 +70,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
-  defp generate_certificate(%Enrollment{} = enrollment, %Activity{} = activity, organizations) do
+  defp generate_certificate(%ActivityEnrollment{} = enrollment) do
     # Create the string corresponding to the HTML to convert
     # to a PDF
     Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",
@@ -113,7 +111,9 @@ defmodule Atomic.Quantum.CertificateDelivery do
     minimum_finish = DateTime.add(now, -24, :hour)
 
     from a in Activity,
-      where: a.finish >= ^minimum_finish and a.finish <= ^now
+      where: a.finish >= ^minimum_finish and a.finish <= ^now,
+      group_by: [a.id],
+      select: %{finish: max(a.finish), activity_id: a.id}
   end
 
   # Determines all the enrollments eligible to receive participation
@@ -128,8 +128,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
   defp included_enrollments do
     enrollments =
       from s in subquery(last_activities_query()),
-        inner_join: e in Enrollment,
-        on: e.activity_id == s.id,
+        inner_join: e in ActivityEnrollment,
+        on: e.activity_id == s.activity_id,
         where: e.present,
         select: e
 

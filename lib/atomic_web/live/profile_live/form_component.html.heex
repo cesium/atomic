@@ -1,0 +1,86 @@
+<div class="pt-4 px-4">
+  <.form let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+    <div class="flex flex-col-reverse sm:flex-row items-center sm:justify-between mt-4 border-b pb-10 border-gray-200">
+      <div class="space-y-4 w-full">
+        <h2 class="hidden sm:block text-xl pb-4 font-bold leading-7 text-zinc-900 sm:text-4xl">
+          <%= gettext("Your Profile") %>
+        </h2>
+
+        <div class="flex flex-col justify-center">
+          <%= label(f, :name, class: "mb-1 text-sm font-medium text-gray-700") %>
+          <%= text_input(f, :name,
+            required: true,
+            placeholder: gettext("John Doe"),
+            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+          ) %>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :name) %></div>
+        </div>
+        <div class="flex flex-col justify-center">
+          <%= label(f, :email, class: "mb-1 text-sm font-medium text-gray-700") %>
+          <%= text_input(f, :email,
+            required: true,
+            placeholder: gettext("john_doe@mail.com"),
+            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+          ) %>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :email) %></div>
+        </div>
+        <div class="flex flex-col justify-center">
+          <%= label(f, :username, class: "mb-1 text-sm font-medium text-gray-700") %>
+          <div class="flex flex-row relative w-full sm:w-96  appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
+            <span class="self-center select-none">@</span>
+            <%= text_input(f, :slug,
+              required: true,
+              spellcheck: false,
+              placeholder: gettext("john_doe"),
+              class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"
+            ) %>
+          </div>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :slug) %></div>
+        </div>
+        <div class="flex flex-col justify-center">
+          <%= label(f, :phone_number, class: "mb-1 text-sm font-medium text-gray-700") %>
+          <%= text_input(f, :phone_number,
+            required: true,
+            placeholder: gettext("912345678"),
+            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+          ) %>
+          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></div>
+        </div>
+      </div>
+      <%= live_file_input(@uploads.picture, class: "hidden") %>
+      <a onclick={"document.getElementById('#{@uploads.picture.ref}').click()"}>
+        <div class={
+          "#{if length(@uploads.picture.entries) != 0 do
+            "hidden"
+          end} relative w-40 h-40 ring-2 ring-zinc-300 rounded-full cursor-pointer bg-zinc-400 sm:w-48 group sm:h-48 hover:bg-tertiary"
+        }>
+          <div class="flex absolute justify-center items-center w-full h-full">
+            <Heroicons.Outline.camera class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white group-hover:text-opacity-70" />
+          </div>
+        </div>
+        <section>
+          <%= for entry <- @uploads.picture.entries do %>
+            <%= for err <- upload_errors(@uploads.picture, entry) do %>
+              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+            <% end %>
+            <article class="flex relative items-center w-40 h-40 sm:w-48 sm:h-48 bg-white rounded-full cursor-pointer upload-entry group">
+              <div class="flex absolute z-10 justify-center items-center w-full h-full rounded-full">
+                <Heroicons.Outline.camera class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white text-opacity-0 rounded-full group-hover:text-opacity-100" />
+              </div>
+              <figure class="flex justify-center items-center w-full h-full rounded-full group-hover:opacity-80">
+                <%= live_img_preview(entry, class: "object-cover object-center rounded-full w-40 h-40 sm:w-48 sm:h-48 border-4 border-white") %>
+              </figure>
+            </article>
+          <% end %>
+        </section>
+      </a>
+    </div>
+    <div class="w-full flex flex-row-reverse mt-8">
+      <%= submit do %>
+        <div class="inline-flex px-6 py-2 text-sm font-medium text-orange-500 bg-white border-2 border-orange-500 rounded-md shadow-sm hover:bg-orange-500 hover:text-white">
+          <Heroicons.Solid.archive class="mr-2 -ml-1 w-5 h-5" /> Save
+        </div>
+      <% end %>
+    </div>
+  </.form>
+</div>

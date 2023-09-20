@@ -4,9 +4,7 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
-  alias Atomic.Activities.ActivityDepartment
-  alias Atomic.Organizations.Collaborator
-  alias Atomic.Organizations.Department
+  alias Atomic.Organizations.{Collaborator, Department}
 
   @doc """
   Returns the list of departments.
@@ -30,8 +28,11 @@ defmodule Atomic.Departments do
       [%Department{}, ...]
 
   """
-  def list_departments_by_organization_id(id) do
-    Repo.all(from d in Department, where: d.organization_id == ^id)
+  def list_departments_by_organization_id(id, opts \\ []) do
+    Department
+    |> where([d], d.organization_id == ^id)
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
@@ -49,23 +50,6 @@ defmodule Atomic.Departments do
 
   def get_departments(ids) do
     Repo.all(from d in Department, where: d.id in ^ids)
-  end
-
-  @doc """
-  Returns the list of activities that belong to a department.
-
-  ## Examples
-
-      iex> get_department_activities(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%Activity{}, ...]
-
-  """
-  def get_department_activities(department_id, opts \\ []) do
-    ActivityDepartment
-    |> where([a], a.department_id == ^department_id)
-    |> select([a], a.activity)
-    |> apply_filters(opts)
-    |> Repo.all()
   end
 
   @doc """
@@ -195,14 +179,37 @@ defmodule Atomic.Departments do
   """
   def get_collaborator!(id), do: Repo.get!(Collaborator, id)
 
-  def get_collaborator!(user_id, department_id, preloads \\ []) do
-    collaborator =
-      Collaborator
-      |> apply_filters(preloads)
-      |> where([c], c.user_id == ^user_id and c.department_id == ^department_id)
-      |> Repo.all()
+  @doc """
+  Gets a single collaborator.
 
-    collaborator
+  Returns `nil` if the Collaborator does not exist.
+
+  ## Examples
+
+      iex> get_collaborator(123)
+      %Collaborator{}
+
+      iex> get_collaborator(456)
+      nil
+
+  """
+  def get_collaborator(id), do: Repo.get(Collaborator, id)
+
+  @doc """
+  Gets a single collaborator from a department.
+
+  Returns `nil` if the Collaborator does not exist.
+
+  ## Examples
+
+      iex> get_department_collaborator(123, 456)
+      %Collaborator{}
+
+      iex> get_department_collaborator(456, 123)
+      nil
+  """
+  def get_department_collaborator(department_id, user_id) do
+    Repo.get_by(Collaborator, department_id: department_id, user_id: user_id)
   end
 
   @doc """

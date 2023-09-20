@@ -10,12 +10,8 @@ import Config
 config :atomic,
   ecto_repos: [Atomic.Repo],
   generators: [binary_id: true],
-  owner: %{
-    name: "Atomic",
-    time_zone: "Europe/Lisbon",
-    day_start: 0,
-    day_end: 24
-  }
+  name: "Atomic",
+  timezone: "Europe/Lisbon"
 
 # Configures the endpoint
 config :atomic, AtomicWeb.Endpoint,
@@ -79,7 +75,7 @@ config :tailwind,
   ]
 
 config :icons,
-  collection: [Heroicons, Ionicons]
+  collection: [Heroicons]
 
 config :atomic, Atomic.Scheduler,
   jobs: [

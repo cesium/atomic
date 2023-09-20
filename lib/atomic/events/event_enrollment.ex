@@ -1,4 +1,4 @@
-defmodule Atomic.Events.Enrollment do
+defmodule Atomic.Events.EventEnrollment do
   @moduledoc """
   An event enrollment.
   """
@@ -10,7 +10,7 @@ defmodule Atomic.Events.Enrollment do
   @required_fields ~w(event_id user_id)
   @optional_fields ~w(present)
 
-  schema "enrollments" do
+  schema "event_enrollments" do
     field :present, :boolean
 
     belongs_to :event, Event

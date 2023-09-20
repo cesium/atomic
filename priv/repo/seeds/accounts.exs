@@ -23,20 +23,22 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
   def seed_users(characters, role) do
     courses = Repo.all(Course)
-    organizations = Repo.all(Organization)
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
-      handle = character |> String.downcase() |> String.replace(~r/\s/, "_")
+      slug = character |> String.downcase() |> String.replace(~r/\s/, "_")
+
+      phone_number =
+        "+3519#{Enum.random([1, 2, 3, 6])}#{for _ <- 1..7, do: Enum.random(0..9) |> Integer.to_string()}"
 
       user = %{
         "name" => character,
         "email" => email,
-        "handle" => handle,
+        "slug" => slug,
+        "phone_number" => phone_number,
         "password" => "password1234",
         "role" => role,
-        "course_id" => Enum.random(courses).id,
-        "default_organization_id" => Enum.random(organizations).id
+        "course_id" => Enum.random(courses).id
       }
 
       case Accounts.register_user(user) do

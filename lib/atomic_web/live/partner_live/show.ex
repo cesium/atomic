@@ -1,7 +1,9 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.Partnerships
+  alias Atomic.Accounts
+  alias Atomic.Organizations
+  alias Atomic.Partners
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,7 +12,8 @@ defmodule AtomicWeb.PartnerLive.Show do
 
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    partner = Partnerships.get_partner!(id)
+    organization = Organizations.get_organization!(organization_id)
+    partner = Partners.get_partner!(id)
 
     entries = [
       %{
@@ -23,18 +26,30 @@ defmodule AtomicWeb.PartnerLive.Show do
       }
     ]
 
-    if partner.organization_id == organization_id do
-      {:noreply,
-       socket
-       |> assign(:current_page, :partners)
-       |> assign(:page_title, page_title(socket.assigns.live_action, partner.name))
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:partner, partner)}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:page_title, partner.name)
+     |> assign(:current_page, :partners)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:organization, organization)
+     |> assign(:partner, partner)
+     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
-  defp page_title(:show, partner), do: "#{partner}"
-  defp page_title(:edit, partner), do: "Edit #{partner}"
+  defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
+    do: false
+
+  defp has_permissions?(socket, _organization_id)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket, organization_id) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        organization_id
+      )
+  end
 end
