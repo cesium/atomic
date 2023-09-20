@@ -7,7 +7,7 @@
     <style>
         /* Inline styles */
         .container {
-            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic.png" %>') no-repeat center;
+            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic_background.svg" %>') no-repeat center;
             text-align: center;
             width: 1500px;
             height: 1045px;
@@ -63,7 +63,7 @@
         </p>
         <span class="name"><%= @enrollment.user.name %></span>
         <p class="content">
-            participou na atividade <span class="organization"><%= @activity.title %></span>, organizada pelo(a) <span class="organization"><%= display_enum(@organizations) %></span>.
+            participou na atividade <span class="organization"><%= @activity.title %></span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
         </p>
         <p class="note">
             Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.
