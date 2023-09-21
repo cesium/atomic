@@ -62,7 +62,6 @@ defmodule Atomic.Repo.Seeds.Organizations do
     |> Enum.each(fn organization ->
       %{
         name: organization["name"],
-        long_name: "Isto é apenas um teste",
         description: organization["description"]
       }
       |> Organizations.create_organization()

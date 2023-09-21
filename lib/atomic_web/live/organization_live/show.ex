@@ -13,7 +13,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = _params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
     entries = [
@@ -30,9 +30,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
-     # |> assign(:time_zone, socket.assigns.time_zone)
-     |> assign(:mode, "month")
-     |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:breadcrumb_entries, entries)

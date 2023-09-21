@@ -35,7 +35,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   defp list_organizations(params) do
-    case Organizations.list_organizations(Map.put(params, "page_size", 20)) do
+    case Organizations.list_organizations(Map.put(params, "page_size", 18)) do
       {:ok, {organizations, meta}} ->
         %{organizations: organizations, meta: meta}
 

@@ -31,18 +31,18 @@
                       </button>
                     <% else %>
                       <%= if @organization.name == "CeSIUM" do %>
-                        <div class="lg:my-0 w-32 rounded-md bg-indigo-400 text-lg py-2 text-center text-sm font-medium text-white shadow-sm inline">Following</div>
+                        <div class="lg:my-0 w-32 rounded-md bg-orange-400 text-lg py-2 text-center text-sm font-medium text-white shadow-sm inline">Following</div>
                       <% else %>
                         <div class="relative">
                           <div class="inline-flex rounded-md shadow-sm">
                             <div class="inline-flex rounded-md shadow-sm">
-                              <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-indigo-400 px-3 py-2.5 text-white shadow-sm">
+                              <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-orange-400 px-3 py-2.5 text-white shadow-sm">
                                 <p class="text-sm font-medium">Following</p>
                               </div>
                               <button
                                 type="button"
                                 @click="open = true"
-                                class="inline-flex items-center rounded-l-none rounded-r-md bg-indigo-400 px-2 py-2.5 hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
+                                class="inline-flex items-center rounded-l-none rounded-r-md bg-orange-400 px-2 py-2.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
                                 aria-haspopup="listbox"
                                 aria-expanded="true"
                                 aria-labelledby="listbox-label"
