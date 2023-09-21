@@ -1,12 +1,12 @@
 <div class="bg-white py-8">
   <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="flex items-center border-b-2 border-zinc-200 justify-between">
-      <div class="min-w-0 flex flex-row items-center justsiy-center">
-        <Heroicons.Solid.arrow_sm_left class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@current_organization.id} />
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
+    <div class="flex items-center border-b-2 border-zinc-200 justify-center lg:justify-between">
+      <div class="min-w-0 flex flex-row items-center justify-center">
+        <span class="cursor-pointer text-2xl pr-3 pb-2" phx-click="previous-year" phx-value-organization-id={@current_organization.id}>&larr;</span>
+        <h2 class="text-2xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
           <%= gettext("Board") %> <%= @year %>
         </h2>
-        <Heroicons.Solid.arrow_sm_right class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@current_organization.id} />
+        <span class="cursor-pointer text-2xl pl-3 pb-2" phx-click="next-year" phx-value-organization-id={@current_organization.id}>&rarr;</span>
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
@@ -23,29 +23,23 @@
       </div>
     <% else %>
       <%= for board_department <- @board_departments do %>
-        <li id={"board-department-#{board_department.id}"} class="mt-10 max-w-2xl gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
+        <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
           <div class="flex flex-row items-center space-x-8">
-            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
             <%= if @role in [:owner, :admin] do %>
               <span class="handle cursor-row-resize">
                 <Heroicons.Solid.menu class="w-5 h-5 text-zinc-400" />
               </span>
             <% end %>
+            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
           </div>
-          <div class="grid lg:grid-flow-col lg:gap-x-24 items-center justify-center mt-10">
-            <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
-              <ol class="z-100 flex flex-col items-center justify-center">
-                <%= if user_organization.user.profile_picture do %>
-                  <img class="mx-auto h-24 w-24 rounded-full" src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
-                <% else %>
-                  <span class="flex items-center justify-center h-24 w-24 rounded-full bg-zinc-200 text-zinc-700">
-                    <%= extract_initials(user_organization.user.name) %>
-                  </span>
+          <div class="relative mb-20 lg:gap-x-24 ">
+            <div class="justify-center container mx-auto pt-5">
+              <div class="flex flex-wrap justify-center">
+                <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
+                  <AtomicWeb.Components.Board.element user_organization={user_organization} />
                 <% end %>
-                <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-zinc-900"><%= user_organization.user.name %></h3>
-                <p class="text-sm leading-6 text-zinc-600"><%= user_organization.role %></p>
-              </ol>
-            <% end %>
+              </div>
+            </div>
           </div>
         </li>
       <% end %>
