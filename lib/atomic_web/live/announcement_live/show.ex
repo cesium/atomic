@@ -13,22 +13,10 @@ defmodule AtomicWeb.AnnouncementLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     announcement = Organizations.get_announcement!(id, preloads: [:organization])
 
-    entries = [
-      %{
-        name: gettext("Announcements"),
-        route: Routes.announcement_index_path(socket, :index)
-      },
-      %{
-        name: announcement.title,
-        route: Routes.announcement_show_path(socket, :show, id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, "#{announcement.title}")
      |> assign(:current_page, :announcements)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:announcement, announcement)
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
