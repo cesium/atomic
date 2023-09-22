@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover bg-no-repeat bg-opacity-25 bg-center">
-  <.form let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
+  <.form :let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
     <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
       <span><%= gettext("Reset your Password") %></span>
     </h2>

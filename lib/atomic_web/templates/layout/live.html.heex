@@ -60,8 +60,8 @@
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                     <li class="select-none">
                       <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                        <Heroicons.Outline.render
-                          icon={page.icon}
+                        <AtomicWeb.Components.Icon.render
+                          name={page.icon}
                           class={
                             "#{if @current_page == page.key do
                               "text-orange-600"
@@ -105,8 +105,8 @@
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                 <li class="select-none">
                   <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                    <Heroicons.Outline.render
-                      icon={page.icon}
+                    <AtomicWeb.Components.Icon.render
+                      name={page.icon}
                       class={
                         "#{if @current_page == page.key do
                           "text-orange-600"

@@ -1,7 +1,7 @@
 <div>
   <h2><%= @title %></h2>
 
-  <.form let={f} for={@changeset} id="user-form" phx-change="validate" phx-target={@myself} phx-submit="save">
+  <.form :let={f} for={@changeset} id="user-form" phx-change="validate" phx-target={@myself} phx-submit="save">
     <%= label(f, :name) %>
     <%= text_input(f, :name) %>
     <%= label(f, :course_id) %>

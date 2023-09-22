@@ -34,12 +34,12 @@
                 <%= if @has_permissions? do %>
                   <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
                     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                      <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                      <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                     </div>
                   <% end %>
                   <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
                     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                      <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+                      <Heroicons.trash solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
                     </div>
                   <% end %>
                 <% end %>
@@ -69,7 +69,7 @@
     <div class="h-max lg:w-full">
       <div class="w-full flex flex-row items-center">
         <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
-        <Heroicons.Solid.academic_cap class="ml-2 h-5 w-5 text-zinc-400 inline" />
+        <Heroicons.academic_cap solid class="ml-2 h-5 w-5 text-zinc-400 inline" />
       </div>
     </div>
     <div class="w-full flex flex-col lg:flex-row items-center justify-center mt-2 lg:w-full">
@@ -79,7 +79,7 @@
             <div class="">
               <div class="flex flex-col ml-2">
                 <h3 class="text-lg font-semibold text-zinc-700">
-                  <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400 inline" />
+                  <Heroicons.calendar solid class="h-5 w-5 text-zinc-400 inline" />
                   <%= activity.title %>
                 </h3>
                 <span class="text-md font-semibold text-zinc-700">

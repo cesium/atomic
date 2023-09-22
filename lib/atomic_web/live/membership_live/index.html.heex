@@ -12,24 +12,24 @@
       <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <div class="overflow-hidden shadow border-[1px] border-r-0  ring-opacity-5 sm:rounded-lg">
           <.table items={@memberships} meta={@meta} filter={[member_name: [op: :ilike_and]]}>
-            <:col let={membership} label="Number" field={:number}><%= membership.number %></:col>
-            <:col let={membership} label="Name" field={:member_name}>
+            <:col :let={membership} label="Number" field={:number}><%= membership.number %></:col>
+            <:col :let={membership} label="Name" field={:member_name}>
               <%= live_redirect to: Routes.profile_show_path(@socket, :show, membership.user) do %>
                 <%= membership.user.name %>
               <% end %>
             </:col>
-            <:col let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
-            <:col let={membership} label="Role" field={:role}>
+            <:col :let={membership} label="Email" field={:member_email}><%= membership.user.email %></:col>
+            <:col :let={membership} label="Role" field={:role}>
               <p class="capitalize"><%= membership.role %></p>
             </:col>
-            <:col let={_membership} label="Phone Number" field={:phone_number}>Phone number</:col>
-            <:col let={membership} label="Requested At" field={:inserted_at}><%= display_date(membership.inserted_at) %> <%= display_time(membership.inserted_at) %></:col>
-            <:col let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
-            <:col let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
-            <:col let={membership}>
+            <:col :let={_membership} label="Phone Number" field={:phone_number}>Phone number</:col>
+            <:col :let={membership} label="Requested At" field={:inserted_at}><%= display_date(membership.inserted_at) %> <%= display_time(membership.inserted_at) %></:col>
+            <:col :let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
+            <:col :let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
+            <:col :let={membership}>
               <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-600 hover:text-orange-900" do %>
                 <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                  <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                  <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                 </div>
               <% end %>
             </:col>

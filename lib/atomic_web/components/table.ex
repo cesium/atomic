@@ -33,7 +33,9 @@ defmodule AtomicWeb.Components.Table do
 
   defp header_column(assigns) do
     index = order_index(assigns.meta.flop, assigns.field)
-    direction = order_direction(assigns.meta.flop.order_directions, index)
+
+    assigns =
+      assign(assigns, :direction, order_direction(assigns.meta.flop.order_directions, index))
 
     ~H"""
     <th class="border-r-[1px] py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-zinc-900 sm:pl-6" scope="col">
@@ -42,7 +44,7 @@ defmodule AtomicWeb.Components.Table do
           <%= live_patch(to: build_sorting_query(@field, @meta), class: "mr-2 w-full") do %>
             <div class="flex justify-between">
               <span><%= @label %></span>
-              <.sorting_arrow direction={direction} />
+              <.sorting_arrow direction={@direction} />
             </div>
           <% end %>
           <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
@@ -52,7 +54,7 @@ defmodule AtomicWeb.Components.Table do
           <%= live_patch(to: build_sorting_query(@field, @meta)) do %>
             <div class="flex justify-between">
               <span><%= @label %></span>
-              <.sorting_arrow direction={direction} />
+              <.sorting_arrow direction={@direction} />
             </div>
           <% end %>
         <% else %>
@@ -75,15 +77,13 @@ defmodule AtomicWeb.Components.Table do
     <div x-data="{ open: false }">
       <span @click="open = ! open" class="flex h-5 w-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
         <span class="self-center">
-          <Heroicons.Solid.search class="align-center h-4 w-4" />
+          <Heroicons.magnifying_glass solid class="align-center h-4 w-4" />
         </span>
       </span>
       <div x-show="open" class="absolute -translate-x-3/4 p-2">
-        <.form let={f} for={@meta}>
-          <Flop.Phoenix.filter_fields let={entry} form={f} fields={@filter} input_opts={[class: "w-full appearance-none border-none pl-0 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-transparent sm:text-sm"]}>
-            <div class="py- relative flex w-full appearance-none rounded-lg border border-zinc-300 bg-white px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-zinc-400 focus-within:outline-none focus-within:ring-zinc-400 sm:text-sm">
-              <%= entry.input %>
-            </div>
+        <.form :let={f} for={@meta}>
+          <Flop.Phoenix.filter_fields :let={_entry} form={f} fields={@filter} input_opts={[class: "w-full appearance-none border-none pl-0 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-transparent sm:text-sm"]}>
+            <div class="py- relative flex w-full appearance-none rounded-lg border border-zinc-300 bg-white px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-zinc-400 focus-within:outline-none focus-within:ring-zinc-400 sm:text-sm"></div>
           </Flop.Phoenix.filter_fields>
         </.form>
       </div>
@@ -95,17 +95,17 @@ defmodule AtomicWeb.Components.Table do
     ~H"""
     <%= if @direction in [:asc, :asc_nulls_first, :asc_nulls_last] do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort_up class="h-3 w-3" />
+        <Heroicons.chevron_up class="h-3 w-3" />
       </span>
     <% end %>
     <%= if @direction in [:desc, :desc_nulls_first, :desc_nulls_last] do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort_down class="h-3 w-3" />
+        <Heroicons.chevron_down class="h-3 w-3" />
       </span>
     <% end %>
     <%= if is_nil(@direction) do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort class="h-3 w-3" />
+        <Heroicons.chevron_up_down class="h-3 w-3" />
       </span>
     <% end %>
     """

@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     Activity
                   </.badge_dot>
                   <time datetime={activity.start} class="flex items-center text-zinc-700">
-                    <Heroicons.Solid.clock class="mr-2 h-5 w-5 text-zinc-400" />
+                    <Heroicons.clock solid class="mr-2 h-5 w-5 text-zinc-400" />
                     <%= Calendar.strftime(activity.start, "%Hh%M") %>
                   </time>
                 </div>
@@ -85,17 +85,15 @@ defmodule AtomicWeb.Components.CalendarMonth do
       |> assign(:class, class)
       |> assign(:date, date)
       |> assign(:today?, today?)
+      |> assign(:weekday, weekday)
 
     ~H"""
     <div class={@class}>
-      <time
-        date-time={@date}
-        class={
-          "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if today? == 0 do
+      <time date-time={@date} class={
+          "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if @today? == 0 do
             "flex h-6 w-6 items-center justify-center rounded-full bg-orange-400 font-semibold text-white shrink-0"
           end}"
-        }
-      >
+        }>
         <%= @text %>
       </time>
       <ol class="mt-3 w-full">
@@ -111,18 +109,18 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <%= live_patch to: build_path(@current_path, %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)}), class: "#{if @index == 0 do col_start(weekday) end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden" do %>
+    <%= live_patch to: build_path(@current_path, %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)}), class: "#{if @index == 0 do col_start(@weekday) end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden" do %>
       <time
         date-time={@date}
         class={
           "ml-auto lg:ml-0 #{if current_from_params(@timezone, @params) == @date do
-            "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if today? == 0 do
+            "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
               "bg-orange-700"
             else
               "bg-zinc-900"
             end} text-white shirk-0"
           else
-            if today? == 0 do
+            if @today? == 0 do
               "text-orange-700"
             end
           end}"

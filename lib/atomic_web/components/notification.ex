@@ -6,10 +6,10 @@ defmodule AtomicWeb.Components.Notification do
 
   @impl true
   def render(assigns) do
-    notification_id = UUID.generate()
+    assigns = assign(assigns, :notification_id, UUID.generate())
 
     ~H"""
-    <div id={notification_id} x-init={"setTimeout(function() { document.getElementById('" <> notification_id <> "').remove(); }, 5000);"} class="flex w-full flex-col items-center space-y-4 sm:items-end">
+    <div id={@notification_id} x-init={"setTimeout(function() { document.getElementById('" <> @notification_id <> "').remove(); }, 5000);"} class="flex w-full flex-col items-center space-y-4 sm:items-end">
       <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
         <!-- Notification progress bar -->
         <.notification_progress type={@type} />
@@ -37,7 +37,7 @@ defmodule AtomicWeb.Components.Notification do
             <div class="ml-4 flex flex-shrink-0">
               <button phx-click="lv:clear-flash" phx-value-key={@type} class="inline-flex rounded-md bg-white text-zinc-400 hover:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-600 focus:ring-offset-2">
                 <span class="sr-only">Close</span>
-                <Heroicons.Solid.x class="h-5 w-5" />
+                <Heroicons.x_mark solid class="h-5 w-5" />
               </button>
             </div>
           </div>
@@ -53,22 +53,22 @@ defmodule AtomicWeb.Components.Notification do
     case type do
       "info" ->
         ~H"""
-        <Heroicons.Solid.information_circle class="h-6 w-6 text-blue-400" />
+        <Heroicons.information_circle solid class="h-6 w-6 text-blue-400" />
         """
 
       "success" ->
         ~H"""
-        <Heroicons.Solid.check_circle class="h-6 w-6 text-green-400" />
+        <Heroicons.check_circle solid class="h-6 w-6 text-green-400" />
         """
 
       "warning" ->
         ~H"""
-        <Heroicons.Solid.exclamation class="h-6 w-6 text-yellow-400" />
+        <Heroicons.exclamation_circle solid class="h-6 w-6 text-yellow-400" />
         """
 
       "error" ->
         ~H"""
-        <Heroicons.Solid.x_circle class="h-6 w-6 text-red-400" />
+        <Heroicons.x_circle solid class="h-6 w-6 text-red-400" />
         """
     end
   end
@@ -84,8 +84,10 @@ defmodule AtomicWeb.Components.Notification do
         "error" -> "bg-red-400"
       end
 
+    assigns = assign(assigns, :background_color, background_color)
+
     ~H"""
-    <div class={background_color <> " opacity-100 h-[0.30rem] animate-progress"}></div>
+    <div class={@background_color <> " opacity-100 h-[0.30rem] animate-progress"}></div>
     """
   end
 end

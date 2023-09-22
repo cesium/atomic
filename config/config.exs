@@ -74,9 +74,6 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
-config :icons,
-  collection: [Heroicons]
-
 config :atomic, Atomic.Scheduler,
   jobs: [
     # Runs every midnight:

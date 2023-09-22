@@ -3,6 +3,7 @@ defmodule AtomicWeb.Hooks do
   Ensures common `assigns` are applied to all LiveViews attaching this hook.
   """
   import Phoenix.LiveView
+  import Phoenix.Component
 
   alias Atomic.Accounts
 

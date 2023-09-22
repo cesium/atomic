@@ -14,7 +14,7 @@ defmodule AtomicWeb.Components.Pagination do
           <div class="-mt-px flex w-0 flex-1">
             <%= if @meta.has_previous_page? do %>
               <%= live_patch to: build_query(@meta.previous_page, @meta, @params), class: "inline-flex items-center pt-4 pr-1 text-sm font-medium text-zinc-500 hover:text-zinc-700" do %>
-                <Heroicons.Solid.arrow_narrow_left class="mr-3 h-5 w-5 text-zinc-400" />
+                <Heroicons.arrow_long_left solid class="mr-3 h-5 w-5 text-zinc-400" />
               <% end %>
             <% end %>
           </div>
@@ -46,7 +46,7 @@ defmodule AtomicWeb.Components.Pagination do
           <div class="-mt-px flex w-0 flex-1 justify-end">
             <%= if @meta.has_next_page? do %>
               <%= live_patch to: build_query(@meta.next_page, @meta, @params), class: "inline-flex items-center pt-4 pl-1 text-sm font-medium text-zinc-500 hover:text-zinc-700" do %>
-                <Heroicons.Solid.arrow_narrow_right class="ml-3 h-5 w-5 text-zinc-400" />
+                <Heroicons.arrow_long_right solid class="ml-3 h-5 w-5 text-zinc-400" />
               <% end %>
             <% end %>
           </div>

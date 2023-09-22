@@ -35,7 +35,7 @@
               </dt>
               <dd class="mt-1 flex text-sm text-zinc-900">
                 <div class="flex w-full">
-                  <Heroicons.Solid.users class="h-5 w-5 text-zinc-400" />
+                  <Heroicons.users solid class="h-5 w-5 text-zinc-400" />
                   <div class="pl-2.5">
                     <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                   </div>
@@ -53,21 +53,21 @@
                 <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
                   <div class="flex gap-x-2">
                     <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                      <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400" />
+                      <Heroicons.calendar solid class="h-5 w-5 text-zinc-400" />
                       <p class="block pl-1.5 max-w-6xl">
                         <%= display_date(@activity.start) %>
                       </p>
                     </div>
                   </div>
                   <div class="inset-y-0 my-auto flex md:pl-3">
-                    <Heroicons.Solid.clock class="h-5 w-5 text-zinc-400" />
+                    <Heroicons.clock solid class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
                       <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
                     </p>
                   </div>
                   <div class="flex text-sm md:pl-3">
                     <%= if @activity.location do %>
-                      <Heroicons.Solid.location_marker class="h-5 w-5 text-zinc-400" />
+                      <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
                       <%= live_redirect to: @activity.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
                         <%= @activity.location.name %>
                       <% end %>
@@ -163,12 +163,12 @@
   <%= if @has_permissions? do %>
     <%= live_patch to: Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity), class: "button" do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+        <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
       </div>
     <% end %>
     <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+        <Heroicons.trash solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
       </div>
     <% end %>
   <% end %>
