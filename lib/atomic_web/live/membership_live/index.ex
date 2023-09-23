@@ -16,18 +16,10 @@ defmodule AtomicWeb.MembershipLive.Index do
   def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Memberships")}",
-        route: Routes.membership_index_path(socket, :index, organization_id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Memberships")}")
      |> assign(:current_page, :memberships)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(list_memberships(organization_id, params))}
   end
