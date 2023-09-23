@@ -10,18 +10,18 @@
     <% end %>
 
     <div class="space-y-3 rounded-md w-96 flex-col justify-center items-center mt-6 px-3.5 mx-4">
-      <div x-data="{ hide: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
+      <div x-data="{ hide: true }" class="flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
         <%= label(f, :password, "New password", class: "sr-only") %>
         <%= password_input(f, :password, required: true, placeholder: gettext("New Password"), class: "relative w-full border-0 rounded text-zinc-900 appearance-none outline-none focus:outline-none focus:ring-0") %>
         <%= error_tag(f, :password) %>
         <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="px-2 w-fit cursor-pointer">
-          <Ionicons.Filled.eye class="w-5 h-auto fill-black hover:fill-black" />
+          <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
         </div>
         <div x-show="!hide" x-on:click="hide = true; document.getElementById('user_password').type = 'password';" class="px-2 w-fit cursor-pointer">
-          <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
+          <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
         </div>
       </div>
-      <div x-data="{ hide_confirm: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
+      <div x-data="{ hide_confirm: true }" class="flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
         <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
         <%= password_input(f, :password_confirmation,
           required: true,
@@ -30,10 +30,10 @@
         ) %>
         <%= error_tag(f, :password_confirmation) %>
         <div x-show="hide_confirm" x-on:click="hide_confirm = false; document.getElementById('user_password_confirmation').type = 'text';" class="px-2 w-fit cursor-pointer">
-          <Ionicons.Filled.eye class="w-5 h-auto fill-black hover:fill-black" />
+          <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
         </div>
         <div x-show="!hide_confirm" x-on:click="hide_confirm = true; document.getElementById('user_password_confirmation').type = 'password';" class="px-2 w-fit cursor-pointer">
-          <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
+          <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
         </div>
       </div>
     </div>
