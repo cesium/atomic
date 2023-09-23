@@ -11,7 +11,7 @@
     <%= error_tag(f, :description) %>
 
     <div class="py-5 px-4 sm:px-6 shrink-0 1.5xl:py-5 1.5xl:px-6 1.5xl:shrink-0">
-      <%= live_file_input(@uploads.card, class: "hidden") %>
+      <.live_file_input upload={@uploads.card} class="hidden" />
       <div class={
           "#{if length(@uploads.card.entries) != 0 do
             "hidden"
@@ -45,7 +45,7 @@
           <% end %>
           <article class="upload-entry">
             <figure class="w-[400px]">
-              <%= live_img_preview(entry) %>
+              <.live_img_preview entry={entry} />
               <div class="flex">
                 <figcaption>
                   <%= if String.length(entry.client_name) < 30 do
