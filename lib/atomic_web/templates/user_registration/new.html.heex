@@ -14,7 +14,7 @@
       </div>
     <% end %>
 
-    <div class="space-y-3 rounded-md flex-col w-full justify-center items-center mt-6 px-3.5 mx-4 md:w-96 md:mx-0 md:px-0">
+    <div class="space-y-3 rounded-md flex-col w-full justify-center items-center mt-6 px-3.5 mx-4 sm:w-96 sm:mx-0 sm:px-0">
       <div class="flex flex-col items-center justify-center">
         <%= label(f, :email, class: "sr-only") %>
         <%= email_input(f, :email,
@@ -40,8 +40,8 @@
             <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
           </div>
         </div>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password) %></span>
       </div>
-      <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password) %></span>
       <div class="flex flex-col items-center justify-center">
         <div x-data="{ hide_confirm: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1  sm:text-sm">
           <%= label(f, :password_confirmation, class: "sr-only") %>
@@ -58,8 +58,8 @@
             <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
           </div>
         </div>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password_confirmation) %></span>
       </div>
-      <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password_confirmation) %></span>
     </div>
 
     <div class="mt-6 mb-6 text-sm">
@@ -71,7 +71,7 @@
 
     <div class="w-full flex-col">
       <div class="mx-4 justify-center flex select-none">
-        <%= submit("Register", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm md:w-96 md:mx-0 md:px-0") %>
+        <%= submit("Register", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96 sm:mx-0 sm:px-0") %>
       </div>
     </div>
   </.form>
