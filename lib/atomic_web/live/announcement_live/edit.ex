@@ -10,13 +10,13 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id} = _params, _url, socket) do
+  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     announcement = Organizations.get_announcement!(id)
 
     entries = [
       %{
         name: gettext("Announcements"),
-        route: Routes.announcement_index_path(socket, :index, organization_id)
+        route: Routes.announcement_index_path(socket, :index)
       },
       %{
         name: gettext("Edit Announcements"),
@@ -24,15 +24,11 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
       }
     ]
 
-    if organization_id == announcement.organization_id do
-      {:noreply,
-       socket
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:current_page, :activities)
-       |> assign(:page_title, gettext("Edit Aannouncements"))
-       |> assign(:announcement, announcement)}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:current_page, :activities)
+     |> assign(:page_title, gettext("Edit Announcements"))
+     |> assign(:announcement, announcement)}
   end
 end

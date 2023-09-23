@@ -12,7 +12,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _, socket) do
     entries = [
       %{
         name: gettext("Speakers"),

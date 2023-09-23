@@ -25,16 +25,12 @@ defmodule AtomicWeb.SpeakerLive.Show do
       }
     ]
 
-    if speaker.organization_id == organization.id do
-      {:noreply,
-       socket
-       |> assign(:page_title, page_title(socket.assigns.live_action))
-       |> assign(:current_page, :speakers)
-       |> assign(:breadcrumb_entries, entries)
-       |> assign(:speaker, Activities.get_speaker!(id))}
-    else
-      raise AtomicWeb.MismatchError
-    end
+    {:noreply,
+     socket
+     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:current_page, :speakers)
+     |> assign(:breadcrumb_entries, entries)
+     |> assign(:speaker, Activities.get_speaker!(id))}
   end
 
   defp page_title(:show), do: "Show Speaker"

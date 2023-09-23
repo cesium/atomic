@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center w-screen h-screen justify-center bg-[url('/images/atomic.png')] bg-cover bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
   <.form let={f} for={:user} action={Routes.user_reset_password_path(@conn, :create)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
     <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
       <span><%= gettext("Reset your Password") %></span>
@@ -15,7 +15,7 @@
         <%= email_input(f, :email,
           required: true,
           placeholder: gettext("Email address"),
-          class: "relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-indigo-400 focus:outline-none sm:text-sm"
+          class: "relative block w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:outline-none sm:text-sm"
         ) %>
       </div>
     </div>

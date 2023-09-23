@@ -87,7 +87,7 @@ defmodule Atomic.ActivitiesTest do
   end
 
   describe "enrollments" do
-    alias Atomic.Activities.Enrollment
+    alias Atomic.Activities.ActivityEnrollment
 
     @invalid_attrs %{}
 
@@ -106,14 +106,14 @@ defmodule Atomic.ActivitiesTest do
       user = insert(:user)
       activity = insert(:activity)
 
-      assert {:ok, %Enrollment{}} = Activities.create_enrollment(activity.id, user)
+      assert {:ok, %ActivityEnrollment{}} = Activities.create_enrollment(activity.id, user)
     end
 
     test "update_enrollment/2 with valid data updates the enrollment" do
       enrollment = insert(:enrollment)
       update_attrs = %{present: true}
 
-      assert {:ok, %Enrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
+      assert {:ok, %ActivityEnrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
     end
 
     test "delete_enrollment/1 deletes the enrollment" do

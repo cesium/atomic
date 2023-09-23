@@ -6,7 +6,6 @@ defmodule AtomicWeb.UserAuth do
   import Phoenix.Controller
 
   alias Atomic.Accounts
-  alias Atomic.Organizations
   alias AtomicWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -30,42 +29,25 @@ defmodule AtomicWeb.UserAuth do
   """
   def log_in_user(conn, user, params \\ %{}) do
     token = Accounts.generate_user_session_token(user)
-    user_return_to = get_session(conn, :user_return_to)
 
+    conn
+    |> renew_session()
+    |> put_session(:user_token, token)
+    |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+    |> maybe_write_remember_me_cookie(token, params)
+    |> redirect(to: where_to_redirect(conn, user))
+  end
+
+  defp where_to_redirect(conn, user) do
     if has_finished_account_setup(user) do
-      case user.default_organization_id do
-        nil ->
-          conn
-          |> renew_session()
-          |> put_session(:user_token, token)
-          |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-          |> maybe_write_remember_me_cookie(token, params)
-          |> redirect(to: "/organizations")
-
-        _ ->
-          conn
-          |> renew_session()
-          |> put_session(:user_token, token)
-          |> put_session(
-            :current_organization,
-            Organizations.get_organization!(user.default_organization_id)
-          )
-          |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-          |> maybe_write_remember_me_cookie(token, params)
-          |> redirect(to: user_return_to || signed_in_path(conn))
-      end
+      get_session(conn, :user_return_to) || signed_in_path(conn)
     else
-      conn
-      |> renew_session()
-      |> put_session(:user_token, token)
-      |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
-      |> maybe_write_remember_me_cookie(token, params)
-      |> redirect(to: "/users/setup")
+      "/users/setup"
     end
   end
 
   defp has_finished_account_setup(user) do
-    user.handle != nil
+    user.slug != nil
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -159,7 +141,7 @@ defmodule AtomicWeb.UserAuth do
   Used for routes that require the user to not have finished the account setup.
   """
   def redirect_if_user_has_finished_account_setup(conn, _opts) do
-    if conn.assigns[:current_user] && not is_nil(conn.assigns[:current_user].handle) do
+    if conn.assigns[:current_user] && not is_nil(conn.assigns[:current_user].slug) do
       conn
       |> redirect(to: "/organizations")
       |> halt()
@@ -202,7 +184,7 @@ defmodule AtomicWeb.UserAuth do
   def require_finished_user_setup(conn, _opts) do
     current_user = conn.assigns[:current_user]
 
-    if conn.assigns[:current_user] && not is_nil(current_user.handle) do
+    if conn.assigns[:current_user] && not is_nil(current_user.slug) do
       conn
     else
       conn

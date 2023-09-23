@@ -1,13 +1,14 @@
 <main>
   <%= if get_flash(@conn, :info) do %>
-    <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
+    <div id="info-flash" x-init="setTimeout(function() { document.getElementById('info-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
       <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+        <div class="bg-blue-400 opacity-100 h-[0.30rem] animate-progress"></div>
         <div class="p-4">
           <div class="flex items-start">
             <div class="flex-shrink-0">
               <Heroicons.Solid.information_circle class="w-6 h-6 text-blue-400" />
             </div>
-            <div class="flex-1 pt-0.5 ml-3 w-0">
+            <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
               <%= get_flash(@conn, :info) %>
             </div>
           </div>
@@ -17,14 +18,15 @@
   <% end %>
 
   <%= if get_flash(@conn, :error) do %>
-    <div class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
+    <div id="error-flash" x-init="setTimeout(function() { document.getElementById('error-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
       <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
+        <div class="bg-red-400 opacity-100 h-[0.30rem] animate-progress"></div>
         <div class="p-4">
           <div class="flex items-start">
             <div class="flex-shrink-0">
               <Heroicons.Solid.x_circle class="w-6 h-6 text-red-400" />
             </div>
-            <div class="flex-1 pt-0.5 ml-3 w-0">
+            <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
               <%= get_flash(@conn, :error) %>
             </div>
           </div>

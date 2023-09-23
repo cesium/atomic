@@ -1,35 +1,17 @@
-<%= if @live_action in [:edit] do %>
-  <.modal return_to={Routes.organization_show_path(@socket, :show, @organization.slug)}>
-    <.live_component module={AtomicWeb.OrganizationLive.FormComponent} id={@organization} title={@page_title} action={@live_action} organization={@organization} return_to={Routes.organization_show_path(@socket, :show, @organization.slug)} />
-  </.modal>
-<% end %>
-
-<div x-data="{option: 'activities'}" class="py-5">
-  <div class="border-b border-gray-200">
+<div x-data="{ option: 'activities' }" class="py-5">
+  <div class="border-b border-zinc-200">
     <div class="bg-white">
       <div class="flex justify-between px-4 py-4 sm:px-6">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
           <div class="flex flex-col items-center lg:flex-row lg:space-x-4">
             <div class="m-2">
               <%= if @organization.logo do %>
-                <img src={Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-64 h-32 block lg:mb-8" />
+                <img src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-64 h-32 block lg:mb-8" />
               <% else %>
-                <img src={Routes.static_path(@socket, "/images/atomic.png")} class="mb-2 w-64 h-64 block lg:mb-8" />
+                <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="mb-2 w-64 h-64 block lg:mb-8" />
               <% end %>
             </div>
             <div class="flex-1 space-x-2">
-              <%= if Organizations.get_role(@current_user.id, @organization.id) in [:owner, :admin] do %>
-                <%= live_patch to: Routes.organization_index_path(@socket, :edit, @organization), class: "button" do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-gray-400" /> Edit
-                  </div>
-                <% end %>
-                <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.x class="mr-3 w-5 h-5 text-gray-400" /> Delete
-                  </div>
-                <% end %>
-              <% end %>
               <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
                 <div class="flex flex-col items-center lg:items-start lg:justify-start justify-center">
                   <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
@@ -40,10 +22,26 @@
                     <span class="ml-2 text-xl text-zinc-900 w-full inline-flex items-center">Followers</span>
                   </div>
                 </div>
-                <%= if not @following do %>
-                  <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
+                <%= if not @following? do %>
+                  <%= if @is_authenticated? do %>
+                    <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
+                  <% else %>
+                    <button phx-click="must-login" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
+                  <% end %>
                 <% else %>
-                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm inline hover:bg-orange-500 hover:text-white">Unfollow</button>
+                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm inline hover:bg-orange-500 hover:text-white">Unfollow</button>
+                <% end %>
+                <%= if @has_permissions? do %>
+                  <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
+                    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                      <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                    </div>
+                  <% end %>
+                  <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
+                    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                      <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+                    </div>
+                  <% end %>
                 <% end %>
               </div>
             </div>
@@ -55,11 +53,11 @@
         <div class="flex w-full items-center justify-between">
           <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
             <div x-on:click="option = 'activities'" x-bind:class="option == 'activities' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
-              <%= gettext("Latests Activities") %>
+              <%= gettext("Latest Activities") %>
             </div>
 
             <div x-on:click="option = 'departments'" x-bind:class="option == 'departments' ? 'border-zinc-800' : 'border-transparent'" class="cursor-pointer text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
-              <%= gettext("Current Departments") %>
+              <%= gettext("Departments") %>
             </div>
           </nav>
         </div>
@@ -72,23 +70,22 @@
       <div class="w-full flex flex-row items-center">
         <h2 class="text-2xl font-bold"><%= gettext("Activities") %></h2>
         <Heroicons.Solid.academic_cap class="ml-2 h-5 w-5 text-zinc-400 inline" />
-        <%= live_patch("See all", to: Routes.activity_index_path(@socket, :index, @organization.slug), class: "text-sm font-semibold text-gray-300 ml-4") %>
       </div>
     </div>
     <div class="w-full flex flex-col lg:flex-row items-center justify-center mt-2 lg:w-full">
       <ul class="mr-8">
         <%= for activity <- Enum.take(@activities, 5) do %>
-          <li class="w-96 mb-2 items-center justify-between border-b-2 border-gray-200 gap-x-6 py-2">
+          <li class="w-96 mb-2 items-center justify-between border-b-2 border-zinc-200 gap-x-6 py-2">
             <div class="">
               <div class="flex flex-col ml-2">
-                <h3 class="text-lg font-semibold text-gray-700">
+                <h3 class="text-lg font-semibold text-zinc-700">
                   <Heroicons.Solid.calendar class="h-5 w-5 text-zinc-400 inline" />
                   <%= activity.title %>
                 </h3>
-                <span class="text-md font-semibold text-gray-700">
+                <span class="text-md font-semibold text-zinc-700">
                   <%= display_date(activity.inserted_at) %> <%= display_time(activity.inserted_at) %>
                 </span>
-                <span class="text-md font-semibold text-gray-500">
+                <span class="text-md font-semibold text-zinc-500">
                   <%= activity.description %>
                 </span>
               </div>
@@ -96,9 +93,6 @@
           </li>
         <% end %>
       </ul>
-      <div>
-        <.calendar id="calendar" current_path={Routes.calendar_show_path(@socket, :show)} activities={@activities} params={@params} mode={@mode} time_zone={@time_zone} current_organization={@organization} />
-      </div>
     </div>
   </div>
 
@@ -111,34 +105,36 @@
               <span class="w-full flex items-center justify-center">
                 <span class="flex justify-center items-center mr-1.5 w-16 h-16 bg-zinc-500 rounded-xl">
                   <span class="text-lg font-medium w-full text-white">
-                    <%= Atomic.Accounts.extract_initials(department.name) %>
+                    <%= extract_initials(department.name) %>
                   </span>
                 </span>
               </span>
-              <h3 class="mt-6 text-md font-bold text-gray-900"><%= department.name %></h3>
-              <span class="text-md font-semibold text-gray-500">
+              <h3 class="mt-6 text-md font-bold text-zinc-900"><%= department.name %></h3>
+              <span class="text-md font-semibold text-zinc-500">
                 <%= department.description %>
               </span>
             </div>
-            <div>
-              <div class="-mt-px flex divide-x divide-gray-200">
-                <div class="-ml-px flex w-0 flex-1 z-1">
-                  <%= live_patch("Edit",
-                    to: Routes.department_index_path(@socket, :edit, @organization.slug, department),
-                    class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900 hover:bg-gray-300"
-                  ) %>
-                </div>
-                <div class="-ml-px flex w-0 flex-1">
-                  <%= link("Delete",
-                    to: "#",
-                    phx_click: "delete",
-                    class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900 hover:bg-gray-300",
-                    phx_value_id: department.id,
-                    data: [confirm: "Are you sure?"]
-                  ) %>
+            <%= if @has_permissions? do %>
+              <div>
+                <div class="-mt-px flex divide-x divide-zinc-200">
+                  <div class="-ml-px flex w-0 flex-1 z-1">
+                    <%= live_patch("Edit",
+                      to: Routes.department_index_path(@socket, :edit, @organization, department),
+                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-300"
+                    ) %>
+                  </div>
+                  <div class="-ml-px flex w-0 flex-1">
+                    <%= link("Delete",
+                      to: "#",
+                      phx_click: "delete",
+                      class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-zinc-900 hover:bg-zinc-300",
+                      phx_value_id: department.id,
+                      data: [confirm: "Are you sure?"]
+                    ) %>
+                  </div>
                 </div>
               </div>
-            </div>
+            <% end %>
           <% end %>
         </li>
       <% end %>
