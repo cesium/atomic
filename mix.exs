@@ -38,7 +38,7 @@ defmodule Atomic.MixProject do
       # core
       {:phoenix_view, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.18.18"},
+      {:phoenix_live_view, "~> 0.19.5"},
 
       # database
       {:ecto_sql, "~> 3.6"},
@@ -63,12 +63,12 @@ defmodule Atomic.MixProject do
       {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
       {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:flop_phoenix, "~> 0.18.2"},
+      {:flop_phoenix, "~> 0.20.0"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
+      {:phoenix_live_dashboard, "~> 0.8.2"},
 
       # utilities
       {:gettext, "~> 0.18"},
