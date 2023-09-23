@@ -58,10 +58,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
     })
     |> Repo.update!()
 
+
     @organizations
     |> Enum.each(fn organization ->
       %{
         name: organization["name"],
+        long_name: organization["long_name"],
         description: organization["description"]
       }
       |> Organizations.create_organization()
