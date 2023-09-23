@@ -15,20 +15,12 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def handle_params(params, _, socket) do
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      }
-    ]
-
     activities_with_flop = list_activities(socket, params)
 
     {:noreply,
      socket
      |> assign(:page_title, gettext("Activities"))
      |> assign(:current_page, :activities)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(activities_with_flop)

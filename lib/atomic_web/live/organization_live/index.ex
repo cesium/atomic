@@ -14,20 +14,12 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
-    entries = [
-      %{
-        name: gettext("Organizations"),
-        route: Routes.organization_index_path(socket, :index)
-      }
-    ]
-
     organizations_with_flop = list_organizations(params)
 
     {:noreply,
      socket
      |> assign(:page_title, gettext("Organizations"))
      |> assign(:current_page, :organizations)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(organizations_with_flop)
      |> assign(:empty?, Enum.empty?(organizations_with_flop.organizations))

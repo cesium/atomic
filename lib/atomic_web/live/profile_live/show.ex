@@ -20,18 +20,10 @@ defmodule AtomicWeb.ProfileLive.Show do
 
     organizations = Organizations.list_user_organizations(user.id)
 
-    entries = [
-      %{
-        name: gettext("%{name}", name: user.name),
-        route: Routes.profile_show_path(socket, :show, user_slug)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, user.name)
      |> assign(:current_page, :profile)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:user, user)
      |> assign(:organizations, organizations)
      |> assign(:is_current_user, is_current_user)}
