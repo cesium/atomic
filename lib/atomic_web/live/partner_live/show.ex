@@ -15,22 +15,10 @@ defmodule AtomicWeb.PartnerLive.Show do
     organization = Organizations.get_organization!(organization_id)
     partner = Partners.get_partner!(id)
 
-    entries = [
-      %{
-        name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, organization_id)
-      },
-      %{
-        name: gettext("%{name}", name: partner.name),
-        route: Routes.partner_show_path(socket, :show, organization_id, id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, partner.name)
      |> assign(:current_page, :partners)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:partner, partner)
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}

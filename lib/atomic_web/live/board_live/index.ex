@@ -27,18 +27,10 @@ defmodule AtomicWeb.BoardLive.Index do
     organization = Organizations.get_organization!(organization_id)
     role = Organizations.get_role(socket.assigns.current_user.id, organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Board")}",
-        route: Routes.board_index_path(socket, :index, organization_id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:current_page, :board)
      |> assign(:page_title, "#{organization.name}'s #{gettext("Board")}")
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:board_departments, board_departments)
      |> assign(:empty?, Enum.empty?(board_departments))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))

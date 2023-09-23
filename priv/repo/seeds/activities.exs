@@ -4,8 +4,8 @@ defmodule Atomic.Repo.Seeds.Activities do
   """
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.{Activity, ActivityDepartment, Enrollment}
-  alias Atomic.Organizations.Department
+  alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
   @activity_titles [
@@ -25,12 +25,13 @@ defmodule Atomic.Repo.Seeds.Activities do
   def run do
     seed_activities()
     seed_enrollments()
-    seed_activity_departments()
   end
 
   def seed_activities do
     case Repo.all(Activity) do
       [] ->
+        organizations = Repo.all(Organization)
+
         for i <- 1..30 do
           location = %{
             name: Faker.Address.city(),
@@ -44,7 +45,8 @@ defmodule Atomic.Repo.Seeds.Activities do
             finish: build_finish_date(i),
             location: location,
             minimum_entries: Enum.random(1..10),
-            maximum_entries: Enum.random(11..20)
+            maximum_entries: Enum.random(11..20),
+            organization_id: Enum.random(organizations).id
           }
           |> Activities.create_activity()
         end
@@ -67,28 +69,8 @@ defmodule Atomic.Repo.Seeds.Activities do
     |> NaiveDateTime.truncate(:second)
   end
 
-  def seed_activity_departments do
-    case Repo.all(ActivityDepartment) do
-      [] ->
-        activities = Repo.all(Activity)
-        departments = Repo.all(Department)
-
-        for activity <- activities do
-          %ActivityDepartment{}
-          |> ActivityDepartment.changeset(%{
-            activity_id: activity.id,
-            department_id: Enum.random(departments).id
-          })
-          |> Repo.insert!()
-        end
-
-      _ ->
-        Mix.shell().error("Found activity departments, aborting seeding activity departments.")
-    end
-  end
-
   def seed_enrollments do
-    case Repo.all(Enrollment) do
+    case Repo.all(ActivityEnrollment) do
       [] ->
         users = Repo.all(User)
         activities = Repo.all(Activity)
@@ -104,26 +86,6 @@ defmodule Atomic.Repo.Seeds.Activities do
 
       _ ->
         Mix.shell().error("Found enrollments, aborting seeding enrollments.")
-    end
-  end
-
-  def seed_activity_departments do
-    case Repo.all(ActivityDepartment) do
-      [] ->
-        department = Repo.get_by(Department, name: "CAOS")
-        activities = Repo.all(Activity)
-
-        for activity <- activities do
-          %ActivityDepartment{}
-          |> ActivityDepartment.changeset(%{
-            activity_id: activity.id,
-            department_id: department.id
-          })
-          |> Repo.insert!()
-        end
-
-      _ ->
-        Mix.shell().error("Found activity departments, aborting seeding activity departments.")
     end
   end
 end

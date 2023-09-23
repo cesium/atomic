@@ -16,13 +16,6 @@ defmodule AtomicWeb.DepartmentLive.Index do
   def handle_params(%{"organization_id" => organization_id}, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Departments")}",
-        route: Routes.department_index_path(socket, :index, organization.id)
-      }
-    ]
-
     departments =
       Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
 
@@ -30,7 +23,6 @@ defmodule AtomicWeb.DepartmentLive.Index do
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Departments")}")
      |> assign(:current_page, :departments)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:departments, departments)
      |> assign(:empty?, Enum.empty?(departments))
