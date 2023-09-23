@@ -25,7 +25,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
           "user" => %{"email" => user.email}
         })
 
-      assert get_flash(conn, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
     end
 
@@ -75,7 +75,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
 
       assert redirected_to(conn) == Routes.user_session_path(conn, :new)
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Password reset successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password reset successfully"
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 
