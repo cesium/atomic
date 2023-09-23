@@ -82,11 +82,29 @@ defmodule AtomicWeb.Components.Table do
       </span>
       <div x-show="open" class="absolute -translate-x-3/4 p-2">
         <.form :let={f} for={@meta}>
-          <Flop.Phoenix.filter_fields :let={_entry} form={f} fields={@filter} input_opts={[class: "w-full appearance-none border-none pl-0 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-transparent sm:text-sm"]}>
-            <div class="py- relative flex w-full appearance-none rounded-lg border border-zinc-300 bg-white px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-zinc-400 focus-within:outline-none focus-within:ring-zinc-400 sm:text-sm"></div>
+          <Flop.Phoenix.filter_fields :let={i} form={f} fields={@filter}>
+            <.input id={i.field.id} name={i.field.name} value={i.field.value} field={i.field} label={i.label} type={i.type} rest={i.rest} />
           </Flop.Phoenix.filter_fields>
         </.form>
       </div>
+    </div>
+    """
+  end
+
+  defp input(assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400"
+        ]}
+        {@rest}
+      />
     </div>
     """
   end

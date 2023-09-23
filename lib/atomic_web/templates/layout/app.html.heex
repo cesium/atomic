@@ -1,5 +1,5 @@
 <main>
-  <%= if get_flash(@conn, :info) do %>
+  <%= if Phoenix.Flash.get(@flash, :info) do %>
     <div id="info-flash" x-init="setTimeout(function() { document.getElementById('info-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
       <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
         <div class="bg-blue-400 opacity-100 h-[0.30rem] animate-progress"></div>
@@ -9,7 +9,7 @@
               <Heroicons.information_circle solid class="w-6 h-6 text-blue-400" />
             </div>
             <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
-              <%= get_flash(@conn, :info) %>
+              <%= Phoenix.Flash.get(@flash, :info) %>
             </div>
           </div>
         </div>
@@ -17,7 +17,7 @@
     </div>
   <% end %>
 
-  <%= if get_flash(@conn, :error) do %>
+  <%= if Phoenix.Flash.get(@flash, :info) do %>
     <div id="error-flash" x-init="setTimeout(function() { document.getElementById('error-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
       <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
         <div class="bg-red-400 opacity-100 h-[0.30rem] animate-progress"></div>
@@ -27,7 +27,7 @@
               <Heroicons.x_circle solid class="w-6 h-6 text-red-400" />
             </div>
             <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
-              <%= get_flash(@conn, :error) %>
+              <%= Phoenix.Flash.get(@flash, :info) %>
             </div>
           </div>
         </div>
