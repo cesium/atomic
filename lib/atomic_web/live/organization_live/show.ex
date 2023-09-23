@@ -21,7 +21,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:page_title, organization.name)
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :organizations)
      |> assign(:organization, organization)
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
