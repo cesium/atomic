@@ -58,7 +58,6 @@ defmodule Atomic.Repo.Seeds.Organizations do
     })
     |> Repo.update!()
 
-
     @organizations
     |> Enum.each(fn organization ->
       %{
