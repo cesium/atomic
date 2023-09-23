@@ -15,20 +15,12 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
   @impl true
   def handle_params(params, _, socket) do
-    entries = [
-      %{
-        name: gettext("Announcements"),
-        route: Routes.announcement_index_path(socket, :index)
-      }
-    ]
-
     announcements_with_flop = list_announcements(socket, params)
 
     {:noreply,
      socket
      |> assign(:page_title, gettext("Announcements"))
      |> assign(:current_page, :announcements)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(announcements_with_flop)

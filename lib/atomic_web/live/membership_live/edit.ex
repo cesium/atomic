@@ -13,22 +13,10 @@ defmodule AtomicWeb.MembershipLive.Edit do
     membership = Organizations.get_membership!(id, [:user, :organization, :created_by])
     organization = Organizations.get_organization!(organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Memberships")}",
-        route: Routes.membership_index_path(socket, :index, organization_id)
-      },
-      %{
-        name: gettext("Edit Membership"),
-        route: Routes.membership_edit_path(socket, :edit, organization_id, id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, "Edit Membership")
      |> assign(:current_page, :memberships)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:membership, membership)
      |> assign(:current_user, socket.assigns.current_user)

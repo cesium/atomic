@@ -17,20 +17,12 @@ defmodule AtomicWeb.PartnerLive.Index do
   def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Partners")}",
-        route: Routes.partner_index_path(socket, :index, organization_id)
-      }
-    ]
-
     partners_with_flop = list_partners(organization_id)
 
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:current_page, :partners)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(partners_with_flop)
