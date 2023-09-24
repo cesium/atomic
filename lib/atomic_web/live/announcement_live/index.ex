@@ -1,12 +1,12 @@
 defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Announcement
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Pagination
 
   alias Atomic.Accounts
   alias Atomic.Organizations
+  alias AtomicWeb.Components.Announcement
 
   @impl true
   def mount(_params, _session, socket) do
