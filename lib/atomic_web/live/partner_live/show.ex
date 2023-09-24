@@ -3,7 +3,7 @@ defmodule AtomicWeb.PartnerLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Partnerships
+  alias Atomic.Partners
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,24 +13,12 @@ defmodule AtomicWeb.PartnerLive.Show do
   @impl true
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     organization = Organizations.get_organization!(organization_id)
-    partner = Partnerships.get_partner!(id)
-
-    entries = [
-      %{
-        name: gettext("Partners"),
-        route: Routes.partner_index_path(socket, :index, organization_id)
-      },
-      %{
-        name: gettext("%{name}", name: partner.name),
-        route: Routes.partner_show_path(socket, :show, organization_id, id)
-      }
-    ]
+    partner = Partners.get_partner!(id)
 
     {:noreply,
      socket
      |> assign(:page_title, partner.name)
      |> assign(:current_page, :partners)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:partner, partner)
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}

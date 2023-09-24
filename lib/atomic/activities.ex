@@ -6,7 +6,7 @@ defmodule Atomic.Activities do
 
   alias Atomic.Accounts.User
   alias Atomic.Activities.Activity
-  alias Atomic.Activities.Enrollment
+  alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Activities.Speaker
 
   @doc """
@@ -49,27 +49,21 @@ defmodule Atomic.Activities do
   def list_activities_by_organization_id(organization_id, params \\ %{})
 
   def list_activities_by_organization_id(organization_id, opts) when is_list(opts) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> apply_filters(opts)
     |> Repo.all()
   end
 
   def list_activities_by_organization_id(organization_id, flop) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> Flop.validate_and_run(flop, for: Activity)
   end
 
   def list_activities_by_organization_id(organization_id, %{} = flop, opts) when is_list(opts) do
-    from(a in Activity,
-      join: d in assoc(a, :departments),
-      where: d.organization_id == ^organization_id
-    )
+    Activity
+    |> where([a], a.organization_id == ^organization_id)
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Activity)
   end
@@ -113,12 +107,16 @@ defmodule Atomic.Activities do
 
   @doc """
   Returns the list of activities belonging to a list of organizations.
+
+  ## Examples
+
+      iex> list_organizations_activities(organizations)
+      [%Activity{}, ...]
   """
   def list_organizations_activities(organizations, %{} = flop, opts \\ [])
       when is_list(organizations) do
     Activity
-    |> join(:inner, [a], d in assoc(a, :departments))
-    |> where([a, d], d.organization_id in ^Enum.map(organizations, & &1.id))
+    |> where([a], a.organization_id in ^Enum.map(organizations, & &1.id))
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Activity)
   end
@@ -140,23 +138,6 @@ defmodule Atomic.Activities do
   def get_activity!(id, preloads \\ []) do
     Repo.get!(Activity, id)
     |> Repo.preload(preloads)
-  end
-
-  @doc """
-  Returns the list of organizations ids that are associated with an activity.
-
-    ## Examples
-
-        iex> get_activity_organizations!(activity)
-        [19d7c9e5-4212-4f59-a097-28aaa33c2621, ...]
-
-        iex> get_activity_organizations!(activity)
-        ** (Ecto.NoResultsError)
-  """
-  def get_activity_organizations!(activity, preloads \\ [:departments]) do
-    Repo.preload(activity, preloads)
-    |> Map.get(:departments, [])
-    |> Enum.map(& &1.organization_id)
   end
 
   @doc """
@@ -189,7 +170,7 @@ defmodule Atomic.Activities do
         false
   """
   def is_participating?(activity_id, user_id) do
-    Enrollment
+    ActivityEnrollment
     |> where(activity_id: ^activity_id, user_id: ^user_id)
     |> Repo.exists?()
   end
@@ -265,31 +246,31 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> list_enrollments()
-      [%Enrollment{}, ...]
+      [%ActivityEnrollment{}, ...]
 
   """
   def list_enrollments do
-    Repo.all(Enrollment)
+    Repo.all(ActivityEnrollment)
   end
 
   @doc """
   Gets a single enrollment.
 
-  Raises `Ecto.NoResultsError` if the Enrollment does not exist.
+  Raises `Ecto.NoResultsError` if the ActivityEnrollment does not exist.
 
   ## Examples
 
       iex> get_enrollment!(123)
-      %Enrollment{}
+      %ActivityEnrollment{}
 
       iex> get_enrollment!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_enrollment!(id), do: Repo.get!(Enrollment, id)
+  def get_enrollment!(id), do: Repo.get!(ActivityEnrollment, id)
 
   def get_enrollment!(activity_id, user_id) do
-    Enrollment
+    ActivityEnrollment
     |> where(activity_id: ^activity_id, user_id: ^user_id)
     |> Repo.one()
   end
@@ -300,13 +281,13 @@ defmodule Atomic.Activities do
     ## Examples
 
         iex> get_user_enrolled(user, activity_id)
-        %Enrollment{}
+        %ActivityEnrollment{}
 
         iex> get_user_enrolled(user, activity_id)
         ** (Ecto.NoResultsError)
   """
   def get_user_enrolled(user, activity_id) do
-    Enrollment
+    ActivityEnrollment
     |> where(user_id: ^user.id, activity_id: ^activity_id)
     |> Repo.one()
     |> case do
@@ -321,13 +302,13 @@ defmodule Atomic.Activities do
     ## Examples
 
         iex> list_user_enrollments(user)
-        [%Enrollment{}, ...]
+        [%ActivityEnrollment{}, ...]
 
         iex> list_user_enrollments(user)
         ** (Ecto.NoResultsError)
   """
   def list_user_enrollments(user_id) do
-    Enrollment
+    ActivityEnrollment
     |> where(user_id: ^user_id)
     |> Repo.all()
   end
@@ -344,7 +325,7 @@ defmodule Atomic.Activities do
 
   def list_user_activities(user_id, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :enrollments),
+      join: e in assoc(a, :activity_enrollments),
       where: e.user_id == ^user_id
     )
     |> apply_filters(opts)
@@ -353,7 +334,7 @@ defmodule Atomic.Activities do
 
   def list_user_activities(user_id, flop) do
     from(a in Activity,
-      join: e in assoc(a, :enrollments),
+      join: e in assoc(a, :activity_enrollments),
       where: e.user_id == ^user_id
     )
     |> Flop.validate_and_run(flop, for: Activity)
@@ -361,7 +342,7 @@ defmodule Atomic.Activities do
 
   def list_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :enrollments),
+      join: e in assoc(a, :activity_enrollments),
       where: e.user_id == ^user_id
     )
     |> apply_filters(opts)
@@ -374,15 +355,15 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> create_enrollment(activity_id, %User{} = user)
-      {:ok, %Enrollment{}}
+      {:ok, %ActivityEnrollment{}}
 
       iex> create_enrollment(activity_id, %User{} = user)
       {:error, %Ecto.Changeset{}}
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    %Enrollment{}
-    |> Enrollment.changeset(%{
+    %ActivityEnrollment{}
+    |> ActivityEnrollment.changeset(%{
       activity_id: activity_id,
       user_id: user.id
     })
@@ -396,15 +377,15 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> update_enrollment(enrollment, %{field: new_value})
-      {:ok, %Enrollment{}}
+      {:ok, %ActivityEnrollment{}}
 
       iex> update_enrollment(enrollment, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_enrollment(%Enrollment{} = enrollment, attrs) do
+  def update_enrollment(%ActivityEnrollment{} = enrollment, attrs) do
     enrollment
-    |> Enrollment.update_changeset(attrs)
+    |> ActivityEnrollment.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -414,7 +395,7 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> delete_enrollment(activity_id, %User{})
-      {:ok, %Enrollment{}}
+      {:ok, %ActivityEnrollment{}}
 
       iex> delete_enrollment(activity_id, %User{})
       {:error, %Ecto.Changeset{}}
@@ -422,7 +403,7 @@ defmodule Atomic.Activities do
   """
   def delete_enrollment(activity_id, %User{} = user) do
     Repo.delete_all(
-      from e in Enrollment,
+      from e in ActivityEnrollment,
         where: e.user_id == ^user.id and e.activity_id == ^activity_id
     )
     |> broadcast(:deleted_enrollment)
@@ -440,7 +421,7 @@ defmodule Atomic.Activities do
       0
   """
   def get_total_enrolled(activity_id) do
-    Enrollment
+    ActivityEnrollment
     |> where(activity_id: ^activity_id)
     |> Repo.aggregate(:count, :id)
   end
@@ -451,11 +432,11 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> change_enrollment(enrollment)
-      %Ecto.Changeset{data: %Enrollment{}}
+      %Ecto.Changeset{data: %ActivityEnrollment{}}
 
   """
-  def change_enrollment(%Enrollment{} = enrollment, attrs \\ %{}) do
-    Enrollment.changeset(enrollment, attrs)
+  def change_enrollment(%ActivityEnrollment{} = enrollment, attrs \\ %{}) do
+    ActivityEnrollment.changeset(enrollment, attrs)
   end
 
   @doc """
@@ -464,7 +445,7 @@ defmodule Atomic.Activities do
   ## Examples
 
       iex> broadcast(:new_enrollment, enrollment)
-      {:ok, %Enrollment{}}
+      {:ok, %ActivityEnrollment{}}
 
       iex> broadcast(:deleted_enrollment, nil)
       {:ok, nil}
@@ -476,7 +457,7 @@ defmodule Atomic.Activities do
 
   defp broadcast({:error, _reason} = error, _event), do: error
 
-  defp broadcast({:ok, %Enrollment{} = enrollment}, event)
+  defp broadcast({:ok, %ActivityEnrollment{} = enrollment}, event)
        when event in [:new_enrollment] do
     Phoenix.PubSub.broadcast!(Atomic.PubSub, "new_enrollment", {event, enrollment})
     {:ok, enrollment}

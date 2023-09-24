@@ -2,13 +2,18 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* For Webkit-based browsers (Chrome, Safari and Opera) */
+/* Hide password reveal button in MS Edge */
+::-ms-reveal {
+  display: none;
+}
+
+/* Hide scrollbar in Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-/* For IE, Edge and Firefox */
+/* Hide scrollbar in IE, MS Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none; /* IE and MS Edge */
   scrollbar-width: none; /* Firefox */
 }

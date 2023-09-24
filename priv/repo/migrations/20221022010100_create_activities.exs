@@ -13,8 +13,8 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :maximum_entries, :integer, null: false
       add :image, :string
 
-      add :organization_id, references(:organizations, type: :binary_id)
       add :event_id, references(:events, type: :binary_id)
+      add :organization_id, references(:organizations, type: :binary_id), null: false
 
       timestamps()
     end

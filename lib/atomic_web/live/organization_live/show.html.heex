@@ -8,22 +8,10 @@
               <%= if @organization.logo do %>
                 <img src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-64 h-32 block lg:mb-8" />
               <% else %>
-                <img src={Routes.static_path(@socket, "/images/atomic.png")} class="mb-2 w-64 h-64 block lg:mb-8" />
+                <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="mb-2 w-64 h-64 block lg:mb-8" />
               <% end %>
             </div>
             <div class="flex-1 space-x-2">
-              <%= if @has_permissions? do %>
-                <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-                  </div>
-                <% end %>
-                <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
-                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
-                  </div>
-                <% end %>
-              <% end %>
               <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
                 <div class="flex flex-col items-center lg:items-start lg:justify-start justify-center">
                   <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
@@ -42,6 +30,18 @@
                   <% end %>
                 <% else %>
                   <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-600 py-2 px-3.5 text-sm font-medium text-orange-600 shadow-sm inline hover:bg-orange-600 hover:text-white">Unfollow</button>
+                <% end %>
+                <%= if @has_permissions? do %>
+                  <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>
+                    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                      <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                    </div>
+                  <% end %>
+                  <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
+                    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                      <Heroicons.Solid.x class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+                    </div>
+                  <% end %>
                 <% end %>
               </div>
             </div>

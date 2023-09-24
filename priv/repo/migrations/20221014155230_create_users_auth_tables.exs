@@ -8,7 +8,8 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :id, :binary_id, primary_key: true
       add :name, :string
       add :email, :citext, null: false
-      add :handle, :citext
+      add :slug, :citext
+      add :phone_number, :string
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
       add :profile_picture, :string
@@ -21,7 +22,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
     end
 
     create unique_index(:users, [:email])
-    create unique_index(:users, [:handle])
+    create unique_index(:users, [:slug])
 
     create table(:users_tokens, primary_key: false) do
       add :id, :binary_id, primary_key: true

@@ -14,18 +14,10 @@ defmodule AtomicWeb.HomeLive.Index do
 
   @impl true
   def handle_params(_params, _, socket) do
-    entries = [
-      %{
-        name: gettext("Home"),
-        route: Routes.home_index_path(socket, :index)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:posts, list_posts())
      |> assign(:schedule, fetch_schedule(socket))}
   end

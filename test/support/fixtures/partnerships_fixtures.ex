@@ -1,7 +1,7 @@
-defmodule Atomic.PartnershipsFixtures do
+defmodule Atomic.PartnersFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Atomic.Partnerships` context.
+  entities via the `Atomic.Partners` context.
   """
 
   alias Atomic.OrganizationsFixtures
@@ -17,7 +17,7 @@ defmodule Atomic.PartnershipsFixtures do
         name: "some name",
         organization_id: OrganizationsFixtures.organization_fixture().id
       })
-      |> Atomic.Partnerships.create_partner()
+      |> Atomic.Partners.create_partner()
 
     partner
   end

@@ -6,7 +6,7 @@ defmodule AtomicWeb.PartnerLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias Atomic.Partnerships
+  alias Atomic.Partners
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,20 +17,12 @@ defmodule AtomicWeb.PartnerLive.Index do
   def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
-    entries = [
-      %{
-        name: "#{organization.name}'s #{gettext("Partners")}",
-        route: Routes.partner_index_path(socket, :index, organization_id)
-      }
-    ]
-
-    partners_with_flop = list_partnerships(organization_id)
+    partners_with_flop = list_partners(organization_id)
 
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:current_page, :partners)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(partners_with_flop)
@@ -46,8 +38,8 @@ defmodule AtomicWeb.PartnerLive.Index do
       )
   end
 
-  defp list_partnerships(id, params \\ %{}) do
-    case Partnerships.list_partnerships(params, where: [organization_id: id]) do
+  defp list_partners(id, params \\ %{}) do
+    case Partners.list_partners(params, where: [organization_id: id]) do
       {:ok, {partners, meta}} ->
         %{partners: partners, meta: meta}
 

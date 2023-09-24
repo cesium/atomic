@@ -1,58 +1,7 @@
 <div aria-live="assertive" class="flex fixed inset-0 z-50 flex-col gap-y-2 items-end py-4 px-4 pointer-events-none sm:items-start sm:px-6">
   <!-- Show flash messages -->
   <%= for {key, message} <- @flash do %>
-    <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
-      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
-        <div class="p-4">
-          <div class="flex items-start">
-            <div class="flex-shrink-0">
-              <%= case key do
-                "info" ->
-                  ~H"""
-                  <Heroicons.Solid.information_circle class="h-6 w-6 text-blue-400" />
-                  """
-
-                "success" ->
-                  ~H"""
-                  <Heroicons.Solid.check_circle class="h-6 w-6 text-green-400" />
-                  """
-
-                "warning" ->
-                  ~H"""
-                  <Heroicons.Solid.exclamation class="h-6 w-6 text-yellow-400" />
-                  """
-
-                "error" ->
-                  ~H"""
-                  <Heroicons.Solid.x_circle class="h-6 w-6 text-red-400" />
-                  """
-              end %>
-            </div>
-            <div class="flex-1 pt-0.5 ml-3 w-0">
-              <%= if is_binary(message) do %>
-                <p class="text-sm font-medium text-zinc-900">
-                  <%= live_flash(@flash, key) %>
-                </p>
-              <% else %>
-                <p class="text-sm font-medium text-zinc-900">
-                  <%= message.title %>
-                </p>
-                <p class="mt-1 text-sm text-zinc-500">
-                  <%= message.description %>
-                </p>
-              <% end %>
-            </div>
-            <!-- Notification close button -->
-            <div class="flex flex-shrink-0 ml-4">
-              <button phx-click="lv:clear-flash" phx-value-key={key} class="inline-flex text-zinc-400 bg-white rounded-md hover:text-zinc-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-orange-600">
-                <span class="sr-only">Close</span>
-                <Heroicons.Solid.x class="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <.live_component id={key} module={AtomicWeb.Components.Notification} type={key} message={message} flash={@flash} />
   <% end %>
 </div>
 
@@ -100,18 +49,18 @@
             </svg>
           </button>
         </div>
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
-            <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-12 w-auto" />
-            <p class="font-bold text-xl text-zinc-500">Atomic</p>
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
+          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+            <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-12 w-auto" />
+            <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
           </div>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                    <li>
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-200" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                    <li class="select-none">
+                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                         <Heroicons.Outline.render
                           icon={page.icon}
                           class={
@@ -132,7 +81,7 @@
                 <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
                 <%= if Enum.count(organizations) > 0 do %>
                   <li>
-                    <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                    <div class="text-xs font-semibold leading-6 text-zinc-400 select-none"><%= gettext("Your organizations") %></div>
                     <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
                   </li>
                 <% end %>
@@ -145,18 +94,18 @@
   </div>
   <!-- Desktop sidebar -->
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-    <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
-        <img src={Routes.static_path(@socket, "/images/atomic.png")} class="h-14 w-auto" />
-        <p class="font-bold text-xl text-zinc-500">Atomic</p>
+    <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
+      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+        <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-14 w-auto" />
+        <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
       </div>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                <li>
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-200 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-200" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                <li class="select-none">
+                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
                     <Heroicons.Outline.render
                       icon={page.icon}
                       class={
@@ -184,7 +133,7 @@
             <!-- Profile dropdown -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>
-              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700">
+              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
                 <%= if @current_user.profile_picture do %>
                   <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user.profile_picture, @current_user}, :original)} />
                 <% else %>
@@ -214,7 +163,7 @@
                   @click.away="menu = false"
                   @keydown.escape="menu = false"
                 >
-                  <%= link("Your profile", to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
+                  <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                   <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                 </div>
               </button>
@@ -233,40 +182,14 @@
   </div>
 
   <div class="lg:pl-72">
-    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 pr-4 sm:gap-x-6 sm:pr-6 lg:pr-8">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:hidden lg:pr-8">
       <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" @click="sidebar = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
-      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <div class="relative flex flex-1">
-          <nav class="hidden lg:block my-5 mx-10" aria-label="Breadcrumb">
-            <ol role="list" class=" flex items-center space-x-4">
-              <li>
-                <div>
-                  <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
-                    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="sr-only">Home</span>
-                  <% end %>
-                </div>
-              </li>
-              <%= for entry <- @breadcrumb_entries do %>
-                <li>
-                  <div class="flex items-center">
-                    <svg class="h-5 w-5 flex-shrink-0 text-zinc-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                      <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                    </svg>
-                    <%= live_redirect(entry.name, to: entry.route, class: "ml-4 text-sm font-medium text-zinc-500 hover:text-zinc-700") %>
-                  </div>
-                </li>
-              <% end %>
-            </ol>
-          </nav>
-        </div>
+      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
         <div x-data="{ menu: false }" class="flex items-center gap-x-4 lg:gap-x-6">
           <%= if @is_authenticated? do %>
             <!-- Profile dropdown -->
@@ -281,7 +204,6 @@
                   </span>
                 <% end %>
               </button>
-
               <div
                 class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
                 role="menu"
@@ -298,7 +220,7 @@
                 @click.away="menu = false"
                 @keydown.escape="menu = false"
               >
-                <%= link("Your profile", to: Routes.user_show_path(@socket, :show, @current_user.handle), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
+                <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
                 <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
               </div>
             </div>

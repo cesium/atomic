@@ -21,7 +21,7 @@ defmodule Atomic.Organizations.Partner do
     }
   }
 
-  schema "partnerships" do
+  schema "partners" do
     field :name, :string
     field :description, :string
     field :state, Ecto.Enum, values: @states, default: :active
