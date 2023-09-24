@@ -14,34 +14,50 @@
       </div>
     <% end %>
 
-    <div class="space-y-3 rounded-md w-full flex-col mt-6">
-      <div class="flex flex-col items-center justify-center mx-4">
+    <div class="space-y-3 rounded-md flex-col w-full justify-center items-center mt-6 px-3.5 mx-4 sm:w-96 sm:mx-0 sm:px-0">
+      <div class="flex flex-col items-center justify-center">
         <%= label(f, :email, class: "sr-only") %>
         <%= email_input(f, :email,
           required: true,
           placeholder: gettext("Email address"),
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+          class: "relative w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
         ) %>
         <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :email) %></span>
       </div>
-      <div class="flex flex-col items-center justify-center mx-4">
-        <%= label(f, :password, class: "sr-only") %>
-        <%= password_input(f, :password,
-          required: true,
-          placeholder: gettext("Password"),
-          autocomplete: "current-password",
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-        ) %>
+      <div class="flex flex-col items-center justify-center">
+        <div x-data="{ hide: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+          <%= label(f, :password, class: "sr-only") %>
+          <%= password_input(f, :password,
+            required: true,
+            placeholder: gettext("Password"),
+            autocomplete: "current-password",
+            class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:outline-none focus:ring-0 sm:text-sm"
+          ) %>
+          <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="px-2 w-fit cursor-pointer">
+            <Ionicons.Filled.eye class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+          <div x-show="!hide" x-on:click="hide = true; document.getElementById('user_password').type = 'password';" class="px-2 w-fit cursor-pointer">
+            <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+        </div>
         <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password) %></span>
       </div>
-      <div class="flex flex-col items-center justify-center mx-4">
-        <%= label(f, :password_confirmation, class: "sr-only") %>
-        <%= password_input(f, :password_confirmation,
-          required: true,
-          placeholder: gettext("Confirm password"),
-          autocomplete: "current-password",
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-        ) %>
+      <div class="flex flex-col items-center justify-center">
+        <div x-data="{ hide_confirm: true }" class="flex flex-row items-center justify-center w-full block border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1  sm:text-sm">
+          <%= label(f, :password_confirmation, class: "sr-only") %>
+          <%= password_input(f, :password_confirmation,
+            required: true,
+            placeholder: gettext("Confirm password"),
+            autocomplete: "current-password",
+            class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:outline-none focus:ring-0 sm:text-sm"
+          ) %>
+          <div x-show="hide_confirm" x-on:click="hide_confirm = false; document.getElementById('user_password_confirmation').type = 'text';" class="px-2 w-fit cursor-pointer">
+            <Ionicons.Filled.eye class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+          <div x-show="!hide_confirm" x-on:click="hide_confirm = true; document.getElementById('user_password_confirmation').type = 'password';" class="px-2 w-fit cursor-pointer">
+            <Ionicons.Filled.eye_off class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+        </div>
         <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password_confirmation) %></span>
       </div>
     </div>
@@ -55,7 +71,7 @@
 
     <div class="w-full flex-col">
       <div class="mx-4 justify-center flex select-none">
-        <%= submit("Register", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
+        <%= submit("Register", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96 sm:mx-0 sm:px-0") %>
       </div>
     </div>
   </.form>

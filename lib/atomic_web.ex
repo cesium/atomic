@@ -102,7 +102,7 @@ defmodule AtomicWeb do
 
       alias Atomic.Uploaders
       alias AtomicWeb.Router.Helpers, as: Routes
-      alias Icons.Heroicons
+      alias Icons.{Heroicons, Ionicons}
     end
   end
 
