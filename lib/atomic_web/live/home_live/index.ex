@@ -52,21 +52,20 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   defp fetch_schedule(socket) do
-    daily = weekly = []
+    {daily, weekly} =
+      Activities.list_user_activities(socket.assigns.current_user.id, preloads: [:organization])
+      |> Enum.reduce({[], []}, fn activity, {daily_acc, weekly_acc} ->
+        case within_today_or_this_week(activity.start) do
+          :today ->
+            {[activity | daily_acc], weekly_acc}
 
-    Activities.list_user_activities(socket.assigns.current_user.id, preloads: [:organization])
-    |> Enum.each(fn activity ->
-      case within_today_or_this_week(activity.start) do
-        :today ->
-          ^daily = [activity | daily]
+          :this_week ->
+            {daily_acc, [activity | weekly_acc]}
 
-        :this_week ->
-          ^weekly = [activity | weekly]
-
-        :other ->
-          :noop
-      end
-    end)
+          :other ->
+            {daily_acc, weekly_acc}
+        end
+      end)
 
     %{daily: daily, weekly: weekly}
   end
