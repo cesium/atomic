@@ -15,21 +15,22 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> push_event("init-editor", %{data: announcement.content, read_only: false})}
   end
 
   @impl true
-  def handle_event("validate", %{"announcement" => announcement_params}, socket) do
-    changeset =
-      socket.assigns.announcement
-      |> Organizations.change_announcement(announcement_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign(socket, :changeset, changeset)}
+  def handle_event("swap-view-mode", _params, socket) do
+    {:noreply, push_event(socket, "swap-view-mode", %{})}
   end
 
   def handle_event("save", %{"announcement" => announcement_params}, socket) do
-    save_announcement(socket, socket.assigns.action, announcement_params)
+    {:noreply,
+     push_event(socket, "send-saved-data", %{params: announcement_params, selector: "1"})}
+  end
+
+  def handle_event("save-data", %{"data" => data, "params" => params}, socket) do
+    save_announcement(socket, :edit, Map.put(params, "content", data))
   end
 
   defp save_announcement(socket, :edit, announcement_params) do

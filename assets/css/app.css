@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import url("editor.css");
 
 /* Hide password reveal button in MS Edge */
 ::-ms-reveal {

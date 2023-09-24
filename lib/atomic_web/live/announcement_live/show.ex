@@ -18,7 +18,8 @@ defmodule AtomicWeb.AnnouncementLive.Show do
      |> assign(:page_title, "#{announcement.title}")
      |> assign(:current_page, :announcements)
      |> assign(:announcement, announcement)
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket))
+     |> push_event("init-editor", %{data: announcement.content, read_only: true})}
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false

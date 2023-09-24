@@ -1,7 +1,7 @@
 <div>
   <h2><%= @title %></h2>
 
-  <.form let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+  <.form let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-submit="save">
     <%= label(f, :title) %>
     <%= text_input(f, :title) %>
     <%= error_tag(f, :title) %>
@@ -17,5 +17,8 @@
     <div>
       <%= submit("Save", phx_disable_with: "Saving...") %>
     </div>
+
+    <button type="button" phx-target={@myself} phx-click="swap-view-mode">Change View</button>
+    <div id="editor" class="rounded-xl border outline-zinc-200 editor-styles" phx-hook="Editor"></div>
   </.form>
 </div>

@@ -6,7 +6,7 @@ defmodule Atomic.Organizations.Announcement do
 
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description publish_at organization_id)a
+  @required_fields ~w(title description content publish_at organization_id)a
 
   @derive {
     Flop.Schema,
@@ -21,6 +21,7 @@ defmodule Atomic.Organizations.Announcement do
   schema "announcements" do
     field :title, :string
     field :description, :string
+    field :content, :map
     field :publish_at, :naive_datetime
 
     belongs_to :organization, Organization

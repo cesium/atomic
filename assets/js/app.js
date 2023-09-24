@@ -26,10 +26,12 @@ import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
 import { QrScanner } from "./qr_reading.js";
 import { InitSorting } from "./sorting.js";
+import { Editor } from "./editor.js";
 
 let Hooks = {
   QrScanner: QrScanner,
-  InitSorting: InitSorting
+  InitSorting: InitSorting,
+  Editor: Editor
 };
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
