@@ -25,7 +25,9 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
           "user" => %{"input" => user.email}
         })
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email or username is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "If your email or username is in our system"
+
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
     end
 
