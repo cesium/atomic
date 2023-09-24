@@ -5,6 +5,7 @@ defmodule Atomic.Repo.Migrations.CreateOrganizations do
     create table(:organizations, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :name, :string, null: false
+      add :long_name, :string, null: false
       add :description, :text, null: false
       add :location, :map
       add :logo, :string
