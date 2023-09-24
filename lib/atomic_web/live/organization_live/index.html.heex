@@ -39,7 +39,7 @@
                 <%= maybe_slice_string(organization.long_name, 35) %>
               </p>
               <p class="sm:block md:hidden xl:block text-xs text-zinc-900">
-                <%= organization.long_name %>
+                <%= maybe_slice_string(organization.long_name, 85) %>
               </p>
             </div>
           </div>
