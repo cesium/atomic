@@ -22,7 +22,7 @@
         <td><%= speaker.bio %></td>
 
         <td>
-          <span><%= live_redirect("Show", to: Routes.speaker_show_path(@socket, :show, @current_organization, speaker)) %></span>
+          <span><.link navigate={Routes.speaker_show_path(@socket, :show, @current_organization, speaker)}><%= gettext("Show") %></.link></span>
           <span><%= live_patch("Edit", to: Routes.speaker_index_path(@socket, :edit, @current_organization, speaker)) %></span>
           <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
         </td>

@@ -16,7 +16,7 @@
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
       <%= for organization <- @organizations do %>
-        <%= live_redirect to: Routes.organization_show_path(@socket, :show, organization) do %>
+        <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
             <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
               <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
@@ -43,7 +43,7 @@
               </p>
             </div>
           </div>
-        <% end %>
+        </.link>
       <% end %>
     </div>
     <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />

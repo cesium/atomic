@@ -6,7 +6,7 @@ defmodule AtomicWeb.Components.Announcement do
     assigns = assign(assigns, :organization, assigns.announcement.organization)
 
     ~H"""
-    <%= live_redirect to: @url, class: "group" do %>
+    <.link navigate={@url} class="group">
       <li id={"announcement-#{@announcement.id}"} class="relative border-b border-zinc-200 py-5 pr-6 pl-4 hover:bg-zinc-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
         <div>
           <h3 class="text-sm font-semibold text-zinc-800 hover:underline focus:outline-none">
@@ -41,7 +41,7 @@ defmodule AtomicWeb.Components.Announcement do
           </div>
         </div>
       </li>
-    <% end %>
+    </.link>
     """
   end
 end

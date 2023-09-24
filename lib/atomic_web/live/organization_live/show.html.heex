@@ -117,6 +117,8 @@
         </div>
       <% end %>
     </div>
-    <%= live_redirect("View all", to: Routes.board_index_path(@socket, :index, @organization.id), class: "hover:underline text-blue-500") %>
+    <.link navigate={Routes.board_index_path(@socket, :index, @organization.id)} class="hover:underline text-blue-500">
+      <%= gettext("View all") %>
+    </.link>
   </div>
 </div>

@@ -68,9 +68,9 @@
                   <div class="flex text-sm md:pl-3">
                     <%= if @activity.location do %>
                       <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                      <%= live_redirect to: @activity.location.url, data: [confirm: gettext("Are you sure?")], class: "pl-1.5 text-blue-500" do %>
+                      <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
                         <%= @activity.location.name %>
-                      <% end %>
+                      </.link>
                     <% else %>
                       <%= if @activity.location do %>
                         <div class="pl-1.5 text-zinc-900">
@@ -103,9 +103,9 @@
                             <%= extract_initials(speaker.name) %>
                           </span>
                         </span>
-                        <%= live_redirect to: Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker), class: "text-md text-blue-500" do %>
+                        <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
                           <%= extract_first_last_name(speaker.name) %>
-                        <% end %>
+                        </.link>
                       </div>
                     </div>
                   <% end %>

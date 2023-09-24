@@ -59,7 +59,7 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                     <li class="select-none">
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                      <.link navigate={page.url} class={if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end <> " group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}>
                         <AtomicWeb.Components.Icon.render
                           name={page.icon}
                           class={
@@ -71,7 +71,7 @@
                           }
                         />
                         <%= page.title %>
-                      <% end %>
+                      </.link>
                     </li>
                   <% end %>
                 </ul>
@@ -104,7 +104,7 @@
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                 <li class="select-none">
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
+                  <.link navigate={page.url} class={if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end <> " group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}>
                     <AtomicWeb.Components.Icon.render
                       name={page.icon}
                       class={
@@ -116,7 +116,7 @@
                       }
                     />
                     <%= page.title %>
-                  <% end %>
+                  </.link>
                 </li>
               <% end %>
             </ul>
@@ -170,9 +170,9 @@
           <% else %>
             <div class="border-b border-zinc-200 mt-auto"></div>
             <li class="flex items-center px-6 pb-3 -mx-6">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900 hover:underline" do %>
+              <.link navigate={Routes.user_session_path(@socket, :new)} class="text-md font-semibold leading-6 text-zinc-900 hover:underline">
                 Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
+              </.link>
             </li>
           <% end %>
         </ul>
@@ -225,9 +225,9 @@
             </div>
           <% else %>
             <div class="flex lg:hidden flex-1 justify-end">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900" do %>
+              <.link navigate={Routes.user_session_path(@socket, :new)} class="text-md font-semibold leading-6 text-zinc-900">
                 Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
+              </.link>
             </div>
           <% end %>
         </div>
