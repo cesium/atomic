@@ -31,7 +31,7 @@
               end
             }>
               <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Maximum Entries") %>
+                <%= gettext("Enrollments") %>
               </dt>
               <dd class="mt-1 flex text-sm text-zinc-900">
                 <div class="flex w-full">
@@ -46,7 +46,7 @@
             <div class="col-span-2">
               <dt class="grid grid-cols-2 items-center">
                 <div class="text-sm font-medium text-zinc-500">
-                  <%= gettext("Activities") %>
+                  <%= gettext("Date and location") %>
                 </div>
               </dt>
               <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
@@ -139,12 +139,12 @@
                         phx-click="enroll"
                         phx-disable-with={gettext("Enrolling...")}
                         phx-throttle="0"
-                        class="w-fit mt-1 rounded-md bg-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                        class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                       >
                         <%= gettext("Enroll") %>
                       </button>
                     <% else %>
-                      <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                      <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
                         <%= gettext("Enroll") %>
                       </button>
                     <% end %>

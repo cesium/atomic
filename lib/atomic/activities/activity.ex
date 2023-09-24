@@ -61,7 +61,7 @@ defmodule Atomic.Activities.Activity do
     |> maybe_put_speakers(attrs)
   end
 
-  def activity_image_changeset(activity, attrs) do
+  def image_changeset(activity, attrs) do
     activity
     |> cast_attachments(attrs, [:image])
   end

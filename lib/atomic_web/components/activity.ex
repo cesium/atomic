@@ -10,6 +10,7 @@ defmodule AtomicWeb.Components.Activity do
 
   def default(assigns) do
     ~H"""
+    <!-- Main content -->
     <div>
       <div class="flex space-x-3">
         <div class="flex-shrink-0">
@@ -41,25 +42,37 @@ defmodule AtomicWeb.Components.Activity do
       <p><%= @activity.description %></p>
     </div>
     <!-- Image -->
-    <div class="mt-4">
-      <img class="max-w-content rounded-md lg:max-w-md" src={@url} />
-    </div>
-    <div class="mt-3 flex justify-between space-x-6">
+    <%= if @activity.image do %>
+      <div class="mt-4">
+        <img class="max-w-xs rounded-md lg:max-w-md" src={@url} />
+      </div>
+    <% end %>
+    <!-- Footer -->
+    <div class="mt-3 flex flex-row justify-between">
       <div class="flex space-x-4">
         <span class="inline-flex items-center text-sm">
-          <span class="inline-flex space-x-2 text-gray-400">
-            <Heroicons.Solid.calendar class="h-5 w-5" />
-            <span class="sr-only">Starts on</span>
+          <span class="inline-flex space-x-2 text-zinc-400">
+            <Heroicons.Solid.clock class="h-5 w-5" />
             <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
+            <span class="sr-only">starting in</span>
           </span>
         </span>
         <span class="inline-flex items-center text-sm">
-          <span class="inline-flex space-x-2 text-gray-400">
+          <span class="inline-flex space-x-2 text-zinc-400">
             <Heroicons.Solid.user_group class="h-5 w-5" />
             <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
+            <span class="sr-only">enrollments</span>
+          </span>
+        </span>
+        <span class="inline-flex items-center text-sm">
+          <span class="inline-flex space-x-2 text-zinc-400">
+            <Heroicons.Solid.location_marker class="h-5 w-5" />
+            <span class="font-medium text-gray-900"><%= @activity.location.name %></span>
+            <span class="sr-only">location</span>
           </span>
         </span>
       </div>
+      <%= live_redirect("View this activity", to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, @activity), class: "text-md w-auto cursor-pointer text-orange-500 hover:underline") %>
     </div>
     """
   end

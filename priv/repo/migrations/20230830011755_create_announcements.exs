@@ -7,6 +7,7 @@ defmodule Atomic.Repo.Migrations.CreateAnnouncements do
       add :title, :string, null: false
       add :description, :text, null: false
       add :publish_at, :naive_datetime, null: false
+      add :image, :string
 
       add :organization_id, references(:organizations, on_delete: :nothing, type: :binary_id),
         null: false

@@ -1,244 +1,158 @@
+<!-- Notifications -->
 <div aria-live="assertive" class="flex fixed inset-0 z-50 flex-col gap-y-2 items-end py-4 px-4 pointer-events-none sm:items-start sm:px-6">
-  <!-- Show flash messages -->
   <%= for {key, message} <- @flash do %>
     <.live_component id={key} module={AtomicWeb.Components.Notification} type={key} message={message} flash={@flash} />
   <% end %>
 </div>
-
-<div x-data="{ sidebar: false }" class="overflow-hidden">
-  <!-- Mobile sidebar -->
-  <div
-    class="relative z-50 lg:hidden"
-    role="dialog"
-    aria-modal="true"
-    x-show="sidebar"
-    x-transition:enter="transition-opacity ease-linear duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition-opacity ease-linear duration-300"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-  >
-    <div class="fixed inset-0 bg-zinc-900/80"></div>
-
-    <div
-      class="fixed inset-0 flex"
-      x-show="sidebar"
-      x-transition:enter="transition ease-in-out duration-300 transform"
-      x-transition:enter-start="-translate-x-full"
-      x-transition:enter-end="translate-x-0"
-      x-transition:leave="transition ease-in-out duration-300 transform"
-      x-transition:leave-start="translate-x-0"
-      x-transition:leave-end="-translate-x-full"
-    >
-      <div
-        class="relative mr-16 flex w-full max-w-xs flex-1 bg-zinc-50"
-        x-show="sidebar"
-        x-transition:enter="transition ease-in-out duration-300 transform"
-        x-transition:enter-start="-translate-x-full"
-        x-transition:enter-end="translate-x-0"
-        x-transition:leave="transition ease-in-out duration-300 transform"
-        x-transition:leave-start="translate-x-0"
-        x-transition:leave-end="-translate-x-full"
-      >
-        <div class="absolute left-full top-0 flex w-16 justify-center pt-9">
-          <button type="button" class="-m-2.5" @click="sidebar = false">
-            <span class="sr-only">Close sidebar</span>
-            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
-            <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-12 w-auto" />
-            <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
-          </div>
-          <nav class="flex flex-1 flex-col">
-            <ul role="list" class="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" class="-mx-2 space-y-1">
-                  <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                    <li class="select-none">
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                        <Heroicons.Outline.render
-                          icon={page.icon}
-                          class={
-                            "#{if @current_page == page.key do
-                              "text-orange-600"
-                            else
-                              "text-zinc-400 group-hover:text-orange-600"
-                            end} h-6 w-6 shrink-0"
-                          }
-                        />
-                        <%= page.title %>
-                      <% end %>
-                    </li>
-                  <% end %>
-                </ul>
-              </li>
-              <%= if @is_authenticated? do %>
-                <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
-                <%= if Enum.count(organizations) > 0 do %>
-                  <li>
-                    <div class="text-xs font-semibold leading-6 text-zinc-400 select-none"><%= gettext("Your organizations") %></div>
-                    <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
+<!-- Main content -->
+<div class="flex relative flex-col min-h-screen">
+  <div class="flex flex-col mx-auto w-full lg:flex-row xl:px-8 max-w-[1380px]">
+    <!-- Left column -->
+    <div class="relative flex-shrink-0 lg:w-72 lg:flex lg:max-w-[400px]">
+      <%= render("_live_navbar.html", assigns) %>
+    </div>
+    <!-- Central content -->
+    <div class="w-full content-height">
+      <%= @inner_content %>
+    </div>
+    <!-- Right column (only exists in home) -->
+    <%= if @current_page == :home do %>
+      <div class="hidden pr-4 pb-6 pl-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 lg:border-l xl:pr-0">
+        <!-- Schedule -->
+        <section aria-labelledby="schedule">
+          <div class="overflow-hidden">
+            <div>
+              <h2 class="pt-6 font-semibold text-gray-900">
+                Schedule
+              </h2>
+              <div class="flow-root">
+                <ul role="list" class="divide-y divide-gray-200">
+                  <li class="pt-2 pb-5">
+                    <div class="flex items-center justify-center mt-2 p-1 rounded-md bg-orange-600 opacity-70 w-[110px] h-6 space-x-1">
+                      <Heroicons.Solid.clock class="text-white w-4 h-4" />
+                      <p class="text-white font-semibold text-xs">
+                        9:00 - 10:00
+                      </p>
+                    </div>
+                    <div class="mt-3">
+                      <p class="font-semibold text-md">
+                        Standup
+                      </p>
+                      <p class="text-sm text-gray-700 text-justify">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quo animi temporibus.
+                      </p>
+                    </div>
                   </li>
-                <% end %>
-              <% end %>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Desktop sidebar -->
-  <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-    <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
-        <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-14 w-auto" />
-        <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
-      </div>
-      <nav class="flex flex-1 flex-col">
-        <ul role="list" class="flex flex-1 flex-col gap-y-7">
-          <li>
-            <ul role="list" class="-mx-2 space-y-1">
-              <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
-                <li class="select-none">
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                    <Heroicons.Outline.render
-                      icon={page.icon}
-                      class={
-                        "#{if @current_page == page.key do
-                          "text-orange-600"
-                        else
-                          "text-zinc-400 group-hover:text-orange-600"
-                        end} h-6 w-6 shrink-0"
-                      }
-                    />
-                    <%= page.title %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </li>
-          <%= if @is_authenticated? do %>
-            <% organizations = Atomic.Organizations.list_user_organizations(@current_user.id) %>
-            <%= if Enum.count(organizations) > 0 do %>
-              <li>
-                <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
-                <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
-              </li>
-            <% end %>
-            <!-- Profile dropdown -->
-            <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
-              <span class="sr-only">Open user menu</span>
-              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
-                <%= if @current_user.profile_picture do %>
-                  <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user.profile_picture, @current_user}, :original)} />
-                <% else %>
-                  <span class="flex items-center justify-center h-8 w-8 rounded-full bg-zinc-200 text-zinc-400">
-                    <%= extract_initials(@current_user.name) %>
-                  </span>
-                <% end %>
-                <span class="hidden lg:flex lg:items-center">
-                  <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
-                  <svg class="-rotate-90 ml-2 h-5 w-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-                <div
-                  class="absolute right-0 z-10 w-32 mb-16 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu-button"
-                  tabindex="-1"
-                  x-show="menu"
-                  x-transition:enter="transition ease-out duration-100"
-                  x-transition:enter-start="transform opacity-0 scale-95"
-                  x-transition:enter-end="transform opacity-100 scale-100"
-                  x-transition:leave="transition ease-in duration-75"
-                  x-transition:leave-start="transform opacity-100 scale-100"
-                  x-transition:leave-end="transform opacity-0 scale-95"
-                  @click.away="menu = false"
-                  @keydown.escape="menu = false"
-                >
-                  <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-                  <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-                </div>
-              </button>
-            </li>
-          <% else %>
-            <div class="border-b border-zinc-200 mt-auto"></div>
-            <li class="flex items-center px-6 pb-3 -mx-6">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900 hover:underline" do %>
-                Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </nav>
-    </div>
-  </div>
-
-  <div class="lg:pl-72">
-    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:hidden lg:pr-8">
-      <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" @click="sidebar = true">
-        <span class="sr-only">Open sidebar</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </button>
-      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
-        <div x-data="{ menu: false }" class="flex items-center gap-x-4 lg:gap-x-6">
-          <%= if @is_authenticated? do %>
-            <!-- Profile dropdown -->
-            <div class="relative block lg:hidden font-semibold">
-              <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
-                <span class="sr-only">Open user menu</span>
-                <%= if @current_user.profile_picture do %>
-                  <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user.profile_picture, @current_user}, :original)} />
-                <% else %>
-                  <span class="flex items-center justify-center h-8 w-8 rounded-full bg-zinc-200 text-zinc-400">
-                    <%= extract_initials(@current_user.name) %>
-                  </span>
-                <% end %>
-              </button>
-              <div
-                class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="user-menu-button"
-                tabindex="-1"
-                x-show="menu"
-                x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="transform opacity-0 scale-95"
-                x-transition:enter-end="transform opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="transform opacity-100 scale-100"
-                x-transition:leave-end="transform opacity-0 scale-95"
-                @click.away="menu = false"
-                @keydown.escape="menu = false"
-              >
-                <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-                <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
+                  <li class="py-5">
+                    <div class="flex items-center justify-center mt-2 p-1 rounded-md bg-orange-600 opacity-70 w-[110px] h-6 space-x-1">
+                      <Heroicons.Solid.clock class="text-white w-4 h-4" />
+                      <p class="text-white font-semibold text-xs">
+                        12:00 - 14:00
+                      </p>
+                    </div>
+                    <div class="mt-2">
+                      <p class="font-semibold text-md">
+                        Lunch
+                      </p>
+                      <p class="text-sm text-gray-700 text-justify">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quo animi temporibus. Consequatur, accusantium officiis earum quae, vel perferendis tempore accusamus magni deleniti veniam voluptates laboriosam quisquam quo odit veritatis?
+                      </p>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
-          <% else %>
-            <div class="flex lg:hidden flex-1 justify-end">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900" do %>
-                Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
+          </div>
+        </section>
+        <!-- Organizations to follow -->
+        <section aria-labelledby="organizations-to-follow">
+          <div class="overflow-hidden">
+            <div>
+              <h2 class="pt-6 font-semibold text-gray-900">
+                Organizations to follow
+              </h2>
+              <div class="flow-root">
+                <ul role="list" class="divide-y divide-gray-200">
+                  <li class="flex items-center space-x-3 py-4">
+                    <div class="flex-shrink-0">
+                      <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI3n14QCYFrcpr1FtEyI0LsDlKd3unsczfpvOJe5-8qZp9VKcy_m5RXmuuzG63fUA_NEI&usqp=CAU" alt="" />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        <a href="#">CeSIUM</a>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        <a href="#">@cesium</a>
+                      </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                      <button type="button" class="inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
+                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Follow
+                      </button>
+                    </div>
+                  </li>
+                  <li class="flex items-center space-x-3 py-4">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="h-8 w-8 rounded-full"
+                        src="data:image/png;base64,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"
+                      />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        <a href="#">NECC</a>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        <a href="#">@necc</a>
+                      </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                      <button type="button" class="inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
+                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Follow
+                      </button>
+                    </div>
+                  </li>
+                  <li class="flex items-center space-x-3 py-4">
+                    <div class="flex-shrink-0">
+                      <img
+                        class="h-8 w-8 rounded-full"
+                        src="data:image/png;base64,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"
+                      />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        <a href="#">NEFUM</a>
+                      </p>
+                      <p class="text-sm text-gray-500">
+                        <a href="#">@nefum</a>
+                      </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                      <button type="button" class="inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
+                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Follow
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="my-6">
+                <%= live_patch to: Routes.organization_index_path(@socket, :index), class: "w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+                  View all
+                <% end %>
+              </div>
             </div>
-          <% end %>
-        </div>
+          </div>
+        </section>
       </div>
-    </div>
-
-    <main class="py-4">
-      <div class="px-4 sm:px-6 lg:px-8">
-        <%= @inner_content %>
-      </div>
-    </main>
+    <% end %>
   </div>
 </div>

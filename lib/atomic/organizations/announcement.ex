@@ -7,6 +7,7 @@ defmodule Atomic.Organizations.Announcement do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(title description publish_at organization_id)a
+  @optional_fields ~w(image)a
 
   @derive {
     Flop.Schema,
@@ -22,6 +23,7 @@ defmodule Atomic.Organizations.Announcement do
     field :title, :string
     field :description, :string
     field :publish_at, :naive_datetime
+    field :image, Uploaders.Post.Type
 
     belongs_to :organization, Organization
 
@@ -30,7 +32,12 @@ defmodule Atomic.Organizations.Announcement do
 
   def changeset(announcements, attrs) do
     announcements
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+  end
+
+  def image_changeset(announcement, attrs) do
+    announcement
+    |> cast_attachments(attrs, [:image])
   end
 end

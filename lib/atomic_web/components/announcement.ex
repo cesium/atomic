@@ -6,6 +6,7 @@ defmodule AtomicWeb.Components.Announcement do
 
   def default(assigns) do
     ~H"""
+    <!-- Main content -->
     <div>
       <div class="flex space-x-3">
         <div class="flex-shrink-0">
@@ -26,14 +27,25 @@ defmodule AtomicWeb.Components.Announcement do
             <a href="#" class="hover:underline"><%= @announcement.organization.name %></a>
           </p>
           <p class="text-sm text-gray-500">
+            <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
           </p>
         </div>
       </div>
-      <h2 class="mt-4 text-base font-semibold text-gray-900"><%= @announcement.title %></h2>
+      <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @announcement.title %></h2>
     </div>
     <div class="mt-2 space-y-4 text-justify text-sm text-gray-700">
       <%= @announcement.description %>
+    </div>
+    <!-- Image -->
+    <%= if @announcement.image do %>
+      <div class="mt-4">
+        <img class="max-w-xs rounded-md lg:max-w-md" src={@url} />
+      </div>
+    <% end %>
+    <!-- Footer -->
+    <div class="flex flex-row-reverse">
+      <%= live_redirect("View this announcement", to: Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement), class: "text-md w-auto cursor-pointer text-orange-500 hover:underline") %>
     </div>
     """
   end

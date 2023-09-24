@@ -24,12 +24,12 @@
                 </div>
                 <%= if not @following? do %>
                   <%= if @is_authenticated? do %>
-                    <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-600 border-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-600">Follow</button>
+                    <button phx-click="follow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
                   <% else %>
-                    <button phx-click="must-login" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-600 border-orange-600 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-600">Follow</button>
+                    <button phx-click="must-login" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-orange-500 border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm inline hover:bg-white hover:text-orange-500">Follow</button>
                   <% end %>
                 <% else %>
-                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-600 py-2 px-3.5 text-sm font-medium text-orange-600 shadow-sm inline hover:bg-orange-600 hover:text-white">Unfollow</button>
+                  <button phx-click="unfollow" class="my-2 lg:my-0 w-32 border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm inline hover:bg-orange-500 hover:text-white">Unfollow</button>
                 <% end %>
                 <%= if @has_permissions? do %>
                   <%= live_patch to: Routes.organization_edit_path(@socket, :edit, @organization), class: "button" do %>

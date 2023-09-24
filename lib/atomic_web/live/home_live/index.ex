@@ -2,6 +2,8 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Pagination
+
   alias Atomic.Activities
   alias Atomic.Organizations
   alias AtomicWeb.Components.Activity
@@ -25,14 +27,15 @@ defmodule AtomicWeb.HomeLive.Index do
   defp list_posts do
     activities =
       Activities.list_activities(preloads: [:organization])
-      |> Enum.map(fn activity ->
+      |> Stream.map(fn activity ->
         %{activity | enrolled: Activities.get_total_enrolled(activity.id)}
       end)
 
     announcements = Organizations.list_announcements(preloads: [:organization])
 
-    (activities ++ announcements)
-    |> Enum.map(fn post ->
+    Stream.concat(activities, announcements)
+    |> Enum.sort(&sort_posts/2)
+    |> Stream.map(fn post ->
       case post do
         %Activities.Activity{} ->
           %{type: :activity, activity: post}
@@ -43,22 +46,44 @@ defmodule AtomicWeb.HomeLive.Index do
     end)
   end
 
+  # Sorts posts by inserted at, descending. Meaning the newest posts are first.
+  defp sort_posts(post1, post2) do
+    if NaiveDateTime.compare(post1.inserted_at, post2.inserted_at) == :lt do
+      false
+    else
+      true
+    end
+  end
+
   defp fetch_schedule(socket) do
     {daily, weekly} =
-      Activities.list_user_activities(socket.assigns.current_user.id, preloads: [:organization])
-      |> Enum.reduce({[], []}, fn activity, {daily_acc, weekly_acc} ->
-        case within_today_or_this_week(activity.start) do
-          :today ->
-            {[activity | daily_acc], weekly_acc}
-
-          :this_week ->
-            {daily_acc, [activity | weekly_acc]}
-
-          :other ->
-            {daily_acc, weekly_acc}
-        end
-      end)
+      Activities.list_activities(preloads: [:organization], order_by: [asc: :start])
+      |> Enum.reduce({[], []}, &process_activity/2)
 
     %{daily: daily, weekly: weekly}
+  end
+
+  defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
+    {daily, weekly} =
+      Activities.list_user_activities(socket.assigns.current_user.id,
+        preloads: [:organization],
+        order_bu: [asc: :start]
+      )
+      |> Enum.reduce({[], []}, &process_activity/2)
+
+    %{daily: daily, weekly: weekly}
+  end
+
+  defp process_activity(activity, {daily_acc, weekly_acc}) do
+    case within_today_or_this_week(activity.start) do
+      :today ->
+        {[activity | daily_acc], weekly_acc}
+
+      :this_week ->
+        {daily_acc, [activity | weekly_acc]}
+
+      :other ->
+        {daily_acc, weekly_acc}
+    end
   end
 end
