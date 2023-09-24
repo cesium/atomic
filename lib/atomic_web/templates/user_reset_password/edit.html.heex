@@ -1,47 +1,59 @@
-<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover bg-no-repeat bg-opacity-25 bg-center">
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
   <.form :let={f} for={@changeset} action={Routes.user_reset_password_path(@conn, :update, @token)} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
-    <h2 class="mt-6 text-center text-5xl font-extrabold text-zinc-900">
-      <span><%= gettext("Reset your Password") %></span>
+    <h2 class="mx-4 mt-6 text-center text-5xl font-bold text-zinc-900 select-none">
+      <span><%= gettext("Reset Password") %></span>
     </h2>
     <%= if @error_message do %>
-      <div class="alert alert-danger">
-        <p><%= @error_message %></p>
+      <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
+        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-red-400 text-red-700 px-4 py-4">
+          <Heroicons.Solid.exclamation class="w-5 h-5 mr-2 text-red-400" />
+          <div>
+            <p><%= @error_message %></p>
+          </div>
+        </div>
       </div>
     <% end %>
 
-    <div class="space-y-3 rounded-md w-96 flex-col justify-center items-center mt-6 px-3.5 mx-4">
-      <div x-data="{ hide: true }" class="flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
-        <%= label(f, :password, "New password", class: "sr-only") %>
-        <%= password_input(f, :password, required: true, placeholder: gettext("New Password"), class: "relative w-full border-0 rounded text-zinc-900 appearance-none outline-none focus:outline-none focus:ring-0") %>
-        <%= error_tag(f, :password) %>
-        <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="px-2 w-fit cursor-pointer">
-          <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
+    <div class="space-y-3 rounded-md w-full flex-col mt-6">
+      <div class="flex flex-col items-center justify-center mx-4">
+        <div x-data="{ hide: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+          <%= label(f, :password, "New password", class: "sr-only") %>
+          <%= password_input(f, :password, required: true, placeholder: gettext("New password"), class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:ring-0 sm:text-sm") %>
+          <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="px-2 w-fit cursor-pointer">
+            <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+          <div x-show="!hide" x-on:click="hide = true; document.getElementById('user_password').type = 'password';" class="px-2 w-fit cursor-pointer">
+            <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
         </div>
-        <div x-show="!hide" x-on:click="hide = true; document.getElementById('user_password').type = 'password';" class="px-2 w-fit cursor-pointer">
-          <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
-        </div>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password) %></span>
       </div>
-      <div x-data="{ hide_confirm: true }" class="flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
-        <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
-        <%= password_input(f, :password_confirmation,
-          required: true,
-          placeholder: gettext("Confirm New Password"),
-          class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:outline-none focus:ring-0"
-        ) %>
-        <%= error_tag(f, :password_confirmation) %>
-        <div x-show="hide_confirm" x-on:click="hide_confirm = false; document.getElementById('user_password_confirmation').type = 'text';" class="px-2 w-fit cursor-pointer">
-          <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
+
+      <div class="flex flex-col items-center justify-center mx-4">
+        <div x-data="{ hide_confirm: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+          <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
+          <%= password_input(f, :password_confirmation,
+            required: true,
+            placeholder: gettext("Confirm new password"),
+            class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:ring-0 sm:text-sm"
+          ) %>
+          <div x-show="hide_confirm" x-on:click="hide_confirm = false; document.getElementById('user_password_confirmation').type = 'text';" class="px-2 w-fit cursor-pointer">
+            <Heroicons.eye solid class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
+          <div x-show="!hide_confirm" x-on:click="hide_confirm = true; document.getElementById('user_password_confirmation').type = 'password';" class="px-2 w-fit cursor-pointer">
+            <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
+          </div>
         </div>
-        <div x-show="!hide_confirm" x-on:click="hide_confirm = true; document.getElementById('user_password_confirmation').type = 'password';" class="px-2 w-fit cursor-pointer">
-          <Heroicons.eye_slash solid class="w-5 h-auto fill-black hover:fill-black" />
-        </div>
+        <span class="text-sm w-full sm:w-96 mx-4 text-red-600"><%= error_tag(f, :password_confirmation) %></span>
       </div>
     </div>
 
-    <div class="w-96 px-3.5 mx-4">
-      <%= submit class: "w-full border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm" do %>
-        <%= gettext("Reset password") %>
-      <% end %>
+    <div class="w-full flex-col">
+      <div class="mx-4 justify-center flex select-none">
+        <%= submit class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96" do %>
+          <%= gettext("Change Password") %>
+        <% end %>
+      </div>
     </div>
   </.form>
 </div>

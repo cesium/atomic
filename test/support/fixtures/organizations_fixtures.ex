@@ -12,7 +12,8 @@ defmodule Atomic.OrganizationsFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        name: "some name"
+        name: "SN",
+        long_name: "some name"
       })
       |> Atomic.Organizations.create_organization()
 
@@ -27,7 +28,8 @@ defmodule Atomic.OrganizationsFixtures do
       %{}
       |> Enum.into(%{
         description: "some description",
-        name: "some name"
+        name: "SN",
+        long_name: "some name"
       })
       |> Atomic.Organizations.create_organization()
 
@@ -57,7 +59,8 @@ defmodule Atomic.OrganizationsFixtures do
     {:ok, organization} =
       %{
         description: "some description",
-        name: "some name"
+        name: "SN",
+        long_name: "some name"
       }
       |> Atomic.Organizations.create_organization()
 
@@ -75,7 +78,8 @@ defmodule Atomic.OrganizationsFixtures do
     {:ok, organization} =
       %{
         description: "some description",
-        name: "some name"
+        name: "SN",
+        long_name: "some name"
       }
       |> Atomic.Organizations.create_organization()
 
@@ -88,7 +92,7 @@ defmodule Atomic.OrganizationsFixtures do
 
     {:ok, board_department} =
       %{
-        name: "some name",
+        name: "SN",
         board_id: board.id,
         priority: 1
       }
@@ -101,7 +105,8 @@ defmodule Atomic.OrganizationsFixtures do
     {:ok, organization} =
       %{
         description: "some description",
-        name: "some name"
+        name: "SN",
+        long_name: "some name"
       }
       |> Atomic.Organizations.create_organization()
 

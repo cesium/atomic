@@ -5,6 +5,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.Activities
   alias Atomic.Departments
   alias Atomic.Organizations
+  alias Atomic.Uploaders.Logo
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,12 +13,14 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = _params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign(:organization, organization)
+     |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)
      |> assign(:organization, organization)
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
