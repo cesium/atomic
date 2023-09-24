@@ -104,13 +104,13 @@ defmodule AtomicWeb.Helpers do
   ## Examples
 
       iex> pretty_display_date(~D[2020-01-01])
-      "Wednesday, 1 Jan"
+      "Wed, 1 Jan"
 
       iex> pretty_display_date(~D[2023-01-01])
-      "Sunday, 1 Jan"
+      "Sun, 1 Jan"
 
       iex> pretty_display_date(~D[2023-01-01], "pt")
-      "Domingo, 1 de Jan"
+      "Dom, 1 de Jan"
   """
   def pretty_display_date(date, locale \\ "en")
 
