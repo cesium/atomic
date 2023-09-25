@@ -41,22 +41,22 @@ defmodule AtomicWeb.Components.Table do
     <th class="border-r-[1px] py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-zinc-900 sm:pl-6" scope="col">
       <%= if is_sortable?(@field, @meta.schema) && is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
         <div class="flex justify-between">
-          <%= live_patch(to: build_sorting_query(@field, @meta), class: "mr-2 w-full") do %>
+          <.link patch={build_sorting_query(@field, @meta)} class="mr-2 w-full">
             <div class="flex justify-between">
               <span><%= @label %></span>
               <.sorting_arrow direction={@direction} />
             </div>
-          <% end %>
+          </.link>
           <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
         </div>
       <% else %>
         <%= if is_sortable?(@field, @meta.schema) do %>
-          <%= live_patch(to: build_sorting_query(@field, @meta)) do %>
+          <.link patch={build_sorting_query(@field, @meta)}>
             <div class="flex justify-between">
               <span><%= @label %></span>
               <.sorting_arrow direction={@direction} />
             </div>
-          <% end %>
+          </.link>
         <% else %>
           <%= if is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
             <div class="flex justify-between">

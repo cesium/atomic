@@ -34,6 +34,7 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:board_departments, board_departments)
      |> assign(:empty?, Enum.empty?(board_departments))
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))
+     |> assign(:organization, organization)
      |> assign(:role, role)
      |> assign(:year, current_year)}
   end
