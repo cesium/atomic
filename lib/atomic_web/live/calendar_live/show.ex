@@ -16,18 +16,10 @@ defmodule AtomicWeb.CalendarLive.Show do
   def handle_params(params, _, socket) do
     mode = default_mode(params)
 
-    entries = [
-      %{
-        name: gettext("Calendar"),
-        route: Routes.calendar_show_path(socket, :show)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, "Calendar")
      |> assign(:current_page, :calendar)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:params, params)
      |> assign(:mode, mode)
      |> assign(:activities, list_activities(socket.assigns.timezone, mode, params))}

@@ -4,7 +4,9 @@ defmodule Atomic.Repo.Seeds.Activities do
   """
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Activities.{Activity, ActivityDepartment, ActivityEnrollment}
+  alias Atomic.Departments
+  alias Atomic.Organizations.Department
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
