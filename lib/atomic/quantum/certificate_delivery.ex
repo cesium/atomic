@@ -17,6 +17,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   alias Atomic.Mailer
   alias Atomic.Repo
   alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Organizations.Organization
   alias AtomicWeb.ActivityEmails
 
   @doc """
@@ -31,10 +32,18 @@ defmodule Atomic.Quantum.CertificateDelivery do
   def send_certificates do
     included_enrollments()
     |> Enum.each(fn enrollment ->
-      case generate_certificate(enrollment) do
+      activity =
+        Repo.get_by!(Activity, id: enrollment.activity_id)
+        |> Repo.preload([:organization])
+
+      case generate_certificate(enrollment, activity, activity.organization) do
         {:ok, certificate} ->
           Mailer.deliver(
-            ActivityEmails.activity_certificate_email(enrollment, certificate,
+            ActivityEmails.activity_certificate_email(
+              enrollment,
+              activity,
+              activity.organization,
+              certificate,
               to: enrollment.user.email
             )
           )
@@ -56,11 +65,17 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
-  defp generate_certificate(%ActivityEnrollment{} = enrollment) do
+  defp generate_certificate(
+         %ActivityEnrollment{} = enrollment,
+         %Activity{} = activity,
+         %Organization{} = organization
+       ) do
     # Create the string corresponding to the HTML to convert
     # to a PDF
     Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",
-      enrollment: enrollment
+      enrollment: enrollment,
+      activity: activity,
+      organization: organization
     )
     |> PdfGenerator.generate(
       delete_temporary: true,
@@ -76,7 +91,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
         "--margin-bottom",
         "0",
         "-O",
-        "lanpe"
+        "landscape"
       ]
     )
   end
