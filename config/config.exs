@@ -77,7 +77,7 @@ config :tailwind,
 config :atomic, Atomic.Scheduler,
   jobs: [
     # Runs every midnight:
-    {"@daily", {Atomic.Quantum.CertificateDelivery, :send_certificates, []}}
+    {"0 0 * * *", {Atomic.Quantum.CertificateDelivery, :send_certificates, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom

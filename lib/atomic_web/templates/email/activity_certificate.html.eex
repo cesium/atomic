@@ -8,7 +8,7 @@
         <div>
             <p>Bom dia <%= @enrollment.user.name %>,</p>
 
-            <p>Gostávamos de agradecer a tua participação na atividade <%= @enrollment.activity.title %>. Enviamos, em anexo,
+            <p>Gostávamos de agradecer a tua participação na atividade <%= @activity.title %>. Enviamos, em anexo,
             o certificado de participação. Alternativamente, podes consultar o certificado no teu perfil da plataforma.
             </p>
 

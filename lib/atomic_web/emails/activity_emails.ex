@@ -4,10 +4,12 @@ defmodule AtomicWeb.ActivityEmails do
   """
   use Phoenix.Swoosh, view: AtomicWeb.EmailView
 
-  def activity_certificate_email(enrollment, certificate, to: email) do
+  def activity_certificate_email(enrollment, activity, organizations, certificate, to: email) do
     base_email(to: email)
-    |> subject("[Atomic] Certificado de Participação em \"#{enrollment.activity.title}\"")
+    |> subject("[Atomic] Certificado de Participação em \"#{activity.title}\"")
     |> assign(:enrollment, enrollment)
+    |> assign(:activity, activity)
+    |> assign(:organizations, organizations)
     |> attachment(certificate)
     |> render_body("activity_certificate.html")
   end
