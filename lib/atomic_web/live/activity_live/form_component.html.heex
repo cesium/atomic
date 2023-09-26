@@ -12,6 +12,7 @@
     </div>
 
     <div class="flex flex-col-reverse xl:flex-row">
+      <!-- Image uploader component -->
       <div class="w-full xl:w-1/3">
         <div class="py-6 px-4 sm:px-6 shrink-0 1.5xl:py-5 1.5xl:px-6 1.5xl:shrink-0">
           <span class="pl-1 mb-1 text-base font-sm text-gray-800 sm:text-lg">
@@ -77,80 +78,32 @@
       <div class="flex flex-col">
         <div class="flex pt-6 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-              Starting date
-            </span>
-            <div>
-              <%= datetime_local_input(f, :start, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-              <div class="text-red-500">
-                <%= error_tag(f, :start) %>
-              </div>
-            </div>
+            <Forms.datetime_input id={:start} forms={f} label="Starting date" />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-              Finishing date
-            </span>
-            <div>
-              <%= datetime_local_input(f, :finish, phx_debounce: "blur", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-              <div class="text-red-500">
-                <%= error_tag(f, :finish) %>
-              </div>
-            </div>
+            <Forms.datetime_input id={:finish} forms={f} label="Finishing date" />
           </div>
         </div>
 
         <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-              Minimum entries
-            </span>
-            <div>
-              <%= number_input(f, :minimum_entries, prompt: "Minimum entries", placeholder: "Choose minimum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-              <div class="text-red-500">
-                <%= error_tag(f, :minimum_entries) %>
-              </div>
-            </div>
+            <Forms.number_input id={:minimum_entries} forms={f} label="Minimum entries" placeholder="Choose minimum entries" />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-              Maximum entries
-            </span>
-            <div>
-              <%= number_input(f, :maximum_entries, prompt: "Maximum entries", placeholder: "Choose maximum entries", class: "w-64 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-              <div class="text-red-500">
-                <%= error_tag(f, :maximum_entries) %>
-              </div>
-            </div>
+            <Forms.number_input id={:maximum_entries} forms={f} label="Maximum entries" placeholder="Choose maximum entries" />
           </div>
         </div>
 
         <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
           <%= inputs_for f, :location, fn fl -> %>
             <div class="flex flex-col gap-y-1">
-              <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-                Location
-              </span>
-              <div>
-                <%= text_input(fl, :name, placeholder: "Choose location name", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                <div class="flex text-red-500">
-                  <%= error_tag(fl, :name) %>
-                </div>
-              </div>
+              <Forms.text_input id={:name} forms={fl} label="Location" placeholder="Choose location name" />
             </div>
 
             <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-              <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-                URL
-              </span>
-              <div>
-                <%= url_input(fl, :url, placeholder: "Choose event URL", phx_debounce: "blur", class: "w-96 sm:w-80 block border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500") %>
-                <div class="flex text-red-500">
-                  <%= error_tag(fl, :url) %>
-                </div>
-              </div>
+              <Forms.text_input id={:url} forms={fl} label="URL" placeholder="Choose event URL" />
             </div>
           <% end %>
         </div>
@@ -169,9 +122,8 @@
                 <button
                   @click="toggle()"
                   :aria-expanded="open"
-                  class="relative w-96 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 focus:ring-indigo-600 sm:w-80 sm:text-sm sm:leading-6"
+                  class="relative w-96 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:w-80 sm:text-sm sm:leading-6"
                   type="button"
-                  aria-expanded="true"
                   aria-labelledby="listbox-label"
                 >
                   <span class="font-sm block truncate pl-1 text-base sm:text-lg">
@@ -191,15 +143,7 @@
                     </svg>
                   </span>
                 </button>
-                <!--
-          Select popover, show/hide based on select state.
-          Entering: ""
-            From: ""
-            To: ""
-          Leaving: "transition ease-in duration-100"
-            From: "opacity-100"
-            To: "opacity-0"
-        -->
+
                 <ul
                   x-cloak
                   x-show="open"
@@ -213,14 +157,10 @@
                 >
                   <%= for speaker <- @speakers do %>
                     <li class="relative cursor-default select-none py-2 pr-9 pl-3 text-gray-900" id="listbox-option-0" role="option" @click="open = true" phx-click="toggle_option" phx-target={@myself} phx-value-id={speaker.id}>
-                      <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                       <span class="block truncate font-normal">
                         <%= speaker.label %>
                       </span>
-                      <!--
-                  Checkmark, only display for selected option.
-                  Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                -->
+
                       <%= if speaker.selected do %>
                         <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
                           <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -237,15 +177,7 @@
         </div>
 
         <div class="flex-grow mt-4">
-          <span class="text-sm text-gray-700 line-clamp-3">
-            <span class="pl-1 text-base font-sm text-gray-800 sm:text-lg">
-              Description
-            </span>
-            <%= textarea(f, :description, placeholder: "Choose description", rows: 15, phx_debounce: "blur", class: "focus:ring-orange-500 h-32 font-medium focus:border-orange-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md") %>
-          </span>
-          <div class="flex text-red-500">
-            <%= error_tag(f, :description) %>
-          </div>
+          <Forms.textarea id={:description} forms={f} label="Description" placeholder="Choose description" rows={15} />
         </div>
       </div>
     </div>

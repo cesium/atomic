@@ -2,6 +2,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
+  alias AtomicWeb.Components.Forms
 
   @impl true
   def mount(socket) do
@@ -42,8 +43,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("toggle_option", %{"id" => id}, socket) do
-    updated_departments =
-      Enum.map(socket.assigns.departments, fn option ->
+    updated_speakers =
+      Enum.map(socket.assigns.speakers, fn option ->
         if option.id == id do
           %{option | selected: !option.selected}
         else
@@ -53,8 +54,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
     {:noreply,
      socket
-     |> assign(:speakers, updated_departments)
-     |> assign(:selected_speakers, Enum.filter(updated_departments, & &1.selected))}
+     |> assign(:speakers, updated_speakers)
+     |> assign(:selected_speakers, Enum.filter(updated_speakers, & &1.selected))}
   end
 
   @impl true
