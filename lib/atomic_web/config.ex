@@ -25,7 +25,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qrcode,
+          icon: :qr_code,
           url: Routes.scanner_index_path(conn, :index),
           tabs: []
         }
@@ -52,7 +52,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :memberships,
           title: "Memberships",
-          icon: :user_add,
+          icon: :user_plus,
           url: Routes.membership_index_path(conn, :index, current_organization.id),
           tabs: []
         },
@@ -66,7 +66,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qrcode,
+          icon: :qr_code,
           url: Routes.scanner_index_path(conn, :index),
           tabs: []
         }
@@ -106,7 +106,7 @@ defmodule AtomicWeb.Config do
       %{
         key: :organizations,
         title: "Organizations",
-        icon: :office_building,
+        icon: :building_office,
         url: Routes.organization_index_path(conn, :index),
         tabs: []
       }

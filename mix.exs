@@ -7,7 +7,6 @@ defmodule Atomic.MixProject do
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -34,11 +33,12 @@ defmodule Atomic.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.14"},
+      {:phoenix, "~> 1.7.0"},
 
       # core
+      {:phoenix_view, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.17.5"},
+      {:phoenix_live_view, "~> 0.19.5"},
 
       # database
       {:ecto_sql, "~> 3.6"},
@@ -61,14 +61,14 @@ defmodule Atomic.MixProject do
       # frontend
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
-      {:icons, "~> 0.7.1"},
+      {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:flop_phoenix, "~> 0.14.2"},
+      {:flop_phoenix, "~> 0.20.0"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
-      {:phoenix_live_dashboard, "~> 0.6"},
+      {:phoenix_live_dashboard, "~> 0.8.2"},
 
       # utilities
       {:gettext, "~> 0.18"},

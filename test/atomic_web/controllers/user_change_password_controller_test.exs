@@ -34,7 +34,10 @@ defmodule AtomicWeb.UserSettingsControllerTest do
 
       assert redirected_to(new_password_conn) == Routes.user_change_password_path(conn, :edit)
       assert get_session(new_password_conn, :user_token) != get_session(conn, :user_token)
-      assert get_flash(new_password_conn, :info) =~ "Password updated successfully"
+
+      assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
+               "Password updated successfully"
+
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 

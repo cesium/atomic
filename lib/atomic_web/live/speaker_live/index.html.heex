@@ -22,8 +22,8 @@
         <td><%= speaker.bio %></td>
 
         <td>
-          <span><%= live_redirect("Show", to: Routes.speaker_show_path(@socket, :show, @current_organization, speaker)) %></span>
-          <span><%= live_patch("Edit", to: Routes.speaker_index_path(@socket, :edit, @current_organization, speaker)) %></span>
+          <span><.link navigate={Routes.speaker_show_path(@socket, :show, @current_organization, speaker)}><%= gettext("Show") %></.link></span>
+          <span><.link patch={Routes.speaker_index_path(@socket, :edit, @current_organization, speaker)}><%= gettext("Edit") %></.link></span>
           <span><%= link("Delete", to: "#", phx_click: "delete", phx_value_id: speaker.id, data: [confirm: "Are you sure?"]) %></span>
         </td>
       </tr>
@@ -31,4 +31,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch("New Speaker", to: Routes.speaker_index_path(@socket, :new, @current_organization)) %></span>
+<span><.link patch={Routes.speaker_index_path(@socket, :new, @current_organization)}><%= gettext("New Speaker") %></.link></span>
