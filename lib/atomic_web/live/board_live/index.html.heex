@@ -32,7 +32,7 @@
             <% end %>
             <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
           </div>
-          <div class="relative mb-20 lg:gap-x-24 ">
+          <div class="relative mb-10 lg:gap-x-24 ">
             <div class="justify-center container mx-auto pt-5">
               <div class="flex flex-wrap justify-center">
                 <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
