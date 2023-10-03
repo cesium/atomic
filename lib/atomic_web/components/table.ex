@@ -33,28 +33,30 @@ defmodule AtomicWeb.Components.Table do
 
   defp header_column(assigns) do
     index = order_index(assigns.meta.flop, assigns.field)
-    direction = order_direction(assigns.meta.flop.order_directions, index)
+
+    assigns =
+      assign(assigns, :direction, order_direction(assigns.meta.flop.order_directions, index))
 
     ~H"""
     <th class="border-r-[1px] py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-zinc-900 sm:pl-6" scope="col">
       <%= if is_sortable?(@field, @meta.schema) && is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
         <div class="flex justify-between">
-          <%= live_patch(to: build_sorting_query(@field, @meta), class: "mr-2 w-full") do %>
+          <.link patch={build_sorting_query(@field, @meta)} class="mr-2 w-full">
             <div class="flex justify-between">
               <span><%= @label %></span>
-              <.sorting_arrow direction={direction} />
+              <.sorting_arrow direction={@direction} />
             </div>
-          <% end %>
+          </.link>
           <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
         </div>
       <% else %>
         <%= if is_sortable?(@field, @meta.schema) do %>
-          <%= live_patch(to: build_sorting_query(@field, @meta)) do %>
+          <.link patch={build_sorting_query(@field, @meta)}>
             <div class="flex justify-between">
               <span><%= @label %></span>
-              <.sorting_arrow direction={direction} />
+              <.sorting_arrow direction={@direction} />
             </div>
-          <% end %>
+          </.link>
         <% else %>
           <%= if is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
             <div class="flex justify-between">
@@ -75,18 +77,34 @@ defmodule AtomicWeb.Components.Table do
     <div x-data="{ open: false }">
       <span @click="open = ! open" class="flex h-5 w-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
         <span class="self-center">
-          <Heroicons.Solid.search class="align-center h-4 w-4" />
+          <Heroicons.magnifying_glass solid class="align-center h-4 w-4" />
         </span>
       </span>
       <div x-show="open" class="absolute -translate-x-3/4 p-2">
-        <.form let={f} for={@meta}>
-          <Flop.Phoenix.filter_fields let={entry} form={f} fields={@filter} input_opts={[class: "w-full appearance-none border-none pl-0 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-transparent sm:text-sm"]}>
-            <div class="py- relative flex w-full appearance-none rounded-lg border border-zinc-300 bg-white px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-zinc-400 focus-within:outline-none focus-within:ring-zinc-400 sm:text-sm">
-              <%= entry.input %>
-            </div>
+        <.form :let={f} for={@meta}>
+          <Flop.Phoenix.filter_fields :let={i} form={f} fields={@filter}>
+            <.input id={i.field.id} name={i.field.name} value={i.field.value} field={i.field} label={i.label} type={i.type} rest={i.rest} />
           </Flop.Phoenix.filter_fields>
         </.form>
       </div>
+    </div>
+    """
+  end
+
+  defp input(assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <input
+        type={@type}
+        name={@name}
+        id={@id}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class={[
+          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400"
+        ]}
+        {@rest}
+      />
     </div>
     """
   end
@@ -95,17 +113,17 @@ defmodule AtomicWeb.Components.Table do
     ~H"""
     <%= if @direction in [:asc, :asc_nulls_first, :asc_nulls_last] do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort_up class="h-3 w-3" />
+        <Heroicons.chevron_up class="h-3 w-3" />
       </span>
     <% end %>
     <%= if @direction in [:desc, :desc_nulls_first, :desc_nulls_last] do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort_down class="h-3 w-3" />
+        <Heroicons.chevron_down class="h-3 w-3" />
       </span>
     <% end %>
     <%= if is_nil(@direction) do %>
       <span class="self-center">
-        <Icons.FontAwesome.Solid.sort class="h-3 w-3" />
+        <Heroicons.chevron_up_down class="h-3 w-3" />
       </span>
     <% end %>
     """

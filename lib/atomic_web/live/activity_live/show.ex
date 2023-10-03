@@ -69,7 +69,7 @@ defmodule AtomicWeb.ActivityLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, gettext("You must be logged in to enroll in an activity."))
-     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+     |> push_navigate(to: Routes.user_session_path(socket, :new))}
   end
 
   @impl true

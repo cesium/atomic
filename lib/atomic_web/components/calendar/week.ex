@@ -20,7 +20,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
-              <%= live_patch to: build_path(@current_path, %{"mode" => "week", "day" => day_of_week |> date_to_day(), "month" => @params["month"], "year" => @params["year"]}), class: "flex flex-col items-center py-2" do %>
+              <.link patch={build_path(@current_path, %{"mode" => "week", "day" => day_of_week |> date_to_day(), "month" => @params["month"], "year" => @params["year"]})} class="flex flex-col items-center py-2">
                 <%= Enum.at(@week_mobile, idx) %>
                 <span class={
                   "#{if @today == day_of_week do
@@ -35,7 +35,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                 }>
                   <%= day_of_week |> date_to_day() %>
                 </span>
-              <% end %>
+              </.link>
             <% end %>
           </div>
           <div class="-mr-px hidden grid-cols-7 divide-x divide-zinc-100 border-r border-zinc-100 text-sm leading-6 text-zinc-500 sm:grid">
@@ -108,7 +108,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
     ~H"""
     <%= for activity <- get_date_activities(@activities, @date) do %>
       <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
-        <%= live_patch to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity) do %>
+        <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
           <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
             <p class="order-1 font-semibold text-orange-600">
               <%= activity.title %>
@@ -117,7 +117,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
               <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
             </p>
           </div>
-        <% end %>
+        </.link>
       </li>
     <% end %>
     """
