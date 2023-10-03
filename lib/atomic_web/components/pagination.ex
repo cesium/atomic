@@ -6,9 +6,15 @@ defmodule AtomicWeb.Components.Pagination do
 
   import AtomicWeb.Components.Helpers
 
+  attr :id, :string, default: "pagination", required: false
+  attr :items, :list, required: true
+  attr :meta, :map, required: true
+  attr :params, :map, required: true
+  attr :class, :string, default: "", required: false
+
   def pagination(assigns) do
     ~H"""
-    <div class={@class}>
+    <div id={@id} class={@class}>
       <nav class="mb-5 flex w-full items-center justify-between px-4">
         <%= if @meta.total_pages > 1 do %>
           <div class="-mt-px flex w-0 flex-1">

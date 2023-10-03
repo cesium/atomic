@@ -8,6 +8,13 @@ defmodule AtomicWeb.Components.Calendar do
   import AtomicWeb.Components.CalendarMonth
   import AtomicWeb.Components.CalendarWeek
 
+  attr :id, :string, default: "calendar", required: false
+  attr :current_path, :string, required: true
+  attr :activities, :list, required: true
+  attr :mode, :string, required: true
+  attr :timezone, :any, required: true
+  attr :params, :map, required: true
+
   def calendar(
         %{
           current_path: current_path,
@@ -36,7 +43,7 @@ defmodule AtomicWeb.Components.Calendar do
       end
 
     ~H"""
-    <div x-data="{ mode_view: false }" class="flex-col lg:flex lg:h-full">
+    <div id={@id} x-data="{ mode_view: false }" class="flex-col lg:flex lg:h-full">
       <header class="my-4 flex flex-col sm:flex-row">
         <div class="flex-1">
           <div class="relative z-20 flex w-full items-end justify-between lg:flex-none">
@@ -186,9 +193,9 @@ defmodule AtomicWeb.Components.Calendar do
         </div>
       </header>
       <%= if @mode == "month" do %>
-        <.calendar_month id="calendar_month" current_path={@current_path} params={@params} activities={@activities} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
+        <.calendar_month current_path={@current_path} params={@params} activities={@activities} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
       <% else %>
-        <.calendar_week id="calendar_week" current_path={@current_path} current={@current} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
+        <.calendar_week current_path={@current_path} current={@current} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
     """

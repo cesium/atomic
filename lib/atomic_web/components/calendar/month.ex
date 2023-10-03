@@ -5,9 +5,17 @@ defmodule AtomicWeb.Components.CalendarMonth do
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.Badges
 
+  attr :id, :string, default: "calendar-month", required: false
+  attr :current_path, :string, required: true
+  attr :activities, :list, required: true
+  attr :timezone, :any, required: true
+  attr :beginning_of_month, :any, required: true
+  attr :end_of_month, :any, required: true
+  attr :params, :map, required: true
+
   def calendar_month(assigns) do
     ~H"""
-    <div class="rounded-lg shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+    <div id={@id} class="rounded-lg shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
       <div class="grid grid-cols-7 gap-px rounded-t-lg border-b border-zinc-300 bg-zinc-200 text-center text-xs font-semibold leading-6 text-zinc-700 lg:flex-none">
         <div class="rounded-tl-lg bg-white py-2">
           M<span class="sr-only sm:not-sr-only">on</span>

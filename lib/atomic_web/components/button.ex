@@ -2,6 +2,8 @@ defmodule AtomicWeb.Components.Button do
   @moduledoc false
   use AtomicWeb, :component
 
+  attr :url, :string, required: true
+
   def edit_button(assigns) do
     ~H"""
     <div class="flex w-0 flex-1">
@@ -12,6 +14,8 @@ defmodule AtomicWeb.Components.Button do
     </div>
     """
   end
+
+  attr :id, :string, required: true
 
   def delete_button(assigns) do
     ~H"""

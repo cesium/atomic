@@ -28,7 +28,7 @@
 
 <%= if @empty? and @has_permissions? do %>
   <div class="mt-32">
-    <.empty_state id="empty_state" url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
+    <.empty_state url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
   </div>
 <% else %>
   <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
