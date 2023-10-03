@@ -86,7 +86,7 @@ defmodule Atomic.MixProject do
       # tools
       {:timex, "~> 3.0"},
       {:qrcode_ex, "~> 0.1.1"},
-      {:pdf_generator, "~>0.6.2"},
+      {:pdf_generator, "~> 0.6.2"},
       {:quantum, "~> 3.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]

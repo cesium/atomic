@@ -3,7 +3,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Activities.Enrollment
+  alias Atomic.Activities.ActivityEnrollment
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -17,34 +17,24 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:speakers, :departments])
-
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      },
-      %{
-        name: activity.title,
-        route: Routes.activity_show_path(socket, :show, id)
-      }
-    ]
+    activity = Activities.get_activity!(id, [:speakers, :organization])
 
     {:noreply,
      socket
      |> assign(:page_title, "#{activity.title}")
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
      |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> then(fn complete_socket ->
+       assign(complete_socket, :has_permissions?, has_permissions?(complete_socket))
+     end)}
   end
 
   @impl true
   def handle_event("enroll", _payload, socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {:ok, %Enrollment{}} ->
+      {:ok, %ActivityEnrollment{}} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")
@@ -102,17 +92,11 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
-  defp has_permissions?(socket)
-       when not is_map_key(socket.assigns, :current_organization) or
-              is_nil(socket.assigns.current_organization) do
-    Accounts.has_master_permissions?(socket.assigns.current_user.id)
-  end
-
   defp has_permissions?(socket) do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
         socket.assigns.current_user.id,
-        socket.assigns.current_organization.id
+        socket.assigns.activity.organization_id
       )
   end
 end

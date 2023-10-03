@@ -16,7 +16,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   alias Atomic.Mailer
   alias Atomic.Repo
-  alias Atomic.Activities.{Activity, Enrollment}
+  alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Organizations.Organization
   alias AtomicWeb.ActivityEmails
 
   @doc """
@@ -31,10 +32,18 @@ defmodule Atomic.Quantum.CertificateDelivery do
   def send_certificates do
     included_enrollments()
     |> Enum.each(fn enrollment ->
-      case generate_certificate(enrollment) do
+      activity =
+        Repo.get_by!(Activity, id: enrollment.activity_id)
+        |> Repo.preload([:organization])
+
+      case generate_certificate(enrollment, activity, activity.organization) do
         {:ok, certificate} ->
           Mailer.deliver(
-            ActivityEmails.activity_certificate_email(enrollment, certificate,
+            ActivityEmails.activity_certificate_email(
+              enrollment,
+              activity,
+              activity.organization,
+              certificate,
               to: enrollment.user.email
             )
           )
@@ -56,11 +65,17 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
-  defp generate_certificate(%Enrollment{} = enrollment) do
+  defp generate_certificate(
+         %ActivityEnrollment{} = enrollment,
+         %Activity{} = activity,
+         %Organization{} = organization
+       ) do
     # Create the string corresponding to the HTML to convert
     # to a PDF
     Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",
-      enrollment: enrollment
+      enrollment: enrollment,
+      activity: activity,
+      organization: organization
     )
     |> PdfGenerator.generate(
       delete_temporary: true,
@@ -76,7 +91,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
         "--margin-bottom",
         "0",
         "-O",
-        "lanpe"
+        "landscape"
       ]
     )
   end
@@ -96,8 +111,8 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
     from a in Activity,
       where: a.finish >= ^minimum_finish and a.finish <= ^now,
-      group_by: [a.activity_id],
-      select: %{finish: max(a.finish), activity_id: a.activity_id}
+      group_by: [a.id],
+      select: %{finish: max(a.finish), activity_id: a.id}
   end
 
   # Determines all the enrollments eligible to receive participation
@@ -112,7 +127,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   defp included_enrollments do
     enrollments =
       from s in subquery(last_activities_query()),
-        inner_join: e in Enrollment,
+        inner_join: e in ActivityEnrollment,
         on: e.activity_id == s.activity_id,
         where: e.present,
         select: e

@@ -3,8 +3,6 @@ defmodule Atomic.Organizations.Department do
     A department of an organization
   """
   use Atomic.Schema
-  alias Atomic.Activities.Activity
-  alias Atomic.Activities.ActivityDepartment
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(name organization_id)a
@@ -14,7 +12,6 @@ defmodule Atomic.Organizations.Department do
     field :name, :string
     field :description, :string
 
-    many_to_many :activities, Activity, join_through: ActivityDepartment
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 
     timestamps()
