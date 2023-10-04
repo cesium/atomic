@@ -2,6 +2,8 @@ defmodule AtomicWeb.Components.Board do
   @moduledoc false
   use AtomicWeb, :component
 
+  attr :user_organization, :map, required: true
+
   def member_bubble(assigns) do
     ~H"""
     <div class="mx-auto mt-12 mb-12 w-full px-4 sm:w-6/12 md:w-1/3 lg:1/4 lg:mb-0 xl:w-2/12">
