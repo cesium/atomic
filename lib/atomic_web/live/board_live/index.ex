@@ -2,6 +2,7 @@ defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Board
 
   alias Atomic.Accounts
   alias Atomic.Board

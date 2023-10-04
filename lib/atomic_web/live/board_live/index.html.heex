@@ -22,29 +22,23 @@
       </div>
     <% else %>
       <%= for board_department <- @board_departments do %>
-        <li id={"board-department-#{board_department.id}"} class="mt-10 max-w-2xl gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
+        <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
           <div class="flex flex-row items-center space-x-8">
-            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
             <%= if @role in [:owner, :admin] do %>
               <span class="handle cursor-row-resize">
                 <Heroicons.bars_3 solid class="w-5 h-5 text-zinc-400" />
               </span>
             <% end %>
+            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
           </div>
-          <div class="grid lg:grid-flow-col lg:gap-x-24 items-center justify-center mt-10">
-            <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
-              <ol class="z-100 flex flex-col items-center justify-center">
-                <%= if user_organization.user.profile_picture do %>
-                  <img class="mx-auto h-24 w-24 rounded-full" src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
-                <% else %>
-                  <span class="flex items-center justify-center h-24 w-24 rounded-full bg-zinc-200 text-zinc-700">
-                    <%= extract_initials(user_organization.user.name) %>
-                  </span>
+          <div class="relative mb-10 lg:gap-x-24 ">
+            <div class="justify-center container mx-auto pt-5">
+              <div class="flex flex-wrap justify-center">
+                <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
+                  <.member_bubble user_organization={user_organization} />
                 <% end %>
-                <h3 class="mt-6 text-base font-semibold leading-7 tracking-tight text-zinc-900"><%= user_organization.user.name %></h3>
-                <p class="text-sm leading-6 text-zinc-600"><%= user_organization.role %></p>
-              </ol>
-            <% end %>
+              </div>
+            </div>
           </div>
         </li>
       <% end %>
