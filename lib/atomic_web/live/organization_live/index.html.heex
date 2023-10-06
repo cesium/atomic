@@ -13,7 +13,7 @@
   </div>
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state id="empty_state" url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
+      <.empty_state url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">

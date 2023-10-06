@@ -18,7 +18,7 @@
     </div>
     <%= if @empty? and @has_permissions? do %>
       <div class="mt-32">
-        <.empty_state id="empty_state" url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
+        <.empty_state url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
       </div>
     <% else %>
       <%= for board_department <- @board_departments do %>

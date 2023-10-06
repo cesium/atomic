@@ -6,9 +6,19 @@ defmodule AtomicWeb.Components.Table do
 
   import AtomicWeb.Components.Helpers
 
+  attr :id, :string, default: "table", required: false
+  attr :items, :list, required: true
+  attr :meta, :map, required: true
+  attr :filter, :list, required: true
+
+  slot :col do
+    attr :label, :string, required: false
+    attr :field, :atom, required: false
+  end
+
   def table(assigns) do
     ~H"""
-    <table class="min-w-full border-collapse divide-y divide-zinc-300 overflow-auto">
+    <table id={@id} class="min-w-full border-collapse divide-y divide-zinc-300 overflow-auto">
       <thead>
         <tr class="select-none bg-zinc-50">
           <%= for col <- @col do %>

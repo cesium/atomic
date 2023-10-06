@@ -2,7 +2,10 @@ defmodule AtomicWeb.Components.Announcement do
   @moduledoc false
   use AtomicWeb, :component
 
-  def render_announcement(assigns) do
+  attr :announcement, :map, required: true
+  attr :url, :string, required: true
+
+  def announcement_slot(assigns) do
     assigns = assign(assigns, :organization, assigns.announcement.organization)
 
     ~H"""

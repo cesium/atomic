@@ -6,6 +6,15 @@ defmodule AtomicWeb.Components.CalendarWeek do
 
   import AtomicWeb.CalendarUtils
 
+  attr :id, :string, default: "calendar-week", required: false
+  attr :current_path, :string, required: true
+  attr :activities, :list, required: true
+  attr :timezone, :string, required: true
+  attr :current, :string, required: true
+  attr :beginning_of_week, :string, required: true
+  attr :end_of_week, :string, required: true
+  attr :params, :map, required: true
+
   def calendar_week(%{timezone: timezone} = assigns) do
     assigns =
       assigns
@@ -14,7 +23,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> assign(today: Timex.today(timezone))
 
     ~H"""
-    <div class="flex flex-auto flex-col overflow-auto rounded-lg bg-white">
+    <div id={@id} class="flex flex-auto flex-col overflow-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">

@@ -4,6 +4,11 @@ defmodule AtomicWeb.Components.Badges do
 
   @colors ~w(gray red orange amber yellow lime green emerald teal cyan sky blue indigo violet purple fuchsia pink rose)
 
+  attr :url, :string, required: true
+  attr :color, :string, required: true
+
+  slot :inner_block
+
   def badge_dot(assigns) do
     assigns =
       assigns
