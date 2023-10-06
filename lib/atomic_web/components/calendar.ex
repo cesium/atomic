@@ -12,7 +12,7 @@ defmodule AtomicWeb.Components.Calendar do
   attr :current_path, :string, required: true
   attr :activities, :list, required: true
   attr :mode, :string, required: true
-  attr :timezone, :any, required: true
+  attr :timezone, :string, required: true
   attr :params, :map, required: true
 
   def calendar(

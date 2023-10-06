@@ -8,9 +8,9 @@ defmodule AtomicWeb.Components.CalendarMonth do
   attr :id, :string, default: "calendar-month", required: false
   attr :current_path, :string, required: true
   attr :activities, :list, required: true
-  attr :timezone, :any, required: true
-  attr :beginning_of_month, :any, required: true
-  attr :end_of_month, :any, required: true
+  attr :timezone, :string, required: true
+  attr :beginning_of_month, :string, required: true
+  attr :end_of_month, :string, required: true
   attr :params, :map, required: true
 
   def calendar_month(assigns) do

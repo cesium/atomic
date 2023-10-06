@@ -9,10 +9,10 @@ defmodule AtomicWeb.Components.CalendarWeek do
   attr :id, :string, default: "calendar-week", required: false
   attr :current_path, :string, required: true
   attr :activities, :list, required: true
-  attr :timezone, :any, required: true
-  attr :current, :any, required: true
-  attr :beginning_of_week, :any, required: true
-  attr :end_of_week, :any, required: true
+  attr :timezone, :string, required: true
+  attr :current, :string, required: true
+  attr :beginning_of_week, :string, required: true
+  attr :end_of_week, :string, required: true
   attr :params, :map, required: true
 
   def calendar_week(%{timezone: timezone} = assigns) do
