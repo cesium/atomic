@@ -8,7 +8,7 @@ defmodule AtomicWeb.Components.Empty do
 
   attr :id, :string, default: "empty-state", required: false
   attr :placeholder, :string, required: true
-  attr :url, :atom, required: true
+  attr :url, :string, required: true
 
   def empty_state(assigns) do
     ~H"""
