@@ -3,6 +3,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   alias Atomic.Activities
   alias AtomicWeb.Components.Forms
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(socket) do

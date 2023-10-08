@@ -110,24 +110,20 @@
 
         <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <div x-data="{
-        open: false,
-        toggle() { this.open = this.open ? this.close() : true },
-        close() { this.open = false },
-      }" @keydown.escape.prevent.stop="close()" @focusin.window="! $refs.panel.contains($event.target) && close()">
+            <div>
               <span class="font-sm pl-1 text-base text-gray-800 sm:text-lg">
                 Speakers
               </span>
               <div class="relative mt-2">
                 <button
-                  @click="toggle()"
-                  :aria-expanded="open"
                   class="relative w-96 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:w-80 sm:text-sm sm:leading-6"
+                  id="button"
                   type="button"
+                  phx-click={JS.toggle(to: "#dropdown")}
                   aria-labelledby="listbox-label"
                 >
                   <span class="font-sm block truncate pl-1 text-base sm:text-lg">
-                    <%= if @selected_speakers == [] do %>
+                    <%= if @selected_speakers == [] do%>
                       None selected
                     <% else %>
                       <%= "#{Enum.count(@selected_speakers)} selected" %>
@@ -145,29 +141,31 @@
                 </button>
 
                 <ul
-                  x-cloak
-                  x-show="open"
-                  x-ref="panel"
-                  @click.outside="close()"
+                  id="dropdown"
                   class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                  tabindex="-1"
                   role="listbox"
                   aria-labelledby="listbox-label"
                   aria-activedescendant="listbox-option-3"
+                  style="display: none;"
                 >
-                  <%= for speaker <- @speakers do %>
-                    <li class="relative cursor-default select-none py-2 pr-9 pl-3 text-gray-900" id="listbox-option-0" role="option" @click="open = true" phx-click="toggle_option" phx-target={@myself} phx-value-id={speaker.id}>
+                  <%= for {speaker, i} <- Enum.with_index(@speakers) do %>
+                    <li class="relative cursor-pointer select-none py-2 pr-9 pl-3 text-gray-900" 
+                      role="option" 
+                      phx-target={@myself} 
+                      phx-click={JS.toggle(to: "#item-" <> Integer.to_string(i)) |> JS.push("toggle_option", value: %{id: speaker.id})}
+                    >
                       <span class="block truncate font-normal">
                         <%= speaker.label %>
                       </span>
 
-                      <%= if speaker.selected do %>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
-                          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                          </svg>
-                        </span>
-                      <% end %>
+                      <span 
+                        id={ "item-" <> Integer.to_string(i) }  
+                        style="display: none;"
+                        class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
                     </li>
                   <% end %>
                 </ul>
