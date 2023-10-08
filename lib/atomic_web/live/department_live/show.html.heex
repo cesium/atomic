@@ -82,11 +82,11 @@
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <%= live_patch to: Routes.department_index_path(@socket, :edit, @organization, @department), class: "button" do %>
+                      <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                          <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                         </div>
-                      <% end %>
+                      </.link>
                     </td>
                   </tr>
                 <% end %>
@@ -100,9 +100,9 @@
 </div>
 
 <%= if @has_permissions? do %>
-  <%= live_patch to: Routes.department_index_path(@socket, :edit, @organization, @department), class: "button" do %>
+  <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-      <Heroicons.Solid.pencil class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+      <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
     </div>
-  <% end %>
+  </.link>
 <% end %>

@@ -9,8 +9,10 @@ defmodule AtomicWeb.UserResetPasswordController do
     render(conn, "new.html", error_message: nil)
   end
 
-  def create(conn, %{"user" => %{"email" => email}}) do
-    if user = Accounts.get_user_by_email(email) do
+  def create(conn, %{"user" => %{"input" => input}}) do
+    user = Accounts.get_user_by_email(input) || Accounts.get_user_by_slug(input)
+
+    if user do
       Accounts.deliver_user_reset_password_instructions(
         user,
         &Routes.user_reset_password_url(conn, :edit, &1)
@@ -20,9 +22,9 @@ defmodule AtomicWeb.UserResetPasswordController do
     conn
     |> put_flash(
       :info,
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      "If your email or username is in our system, you will receive instructions to reset your password shortly."
     )
-    |> render("new.html", error_message: nil)
+    |> redirect(to: Routes.user_session_path(conn, :new))
   end
 
   def edit(conn, _params) do
@@ -38,7 +40,7 @@ defmodule AtomicWeb.UserResetPasswordController do
     case Accounts.reset_user_password(conn.assigns.user, user_params) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "Password reset successfully.")
+        |> put_flash(:info, "Password changed successfully.")
         |> redirect(to: Routes.user_session_path(conn, :new))
 
       {:error, changeset} ->

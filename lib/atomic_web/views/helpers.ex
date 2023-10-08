@@ -272,22 +272,22 @@ defmodule AtomicWeb.Helpers do
     |> URI.to_string()
   end
 
-  @doc """
-    Appends two lists when a condition is true
+  @doc ~S"""
+  Appends two lists when a condition is true
 
-    ## Examples
+  ## Examples
 
-        iex> append_if([1, 2, 3], true, [4])
-        [1, 2, 3, 4]
+      iex> append_if([1, 2, 3], true, [4])
+      [1, 2, 3, 4]
 
-        iex> append_if([1, 2, 3], false, [4])
-        [1, 2, 3]
+      iex> append_if([1, 2, 3], false, [4])
+      [1, 2, 3]
 
-        iex> append_if([1, 2, 3], false, [4])
-        [1, 2, 3]
+      iex> append_if([1, 2, 3], false, [4])
+      [1, 2, 3]
 
-        iex> append_if([1, 2, 3], true, [4, 5, 6])
-        [1, 2, 3, 4, 5, 6]
+      iex> append_if([1, 2, 3], true, [4, 5, 6])
+      [1, 2, 3, 4, 5, 6]
   """
   def append_if(list, condition, item) when is_list(item) do
     if condition do

@@ -12,23 +12,11 @@ defmodule AtomicWeb.ProfileLive.Edit do
   def handle_params(%{"slug" => user_slug}, _, socket) do
     user = Accounts.get_user_by_slug(user_slug)
 
-    entries = [
-      %{
-        name: gettext("%{name}", name: user.name),
-        route: Routes.profile_show_path(socket, :show, user_slug)
-      },
-      %{
-        name: gettext("Edit Profile", name: user.name),
-        route: Routes.profile_edit_path(socket, :edit, user_slug)
-      }
-    ]
-
     if socket.assigns.current_user.slug == user_slug do
       {:noreply,
        socket
        |> assign(:page_title, user.name)
        |> assign(:current_page, :profile)
-       |> assign(:breadcrumb_entries, entries)
        |> assign(:user, user)}
     else
       {:noreply, socket |> redirect(to: Routes.profile_show_path(socket, :show, user_slug))}

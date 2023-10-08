@@ -5,6 +5,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.Activities
   alias Atomic.Departments
   alias Atomic.Organizations
+  alias Atomic.Uploaders.Logo
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,25 +13,15 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = _params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
-
-    entries = [
-      %{
-        name: gettext("Organizations"),
-        route: Routes.organization_index_path(socket, :index)
-      },
-      %{
-        name: organization.name,
-        route: Routes.organization_show_path(socket, :show, organization_id)
-      }
-    ]
 
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign(:organization, organization)
+     |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
      |> assign(list_activities(organization_id))
@@ -91,7 +82,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, gettext("You must be logged in to follow an organization."))
-     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+     |> push_navigate(to: Routes.user_session_path(socket, :new))}
   end
 
   defp list_activities(organization_id) do

@@ -59,9 +59,9 @@
                 <ul role="list" class="-mx-2 space-y-1">
                   <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                     <li class="select-none">
-                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                        <Heroicons.Outline.render
-                          icon={page.icon}
+                      <.link navigate={page.url} class={if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end <> " group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}>
+                        <AtomicWeb.Components.Icon.render
+                          name={page.icon}
                           class={
                             "#{if @current_page == page.key do
                               "text-orange-600"
@@ -71,7 +71,7 @@
                           }
                         />
                         <%= page.title %>
-                      <% end %>
+                      </.link>
                     </li>
                   <% end %>
                 </ul>
@@ -104,9 +104,9 @@
             <ul role="list" class="-mx-2 space-y-1">
               <%= for page <- AtomicWeb.Config.pages(@socket, @current_user, @current_organization) do %>
                 <li class="select-none">
-                  <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" do %>
-                    <Heroicons.Outline.render
-                      icon={page.icon}
+                  <.link navigate={page.url} class={if @current_page == page.key do "bg-zinc-50 text-orange-600" else "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50" end <> " group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}>
+                    <AtomicWeb.Components.Icon.render
+                      name={page.icon}
                       class={
                         "#{if @current_page == page.key do
                           "text-orange-600"
@@ -116,7 +116,7 @@
                       }
                     />
                     <%= page.title %>
-                  <% end %>
+                  </.link>
                 </li>
               <% end %>
             </ul>
@@ -170,9 +170,9 @@
           <% else %>
             <div class="border-b border-zinc-200 mt-auto"></div>
             <li class="flex items-center px-6 pb-3 -mx-6">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900 hover:underline" do %>
+              <.link navigate={Routes.user_session_path(@socket, :new)} class="text-md font-semibold leading-6 text-zinc-900 hover:underline">
                 Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
+              </.link>
             </li>
           <% end %>
         </ul>
@@ -181,40 +181,14 @@
   </div>
 
   <div class="lg:pl-72">
-    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:pr-8">
+    <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 mt-2 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:hidden lg:pr-8">
       <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" @click="sidebar = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
-      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <div class="relative flex flex-1">
-          <nav class="hidden lg:block my-5 mx-10" aria-label="Breadcrumb">
-            <ol role="list" class=" flex items-center space-x-4">
-              <li>
-                <div>
-                  <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "text-zinc-400 hover:text-zinc-500" do %>
-                    <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="sr-only">Home</span>
-                  <% end %>
-                </div>
-              </li>
-              <%= for entry <- @breadcrumb_entries do %>
-                <li>
-                  <div class="flex items-center">
-                    <svg class="h-5 w-5 flex-shrink-0 text-zinc-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                      <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                    </svg>
-                    <%= live_redirect(entry.name, to: entry.route, class: "ml-4 text-sm font-medium text-zinc-500 hover:text-zinc-700") %>
-                  </div>
-                </li>
-              <% end %>
-            </ol>
-          </nav>
-        </div>
+      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
         <div x-data="{ menu: false }" class="flex items-center gap-x-4 lg:gap-x-6">
           <%= if @is_authenticated? do %>
             <!-- Profile dropdown -->
@@ -229,7 +203,6 @@
                   </span>
                 <% end %>
               </button>
-
               <div
                 class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
                 role="menu"
@@ -252,9 +225,9 @@
             </div>
           <% else %>
             <div class="flex lg:hidden flex-1 justify-end">
-              <%= live_redirect to: Routes.user_session_path(@socket, :new), class: "text-md font-semibold leading-6 text-zinc-900" do %>
+              <.link navigate={Routes.user_session_path(@socket, :new)} class="text-md font-semibold leading-6 text-zinc-900">
                 Sign in <span aria-hidden="true">&rarr;</span>
-              <% end %>
+              </.link>
             </div>
           <% end %>
         </div>

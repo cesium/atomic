@@ -16,22 +16,10 @@ defmodule AtomicWeb.DepartmentLive.Show do
     organization = Organizations.get_organization!(organization_id)
     department = Departments.get_department!(id)
 
-    entries = [
-      %{
-        name: gettext("Departments"),
-        route: Routes.department_index_path(socket, :index, organization_id)
-      },
-      %{
-        name: department.name,
-        route: Routes.department_show_path(socket, :show, organization_id, department.id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:current_page, :departments)
      |> assign(:page_title, department.name)
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:organization, organization)
      |> assign(:department, department)
      |> assign(:collaborator, maybe_put_collaborator(socket, department.id))
@@ -66,7 +54,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
            :error,
            "There was an error while trying to apply for this department. Please try again!"
          )
-         |> push_redirect(
+         |> push_navigate(
            to: Routes.department_index_path(socket, :index, department.organization_id)
          )}
     end
@@ -77,7 +65,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, gettext("You must be logged in to follow an organization."))
-     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+     |> push_navigate(to: Routes.user_session_path(socket, :new))}
   end
 
   defp maybe_put_collaborator(socket, _department_id) when not socket.assigns.is_authenticated?,

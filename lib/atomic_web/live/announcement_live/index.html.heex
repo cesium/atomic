@@ -8,10 +8,9 @@
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 lg:block">
-          <%= live_patch("+ New Announcement",
-            to: Routes.announcement_new_path(@socket, :new, @current_organization),
-            class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
-          ) %>
+          <.link patch={Routes.announcement_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white">
+            + <%= gettext("New Announcement") %>
+          </.link>
         </div>
       <% end %>
     </div>
@@ -20,14 +19,14 @@
       <div class="flex w-full items-center justify-between">
         <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
           <%= if @is_authenticated? do %>
-            <%= live_patch to: "?tab=following", class: "#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+            <.link patch="?tab=following" class={"#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
               <%= gettext("Following") %>
-            <% end %>
+            </.link>
           <% end %>
 
-          <%= live_patch to: "?tab=all", class: "#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer" do %>
+          <.link patch="?tab=all" class={"#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
             <%= gettext("All") %>
-          <% end %>
+          </.link>
         </nav>
       </div>
     </div>
@@ -36,12 +35,12 @@
 
 <%= if @empty? and @has_permissions? do %>
   <div class="mt-32">
-    <.empty_state id="empty_state" url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
+    <.empty_state url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
   </div>
 <% else %>
   <ul role="list" class="relative z-0 divide-y divide-zinc-200">
     <%= for announcement <- @announcements do %>
-      <.render_announcement announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
+      <.announcement_slot announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
     <% end %>
   </ul>
   <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />

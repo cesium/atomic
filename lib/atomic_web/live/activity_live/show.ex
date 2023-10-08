@@ -19,21 +19,9 @@ defmodule AtomicWeb.ActivityLive.Show do
   def handle_params(%{"id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:speakers, :organization])
 
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      },
-      %{
-        name: activity.title,
-        route: Routes.activity_show_path(socket, :show, id)
-      }
-    ]
-
     {:noreply,
      socket
      |> assign(:page_title, "#{activity.title}")
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
      |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
      |> assign(:enrolled?, maybe_put_enrolled(socket))
@@ -81,7 +69,7 @@ defmodule AtomicWeb.ActivityLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, gettext("You must be logged in to enroll in an activity."))
-     |> push_redirect(to: Routes.user_session_path(socket, :new))}
+     |> push_navigate(to: Routes.user_session_path(socket, :new))}
   end
 
   @impl true

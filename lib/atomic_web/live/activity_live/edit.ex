@@ -13,20 +13,8 @@ defmodule AtomicWeb.ActivityLive.Edit do
   def handle_params(%{"id" => id}, _, socket) do
     activity = Activities.get_activity!(id, [:speakers])
 
-    entries = [
-      %{
-        name: gettext("Activities"),
-        route: Routes.activity_index_path(socket, :index)
-      },
-      %{
-        name: gettext("Edit Activity"),
-        route: Routes.activity_edit_path(socket, :edit, activity.organization_id, id)
-      }
-    ]
-
     {:noreply,
      socket
-     |> assign(:breadcrumb_entries, entries)
      |> assign(:current_page, :activities)
      |> assign(:page_title, gettext("Edit Activity"))
      |> assign(:activity, activity)}

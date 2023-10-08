@@ -4,6 +4,11 @@ defmodule AtomicWeb.Components.Badges do
 
   @colors ~w(gray red orange amber yellow lime green emerald teal cyan sky blue indigo violet purple fuchsia pink rose)
 
+  attr :url, :string, required: true
+  attr :color, :string, required: true
+
+  slot :inner_block
+
   def badge_dot(assigns) do
     assigns =
       assigns
@@ -22,20 +27,22 @@ defmodule AtomicWeb.Components.Badges do
           "bg-purple-600"
       end
 
+    assigns = assign(assigns, :background, background)
+
     ~H"""
-    <%= live_redirect to: @url, class: "relative inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5" do %>
+    <.link navigate={@url} class="relative inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5">
       <div class="absolute flex flex-shrink-0 items-center justify-center">
-        <span class={"#{background} h-1.5 w-1.5 rounded-full"} aria-hidden="true"></span>
+        <span class={"#{@background} h-1.5 w-1.5 rounded-full"} aria-hidden="true"></span>
       </div>
       <div class="ml-3.5 text-sm font-medium text-gray-900">
         <%= render_slot(@inner_block) %>
       </div>
-    <% end %>
+    </.link>
     """
   end
 
   def badge(assigns) do
-    assigns = assign_new(assigns, :color, fn -> :gray end)
+    assigns = assign(assigns, :color, fn -> :gray end)
 
     ~H"""
     <span class={"#{get_color_classes(@color)} inline-flex items-center rounded-full px-3 py-0.5 text-sm font-semibold"}>

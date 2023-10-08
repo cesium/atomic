@@ -148,8 +148,8 @@ defmodule AtomicWeb.Router do
 
       live "/scanner", ScannerLive.Index, :index
 
-      get "/users/settings", UserSettingsController, :edit
-      put "/users/settings", UserSettingsController, :update
+      get "/users/change_password", UserChangePasswordController, :edit
+      put "/users/change_password", UserChangePasswordController, :update
 
       live "/users/confirm_email/:token", ProfileLive.Edit, :confirm_email
 
@@ -202,11 +202,6 @@ defmodule AtomicWeb.Router do
       get "/reset_password/:token", UserResetPasswordController, :edit
       put "/reset_password/:token", UserResetPasswordController, :update
     end
-  end
-
-  scope "/", AtomicWeb do
-    pipe_through [:browser, :require_authenticated_user]
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
   end
 
   scope "/", AtomicWeb do
