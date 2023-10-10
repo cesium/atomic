@@ -4,16 +4,29 @@ defmodule AtomicWeb.DataExportController do
   alias Atomic.Organizations
   alias Elixlsx.{Sheet, Workbook}
 
+  @doc """
+  Returns an organization's memberships as a CSV file.
+  """
   def export_memberships_csv(conn, %{"organization_id" => organization_id}) do
-    data = write_memberships_csv(organization_id)
-
-    conn
-    |> put_resp_content_type("text/csv")
-    |> put_resp_header("content-disposition", "attachment; filename=\"memberships.csv\"")
-    |> put_root_layout(false)
-    |> send_resp(200, data)
+    case write_memberships_csv(organization_id) do
+      {:ok, data} ->
+        conn
+        |> put_resp_content_type("text/csv")
+        |> put_resp_header("content-disposition", "attachment; filename=\"memberships.csv\"")
+        |> put_root_layout(false)
+        |> send_resp(200, data)
+    end
   end
 
+  @doc """
+  Returns an organization's memberships as a formatted
+  XLSX workbook.
+
+  The generated workbook only contains one sheet displaying
+  the organization's memberships.
+  In the occurence of an error when writing the document
+  to memory it returns a 500 response with an explanation.
+  """
   def export_memberships_xlsx(conn, %{"organization_id" => organization_id}) do
     case write_memberships_xlsx(organization_id) do
       {:ok, data} ->
@@ -76,20 +89,23 @@ defmodule AtomicWeb.DataExportController do
   end
 
   defp write_memberships_csv(organization_id) do
-    Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
-    |> Enum.map(fn membership ->
-      [
-        membership.number,
-        membership.user.name,
-        membership.user.phone_number,
-        membership.user.email,
-        membership.user.inserted_at
-      ]
-      |> Enum.join(",")
-    end)
-    |> List.insert_at(0, "number,name,phone_number,email,created_at")
-    |> Enum.intersperse("\n")
-    |> to_string()
+    data =
+      (["number,name,phone_number,email,created_at"] ++
+         (Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
+          |> Enum.map(fn membership ->
+            [
+              membership.number,
+              membership.user.name,
+              membership.user.phone_number,
+              membership.user.email,
+              membership.user.inserted_at
+            ]
+            |> Enum.join(",")
+          end)))
+      |> Enum.intersperse("\n")
+      |> to_string()
+
+    {:ok, data}
   end
 
   defp datetime_to_excel(date) do
