@@ -1,9 +1,56 @@
 <div class="px-4 py-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between ">
     <div class="min-w-0 flex-1">
-      <h2 class="text-xl font-bold leading-7 text-zinc-900  sm:truncate sm:text-4xl">
+      <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
         <%= gettext("Memberships") %>
       </h2>
+    </div>
+  </div>
+
+  <div x-data="{ menu: false }" class="flex w-100 flex-row justify-end">
+    <!-- Export option dropdown -->
+    <div class="relative block font-semibold">
+      <button
+        type="button"
+        class="group flex border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white"
+        id="export-menu-button"
+        aria-expanded="false"
+        aria-haspopup="true"
+        @click="menu = ! menu"
+        @click.away="menu = false"
+        @keydown.escape="menu = false"
+      >
+        <Heroicons.cloud_arrow_down solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
+      </button>
+      <div
+        class="absolute right-0 z-10 mt-2.5 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="export-menu-button"
+        tabindex="-1"
+        x-show="menu"
+        x-transition:enter="transition ease-out duration-100"
+        x-transition:enter-start="transform opacity-0 scale-95"
+        x-transition:enter-end="transform opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="transform opacity-100 scale-100"
+        x-transition:leave-end="transform opacity-0 scale-95"
+        @click.away="menu = false"
+        @keydown.escape="menu = false"
+      >
+        <.link href={Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"])} method="get">
+          <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
+            <Heroicons.queue_list solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
+            <p>Export to CSV</p>
+          </div>
+        </.link>
+        <.link href={Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])} method="get">
+          <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
+            <Heroicons.table_cells solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
+            <p>Export to Excel</p>
+          </div>
+        </.link>
+      </div>
     </div>
   </div>
 
