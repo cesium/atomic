@@ -15,18 +15,16 @@ defmodule AtomicWeb.DataExportController do
   end
 
   def export_memberships_xlsx(conn, %{"organization_id" => organization_id}) do
-    data = write_memberships_xlsx(organization_id)
-
-    case data do
-      :error ->
-        conn |> send_resp(500, "Internal Server Error")
-
-      _ ->
+    case write_memberships_xlsx(organization_id) do
+      {:ok, data} ->
         conn
         |> put_resp_content_type("text/xlsx")
         |> put_resp_header("content-disposition", "attachment; filename=\"memberships.xlsx\"")
         |> put_root_layout(false)
         |> send_resp(200, data)
+
+      {:error, reason} ->
+        conn |> send_resp(500, "Internal Server Error: #{reason}")
     end
   end
 
@@ -72,8 +70,8 @@ defmodule AtomicWeb.DataExportController do
 
     case %Workbook{sheets: [memberships_sheet]}
          |> Elixlsx.write_to_memory("memberships-#{organization_id}.xlsx") do
-      {:ok, {_, data}} -> data
-      {:error, _} -> :error
+      {:ok, {_, data}} -> {:ok, data}
+      {:error, reason} -> {:error, to_string(reason)}
     end
   end
 
