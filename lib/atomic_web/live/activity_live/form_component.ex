@@ -15,15 +15,17 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def update(%{activity: activity} = assigns, socket) do
     current_organization = assigns.current_organization
-    speakers = Activities.list_speakers_by_organization_id(current_organization.id)
+
+    org_speakers = Activities.list_speakers_by_organization_id(current_organization.id)
+    speakers = load_speakers(org_speakers, activity.speakers)
 
     changeset = Activities.change_activity(activity)
 
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:speakers, load_options(speakers))
-     |> assign(:selected_speakers, [])
+     |> assign(:speakers, speakers)
+     |> assign(:selected_speakers, Enum.count(speakers, fn x -> x.selected end))
      |> assign(:changeset, changeset)}
   end
 
@@ -56,7 +58,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     {:noreply,
      socket
      |> assign(:speakers, updated_speakers)
-     |> assign(:selected_speakers, Enum.filter(updated_speakers, & &1.selected))}
+     |> assign(:selected_speakers, Enum.count(updated_speakers, fn x -> x.selected end))}
   end
 
   @impl true
@@ -111,15 +113,29 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     end
   end
 
-  defp load_options(items) do
-    Enum.map(items, fn item ->
+  defp load_speakers(org_speakers, selected_speakers) when is_list(selected_speakers) do
+    Enum.map(org_speakers, fn s ->
+      selected = Enum.member?(selected_speakers, s)
+
       %{
-        id: item.id,
-        label: item.name,
-        selected: false
+        id: s.id,
+        label: s.name,
+        selected: selected
       }
     end)
   end
+
+  defp load_speakers(org_speakers, _) do
+    IO.puts("IN THE LOAD SPEAKERSA")
+    Enum.map(org_speakers, fn s ->
+      %{
+        id: s.id,
+        label: s.name,
+        selected: false 
+      }
+    end)
+  end
+
 
   defp consume_image_data(socket, activity) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
