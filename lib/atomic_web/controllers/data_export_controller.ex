@@ -34,7 +34,7 @@ defmodule AtomicWeb.DataExportController do
     memberships = Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
     organization = Organizations.get_organization!(organization_id)
 
-    column_names = ["Name", "Phone Number", "Email", "Created At"]
+    column_names = ["Number", "Name", "Phone Number", "Email", "Created At"]
 
     header_styles = [
       align_horizontal: :center,
@@ -51,6 +51,7 @@ defmodule AtomicWeb.DataExportController do
           [Enum.map(column_names, fn column -> [column | header_styles] end)] ++
             Enum.map(memberships, fn membership ->
               [
+                [membership.number, align_horizontal: :left],
                 membership.user.name,
                 membership.user.phone_number,
                 membership.user.email,
@@ -62,11 +63,12 @@ defmodule AtomicWeb.DataExportController do
               ]
             end)
       }
-      |> Sheet.set_pane_freeze(1, 4)
-      |> Sheet.set_col_width("A", 40)
-      |> Sheet.set_col_width("B", 20)
-      |> Sheet.set_col_width("C", 30)
+      |> Sheet.set_pane_freeze(1, 5)
+      |> Sheet.set_col_width("A", 10)
+      |> Sheet.set_col_width("B", 40)
+      |> Sheet.set_col_width("C", 20)
       |> Sheet.set_col_width("D", 30)
+      |> Sheet.set_col_width("E", 30)
 
     case %Workbook{sheets: [memberships_sheet]}
          |> Elixlsx.write_to_memory("memberships-#{organization_id}.xlsx") do
@@ -79,6 +81,7 @@ defmodule AtomicWeb.DataExportController do
     Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
     |> Enum.map(fn membership ->
       [
+        membership.number,
         membership.user.name,
         membership.user.phone_number,
         membership.user.email,
@@ -86,7 +89,7 @@ defmodule AtomicWeb.DataExportController do
       ]
       |> Enum.join(",")
     end)
-    |> List.insert_at(0, "name,phone_number,email,created_at")
+    |> List.insert_at(0, "number,name,phone_number,email,created_at")
     |> Enum.intersperse("\n")
     |> to_string()
   end
