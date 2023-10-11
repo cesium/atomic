@@ -45,7 +45,13 @@ defmodule AtomicWeb.DataExportController do
     memberships = Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
     organization = Organizations.get_organization!(organization_id)
 
-    column_names = ["Number", "Name", "Phone Number", "Email", "Created At"]
+    columns = [
+      [:number],
+      [:user, :name],
+      [:user, :phone_number],
+      [:user, :email],
+      # [:user, :inserted_at]
+    ]
 
     header_styles = [
       align_horizontal: :center,
@@ -59,19 +65,15 @@ defmodule AtomicWeb.DataExportController do
       %Sheet{
         name: "#{organization.name}'s Memberships",
         rows:
-          [Enum.map(column_names, fn column -> [column | header_styles] end)] ++
+          [
+            Enum.map(columns, fn column ->
+              [column |> List.last() |> format_atom() | header_styles]
+            end)
+          ] ++
             Enum.map(memberships, fn membership ->
-              [
-                [membership.number, align_horizontal: :left],
-                membership.user.name,
-                membership.user.phone_number,
-                membership.user.email,
-                [
-                  datetime_to_excel(membership.user.inserted_at),
-                  datetime: true,
-                  align_horizontal: :left
-                ]
-              ]
+              Enum.map(columns, fn col ->
+                List.foldl(col, membership, fn key, entity -> Map.get(entity, key) end)
+              end)
             end)
       }
       |> Sheet.set_pane_freeze(1, 5)
@@ -89,23 +91,36 @@ defmodule AtomicWeb.DataExportController do
   end
 
   defp write_memberships_csv(organization_id) do
+    columns = [
+      [:number],
+      [:user, :name],
+      [:user, :phone_number],
+      [:user, :email],
+      [:user, :inserted_at]
+    ]
+
     data =
-      (["number,name,phone_number,email,created_at"] ++
+      ([Enum.map(columns, fn col -> List.last(col) end) |> Enum.join(",")] ++
          (Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
           |> Enum.map(fn membership ->
-            [
-              membership.number,
-              membership.user.name,
-              membership.user.phone_number,
-              membership.user.email,
-              membership.user.inserted_at
-            ]
+            Enum.map(columns, fn col ->
+              List.foldl(col, membership, fn key, entity -> Map.get(entity, key) end)
+            end)
             |> Enum.join(",")
           end)))
       |> Enum.intersperse("\n")
       |> to_string()
 
     {:ok, data}
+  end
+
+  defp format_atom(key) do
+    IO.inspect(key)
+    key
+    |> to_string()
+    |> String.split("_")
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join(" ")
   end
 
   defp datetime_to_excel(date) do
