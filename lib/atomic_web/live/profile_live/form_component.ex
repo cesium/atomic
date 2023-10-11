@@ -60,7 +60,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:success, flash_text)
-         |> push_redirect(to: Routes.profile_show_path(socket, :show, user_params["slug"]))}
+         |> push_navigate(to: Routes.profile_show_path(socket, :show, user_params["slug"]))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

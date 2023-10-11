@@ -49,7 +49,7 @@ defmodule AtomicWeb.Components.Organizations do
        socket
        |> assign(current_organization: nil)
        |> put_flash(:info, gettext("Now viewing as yourself"))
-       |> push_redirect(to: Routes.home_index_path(socket, :index))}
+       |> push_navigate(to: Routes.home_index_path(socket, :index))}
     else
       organization = Organizations.get_organization!(organization_id)
 
@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.Organizations do
        socket
        |> assign(current_organization: organization)
        |> put_flash(:info, "#{gettext("Now editing as")} #{organization.name}")
-       |> push_redirect(to: Routes.organization_show_path(socket, :show, organization))}
+       |> push_navigate(to: Routes.organization_show_path(socket, :show, organization))}
     end
   end
 end

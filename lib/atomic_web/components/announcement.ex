@@ -4,6 +4,8 @@ defmodule AtomicWeb.Components.Announcement do
   """
   use AtomicWeb, :component
 
+  attr :announcement, :map, required: true
+
   def default(assigns) do
     ~H"""
     <!-- Main content -->
@@ -40,12 +42,14 @@ defmodule AtomicWeb.Components.Announcement do
     <!-- Image -->
     <%= if @announcement.image do %>
       <div class="mt-4">
-        <img class="max-w-xs rounded-md lg:max-w-md" src={@url} />
+        <img class="max-w-xs rounded-md lg:max-w-md" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
       </div>
     <% end %>
     <!-- Footer -->
     <div class="flex flex-row-reverse">
-      <%= live_redirect("View this announcement", to: Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement), class: "text-md w-auto cursor-pointer text-orange-500 hover:underline") %>
+      <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)} class="text-md w-auto cursor-pointer text-orange-500 hover:underline">
+        View this announcement
+      </.link>
     </div>
     """
   end

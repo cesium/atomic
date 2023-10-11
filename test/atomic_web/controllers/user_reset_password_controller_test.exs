@@ -13,25 +13,47 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
     test "renders the reset password page", %{conn: conn} do
       conn = get(conn, Routes.user_reset_password_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "Reset your Password"
+      assert response =~ "Recover Account"
     end
   end
 
   describe "POST /users/reset_password" do
     @tag :capture_log
-    test "sends a new reset password token", %{conn: conn, user: user} do
+    test "sends a new reset password token given a valid email", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_reset_password_path(conn, :create), %{
-          "user" => %{"email" => user.email}
+          "user" => %{"input" => user.email}
         })
 
-      assert get_flash(conn, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "If your email or username is in our system"
+
       assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
     end
 
     test "does not send reset password token if email is invalid", %{conn: conn} do
       post(conn, Routes.user_reset_password_path(conn, :create), %{
-        "user" => %{"email" => "unknown@example.com"}
+        "user" => %{"input" => "unknown@example.com"}
+      })
+
+      assert Repo.all(Accounts.UserToken) == []
+    end
+
+    test "sends a new reset password token given a valid slug", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_reset_password_path(conn, :create), %{
+          "user" => %{"input" => user.slug}
+        })
+
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
+               "If your email or username is in our system"
+
+      assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context == "reset_password"
+    end
+
+    test "does not send reset password token if slug is invalid", %{conn: conn} do
+      post(conn, Routes.user_reset_password_path(conn, :create), %{
+        "user" => %{"input" => "unknown"}
       })
 
       assert Repo.all(Accounts.UserToken) == []
@@ -50,7 +72,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
 
     test "renders reset password", %{conn: conn, token: token} do
       conn = get(conn, Routes.user_reset_password_path(conn, :edit, token))
-      assert html_response(conn, 200) =~ "Reset your Password"
+      assert html_response(conn, 200) =~ "Reset Password"
     end
   end
 
@@ -75,7 +97,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
 
       assert redirected_to(conn) == Routes.user_session_path(conn, :new)
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Password reset successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password changed successfully"
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 
@@ -89,7 +111,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "Reset your Password"
+      assert response =~ "Reset Password"
       assert response =~ "should be at least 12 character(s)"
       assert response =~ "does not match password"
     end

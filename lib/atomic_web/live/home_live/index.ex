@@ -2,8 +2,6 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Pagination
-
   alias Atomic.Activities
   alias Atomic.Organizations
   alias AtomicWeb.Components.Activity
@@ -55,20 +53,20 @@ defmodule AtomicWeb.HomeLive.Index do
     end
   end
 
-  defp fetch_schedule(socket) do
-    {daily, weekly} =
-      Activities.list_activities(preloads: [:organization], order_by: [asc: :start])
-      |> Enum.reduce({[], []}, &process_activity/2)
-
-    %{daily: daily, weekly: weekly}
-  end
-
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
     {daily, weekly} =
       Activities.list_user_activities(socket.assigns.current_user.id,
         preloads: [:organization],
         order_bu: [asc: :start]
       )
+      |> Enum.reduce({[], []}, &process_activity/2)
+
+    %{daily: daily, weekly: weekly}
+  end
+
+  defp fetch_schedule(_socket) do
+    {daily, weekly} =
+      Activities.list_activities(preloads: [:organization], order_by: [asc: :start])
       |> Enum.reduce({[], []}, &process_activity/2)
 
     %{daily: daily, weekly: weekly}
