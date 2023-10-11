@@ -35,6 +35,49 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Returns a list of organizations that are not followed by an user, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_organizations_by_user(user)
+      [%Organization{}, ...]
+
+  """
+  def list_top_organizations_by_user(%User{} = user, opts \\ []) do
+    Organization
+    |> join(:left, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id != ^user.id or is_nil(m.user_id))
+    |> where([o, m], m.role == :follower)
+    |> group_by([o, _m], o.id)
+    |> select([o, m], %{organization: o, count: count(m.id)})
+    |> order_by([o, _m], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
+  end
+
+  @doc """
+  Returns a list of the top organizations, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_organizations()
+      [%Organization{}, ...]
+
+  """
+  def list_top_organizations(opts) when is_list(opts) do
+    Organization
+    |> join(:left, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.role == :follower)
+    |> group_by([o, _m], o.id)
+    |> select([o, m], %{organization: o, count: count(m.id)})
+    |> order_by([o, _m], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
+  end
+
+  @doc """
   Returns the list of organizations members.
 
   ## Examples
