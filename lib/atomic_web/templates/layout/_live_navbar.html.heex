@@ -123,7 +123,7 @@
                 <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={organizations} />
               </li>
             <% end %>
-            <!-- Profile dropdown or "Sign in" -->
+            <!-- Profile menu or "Sign in" -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>
               <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
@@ -184,12 +184,12 @@
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
       <div x-data="{ menu: false }" class="flex items-center gap-x-4 lg:gap-x-6">
         <%= if @is_authenticated? do %>
-          <!-- Profile dropdown or "Sign in" -->
+          <!-- Profile menu or "Sign in" -->
           <div class="relative block lg:hidden font-semibold">
             <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
               <span class="sr-only">Open user menu</span>
-              <%= if ! @current_user.profile_picture do %>
-                <img class="h-8 w-8 rounded-full bg-zinc-50" src="https://coderdojobraga.org/_next/image?url=%2Fimg%2Fteam%2Fruilopes.jpg&w=640&q=75" />
+              <%= if @current_user.profile_picture do %>
+                <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)} />
               <% else %>
                 <span class="flex items-center justify-center h-8 w-8 rounded-full bg-zinc-200 text-zinc-400">
                   <%= extract_initials(@current_user.name) %>

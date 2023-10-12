@@ -19,7 +19,8 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
      |> assign(:posts, list_posts())
-     |> assign(:schedule, fetch_schedule(socket))}
+     |> assign(:schedule, fetch_schedule(socket))
+     |> assign(:organizations, list_organizations_to_follow(socket))}
   end
 
   defp list_posts do
@@ -83,5 +84,13 @@ defmodule AtomicWeb.HomeLive.Index do
       :other ->
         {daily_acc, weekly_acc}
     end
+  end
+
+  defp list_organizations_to_follow(assigns) when assigns.is_authenticated? do
+    Organizations.list_top_organizations_by_user(assigns.current_user, limit: 3)
+  end
+
+  defp list_organizations_to_follow(_assigns) do
+    Organizations.list_top_organizations(limit: 3)
   end
 end

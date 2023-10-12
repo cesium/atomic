@@ -45,12 +45,11 @@ defmodule Atomic.Organizations do
   """
   def list_top_organizations_by_user(%User{} = user, opts \\ []) do
     Organization
-    |> join(:left, [o], m in Membership, on: m.organization_id == o.id)
-    |> where([o, m], m.user_id != ^user.id or is_nil(m.user_id))
-    |> where([o, m], m.role == :follower)
-    |> group_by([o, _m], o.id)
-    |> select([o, m], %{organization: o, count: count(m.id)})
-    |> order_by([o, _m], desc: o.count)
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id != ^user.id and m.role == :follower)
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
     |> apply_filters(opts)
     |> Repo.all()
     |> Enum.map(fn %{organization: organization} -> organization end)
@@ -67,11 +66,11 @@ defmodule Atomic.Organizations do
   """
   def list_top_organizations(opts) when is_list(opts) do
     Organization
-    |> join(:left, [o], m in Membership, on: m.organization_id == o.id)
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
     |> where([o, m], m.role == :follower)
-    |> group_by([o, _m], o.id)
-    |> select([o, m], %{organization: o, count: count(m.id)})
-    |> order_by([o, _m], desc: o.count)
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
     |> apply_filters(opts)
     |> Repo.all()
     |> Enum.map(fn %{organization: organization} -> organization end)
