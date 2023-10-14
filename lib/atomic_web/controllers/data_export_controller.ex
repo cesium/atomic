@@ -4,7 +4,7 @@ defmodule AtomicWeb.DataExportController do
   alias Atomic.Organizations
   alias Elixlsx.{Sheet, Workbook}
 
-  # Generic excel heder styling
+  # Generic excel header styling
   @header_styles [
     align_horizontal: :center,
     bold: true,
@@ -102,10 +102,7 @@ defmodule AtomicWeb.DataExportController do
             end)
           ] ++
             Enum.map(entities, fn entity ->
-              Enum.map(paths, fn col ->
-                List.foldl(col, entity, fn key, object -> Map.get(object, key) end)
-                |> value_to_excel()
-              end)
+              Enum.map(extract_entity_values(entity, paths), &value_to_excel/1)
             end)
       }
       |> Sheet.set_pane_freeze(1, length(columns))
@@ -116,12 +113,10 @@ defmodule AtomicWeb.DataExportController do
 
   defp entities_to_csv(entities, columns) do
     data =
-      ([Enum.map(columns, fn col -> List.last(col) end) |> Enum.join(",")] ++
+      ([Enum.map_join(columns, ",", fn col -> List.last(col) end)] ++
          (entities
           |> Enum.map(fn entity ->
-            Enum.map(columns, fn col ->
-              List.foldl(col, entity, fn key, object -> Map.get(object, key) end)
-            end)
+            extract_entity_values(entity, columns)
             |> Enum.join(",")
           end)))
       |> Enum.intersperse("\n")
@@ -130,15 +125,20 @@ defmodule AtomicWeb.DataExportController do
     {:ok, data}
   end
 
+  defp extract_entity_values(entity, columns) do
+    Enum.map(columns, fn col ->
+      List.foldl(col, entity, fn key, object -> Map.get(object, key) end)
+    end)
+  end
+
   defp format_atom(key) do
     key
     |> to_string()
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
   end
 
-  defp value_to_excel(date = %NaiveDateTime{}) do
+  defp value_to_excel(%NaiveDateTime{} = date) do
     [datetime_to_excel(date), datetime: true]
   end
 
