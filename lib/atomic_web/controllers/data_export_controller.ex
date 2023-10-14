@@ -2,6 +2,7 @@ defmodule AtomicWeb.DataExportController do
   use AtomicWeb, :controller
 
   alias Atomic.Organizations
+  alias Atomic.Organizations.Membership
   alias Elixlsx.{Sheet, Workbook}
 
   # Generic excel header styling
@@ -11,15 +12,6 @@ defmodule AtomicWeb.DataExportController do
     size: 12,
     color: "#ffffff",
     bg_color: "#ff9900"
-  ]
-
-  # Membership columns used on data generation, the column width sizes are only used on the excel export
-  @membership_export_columns [
-    [[:number], 10],
-    [[:user, :name], 40],
-    [[:user, :phone_number], 20],
-    [[:user, :email], 30],
-    [[:user, :inserted_at], 30]
   ]
 
   @doc """
@@ -62,7 +54,7 @@ defmodule AtomicWeb.DataExportController do
   defp write_memberships_csv(organization_id) do
     Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
     |> entities_to_csv(
-      @membership_export_columns
+      Membership.export_fields()
       |> Enum.map(fn column -> List.first(column) end)
     )
   end
@@ -73,7 +65,7 @@ defmodule AtomicWeb.DataExportController do
 
     case entities_to_xlsx_workbook(
            memberships,
-           @membership_export_columns,
+           Membership.export_fields(),
            @header_styles,
            "#{organization.name}'s Memberships"
          )

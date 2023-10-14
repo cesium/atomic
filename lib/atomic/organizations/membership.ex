@@ -10,6 +10,14 @@ defmodule Atomic.Organizations.Membership do
 
   @roles ~w(follower member admin owner)a
 
+  @export_fields [
+    [[:number], 10],
+    [[:user, :name], 40],
+    [[:user, :phone_number], 20],
+    [[:user, :email], 30],
+    [[:user, :inserted_at], 30]
+  ]
+
   @derive {
     Flop.Schema,
     filterable: [:member_name, :inserted_at],
@@ -39,4 +47,6 @@ defmodule Atomic.Organizations.Membership do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
+
+  def export_fields, do: @export_fields
 end
