@@ -126,16 +126,14 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   defp load_speakers(org_speakers, _) do
-    IO.puts("IN THE LOAD SPEAKERSA")
     Enum.map(org_speakers, fn s ->
       %{
         id: s.id,
         label: s.name,
-        selected: false 
+        selected: false
       }
     end)
   end
-
 
   defp consume_image_data(socket, activity) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
