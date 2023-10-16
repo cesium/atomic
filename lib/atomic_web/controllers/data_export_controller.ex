@@ -63,12 +63,13 @@ defmodule AtomicWeb.DataExportController do
   defp write_memberships_xlsx(organization_id) do
     memberships = Organizations.list_memberships(%{"organization_id" => organization_id}, [:user])
     organization = Organizations.get_organization!(organization_id)
+    sheet_name = String.slice(organization.name, 0..15) <> "'s Memberships"
 
     case Exporter.entities_to_xlsx_workbook(
            memberships,
            Membership.export_fields(),
            @header_styles,
-           "#{organization.name}'s Memberships"
+           sheet_name
          )
          |> Elixlsx.write_to_memory("memberships-#{organization_id}.xlsx") do
       {:ok, {_, data}} -> {:ok, data}
