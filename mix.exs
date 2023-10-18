@@ -88,7 +88,8 @@ defmodule Atomic.MixProject do
       {:qrcode_ex, "~> 0.1.1"},
       {:pdf_generator, "~> 0.6.2"},
       {:quantum, "~> 3.0"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:elixlsx, "~> 0.5.1"}
     ]
   end
 
