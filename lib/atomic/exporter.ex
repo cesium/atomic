@@ -14,10 +14,10 @@ defmodule Atomic.Exporter do
   ## Examples
 
     iex> entities_to_csv([%{name: "John Doe", age: 23}, %{name: "Jane Doe", age: 25}], [[:name], [:age]])
-    "name,age\nJohn Doe,23\nJane Doe,25"
+    "name,age\\nJohn Doe,23\\nJane Doe,25"
 
     iex> entities_to_csv([%{name: "John Doe", age: 23, dog: %{name: "Cooper", breed: "Beagle"}}], [[:name], [:dog, :breed]])
-    "name,breed\nJohn Doe,Beagle"
+    "name,breed\\nJohn Doe,Beagle"
   """
   def entities_to_csv(entities, columns) do
     data =
