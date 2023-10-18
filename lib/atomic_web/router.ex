@@ -117,6 +117,8 @@ defmodule AtomicWeb.Router do
           live "/new", MembershipLive.New, :new
           live "/:id", MembershipLive.Show, :show
           live "/:id/edit", MembershipLive.Edit, :edit
+          get "/export/csv", DataExportController, :export_memberships_csv
+          get "/export/xlsx", DataExportController, :export_memberships_xlsx
         end
       end
     end
