@@ -26,15 +26,15 @@ defmodule AtomicWeb.HomeLive.Index do
   defp list_posts do
     activities =
       Activities.list_activities(preloads: [:organization])
-      |> Stream.map(fn activity ->
+      |> Enum.map(fn activity ->
         %{activity | enrolled: Activities.get_total_enrolled(activity.id)}
       end)
 
     announcements = Organizations.list_announcements(preloads: [:organization])
 
-    Stream.concat(activities, announcements)
+    Enum.concat(activities, announcements)
     |> Enum.sort(&sort_posts/2)
-    |> Stream.map(fn post ->
+    |> Enum.map(fn post ->
       case post do
         %Activities.Activity{} ->
           %{type: :activity, activity: post}
@@ -45,32 +45,23 @@ defmodule AtomicWeb.HomeLive.Index do
     end)
   end
 
-  # Sorts posts by inserted at, descending. Meaning the newest posts are first.
-  defp sort_posts(post1, post2) do
-    if NaiveDateTime.compare(post1.inserted_at, post2.inserted_at) == :lt do
-      false
-    else
-      true
-    end
-  end
-
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
     {daily, weekly} =
       Activities.list_user_activities(socket.assigns.current_user.id,
         preloads: [:organization],
-        order_bu: [asc: :start]
+        order_by: [desc: :start]
       )
       |> Enum.reduce({[], []}, &process_activity/2)
 
-    %{daily: daily, weekly: weekly}
+    %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
   end
 
   defp fetch_schedule(_socket) do
     {daily, weekly} =
-      Activities.list_activities(preloads: [:organization], order_by: [asc: :start])
+      Activities.list_activities(preloads: [:organization], order_by: [desc: :start])
       |> Enum.reduce({[], []}, &process_activity/2)
 
-    %{daily: daily, weekly: weekly}
+    %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
   end
 
   defp process_activity(activity, {daily_acc, weekly_acc}) do
@@ -92,5 +83,14 @@ defmodule AtomicWeb.HomeLive.Index do
 
   defp list_organizations_to_follow(_assigns) do
     Organizations.list_top_organizations(limit: 3)
+  end
+
+  # Sort posts by inserted_at, descending. Meaning the newest posts will be on top.
+  defp sort_posts(post1, post2) do
+    if NaiveDateTime.compare(post1.inserted_at, post2.inserted_at) == :lt do
+      false
+    else
+      true
+    end
   end
 end

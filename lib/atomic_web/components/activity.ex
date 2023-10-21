@@ -27,9 +27,11 @@ defmodule AtomicWeb.Components.Activity do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <p class="text-sm font-bold text-gray-900">
-            <%= @activity.organization.name %>
-          </p>
+          <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization)} class="hover:underline focus:outline-none">
+            <p class="text-sm font-medium text-gray-900">
+              <%= @activity.organization.name %>
+            </p>
+          </.link>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@activity.inserted_at) %></time>
@@ -72,7 +74,7 @@ defmodule AtomicWeb.Components.Activity do
           </span>
         </span>
       </div>
-      <%= live_redirect("View this activity", to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, @activity), class: "text-md w-auto cursor-pointer text-orange-500 hover:underline") %>
+      <%= live_redirect("View this activity", to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, @activity), class: "w-auto cursor-pointer text-sm text-orange-500 hover:underline") %>
     </div>
     """
   end

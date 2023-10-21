@@ -13,11 +13,11 @@ defmodule AtomicWeb.Components.Announcement do
       <div class="flex space-x-3">
         <div class="flex-shrink-0">
           <%= if @announcement.organization.logo do %>
-            <div class="relative mr-2 h-8 w-8 flex-shrink-0 rounded-full bg-zinc-200 md:h-10 md:w-10">
-              <img class="h-8 w-8 rounded-full object-center md:h-10 md:w-10" src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
+            <div class="flex-shrink-0">
+              <img class="h-10 w-10 object-center" src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
             </div>
           <% else %>
-            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 md:h-10 md:w-10">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-zinc-200">
               <span class="text-xs font-medium leading-none text-zinc-600">
                 <%= extract_initials(@announcement.organization.name) %>
               </span>
@@ -25,9 +25,11 @@ defmodule AtomicWeb.Components.Announcement do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <p class="text-sm font-medium text-gray-900">
-            <a href="#" class="hover:underline"><%= @announcement.organization.name %></a>
-          </p>
+          <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization)} class="hover:underline focus:outline-none">
+            <p class="text-sm font-medium text-gray-900">
+              <%= @announcement.organization.name %>
+            </p>
+          </.link>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
@@ -46,8 +48,8 @@ defmodule AtomicWeb.Components.Announcement do
       </div>
     <% end %>
     <!-- Footer -->
-    <div class="flex flex-row-reverse">
-      <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)} class="text-md w-auto cursor-pointer text-orange-500 hover:underline">
+    <div class="mt-2 flex flex-row-reverse">
+      <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)} class="w-auto cursor-pointer text-sm text-orange-500 hover:underline">
         View this announcement
       </.link>
     </div>
