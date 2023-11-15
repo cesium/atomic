@@ -25,7 +25,7 @@ jobs:
 
           # Throw an error if no Trello cards can be found in the PR description.
           # Default: false
-          github-require-trello-card: true
+          github-require-trello-card: false
 
           # Newline-separated list of mapping between Github username and Trello username.
           # Use it for people who have different usernames in Github and Trello.
