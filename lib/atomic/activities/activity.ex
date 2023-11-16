@@ -42,7 +42,7 @@ defmodule Atomic.Activities.Activity do
     field :enrolled, :integer, virtual: true
     embeds_one :location, Location, on_replace: :update
 
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
+    many_to_many :speakers, Speaker, on_replace: :delete, join_through: ActivitySpeaker
 
     has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 

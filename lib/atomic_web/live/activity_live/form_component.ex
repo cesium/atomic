@@ -2,8 +2,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias AtomicWeb.Components.Forms
-  alias Phoenix.LiveView.JS
+  alias AtomicWeb.Components.{Forms, MulitSelect}
 
   @impl true
   def mount(socket) do
