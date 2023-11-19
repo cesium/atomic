@@ -7,19 +7,31 @@ defmodule Atomic.Feed do
   alias Atomic.Feed.Post
 
   @doc """
-  Returns the list of posts.
+  Returns a cursor-based pagination of posts.
+  Learn more about why using cursor-based pagination at: https://use-the-index-luke.com/no-offset
 
   ## Examples
 
       iex> list_posts()
-      [%Post{}, ...]
+      %{entries: [%Post{}], metadata: %{...}}
 
   """
   def list_posts(opts \\ []) do
     Post
     |> apply_filters(opts)
     |> preload(activity: :organization, announcement: :organization)
-    |> Repo.all()
+    |> Repo.paginate(cursor_fields: [:inserted_at], limit: 50)
+  end
+
+  def list_next_posts(cursor_after, opts \\ []) do
+    Post
+    |> apply_filters(opts)
+    |> preload(activity: :organization, announcement: :organization)
+    |> Repo.paginate(
+      after: cursor_after,
+      cursor_fields: [{:inserted_at, :desc}],
+      limit: 50
+    )
   end
 
   @doc """

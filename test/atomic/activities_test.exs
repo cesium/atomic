@@ -42,7 +42,8 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "create_activity/2 with finish date before start date" do
-      activity = params_for(:activity, finish: ~N[2022-10-21 20:00:00], start: ~N[2022-10-22 20:00:00])
+      activity =
+        params_for(:activity, finish: ~N[2022-10-21 20:00:00], start: ~N[2022-10-22 20:00:00])
 
       assert {:error, %Ecto.Changeset{}} = Activities.create_activity(activity)
     end

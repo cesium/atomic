@@ -5,19 +5,16 @@ defmodule AtomicWeb.HomeLive.Index do
   alias Atomic.Activities
   alias Atomic.Feed
   alias Atomic.Organizations
-  alias AtomicWeb.Components.Activity
-  alias AtomicWeb.Components.Announcement
+  alias AtomicWeb.Components.{Activity, Announcement}
 
   @impl true
   def mount(_params, _session, socket) do
-    limit = 20
-    offset = 0
+    %{entries: entries, metadata: metadata} = Feed.list_posts(order_by: [desc: :inserted_at])
 
     {:ok,
      socket
-     |> stream(:posts, list_posts(limit, offset))
-     |> assign(:limit, limit)
-     |> assign(:offset, offset)}
+     |> stream(:posts, entries)
+     |> assign(:metadata, metadata)}
   end
 
   @impl true
@@ -32,18 +29,15 @@ defmodule AtomicWeb.HomeLive.Index do
 
   @impl true
   def handle_event("load-more", _, socket) do
+    cursor_after = socket.assigns.metadata.after
+
+    %{entries: entries, metadata: metadata} =
+      Feed.list_next_posts(cursor_after, order_by: [desc: :inserted_at])
+
     {:noreply,
      socket
-     |> update(:offset, fn offset -> offset + socket.assigns.limit end)
-     |> stream(:posts, list_posts(socket.assigns.limit, socket.assigns.offset))}
-  end
-
-  defp list_posts(limit, offset) do
-    Feed.list_posts(
-      order_by: [desc: :publish_at],
-      limit: limit,
-      offset: offset
-    )
+     |> stream(:posts, entries)
+     |> assign(:metadata, metadata)}
   end
 
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do

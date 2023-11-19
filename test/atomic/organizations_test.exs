@@ -232,13 +232,16 @@ defmodule Atomic.OrganizationsTest do
       announcement = insert(:announcement)
       update_attrs = %{description: "some updated description", title: "some updated title"}
 
-      assert {:ok, %Announcement{}} = Organizations.update_announcement(announcement, update_attrs)
+      assert {:ok, %Announcement{}} =
+               Organizations.update_announcement(announcement, update_attrs)
     end
 
     test "update_announcement/2 with invalid data returns error changeset" do
       announcement = insert(:announcement)
 
-      assert {:error, %Ecto.Changeset{}} = Organizations.update_announcement(announcement, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.update_announcement(announcement, @invalid_attrs)
+
       assert announcement.id == Organizations.get_announcement!(announcement.id).id
     end
 

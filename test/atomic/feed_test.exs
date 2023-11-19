@@ -9,7 +9,7 @@ defmodule Atomic.FeedTest do
 
     import Atomic.FeedFixtures
 
-    @invalid_attrs %{publish_at: nil, type: nil}
+    @invalid_attrs %{type: nil}
 
     test "list_posts/0 returns all posts" do
       post = post_fixture()
@@ -23,10 +23,9 @@ defmodule Atomic.FeedTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{publish_at: ~N[2023-11-10 20:49:00], type: "activity"}
+      valid_attrs = %{type: "activity"}
 
       assert {:ok, %Post{} = post} = Feed.create_post(valid_attrs)
-      assert post.publish_at == ~N[2023-11-10 20:49:00]
       assert post.type == :activity
     end
 
@@ -36,10 +35,9 @@ defmodule Atomic.FeedTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{publish_at: ~N[2023-11-11 20:49:00], type: "announcement"}
+      update_attrs = %{type: "announcement"}
 
       assert {:ok, %Post{} = post} = Feed.update_post(post, update_attrs)
-      assert post.publish_at == ~N[2023-11-11 20:49:00]
       assert post.type == :announcement
     end
 

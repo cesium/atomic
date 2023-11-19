@@ -11,7 +11,6 @@ defmodule Atomic.FeedFixtures do
     {:ok, post} =
       attrs
       |> Enum.into(%{
-        publish_at: ~N[2023-11-10 20:49:00],
         type: "activity"
       })
       |> Atomic.Feed.create_post()

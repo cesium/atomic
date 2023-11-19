@@ -709,13 +709,12 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement(attrs \\ %{}, publish_at \\ NaiveDateTime.utc_now()) do
+  def create_announcement(attrs \\ %{}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
       |> Post.changeset(%{
-        type: "announcement",
-        publish_at: publish_at
+        type: "announcement"
       })
     end)
     |> Multi.insert(:announcement, fn %{post: post} ->

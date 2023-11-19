@@ -4,7 +4,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
   """
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
-  alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
   @admins File.read!("priv/fake/admins.txt") |> String.split("\n")

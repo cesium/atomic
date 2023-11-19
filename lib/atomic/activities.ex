@@ -195,13 +195,12 @@ defmodule Atomic.Activities do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}, publish_at \\ NaiveDateTime.utc_now()) do
+  def create_activity(attrs \\ %{}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
       |> Post.changeset(%{
-        type: "activity",
-        publish_at: publish_at
+        type: "activity"
       })
     end)
     |> Multi.insert(:activity, fn %{post: post} ->

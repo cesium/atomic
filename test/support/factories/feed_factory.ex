@@ -8,7 +8,7 @@ defmodule Atomic.Factories.FeedFactory do
     quote do
       def post_factory do
         %Post{
-          publish_at: NaiveDateTime.utc_now()
+          type: Enum.random([:activity, :announcement])
         }
       end
     end
