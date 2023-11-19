@@ -1,4 +1,5 @@
 defmodule Atomic.FeedTest do
+  @moduledoc false
   use Atomic.DataCase
 
   alias Atomic.Feed
@@ -12,7 +13,8 @@ defmodule Atomic.FeedTest do
 
     test "list_posts/0 returns all posts" do
       post = post_fixture()
-      assert Feed.list_posts() == [post]
+      posts = Feed.list_posts() |> Enum.map(& &1.id)
+      assert posts == [post.id]
     end
 
     test "get_post!/1 returns the post with given id" do
@@ -21,11 +23,11 @@ defmodule Atomic.FeedTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{publish_at: ~N[2023-11-10 20:49:00], type: "some type"}
+      valid_attrs = %{publish_at: ~N[2023-11-10 20:49:00], type: "activity"}
 
       assert {:ok, %Post{} = post} = Feed.create_post(valid_attrs)
       assert post.publish_at == ~N[2023-11-10 20:49:00]
-      assert post.type == "some type"
+      assert post.type == :activity
     end
 
     test "create_post/1 with invalid data returns error changeset" do
@@ -34,11 +36,11 @@ defmodule Atomic.FeedTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{publish_at: ~N[2023-11-11 20:49:00], type: "some updated type"}
+      update_attrs = %{publish_at: ~N[2023-11-11 20:49:00], type: "announcement"}
 
       assert {:ok, %Post{} = post} = Feed.update_post(post, update_attrs)
       assert post.publish_at == ~N[2023-11-11 20:49:00]
-      assert post.type == "some updated type"
+      assert post.type == :announcement
     end
 
     test "update_post/2 with invalid data returns error changeset" do

@@ -16,7 +16,6 @@ defmodule Atomic.Organizations.Announcement do
     field :image, Uploaders.Post.Type
 
     belongs_to :organization, Organization
-
     belongs_to :post, Post, foreign_key: :post_id
 
     timestamps()

@@ -33,18 +33,17 @@ defmodule Atomic.Activities.Activity do
   schema "activities" do
     field :title, :string
     field :description, :string
-
     field :start, :naive_datetime
     field :finish, :naive_datetime
     field :image, Uploaders.Post.Type
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
+
     embeds_one :location, Location
 
     belongs_to :organization, Organization
     belongs_to :event, Event
-
     belongs_to :post, Post, foreign_key: :post_id
 
     many_to_many :speakers, Speaker, join_through: ActivitySpeaker

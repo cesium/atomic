@@ -33,9 +33,9 @@ defmodule Atomic.Feed do
       %Post{}
 
   """
-  def get_post!(id) do
+  def get_post!(id, opts \\ []) do
     Repo.get!(Post, id)
-    |> Repo.preload([:activity, :announcement])
+    |> apply_filters(opts)
   end
 
   @doc """

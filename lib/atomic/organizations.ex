@@ -709,23 +709,28 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement(attrs \\ %{}, publish_at) do
+  def create_announcement(attrs \\ %{}, publish_at \\ NaiveDateTime.utc_now()) do
     Multi.new()
-    |> Multi.run(:create_post, fn _, _ ->
+    |> Multi.insert(:post, fn _ ->
       %Post{}
       |> Post.changeset(%{
         type: "announcement",
         publish_at: publish_at
       })
-      |> Repo.insert()
     end)
-    |> Multi.run(:create_announcement, fn _, %{create_post: post} ->
+    |> Multi.insert(:announcement, fn %{post: post} ->
       %Announcement{}
       |> Announcement.changeset(attrs)
       |> Ecto.Changeset.put_assoc(:post, post)
-      |> Repo.insert()
     end)
     |> Repo.transaction()
+    |> case do
+      {:ok, %{announcement: announcement, post: _post}} ->
+        {:ok, announcement}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

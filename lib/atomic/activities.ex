@@ -188,27 +188,35 @@ defmodule Atomic.Activities do
       iex> create_activity(%{field: value})
       {:ok, %Activity{}}
 
+      iex> create_activity(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      {:error, %Ecto.Changeset{}}
+
       iex> create_activity(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}, publish_at) do
+  def create_activity(attrs \\ %{}, publish_at \\ NaiveDateTime.utc_now()) do
     Multi.new()
-    |> Multi.run(:create_post, fn _, _ ->
+    |> Multi.insert(:post, fn _ ->
       %Post{}
       |> Post.changeset(%{
         type: "activity",
         publish_at: publish_at
       })
-      |> Repo.insert()
     end)
-    |> Multi.run(:create_activity, fn _, %{create_post: post} ->
+    |> Multi.insert(:activity, fn %{post: post} ->
       %Activity{}
       |> Activity.changeset(attrs)
       |> Ecto.Changeset.put_assoc(:post, post)
-      |> Repo.insert()
     end)
     |> Repo.transaction()
+    |> case do
+      {:ok, %{activity: activity, post: _post}} ->
+        {:ok, activity}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

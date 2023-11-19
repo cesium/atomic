@@ -1,6 +1,6 @@
 defmodule Atomic.ExporterTest do
   @moduledoc """
-  Tests for the Atomic.ExporterTest module
+  Tests for the Atomic.Exporter module
   """
   use ExUnit.Case, async: true
 

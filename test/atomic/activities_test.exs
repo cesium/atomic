@@ -1,4 +1,5 @@
 defmodule Atomic.ActivitiesTest do
+  @moduledoc false
   use Atomic.DataCase
 
   alias Atomic.Activities
@@ -11,77 +12,65 @@ defmodule Atomic.ActivitiesTest do
 
     @invalid_attrs %{description: nil, maximum_entries: nil, minimum_entries: nil, title: nil}
 
-    test "list_activities/0 returns all activities" do
+    test "list_activities/1 returns all activities" do
       activity = insert(:activity)
       activities = Activities.list_activities([]) |> Enum.map(& &1.id)
+
       assert activities == [activity.id]
     end
 
     test "get_activity!/1 returns the activity with given id" do
       activity = insert(:activity)
+
       assert Activities.get_activity!(activity.id).id == activity.id
     end
 
-    test "create_activity/1 with valid data creates a activity" do
+    test "create_activity/2 with valid data creates a activity" do
       valid_attrs = params_for(:activity)
 
       assert {:ok, %Activity{}} = Activities.create_activity(valid_attrs)
     end
 
-    test "create_activity/1 with invalid data returns error changeset" do
+    test "create_activity/2 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Activities.create_activity(@invalid_attrs)
     end
 
-    test "create_activity/1 with maximum_entries lower than minimum_entries" do
-      valid_attrs = %{
-        title: "some updated title",
-        description: "some updated description",
-        finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-22 20:00:00],
-        minimum_entries: 10,
-        maximum_entries: 1
-      }
+    test "create_activity/2 with maximum_entries lower than minimum_entries" do
+      activity = params_for(:activity, maximum_entries: 1, minimum_entries: 2)
 
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(valid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(activity)
     end
 
-    test "create_activity/1 with finish date before start date" do
-      valid_attrs = %{
-        title: "some updated title",
-        description: "some updated description",
-        finish: ~N[2022-10-22 20:00:00],
-        start: ~N[2022-10-23 20:00:00],
-        minimum_entries: 0,
-        maximum_entries: 10
-      }
+    test "create_activity/2 with finish date before start date" do
+      activity = params_for(:activity, finish: ~N[2022-10-21 20:00:00], start: ~N[2022-10-22 20:00:00])
 
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(valid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(activity)
     end
 
     test "update_activity/2 with valid data updates the activity" do
       activity = insert(:activity)
+      update_attrs = %{description: "some updated description", title: "some updated title"}
 
-      update_attrs = %{}
-
-      assert {:ok, %Activity{} = activity} = Activities.update_activity(activity, update_attrs)
-      assert activity.description == activity.description
-      assert activity.title == activity.title
+      assert {:ok, %Activity{}} = Activities.update_activity(activity, update_attrs)
     end
 
     test "update_activity/2 with invalid data returns error changeset" do
       activity = insert(:activity)
+
       assert {:error, %Ecto.Changeset{}} = Activities.update_activity(activity, @invalid_attrs)
       assert activity.id == Activities.get_activity!(activity.id).id
     end
 
     test "delete_activity/1 deletes the activity" do
       activity = insert(:activity)
+
       assert {:ok, %Activity{}} = Activities.delete_activity(activity)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_activity!(activity.id) end
     end
 
     test "change_activity/1 returns a activity changeset" do
       activity = insert(:activity)
+
       assert %Ecto.Changeset{} = Activities.change_activity(activity)
     end
   end
