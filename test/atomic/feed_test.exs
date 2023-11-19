@@ -11,9 +11,11 @@ defmodule Atomic.FeedTest do
 
     @invalid_attrs %{type: nil}
 
-    test "list_posts/0 returns all posts" do
+    test "list_posts/1 returns all posts" do
       post = post_fixture()
-      posts = Feed.list_posts() |> Enum.map(& &1.id)
+      %{entries: posts, metadata: _metadata} = Feed.list_posts()
+      posts = posts |> Enum.map(& &1.id)
+
       assert posts == [post.id]
     end
 
