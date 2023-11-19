@@ -5,6 +5,7 @@ defmodule Atomic.Organizations do
   use Atomic.Context
 
   alias Atomic.Accounts.User
+  alias Atomic.Feed.Post
   alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
 
   @doc """
@@ -655,40 +656,6 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of published announcements.
-
-  ## Examples
-
-      iex> list_published_announcements()
-      [%Announcement{}, ...]
-
-  """
-  def list_published_announcements(opts \\ []) do
-    Announcement
-    |> where([a], fragment("now() > ?", a.publish_at))
-    |> apply_filters(opts)
-    |> Repo.all()
-  end
-
-  @doc """
-  Returns the list of published announcements belonging to an organization.
-
-  ## Examples
-
-      iex> list_published_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%Announcement{}, ...]
-
-  """
-  def list_published_announcements_by_organization_id(id, opts \\ []) do
-    Announcement
-    |> where(organization_id: ^id)
-    |> where([a], fragment("now() > ?", a.publish_at))
-    |> order_by([a], desc: a.publish_at)
-    |> apply_filters(opts)
-    |> Repo.all()
-  end
-
-  @doc """
   Returns the list of announcements belonging to an organization.
 
   ## Examples
@@ -727,9 +694,13 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Creates an announcement.
+  Creates an announcement and its respective post.
+  All in one transaction.
 
   ## Examples
+
+      iex> create_announcement(%{field: value}, ~N[2019-01-01 00:00:00])
+      {:ok, %Announcement{}}
 
       iex> create_announcement(%{field: value})
       {:ok, %Announcement{}}
@@ -738,10 +709,23 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
-    %Announcement{}
-    |> Announcement.changeset(attrs)
-    |> Repo.insert()
+  def create_announcement(attrs \\ %{}, publish_at) do
+    Multi.new()
+    |> Multi.run(:create_post, fn _, _ ->
+      %Post{}
+      |> Post.changeset(%{
+        type: "announcement",
+        publish_at: publish_at
+      })
+      |> Repo.insert()
+    end)
+    |> Multi.run(:create_announcement, fn _, %{create_post: post} ->
+      %Announcement{}
+      |> Announcement.changeset(attrs)
+      |> Ecto.Changeset.put_assoc(:post, post)
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
   end
 
   @doc """

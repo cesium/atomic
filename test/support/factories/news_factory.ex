@@ -11,8 +11,7 @@ defmodule Atomic.Factories.AnnouncementFactory do
         %Announcement{
           organization: build(:organization),
           title: "Announcement title",
-          description: "Announcement description",
-          publish_at: NaiveDateTime.utc_now()
+          description: "Announcement description"
         }
       end
     end

@@ -1,5 +1,7 @@
 defmodule Atomic.Activities.Activity do
-  @moduledoc false
+  @moduledoc """
+  An activity created and published by an organization.
+  """
   use Atomic.Schema
 
   alias Atomic.Activities
@@ -12,8 +14,8 @@ defmodule Atomic.Activities.Activity do
   }
 
   alias Atomic.Events.Event
+  alias Atomic.Feed.Post
   alias Atomic.Organizations.Organization
-  alias Atomic.Uploaders
 
   @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
   @optional_fields ~w(event_id image)a
@@ -42,6 +44,8 @@ defmodule Atomic.Activities.Activity do
 
     belongs_to :organization, Organization
     belongs_to :event, Event
+
+    belongs_to :post, Post, foreign_key: :post_id
 
     many_to_many :speakers, Speaker, join_through: ActivitySpeaker
     has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id

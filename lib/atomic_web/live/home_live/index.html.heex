@@ -44,17 +44,15 @@
           </div>
         </div>
         <!-- Feed -->
-        <div x-bind:class="option == 'all' ? 'block' : 'hidden'">
-          <%= for post <- @posts do %>
-            <div class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
-              <%= if post.type == :activity do %>
-                <Activity.default activity={post.activity} />
-              <% else %>
-                <Announcement.default announcement={post.announcement} />
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+        <ul id="feed" role="list" x-bind:class="option == 'all' ? 'block' : 'hidden'" phx-update="stream" phx-viewport-bottom="load-more">
+          <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8" data-role="post">
+            <%= if post.type == :activity do %>
+              <Activity.default activity={post.activity} />
+            <% else %>
+              <Announcement.default announcement={post.announcement} />
+            <% end %>
+          </li>
+        </ul>
       </article>
     </main>
   </div>

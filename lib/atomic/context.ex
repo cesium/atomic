@@ -8,6 +8,7 @@ defmodule Atomic.Context do
       import Ecto.Query, warn: false
 
       alias Atomic.Repo
+      alias Ecto.Multi
 
       def apply_filters(query, opts) do
         Enum.reduce(opts, query, fn
@@ -22,6 +23,9 @@ defmodule Atomic.Context do
 
           {:limit, criteria}, query ->
             limit(query, ^criteria)
+
+          {:offset, criteria}, query ->
+            offset(query, ^criteria)
 
           {:preloads, preloads}, query when is_list(preloads) ->
             Enum.reduce(preloads, query, fn preload, query ->

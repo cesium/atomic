@@ -23,11 +23,15 @@ defmodule Atomic.Repo.Seeds.Announcements do
       %{
         title: Faker.Lorem.sentence(),
         description: Faker.Lorem.paragraph(),
-        publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :second),
         organization_id: Enum.random(organizations).id
       }
-      |> Organizations.create_announcement()
+      |> Organizations.create_announcement(build_publish_at_date())
     end
+  end
+
+  defp build_publish_at_date do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(Enum.random(1..59), :minute)
   end
 end
 

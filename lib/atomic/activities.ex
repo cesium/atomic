@@ -8,6 +8,7 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.Activity
   alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Activities.Speaker
+  alias Atomic.Feed.Post
 
   @doc """
   Returns the list of activities.
@@ -176,9 +177,13 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Creates a activity.
+  Creates an activity and its respective post.
+  All in one transaction.
 
   ## Examples
+
+      iex> create_activity(%{field: value, ~N[2020-01-01 00:00:00]})
+      {:ok, %Activity{}}
 
       iex> create_activity(%{field: value})
       {:ok, %Activity{}}
@@ -187,10 +192,23 @@ defmodule Atomic.Activities do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}) do
-    %Activity{}
-    |> Activity.changeset(attrs)
-    |> Repo.insert()
+  def create_activity(attrs \\ %{}, publish_at) do
+    Multi.new()
+    |> Multi.run(:create_post, fn _, _ ->
+      %Post{}
+      |> Post.changeset(%{
+        type: "activity",
+        publish_at: publish_at
+      })
+      |> Repo.insert()
+    end)
+    |> Multi.run(:create_activity, fn _, %{create_post: post} ->
+      %Activity{}
+      |> Activity.changeset(attrs)
+      |> Ecto.Changeset.put_assoc(:post, post)
+      |> Repo.insert()
+    end)
+    |> Repo.transaction()
   end
 
   @doc """

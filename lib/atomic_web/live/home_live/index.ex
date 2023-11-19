@@ -3,13 +3,21 @@ defmodule AtomicWeb.HomeLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
+  alias Atomic.Feed
   alias Atomic.Organizations
   alias AtomicWeb.Components.Activity
   alias AtomicWeb.Components.Announcement
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    limit = 20
+    offset = 0
+
+    {:ok,
+     socket
+     |> stream(:posts, list_posts(limit, offset))
+     |> assign(:limit, limit)
+     |> assign(:offset, offset)}
   end
 
   @impl true
@@ -18,31 +26,24 @@ defmodule AtomicWeb.HomeLive.Index do
      socket
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
-     |> assign(:posts, list_posts())
      |> assign(:schedule, fetch_schedule(socket))
      |> assign(:organizations, list_organizations_to_follow(socket))}
   end
 
-  defp list_posts do
-    activities =
-      Activities.list_activities(preloads: [:organization])
-      |> Enum.map(fn activity ->
-        %{activity | enrolled: Activities.get_total_enrolled(activity.id)}
-      end)
+  @impl true
+  def handle_event("load-more", _, socket) do
+    {:noreply,
+     socket
+     |> update(:offset, fn offset -> offset + socket.assigns.limit end)
+     |> stream(:posts, list_posts(socket.assigns.limit, socket.assigns.offset))}
+  end
 
-    announcements = Organizations.list_announcements(preloads: [:organization])
-
-    Enum.concat(activities, announcements)
-    |> Enum.sort(&sort_posts/2)
-    |> Enum.map(fn post ->
-      case post do
-        %Activities.Activity{} ->
-          %{type: :activity, activity: post}
-
-        %Organizations.Announcement{} ->
-          %{type: :announcement, announcement: post}
-      end
-    end)
+  defp list_posts(limit, offset) do
+    Feed.list_posts(
+      order_by: [desc: :publish_at],
+      limit: limit,
+      offset: offset
+    )
   end
 
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
@@ -83,14 +84,5 @@ defmodule AtomicWeb.HomeLive.Index do
 
   defp list_organizations_to_follow(_assigns) do
     Organizations.list_top_organizations(limit: 3)
-  end
-
-  # Sort posts by inserted_at, descending. Meaning the newest posts will be on top.
-  defp sort_posts(post1, post2) do
-    if NaiveDateTime.compare(post1.inserted_at, post2.inserted_at) == :lt do
-      false
-    else
-      true
-    end
   end
 end

@@ -4,9 +4,8 @@ defmodule Atomic.Repo.Seeds.Activities do
   """
   alias Atomic.Accounts.User
   alias Atomic.Activities
-  alias Atomic.Activities.{Activity, ActivityDepartment, ActivityEnrollment}
-  alias Atomic.Departments
-  alias Atomic.Organizations.{Department, Organization}
+  alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
   @activity_titles [
@@ -49,7 +48,7 @@ defmodule Atomic.Repo.Seeds.Activities do
             maximum_entries: Enum.random(11..20),
             organization_id: Enum.random(organizations).id
           }
-          |> Activities.create_activity()
+          |> Activities.create_activity(build_publish_at_date())
         end
 
       _ ->
@@ -67,6 +66,12 @@ defmodule Atomic.Repo.Seeds.Activities do
     NaiveDateTime.utc_now()
     |> NaiveDateTime.add(i, :day)
     |> NaiveDateTime.add(2, :hour)
+    |> NaiveDateTime.truncate(:second)
+  end
+
+  defp build_publish_at_date do
+    NaiveDateTime.utc_now()
+    |> NaiveDateTime.add(Enum.random(1..59), :minute)
     |> NaiveDateTime.truncate(:second)
   end
 
