@@ -20,7 +20,7 @@ defmodule Atomic.Feed do
     Post
     |> apply_filters(opts)
     |> preload(activity: :organization, announcement: :organization)
-    |> Repo.paginate(cursor_fields: [:inserted_at], limit: 50)
+    |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: 50)
   end
 
   def list_next_posts(cursor_after, opts \\ []) do
@@ -29,7 +29,7 @@ defmodule Atomic.Feed do
     |> preload(activity: :organization, announcement: :organization)
     |> Repo.paginate(
       after: cursor_after,
-      cursor_fields: [{:inserted_at, :desc}],
+      cursor_fields: [{:inserted_at, :desc}, {:id, :desc}],
       limit: 50
     )
   end

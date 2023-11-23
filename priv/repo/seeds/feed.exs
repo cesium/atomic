@@ -31,11 +31,11 @@ defmodule Atomic.Repo.Seeds.Feed do
       [] ->
         organizations = Repo.all(Organization)
 
-        for _ <- 1..200 do
+        for i <- 1..200 do
           type = Enum.random([:activity, :announcement])
 
           case type do
-            :activity -> seed_activity(Enum.random(organizations).id)
+            :activity -> seed_activity(Enum.random(organizations).id, i)
             :announcement -> seed_announcement(Enum.random(organizations).id)
           end
         end
@@ -45,7 +45,7 @@ defmodule Atomic.Repo.Seeds.Feed do
     end
   end
 
-  def seed_activity(organization_id) do
+  def seed_activity(organization_id, i) do
     location = %{
       name: Faker.Address.city(),
       url: Faker.Internet.url()
@@ -54,14 +54,18 @@ defmodule Atomic.Repo.Seeds.Feed do
     %{
       title: Enum.random(@activity_titles),
       description: Faker.Lorem.paragraph(),
-      start: build_start_date(),
-      finish: build_finish_date(),
+      start: build_start_date(i),
+      finish: build_finish_date(i),
       location: location,
       minimum_entries: Enum.random(1..10),
       maximum_entries: Enum.random(11..20),
       organization_id: organization_id
     }
     |> Activities.create_activity()
+    |> case do
+      {:error, changeset} -> Mix.shell().error("#{inspect(changeset)}")
+      _ -> :ok
+    end
   end
 
   def seed_announcement(organization_id) do
@@ -71,17 +75,21 @@ defmodule Atomic.Repo.Seeds.Feed do
       organization_id: organization_id
     }
     |> Organizations.create_announcement()
+    |> case do
+      {:error, changeset} -> Mix.shell().error("#{inspect(changeset)}")
+      _ -> :ok
+    end
   end
 
-  defp build_start_date do
+  defp build_start_date(i) do
     NaiveDateTime.utc_now()
-    |> NaiveDateTime.add(Enum.random(1..30), :day)
+    |> NaiveDateTime.add(i, :day)
     |> NaiveDateTime.truncate(:second)
   end
 
-  defp build_finish_date do
+  defp build_finish_date(i) do
     NaiveDateTime.utc_now()
-    |> NaiveDateTime.add(Enum.random(1..30), :day)
+    |> NaiveDateTime.add(i, :day)
     |> NaiveDateTime.add(Enum.random(1..4), :hour)
     |> NaiveDateTime.truncate(:second)
   end

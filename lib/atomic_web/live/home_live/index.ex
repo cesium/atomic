@@ -9,7 +9,8 @@ defmodule AtomicWeb.HomeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    %{entries: entries, metadata: metadata} = Feed.list_posts(order_by: [desc: :inserted_at])
+    %{entries: entries, metadata: metadata} =
+      Feed.list_posts(order_by: [desc: :inserted_at, desc: :id])
 
     {:ok,
      socket
@@ -32,7 +33,7 @@ defmodule AtomicWeb.HomeLive.Index do
     cursor_after = socket.assigns.metadata.after
 
     %{entries: entries, metadata: metadata} =
-      Feed.list_next_posts(cursor_after, order_by: [desc: :inserted_at])
+      Feed.list_next_posts(cursor_after, order_by: [desc: :inserted_at, desc: :id])
 
     {:noreply,
      socket

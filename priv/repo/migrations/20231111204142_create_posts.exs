@@ -11,7 +11,7 @@ defmodule Atomic.Repo.Migrations.CreatePosts do
       timestamps()
     end
 
-    create index(:posts, [:inserted_at])
+    create index(:posts, [:inserted_at, :id])
 
     alter table(:activities) do
       add :post_id, references(:posts, type: :binary_id), null: false
