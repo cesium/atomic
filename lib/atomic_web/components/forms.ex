@@ -41,7 +41,7 @@ defmodule AtomicWeb.Components.Forms do
         <%= @label %>
       </span>
       <div>
-        <%= text_input(@forms, @id, placeholder: @placeholder, phx_debounce: "blur", class: "block w-96 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:w-80") %>
+        <%= text_input(@forms, @id, placeholder: @placeholder, phx_debounce: "blur", class: "block w-64 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500") %>
         <div class="flex text-red-500">
           <%= error_tag(@forms, @id) %>
         </div>

@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.MulitSelect do
         </span>
         <div class="relative mt-2">
           <button
-            class="relative w-96 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:w-80 sm:text-sm sm:leading-6"
+            class="relative w-64 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:text-sm sm:leading-6"
             id="button"
             type="button"
             phx-click={JS.toggle(to: "#dropdown")}
@@ -46,7 +46,15 @@ defmodule AtomicWeb.Components.MulitSelect do
             </span>
           </button>
 
-          <ul id="dropdown" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3" style="display: none;">
+          <ul
+            id="dropdown"
+            phx-click-away={JS.hide(to: "#dropdown")}
+            class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            role="listbox"
+            aria-labelledby="listbox-label"
+            aria-activedescendant="listbox-option-3"
+            style="display: none;"
+          >
             <%= for item <- @items do %>
               <li class="flex cursor-pointer select-none items-center justify-between py-2 pr-3 pl-3 text-gray-900" role="option" phx-target={@target} phx-click={JS.push("toggle_option", value: %{id: item.id})}>
                 <span class="block truncate font-normal">
