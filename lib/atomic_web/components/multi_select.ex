@@ -1,4 +1,4 @@
-defmodule AtomicWeb.Components.MulitSelect do
+defmodule AtomicWeb.Components.MultiSelect do
   @moduledoc """
   A multi-select component that allows you to select multiple items from a list.
   The component attributes are:
