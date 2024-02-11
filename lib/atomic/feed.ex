@@ -6,32 +6,50 @@ defmodule Atomic.Feed do
 
   alias Atomic.Feed.Post
 
+  @posts_limit 50
+
   @doc """
   Returns a cursor-based pagination of posts.
   Learn more about why using cursor-based pagination at: https://use-the-index-luke.com/no-offset
 
   ## Examples
 
-      iex> list_posts()
+      iex> list_posts_paginated()
       %{entries: [%Post{}], metadata: %{...}}
 
   """
-  def list_posts(opts \\ []) do
+  def list_posts_paginated(opts \\ []) do
     Post
     |> apply_filters(opts)
     |> preload(activity: :organization, announcement: :organization)
-    |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: 50)
+    |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: @posts_limit)
   end
 
-  def list_next_posts(cursor_after, opts \\ []) do
+  def list_next_posts_paginated(cursor_after, opts \\ []) do
     Post
     |> apply_filters(opts)
     |> preload(activity: :organization, announcement: :organization)
     |> Repo.paginate(
       after: cursor_after,
       cursor_fields: [{:inserted_at, :desc}, {:id, :desc}],
-      limit: 50
+      limit: @posts_limit
     )
+  end
+
+  @doc """
+  Returns a list of posts.
+
+  ## Examples
+
+      iex> list_posts()
+      [%Post{}]
+
+  """
+  def list_posts(opts \\ []) do
+    Post
+    |> apply_filters(opts)
+    |> preload(activity: :organization, announcement: :organization)
+    |> Repo.all()
   end
 
   @doc """
@@ -108,7 +126,7 @@ defmodule Atomic.Feed do
   ## Examples
 
       iex> change_post(post)
-      %Todo{...}
+      %Post{...}
 
   """
   def change_post(%Post{} = post, attrs \\ %{}) do

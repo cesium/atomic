@@ -10,7 +10,7 @@ defmodule AtomicWeb.HomeLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     %{entries: entries, metadata: metadata} =
-      Feed.list_posts(order_by: [desc: :inserted_at, desc: :id])
+      Feed.list_posts_paginated(order_by: [desc: :inserted_at, desc: :id])
 
     {:ok,
      socket
@@ -33,7 +33,7 @@ defmodule AtomicWeb.HomeLive.Index do
     cursor_after = socket.assigns.metadata.after
 
     %{entries: entries, metadata: metadata} =
-      Feed.list_next_posts(cursor_after, order_by: [desc: :inserted_at, desc: :id])
+      Feed.list_next_posts_paginated(cursor_after, order_by: [desc: :inserted_at, desc: :id])
 
     {:noreply,
      socket
@@ -74,7 +74,7 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   defp list_organizations_to_follow(assigns) when assigns.is_authenticated? do
-    Organizations.list_top_organizations_by_user(assigns.current_user, limit: 3)
+    Organizations.list_top_organizations_for_user(assigns.current_user, limit: 3)
   end
 
   defp list_organizations_to_follow(_assigns) do

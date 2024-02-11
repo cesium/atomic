@@ -40,11 +40,11 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> list_top_organizations_by_user(user)
+      iex> list_top_organizations_for_user(user)
       [%Organization{}, ...]
 
   """
-  def list_top_organizations_by_user(%User{} = user, opts \\ []) do
+  def list_top_organizations_for_user(%User{} = user, opts \\ []) do
     Organization
     |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
     |> where([o, m], m.user_id != ^user.id and m.role == :follower)
