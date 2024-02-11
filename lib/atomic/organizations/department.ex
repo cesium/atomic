@@ -6,15 +6,13 @@ defmodule Atomic.Organizations.Department do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description select)a
+  @optional_fields ~w(description)a
 
   schema "departments" do
     field :name, :string
     field :description, :string
 
     belongs_to :organization, Organization, on_replace: :delete_if_exists
-
-    field :select, :boolean, virtual: true
 
     timestamps()
   end
