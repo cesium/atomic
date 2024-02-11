@@ -211,8 +211,7 @@ defmodule Atomic.Activities do
     |> Repo.transaction()
     |> case do
       {:ok, %{activity: activity, post: _post}} ->
-        after_save(after_save)
-        {:ok, activity}
+        after_save({:ok, activity}, after_save)
 
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
