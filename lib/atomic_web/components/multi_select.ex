@@ -63,7 +63,7 @@ defmodule AtomicWeb.Components.MultiSelect do
 
                 <span class={
                   if item.selected do
-                    "inset-y-0 right-0 flex-row pr-4 text-indigo-600"
+                    "inset-y-0 right-0 flex-row pr-4 text-orange-600"
                   else
                     "hidden"
                   end
