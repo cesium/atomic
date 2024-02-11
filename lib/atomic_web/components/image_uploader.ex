@@ -1,0 +1,75 @@
+defmodule AtomicWeb.Components.ImageUploader do
+  @moduledoc """
+  An image uploader component that allows you to upload an image.
+  The component attributes are:
+    @uploads - the uploads object
+    @target - the target to send the event to
+
+  The component events the parent component should define are:
+    cancel-image - cancels the upload of an image. This event should be defined in the component that you passed in the @target attribute.
+  """
+  use AtomicWeb, :live_component
+
+  def render(assigns) do
+    ~H"""
+    <div>
+      <div class="shrink-0 px-4 py-6 1.5xl:shrink-0 1.5xl:px-6 1.5xl:py-5 sm:px-6">
+        <span class="font-sm mb-1 pl-1 text-base text-gray-800 sm:text-lg">
+          Image
+        </span>
+        <.live_file_input upload={@uploads.image} class="hidden" />
+        <div class={
+            "#{if length(@uploads.image.entries) != 0 do
+              "hidden"
+            end} mt-1 border-2 border-gray-300 border-dashed rounded-md"
+          } phx-drop-target={@uploads.image.ref}>
+          <div class="mx-auto sm:col-span-6 lg:w-full">
+            <div class="my-[140px] flex justify-center px-6">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-orange-600 hover:text-red-800">
+                    <a onclick={"document.getElementById('#{@uploads.image.ref}').click()"}>
+                      Upload a file
+                    </a>
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">
+                  PNG, JPG, GIF up to 10MB
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section>
+          <%= for entry <- @uploads.image.entries do %>
+            <%= for err <- upload_errors(@uploads.image, entry) do %>
+              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+            <% end %>
+            <article class="upload-entry">
+              <figure class="w-[400px]">
+                <.live_img_preview entry={entry} />
+                <div class="flex">
+                  <figcaption>
+                    <%= if String.length(entry.client_name) < 30 do %>
+                      <% entry.client_name %>
+                    <% else %>
+                      <% String.slice(entry.client_name, 0..30) <> "... " %>
+                    <% end %>
+                  </figcaption>
+                  <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
+                    <Heroicons.x_mark solid class="h-5 w-5 text-gray-400" />
+                  </button>
+                </div>
+              </figure>
+            </article>
+          <% end %>
+        </section>
+      </div>
+    </div>
+    """
+  end
+end

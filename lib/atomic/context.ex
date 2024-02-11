@@ -2,7 +2,6 @@ defmodule Atomic.Context do
   @moduledoc """
   A utility context providing common functions to all context modules.
   """
-
   defmacro __using__(_) do
     quote do
       import Ecto.Query, warn: false

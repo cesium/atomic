@@ -40,13 +40,13 @@ defmodule Atomic.Activities.Activity do
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
 
-    embeds_one :location, Location
+    embeds_one :location, Location, on_replace: :update
 
     belongs_to :organization, Organization
     belongs_to :event, Event
     belongs_to :post, Post, foreign_key: :post_id
 
-    many_to_many :speakers, Speaker, join_through: ActivitySpeaker
+    many_to_many :speakers, Speaker, on_replace: :delete, join_through: ActivitySpeaker
     has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 
     timestamps()
@@ -59,7 +59,7 @@ defmodule Atomic.Activities.Activity do
     |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> validate_dates()
-    |> validate_entries_number()
+    |> validate_entries()
     |> maybe_mark_for_deletion()
     |> maybe_put_speakers(attrs)
   end
@@ -69,11 +69,31 @@ defmodule Atomic.Activities.Activity do
     |> cast_attachments(attrs, [:image])
   end
 
-  defp validate_entries_number(changeset) do
+  defp validate_entries(changeset) do
     minimum_entries = get_change(changeset, :minimum_entries)
     maximum_entries = get_change(changeset, :maximum_entries)
 
-    if minimum_entries > maximum_entries do
+    case {minimum_entries, maximum_entries} do
+      {nil, nil} ->
+        validate_entries_values(
+          changeset.data.minimum_entries,
+          changeset.data.maximum_entries,
+          changeset
+        )
+
+      {nil, maximum} ->
+        validate_entries_values(changeset.data.minimum_entries, maximum, changeset)
+
+      {minimum, nil} ->
+        validate_entries_values(minimum, changeset.data.maximum_entries, changeset)
+
+      {min, max} ->
+        validate_entries_values(min, max, changeset)
+    end
+  end
+
+  def validate_entries_values(min_value, max_value, changeset) do
+    if min_value > max_value do
       add_error(
         changeset,
         :maximum_entries,
