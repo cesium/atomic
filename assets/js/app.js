@@ -26,10 +26,12 @@ import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
 import { QrScanner } from "./qr_reading.js";
 import { InitSorting } from "./sorting.js";
+import { StickyScroll } from "./sticky_scroll.js";
 
 let Hooks = {
   QrScanner: QrScanner,
-  InitSorting: InitSorting
+  InitSorting: InitSorting,
+  StickyScroll: StickyScroll
 };
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
