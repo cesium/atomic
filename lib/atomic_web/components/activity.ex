@@ -1,16 +1,12 @@
 defmodule AtomicWeb.Components.Activity do
   @moduledoc """
   Renders an activity.
-
-  These are the variants:
-
-    * `default` - activity with a title and description
   """
-  use AtomicWeb, :component
+  use AtomicWeb, :live_component
 
-  def default(assigns) do
+  @impl true
+  def render(assigns) do
     ~H"""
-    <!-- Main content -->
     <div>
       <div class="flex space-x-3">
         <div class="flex-shrink-0">
@@ -27,11 +23,11 @@ defmodule AtomicWeb.Components.Activity do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization)} class="hover:underline focus:outline-none">
-            <p class="text-sm font-medium text-gray-900">
+          <button phx-target={@myself} phx-click-away="navigate-to-organization" phx-value-organization={@activity.organization.id} class="hover:underline focus:outline-none">
+            <span class="text-sm font-medium text-gray-900">
               <%= @activity.organization.name %>
-            </p>
-          </.link>
+            </span>
+          </button>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@activity.inserted_at) %></time>
@@ -39,43 +35,53 @@ defmodule AtomicWeb.Components.Activity do
         </div>
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @activity.title %></h2>
-    </div>
-    <div class="text-justify text-sm text-gray-700">
-      <p><%= @activity.description %></p>
-    </div>
-    <!-- Image -->
-    <%= if @activity.image do %>
-      <div class="mt-4">
-        <img class="max-w-xs rounded-md lg:max-w-md" src={@url} />
+      <div class="text-justify text-sm text-gray-700">
+        <p><%= @activity.description %></p>
       </div>
-    <% end %>
-    <!-- Footer -->
-    <div class="mt-3 flex flex-row justify-between">
-      <div class="flex space-x-4">
-        <span class="inline-flex items-center text-sm">
-          <span class="inline-flex space-x-2 text-zinc-400">
-            <Heroicons.clock solid class="h-5 w-5" />
-            <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
-            <span class="sr-only">starting in</span>
+      <!-- Image -->
+      <%= if !@activity.image do %>
+        <div class="mt-4">
+          <%!-- <img class="max-w-xs rounded-md lg:max-w-md" src={@url} /> --%>
+          <img class="max-w-md rounded-md" src="https://picsum.photos/1080/1080" />
+        </div>
+      <% end %>
+      <!-- Footer -->
+      <div class="mt-4 flex flex-row justify-between">
+        <div class="flex space-x-4">
+          <span class="inline-flex items-center text-sm">
+            <span class="inline-flex space-x-2 text-zinc-400">
+              <Heroicons.clock solid class="h-5 w-5" />
+              <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
+              <span class="sr-only">starting in</span>
+            </span>
           </span>
-        </span>
-        <span class="inline-flex items-center text-sm">
-          <span class="inline-flex space-x-2 text-zinc-400">
-            <Heroicons.user_group solid class="h-5 w-5" />
-            <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
-            <span class="sr-only">enrollments</span>
+          <span class="inline-flex items-center text-sm">
+            <span class="inline-flex space-x-2 text-zinc-400">
+              <Heroicons.user_group solid class="h-5 w-5" />
+              <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
+              <span class="sr-only">enrollments</span>
+            </span>
           </span>
-        </span>
-        <span class="inline-flex items-center text-sm">
-          <span class="inline-flex space-x-2 text-zinc-400">
-            <Heroicons.map_pin solid class="h-5 w-5" />
-            <span class="font-medium text-gray-900"><%= @activity.location.name %></span>
-            <span class="sr-only">location</span>
+          <span class="inline-flex items-center text-sm">
+            <span class="inline-flex space-x-2 text-zinc-400">
+              <Heroicons.map_pin solid class="h-5 w-5" />
+              <span class="font-medium text-gray-900"><%= @activity.location.name %></span>
+              <span class="sr-only">location</span>
+            </span>
           </span>
-        </span>
+        </div>
       </div>
-      <%= live_redirect("View this activity", to: Routes.activity_show_path(AtomicWeb.Endpoint, :show, @activity), class: "w-auto cursor-pointer text-sm text-orange-500 hover:underline") %>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
+    {:noreply,
+     socket
+     |> push_navigate(
+       to: Routes.organization_show_path(socket, :show, organization_id),
+       replace: true
+     )}
   end
 end

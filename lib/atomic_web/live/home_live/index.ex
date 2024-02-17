@@ -5,7 +5,7 @@ defmodule AtomicWeb.HomeLive.Index do
   alias Atomic.Activities
   alias Atomic.Feed
   alias Atomic.Organizations
-  alias AtomicWeb.Components.{Activity, Announcement}
+  alias AtomicWeb.Components.Announcement
 
   @impl true
   def mount(_params, _session, socket) do

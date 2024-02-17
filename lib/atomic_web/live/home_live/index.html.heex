@@ -47,9 +47,13 @@
         <ul id="feed" role="list" x-bind:class="option == 'all' ? 'block' : 'hidden'" phx-update="stream" phx-viewport-bottom="load-more">
           <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8" data-role="post">
             <%= if post.type == :activity do %>
-              <Activity.default activity={post.activity} />
+              <.link navigate={Routes.activity_show_path(@socket, :show, post.activity)}>
+                <.live_component id={post.activity.id} module={AtomicWeb.Components.Activity} activity={post.activity} />
+              </.link>
             <% else %>
-              <Announcement.default announcement={post.announcement} />
+              <.link navigate={Routes.announcement_show_path(@socket, :show, post)}>
+                <.live_component id={post.announcement.id} module={AtomicWeb.Components.Announcement} announcement={post.announcement} />
+              </.link>
             <% end %>
           </li>
         </ul>
@@ -60,7 +64,7 @@
     <!-- Schedule -->
     <section aria-labelledby="schedule">
       <div class="overflow-hidden">
-        <div :if={@schedule.daily} class="pt-6">
+        <div :if={length(@schedule.daily) != 0} class="pt-6">
           <p class="text-xl font-semibold text-gray-900">
             Today
           </p>
@@ -87,7 +91,7 @@
             </ul>
           </div>
         </div>
-        <div :if={@schedule.weekly} class={"#{if @schedule.daily, do: 'pt-3', else: 'pt-6'}"}>
+        <div :if={length(@schedule.weekly) != 0} class={"#{if @schedule.daily, do: 'pt-3', else: 'pt-6'}"}>
           <p class="text-xl font-semibold text-gray-900">
             This week
           </p>

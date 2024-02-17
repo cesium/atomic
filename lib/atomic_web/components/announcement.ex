@@ -1,14 +1,12 @@
 defmodule AtomicWeb.Components.Announcement do
   @moduledoc """
-  Renders an announcement with a title and description.
+  Renders an announcement.
   """
-  use AtomicWeb, :component
+  use AtomicWeb, :live_component
 
-  attr :announcement, :map, required: true
-
-  def default(assigns) do
+  @impl true
+  def render(assigns) do
     ~H"""
-    <!-- Main content -->
     <div>
       <div class="flex space-x-3">
         <div class="flex-shrink-0">
@@ -25,11 +23,11 @@ defmodule AtomicWeb.Components.Announcement do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization)} class="hover:underline focus:outline-none">
+          <button phx-target={@myself} phx-click="navigate-to-organization" phx-value-organization={@announcement.organization.id} class="hover:underline focus:outline-none">
             <p class="text-sm font-medium text-gray-900">
               <%= @announcement.organization.name %>
             </p>
-          </.link>
+          </button>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
@@ -37,22 +35,23 @@ defmodule AtomicWeb.Components.Announcement do
         </div>
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @announcement.title %></h2>
-    </div>
-    <div class="mt-2 space-y-4 text-justify text-sm text-gray-700">
-      <%= @announcement.description %>
-    </div>
-    <!-- Image -->
-    <%= if @announcement.image do %>
-      <div class="mt-4">
-        <img class="max-w-xs rounded-md lg:max-w-md" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
+      <div class="space-y-4 text-justify text-sm text-gray-700">
+        <%= @announcement.description %>
       </div>
-    <% end %>
-    <!-- Footer -->
-    <div class="mt-2 flex flex-row-reverse">
-      <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)} class="w-auto cursor-pointer text-sm text-orange-500 hover:underline">
-        View this announcement
-      </.link>
+      <!-- Image -->
+      <%= if !@announcement.image do %>
+        <div class="mt-4">
+          <%!-- <img class="max-w-xs rounded-md lg:max-w-md" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} /> --%>
+          <img class="max-w-lg rounded-md" src="https://picsum.photos/seed/picsum/536/354" />
+        </div>
+      <% end %>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
+    {:noreply,
+     push_redirect(socket, to: Routes.organization_path(socket, :show, organization_id))}
   end
 end
