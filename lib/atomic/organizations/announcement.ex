@@ -10,6 +10,16 @@ defmodule Atomic.Organizations.Announcement do
   @required_fields ~w(title description organization_id)a
   @optional_fields ~w(image)a
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:inserted_at],
+    default_order: %{
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    }
+  }
+
   schema "announcements" do
     field :title, :string
     field :description, :string

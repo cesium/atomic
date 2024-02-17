@@ -1,47 +1,62 @@
-<div class="bg-white">
-  <div class="pt-4 px-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1">
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-          <%= gettext("Announcements") %>
-        </h2>
-      </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 lg:block">
-          <.link patch={Routes.announcement_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
-            + <%= gettext("New Announcement") %>
-          </.link>
-        </div>
-      <% end %>
-    </div>
-    <!-- Tabs -->
-    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-      <div class="flex w-full items-center justify-between">
-        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-          <%= if @is_authenticated? do %>
-            <.link patch="?tab=following" class={"#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
-              <%= gettext("Following") %>
-            </.link>
-          <% end %>
-
-          <.link patch="?tab=all" class={"#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
-            <%= gettext("All") %>
-          </.link>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%= if @empty? and @has_permissions? do %>
-  <div class="mt-32">
-    <.empty_state url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
-  </div>
-<% else %>
-  <ul role="list" class="relative z-0 divide-y divide-zinc-200">
-    <%= for announcement <- @announcements do %>
-      <Announcement.default announcement={announcement} />
+<.live_component module={AtomicWeb.Components.Page} id="announcement-index" title="Announcements">
+  <:actions>
+    <%= if not @empty? and @has_permissions? do %>
+      <.link patch={Routes.announcement_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-1.5 px-5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
+        <%= gettext("New") %>
+      </.link>
     <% end %>
-  </ul>
-  <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
-<% end %>
+  </:actions>
+  <!-- Tabs -->
+  <div x-data="{ option: 'all' }" class="mt-2 2xl:mt-5">
+    <div class="border-b border-gray-200">
+      <div class="flex flex-row justify-between items-center px-4 mx-auto max-w-5-xl sm:px-6 lg:px-8">
+        <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+          <div class="flex w-full items-center justify-between">
+            <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
+              <button x-on:click="option = 'all'" x-bind:class="option == 'all' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
+                <%= gettext("All") %>
+              </button>
+              <%= if @is_authenticated? do %>
+                <button
+                  x-on:click="option = 'following'"
+                  x-bind:class="option == 'following' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 "
+                >
+                  <%= gettext("Following") %>
+                </button>
+              <% end %>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Announcements index -->
+  <%= if @empty? and @has_permissions? do %>
+    <div class="mt-32">
+      <.empty_state url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
+    </div>
+  <% else %>
+    <div class="overflow-hidden bg-white">
+      <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
+        <%= for announcement <- @announcements do %>
+          <li id={announcement.id}>
+            <.link navigate={Routes.announcement_show_path(@socket, :show, announcement)} class="block hover:bg-zinc-50">
+              <div class="px-4 py-4 lg:px-6">
+                <div class="flex items-center justify-between">
+                  <p class="truncate text-sm font-medium text-zinc-900">
+                    <%= announcement.title %>
+                  </p>
+                </div>
+                <p class="mt-2 text-sm text-zinc-500">
+                  <%= announcement.description %>
+                </p>
+              </div>
+            </.link>
+          </li>
+        <% end %>
+      </ul>
+      <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+    </div>
+  <% end %>
+</.live_component>

@@ -6,7 +6,6 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
-  alias AtomicWeb.Components.Announcement
 
   @impl true
   def mount(_params, _session, socket) do
@@ -29,7 +28,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
   end
 
   defp list_announcements(socket, params) do
-    params = Map.put(params, "page_size", 7)
+    params = Map.put(params, "page_size", 6)
 
     case current_tab(socket, params) do
       "all" -> list_all_announcements(socket, params)
