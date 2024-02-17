@@ -21,10 +21,11 @@ defmodule AtomicWeb.Components.Page do
       <div class={"#{if @bottom_border, do: 'border-b', else: ''} flex w-full flex-col bg-white lg:flex-row lg:border-x"}>
         <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
           <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div class="my-6 flex min-w-0 select-none flex-row">
-              <h1 class="truncate text-2xl font-bold text-gray-900">
+            <div class="my-6 flex min-w-0 flex-row items-center justify-between">
+              <h1 class="flex-1 select-none truncate text-2xl font-bold text-gray-900">
                 <%= @title %>
               </h1>
+              <%= render_slot(@actions) %>
             </div>
           </div>
 

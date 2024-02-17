@@ -1,10 +1,8 @@
 <.live_component module={AtomicWeb.Components.Page} id="activity-index" title="Activities">
   <:actions>
-    <%= if not @empty? and @has_permissions? do %>
-      <.link patch={Routes.activity_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-1.5 px-5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
-        <%= gettext("New") %>
-      </.link>
-    <% end %>
+    <.link patch={Routes.activity_new_path(@socket, :new, 123)} class="border-2 rounded-md bg-white border-orange-500 py-1.5 px-5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
+      <%= gettext("New") %>
+    </.link>
   </:actions>
   <!-- Tabs -->
   <div x-data="{ option: 'all' }" class="mt-2 2xl:mt-5">
