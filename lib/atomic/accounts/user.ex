@@ -7,7 +7,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Accounts.Course
   alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Organizations.{Membership, Organization}
-  alias Atomic.Uploaders.ProfilePicture
+  alias Atomic.Uploaders.{CV, ProfilePicture}
 
   @required_fields ~w(email password)a
   @optional_fields ~w(name slug role phone_number confirmed_at course_id current_organization_id)a
@@ -26,6 +26,7 @@ defmodule Atomic.Accounts.User do
 
     field :phone_number, :string
     field :profile_picture, ProfilePicture.Type
+    field :cv, CV.Type
     field :role, Ecto.Enum, values: @roles, default: :student
     belongs_to :course, Course
     belongs_to :current_organization, Organization
@@ -60,10 +61,22 @@ defmodule Atomic.Accounts.User do
     |> validate_password(opts)
   end
 
+  @doc """
+  A user changeset for updating the user's profile picture.
+  """
   def picture_changeset(user, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_attachments(attrs, [:profile_picture])
+  end
+
+  @doc """
+  A user changeset for updating the user's CV.
+  """
+  def cv_changeset(user, attrs) do
+    user
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_attachments(attrs, [:cv])
   end
 
   @doc """

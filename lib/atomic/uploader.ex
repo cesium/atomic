@@ -5,7 +5,7 @@ defmodule Atomic.Uploader do
   """
 
   @versions [:original, :medium, :thumb]
-  @extensions_whitelist ~w(.svg .jpg .jpeg .png)
+  @extensions_whitelist ~w(.svg .jpg .jpeg .png .pdf .docx)
 
   defmacro __using__(_) do
     quote do
