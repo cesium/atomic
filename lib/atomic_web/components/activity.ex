@@ -23,11 +23,13 @@ defmodule AtomicWeb.Components.Activity do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <button phx-target={@myself} phx-click-away="navigate-to-organization" phx-value-organization={@activity.organization.id} class="hover:underline focus:outline-none">
-            <span class="text-sm font-medium text-gray-900">
-              <%= @activity.organization.name %>
-            </span>
-          </button>
+          <object>
+            <.link navigate={Routes.organization_show_path(@socket, :show, @activity.organization.id)}>
+              <span class="text-sm font-medium text-gray-900 hover:underline focus:outline-none">
+                <%= @activity.organization.name %>
+              </span>
+            </.link>
+          </object>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@activity.inserted_at) %></time>
@@ -73,15 +75,5 @@ defmodule AtomicWeb.Components.Activity do
       </div>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
-    {:noreply,
-     socket
-     |> push_navigate(
-       to: Routes.organization_show_path(socket, :show, organization_id),
-       replace: true
-     )}
   end
 end
