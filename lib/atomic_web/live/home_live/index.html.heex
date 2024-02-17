@@ -1,5 +1,5 @@
 <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
-  <div class="flex flex-col w-full bg-white lg:border-r lg:flex-row">
+  <div class="flex flex-col w-full bg-white lg:border-x lg:flex-row">
     <main x-data="{ option: 'all' }" class="overflow-y-auto relative z-0 flex-1 mb-10 xl:order-last focus:outline-none">
       <article>
         <!-- Header -->
@@ -26,15 +26,19 @@
           <div class="border-b border-gray-200">
             <div class="flex flex-row justify-between items-center px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
               <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
-                <button x-on:click="option = 'all'" x-bind:class="option == 'all' ? 'border-b-2 border-red-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
+                <button x-on:click="option = 'all'" x-bind:class="option == 'all' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
                   All
                 </button>
-                <button x-on:click="option = 'following'" x-bind:class="option == 'following' ? 'border-b-2 border-red-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 ">
+                <button
+                  x-on:click="option = 'following'"
+                  x-bind:class="option == 'following' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 "
+                >
                   Following
                 </button>
                 <button
                   x-on:click="option = 'schedule'"
-                  x-bind:class="option == 'schedule' ? 'border-b-2 border-red-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                  x-bind:class="option == 'schedule' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                   class="lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 "
                 >
                   Schedule
@@ -76,7 +80,7 @@
                     <p class="text-md font-semibold hover:underline">
                       <%= entry.title %>
                     </p>
-                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-600 opacity-70">
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
                       <Heroicons.clock solid class="h-4 w-4" />
                       <p class="text-xs font-semibold">
                         <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
@@ -103,7 +107,7 @@
                     <p class="text-md font-semibold hover:underline">
                       <%= entry.title %>
                     </p>
-                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-600 opacity-70">
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
                       <Heroicons.clock solid class="h-4 w-4" />
                       <p class="text-xs font-semibold">
                         <%= pretty_display_date(entry.start) %>
@@ -165,7 +169,7 @@
           </ul>
         </div>
         <div class="my-4">
-          <%= live_patch to: Routes.organization_index_path(AtomicWeb.Endpoint, :index), class: "flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-orange-600 shadow-sm hover:bg-gray-50" do %>
+          <%= live_patch to: Routes.organization_index_path(AtomicWeb.Endpoint, :index), class: "flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-orange-500 shadow-sm hover:bg-gray-50" do %>
             View all
           <% end %>
         </div>
