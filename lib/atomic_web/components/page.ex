@@ -18,7 +18,7 @@ defmodule AtomicWeb.Components.Page do
   def render(assigns) do
     ~H"""
     <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
-      <div class={"#{if @bottom_border, do: 'border-b', else: ''} flex w-full flex-col bg-white lg:flex-row lg:border-x"}>
+      <div class={"#{if @bottom_border, do: 'border-b', else: ''} flex w-full flex-col bg-white lg:flex-row lg:border-r"}>
         <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
           <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div class="my-6 flex min-w-0 flex-row items-center justify-between">
