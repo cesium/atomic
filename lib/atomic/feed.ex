@@ -4,7 +4,9 @@ defmodule Atomic.Feed do
   """
   use Atomic.Context
 
+  alias Atomic.Activities.Activity
   alias Atomic.Feed.Post
+  alias Atomic.Organizations.Announcement
 
   @posts_limit 50
 
@@ -27,6 +29,53 @@ defmodule Atomic.Feed do
 
   def list_next_posts_paginated(cursor_after, opts \\ []) do
     Post
+    |> apply_filters(opts)
+    |> preload(activity: :organization, announcement: :organization)
+    |> Repo.paginate(
+      after: cursor_after,
+      cursor_fields: [{:inserted_at, :desc}, {:id, :desc}],
+      limit: @posts_limit
+    )
+  end
+
+  @doc """
+    Returns a list of posts following a list of organization ids.
+
+    ## Examples
+
+        iex> list_posts_following_paginated([1, 2, 3])
+        %{entries: [%Post{}], metadata: %{...}}
+
+        iex> list_posts_following_paginated([])
+        %{entries: [], metadata: %{}}
+
+  """
+  def list_posts_following_paginated(organization_ids, opts \\ [])
+      when is_list(organization_ids) and length(organization_ids) > 0 do
+    Post
+    |> join(:left, [p], an in Announcement, on: an.post_id == p.id)
+    |> join(:left, [p, an], ac in Activity, on: ac.post_id == p.id)
+    |> where(
+      [p, an, ac],
+      an.organization_id in ^organization_ids or ac.organization_id in ^organization_ids
+    )
+    |> select([p, an, ac], p)
+    |> apply_filters(opts)
+    |> preload(activity: :organization, announcement: :organization)
+    |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: @posts_limit)
+  end
+
+  def list_posts_following_paginated(_organization_ids, _opts), do: %{entries: [], metadata: %{}}
+
+  def list_next_posts_following_paginated(organization_ids, cursor_after, opts \\ []) do
+    Post
+    |> join(:left, [p], an in Announcement, on: an.post_id == p.id)
+    |> join(:left, [p, an], ac in Activity, on: ac.post_id == p.id)
+    |> where(
+      [p, an, ac],
+      an.organization_id in ^organization_ids or ac.organization_id in ^organization_ids
+    )
+    |> select([p, an, ac], p)
     |> apply_filters(opts)
     |> preload(activity: :organization, announcement: :organization)
     |> Repo.paginate(

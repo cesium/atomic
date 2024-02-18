@@ -34,6 +34,18 @@ let Hooks = {
   StickyScroll: StickyScroll
 };
 
+Hooks.ScrollToTop = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      e.preventDefault()
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    })
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },

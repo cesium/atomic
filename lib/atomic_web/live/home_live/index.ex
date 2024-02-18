@@ -24,6 +24,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
      |> assign(:schedule, fetch_schedule(socket))
+     |> assign(:current_tab, current_tab(socket, _params))
      |> assign(:organizations, list_organizations_to_follow(socket))}
   end
 
@@ -32,12 +33,47 @@ defmodule AtomicWeb.HomeLive.Index do
     cursor_after = socket.assigns.metadata.after
 
     %{entries: entries, metadata: metadata} =
-      Feed.list_next_posts_paginated(cursor_after, order_by: [desc: :inserted_at, desc: :id])
+      case socket.assigns.current_tab do
+        "all" ->
+          Feed.list_next_posts_paginated(cursor_after, order_by: [desc: :inserted_at, desc: :id])
+
+        "following" ->
+          Feed.list_next_posts_following_paginated([], cursor_after,
+            order_by: [desc: :inserted_at, desc: :id]
+          )
+      end
 
     {:noreply,
      socket
      |> stream(:posts, entries)
      |> assign(:metadata, metadata)}
+  end
+
+  def handle_event("load-all", _, socket) do
+    %{entries: entries, metadata: metadata} =
+      Feed.list_posts_paginated(order_by: [desc: :inserted_at, desc: :id])
+
+    {:noreply,
+     socket
+     |> stream(:posts, entries)
+     |> assign(:metadata, metadata)
+     |> assign(:current_tab, "all")}
+  end
+
+  @impl true
+  def handle_event("load-following", _, socket) do
+    current_user = socket.assigns.current_user
+
+    %{entries: entries, metadata: metadata} =
+      Organizations.list_memberships(%{"user_id" => current_user.id})
+      |> Enum.map(& &1.organization_id)
+      |> Feed.list_posts_following_paginated([])
+
+    {:noreply,
+     socket
+     |> stream(:posts, entries)
+     |> assign(:metadata, metadata)
+     |> assign(:current_tab, "following")}
   end
 
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
@@ -79,4 +115,7 @@ defmodule AtomicWeb.HomeLive.Index do
   defp list_organizations_to_follow(_assigns) do
     Organizations.list_top_organizations(limit: 3)
   end
+
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+  defp current_tab(socket, _params), do: "all"
 end
