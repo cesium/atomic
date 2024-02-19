@@ -7,7 +7,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
   def schedule(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <div :if={length(@schedule.daily) != 0} class="pt-6">
+      <div :if={length(@schedule.daily) != 0} class="px-4 pt-6 sm:px-0">
         <p class="text-xl font-semibold text-gray-900">
           Today
         </p>
@@ -34,7 +34,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           </ul>
         </div>
       </div>
-      <div :if={length(@schedule.weekly) != 0} class={"#{if @schedule.daily, do: 'pt-3 px-4 sm:px-0', else: 'pt-6'}"}>
+      <div :if={length(@schedule.weekly) != 0} class={"#{if @schedule.daily, do: 'pt-3', else: 'pt-6'} px-4 sm:px-0"}>
         <p class="text-xl font-semibold text-gray-900">
           This week
         </p>

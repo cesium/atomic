@@ -8,7 +8,7 @@ defmodule Atomic.Feed do
   alias Atomic.Feed.Post
   alias Atomic.Organizations.Announcement
 
-  @posts_limit 50
+  @posts_limit 30
 
   @doc """
   Returns a cursor-based pagination of posts.
