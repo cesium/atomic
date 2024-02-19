@@ -2,6 +2,8 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
+  import AtomicWeb.HomeLive.Components.FollowSuggestions
+
   alias Atomic.Activities
   alias Atomic.Feed
   alias Atomic.Organizations
