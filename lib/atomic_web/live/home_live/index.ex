@@ -51,6 +51,10 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:metadata, metadata)}
   end
 
+  @impl true
+  def handle_event("load-all", _, socket) when socket.assigns.current_tab == "all",
+    do: {:noreply, socket}
+
   def handle_event("load-all", _, socket) do
     %{entries: entries, metadata: metadata} =
       Feed.list_posts_paginated(order_by: [desc: :inserted_at, desc: :id])
@@ -63,6 +67,9 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   @impl true
+  def handle_event("load-following", _, socket) when socket.assigns.current_tab == "following",
+    do: {:noreply, socket}
+
   def handle_event("load-following", _, socket) do
     current_user = socket.assigns.current_user
 
