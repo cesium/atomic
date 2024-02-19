@@ -20,13 +20,13 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   @impl true
-  def handle_params(_params, _, socket) do
+  def handle_params(params, _, socket) do
     {:noreply,
      socket
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
      |> assign(:schedule, fetch_schedule(socket))
-     |> assign(:current_tab, current_tab(socket, _params))
+     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organizations, list_organizations_to_follow(socket))}
   end
 
@@ -126,7 +126,7 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
-  defp current_tab(socket, _params), do: "all"
+  defp current_tab(_socket, _params), do: "all"
 
   defp tab_class(tab, current_tab) do
     if tab == current_tab,

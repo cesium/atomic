@@ -50,7 +50,7 @@ defmodule Atomic.Feed do
         %{entries: [], metadata: %{}}
 
   """
-  def list_posts_following_paginated(organization_ids, opts \\ [])
+  def list_posts_following_paginated(organization_ids, opts)
       when is_list(organization_ids) and length(organization_ids) > 0 do
     Post
     |> join(:left, [p], an in Announcement, on: an.post_id == p.id)
