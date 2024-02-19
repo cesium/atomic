@@ -42,7 +42,7 @@ defmodule AtomicWeb.Components.Announcement do
       <%= if !@announcement.image do %>
         <div class="mt-4">
           <%!-- <img class="max-w-xs rounded-md lg:max-w-md" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} /> --%>
-          <img class="max-w-screen rounded-md" src="https://picsum.photos/seed/picsum/536/354" />
+          <img class="max-w-screen rounded-md sm:max-w-md" src="https://picsum.photos/seed/picsum/536/354" />
         </div>
       <% end %>
     </div>
