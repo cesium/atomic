@@ -1,6 +1,6 @@
 <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
   <div class="flex flex-col w-full bg-white lg:border-r lg:flex-row">
-    <main x-data="{ option: 'all' }" class="relative z-0 flex-1 mb-10 xl:order-last focus:outline-none">
+    <main class="relative z-0 flex-1 mb-10 xl:order-last focus:outline-none">
       <article class="sticky top-0">
         <!-- Header -->
         <div class="hidden lg:block">
@@ -26,35 +26,15 @@
           <div class="border-b border-gray-200">
             <div class="flex flex-row justify-between items-center px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
               <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
-                <button
-                  id="all"
-                  role="tab"
-                  phx-click="load-all"
-                  phx-hook="ScrollToTop"
-                  x-on:click="option = 'all'"
-                  x-bind:class="option == 'all' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                  class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2"
-                >
+                <button id="all" role="tab" phx-click="load-all" phx-hook="ScrollToTop" class={"py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "all")}"}>
                   All
                 </button>
                 <%= if @is_authenticated? do %>
-                  <button
-                    id="following"
-                    role="tab"
-                    phx-click="load-following"
-                    phx-hook="ScrollToTop"
-                    x-on:click="option = 'following'"
-                    x-bind:class="option == 'following' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                    class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 "
-                  >
+                  <button id="following" role="tab" phx-click="load-following" phx-hook="ScrollToTop" class={"py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "following")}"}>
                     Following
                   </button>
                 <% end %>
-                <button
-                  x-on:click="option = 'schedule'"
-                  x-bind:class="option == 'schedule' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                  class="lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 "
-                >
+                <button phx-click="load-schedule" class={"lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "schedule")}"}>
                   Schedule
                 </button>
               </nav>

@@ -55,7 +55,7 @@ defmodule AtomicWeb.HomeLive.Index do
 
     {:noreply,
      socket
-     |> stream(:posts, entries)
+     |> stream(:posts, entries, reset: true)
      |> assign(:metadata, metadata)
      |> assign(:current_tab, "all")}
   end
@@ -71,9 +71,16 @@ defmodule AtomicWeb.HomeLive.Index do
 
     {:noreply,
      socket
-     |> stream(:posts, entries)
+     |> stream(:posts, entries, reset: true)
      |> assign(:metadata, metadata)
      |> assign(:current_tab, "following")}
+  end
+
+  @impl true
+  def handle_event("load-schedule", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:current_tab, "schedule")}
   end
 
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
@@ -118,4 +125,10 @@ defmodule AtomicWeb.HomeLive.Index do
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
   defp current_tab(socket, _params), do: "all"
+
+  defp tab_class(tab, current_tab) do
+    if tab == current_tab,
+      do: "border-b-2 border-orange-500 text-gray-900",
+      else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+  end
 end
