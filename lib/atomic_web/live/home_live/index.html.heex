@@ -34,9 +34,11 @@
                     Following
                   </button>
                 <% end %>
-                <button phx-click="load-schedule" class={"lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "schedule")}"}>
-                  Schedule
-                </button>
+                <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
+                  <button phx-click="load-schedule" class={"lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "schedule")}"}>
+                    Schedule
+                  </button>
+                <% end %>
               </nav>
             </div>
           </div>
