@@ -43,8 +43,7 @@ defmodule AtomicWeb.Components.Activity do
       <!-- Image -->
       <%= if !@activity.image do %>
         <div class="mt-4">
-          <%!-- <img class="max-w-xs rounded-md lg:max-w-md" src={@url} /> --%>
-          <img class="max-w-md rounded-md" src="https://picsum.photos/1080/1080" />
+          <img class="max-w-screen rounded-md" src="https://picsum.photos/1080/1080" />
         </div>
       <% end %>
       <!-- Footer -->

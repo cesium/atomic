@@ -42,7 +42,7 @@ defmodule AtomicWeb.Components.Announcement do
       <%= if !@announcement.image do %>
         <div class="mt-4">
           <%!-- <img class="max-w-xs rounded-md lg:max-w-md" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} /> --%>
-          <img class="max-w-lg rounded-md" src="https://picsum.photos/seed/picsum/536/354" />
+          <img class="max-w-screen rounded-md" src="https://picsum.photos/seed/picsum/536/354" />
         </div>
       <% end %>
     </div>
@@ -52,6 +52,6 @@ defmodule AtomicWeb.Components.Announcement do
   @impl true
   def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
     {:noreply,
-     push_redirect(socket, to: Routes.organization_path(socket, :show, organization_id))}
+     push_redirect(socket, to: Routes.organization_show_path(socket, :show, organization_id))}
   end
 end
