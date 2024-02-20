@@ -9,7 +9,7 @@ defmodule AtomicWeb.Components.Button do
   def primary_button(assigns) do
     ~H"""
     <.link patch={@url} class="inline-flex items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
-        <%= render_slot(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </.link>
     """
   end
