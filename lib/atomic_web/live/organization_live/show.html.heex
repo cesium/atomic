@@ -4,13 +4,7 @@
       <div class="flex justify-between py-4">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
           <div class="flex flex-col items-center lg:flex-row space-x-2 lg:space-x-8">
-            <div>
-              <%= if @organization.logo do %>
-                <img src={Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-32 h-32 block" />
-              <% else %>
-                <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="mb-2 w-64 h-64 block lg:mb-8" />
-              <% end %>
-            </div>
+            <.avatar name={@organization.name} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} class="text-white" />
             <div class="flex-1 space-x-2">
               <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
                 <div x-data="{ open: false }" class="flex flex-col items-center lg:items-start lg:justify-start justify-center space-y-2">

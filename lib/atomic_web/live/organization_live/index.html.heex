@@ -20,20 +20,7 @@
       <%= for organization <- @organizations do %>
         <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-            <.avatar class="text-white" name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:company} size={:lg} />
-            <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
-              <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-                <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-                  <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-                    <%= extract_initials(organization.name) %>
-                  </span>
-                </span>
-              </div>
-            <% else %>
-              <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div>
-            <% end %>
+            <.avatar class="text-white" name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:company} size={:lg} color="zinc-400" />
             <div class="ml-4">
               <h4 class="font-medium text-lg text-zinc-900">
                 <%= organization.name %>
