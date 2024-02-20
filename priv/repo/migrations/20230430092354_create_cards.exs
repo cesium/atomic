@@ -1,4 +1,4 @@
-defmodule Atomic.Repo.Migrations.AddCards do
+defmodule Atomic.Repo.Migrations.CreateCards do
   use Ecto.Migration
 
   def change do

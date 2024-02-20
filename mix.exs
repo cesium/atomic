@@ -45,6 +45,7 @@ defmodule Atomic.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
       {:flop, "~> 0.17.0"},
+      {:paginator, "~> 1.2.0"},
 
       # security
       {:bcrypt_elixir, "~> 3.0"},

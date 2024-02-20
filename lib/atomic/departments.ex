@@ -286,9 +286,9 @@ defmodule Atomic.Departments do
       [%Collaborator{}, ...]
 
   """
-  def list_collaborators_by_department_id(id, preloads \\ []) do
+  def list_collaborators_by_department_id(id, opts \\ []) do
     Collaborator
-    |> apply_filters(preloads)
+    |> apply_filters(opts)
     |> where([c], c.department_id == ^id)
     |> Repo.all()
   end

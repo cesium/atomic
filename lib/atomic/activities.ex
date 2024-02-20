@@ -8,6 +8,7 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.Activity
   alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Activities.Speaker
+  alias Atomic.Feed.Post
 
   @doc """
   Returns the list of activities.
@@ -176,22 +177,51 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Creates a activity.
+  Creates an activity and its respective post.
+  All in one transaction.
 
   ## Examples
 
-      iex> create_activity(%{field: value})
+      iex> create_activity_with_post(%{field: value, ~N[2020-01-01 00:00:00]})
       {:ok, %Activity{}}
 
-      iex> create_activity(%{field: bad_value})
+      iex> create_activity_with_post(%{field: value})
+      {:error, %Ecto.Changeset{}}
+
+      iex> create_activity_with_post(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      {:error, %Ecto.Changeset{}}
+
+      iex> create_activit__with_post(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+  def create_activity_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+    Multi.new()
+    |> Multi.insert(:post, fn _ ->
+      %Post{}
+      |> Post.changeset(%{
+        type: "activity"
+      })
+    end)
+    |> Multi.insert(:activity, fn %{post: post} ->
+      %Activity{}
+      |> Activity.changeset(attrs)
+      |> Ecto.Changeset.put_assoc(:post, post)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity: activity, post: _post}} ->
+        after_save({:ok, activity}, after_save)
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
+  end
+
+  def create_activity(attrs \\ %{}) do
     %Activity{}
     |> Activity.changeset(attrs)
     |> Repo.insert()
-    |> after_save(after_save)
   end
 
   @doc """
@@ -341,6 +371,25 @@ defmodule Atomic.Activities do
       iex> list_user_activities(user_id)
       [%Activity{}, ...]
   """
+  def list_user_activities(user_id, params \\ %{})
+
+  def list_user_activities(user_id, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
   def list_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
       join: e in assoc(a, :activity_enrollments),

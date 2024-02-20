@@ -10,10 +10,6 @@
     <%= text_input(f, :description) %>
     <%= error_tag(f, :description) %>
 
-    <%= label(f, :publish_at) %>
-    <%= datetime_local_input(f, :publish_at) %>
-    <%= error_tag(f, :publish_at) %>
-
     <div>
       <%= submit("Save", phx_disable_with: "Saving...") %>
     </div>

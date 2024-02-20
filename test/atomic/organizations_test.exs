@@ -200,26 +200,63 @@ defmodule Atomic.OrganizationsTest do
     end
   end
 
-  describe "announcement" do
-    test "list_published_announcements_by_organization_id/1 returns all published announcement of organization" do
+  describe "announcements" do
+    alias Atomic.Organizations.Announcement
+
+    @invalid_attrs %{description: nil, title: nil}
+
+    test "list_announcements/1 returns all announcements" do
+      announcement = insert(:announcement)
+      announcements = Organizations.list_announcements([]) |> Enum.map(& &1.id)
+
+      assert announcements == [announcement.id]
+    end
+
+    test "get_announcement!/1 returns the announcement with given id" do
       announcement = insert(:announcement)
 
-      announcements_published =
-        Organizations.list_published_announcements_by_organization_id(
-          announcement.organization_id
-        )
+      assert Organizations.get_announcement!(announcement.id).id == announcement.id
+    end
 
-      assert announcement.id == hd(announcements_published).id
+    test "create_announcement_with_post/2 with valid data creates an announcement" do
+      valid_attrs = params_for(:announcement)
 
-      announcement =
-        insert(:announcement, publish_at: NaiveDateTime.add(NaiveDateTime.utc_now(), 1, :day))
+      assert {:ok, %Announcement{}} = Organizations.create_announcement_with_post(valid_attrs)
+    end
 
-      announcements_published =
-        Organizations.list_published_announcements_by_organization_id(
-          announcement.organization_id
-        )
+    test "create_announcement_with_post/2 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.create_announcement_with_post(@invalid_attrs)
+    end
 
-      assert announcements_published == []
+    test "update_announcement/2 with valid data updates the announcement" do
+      announcement = insert(:announcement)
+      update_attrs = %{description: "some updated description", title: "some updated title"}
+
+      assert {:ok, %Announcement{}} =
+               Organizations.update_announcement(announcement, update_attrs)
+    end
+
+    test "update_announcement/2 with invalid data returns error changeset" do
+      announcement = insert(:announcement)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.update_announcement(announcement, @invalid_attrs)
+
+      assert announcement.id == Organizations.get_announcement!(announcement.id).id
+    end
+
+    test "delete_announcement/2 deletes the announcement" do
+      announcement = insert(:announcement)
+
+      assert {:ok, %Announcement{}} = Organizations.delete_announcement(announcement)
+      assert_raise Ecto.NoResultsError, fn -> Organizations.get_announcement!(announcement.id) end
+    end
+
+    test "change_announcement/2 returns an announcement changeset" do
+      announcement = insert(:announcement)
+
+      assert %Ecto.Changeset{} = Organizations.change_announcement(announcement)
     end
   end
 end
