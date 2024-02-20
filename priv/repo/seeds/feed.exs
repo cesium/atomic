@@ -61,7 +61,7 @@ defmodule Atomic.Repo.Seeds.Feed do
       maximum_entries: Enum.random(11..20),
       organization_id: organization_id
     }
-    |> Activities.create_activity()
+    |> Activities.create_activity_with_post()
     |> case do
       {:error, changeset} -> Mix.shell().error("#{inspect(changeset)}")
       _ -> :ok
@@ -74,7 +74,7 @@ defmodule Atomic.Repo.Seeds.Feed do
       description: Faker.Lorem.paragraph(),
       organization_id: organization_id
     }
-    |> Organizations.create_announcement()
+    |> Organizations.create_announcement_with_post()
     |> case do
       {:error, changeset} -> Mix.shell().error("#{inspect(changeset)}")
       _ -> :ok

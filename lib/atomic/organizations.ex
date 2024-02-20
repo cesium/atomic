@@ -699,17 +699,17 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> create_announcement(%{field: value}, ~N[2019-01-01 00:00:00])
+      iex> create_announcement_with_post(%{field: value}, ~N[2019-01-01 00:00:00])
       {:ok, %Announcement{}}
 
-      iex> create_announcement(%{field: value})
+      iex> create_announcement_with_post(%{field: value})
       {:ok, %Announcement{}}
 
-      iex> create_announcement(%{field: bad_value})
+      iex> create_announcement_with_post(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement(attrs \\ %{}) do
+  def create_announcement_with_post(attrs \\ %{}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
@@ -730,6 +730,12 @@ defmodule Atomic.Organizations do
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
     end
+  end
+
+  def create_announcement(attrs \\ %{}) do
+    %Announcement{}
+    |> Announcement.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

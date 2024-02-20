@@ -182,20 +182,20 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> create_activity(%{field: value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: value, ~N[2020-01-01 00:00:00]})
       {:ok, %Activity{}}
 
-      iex> create_activity(%{field: value})
-      {:ok, %Activity{}}
-
-      iex> create_activity(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: value})
       {:error, %Ecto.Changeset{}}
 
-      iex> create_activity(%{field: bad_value})
+      iex> create_activity_with_post(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      {:error, %Ecto.Changeset{}}
+
+      iex> create_activit__with_post(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_activity(attrs \\ %{}, after_save \\ &{:ok, &1}) do
+  def create_activity_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
@@ -216,6 +216,12 @@ defmodule Atomic.Activities do
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
     end
+  end
+
+  def create_activity(attrs \\ %{}) do
+    %Activity{}
+    |> Activity.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

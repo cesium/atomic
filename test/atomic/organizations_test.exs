@@ -218,14 +218,15 @@ defmodule Atomic.OrganizationsTest do
       assert Organizations.get_announcement!(announcement.id).id == announcement.id
     end
 
-    test "create_announcement/2 with valid data creates an announcement" do
+    test "create_announcement_with_post/2 with valid data creates an announcement" do
       valid_attrs = params_for(:announcement)
 
-      assert {:ok, %Announcement{}} = Organizations.create_announcement(valid_attrs)
+      assert {:ok, %Announcement{}} = Organizations.create_announcement_with_post(valid_attrs)
     end
 
-    test "create_announcement/2 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Organizations.create_announcement(@invalid_attrs)
+    test "create_announcement_with_post/2 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.create_announcement_with_post(@invalid_attrs)
     end
 
     test "update_announcement/2 with valid data updates the announcement" do

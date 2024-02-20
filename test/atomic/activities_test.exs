@@ -25,27 +25,27 @@ defmodule Atomic.ActivitiesTest do
       assert Activities.get_activity!(activity.id).id == activity.id
     end
 
-    test "create_activity/2 with valid data creates a activity" do
+    test "create_activity_with_post/2 with valid data creates a activity" do
       valid_attrs = params_for(:activity)
 
-      assert {:ok, %Activity{}} = Activities.create_activity(valid_attrs)
+      assert {:ok, %Activity{}} = Activities.create_activity_with_post(valid_attrs)
     end
 
-    test "create_activity/2 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(@invalid_attrs)
+    test "create_activity_with_post/2 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(@invalid_attrs)
     end
 
-    test "create_activity/2 with maximum_entries lower than minimum_entries" do
+    test "create_activity_with_post/2 with maximum_entries lower than minimum_entries" do
       activity = params_for(:activity, maximum_entries: 1, minimum_entries: 2)
 
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(activity)
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(activity)
     end
 
-    test "create_activity/2 with finish date before start date" do
+    test "create_activity_with_post/2 with finish date before start date" do
       activity =
         params_for(:activity, finish: ~N[2022-10-21 20:00:00], start: ~N[2022-10-22 20:00:00])
 
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity(activity)
+      assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(activity)
     end
 
     test "update_activity/2 with valid data updates the activity" do
