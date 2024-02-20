@@ -49,10 +49,10 @@
           </button>
         </div>
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+          <.link class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none" navigate={Routes.home_index_path(@socket, :index)}>
             <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-12 w-auto" />
             <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
-          </div>
+          </.link>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
               <li>
