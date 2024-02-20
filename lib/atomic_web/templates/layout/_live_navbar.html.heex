@@ -43,10 +43,10 @@
           </button>
         </div>
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+          <.link navigate={Routes.home_index_path(@socket, :index)} class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
             <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-12 w-auto" />
             <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
-          </div>
+          </.link>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
               <li>
@@ -87,10 +87,10 @@
   </div>
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div x-data="{ menu: false }" class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none pointer-events-none">
+      <.link navigate={Routes.home_index_path(@socket, :index)} class="flex h-16 shrink-0 items-center gap-x-4 pt-4 select-none">
         <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="h-14 w-auto" />
         <p class="font-semibold text-2xl text-zinc-400">Atomic</p>
-      </div>
+      </.link>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
           <li>
