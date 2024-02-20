@@ -2,11 +2,12 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.HomeLive.Components.{Schedule, FollowSuggestions}
+  import AtomicWeb.HomeLive.Components.Schedule
 
   alias Atomic.Activities
   alias Atomic.Feed
   alias Atomic.Organizations
+  alias AtomicWeb.HomeLive.Components.FollowSuggestions
 
   @impl true
   def mount(_params, _session, socket) do
