@@ -4,6 +4,8 @@ defmodule AtomicWeb.Components.Activity do
   """
   use AtomicWeb, :live_component
 
+  alias Atomic.Activities.Activity
+
   @impl true
   def render(assigns) do
     ~H"""
@@ -41,13 +43,13 @@ defmodule AtomicWeb.Components.Activity do
         <p><%= @activity.description %></p>
       </div>
       <!-- Image -->
-      <%= if !@activity.image do %>
+      <%= if @activity.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-md" src="https://picsum.photos/1080/1080" />
+          <img class="max-w-screen rounded-md sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         </div>
       <% end %>
       <!-- Footer -->
-      <div class="mt-4 flex flex-row justify-between">
+      <div class={"#{footer_margin_top_class(@activity)} flex flex-row justify-between"}>
         <div class="flex space-x-4">
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
@@ -74,5 +76,13 @@ defmodule AtomicWeb.Components.Activity do
       </div>
     </div>
     """
+  end
+
+  defp footer_margin_top_class(%Activity{} = activity) do
+    if activity.image do
+      "mt-4"
+    else
+      "mt-2"
+    end
   end
 end
