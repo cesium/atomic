@@ -62,7 +62,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                   <%= Enum.at(@week, idx) %>
                   <span class={
                     "#{if @today == day_of_week do
-                      "flex ml-1.5 w-8 h-8 text-white bg-orange-700 rounded-full"
+                      "flex ml-1.5 w-8 h-8 text-white bg-primary rounded-full"
                     else
                       "text-zinc-900"
                     end} items-center justify-center font-semibold"
