@@ -97,11 +97,7 @@
                   <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                     <div class="text-sm font-medium text-zinc-500"></div>
                     <div class="mt-1 flex items-center">
-                      <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
-                        <span class="text-md font-medium leading-none text-white">
-                          <%= extract_initials(speaker.name) %>
-                        </span>
-                      </span>
+                      <.avatar name={speaker.name} size={:xs} color="zinc-500" class="text-white mr-2 inline-flex" />
                       <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
                         <%= extract_first_last_name(speaker.name) %>
                       </.link>
