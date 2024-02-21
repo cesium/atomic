@@ -14,7 +14,7 @@ defmodule AtomicWeb.Components.Activity do
     <div>
       <div class="flex space-x-3">
         <div class="my-auto flex-shrink-0">
-          <.avatar name={@activity.organization.name} class="!h-10 !w-10 text-zinc-600" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} color="zinc-200" />
+          <.avatar name={@activity.organization.name} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} bg_color="zinc-200" fg_color="zinc-600" />
         </div>
         <div class="min-w-0 flex-1">
           <object>

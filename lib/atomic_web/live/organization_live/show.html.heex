@@ -4,7 +4,7 @@
       <div class="flex justify-between py-4">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
           <div class="flex flex-col items-center lg:flex-row space-x-2 lg:space-x-8">
-            <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} class="text-white" />
+            <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} fg_color="white" />
             <div class="flex-1 space-x-2">
               <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
                 <div x-data="{ open: false }" class="flex flex-col items-center lg:items-start lg:justify-start justify-center space-y-2">
@@ -102,7 +102,7 @@
     </p>
     <div class="mt-4 mb-2 grid grid-cols-7 gap-14">
       <%= for person <- @people do %>
-        <.avatar name={person.name} size={:sm} class="text-white" color="zinc-400" />
+        <.avatar name={person.name} size={:sm} fg_color="white" bg_color="zinc-400" />
       <% end %>
     </div>
     <.link navigate={Routes.board_index_path(@socket, :index, @organization.id)} class="hover:underline text-blue-500">

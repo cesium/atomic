@@ -16,7 +16,7 @@
       <%= for organization <- @organizations do %>
         <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-            <.avatar class="text-white" name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color="zinc-400" />
+            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} fg_color="white" bg_color="zinc-400" />
             <div class="ml-4">
               <h4 class="font-medium text-lg text-zinc-900">
                 <%= organization.name %>

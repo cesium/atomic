@@ -27,12 +27,19 @@ defmodule AtomicWeb.Components.Organizations do
             type="button"
           >
             <.avatar
-              class={"#{if @current_organization && organization.id == @current_organization.id do "border-orange-600" else "border-zinc-200" end} border group-hover:border-orange-600 group-hover:text-orange-600"}
+              class={"#{if @current_organization && organization.id == @current_organization.id do "border-orange-600" else "border-zinc-200" end} border group-hover:border-orange-600 group-hover:text-orange-500"}
               src={Uploaders.Logo.url({organization.logo, organization}, :original)}
               name={organization.name}
               size={:xs}
               type={:organization}
-              color="white"
+              bg_color="white"
+              fg_color={
+                if @current_organization && organization.id == @current_organization.id do
+                  "orange-600"
+                else
+                  "zinc-600"
+                end
+              }
             />
             <span class="mt-1 truncate"><%= organization.name %></span>
           </div>
