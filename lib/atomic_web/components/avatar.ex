@@ -4,7 +4,7 @@ defmodule AtomicWeb.Components.Avatar do
 
   attr :src, :string, default: nil
   attr :name, :string, required: true
-  attr :type, :atom, values: [:user, :company], default: :user
+  attr :type, :atom, values: [:user, :organization, :company], default: :user
   attr :size, :atom, values: [:xs, :sm, :md, :lg, :xl], default: :md
   attr :color, :string, default: "zinc-500"
   attr :class, :string, default: ""
@@ -26,6 +26,8 @@ defmodule AtomicWeb.Components.Avatar do
   end
 
   defp classes(:type, %{type: :user}), do: "rounded-full"
+
+  defp classes(:type, %{type: :organization}), do: "rounded-lg"
 
   defp classes(:type, %{type: :company}), do: "rounded-lg"
 
