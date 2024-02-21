@@ -21,7 +21,7 @@ defmodule AtomicWeb.Components.Avatar do
     doc: "The color of the text when no image is provided."
 
   attr :bg_color, :string,
-    default: "zinc-500",
+    default: "zinc-400",
     doc: "The background color of the avatar when no image is provided."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
