@@ -6,7 +6,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
 
   attr :current_user, :map,
     required: true,
-    doc: "Name of the follow button."
+    doc: "The current user logged in."
 
   attr :organizations, :list,
     required: true,
