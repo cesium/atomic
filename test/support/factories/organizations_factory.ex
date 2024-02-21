@@ -1,9 +1,17 @@
 defmodule Atomic.Factories.OrganizationFactory do
   @moduledoc """
-  A factory to generate account related structs
+  A factory to generate organization related structs
   """
   alias Atomic.Ecto.Year
-  alias Atomic.Organizations.{Board, BoardDepartments, Membership, Organization, UserOrganization}
+
+  alias Atomic.Organizations.{
+    Announcement,
+    Board,
+    BoardDepartments,
+    Membership,
+    Organization,
+    UserOrganization
+  }
 
   defmacro __using__(_opts) do
     quote do
@@ -47,6 +55,17 @@ defmodule Atomic.Factories.OrganizationFactory do
           role: Faker.Company.bullshit(),
           board_departments_id: build(:board_department).id,
           priority: Enum.random(0..4)
+        }
+      end
+
+      def announcement_factory do
+        organization = insert(:organization)
+
+        %Announcement{
+          title: Faker.Company.buzzword(),
+          description: Faker.Lorem.paragraph(),
+          post: build(:post, type: "announcement"),
+          organization_id: organization.id
         }
       end
     end

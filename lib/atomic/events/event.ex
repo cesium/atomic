@@ -4,7 +4,7 @@ defmodule Atomic.Events.Event do
 
   alias Atomic.Activities.Activity
   alias Atomic.Activities.Location
-  alias Atomic.Events.Enrollment
+  alias Atomic.Events.EventEnrollment
   alias Atomic.Events.EventOrganization
 
   @required_fields ~w(name location_id)a
@@ -18,7 +18,7 @@ defmodule Atomic.Events.Event do
     embeds_one :location, Location, on_replace: :delete
 
     has_many :activities, Activity
-    has_many :enrollments, Enrollment
+    has_many :enrollments, EventEnrollment
 
     timestamps()
   end

@@ -100,7 +100,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
       activity_params
       |> Map.put("organization_id", socket.assigns.current_organization.id)
 
-    case Activities.create_activity(activity_params, &consume_image_data(socket, &1)) do
+    case Activities.create_activity_with_post(activity_params, &consume_image_data(socket, &1)) do
       {:ok, _activity} ->
         {:noreply,
          socket

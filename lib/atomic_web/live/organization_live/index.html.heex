@@ -1,22 +1,18 @@
-<div class="min-h-full bg-white">
-  <div class="pt-5 pr-6 pb-5 pl-4 border-zinc-200 sm:pl-6 lg:pl-8 xl:pt-6 xl:pl-6">
-    <div class="flex justify-between items-center h-10">
-      <h1 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl"><%= gettext("Organizations") %></h1>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="flex flex-col sm:flex-row xl:flex-col">
-          <.link patch={Routes.organization_new_path(@socket, :new)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white">
-            + <%= gettext("New Organization") %>
-          </.link>
-        </div>
-      <% end %>
-    </div>
-  </div>
+<.live_component module={AtomicWeb.Components.Page} id="organization-index" title="Organizations">
+  <:actions>
+    <%= if not @empty? and @has_permissions? do %>
+      <.primary_button url={Routes.organization_new_path(@socket, :new, @current_organization)}>
+        <%= gettext("New") %>
+      </.primary_button>
+    <% end %>
+  </:actions>
+  <!-- Organization index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
       <.empty_state url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
     </div>
   <% else %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
       <%= for organization <- @organizations do %>
         <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
@@ -38,4 +34,4 @@
     </div>
     <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
   <% end %>
-</div>
+</.live_component>

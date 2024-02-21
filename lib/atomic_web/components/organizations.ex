@@ -19,9 +19,9 @@ defmodule AtomicWeb.Components.Organizations do
             phx-value-organization_id={organization.id}
             class={
               "#{if @current_organization && organization.id == @current_organization.id do
-                "bg-zinc-50 text-orange-600"
+                "bg-zinc-50 text-orange-500"
               else
-                "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50"
+                "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50"
               end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
             }
             type="button"

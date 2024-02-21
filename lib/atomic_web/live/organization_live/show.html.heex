@@ -20,7 +20,7 @@
                   </div>
                   <div class="flex space-x-2">
                     <%= if not @following? do %>
-                      <button phx-click="follow" type="button" class="w-32 text-center rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                      <button phx-click="follow" type="button" class="w-32 text-center rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
                         Follow
                       </button>
                     <% else %>
@@ -36,7 +36,7 @@
                               <button
                                 type="button"
                                 @click="open = true"
-                                class="inline-flex items-center rounded-l-none rounded-r-md bg-orange-400 px-2 py-2.5 hover:bg-orange-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
+                                class="inline-flex items-center rounded-l-none rounded-r-md bg-orange-400 px-2 py-2.5 hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
                                 aria-haspopup="listbox"
                                 aria-expanded="true"
                                 aria-labelledby="listbox-label"

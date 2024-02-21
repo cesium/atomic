@@ -1,9 +1,9 @@
 defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Announcement
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.Button
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -29,7 +29,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
   end
 
   defp list_announcements(socket, params) do
-    params = Map.put(params, "page_size", 7)
+    params = Map.put(params, "page_size", 6)
 
     case current_tab(socket, params) do
       "all" -> list_all_announcements(socket, params)
