@@ -53,7 +53,7 @@
                 </.link>
               <% else %>
                 <.link navigate={Routes.announcement_show_path(@socket, :show, post)}>
-                  <.announcement announcement={post.announcement} on_organization_click_event="navigate-to-organization" />
+                  <.announcement announcement={post.announcement} />
                 </.link>
               <% end %>
             </li>
