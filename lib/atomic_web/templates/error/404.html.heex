@@ -12,26 +12,16 @@
     <link rel="manifest" href={Routes.static_path(@conn, "/favicon/site.webmanifest")} />
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
   </head>
-  <div class="grid h-screen place-items-center">
-    <div class="px-4">
-      <div class="pb-2 text-center text-xl font-bold">
-        <div class="text-3xl">
-          <p>404</p>
-        </div>
-        <p>Page Not Found</p>
+  <div class="flex flex-col items-center w-screen h-screen justify-center bg-white bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat  bg-opacity-25 bg-center">
+    <div class="flex flex-col items-center">
+      <div class="flex flex-row gap-4 items-center">
+        <span class="text-5xl font-bold text-gray-900">ERROR</span>
+        <span class="text-6xl font-bold text-gray-900 pb-2">404</span>
       </div>
-      <div class="pt-4 text-center">
-        <p>
-          We can't seem to find the page you're looking for.<br /> The link you followed may be broken, or the page may have been removed.
-        </p>
-        <div class="pt-8">
-          <a href="/">
-            <button type="button" class="inline-flex w-full items-center border-2 border-zinc-200 bg-black py-4 font-bold text-white shadow-sm hover:border-[#f47c58] hover:bg-[#f47c58] hover:border-2 hover:text-white">
-              <span class="w-full text-center">Return home</span>
-            </button>
-          </a>
-        </div>
-      </div>
+      <h2 class="text-lg font-semibold text-gray-900">Page not found</h2>
+      <.link href="/" class="inline-flex items-center rounded-md bg-orange-500 px-3 py-2 my-4 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+        <%= gettext("Go back home") %>
+      </.link>
     </div>
   </div>
 </html>
