@@ -3,6 +3,7 @@ defmodule AtomicWeb.BoardLive.Index do
 
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Board
+  import AtomicWeb.Components.Button
 
   alias Atomic.Accounts
   alias Atomic.Board

@@ -4,6 +4,18 @@ defmodule AtomicWeb.Components.Button do
 
   attr :url, :string, required: true
 
+  slot :inner_block, required: true
+
+  def primary_button(assigns) do
+    ~H"""
+    <.link patch={@url} class="inline-flex items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+      <%= render_slot(@inner_block) %>
+    </.link>
+    """
+  end
+
+  attr :url, :string, required: true
+
   def edit_button(assigns) do
     ~H"""
     <div class="flex w-0 flex-1">
