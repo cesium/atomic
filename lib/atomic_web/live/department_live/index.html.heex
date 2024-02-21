@@ -13,10 +13,10 @@
         <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
           <div class="flex w-full items-center justify-between">
             <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
-              <button x-on:click="option = 'current'" x-bind:class="option == 'current' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
+              <button x-on:click="option = 'current'" x-bind:class="option == 'current' ? 'border-b-2 border-primary text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
                 <%= gettext("Current Departments") %>
               </button>
-              <button x-on:click="option = 'old'" x-bind:class="option == 'old' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 ">
+              <button x-on:click="option = 'old'" x-bind:class="option == 'old' ? 'border-b-2 border-primary text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 ">
                 <%= gettext("Old Departments") %>
               </button>
             </nav>

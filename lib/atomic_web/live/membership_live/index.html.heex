@@ -12,7 +12,7 @@
     <div class="relative block font-semibold">
       <button
         type="button"
-        class="group flex border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white"
+        class="group flex border-2 rounded-md bg-white border-primary py-2 px-3.5 text-sm font-medium text-primary shadow-sm hover:bg-orange-600 hover:text-white"
         id="export-menu-button"
         aria-expanded="false"
         aria-haspopup="true"
@@ -20,7 +20,7 @@
         @click.away="menu = false"
         @keydown.escape="menu = false"
       >
-        <Heroicons.cloud_arrow_down solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
+        <Heroicons.cloud_arrow_down solid class="mr-2 -ml-1 w-5 h-5 text-primary group-hover:text-white" /> Export Memberships
       </button>
       <div
         class="absolute right-0 z-10 mt-2.5 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
@@ -74,7 +74,7 @@
             <:col :let={membership} label="Created By" field={:created_by_name}><%= membership.created_by.name %></:col>
             <:col :let={membership} label="Last Update" field={:updated_at}><%= display_date(membership.updated_at) %> <%= display_time(membership.updated_at) %></:col>
             <:col :let={membership}>
-              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-500 hover:text-orange-900" do %>
+              <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-primary hover:text-orange-900" do %>
                 <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                   <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                 </div>

@@ -17,14 +17,14 @@ defmodule AtomicWeb.Components.Organizations do
             phx-value-organization_id={organization.id}
             class={
               "#{if @current_organization && organization.id == @current_organization.id do
-                "bg-zinc-50 text-orange-500"
+                "bg-zinc-50 text-primary"
               else
-                "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50"
+                "text-zinc-700 hover:text-primary hover:bg-zinc-50"
               end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
             }
             type="button"
           >
-            <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 font-medium text-zinc-400 group-hover:border-orange-500 group-hover:text-orange-500">
+            <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 font-medium text-zinc-400 group-hover:border-primary group-hover:text-primary">
               <%= if organization.logo do %>
                 <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="h-6 w-6 rounded-lg" />
               <% else %>

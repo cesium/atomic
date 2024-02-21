@@ -9,7 +9,7 @@
             </h1>
           </div>
           <%= if ! @collaborator do %>
-            <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
+            <div class="mt-2 h-full lg:border-primary lg:mt-0">
               <button
                 phx-click={
                   "#{if @is_authenticated? do
@@ -18,7 +18,7 @@
                     "must-login"
                   end}"
                 }
-                class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white"
+                class="border-2 rounded-md bg-white border-primary py-2 px-3.5 text-sm font-medium text-primary shadow-sm hover:bg-orange-600 hover:text-white"
               >
                 Collaborate
               </button>
@@ -31,8 +31,8 @@
                 </button>
               </div>
             <% else %>
-              <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
+              <div class="mt-2 h-full lg:border-primary lg:mt-0">
+                <div class="border-2 rounded-md border-primary py-2 px-3.5 text-md font-medium shadow-sm bg-primary text-white">
                   Collaborator
                 </div>
               </div>

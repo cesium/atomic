@@ -3,7 +3,7 @@
     <div class="relative py-5 border-b border-gray-200 sm:py-6">
       <div class="flex flex-col gap-y-3 lg:self-end">
         <div class="w-full">
-          <%= text_input(f, :title, placeholder: "Choose title", phx_debounce: "blur", class: "text-2xl leading-7 text-gray-700 sm:text-3xl h-14 sm:truncate mt-1 font-bold focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm border-gray-300 rounded-md") %>
+          <%= text_input(f, :title, placeholder: "Choose title", phx_debounce: "blur", class: "text-2xl leading-7 text-gray-700 sm:text-3xl h-14 sm:truncate mt-1 font-bold focus:ring-primary focus:border-primary block w-full shadow-sm border-gray-300 rounded-md") %>
           <div class="flex text-red-500">
             <%= error_tag(f, :title) %>
           </div>
@@ -61,7 +61,7 @@
 
     <div class="flex-grow mt-4">
       <div class="flex justify-center lg:justify-end">
-        <%= submit("Save", phx_disable_with: "Saving...", class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white") %>
+        <%= submit("Save", phx_disable_with: "Saving...", class: "border-2 rounded-md bg-white text-lg border-primary py-2 px-3.5 text-sm font-medium text-primary shadow-sm hover:bg-orange-600 hover:text-white") %>
       </div>
     </div>
   </.form>

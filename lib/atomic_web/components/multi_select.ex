@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.MultiSelect do
         </span>
         <div class="relative mt-2">
           <button
-            class="relative w-64 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-orange-500 sm:text-sm sm:leading-6"
+            class="relative w-64 cursor-default rounded-md bg-white py-1.5 pr-10 pl-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-primary focus:ring-2 sm:text-sm sm:leading-6"
             id="button"
             type="button"
             phx-click={JS.toggle(to: "#dropdown")}
@@ -63,7 +63,7 @@ defmodule AtomicWeb.Components.MultiSelect do
 
                 <span class={
                   if item.selected do
-                    "inset-y-0 right-0 flex-row pr-4 text-orange-500"
+                    "inset-y-0 right-0 flex-row pr-4 text-primary"
                   else
                     "hidden"
                   end

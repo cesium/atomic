@@ -2,6 +2,7 @@
 // https://tailwindcss.com/docs/configuration
 
 let plugin = require('tailwindcss/plugin')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -10,6 +11,10 @@ module.exports = {
     '../lib/*_web/**/*.*ex',
   ],
   theme: {
+    colors: {
+      primary: "#f97316",
+      ...colors
+    },
     extend: {
       border: {
         '1': '1px'

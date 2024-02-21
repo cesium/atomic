@@ -9,7 +9,7 @@
         <Heroicons.arrow_small_right solid class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
       </div>
       <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 mb-2 lg:block">
+        <div class="hidden lg:border-primary mb-2 lg:block">
           <.primary_button url={Routes.board_new_path(@socket, :new, @organization)}>
             + <%= gettext("New Board Member") %>
           </.primary_button>

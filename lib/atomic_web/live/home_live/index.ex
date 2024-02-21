@@ -138,7 +138,7 @@ defmodule AtomicWeb.HomeLive.Index do
 
   defp tab_class(tab, current_tab) do
     if tab == current_tab,
-      do: "border-b-2 border-orange-500 text-gray-900",
+      do: "border-b-2 border-primary text-gray-900",
       else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
   end
 end

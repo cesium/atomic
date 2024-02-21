@@ -7,7 +7,7 @@
         </h2>
       </div>
       <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 lg:block">
+        <div class="hidden lg:border-primary lg:block">
           <.primary_button url={Routes.partner_new_path(@socket, :new, @current_organization)}>
             + <%= gettext("New Partner") %>
           </.primary_button>

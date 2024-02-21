@@ -31,7 +31,7 @@
 
     <div class="w-full flex-col">
       <div class="mx-4 justify-center flex select-none">
-        <%= submit class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96" do %>
+        <%= submit class: "w-full flex justify-center border-2 rounded-md bg-primary text-lg border-primary py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96" do %>
           <%= gettext("Reset password") %>
         <% end %>
       </div>
@@ -39,7 +39,7 @@
 
     <div class="flex flex-col space-y-2">
       <div class="text-sm">
-        <%= link(gettext("Remember your password?"), to: Routes.user_session_path(@conn, :new), class: "font-medium text-orange-400 hover:text-orange-500 focus:outline-none") %>
+        <%= link(gettext("Remember your password?"), to: Routes.user_session_path(@conn, :new), class: "font-medium text-orange-400 hover:text-primary focus:outline-none") %>
       </div>
     </div>
   </.form>
