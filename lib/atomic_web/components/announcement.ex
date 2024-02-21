@@ -2,10 +2,11 @@ defmodule AtomicWeb.Components.Announcement do
   @moduledoc """
   Renders an announcement.
   """
-  use AtomicWeb, :live_component
+  use AtomicWeb, :component
 
-  @impl true
-  def render(assigns) do
+  attr :announcement, :map, required: true, doc: "The announcement to render."
+
+  def announcement(assigns) do
     ~H"""
     <div>
       <div class="flex space-x-3">
@@ -23,11 +24,13 @@ defmodule AtomicWeb.Components.Announcement do
           <% end %>
         </div>
         <div class="min-w-0 flex-1">
-          <button phx-target={@myself} phx-click="navigate-to-organization" phx-value-organization={@announcement.organization.id} class="hover:underline focus:outline-none">
-            <p class="text-sm font-medium text-gray-900">
-              <%= @announcement.organization.name %>
-            </p>
-          </button>
+          <object>
+            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization.id)} class="hover:underline focus:outline-none">
+              <p class="text-sm font-medium text-gray-900">
+                <%= @announcement.organization.name %>
+              </p>
+            </.link>
+          </object>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
@@ -46,11 +49,5 @@ defmodule AtomicWeb.Components.Announcement do
       <% end %>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
-    {:noreply,
-     push_redirect(socket, to: Routes.organization_show_path(socket, :show, organization_id))}
   end
 end

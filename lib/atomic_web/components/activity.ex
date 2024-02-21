@@ -2,12 +2,13 @@ defmodule AtomicWeb.Components.Activity do
   @moduledoc """
   Renders an activity.
   """
-  use AtomicWeb, :live_component
+  use AtomicWeb, :component
 
   alias Atomic.Activities.Activity
 
-  @impl true
-  def render(assigns) do
+  attr :activity, :map, required: true, doc: "The activity to render."
+
+  def activity(assigns) do
     ~H"""
     <div>
       <div class="flex space-x-3">
@@ -26,7 +27,7 @@ defmodule AtomicWeb.Components.Activity do
         </div>
         <div class="min-w-0 flex-1">
           <object>
-            <.link navigate={Routes.organization_show_path(@socket, :show, @activity.organization.id)}>
+            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)}>
               <span class="text-sm font-medium text-gray-900 hover:underline focus:outline-none">
                 <%= @activity.organization.name %>
               </span>
