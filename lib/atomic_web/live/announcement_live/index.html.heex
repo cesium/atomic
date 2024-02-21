@@ -1,9 +1,9 @@
 <.live_component module={AtomicWeb.Components.Page} id="announcement-index" title="Announcements">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.link patch={Routes.announcement_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-1.5 px-5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
+      <.primary_button url={Routes.announcement_new_path(@socket, :new, @current_organization)}>
         <%= gettext("New") %>
-      </.link>
+      </.primary_button>
     <% end %>
   </:actions>
   <!-- Tabs -->

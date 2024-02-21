@@ -10,9 +10,9 @@
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
-          <.link patch={Routes.board_new_path(@socket, :new, @organization)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
+          <.primary_button url={Routes.board_new_path(@socket, :new, @organization)}>
             + <%= gettext("New Board Member") %>
-          </.link>
+          </.primary_button>
         </div>
       <% end %>
     </div>
