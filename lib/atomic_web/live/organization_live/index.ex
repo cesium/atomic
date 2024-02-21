@@ -3,6 +3,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.Button
 
   alias Atomic.Accounts
   alias Atomic.Organizations
