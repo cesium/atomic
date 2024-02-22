@@ -1,0 +1,77 @@
+<div class="flex flex-col items-center w-screen h-screen justify-center bg-white bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
+  <div class="flex flex-col lg:flex-row items-center justify-center lg:space-x-16">
+    <div class="py-8 px-4 lg:py-0 lg:px-0  flex flex-col items-center justify-center">
+      <h2 class="mb-6 text-center text-5xl font-extrabold text-zinc-900">
+        <span><%= gettext("Change Email") %></span>
+      </h2>
+      <.form :let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_email" class="flex flex-col items-center justify-center w-full h-full mx-8 sm:mx-0">
+        <%= if @email_changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
+
+        <%= hidden_input(f, :action, value: "update_email") %>
+
+        <%= label(f, :email, class: "sr-only") %>
+        <%= email_input(f, :email, placeholder: gettext("New Email"), required: true, class: "relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-500 focus:outline-none sm:text-sm") %>
+        <%= error_tag(f, :email) %>
+
+        <%= label(f, :current_password, for: "current_password_for_email", class: "sr-only") %>
+        <%= password_input(f, :current_password,
+          placeholder: gettext("Password"),
+          required: true,
+          name: "current_password",
+          id: "current_password_for_email",
+          class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-500 focus:outline-none sm:text-sm"
+        ) %>
+        <%= error_tag(f, :current_password) %>
+
+        <div>
+          <%= submit("Change Email", class: "mt-6 w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm") %>
+        </div>
+      </.form>
+    </div>
+
+    <div class="px-4 lg:px-0  flex flex-col items-center justify-center">
+      <h2 class="mb-6 text-center text-5xl font-extrabold text-zinc-900">
+        <span><%= gettext("Change Password") %></span>
+      </h2>
+      <.form :let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_password" class="flex flex-col items-center justify-center w-full h-full mx-8 sm:mx-0">
+        <%= if @password_changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
+
+        <%= hidden_input(f, :action, value: "update_password") %>
+
+        <%= label(f, :password, "New password", class: "sr-only") %>
+        <%= password_input(f, :password, placeholder: gettext("New Password"), required: true, class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-500 focus:outline-none sm:text-sm") %>
+        <%= error_tag(f, :password) %>
+
+        <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
+        <%= password_input(f, :password_confirmation,
+          required: true,
+          placeholder: gettext("Confirm new Password"),
+          class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-500 focus:outline-none sm:text-sm"
+        ) %>
+        <%= error_tag(f, :password_confirmation) %>
+
+        <%= label(f, :current_password, for: "current_password_for_password", class: "sr-only") %>
+        <%= password_input(f, :current_password,
+          required: true,
+          name: "current_password",
+          placeholder: gettext("Current Password"),
+          id: "current_password_for_password",
+          class: "mt-1 relative block lg:w-96 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-500 focus:outline-none sm:text-sm"
+        ) %>
+        <%= error_tag(f, :current_password) %>
+
+        <div class="flex justify-center mt-5">
+          <%= submit("Change Password", class: "mt-6 w-64 border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm") %>
+        </div>
+      </.form>
+    </div>
+  </div>
+</div>

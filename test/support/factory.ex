@@ -4,9 +4,9 @@ defmodule Atomic.Factory do
 
   use Atomic.Factories.{
     AccountFactory,
-    DepartmentFactory,
     ActivityFactory,
-    OrganizationFactory,
-    AnnouncementFactory
+    DepartmentFactory,
+    FeedFactory,
+    OrganizationFactory
   }
 end

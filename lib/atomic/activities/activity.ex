@@ -1,6 +1,6 @@
 defmodule Atomic.Activities.Activity do
   @moduledoc """
-    An activity
+  An activity created and published by an organization.
   """
   use Atomic.Schema
 
@@ -14,8 +14,8 @@ defmodule Atomic.Activities.Activity do
   }
 
   alias Atomic.Events.Event
+  alias Atomic.Feed.Post
   alias Atomic.Organizations.Organization
-  alias Atomic.Uploaders
 
   @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
   @optional_fields ~w(event_id image)a
@@ -33,21 +33,21 @@ defmodule Atomic.Activities.Activity do
   schema "activities" do
     field :title, :string
     field :description, :string
-
     field :start, :naive_datetime
     field :finish, :naive_datetime
     field :image, Uploaders.Post.Type
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, virtual: true
+
     embeds_one :location, Location, on_replace: :update
-
-    many_to_many :speakers, Speaker, on_replace: :delete, join_through: ActivitySpeaker
-
-    has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 
     belongs_to :organization, Organization
     belongs_to :event, Event
+    belongs_to :post, Post, foreign_key: :post_id
+
+    many_to_many :speakers, Speaker, on_replace: :delete, join_through: ActivitySpeaker
+    has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
 
     timestamps()
   end
