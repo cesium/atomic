@@ -22,7 +22,7 @@ config :atomic, AtomicWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  debug_errors: false,
+  debug_errors: true,
   secret_key_base: "YGqNjmRjNv4pslzy4DB3Roi6xeyvS2/v/YXGn62mlMqCqjWsmu2UKbtNuNaYx5OO",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
