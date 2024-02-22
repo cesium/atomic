@@ -1,9 +1,7 @@
 defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Empty
-  import AtomicWeb.Components.Pagination
-  import AtomicWeb.Components.Button
+  import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -25,15 +23,18 @@ defmodule AtomicWeb.AnnouncementLive.Index do
      |> assign(:params, params)
      |> assign(announcements_with_flop)
      |> assign(:empty?, Enum.empty?(announcements_with_flop.announcements))
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket))
+     |> then(fn complete_socket ->
+       assign(complete_socket, :tabs, build_tabs(complete_socket))
+     end)}
   end
 
   defp list_announcements(socket, params) do
     params = Map.put(params, "page_size", 6)
 
     case current_tab(socket, params) do
-      "all" -> list_all_announcements(socket, params)
-      "following" -> list_following_announcements(socket, params)
+      "All" -> list_all_announcements(socket, params)
+      "Following" -> list_following_announcements(socket, params)
     end
   end
 
@@ -62,15 +63,20 @@ defmodule AtomicWeb.AnnouncementLive.Index do
     end
   end
 
+  def build_tabs(socket) when not socket.assigns.is_authenticated? do
+    %{"#{gettext("All")}" => "load-all"}
+  end
+
+  def build_tabs(_socket) do
+    %{
+      "#{gettext("All")}" => "load-all",
+      "#{gettext("Following")}" => "load-following"
+    }
+  end
+
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
 
-  defp current_tab(socket, _params) do
-    if socket.assigns.is_authenticated? do
-      "following"
-    else
-      "all"
-    end
-  end
+  defp current_tab(_socket, _params), do: "All"
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
