@@ -127,13 +127,20 @@
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>
               <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
-                <%= if @current_user.profile_picture do %>
-                  <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)} />
-                <% else %>
-                  <span class="flex items-center justify-center h-8 w-8 rounded-full bg-zinc-200 text-zinc-400">
-                    <%= extract_initials(@current_user.name) %>
-                  </span>
-                <% end %>
+                <AtomicWeb.Components.Avatar.avatar
+                  name={@current_user.name}
+                  src={
+                    if @current_user.profile_picture do
+                      Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                    else
+                      nil
+                    end
+                  }
+                  size={:xs}
+                  fg_color="zinc-400"
+                  bg_color="zinc-200"
+                  class="!text-sm"
+                />
                 <span class="hidden lg:flex lg:items-center">
                   <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
                   <svg class="-rotate-90 ml-2 h-5 w-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -188,13 +195,20 @@
           <div class="relative block lg:hidden font-semibold">
             <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
               <span class="sr-only">Open user menu</span>
-              <%= if @current_user.profile_picture do %>
-                <img class="h-8 w-8 rounded-full bg-zinc-50" src={Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)} />
-              <% else %>
-                <span class="flex items-center justify-center h-8 w-8 rounded-full bg-zinc-200 text-zinc-400">
-                  <%= extract_initials(@current_user.name) %>
-                </span>
-              <% end %>
+              <AtomicWeb.Components.Avatar.avatar
+                name={@current_user.name}
+                src={
+                  if @current_user.profile_picture do
+                    Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                  else
+                    nil
+                  end
+                }
+                size={:xs}
+                fg_color="zinc-400"
+                bg_color="zinc-200"
+                class="!text-[16px]"
+              />
             </button>
             <div
               class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"

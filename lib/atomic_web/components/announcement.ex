@@ -2,32 +2,27 @@ defmodule AtomicWeb.Components.Announcement do
   @moduledoc """
   Renders an announcement.
   """
-  use AtomicWeb, :live_component
+  use AtomicWeb, :component
 
-  @impl true
-  def render(assigns) do
+  import AtomicWeb.Components.Avatar
+
+  attr :announcement, :map, required: true, doc: "The announcement to render."
+
+  def announcement(assigns) do
     ~H"""
     <div>
       <div class="flex space-x-3">
-        <div class="flex-shrink-0">
-          <%= if @announcement.organization.logo do %>
-            <div class="flex-shrink-0">
-              <img class="h-10 w-10 object-center" src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
-            </div>
-          <% else %>
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-zinc-200">
-              <span class="text-xs font-medium leading-none text-zinc-600">
-                <%= extract_initials(@announcement.organization.name) %>
-              </span>
-            </span>
-          <% end %>
+        <div class="my-auto flex-shrink-0">
+          <.avatar name={@announcement.organization.name} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} bg_color="zinc-200" fg_color="zinc-600" />
         </div>
         <div class="min-w-0 flex-1">
-          <button phx-target={@myself} phx-click="navigate-to-organization" phx-value-organization={@announcement.organization.id} class="hover:underline focus:outline-none">
-            <p class="text-sm font-medium text-gray-900">
-              <%= @announcement.organization.name %>
-            </p>
-          </button>
+          <object>
+            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization.id)} class="hover:underline focus:outline-none">
+              <p class="text-sm font-medium text-gray-900">
+                <%= @announcement.organization.name %>
+              </p>
+            </.link>
+          </object>
           <p class="text-sm text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
@@ -46,11 +41,5 @@ defmodule AtomicWeb.Components.Announcement do
       <% end %>
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("navigate-to-organization", %{"organization" => organization_id}, socket) do
-    {:noreply,
-     push_redirect(socket, to: Routes.organization_show_path(socket, :show, organization_id))}
   end
 end

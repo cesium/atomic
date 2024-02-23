@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        otp: [25.x]
+        otp: [26.x]
         elixir: [1.14.x]
 
     steps:
