@@ -1,4 +1,4 @@
-<.live_component module={AtomicWeb.Components.Page} id="activity-index" title="Activities">
+<.page title="Activities">
   <:actions>
     <.primary_button url={Routes.activity_new_path(@socket, :new, 123)}>
       <%= gettext("New") %>
@@ -93,4 +93,4 @@
       <.pagination items={@activities} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
     </div>
   <% end %>
-</.live_component>
+</.page>

@@ -1,4 +1,4 @@
-<.live_component module={AtomicWeb.Components.Page} id="announcement-index" title="Announcements">
+<.page title="Announcements">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.primary_button url={Routes.announcement_new_path(@socket, :new, @current_organization)}>
@@ -55,4 +55,4 @@
       <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
     </div>
   <% end %>
-</.live_component>
+</.page>
