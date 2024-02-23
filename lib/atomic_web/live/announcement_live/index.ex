@@ -24,6 +24,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(announcements_with_flop)
+     |> assign(:announcements, announcements_with_flop.announcements)
      |> assign(:empty?, Enum.empty?(announcements_with_flop.announcements))
      |> assign(:has_permissions?, has_permissions?(socket))}
   end

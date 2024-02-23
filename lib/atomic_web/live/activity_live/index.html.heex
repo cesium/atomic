@@ -1,6 +1,6 @@
 <.page title="Activities">
   <:actions>
-    <.primary_button url={Routes.activity_new_path(@socket, :new, 123)}>
+    <.primary_button url={Routes.activity_new_path(@socket, :new, @current_organization)}>
       <%= gettext("New") %>
     </.primary_button>
   </:actions>
