@@ -70,8 +70,10 @@
       <.schedule schedule={@schedule} />
     </section>
     <!-- Organizations to follow -->
-    <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
-      <.follow_suggestions organizations={@organizations} />
-    </section>
+    <%= if @is_authenticated? do %>
+      <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
+        <.follow_suggestions current_user={@current_user} organizations={@organizations} />
+      </section>
+    <% end %>
   </div>
 </div>
