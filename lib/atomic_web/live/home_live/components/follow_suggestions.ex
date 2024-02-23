@@ -2,6 +2,8 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   @moduledoc false
   use AtomicWeb, :component
 
+  import AtomicWeb.Components.Avatar
+
   attr :organizations, :list,
     required: true,
     doc: "Organizations displayed as follow suggestions."
@@ -16,16 +18,8 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
         <ul role="list" class="divide-y divide-gray-200">
           <%= for organization <- @organizations do %>
             <li class="flex items-center space-x-3 py-4">
-              <div class="flex-shrink-0">
-                <%= if organization.logo do %>
-                  <img class="h-8 w-8 rounded-full" src={Uploaders.Logo.url({organization, organization.logo}, :original)} alt={organization.name} />
-                <% else %>
-                  <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
-                    <span class="text-sm font-medium leading-none text-white">
-                      <%= extract_initials(organization.name) %>
-                    </span>
-                  </span>
-                <% end %>
+              <div class="my-auto flex-shrink-0">
+                <.avatar name={organization.name} class="!h-10 !w-10 !text-lg" fg_color="white" size={:xs} type={:organization} src={Uploaders.Logo.url({organization.logo, organization}, :original)} />
               </div>
               <div class="min-w-0 flex-1">
                 <p class="text-sm font-medium text-gray-900">

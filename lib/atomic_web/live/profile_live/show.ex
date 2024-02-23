@@ -2,6 +2,7 @@ defmodule AtomicWeb.ProfileLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Button
+  import AtomicWeb.Components.Avatar
 
   alias Atomic.Accounts
   alias Atomic.Organizations
