@@ -9,7 +9,7 @@ local machine for development and testing purposes.
 
 The following software is required to be installed on your system:
 
-- [Erlang 25+](https://www.erlang.org/downloads)
+- [Erlang 26+](https://www.erlang.org/downloads)
 - [Elixir 1.14+](https://elixir-lang.org/install.html)
 - [PostgreSQL 13+](https://www.postgresql.org/download/)(see [this section](#-docker) for setting up with docker)
 
