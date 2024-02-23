@@ -72,7 +72,7 @@
     <!-- Organizations to follow -->
     <%= if @is_authenticated? do %>
       <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
-        <.live_component module={FollowSuggestions} id="follow-suggestions" organizations={@organizations} current_user={@current_user} />
+        <.follow_suggestions current_user={@current_user} organizations={@organizations} />
       </section>
     <% end %>
   </div>

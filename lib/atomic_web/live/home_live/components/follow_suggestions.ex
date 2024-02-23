@@ -1,8 +1,8 @@
 defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   @moduledoc false
-  use AtomicWeb, :live_component
+  use AtomicWeb, :component
 
-  alias AtomicWeb.HomeLive.Components.FollowSuggestions.Organization
+  alias AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion
 
   attr :current_user, :map,
     required: true,
@@ -12,8 +12,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
     required: true,
     doc: "Organizations displayed as follow suggestions."
 
-  @impl true
-  def render(assigns) do
+  def follow_suggestions(assigns) do
     ~H"""
     <div class="overflow-hidden">
       <p class="text-lg font-semibold text-gray-900">
@@ -22,7 +21,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
       <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200">
           <%= for organization <- @organizations do %>
-            <.live_component id={organization.id} module={Organization} organization={organization} current_user={@current_user} />
+            <.live_component id={organization.id} module={Suggestion} organization={organization} current_user={@current_user} />
           <% end %>
         </ul>
       </div>

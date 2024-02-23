@@ -3,12 +3,11 @@ defmodule AtomicWeb.HomeLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.{Activity, Announcement}
-  import AtomicWeb.HomeLive.Components.Schedule
+  import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
 
   alias Atomic.Activities
   alias Atomic.Feed
   alias Atomic.Organizations
-  alias AtomicWeb.HomeLive.Components.FollowSuggestions
 
   @impl true
   def mount(_params, _session, socket) do
