@@ -5,6 +5,7 @@ defmodule Atomic.Organizations do
   use Atomic.Context
 
   alias Atomic.Accounts.User
+  alias Atomic.Feed.Post
   alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
 
   @doc """
@@ -32,6 +33,69 @@ defmodule Atomic.Organizations do
     Organization
     |> apply_filters(opts)
     |> Flop.validate_and_run(flop, for: Organization)
+  end
+
+  @doc """
+  Returns a list of organizations that are not followed by an user, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_organizations_for_user(user)
+      [%Organization{}, ...]
+
+  """
+  def list_top_organizations_for_user(%User{} = user, opts \\ []) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.user_id != ^user.id and m.role == :follower)
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
+  end
+
+  @doc """
+  Returns a list of the top organizations, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_organizations()
+      [%Organization{}, ...]
+
+  """
+  def list_top_organizations(opts) when is_list(opts) do
+    Organization
+    |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
+    |> where([o, m], m.role == :follower)
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
+  end
+
+  @doc """
+  Returns a list of the top organizations that are not followed by an user, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_not_followed_organization(user_id)
+      [%Organization{}, ...]
+
+  """
+  def list_top_not_followed_organization(user_id, opts) when is_list(opts) do
+    Organization
+    |> join(:left, [o], m in Membership, on: m.organization_id == o.id and m.user_id == ^user_id)
+    |> where([o, m], m.role != :follower or is_nil(m.id))
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
   end
 
   @doc """
@@ -613,40 +677,6 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of published announcements.
-
-  ## Examples
-
-      iex> list_published_announcements()
-      [%Announcement{}, ...]
-
-  """
-  def list_published_announcements(opts \\ []) do
-    Announcement
-    |> where([a], fragment("now() > ?", a.publish_at))
-    |> apply_filters(opts)
-    |> Repo.all()
-  end
-
-  @doc """
-  Returns the list of published announcements belonging to an organization.
-
-  ## Examples
-
-      iex> list_published_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
-      [%Announcement{}, ...]
-
-  """
-  def list_published_announcements_by_organization_id(id, opts \\ []) do
-    Announcement
-    |> where(organization_id: ^id)
-    |> where([a], fragment("now() > ?", a.publish_at))
-    |> order_by([a], desc: a.publish_at)
-    |> apply_filters(opts)
-    |> Repo.all()
-  end
-
-  @doc """
   Returns the list of announcements belonging to an organization.
 
   ## Examples
@@ -685,18 +715,45 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Creates an announcement.
+  Creates an announcement and its respective post.
+  All in one transaction.
 
   ## Examples
 
-      iex> create_announcement(%{field: value})
+      iex> create_announcement_with_post(%{field: value}, ~N[2019-01-01 00:00:00])
       {:ok, %Announcement{}}
 
-      iex> create_announcement(%{field: bad_value})
+      iex> create_announcement_with_post(%{field: value})
+      {:ok, %Announcement{}}
+
+      iex> create_announcement_with_post(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+  def create_announcement_with_post(attrs \\ %{}) do
+    Multi.new()
+    |> Multi.insert(:post, fn _ ->
+      %Post{}
+      |> Post.changeset(%{
+        type: "announcement"
+      })
+    end)
+    |> Multi.insert(:announcement, fn %{post: post} ->
+      %Announcement{}
+      |> Announcement.changeset(attrs)
+      |> Ecto.Changeset.put_assoc(:post, post)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{announcement: announcement, post: _post}} ->
+        {:ok, announcement}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
+  end
+
+  def create_announcement(attrs \\ %{}) do
     %Announcement{}
     |> Announcement.changeset(attrs)
     |> Repo.insert()

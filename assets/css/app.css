@@ -6,3 +6,14 @@
 ::-ms-reveal {
   display: none;
 }
+
+/* Hide scrollbar in Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar in IE, MS Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and MS Edge */
+  scrollbar-width: none; /* Firefox */
+}

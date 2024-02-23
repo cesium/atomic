@@ -21,7 +21,7 @@ defmodule Atomic.ActivitiesFixtures do
         start: ~N[2022-10-22 20:00:00],
         organization_id: OrganizationsFixtures.organization_fixture().id
       })
-      |> Atomic.Activities.create_activity()
+      |> Atomic.Activities.create_activity_with_post()
 
     activity
   end

@@ -1,159 +1,153 @@
-<div>
-  <div class="my-4">
-    <div class="bg-white">
-      <div class="flex justify-between px-4 py-5 sm:px-6">
-        <div class="my-4 w-full items-center gap-x-4 lg:flex">
-          <div class="flex-1">
-            <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
-              <%= @activity.title %>
-            </h1>
-          </div>
+<div class="my-4">
+  <div class="bg-white">
+    <div class="flex justify-between px-4 py-5 sm:px-6">
+      <div class="my-4 w-full items-center gap-x-4 lg:flex">
+        <div class="flex-1">
+          <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
+            <%= @activity.title %>
+          </h1>
         </div>
       </div>
+    </div>
 
-      <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
-        <div class="w-full px-4 py-5 sm:px-6">
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-            <div class="col-span-2 sm:col-span-1">
-              <dt class="font medium text-lg leading-6 text-zinc-900">
-                <%= gettext("Preview activity") %>
-              </dt>
-              <dd class="mt-1 text-sm text-zinc-600">
-                <%= gettext("Check here every detail of this activity") %>
-              </dd>
-            </div>
+    <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
+      <div class="w-full px-4 py-5 sm:px-6">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+          <div class="col-span-2 sm:col-span-1">
+            <dt class="font medium text-lg leading-6 text-zinc-900">
+              <%= gettext("Preview activity") %>
+            </dt>
+            <dd class="mt-1 text-sm text-zinc-600">
+              <%= gettext("Check here every detail of this activity") %>
+            </dd>
+          </div>
 
-            <div class={
-              if @has_permissions? do
-                "col-span-1"
-              else
-                "col-span-2"
-              end
-            }>
-              <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Maximum Entries") %>
-              </dt>
-              <dd class="mt-1 flex text-sm text-zinc-900">
-                <div class="flex w-full">
-                  <Heroicons.users solid class="h-5 w-5 text-zinc-400" />
-                  <div class="pl-2.5">
-                    <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
-                  </div>
+          <div class={
+            if @has_permissions? do
+              "col-span-1"
+            else
+              "col-span-2"
+            end
+          }>
+            <dt class="text-sm font-medium text-zinc-500">
+              <%= gettext("Enrollments") %>
+            </dt>
+            <dd class="mt-1 flex text-sm text-zinc-900">
+              <div class="flex w-full">
+                <Heroicons.users solid class="h-5 w-5 text-zinc-400" />
+                <div class="pl-2.5">
+                  <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                 </div>
-              </dd>
-            </div>
+              </div>
+            </dd>
+          </div>
 
-            <div class="col-span-2">
-              <dt class="grid grid-cols-2 items-center">
-                <div class="text-sm font-medium text-zinc-500">
-                  <%= gettext("Activities") %>
-                </div>
-              </dt>
-              <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
-                <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
-                  <div class="flex gap-x-2">
-                    <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                      <Heroicons.calendar solid class="h-5 w-5 text-zinc-400" />
-                      <p class="block pl-1.5 max-w-6xl">
-                        <%= display_date(@activity.start) %>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="inset-y-0 my-auto flex md:pl-3">
-                    <Heroicons.clock solid class="h-5 w-5 text-zinc-400" />
+          <div class="col-span-2">
+            <dt class="grid grid-cols-2 items-center">
+              <div class="text-sm font-medium text-zinc-500">
+                <%= gettext("Date and location") %>
+              </div>
+            </dt>
+            <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
+              <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
+                <div class="flex gap-x-2">
+                  <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
+                    <Heroicons.calendar solid class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
-                      <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
+                      <%= display_date(@activity.start) %>
                     </p>
                   </div>
-                  <div class="flex text-sm md:pl-3">
-                    <%= if @activity.location do %>
-                      <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                      <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
-                        <%= @activity.location.name %>
-                      </.link>
-                    <% else %>
-                      <%= if @activity.location do %>
-                        <div class="pl-1.5 text-zinc-900">
-                          <%= @activity.location.name %>
-                        </div>
-                      <% end %>
-                    <% end %>
-                  </div>
                 </div>
-              </dd>
-            </div>
-            <div class="col-span-2">
-              <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Description") %>
-              </dt>
-              <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
-                <%= @activity.description %>
-              </dd>
-            </div>
-            <div class="col-span-2">
-              <div class="sm:grid sm:grid-cols-1">
-                <%= if @activity.speakers != [] do %>
-                  <%= gettext("Speaker") %>
-                  <%= for speaker <- @activity.speakers do %>
-                    <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
-                      <div class="text-sm font-medium text-zinc-500"></div>
-                      <div class="mt-1 flex items-center">
-                        <span class="mr-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-500">
-                          <span class="text-md font-medium leading-none text-white">
-                            <%= extract_initials(speaker.name) %>
-                          </span>
-                        </span>
-                        <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
-                          <%= extract_first_last_name(speaker.name) %>
-                        </.link>
+                <div class="inset-y-0 my-auto flex md:pl-3">
+                  <Heroicons.clock solid class="h-5 w-5 text-zinc-400" />
+                  <p class="block pl-1.5 max-w-6xl">
+                    <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
+                  </p>
+                </div>
+                <div class="flex text-sm md:pl-3">
+                  <%= if @activity.location do %>
+                    <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                    <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
+                      <%= @activity.location.name %>
+                    </.link>
+                  <% else %>
+                    <%= if @activity.location do %>
+                      <div class="pl-1.5 text-zinc-900">
+                        <%= @activity.location.name %>
                       </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-            <div class="col-span-2">
-              <%= if @enrolled? do %>
-                <dt class="text-sm font-medium text-zinc-500">
-                  <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
-                </dt>
-                <dd class="mt-1 flex text-sm text-zinc-900">
-                  <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
-                </dd>
-                <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
-                  <span>
-                    <%= gettext("If you can't go please") %>
-                  </span>
-                  <button class="text-blue-500" phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
-                    <%= gettext("Unenroll") %>
-                  </button>
-                </dd>
-              <% else %>
-                <%= if not @max_enrolled? do %>
-                  <div class="flex flex-col">
-                    <dt class="text-sm font-medium text-zinc-500">
-                      <%= gettext("You are not enrolled in this activity") %>
-                    </dt>
-                    <%= if @is_authenticated? do %>
-                      <button
-                        phx-click="enroll"
-                        phx-disable-with={gettext("Enrolling...")}
-                        phx-throttle="0"
-                        class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                      >
-                        <%= gettext("Enroll") %>
-                      </button>
-                    <% else %>
-                      <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                        <%= gettext("Enroll") %>
-                      </button>
                     <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </dd>
+          </div>
+          <div class="col-span-2">
+            <dt class="text-sm font-medium text-zinc-500">
+              <%= gettext("Description") %>
+            </dt>
+            <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
+              <%= @activity.description %>
+            </dd>
+          </div>
+          <div class="col-span-2">
+            <div class="sm:grid sm:grid-cols-1">
+              <%= if @activity.speakers != [] do %>
+                <%= gettext("Speaker") %>
+                <%= for speaker <- @activity.speakers do %>
+                  <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
+                    <div class="text-sm font-medium text-zinc-500"></div>
+                    <div class="mt-1 flex items-center">
+                      <.avatar name={speaker.name} size={:xs} bg_color="zinc-500" fg_color="white" class="mr-2 inline-flex" />
+                      <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
+                        <%= extract_first_last_name(speaker.name) %>
+                      </.link>
+                    </div>
                   </div>
                 <% end %>
               <% end %>
             </div>
-          </dl>
-        </div>
+          </div>
+          <div class="col-span-2">
+            <%= if @enrolled? do %>
+              <dt class="text-sm font-medium text-zinc-500">
+                <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
+              </dt>
+              <dd class="mt-1 flex text-sm text-zinc-900">
+                <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
+              </dd>
+              <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
+                <span>
+                  <%= gettext("If you can't go please") %>
+                </span>
+                <button class="text-blue-500" phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
+                  <%= gettext("Unenroll") %>
+                </button>
+              </dd>
+            <% else %>
+              <%= if not @max_enrolled? do %>
+                <div class="flex flex-col">
+                  <dt class="text-sm font-medium text-zinc-500">
+                    <%= gettext("You are not enrolled in this activity") %>
+                  </dt>
+                  <%= if @is_authenticated? do %>
+                    <button
+                      phx-click="enroll"
+                      phx-disable-with={gettext("Enrolling...")}
+                      phx-throttle="0"
+                      class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                    >
+                      <%= gettext("Enroll") %>
+                    </button>
+                  <% else %>
+                    <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+                      <%= gettext("Enroll") %>
+                    </button>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </dl>
       </div>
     </div>
   </div>

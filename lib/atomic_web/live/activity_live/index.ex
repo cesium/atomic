@@ -1,8 +1,10 @@
 defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Avatar
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.Button
 
   alias Atomic.Accounts
   alias Atomic.Activities

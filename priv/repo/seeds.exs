@@ -1,6 +1,7 @@
 defmodule Atomic.Repo.Seeds do
   @moduledoc """
-  Script for populating the database. You can run it as:
+  Script for populating the database.
+  You can run it as:
     $ mix run priv/repo/seeds.exs # or mix ecto.seed
   """
   @seeds_dir "priv/repo/seeds"
@@ -10,10 +11,10 @@ defmodule Atomic.Repo.Seeds do
       "organizations.exs",
       "courses.exs",
       "accounts.exs",
+      "feed.exs",
+      "enrollments.exs",
       "departments.exs",
-      "activities.exs",
       "memberships.exs",
-      "announcements.exs",
       "partners.exs",
       "speakers.exs"
     ]

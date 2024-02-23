@@ -2,7 +2,6 @@ defmodule Atomic.Factories.ActivityFactory do
   @moduledoc """
   A factory to generate account related structs
   """
-
   alias Atomic.Activities.{Activity, ActivityEnrollment}
 
   defmacro __using__(_opts) do
@@ -17,7 +16,8 @@ defmodule Atomic.Factories.ActivityFactory do
           maximum_entries: Enum.random(11..20),
           start: NaiveDateTime.utc_now(),
           finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour),
-          organization_id: organization.id
+          organization_id: organization.id,
+          post: build(:post, type: "activity")
         }
       end
 
