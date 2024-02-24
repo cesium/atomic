@@ -1,4 +1,5 @@
 defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
+  @moduledoc false
   use AtomicWeb, :component
 
   import AtomicWeb.Components.Avatar

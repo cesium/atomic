@@ -278,6 +278,21 @@ defmodule Atomic.Departments do
   end
 
   @doc """
+  Returns a paginated list of collaborators.
+
+  ## Examples
+
+      iex> list_display_collaborators()
+      [%Collaborator{}, ...]
+
+  """
+  def list_display_collaborators(%{} = flop, opts \\ []) do
+    Collaborator
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Collaborator)
+  end
+
+  @doc """
   Returns the list of collaborators belonging to a department.
 
   ## Examples

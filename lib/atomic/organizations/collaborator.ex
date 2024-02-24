@@ -10,6 +10,20 @@ defmodule Atomic.Organizations.Collaborator do
   @required_fields ~w(user_id department_id)a
   @optional_fields ~w(accepted)a
 
+  @derive {
+    Flop.Schema,
+    default_limit: 7,
+    filterable: [:accepted],
+    sortable: [:collaborator_name, :inserted_at, :updated_at],
+    default_order: %{
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    },
+    join_fields: [
+      collaborator_name: [binding: :user, field: :name, path: [:user, :name]]
+    ]
+  }
+
   schema "collaborators" do
     belongs_to :user, User
     belongs_to :department, Department
