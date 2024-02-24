@@ -61,7 +61,7 @@ defmodule AtomicWeb do
 
   def component do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       unquote(view_helpers())
     end

@@ -23,25 +23,19 @@
         </div>
         <!-- Tabs -->
         <div class="sticky top-0 z-10 bg-white block">
-          <div class="border-b border-gray-200">
-            <div class="flex flex-row justify-between items-center px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
-              <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
-                <button id="all" role="tab" phx-click="load-all" phx-hook="ScrollToTop" class={"py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "all")}"}>
-                  All
-                </button>
-                <%= if @is_authenticated? do %>
-                  <button id="following" role="tab" phx-click="load-following" phx-hook="ScrollToTop" class={"py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "following")}"}>
-                    Following
-                  </button>
-                <% end %>
-                <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
-                  <button phx-click="load-schedule" class={"lg:hidden py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 #{tab_class(@current_tab, "schedule")}"}>
-                    Schedule
-                  </button>
-                <% end %>
-              </nav>
-            </div>
-          </div>
+          <.tabs x-data="{ option: 'all' }" class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
+            <.tab active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
+              All
+            </.tab>
+            <.tab active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
+              Following
+            </.tab>
+            <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
+              <.tab active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
+                Schedule
+              </.tab>
+            <% end %>
+          </.tabs>
         </div>
         <!-- Feed -->
         <%= if @current_tab != "schedule" do %>

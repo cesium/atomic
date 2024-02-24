@@ -2,7 +2,7 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Activity, Announcement}
+  import AtomicWeb.Components.{Activity, Announcement, Tabs}
   import AtomicWeb.HomeLive.Components.{Schedule, FollowSuggestions}
 
   alias Atomic.Activities
