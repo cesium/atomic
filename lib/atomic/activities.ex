@@ -412,13 +412,25 @@ defmodule Atomic.Activities do
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    %ActivityEnrollment{}
-    |> ActivityEnrollment.changeset(%{
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:activity_enrollments, %ActivityEnrollment{
       activity_id: activity_id,
       user_id: user.id
     })
-    |> Repo.insert()
-    |> broadcast(:new_enrollment)
+    |> Multi.update(:activity, fn %{activity_enrollments: enrollment} ->
+      activity = get_activity!(enrollment.activity_id)
+
+      Activity.changeset(activity, %{enrolled: activity.enrolled + 1})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity_enrollments: enrollment, activity: _activity}} ->
+        broadcast({:ok, enrollment}, :new_enrollment)
+        {:ok, enrollment}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -471,9 +483,8 @@ defmodule Atomic.Activities do
       0
   """
   def get_total_enrolled(activity_id) do
-    ActivityEnrollment
-    |> where(activity_id: ^activity_id)
-    |> Repo.aggregate(:count, :id)
+    activity = get_activity!(activity_id)
+    activity.enrolled
   end
 
   @doc """

@@ -12,6 +12,7 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :minimum_entries, :integer, null: false
       add :maximum_entries, :integer, null: false
       add :image, :string
+      add :enrolled, :integer, default: 0, null: false
 
       add :event_id, references(:events, type: :binary_id)
       add :organization_id, references(:organizations, type: :binary_id), null: false

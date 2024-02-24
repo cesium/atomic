@@ -17,7 +17,7 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Feed.Post
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id enrolled)a
   @optional_fields ~w(event_id image)a
 
   @derive {
@@ -38,7 +38,7 @@ defmodule Atomic.Activities.Activity do
     field :image, Uploaders.Post.Type
     field :maximum_entries, :integer
     field :minimum_entries, :integer
-    field :enrolled, :integer, virtual: true
+    field :enrolled, :integer, default: 0
 
     embeds_one :location, Location, on_replace: :update
 
@@ -60,6 +60,7 @@ defmodule Atomic.Activities.Activity do
     |> validate_required(@required_fields)
     |> validate_dates()
     |> validate_entries()
+    |> validate_enrollments()
     |> maybe_mark_for_deletion()
     |> maybe_put_speakers(attrs)
   end
@@ -120,6 +121,17 @@ defmodule Atomic.Activities.Activity do
   defp maybe_mark_for_deletion(changeset) do
     if get_change(changeset, :delete) do
       %{changeset | action: :delete}
+    else
+      changeset
+    end
+  end
+
+  def validate_enrollments(changeset) do
+    enrolled = get_change(changeset, :enrolled)
+    maximum_entries = get_change(changeset, :maximum_entries)
+
+    if maximum_entries < enrolled do
+      add_error(changeset, :maximum_entries, gettext("maximum number of enrollments reached"))
     else
       changeset
     end
