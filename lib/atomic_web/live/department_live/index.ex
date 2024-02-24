@@ -3,6 +3,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Button
+  import AtomicWeb.DepartmentLive.Components.DepartmentCard
 
   alias Atomic.Accounts
   alias Atomic.Departments
@@ -19,6 +20,12 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
     departments =
       Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
+      |> Enum.map(fn department ->
+        collaborators =
+          department.id |> Departments.list_collaborators_by_department_id(preloads: [:user])
+
+        {department, collaborators}
+      end)
 
     {:noreply,
      socket

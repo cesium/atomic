@@ -1,6 +1,8 @@
 defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Avatar
+
   alias Atomic.Accounts
   alias Atomic.Departments
   alias Atomic.Organizations

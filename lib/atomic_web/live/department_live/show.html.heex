@@ -1,102 +1,137 @@
-<div x-data="{ option: 'collaborators' }">
-  <div class="my-4">
-    <div class="bg-white">
-      <div class="flex justify-between px-4 py-5 sm:px-6">
-        <div class="my-4 w-full h-full items-center gap-x-4 flex flex-col justify-center gap-y-2 lg:flex-row lg:items-center lg:justify-start">
-          <div>
-            <h1 class="lg:text-2xl font-bold text-zinc-900 text-3xl">
-              <%= @department.name %>
-            </h1>
-          </div>
-          <%= if ! @collaborator do %>
-            <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
+<div>
+  <div class="w-full h-32 border-r select-none">
+    <img class="h-full w-full object-cover" src={"https://github.com/identicons/#{@department.name |> String.slice(0..3)}.png"} />
+  </div>
+  <div class="flex flex-col items-stretch justify-between lg:flex-row">
+    <div class="flex w-full flex-col bg-white lg:flex-row lg:border-r">
+      <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div class="my-6 flex min-w-0 flex-row items-center justify-between">
+            <div>
+              <h1 class="flex-1 select-none truncate text-2xl font-bold text-gray-900">
+                <%= @department.name %>
+              </h1>
+              <.link navigate={Routes.organization_show_path(@socket, :show, @organization)}>
+                <h3>
+                  @<%= @organization.name %>
+                </h3>
+              </.link>
+            </div>
+            <%= if !@collaborator do %>
               <button
                 phx-click={
-                  "#{if @is_authenticated? do
-                    "collaborate"
-                  else
-                    "must-login"
-                  end}"
-                }
-                class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white"
+                    "#{if @is_authenticated? do
+                      "collaborate"
+                    else
+                      "must-login"
+                    end}"
+                  }
+                class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
               >
-                Collaborate
+                <%= gettext("Collaborate") %>
               </button>
-            </div>
-          <% else %>
-            <%= if ! @collaborator.accepted do %>
-              <div class="mt-2 h-full lg:mt-0">
-                <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
-                  Waiting for approval...
-                </button>
-              </div>
             <% else %>
-              <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
-                  Collaborator
+              <%= if ! @collaborator.accepted do %>
+                <div class="mt-2 h-full lg:mt-0">
+                  <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
+                    Waiting for approval...
+                  </button>
+                </div>
+              <% else %>
+                <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
+                  <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
+                    Collaborator
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <!-- Description -->
+        <div class="mx-4 sm:mx-6 lg:mx-8">
+          <%= @department.description %>
+        </div>
+        <div class="mt-8 mx-4 sm:mx-6 lg:mx-8 grid grid-cols-3 grid-rows-1">
+          <div class="col-span-2">
+            <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Recent Activity</h2>
+          </div>
+          <!-- People -->
+          <div class="w-full">
+            <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">People</h2>
+            <div class="max-w-full mb-2 flex flex-wrap">
+              <%= for collaborator <- @collaborators |> Enum.take(18) do %>
+                <div class="h-12">
+                  <.avatar name={collaborator.user.name} size={:sm} />
+                </div>
+              <% end %>
+            </div>
+            <p class="underline text-orange-500 hover:text-orange-600 hover:cursor-pointer">View all collaborators</p>
+          </div>
+        </div>
+        <!--
+        <div x-data="{ option: 'collaborators' }">
+          <div class="my-4">
+            <div class="bg-white">
+              <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+                <div class="flex w-full items-center justify-between">
+                  <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
+                    <%= if @has_permissions? and length(@collaborators) != 0 do %>
+                      <div x-on:click="open = 'collaborators'" x-bind:class="open == 'collaborators' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
+                        <%= gettext("Latest Collaborators") %>
+                      </div>
+                    <% end %>
+                  </nav>
+                </div>
+              </div>
+            </div>
+            <%= if length(@collaborators) != 0 do %>
+              <div class="mt-8 flow-root">
+                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                      <table class="min-w-full divide-y divide-zinc-300">
+                        <thead class="bg-zinc-50">
+                          <tr>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Email</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Phone Number</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Accepted</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Requested At</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Updated At</th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                              <span class="sr-only">Edit</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-200 bg-white">
+                          <%= for collaborator <- @collaborators do %>
+                            <tr>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500 sm:pl-6"><%= collaborator.user.name %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= collaborator.user.email %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500">Phone number</td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
+                              <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
+                              <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
+                                  <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                                    <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                                  </div>
+                                </.link>
+                              </td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             <% end %>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-        <div class="flex w-full items-center justify-between">
-          <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-            <%= if @has_permissions? and length(@collaborators) != 0 do %>
-              <div x-on:click="open = 'collaborators'" x-bind:class="open == 'collaborators' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-                <%= gettext("Latest Collaborators") %>
-              </div>
-            <% end %>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <%= if length(@collaborators) != 0 do %>
-      <div class="mt-8 flow-root">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table class="min-w-full divide-y divide-zinc-300">
-                <thead class="bg-zinc-50">
-                  <tr>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Name</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Email</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Phone Number</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Accepted</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Requested At</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Updated At</th>
-                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span class="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-zinc-200 bg-white">
-                  <%= for collaborator <- @collaborators do %>
-                    <tr>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500 sm:pl-6"><%= collaborator.user.name %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= collaborator.user.email %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500">Phone number</td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
-                      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
-                          <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-                          </div>
-                        </.link>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
-      </div>
-    <% end %>
+        -->
+      </main>
+    </div>
   </div>
 </div>
