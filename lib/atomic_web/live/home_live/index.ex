@@ -2,7 +2,7 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Activity, Announcement, Tabs}
+  import AtomicWeb.Components.{Activity, Announcement}
   import AtomicWeb.HomeLive.Components.{Schedule, FollowSuggestions}
 
   alias Atomic.Activities
@@ -28,10 +28,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:page_title, gettext("Home"))
      |> assign(:schedule, fetch_schedule(socket))
      |> assign(:current_tab, current_tab(socket, params))
-     |> assign(:organizations, list_organizations_to_follow(socket))
-     |> then(fn complete_socket ->
-       assign(complete_socket, :tabs, build_tabs(complete_socket))
-     end)}
+     |> assign(:organizations, list_organizations_to_follow(socket))}
   end
 
   @impl true
@@ -40,10 +37,10 @@ defmodule AtomicWeb.HomeLive.Index do
 
     %{entries: entries, metadata: metadata} =
       case socket.assigns.current_tab do
-        "All" ->
+        "all" ->
           Feed.list_next_posts_paginated(cursor_after, order_by: [desc: :inserted_at, desc: :id])
 
-        "Following" ->
+        "following" ->
           Feed.list_next_posts_following_paginated([], cursor_after,
             order_by: [desc: :inserted_at, desc: :id]
           )
@@ -56,7 +53,7 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   @impl true
-  def handle_event("load-all", _, socket) when socket.assigns.current_tab == "All",
+  def handle_event("load-all", _, socket) when socket.assigns.current_tab == "all",
     do: {:noreply, socket}
 
   def handle_event("load-all", _, socket) do
@@ -67,11 +64,11 @@ defmodule AtomicWeb.HomeLive.Index do
      socket
      |> stream(:posts, entries, reset: true)
      |> assign(:metadata, metadata)
-     |> assign(:current_tab, "All")}
+     |> assign(:current_tab, "all")}
   end
 
   @impl true
-  def handle_event("load-following", _, socket) when socket.assigns.current_tab == "Following",
+  def handle_event("load-following", _, socket) when socket.assigns.current_tab == "following",
     do: {:noreply, socket}
 
   def handle_event("load-following", _, socket) do
@@ -86,14 +83,14 @@ defmodule AtomicWeb.HomeLive.Index do
      socket
      |> stream(:posts, entries, reset: true)
      |> assign(:metadata, metadata)
-     |> assign(:current_tab, "Following")}
+     |> assign(:current_tab, "following")}
   end
 
   @impl true
   def handle_event("load-schedule", _, socket) do
     {:noreply,
      socket
-     |> assign(:current_tab, "Schedule")}
+     |> assign(:current_tab, "schedule")}
   end
 
   defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
@@ -128,23 +125,6 @@ defmodule AtomicWeb.HomeLive.Index do
     end
   end
 
-  def build_tabs(socket) when not socket.assigns.is_authenticated? do
-    %{"#{gettext("All")}" => "load-all"}
-  end
-
-  def build_tabs(socket) do
-    options = %{
-      "#{gettext("All")}" => "load-all",
-      "#{gettext("Following")}" => "load-following"
-    }
-
-    if length(socket.assigns.schedule.weekly) + length(socket.assigns.schedule.daily) > 0 do
-      Map.put(options, "#{gettext("Schedule")}", "load-schedule")
-    else
-      options
-    end
-  end
-
   defp list_organizations_to_follow(assigns) when assigns.is_authenticated? do
     Organizations.list_top_organizations_for_user(assigns.current_user, limit: 3)
   end
@@ -154,6 +134,11 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+  defp current_tab(_socket, _params), do: "all"
 
-  defp current_tab(_socket, _params), do: "All"
+  defp tab_class(tab, current_tab) do
+    if tab == current_tab,
+      do: "border-b-2 border-orange-500 text-gray-900",
+      else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+  end
 end
