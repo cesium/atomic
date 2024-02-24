@@ -19,5 +19,7 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
 
       timestamps()
     end
+
+    create constraint(:activities, :enrolled_less_than_max, check: "enrolled <= maximum_entries")
   end
 end
