@@ -1,12 +1,14 @@
-<div>
-  <div class="w-full h-32 border-r select-none">
+<div class="min-h-[100vh] lg:border-r">
+  <!-- Department Header -->
+  <div class="w-full h-32 select-none">
     <img class="h-full w-full object-cover" src={"https://github.com/identicons/#{@department.name |> String.slice(0..3)}.png"} />
   </div>
   <div class="flex flex-col items-stretch justify-between lg:flex-row">
-    <div class="flex w-full flex-col bg-white lg:flex-row lg:border-r">
+    <div class="flex w-full flex-col bg-white lg:flex-row">
       <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-4 sm:mx-6 lg:mx-8">
           <div class="my-6 flex min-w-0 flex-row items-center justify-between">
+            <!-- Department info -->
             <div>
               <h1 class="flex-1 select-none truncate text-2xl font-bold text-gray-900">
                 <%= @department.name %>
@@ -17,33 +19,43 @@
                 </h3>
               </.link>
             </div>
-            <%= if !@collaborator do %>
-              <button
-                phx-click={
-                    "#{if @is_authenticated? do
-                      "collaborate"
-                    else
-                      "must-login"
-                    end}"
-                  }
-                class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-              >
-                <%= gettext("Collaborate") %>
-              </button>
-            <% else %>
-              <%= if ! @collaborator.accepted do %>
-                <div class="mt-2 h-full lg:mt-0">
-                  <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
-                    Waiting for approval...
-                  </button>
-                </div>
+            <%= if @current_view == "show" do %>
+              <!-- Collaborate -->
+              <%= if !@collaborator do %>
+                <button
+                  phx-click={
+                      "#{if @is_authenticated? do
+                        "collaborate"
+                      else
+                        "must-login"
+                      end}"
+                    }
+                  class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                >
+                  <%= gettext("Collaborate") %>
+                </button>
               <% else %>
-                <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                  <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
-                    Collaborator
+                <%= if ! @collaborator.accepted do %>
+                  <div class="mt-2 h-full lg:mt-0">
+                    <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
+                      Waiting for approval...
+                    </button>
                   </div>
-                </div>
+                <% else %>
+                  <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
+                    <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
+                      Collaborator
+                    </div>
+                  </div>
+                <% end %>
               <% end %>
+            <% else %>
+              <!-- Exit collaborators view -->
+              <div class="mt-2 h-full lg:mt-0">
+                <button phx-click="show-default">
+                  <Heroicons.arrow_left_circle class="mr-3 w-8 h-8 text-zinc-400 hover:text-orange-500" />
+                </button>
+              </div>
             <% end %>
           </div>
         </div>
@@ -66,28 +78,53 @@
                   </div>
                 <% end %>
               </div>
-              <p phx-click="show-collaborators" class="underline text-orange-500 hover:text-orange-600 hover:cursor-pointer">View all collaborators</p>
+              <p phx-click="show-collaborators" class="hover:underline text-orange-500 hover:cursor-pointer">View all collaborators</p>
             </div>
           </div>
         <% end %>
         <%= if @current_view == "collaborators" do %>
           <%= if length(@collaborators) != 0 do %>
-            <.table items={@collaborators} meta={@meta}>
-              <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
-              <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
-              <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
-              <:col :let={collaborator} label="Accepted" field={:string}><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></:col>
-              <:col :let={collaborator} label="Requested At" field={:string}><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></:col>
-              <:col :let={collaborator} label="Updated At" field={:string}><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></:col>
-              <:col :let={_collaborator}>
-                <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
-                  <div type="button" class="inline-flex select-none justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                    <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+            <%= if @has_permissions? do %>
+              <!-- Collaborators admin view -->
+              <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <div class="border-t border-l">
+                  <.table items={@collaborators} meta={@meta} filter={[]}>
+                    <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
+                    <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
+                    <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
+                    <:col :let={collaborator} label="Accepted" field={:string}><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></:col>
+                    <:col :let={collaborator} label="Requested At" field={:string}><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></:col>
+                    <:col :let={collaborator} label="Updated At" field={:string}><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></:col>
+                    <:col :let={_collaborator}>
+                      <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
+                        <div type="button" class="inline-flex select-none justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                          <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                        </div>
+                      </.link>
+                    </:col>
+                  </.table>
+                </div>
+                <.pagination items={@collaborators} meta={@meta} params={@params} class="pt-2 flex w-full items-center justify-between border border-t-0" />
+              </div>
+            <% else %>
+              <!-- Collaborators user view -->
+              <div class="mx-4 sm:mx-6 lg:mx-8">
+                <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <%= for collaborator <- @collaborators do %>
+                  <div class="border border-zinc-200 hover:bg-zinc-50 p-3">
+                    <div class="flex">
+                      <.avatar name={collaborator.user.name} />
+                      <div class="ml-3 h-full flex flex-col self-center">
+                        <p><%= collaborator.user.name %></p>
+                        <p>@<%= collaborator.user.slug %></p>
+                      </div>
+                    </div>
                   </div>
-                </.link>
-              </:col>
-            </.table>
-            <.pagination items={@collaborators} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between border-r-[1px]" />
+                <% end %>
+                <.pagination items={@collaborators} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+              </div>
+            <% end %>
           <% end %>
         <% end %>
       </main>

@@ -52,13 +52,14 @@ defmodule Atomic.Repo.Seeds.Departments do
     end
   end
 
-  def seed_collaborators() do
+  def seed_collaborators do
     for department <- Repo.all(Department) do
       for user <- Repo.all(Atomic.Accounts.User) do
         if Enum.random(0..6) == 1 do
           %{
             department_id: department.id,
-            user_id: user.id
+            user_id: user.id,
+            accepted: Enum.random([true, false])
           }
           |> Departments.create_collaborator()
         end

@@ -20,6 +20,8 @@ defmodule AtomicWeb.DepartmentLive.Show do
     organization = Organizations.get_organization!(organization_id)
     department = Departments.get_department!(id)
 
+    has_permissions = has_permissions?(socket, organization_id)
+
     {:noreply,
      socket
      |> assign(:current_page, :departments)
@@ -29,17 +31,30 @@ defmodule AtomicWeb.DepartmentLive.Show do
      |> assign(:department, department)
      |> assign(:params, params)
      |> assign(:collaborator, maybe_put_collaborator(socket, department.id))
-     |> assign(list_collaborators(department.id, params))
+     |> assign(list_collaborators(department.id, params, has_permissions))
      |> assign(
        :all_collaborators,
-       Departments.list_collaborators_by_department_id(department.id, preloads: [:user])
+       Departments.list_collaborators_by_department_id(department.id,
+         preloads: [:user],
+         where: [accepted: true]
+       )
      )
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions)}
   end
 
-  defp list_collaborators(id, params) do
+  defp list_collaborators(id, params, has_permissions) do
+    if has_permissions do
+      # If the user has permissions, list all collaborators
+      list_collaborators_paginated(params, department_id: id)
+    else
+      # If the user does not have permissions, list only accepted collaborators
+      list_collaborators_paginated(params, department_id: id, accepted: true)
+    end
+  end
+
+  defp list_collaborators_paginated(params, filter) do
     case Departments.list_display_collaborators(params,
-           where: [department_id: id],
+           where: filter,
            preloads: [:user]
          ) do
       {:ok, {collaborators, meta}} ->
@@ -100,6 +115,21 @@ defmodule AtomicWeb.DepartmentLive.Show do
            socket.assigns.organization.id,
            socket.assigns.department.id,
            tab: "collaborators"
+         )
+     )}
+  end
+
+  @impl true
+  def handle_event("show-default", _payload, socket) do
+    {:noreply,
+     socket
+     |> push_patch(
+       to:
+         Routes.department_show_path(
+           socket,
+           :show,
+           socket.assigns.organization.id,
+           socket.assigns.department.id
          )
      )}
   end
