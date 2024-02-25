@@ -25,14 +25,14 @@
         <div class="sticky top-0 z-10 bg-white block">
           <.tabs x-data="{ option: 'all' }" class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
             <.tab active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
-              All
+              <%= gettext("All") %>
             </.tab>
             <.tab active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
-              Following
+              <%= gettext("Following") %>
             </.tab>
             <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
               <.tab active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
-                Schedule
+                <%= gettext("Schedule") %>
               </.tab>
             <% end %>
           </.tabs>
