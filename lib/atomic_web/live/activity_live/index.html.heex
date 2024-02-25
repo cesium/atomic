@@ -1,6 +1,6 @@
-<.live_component module={AtomicWeb.Components.Page} id="activity-index" title="Activities">
+<.page title="Activities">
   <:actions>
-    <.primary_button url={Routes.activity_new_path(@socket, :new, 123)}>
+    <.primary_button url={Routes.activity_new_path(@socket, :new, @current_organization)}>
       <%= gettext("New") %>
     </.primary_button>
   </:actions>
@@ -80,11 +80,7 @@
                   <div class="flex flex-row space-x-2">
                     <%= for speaker <- activity.speakers do %>
                       <div class="mt-2 flex items-center">
-                        <span class="inline-flex justify-center items-center mr-1.5 w-6 h-6 bg-zinc-500 rounded-full">
-                          <span class="text-xs font-medium leading-none text-white">
-                            <%= extract_initials(speaker.name) %>
-                          </span>
-                        </span>
+                        <.avatar name={speaker.name} size={:xs} bg_color="zinc-500" fg_color="white" class="!w-6 !h-6 mr-1.5" />
                         <p class="text-sm text-zinc-500">
                           <%= extract_first_last_name(speaker.name) %>
                         </p>
@@ -100,4 +96,4 @@
       <.pagination items={@activities} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
     </div>
   <% end %>
-</.live_component>
+</.page>

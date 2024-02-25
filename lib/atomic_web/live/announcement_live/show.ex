@@ -10,7 +10,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = _params, _, socket) do
     announcement = Organizations.get_announcement!(id, preloads: [:organization])
 
     {:noreply,
