@@ -59,7 +59,8 @@ defmodule Atomic.Repo.Seeds.Departments do
           %{
             department_id: department.id,
             user_id: user.id,
-            accepted: Enum.random([true, false])
+            accepted: Enum.random([true, false]),
+            collaborator_applications: Enum.random([true, false])
           }
           |> Departments.create_collaborator()
         end

@@ -22,18 +22,20 @@
             <%= if @current_view == "show" do %>
               <!-- Collaborate -->
               <%= if !@collaborator do %>
-                <button
-                  phx-click={
-                      "#{if @is_authenticated? do
-                        "collaborate"
-                      else
-                        "must-login"
-                      end}"
-                    }
-                  class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-                >
-                  <%= gettext("Collaborate") %>
-                </button>
+                <%= if @department.collaborator_applications do %>
+                  <button
+                    phx-click={
+                        "#{if @is_authenticated? do
+                          "collaborate"
+                        else
+                          "must-login"
+                        end}"
+                      }
+                    class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                  >
+                    <%= gettext("Collaborate") %>
+                  </button>
+                <% end %>
               <% else %>
                 <%= if ! @collaborator.accepted do %>
                   <div class="mt-2 h-full lg:mt-0">
