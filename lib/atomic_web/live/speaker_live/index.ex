@@ -3,6 +3,7 @@ defmodule AtomicWeb.SpeakerLive.Index do
 
   alias Atomic.Activities
   alias Atomic.Activities.Speaker
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(%{"organization_id" => organization_id}, _session, socket) do

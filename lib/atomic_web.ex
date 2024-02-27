@@ -97,6 +97,9 @@ defmodule AtomicWeb do
       # Import page layout component
       import AtomicWeb.Components.Page
 
+      # Import commonly used components
+      import AtomicWeb.Components.Modal
+
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 

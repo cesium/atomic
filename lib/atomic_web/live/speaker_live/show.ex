@@ -2,6 +2,7 @@ defmodule AtomicWeb.SpeakerLive.Show do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(_params, _session, socket) do
