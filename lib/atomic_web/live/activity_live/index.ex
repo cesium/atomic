@@ -1,10 +1,7 @@
 defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Empty
-  import AtomicWeb.Components.Pagination
-  import AtomicWeb.Components.Button
+  import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -17,17 +14,17 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   @impl true
   def handle_params(params, _, socket) do
-    activities_with_flop = list_activities(socket, params)
-
     {:noreply,
      socket
      |> assign(:page_title, gettext("Activities"))
      |> assign(:current_page, :activities)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
-     |> assign(activities_with_flop)
-     |> assign(:empty?, Enum.empty?(activities_with_flop.activities))
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket))
+     |> assign(list_activities(socket, params))
+     |> then(fn complete_socket ->
+       assign(complete_socket, :empty?, Enum.empty?(complete_socket.assigns.activities))
+     end)}
   end
 
   defp list_activities(socket, params) do
@@ -89,14 +86,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
-
-  defp current_tab(socket, _params) do
-    if socket.assigns.is_authenticated? do
-      "following"
-    else
-      "all"
-    end
-  end
+  defp current_tab(_socket, _params), do: "all"
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 

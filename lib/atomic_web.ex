@@ -61,7 +61,7 @@ defmodule AtomicWeb do
 
   def component do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       unquote(view_helpers())
     end
@@ -96,6 +96,9 @@ defmodule AtomicWeb do
 
       # Import page layout component
       import AtomicWeb.Components.Page
+
+      # Import commonly used components
+      import AtomicWeb.Components.Modal
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
