@@ -1,7 +1,7 @@
 <h1>Listing Speakers</h1>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.speaker_index_path(@socket, :index, @current_organization)}>
+  <.modal id="speaker-edit" return_to={JS.push(Routes.speaker_index_path(@socket, :index, @current_organization))}>
     <.live_component module={AtomicWeb.SpeakerLive.FormComponent} id={@speaker.id || :new} organization={@current_organization} title={@page_title} action={@live_action} speaker={@speaker} return_to={Routes.speaker_index_path(@socket, :index, @current_organization)} />
   </.modal>
 <% end %>
