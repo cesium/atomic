@@ -12,7 +12,7 @@ defmodule AtomicWeb.Components.Modal do
   ## Examples
 
       <.modal id="confirm-modal">
-        This is a modal.s
+        This is a modal.
       </.modal>
 
   JS commands may be passed to the `:on_cancel` to configure
