@@ -21,7 +21,7 @@
             </div>
             <%= if @current_view == "show" do %>
               <!-- Collaborate -->
-              <%= if !@collaborator do %>
+              <%= if !@current_collaborator do %>
                 <%= if @department.collaborator_applications do %>
                   <button
                     phx-click={
@@ -37,7 +37,7 @@
                   </button>
                 <% end %>
               <% else %>
-                <%= if ! @collaborator.accepted do %>
+                <%= if ! @current_collaborator.accepted do %>
                   <div class="mt-2 h-full lg:mt-0">
                     <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
                       Waiting for approval...
@@ -98,8 +98,8 @@
                     <:col :let={collaborator} label="Accepted" field={:string}><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></:col>
                     <:col :let={collaborator} label="Requested At" field={:string}><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></:col>
                     <:col :let={collaborator} label="Updated At" field={:string}><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></:col>
-                    <:col :let={_collaborator}>
-                      <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
+                    <:col :let={collaborator}>
+                      <.link patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)} class="button">
                         <div type="button" class="inline-flex select-none justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
                           <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                         </div>
@@ -133,3 +133,20 @@
     </div>
   </div>
 </div>
+<.modal
+  :if={@live_action in [:edit_collaborator]}
+  id="edit-collaborator"
+  show
+  on_cancel={JS.patch(Routes.department_show_path(@socket, :show, @organization, @department, @params))}
+>
+  <.live_component
+    scope={self}
+    module={AtomicWeb.CollaboratorLive.FormComponent}
+    id={@collaborator.id}
+    title={@page_title}
+    action={@live_action}
+    collaborator={@collaborator}
+    department={@department}
+    patch={"/"}
+  />
+</.modal>

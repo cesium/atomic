@@ -4,11 +4,13 @@ defmodule AtomicWeb.DepartmentLive.Show do
   import AtomicWeb.Components.Avatar
   import AtomicWeb.Components.Table
   import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.Modal
 
   alias Atomic.Accounts
   alias Atomic.Departments
   alias Atomic.Organizations
   alias Atomic.Organizations.Collaborator
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,30 +18,59 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id} = params, _, socket) do
+  def handle_params(params, _uri, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :show, %{"organization_id" => organization_id, "id" => id} = params) do
     organization = Organizations.get_organization!(organization_id)
     department = Departments.get_department!(id)
 
     has_permissions = has_permissions?(socket, organization_id)
 
-    {:noreply,
-     socket
-     |> assign(:current_page, :departments)
-     |> assign(:current_view, current_view(socket, params))
-     |> assign(:page_title, department.name)
-     |> assign(:organization, organization)
-     |> assign(:department, department)
-     |> assign(:params, params)
-     |> assign(:collaborator, maybe_put_collaborator(socket, department.id))
-     |> assign(list_collaborators(department.id, params, has_permissions))
-     |> assign(
-       :all_collaborators,
-       Departments.list_collaborators_by_department_id(department.id,
-         preloads: [:user],
-         where: [accepted: true]
-       )
-     )
-     |> assign(:has_permissions?, has_permissions)}
+    socket
+    |> assign(:current_page, :departments)
+    |> assign(:current_view, current_view(socket, params))
+    |> assign(:page_title, department.name)
+    |> assign(:organization, organization)
+    |> assign(:department, department)
+    |> assign(:params, params)
+    |> assign(:current_collaborator, maybe_put_collaborator(socket, department.id))
+    |> assign(list_collaborators(department.id, params, has_permissions))
+    |> assign(
+      :all_collaborators,
+      Departments.list_collaborators_by_department_id(department.id,
+        preloads: [:user],
+        where: [accepted: true]
+      )
+    )
+    |> assign(:has_permissions?, has_permissions)
+  end
+
+  defp apply_action(socket, :edit_collaborator, %{"organization_id" => organization_id, "id" => department_id, "collaborator_id" => collaborator_id} = params) do
+    organization = Organizations.get_organization!(organization_id)
+    department = Departments.get_department!(department_id)
+    collaborator = Departments.get_collaborator!(collaborator_id, preloads: [:user])
+
+    has_permissions = has_permissions?(socket, organization_id)
+
+    socket
+    |> assign(:current_page, :departments)
+    |> assign(:current_view, current_view(socket, params))
+    |> assign(:page_title, department.name)
+    |> assign(:organization, organization)
+    |> assign(:department, department)
+    |> assign(:collaborator, collaborator)
+    |> assign(list_collaborators(department.id, params, has_permissions))
+    |> assign(
+      :all_collaborators,
+      Departments.list_collaborators_by_department_id(department.id,
+        preloads: [:user],
+        where: [accepted: true]
+      )
+    )
+    |> assign(:params, params)
+    |> assign(:has_permissions?, has_permissions)
   end
 
   defp list_collaborators(id, params, has_permissions) do

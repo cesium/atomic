@@ -177,7 +177,11 @@ defmodule Atomic.Departments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_collaborator!(id), do: Repo.get!(Collaborator, id)
+  def get_collaborator!(id, opts \\ []) do
+    Collaborator
+    |> apply_filters(opts)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Gets a single collaborator.
