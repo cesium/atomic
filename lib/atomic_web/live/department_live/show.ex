@@ -47,7 +47,15 @@ defmodule AtomicWeb.DepartmentLive.Show do
     |> assign(:has_permissions?, has_permissions)
   end
 
-  defp apply_action(socket, :edit_collaborator, %{"organization_id" => organization_id, "id" => department_id, "collaborator_id" => collaborator_id} = params) do
+  defp apply_action(
+         socket,
+         :edit_collaborator,
+         %{
+           "organization_id" => organization_id,
+           "id" => department_id,
+           "collaborator_id" => collaborator_id
+         } = params
+       ) do
     organization = Organizations.get_organization!(organization_id)
     department = Departments.get_department!(department_id)
     collaborator = Departments.get_collaborator!(collaborator_id, preloads: [:user])
