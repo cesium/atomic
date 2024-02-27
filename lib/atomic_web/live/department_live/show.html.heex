@@ -133,6 +133,6 @@
     </div>
   </div>
 </div>
-<.modal :if={@live_action in [:edit_collaborator]} id="edit-collaborator" show on_cancel={JS.patch(Routes.department_show_path(@socket, :show, @organization, @department, @params))}>
-  <.live_component scope={self} module={AtomicWeb.CollaboratorLive.FormComponent} id={@collaborator.id} title={@page_title} action={@live_action} collaborator={@collaborator} department={@department} patch="/" />
+<.modal :if={@live_action in [:edit_collaborator]} id="edit-collaborator" show on_cancel={JS.patch(Routes.department_show_path(@socket, :show, @organization, @department, Map.delete(@params, "collaborator_id")))}>
+  <.live_component module={AtomicWeb.CollaboratorLive.FormComponent} id={@collaborator.id} title={@page_title} action={@live_action} collaborator={@collaborator} department={@department} />
 </.modal>
