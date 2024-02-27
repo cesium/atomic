@@ -10,7 +10,13 @@ defmodule AtomicWeb.Storybook.Components.Avatar do
       %Variation{
         id: :default,
         attributes: %{
-          name: "John Doe",
+          name: "John Doe"
+        }
+      },
+      %Variation{
+        id: :user,
+        attributes: %{
+          name: "Rui Lopes",
           type: :user
         }
       },
@@ -28,14 +34,51 @@ defmodule AtomicWeb.Storybook.Components.Avatar do
           type: :company
         }
       },
-      %Variation{
-        id: :different_size,
-        description: "Different size",
-        attributes: %{
-          name: "John Doe",
-          type: :user,
-          size: :xl
-        }
+      %VariationGroup{
+        id: :sizes,
+        description: "Different sizes",
+        variations: [
+          %Variation{
+            id: :extra_small,
+            attributes: %{
+              name: "John Doe",
+              type: :user,
+              size: :xs
+            }
+          },
+          %Variation{
+            id: :small,
+            attributes: %{
+              name: "John Doe",
+              type: :user,
+              size: :sm
+            }
+          },
+          %Variation{
+            id: :medium,
+            attributes: %{
+              name: "John Doe",
+              type: :user,
+              size: :md
+            }
+          },
+          %Variation{
+            id: :large,
+            attributes: %{
+              name: "John Doe",
+              type: :user,
+              size: :lg
+            }
+          },
+          %Variation{
+            id: :extra_large,
+            attributes: %{
+              name: "John Doe",
+              type: :user,
+              size: :xl
+            }
+          }
+        ]
       },
       %Variation{
         id: :custom_fg_color,

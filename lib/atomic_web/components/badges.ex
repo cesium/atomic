@@ -59,7 +59,6 @@ defmodule AtomicWeb.Components.Badges do
     |> get_color_classes()
   end
 
-  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   defp get_color_classes(color) when color in @colors do
     "bg-#{color}-100 text-#{color}-800"
   end
