@@ -1,4 +1,7 @@
 defmodule AtomicWeb.Components.Modal do
+  @moduledoc """
+  Reusable modal component.
+  """
   use Phoenix.Component
 
   import AtomicWeb.Gettext
