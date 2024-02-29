@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Empty do
   def empty_state(assigns) do
     ~H"""
     <div id={@id} class="text-center">
-      <Heroicons.plus_circle class="mx-auto h-12 w-12 text-zinc-400" />
+      <.icon name={:plus_circle} class="mx-auto h-12 w-12 text-zinc-400" />
       <h3 class="mt-2 text-sm font-semibold text-zinc-900">No <%= plural(@placeholder) %></h3>
       <p class="mt-1 text-sm text-zinc-500">Get started by creating a new <%= @placeholder %>.</p>
       <div class="mt-4">

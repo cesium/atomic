@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                     <% end %>
                   </figcaption>
                   <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
-                    <Heroicons.x_mark solid class="h-5 w-5 text-gray-400" />
+                    <.icon name={:x_mark} solid class="h-5 w-5 text-gray-400" />
                   </button>
                 </div>
               </figure>

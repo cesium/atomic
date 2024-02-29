@@ -1,11 +1,12 @@
 defmodule AtomicWeb.Storybook.Components.Tabs do
   use PhoenixStorybook.Story, :component
 
+  alias AtomicWeb.Components.Icon
   alias AtomicWeb.Components.Tabs
 
   def function, do: &Tabs.tabs/1
 
-  def imports, do: [{Tabs, tab: 1}]
+  def imports, do: [{Tabs, tab: 1}, {Icon, icon: 1}]
 
   def variations do
     [
@@ -66,11 +67,11 @@ defmodule AtomicWeb.Storybook.Components.Tabs do
         slots: [
           """
           <.tab active={true}>
-            <Heroicons.home class="h-5 w-5 mr-2" />
+            <.icon name={:home} class="h-5 w-5 mr-2" />
             All
           </.tab>
           <.tab>
-            <Heroicons.star class="h-5 w-5 mr-2" />
+            <.icon name={:star} class="h-5 w-5 mr-2" />
             Following
           </.tab>
           """
