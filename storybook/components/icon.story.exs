@@ -8,7 +8,7 @@ defmodule AtomicWeb.Storybook.Components.Icon do
   def template do
     """
     <span class="h-8 w-8">
-      <.lsb-variation/>
+      <.lsb-variation />
     </span>
     """
   end
