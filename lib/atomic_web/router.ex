@@ -2,6 +2,7 @@ defmodule AtomicWeb.Router do
   use AtomicWeb, :router
 
   import AtomicWeb.UserAuth
+  import PhoenixStorybook.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -72,6 +73,8 @@ defmodule AtomicWeb.Router do
     ]
 
     live_session :admin, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
+      live "/organizations/new", OrganizationLive.New, :new
+
       scope "/organizations/:organization_id" do
         live "/edit", OrganizationLive.Edit, :edit
 
@@ -96,7 +99,7 @@ defmodule AtomicWeb.Router do
         scope "/partners" do
           pipe_through :confirm_partner_association
           live "/new", PartnerLive.New, :new
-          live "/:id/edit", PartnerLive.Index, :edit
+          live "/:id/edit", PartnerLive.Edit, :edit
         end
 
         scope "/speakers" do
@@ -238,6 +241,15 @@ defmodule AtomicWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+
+    scope "/" do
+      storybook_assets()
+    end
+
+    scope "/", AtomicWeb do
+      pipe_through [:browser]
+      live_storybook("/storybook", backend_module: AtomicWeb.Storybook)
     end
   end
 
