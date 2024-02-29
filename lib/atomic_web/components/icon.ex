@@ -5,7 +5,7 @@ defmodule AtomicWeb.Components.Icon do
   use Phoenix.Component
 
   attr :rest, :global,
-    doc: "the arbitrary HTML attributes for the svg container",
+    doc: "The arbitrary HTML attributes for the svg container",
     include: ~w(fill stroke stroke-width)
 
   attr :name, :atom, required: true

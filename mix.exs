@@ -65,6 +65,7 @@ defmodule Atomic.MixProject do
       {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:flop_phoenix, "~> 0.20.0"},
+      {:phoenix_storybook, "~> 0.5.6"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
