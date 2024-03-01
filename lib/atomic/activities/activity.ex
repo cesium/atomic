@@ -61,6 +61,7 @@ defmodule Atomic.Activities.Activity do
     |> validate_dates()
     |> validate_entries()
     |> validate_enrollments()
+    |> check_constraint(:enrolled, name: :enrolled_less_than_max)
     |> maybe_mark_for_deletion()
     |> maybe_put_speakers(attrs)
   end
@@ -130,7 +131,27 @@ defmodule Atomic.Activities.Activity do
     enrolled = get_change(changeset, :enrolled)
     maximum_entries = get_change(changeset, :maximum_entries)
 
-    if maximum_entries < enrolled do
+    case {enrolled, maximum_entries} do
+      {nil, nil} ->
+        validate_enrollments_values(
+          changeset.data.enrolled,
+          changeset.data.maximum_entries,
+          changeset
+        )
+
+      {nil, maximum} ->
+        validate_enrollments_values(changeset.data.enrolled, maximum, changeset)
+
+      {enrolled, nil} ->
+        validate_enrollments_values(enrolled, changeset.data.maximum_entries, changeset)
+
+      {enrolled, maximum} ->
+        validate_enrollments_values(enrolled, maximum, changeset)
+    end
+  end
+
+  def validate_enrollments_values(enrolled, maximum_entries, changeset) do
+    if enrolled > maximum_entries do
       add_error(changeset, :maximum_entries, gettext("maximum number of enrollments reached"))
     else
       changeset
