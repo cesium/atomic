@@ -23,7 +23,8 @@ defmodule AtomicWeb.ActivityLive.Show do
      socket
      |> assign(:page_title, "#{activity.title}")
      |> assign(:current_page, :activities)
-     |> assign(:activity, %{activity | enrolled: activity.enrolled})
+     |> assign(:activity, activity)
+     |> assign(:enrolled, activity.enrolled)
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
@@ -80,6 +81,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   defp reload(socket) do
     socket
+    |> assign(:enrolled, Activities.get_activity!(socket.assigns.id).enrolled)
     |> assign(:enrolled?, maybe_put_enrolled(socket))
     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
   end

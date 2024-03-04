@@ -473,7 +473,7 @@ defmodule Atomic.Activities do
     |> case do
       {:ok, %{activity_enrollments: _enrollment, activity: _activity}} ->
         broadcast({1, nil}, :deleted_enrollment)
-        {:ok, nil}
+        {1, nil}
 
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
