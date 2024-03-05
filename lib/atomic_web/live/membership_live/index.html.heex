@@ -20,7 +20,7 @@
         @click.away="menu = false"
         @keydown.escape="menu = false"
       >
-        <Heroicons.cloud_arrow_down solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
+        <.icon name={:cloud_arrow_down} solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
       </button>
       <div
         class="absolute right-0 z-10 mt-2.5 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
@@ -40,13 +40,13 @@
       >
         <.link href={Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"])} method="get">
           <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
-            <Heroicons.queue_list solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
+            <.icon name={:queue_list} solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
             <p>Export to CSV</p>
           </div>
         </.link>
         <.link href={Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])} method="get">
           <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
-            <Heroicons.table_cells solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
+            <.icon name={:table_cells} solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
             <p>Export to Excel</p>
           </div>
         </.link>
@@ -76,7 +76,7 @@
             <:col :let={membership}>
               <%= link to: Routes.membership_edit_path(@socket, :edit, membership.organization_id, membership), class: "text-orange-500 hover:text-orange-900" do %>
                 <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                  <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+                  <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
                 </div>
               <% end %>
             </:col>

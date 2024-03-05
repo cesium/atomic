@@ -87,7 +87,7 @@ defmodule AtomicWeb.Components.Table do
     <div x-data="{ open: false }">
       <span @click="open = ! open" class="flex h-5 w-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
         <span class="self-center">
-          <Heroicons.magnifying_glass solid class="align-center h-4 w-4" />
+          <.icon name={:magnifying_glass} solid class="align-center h-4 w-4" />
         </span>
       </span>
       <div x-show="open" class="absolute -translate-x-3/4 p-2">
@@ -123,17 +123,17 @@ defmodule AtomicWeb.Components.Table do
     ~H"""
     <%= if @direction in [:asc, :asc_nulls_first, :asc_nulls_last] do %>
       <span class="self-center">
-        <Heroicons.chevron_up class="h-3 w-3" />
+        <.icon name={:chevron_up} class="h-3 w-3" />
       </span>
     <% end %>
     <%= if @direction in [:desc, :desc_nulls_first, :desc_nulls_last] do %>
       <span class="self-center">
-        <Heroicons.chevron_down class="h-3 w-3" />
+        <.icon name={:chevron_down} class="h-3 w-3" />
       </span>
     <% end %>
     <%= if is_nil(@direction) do %>
       <span class="self-center">
-        <Heroicons.chevron_up_down class="h-3 w-3" />
+        <.icon name={:chevron_up_down} class="h-3 w-3" />
       </span>
     <% end %>
     """

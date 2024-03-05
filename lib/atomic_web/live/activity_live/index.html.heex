@@ -50,18 +50,18 @@
                 <div class="mt-2 lg:flex lg:justify-between">
                   <div class="lg:flex lg:space-x-3">
                     <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <Heroicons.users solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                      <.icon name={:users} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                       <%= Enum.count(activity.activity_enrollments) %> / <%= activity.maximum_entries %>
                     </p>
                     <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <Heroicons.calendar solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                      <.icon name={:calendar} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                       <%= if activity.start do %>
                         <%= display_date(activity.start) %>
                       <% end %>
                     </p>
                     <%= if activity.location do %>
                       <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <Heroicons.map_pin solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
+                        <.icon name={:map_pin} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
                         <%= activity.location && activity.location.name %>
                       </p>
                     <% end %>
@@ -70,11 +70,11 @@
                 <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
                   <%= if Activities.verify_maximum_enrollments?(activity.id) do %>
                     <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <Heroicons.bell solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
+                      <.icon name={:bell} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
                     </div>
                   <% else %>
                     <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <Heroicons.bell solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
+                      <.icon name={:bell} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
                     </div>
                   <% end %>
                   <div class="flex flex-row space-x-2">

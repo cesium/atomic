@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Icon do
   attr :solid, :boolean, default: false
   attr :mini, :boolean, default: false
 
-  def render(assigns) do
+  def icon(assigns) do
     apply(Heroicons, assigns.name, [assigns])
   end
 end
