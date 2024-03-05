@@ -3,7 +3,7 @@ defmodule AtomicWeb.Storybook.Components.Icon do
 
   alias AtomicWeb.Components.Icon
 
-  def function, do: &Icon.render/1
+  def function, do: &Icon.icon/1
 
   def template do
     """
