@@ -1,9 +1,9 @@
 <.page title="Organizations">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.primary_button url={Routes.organization_new_path(@socket, :new)}>
+      <.button navigate={Routes.organization_new_path(@socket, :new)}>
         <%= gettext("New") %>
-      </.primary_button>
+      </.button>
     <% end %>
   </:actions>
   <!-- Organization index -->
