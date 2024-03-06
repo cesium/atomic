@@ -1,6 +1,9 @@
 defmodule AtomicWeb.Components.Button do
   @moduledoc false
-  use AtomicWeb, :component
+  use Phoenix.Component
+
+  import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.Spinner
 
   attr :size, :atom,
     values: [:xs, :sm, :md, :lg, :xl],
@@ -20,14 +23,25 @@ defmodule AtomicWeb.Components.Button do
   )
 
   attr(:rest, :global,
-    doc: "Arbitrary HTML or phx attributes",
+    doc: "Arbitrary HTML or phx attributes.",
     include:
       ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value)
   )
 
+  attr :spinner, :boolean, default: false, doc: "If true, the button will display a spinner."
+
+  attr :icon_position, :atom,
+    values: [:left, :right],
+    default: :left,
+    doc: "The position of the icon if applicable."
+
+  attr :icon, :atom, default: nil, doc: "The icon to display."
+
+  attr :icon_class, :string, default: "h-6 w-6", doc: "Additional classes to apply to the icon."
+
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
 
-  slot(:inner_block, required: true)
+  slot :inner_block, required: true, doc: "Slot for the body content of the page."
 
   def button(assigns) do
     assigns
@@ -35,26 +49,30 @@ defmodule AtomicWeb.Components.Button do
     |> render_button()
   end
 
-  defp render_button(%{rest: %{href: _}} = assigns) do
+  defp render_button(%{spinner: true} = assigns) do
     ~H"""
-    <.link class={@class} {@rest}>
-      <%= render_slot(@inner_block) %>
-    </.link>
+    <button class={@class} {@rest} disabled>
+      <.spinner class="mx-4" />
+    </button>
     """
+  end
+
+  defp render_button(%{rest: %{href: _}} = assigns) do
+    link_button(assigns)
   end
 
   defp render_button(%{rest: %{navigate: _}} = assigns) do
-    ~H"""
-    <.link class={@class} {@rest}>
-      <%= render_slot(@inner_block) %>
-    </.link>
-    """
+    link_button(assigns)
   end
 
   defp render_button(%{rest: %{patch: _}} = assigns) do
+    link_button(assigns)
+  end
+
+  defp link_button(assigns) do
     ~H"""
     <.link class={@class} {@rest}>
-      <%= render_slot(@inner_block) %>
+      <%= render_content(assigns) %>
     </.link>
     """
   end
@@ -62,13 +80,29 @@ defmodule AtomicWeb.Components.Button do
   defp render_button(assigns) do
     ~H"""
     <button class={@class} {@rest}>
-      <%= render_slot(@inner_block) %>
+      <%= render_content(assigns) %>
     </button>
     """
   end
 
+  defp render_content(assigns) do
+    ~H"""
+    <%= if @icon && @icon_position == :left do %>
+      <div>
+        <.icon name={@icon} class={"#{@icon_class} mr-2"} />
+      </div>
+    <% end %>
+    <%= render_slot(@inner_block) %>
+    <%= if @icon && @icon_position == :right do %>
+      <div>
+        <.icon name={@icon} class={"#{@icon_class} ml-2"} />
+      </div>
+    <% end %>
+    """
+  end
+
   defp generate_classes(assigns) do
-    "text-center inline-flex items-center rounded-md shadow-sm #{classes(:full_width, assigns)} #{classes(:fg_color, assigns)} #{classes(:size, assigns)} #{classes(:bg_color, assigns)} #{classes(:bg_color_hover, assigns)} #{assigns.class}"
+    "text-center justify-center inline-flex items-center rounded-md shadow-sm #{classes(:full_width, assigns)} #{classes(:fg_color, assigns)} #{classes(:size, assigns)} #{classes(:bg_color, assigns)} #{classes(:bg_color_hover, assigns)} #{assigns.class}"
   end
 
   defp classes(:fg_color, %{fg_color: color}), do: "text-#{color}"
