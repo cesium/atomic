@@ -69,19 +69,19 @@ defmodule AtomicWeb.Components.Button do
     link_button(assigns)
   end
 
-  defp link_button(assigns) do
-    ~H"""
-    <.link class={@class} {@rest}>
-      <%= render_content(assigns) %>
-    </.link>
-    """
-  end
-
   defp render_button(assigns) do
     ~H"""
     <button class={@class} {@rest}>
       <%= render_content(assigns) %>
     </button>
+    """
+  end
+
+  defp link_button(assigns) do
+    ~H"""
+    <.link class={@class} {@rest}>
+      <%= render_content(assigns) %>
+    </.link>
     """
   end
 
@@ -118,6 +118,8 @@ defmodule AtomicWeb.Components.Button do
   defp classes(:size, %{size: :md}), do: "py-2 px-4 text-base font-semibold"
 
   defp classes(:size, %{size: :lg}), do: "py-3 px-5 text-xl font-bold"
+
+  defp classes(:size, %{size: :xl}), do: "py-4 px-6 text-2xl font-bold"
 
   defp classes(:full_width, %{full_width: true}), do: "w-full"
 
