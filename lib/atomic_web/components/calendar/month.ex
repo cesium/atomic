@@ -3,7 +3,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
   use AtomicWeb, :component
 
   import AtomicWeb.CalendarUtils
-  import AtomicWeb.Components.Badges
+  import AtomicWeb.Components.Badge
 
   attr :id, :string, default: "calendar-month", required: false
   attr :current_path, :string, required: true
@@ -57,9 +57,11 @@ defmodule AtomicWeb.Components.CalendarMonth do
                   <%= activity.title %>
                 </p>
                 <div class="flex flex-row items-center gap-x-2 pt-2">
-                  <.badge_dot url={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color="purple">
-                    Activity
-                  </.badge_dot>
+                  <.link navigate={Routes.activity_index_path(AtomicWeb.Endpoint, :index)}>
+                    <.badge variable={:dot} bg_color="purple-600">
+                      Activity
+                    </.badge>
+                  </.link>
                   <time datetime={activity.start} class="flex items-center text-zinc-700">
                     <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
                     <%= Calendar.strftime(activity.start, "%Hh%M") %>
