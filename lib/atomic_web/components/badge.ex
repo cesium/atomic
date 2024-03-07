@@ -1,4 +1,5 @@
 defmodule AtomicWeb.Components.Badge do
+  @moduledoc false
   use AtomicWeb, :component
 
   attr :bg_color, :string, default: "gray-100"
