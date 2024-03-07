@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Badge do
     <div class={generate_classes(assigns)}>
       <%= if @variable == :dot do %>
         <div class="flex flex-shrink-0 items-center justify-center">
-          <span class={"#{@background} h-1.5 w-1.5 rounded-full mr-2"} aria-hidden="true"></span>
+          <span class={"#{@background} mr-2 h-1.5 w-1.5 rounded-full"} aria-hidden="true"></span>
         </div>
       <% end %>
       <%= render_slot(@inner_block) %>
@@ -34,7 +34,9 @@ defmodule AtomicWeb.Components.Badge do
     do:
       "ml-auto select-none self-center rounded-xl border border-green-300 px-3 py-2 text-green-400"
 
-  defp classes(:variable, %{variable: :dot}), do: "relative inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5 text-sm font-medium text-gray-900"
+  defp classes(:variable, %{variable: :dot}),
+    do:
+      "relative inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5 text-sm font-medium text-gray-900"
 
   defp classes(_, _), do: ""
 end
