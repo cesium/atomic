@@ -10,9 +10,16 @@ defmodule AtomicWeb.Components.Button do
     default: :sm,
     doc: "The size of the button."
 
+  attr :variant, :atom,
+    values: [:solid, :outline],
+    default: :solid,
+    doc: "The variant of the button."
+
   attr :fg_color, :string, default: "white", doc: "The color of the text and icon if applicable."
 
-  attr :bg_color, :string, default: "orange-500", doc: "The background color of the button."
+  attr :bg_color, :string,
+    default: "orange-500",
+    doc: "The background color of the button, if the variant is solid."
 
   attr :bg_color_hover, :string,
     default: "orange-600",
@@ -105,9 +112,12 @@ defmodule AtomicWeb.Components.Button do
     "text-center justify-center inline-flex items-center rounded-md shadow-sm #{classes(:full_width, assigns)} #{classes(:fg_color, assigns)} #{classes(:size, assigns)} #{classes(:bg_color, assigns)} #{classes(:bg_color_hover, assigns)} #{assigns.class}"
   end
 
-  defp classes(:fg_color, %{fg_color: color}), do: "text-#{color}"
+  defp classes(:fg_color, %{fg_color: color, variant: :solid}), do: "text-#{color}"
 
-  defp classes(:bg_color, %{bg_color: color}), do: "bg-#{color}"
+  defp classes(:fg_color, %{fg_color: color, variant: :outline}),
+    do: "text-#{color} border border-#{color}"
+
+  defp classes(:bg_color, %{bg_color: color, variant: :solid}), do: "bg-#{color}"
 
   defp classes(:bg_color_hover, %{bg_color_hover: color}), do: "hover:bg-#{color}"
 

@@ -17,6 +17,19 @@ defmodule AtomicWeb.Storybook.Components.Button do
         ]
       },
       %Variation{
+        id: :outline,
+        attributes: %{
+          variant: :outline,
+          fg_color: "orange-500",
+          bg_color_hover: "gray-200"
+        },
+        slots: [
+          """
+          <span>Default</span>
+          """
+        ]
+      },
+      %Variation{
         id: :custom_color,
         attributes: %{
           bg_color: "white",
