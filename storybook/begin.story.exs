@@ -8,7 +8,7 @@ defmodule Storybook.Begin do
     <div class="mt-8 select-none">
       <div class="flex items-center justify-center gap-8">
         <img class="w-48" src="/images/atomic.svg" />
-        <p class="text-7xl font-semibold text-zinc-400">Atomic</p>
+        <p class="text-5xl font-semibold text-zinc-400 sm:text-7xl">Atomic</p>
       </div>
     </div>
     """
