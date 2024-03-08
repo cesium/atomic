@@ -9,12 +9,12 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Activities.{
     ActivityEnrollment,
     ActivitySpeaker,
-    Location,
     Speaker
   }
 
   alias Atomic.Events.Event
   alias Atomic.Feed.Post
+  alias Atomic.Location
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id)a

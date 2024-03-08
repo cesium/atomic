@@ -18,13 +18,30 @@ defmodule Atomic.Repo.Seeds.Partners do
   def seed_partners do
     organizations = Repo.all(Organization)
 
+    location = %{
+      name: Faker.Address.city(),
+      url: Faker.Internet.url()
+    }
+
+    socials = %{
+      instagram: Faker.Internet.url(),
+      facebook: Faker.Internet.url(),
+      twitter: Faker.Internet.url(),
+      youtube: Faker.Internet.url(),
+      tiktok: Faker.Internet.url(),
+      website: Faker.Internet.url()
+    }
+
     for {organization, i} <- Enum.with_index(organizations) do
       for _ <- 0..5 do
         %Partner{}
         |> Partner.changeset(%{
           name: Faker.Company.name() <> " " <> Integer.to_string(i),
-          description: Faker.Company.catch_phrase(),
-          organization_id: organization.id
+          description: Enum.join(Faker.Lorem.paragraphs(2), "\n"),
+          benefits: Enum.join(Faker.Lorem.paragraphs(5), "\n"),
+          organization_id: organization.id,
+          location: location,
+          socials: socials
         })
         |> Repo.insert!()
       end
