@@ -45,6 +45,26 @@ defmodule AtomicWeb.Storybook.Components.Spinner do
             }
           }
         ]
+      },
+      %VariationGroup{
+        id: :colors,
+        description: "Colors",
+        variations: [
+          %Variation{
+            id: :red,
+            attributes: %{
+              size: :md,
+              class: "text-primary-500"
+            }
+          },
+          %Variation{
+            id: :small,
+            attributes: %{
+              size: :lg,
+              class: "text-secondary-500"
+            }
+          }
+        ]
       }
     ]
   end

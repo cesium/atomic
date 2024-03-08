@@ -11,29 +11,32 @@ defmodule AtomicWeb.Components.Button do
     doc: "The size of the button."
 
   attr :variant, :atom,
-    values: [:solid, :outline],
     default: :solid,
+    values: [:solid, :outline, :inverted, :shadow],
     doc: "The variant of the button."
 
-  attr :fg_color, :string, default: "white", doc: "The color of the text and icon if applicable."
+  attr :color, :atom,
+    default: :primary,
+    values: [
+      :primary,
+      :secondary,
+      :info,
+      :success,
+      :warning,
+      :danger,
+      :gray,
+      :pure_white,
+      :white,
+      :light,
+      :dark
+    ],
+    doc: "Button color."
 
-  attr :bg_color, :string,
-    default: "orange-500",
-    doc: "The background color of the button, if the variant is solid."
+  attr :disabled, :boolean, default: false, doc: "Indicates a disabled state."
 
-  attr :bg_color_hover, :string,
-    default: "orange-600",
-    doc: "The background color of the button on hover."
-
-  attr(:full_width, :boolean,
+  attr :full_width, :boolean,
+    default: false,
     doc: "If true, the component will take up the full width of its container."
-  )
-
-  attr(:rest, :global,
-    doc: "Arbitrary HTML or phx attributes.",
-    include:
-      ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value)
-  )
 
   attr :spinner, :boolean, default: false, doc: "If true, the button will display a spinner."
 
@@ -44,9 +47,19 @@ defmodule AtomicWeb.Components.Button do
 
   attr :icon, :atom, default: nil, doc: "The icon to display."
 
-  attr :icon_class, :string, default: "h-6 w-6", doc: "Additional classes to apply to the icon."
+  attr :icon_variant, :atom,
+    default: :outline,
+    values: [:solid, :outline, :mini],
+    doc: "The icon variation to display."
+
+  attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value),
+    doc: "Arbitrary HTML or phx attributes."
 
   slot :inner_block, required: true, doc: "Slot for the body content of the page."
 
@@ -54,14 +67,6 @@ defmodule AtomicWeb.Components.Button do
     assigns
     |> assign(:class, generate_classes(assigns))
     |> render_button()
-  end
-
-  defp render_button(%{spinner: true} = assigns) do
-    ~H"""
-    <button class={@class} {@rest} disabled>
-      <.spinner class="mx-4" />
-    </button>
-    """
   end
 
   defp render_button(%{rest: %{href: _}} = assigns) do
@@ -94,44 +99,59 @@ defmodule AtomicWeb.Components.Button do
 
   defp render_content(assigns) do
     ~H"""
-    <%= if @icon && @icon_position == :left do %>
+    <%= if (@icon || @spinner) && @icon_position == :left do %>
       <div>
-        <.icon name={@icon} class={"#{@icon_class} mr-2"} />
+        <%= if @icon do %>
+          <%= icon_content(assigns) %>
+        <% end %>
+        <%= if @spinner do %>
+          <%= spinner_content(assigns) %>
+        <% end %>
       </div>
     <% end %>
     <%= render_slot(@inner_block) %>
-    <%= if @icon && @icon_position == :right do %>
+    <%= if (@icon || @spinner) && @icon_position == :right do %>
       <div>
-        <.icon name={@icon} class={"#{@icon_class} ml-2"} />
+        <%= if @icon do %>
+          <%= icon_content(assigns) %>
+        <% end %>
+        <%= if @spinner do %>
+          <%= spinner_content(assigns) %>
+        <% end %>
       </div>
     <% end %>
     """
   end
 
-  defp generate_classes(assigns) do
-    "text-center justify-center inline-flex items-center rounded-md shadow-sm #{classes(:full_width, assigns)} #{classes(:fg_color, assigns)} #{classes(:size, assigns)} #{classes(:bg_color, assigns)} #{classes(:bg_color_hover, assigns)} #{assigns.class}"
+  defp icon_content(assigns) do
+    ~H"""
+    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
+    """
   end
 
-  defp classes(:fg_color, %{fg_color: color, variant: :solid}), do: "text-#{color}"
+  defp spinner_content(assigns) do
+    ~H"""
+    <.spinner size_class={"#{generate_icon_classes(assigns)}"} size={@size} />
+    """
+  end
 
-  defp classes(:fg_color, %{fg_color: color, variant: :outline}),
-    do: "text-#{color} border border-#{color}"
+  defp generate_classes(assigns) do
+    [
+      "atomic-button",
+      "atomic-button--#{assigns.color}#{if assigns.variant == :solid, do: "", else: "-#{assigns.variant}"}",
+      "atomic-button--#{assigns.size}",
+      assigns.class,
+      assigns.spinner && "atomic-button--spinner",
+      assigns.disabled && "atomic-button--disabled",
+      assigns.icon && "atomic-button--with-icon",
+      assigns.full_width && "atomic-button--full-width"
+    ]
+  end
 
-  defp classes(:bg_color, %{bg_color: color, variant: :solid}), do: "bg-#{color}"
-
-  defp classes(:bg_color_hover, %{bg_color_hover: color}), do: "hover:bg-#{color}"
-
-  defp classes(:size, %{size: :xs}), do: "py-1 px-1.5 text-xs"
-
-  defp classes(:size, %{size: :sm}), do: "py-2 px-3 text-sm"
-
-  defp classes(:size, %{size: :md}), do: "py-2 px-4 text-base font-semibold"
-
-  defp classes(:size, %{size: :lg}), do: "py-3 px-5 text-xl font-bold"
-
-  defp classes(:size, %{size: :xl}), do: "py-4 px-6 text-2xl font-bold"
-
-  defp classes(:full_width, %{full_width: true}), do: "w-full"
-
-  defp classes(_, _), do: ""
+  defp generate_icon_classes(assigns) do
+    [
+      "atomic-button__icon--#{assigns.size}",
+      assigns.icon_class
+    ]
+  end
 end
