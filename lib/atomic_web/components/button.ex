@@ -1,50 +1,157 @@
 defmodule AtomicWeb.Components.Button do
   @moduledoc false
-  use AtomicWeb, :component
+  use Phoenix.Component
 
-  attr :url, :string, required: true
+  import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.Spinner
 
-  slot :inner_block, required: true
+  attr :size, :atom,
+    values: [:xs, :sm, :md, :lg, :xl],
+    default: :sm,
+    doc: "The size of the button."
 
-  def primary_button(assigns) do
+  attr :variant, :atom,
+    default: :solid,
+    values: [:solid, :outline, :inverted, :shadow],
+    doc: "The variant of the button."
+
+  attr :color, :atom,
+    default: :primary,
+    values: [
+      :primary,
+      :secondary,
+      :info,
+      :success,
+      :warning,
+      :danger,
+      :gray,
+      :pure_white,
+      :white,
+      :light,
+      :dark
+    ],
+    doc: "Button color."
+
+  attr :disabled, :boolean, default: false, doc: "Indicates a disabled state."
+
+  attr :full_width, :boolean,
+    default: false,
+    doc: "If true, the component will take up the full width of its container."
+
+  attr :spinner, :boolean, default: false, doc: "If true, the button will display a spinner."
+
+  attr :icon_position, :atom,
+    values: [:left, :right],
+    default: :left,
+    doc: "The position of the icon if applicable."
+
+  attr :icon, :atom, default: nil, doc: "The icon to display."
+
+  attr :icon_variant, :atom,
+    default: :outline,
+    values: [:solid, :outline, :mini],
+    doc: "The icon variation to display."
+
+  attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
+
+  attr :class, :string, default: "", doc: "Additional classes to apply to the component."
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value),
+    doc: "Arbitrary HTML or phx attributes."
+
+  slot :inner_block, required: true, doc: "Slot for the body content of the page."
+
+  def button(assigns) do
+    assigns
+    |> assign(:class, generate_classes(assigns))
+    |> render_button()
+  end
+
+  defp render_button(%{rest: %{href: _}} = assigns) do
+    link_button(assigns)
+  end
+
+  defp render_button(%{rest: %{navigate: _}} = assigns) do
+    link_button(assigns)
+  end
+
+  defp render_button(%{rest: %{patch: _}} = assigns) do
+    link_button(assigns)
+  end
+
+  defp render_button(assigns) do
     ~H"""
-    <.link patch={@url} class="inline-flex items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
-      <%= render_slot(@inner_block) %>
+    <button class={@class} {@rest}>
+      <%= render_content(assigns) %>
+    </button>
+    """
+  end
+
+  defp link_button(assigns) do
+    ~H"""
+    <.link class={@class} {@rest}>
+      <%= render_content(assigns) %>
     </.link>
     """
   end
 
-  attr :url, :string, required: true
-
-  def edit_button(assigns) do
+  defp render_content(assigns) do
     ~H"""
-    <div class="flex w-0 flex-1">
-      <.link patch={@url} class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-medium hover:bg-zinc-50">
-        <.icon name={:pencil} solid class="h-5 w-5 text-zinc-400 1.5xl:mr-3" />
-        <p class="hidden lg:inline">Edit</p>
-      </.link>
-    </div>
+    <%= if (@icon || @spinner) && @icon_position == :left do %>
+      <div>
+        <%= if @icon do %>
+          <%= icon_content(assigns) %>
+        <% end %>
+        <%= if @spinner do %>
+          <%= spinner_content(assigns) %>
+        <% end %>
+      </div>
+    <% end %>
+    <%= render_slot(@inner_block) %>
+    <%= if (@icon || @spinner) && @icon_position == :right do %>
+      <div>
+        <%= if @icon do %>
+          <%= icon_content(assigns) %>
+        <% end %>
+        <%= if @spinner do %>
+          <%= spinner_content(assigns) %>
+        <% end %>
+      </div>
+    <% end %>
     """
   end
 
-  attr :id, :string, required: true
-
-  def delete_button(assigns) do
+  defp icon_content(assigns) do
     ~H"""
-    <div class="-ml-px flex w-0 flex-1">
-      <div class="-ml-px flex w-0 flex-1">
-        <%= link(
-          to: "#",
-          phx_click: "delete",
-          class: "relative inline-flex w-full flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent text-sm font-medium hover:bg-zinc-50",
-          phx_value_id: @id,
-          data: [confirm: "Are you sure?"]
-        ) do %>
-          <.icon name={:trash} solid class="h-5 w-5 text-zinc-400 1.5xl:mr-3" />
-          <p class="hidden lg:inline">Delete</p>
-        <% end %>
-      </div>
-    </div>
+    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
     """
+  end
+
+  defp spinner_content(assigns) do
+    ~H"""
+    <.spinner size_class={"#{generate_icon_classes(assigns)}"} size={@size} />
+    """
+  end
+
+  defp generate_classes(assigns) do
+    [
+      "atomic-button",
+      "atomic-button--#{assigns.color}#{if assigns.variant == :solid, do: "", else: "-#{assigns.variant}"}",
+      "atomic-button--#{assigns.size}",
+      assigns.class,
+      assigns.spinner && "atomic-button--spinner",
+      assigns.disabled && "atomic-button--disabled",
+      assigns.icon && "atomic-button--with-icon",
+      assigns.full_width && "atomic-button--full-width"
+    ]
+  end
+
+  defp generate_icon_classes(assigns) do
+    [
+      "atomic-button__icon--#{assigns.size}",
+      assigns.icon_class
+    ]
   end
 end
