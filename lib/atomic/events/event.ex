@@ -3,9 +3,9 @@ defmodule Atomic.Events.Event do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
-  alias Atomic.Location
   alias Atomic.Events.EventEnrollment
   alias Atomic.Events.EventOrganization
+  alias Atomic.Location
 
   @required_fields ~w(name location_id)a
   @optional_fields ~w(description event_organization_id)a
