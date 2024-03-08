@@ -61,7 +61,7 @@ defmodule AtomicWeb do
 
   def component do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       unquote(view_helpers())
     end
@@ -94,6 +94,9 @@ defmodule AtomicWeb do
       import Phoenix.Component
       import AtomicWeb.LiveHelpers
 
+      # Import commonly used components
+      unquote(components())
+
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
@@ -103,6 +106,14 @@ defmodule AtomicWeb do
 
       alias Atomic.Uploaders
       alias AtomicWeb.Router.Helpers, as: Routes
+    end
+  end
+
+  defp components do
+    quote do
+      import AtomicWeb.Components.Icon
+      import AtomicWeb.Components.Modal
+      import AtomicWeb.Components.Page
     end
   end
 

@@ -2,12 +2,12 @@ defmodule Atomic.Context do
   @moduledoc """
   A utility context providing common functions to all context modules.
   """
-
   defmacro __using__(_) do
     quote do
       import Ecto.Query, warn: false
 
       alias Atomic.Repo
+      alias Ecto.Multi
 
       def apply_filters(query, opts) do
         Enum.reduce(opts, query, fn
@@ -22,6 +22,9 @@ defmodule Atomic.Context do
 
           {:limit, criteria}, query ->
             limit(query, ^criteria)
+
+          {:offset, criteria}, query ->
+            offset(query, ^criteria)
 
           {:preloads, preloads}, query when is_list(preloads) ->
             Enum.reduce(preloads, query, fn preload, query ->

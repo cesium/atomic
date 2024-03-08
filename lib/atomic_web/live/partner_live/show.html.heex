@@ -1,19 +1,7 @@
 <div class="py-4 px-4 sm:px-0">
   <div class="flex flex-col gap-2 mt-6 sm:flex-row sm:items-center">
     <div>
-      <%= if @partner.image do %>
-        <div class="relative flex-shrink-0 w-24 h-24 bg-white rounded-2xl sm:w-32 sm:h-32">
-          <img src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} class="object-center absolute rounded-2xl w-[98px] h-[98px] sm:w-[130px] sm:h-[130px]" />
-        </div>
-      <% else %>
-        <div class="relative flex-shrink-0 rounded-2xl min-w-24 min-h-24 sm:min-w-32 sm:min-h-32">
-          <span class="inline-flex justify-center items-center w-24 h-24 rounded-2xl sm:w-32 sm:h-32 bg-zinc-500">
-            <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-              <%= extract_initials(@partner.name) %>
-            </span>
-          </span>
-        </div>
-      <% end %>
+      <.avatar fg_color="white" name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
     </div>
     <div>
       <div class="flex justify-between items-center">
@@ -29,9 +17,9 @@
 </div>
 
 <%= if @has_permissions? do %>
-  <.link patch={Routes.partner_index_path(@socket, :edit, @organization, @partner)} class="button">
+  <.link patch={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} class="button">
     <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-      <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+      <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
     </div>
   </.link>
 <% end %>

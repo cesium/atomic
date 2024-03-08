@@ -1,47 +1,51 @@
-<div class="bg-white">
-  <div class="pt-4 px-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1">
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-          <%= gettext("Announcements") %>
-        </h2>
-      </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 lg:block">
-          <.link patch={Routes.announcement_new_path(@socket, :new, @current_organization)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white">
-            + <%= gettext("New Announcement") %>
-          </.link>
-        </div>
-      <% end %>
-    </div>
-    <!-- Tabs -->
-    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-      <div class="flex w-full items-center justify-between">
-        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-          <%= if @is_authenticated? do %>
-            <.link patch="?tab=following" class={"#{@current_tab == "following" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
-              <%= gettext("Following") %>
-            </.link>
-          <% end %>
-
-          <.link patch="?tab=all" class={"#{@current_tab == "all" && "border-zinc-800" || "border-transparent"} text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"}>
-            <%= gettext("All") %>
-          </.link>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%= if @empty? and @has_permissions? do %>
-  <div class="mt-32">
-    <.empty_state url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
-  </div>
-<% else %>
-  <ul role="list" class="relative z-0 divide-y divide-zinc-200">
-    <%= for announcement <- @announcements do %>
-      <.announcement_slot announcement={announcement} url={Routes.announcement_show_path(@socket, :show, announcement)} />
+<.page title="Announcements">
+  <:actions>
+    <%= if not @empty? and @has_permissions? do %>
+      <.primary_button url={Routes.announcement_new_path(@socket, :new, @current_organization)}>
+        <%= gettext("New") %>
+      </.primary_button>
     <% end %>
-  </ul>
-  <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
-<% end %>
+  </:actions>
+  <!-- Tabs -->
+  <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <.link patch="?tab=all" replace={false}>
+      <.tab active={@current_tab == "all"}>
+        <%= gettext("All") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=following" replace={false}>
+      <.tab active={@current_tab == "following"}>
+        <%= gettext("Following") %>
+      </.tab>
+    </.link>
+  </.tabs>
+  <!-- Announcements index -->
+  <%= if @empty? and @has_permissions? do %>
+    <div class="mt-32">
+      <.empty_state url={Routes.announcement_new_path(@socket, :new, @current_organization)} placeholder="announcement" />
+    </div>
+  <% else %>
+    <div class="overflow-hidden bg-white">
+      <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
+        <%= for announcement <- @announcements do %>
+          <li id={announcement.id}>
+            <.link navigate={Routes.announcement_show_path(@socket, :show, announcement)} class="block hover:bg-zinc-50">
+              <div class="px-4 py-4 lg:px-6">
+                <div class="flex items-center justify-between">
+                  <p class="truncate text-sm font-medium text-zinc-900">
+                    <%= announcement.title %>
+                  </p>
+                </div>
+                <p class="mt-2 text-sm text-zinc-500">
+                  <%= announcement.description %>
+                </p>
+              </div>
+            </.link>
+          </li>
+        <% end %>
+      </ul>
+      <.pagination items={@announcements} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+    </div>
+  <% end %>
+</.page>

@@ -45,6 +45,7 @@ defmodule Atomic.MixProject do
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
       {:flop, "~> 0.17.0"},
+      {:paginator, "~> 1.2.0"},
 
       # security
       {:bcrypt_elixir, "~> 3.0"},
@@ -64,6 +65,7 @@ defmodule Atomic.MixProject do
       {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:flop_phoenix, "~> 0.20.0"},
+      {:phoenix_storybook, "~> 0.5.6"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},

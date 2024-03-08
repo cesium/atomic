@@ -23,9 +23,9 @@ RUN apk add --no-cache \
         ttf-liberation \
         # more fonts
         ;
+
 # wkhtmltopdf copy bins from ext image
 COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/libwkhtmltox.so /bin/
-
 
 # Install imagemagick dependencies
 RUN apk add --no-cache file imagemagick

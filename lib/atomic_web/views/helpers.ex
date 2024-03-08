@@ -99,15 +99,68 @@ defmodule AtomicWeb.Helpers do
   end
 
   @doc """
-    Returns a list of first element from tuples where the second element is true
+  Returns a pretty date string for the given date.
 
-    ## Examples
+  ## Examples
 
-        iex> class_list([{"col-start-1", true}, {"col-start-2", false}, {"col-start-3", true}])
-        "col-start-1 col-start-3"
+      iex> pretty_display_date(~D[2020-01-01])
+      "Wed, 1 Jan"
 
-        iex> class_list([{"Math", true}, {"Physics", false}, {"Chemistry", false}])
-        "Math"
+      iex> pretty_display_date(~D[2023-01-01])
+      "Sun, 1 Jan"
+
+      iex> pretty_display_date(~D[2023-01-01], "pt")
+      "Dom, 1 de Jan"
+  """
+  def pretty_display_date(date, locale \\ "en")
+
+  def pretty_display_date(date, "en" = locale) do
+    Timex.Translator.with_locale locale do
+      Timex.format!(date, "{WDshort}, {D} {Mshort}")
+    end
+  end
+
+  def pretty_display_date(date, "pt" = locale) do
+    Timex.Translator.with_locale locale do
+      Timex.format!(date, "{WDshort}, {D} de {Mshort}")
+    end
+  end
+
+  @doc """
+  Returns :today if the given date is today, :this_week if the given date is within the current week, and :other otherwise.
+
+  ## Examples
+
+      iex> within_today_or_this_week(Timex.today())
+      :today
+
+      iex> within_today_or_this_week(Timex.today() |> Timex.shift(days: 1))
+      :this_week
+
+      iex> within_today_or_this_week(Timex.today() |> Timex.shift(days: 7))
+      :this_week
+
+      iex> within_today_or_this_week(Timex.today() |> Timex.shift(days: 8))
+      :other
+  """
+  def within_today_or_this_week(date) do
+    case Timex.diff(date, Timex.today(), :days) do
+      0 -> :today
+      days when days in 1..7 -> :this_week
+      _ -> :other
+    end
+  end
+
+  @doc """
+  Returns a list of first element from tuples where the second element is true
+
+  ## Examples
+
+      iex> class_list([{"col-start-1", true}, {"col-start-2", false}, {"col-start-3", true}])
+      "col-start-1 col-start-3"
+
+      iex> class_list([{"Math", true}, {"Physics", false}, {"Chemistry", false}])
+      "Math"
   """
   def class_list(items) do
     items

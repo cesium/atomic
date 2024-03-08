@@ -1,1 +1,73 @@
-
+<div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
+  <div class="flex flex-col w-full bg-white lg:border-r lg:flex-row">
+    <main class="relative z-0 flex-1 mb-10 xl:order-last focus:outline-none">
+      <article class="sticky top-0">
+        <!-- Header -->
+        <div class="hidden lg:block">
+          <div class="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
+            <div class="flex flex-row my-6 min-w-0 select-none gap-x-2">
+              <%= if @is_authenticated? do %>
+                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                  Welcome, <%= @current_user.name %>
+                </h1>
+              <% else %>
+                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                  Welcome to Atomic
+                </h1>
+              <% end %>
+              <span class="text-2xl animate-wave">
+                👋
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Tabs -->
+        <div x-data="{ option: 'all' }" class="sticky top-0 z-10 bg-white block">
+          <.tabs class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
+            <.tab active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
+              <%= gettext("All") %>
+            </.tab>
+            <.tab active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
+              <%= gettext("Following") %>
+            </.tab>
+            <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
+              <.tab active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
+                <%= gettext("Schedule") %>
+              </.tab>
+            <% end %>
+          </.tabs>
+        </div>
+        <!-- Feed -->
+        <%= if @current_tab != "schedule" do %>
+          <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
+            <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
+              <%= if post.type == :activity do %>
+                <.link navigate={Routes.activity_show_path(@socket, :show, post.activity)}>
+                  <.activity activity={post.activity} />
+                </.link>
+              <% else %>
+                <.link navigate={Routes.announcement_show_path(@socket, :show, post)}>
+                  <.announcement announcement={post.announcement} />
+                </.link>
+              <% end %>
+            </li>
+          </ul>
+        <% else %>
+          <.schedule schedule={@schedule} />
+        <% end %>
+      </article>
+    </main>
+  </div>
+  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pr-4 pb-6 pl-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
+    <!-- Schedule -->
+    <section aria-labelledby="schedule">
+      <.schedule schedule={@schedule} />
+    </section>
+    <!-- Organizations to follow -->
+    <%= if @is_authenticated? do %>
+      <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
+        <.follow_suggestions current_user={@current_user} organizations={@organizations} />
+      </section>
+    <% end %>
+  </div>
+</div>

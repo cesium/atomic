@@ -2,6 +2,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Button
 
   alias Atomic.Accounts
   alias Atomic.Departments

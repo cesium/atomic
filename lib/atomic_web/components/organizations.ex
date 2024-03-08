@@ -2,6 +2,8 @@ defmodule AtomicWeb.Components.Organizations do
   @moduledoc false
   use AtomicWeb, :live_component
 
+  import AtomicWeb.Components.Avatar
+
   alias Atomic.Accounts
   alias Atomic.Organizations
 
@@ -17,20 +19,28 @@ defmodule AtomicWeb.Components.Organizations do
             phx-value-organization_id={organization.id}
             class={
               "#{if @current_organization && organization.id == @current_organization.id do
-                "bg-zinc-50 text-orange-600"
+                "bg-zinc-50 text-orange-500"
               else
-                "text-zinc-700 hover:text-orange-600 hover:bg-zinc-50"
+                "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50"
               end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
             }
             type="button"
           >
-            <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white font-medium text-zinc-400 group-hover:border-orange-600 group-hover:text-orange-600">
-              <%= if organization.logo do %>
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="h-6 w-6 rounded-lg" />
-              <% else %>
-                <%= extract_initials(organization.name) %>
-              <% end %>
-            </span>
+            <.avatar
+              class={"#{if @current_organization && organization.id == @current_organization.id do "border-orange-600" else "border-zinc-200" end} border group-hover:border-orange-600 group-hover:text-orange-500"}
+              src={Uploaders.Logo.url({organization.logo, organization}, :original)}
+              name={organization.name}
+              size={:xs}
+              type={:organization}
+              bg_color="white"
+              fg_color={
+                if @current_organization && organization.id == @current_organization.id do
+                  "orange-600"
+                else
+                  "zinc-600"
+                end
+              }
+            />
             <span class="mt-1 truncate"><%= organization.name %></span>
           </div>
         </li>

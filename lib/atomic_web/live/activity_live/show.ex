@@ -1,6 +1,8 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Avatar
+
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Activities.ActivityEnrollment
@@ -25,7 +27,7 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:current_page, :activities)
      |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
      |> assign(:enrolled?, maybe_put_enrolled(socket))
-     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(activity.id))
+     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
        assign(complete_socket, :has_permissions?, has_permissions?(complete_socket))
      end)}

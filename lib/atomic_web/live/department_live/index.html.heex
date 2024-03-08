@@ -1,46 +1,44 @@
-<div class="bg-white">
-  <div class="pt-4 px-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1">
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-          <%= gettext("Departments") %>
-        </h2>
-      </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 lg:block">
-          <.link patch={Routes.department_new_path(@socket, :new, @organization)} class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-500 hover:text-white">
-            + <%= gettext("New Department") %>
-          </.link>
+<.page title="Departments">
+  <:actions>
+    <%= if not @empty? and @has_permissions? do %>
+      <.primary_button url={Routes.department_new_path(@socket, :new, @current_organization)}>
+        <%= gettext("New") %>
+      </.primary_button>
+    <% end %>
+  </:actions>
+  <!-- Tabs -->
+  <div x-data="{ option: 'current' }" class="mt-2 2xl:mt-5">
+    <div class="border-b border-gray-200">
+      <div class="flex flex-row justify-between items-center px-4 mx-auto max-w-5-xl sm:px-6 lg:px-8">
+        <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+          <div class="flex w-full items-center justify-between">
+            <nav class="flex overflow-x-auto -mb-px space-x-8" aria-label="Tabs">
+              <button x-on:click="option = 'current'" x-bind:class="option == 'current' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2">
+                <%= gettext("Current Departments") %>
+              </button>
+              <button x-on:click="option = 'old'" x-bind:class="option == 'old' ? 'border-b-2 border-orange-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'" class="py-4 px-1 text-sm font-medium text-gray-500 whitespace-nowrap border-b-2 ">
+                <%= gettext("Old Departments") %>
+              </button>
+            </nav>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Departments index -->
+  <%= if @empty? and @has_permissions? do %>
+    <div class="mt-32">
+      <.empty_state url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
+    </div>
+  <% else %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
+      <%= for department <- @departments do %>
+        <.link navigate={Routes.department_show_path(@socket, :show, @organization, department)} class="col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow">
+          <div class="flex items-center justify-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 rounded-lg">
+            <h3 class="mt-1 text-sm font-medium text-zinc-900"><%= department.name %></h3>
+          </div>
+        </.link>
       <% end %>
     </div>
-    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-      <div class="flex w-full items-center justify-between">
-        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-          <div class="text-zinc-500 border-zinc-800 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
-            <%= gettext("Current Departments") %>
-          </div>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%= if @empty? and @has_permissions? do %>
-  <div class="mt-32">
-    <.empty_state url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
-  </div>
-<% else %>
-  <ul role="list" class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    <%= for department <- @departments do %>
-      <.link navigate={Routes.department_show_path(@socket, :show, @organization, department)} class="col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow">
-        <div class="flex flex-1 flex-col p-4">
-          <h3 class="mt-1 text-sm font-medium text-zinc-900"><%= department.name %></h3>
-          <dl class="my-1 flex flex-grow flex-col justify-between">
-            <dd class="text-sm text-zinc-500"><%= department.description %></dd>
-          </dl>
-        </div>
-      </.link>
-    <% end %>
-  </ul>
-<% end %>
+  <% end %>
+</.page>

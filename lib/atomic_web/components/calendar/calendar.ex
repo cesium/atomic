@@ -2,11 +2,11 @@ defmodule AtomicWeb.Components.Calendar do
   @moduledoc false
   use AtomicWeb, :component
 
-  alias Timex.Duration
-
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.CalendarMonth
   import AtomicWeb.Components.CalendarWeek
+
+  alias Timex.Duration
 
   attr :id, :string, default: "calendar", required: false
   attr :current_path, :string, required: true
@@ -68,7 +68,7 @@ defmodule AtomicWeb.Components.Calendar do
                 <.link patch={"#{if @mode == "month" do @previous_month_path else @previous_week_path end}"}>
                   <button type="button" class="flex items-center justify-center py-2 pr-4 pl-3 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Previous month</span>
-                    <Heroicons.chevron_left solid class="h-3 w-3 sm:h-5 sm:w-5" />
+                    <.icon name={:chevron_left} solid class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 </.link>
                 <.link patch={"#{if @mode == "month" do @present_month_path else @present_week_path end}"}>
@@ -79,7 +79,7 @@ defmodule AtomicWeb.Components.Calendar do
                 <.link patch={"#{if @mode == "month" do @next_month_path else @next_week_path end}"}>
                   <button type="button" class="flex items-center justify-center py-2 pr-3 pl-4 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-500 focus:relative md:w-9 md:px-2">
                     <span class="sr-only">Next month</span>
-                    <Heroicons.chevron_right solid class="h-3 w-3 sm:h-5 sm:w-5" />
+                    <.icon name={:chevron_right} solid class="h-3 w-3 sm:h-5 sm:w-5" />
                   </button>
                 </.link>
               </div>
@@ -91,7 +91,7 @@ defmodule AtomicWeb.Components.Calendar do
                     else
                       gettext("Week view")
                     end %>
-                    <Heroicons.chevron_down solid class="ml-2 h-5 w-5 text-zinc-400" />
+                    <.icon name={:chevron_down} solid class="ml-2 h-5 w-5 text-zinc-400" />
                   </a>
 
                   <div x-bind:class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -139,7 +139,7 @@ defmodule AtomicWeb.Components.Calendar do
               <div class="relative ml-6 md:hidden">
                 <button type="button" @click="mode_view = !mode_view" class="-mx-2 flex items-center rounded-full border border-transparent p-2 text-zinc-400 hover:text-zinc-500" id="menu-0-button" aria-expanded="false" aria-haspopup="true">
                   <span class="sr-only">Open menu</span>
-                  <Heroicons.ellipsis_horizontal solid class="h-3 w-3 sm:h-5 sm:w-5" />
+                  <.icon name={:ellipsis_horizontal} solid class="h-3 w-3 sm:h-5 sm:w-5" />
                 </button>
                 <div x-bind:class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right divide-y divide-zinc-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div class="py-1" role="none">
