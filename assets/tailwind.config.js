@@ -8,6 +8,7 @@ module.exports = {
     './js/**/*.js',
     '../lib/*_web.ex',
     '../lib/*_web/**/*.*ex',
+    '../storybook/**/*.exs'
   ],
   theme: {
     extend: {
