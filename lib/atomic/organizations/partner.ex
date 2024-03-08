@@ -4,10 +4,12 @@ defmodule Atomic.Organizations.Partner do
   """
   use Atomic.Schema
 
+  alias Atomic.Location
   alias Atomic.Organizations.Organization
+  alias Atomic.Socials
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description state image)a
+  @optional_fields ~w(description benefits state image)a
   @states ~w(active inactive)a
 
   @derive {
@@ -24,9 +26,11 @@ defmodule Atomic.Organizations.Partner do
   schema "partners" do
     field :name, :string
     field :description, :string
+    field :benefits, :string
     field :state, Ecto.Enum, values: @states, default: :active
     field :image, Uploaders.PartnerImage.Type
-
+    embeds_one :location, Location, on_replace: :update
+    embeds_one :socials, Socials, on_replace: :update
     belongs_to :organization, Organization
 
     timestamps()
@@ -35,6 +39,8 @@ defmodule Atomic.Organizations.Partner do
   def changeset(partner, attrs) do
     partner
     |> cast(attrs, @required_fields ++ @optional_fields)
+    |> cast_embed(:location, with: &Location.changeset/2)
+    |> cast_embed(:socials, with: &Socials.changeset/2)
     |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> unique_constraint(:name)

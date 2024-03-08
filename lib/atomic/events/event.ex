@@ -3,7 +3,7 @@ defmodule Atomic.Events.Event do
   use Atomic.Schema
 
   alias Atomic.Activities.Activity
-  alias Atomic.Activities.Location
+  alias Atomic.Location
   alias Atomic.Events.EventEnrollment
   alias Atomic.Events.EventOrganization
 

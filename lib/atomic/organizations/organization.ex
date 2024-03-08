@@ -3,7 +3,7 @@ defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
 
   alias Atomic.Accounts.User
-  alias Atomic.Activities.Location
+  alias Atomic.Location
   alias Atomic.Organizations.{Announcement, Board, Card, Department, Membership, Partner}
   alias Atomic.Uploaders
 
