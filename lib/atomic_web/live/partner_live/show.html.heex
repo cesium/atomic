@@ -10,20 +10,20 @@
         </h4>
         <%= if @has_permissions? do %>
           <div class="hidden lg:border-orange-500 lg:block">
-            <.primary_button url={Routes.partner_edit_path(@socket, :edit, @organization, @partner)}>
+            <.button url={Routes.partner_edit_path(@socket, :edit, @organization, @partner)}>
               <%= gettext("Edit Partner") %>
-            </.primary_button>
+            </.button>
           </div>
         <% end %>
       </div>
-      <div class="flex flex-row items-center gap-x-1 text-sm leading-6">
+      <div class="flex flex-row items-center gap-x-1 text-sm leading-6 ">
         <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-        <p class="text-blue-500"><%= @partner.location.name %></p>
+        <a class="text-blue-500"><%= @partner.location.name %></a>
       </div>
       <div class="flex flex-col lg:items-center gap-x-1 text-sm leading-6 lg:flex-row">
         <div class="flex flex-row gap-x-1 ">
           <Heroicons.globe_alt solid class="h-5 w-5 text-zinc-400" />
-          <p class="text-blue-500" href={@partner.socials.website}><%= @partner.socials.website %></p>
+          <a class="text-blue-500" href={@partner.socials.website}><%= @partner.socials.website %></a>
         </div>
         <div class="flex flex-row gap-x-1 ">
           <svg class="h-6 w-6 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
@@ -43,22 +43,18 @@
               clip-rule="evenodd"
             />
           </svg>
-          <p class="text-blue-500" href={@partner.socials.facebook}><%= @partner.socials.facebook %></p>
+          <a class="text-blue-500" href={@partner.socials.facebook}><%= @partner.socials.facebook %></a>
         </div>
         <div class="flex flex-row gap-x-1 ">
           <svg class="h-6 w-6 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
           </svg>
-          <p class="text-blue-500" href={@partner.socials.twitter}><%= @partner.socials.twitter %></p>
+          <a class="text-blue-500" href={@partner.socials.twitter}><%= @partner.socials.twitter %></a>
         </div>
       </div>
       <p class="mt-1 text-zinc-500">
         <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
-          <%= if String.length(phrase) < 300 do %>
-            <%= phrase %><br />
-          <% else %>
-            <%= String.slice(phrase, 0..300) %><br />
-          <% end %>
+          <%= phrase %><br />
         <% end) %>
       </p>
       <p class="mt-1 text-zinc-500">

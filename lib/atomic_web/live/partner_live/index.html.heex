@@ -1,62 +1,58 @@
-<div class="bg-white">
-  <div class="pt-4 px-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1">
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
-          <%= gettext("Partners") %>
-        </h2>
-      </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 lg:block">
-          <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)}>
-            + <%= gettext("New Partner") %>
-          </.button>
-        </div>
-      <% end %>
-    </div>
+<.page title="Partners">
+  <:actions>
+    <%= if not @empty? and @has_permissions? do %>
+      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)}>
+        <%= gettext("New") %>
+      </.button>
+    <% end %>
+  </:actions>
+  <!-- Tabs -->
+  <div class="pt-4">
     <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
       <div class="flex w-full items-center justify-between">
-        <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-          <div class="text-zinc-500 border-zinc-800 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium">
-            <%= gettext("Current Partners") %>
-          </div>
-        </nav>
+        <.tabs class="max-w-5-xl px-4 sm:px-6 lg:px-8">
+          <.link patch="?tab=all" replace={false}>
+            <.tab active={@current_tab == "all"}>
+              <%= gettext("Current Partners") %>
+            </.tab>
+          </.link>
+        </.tabs>
       </div>
     </div>
   </div>
-</div>
-
-<%= if @empty? and @has_permissions? do %>
-  <div class="mt-32">
-    <.empty_state url={Routes.partner_new_path(@socket, :new, @organization)} placeholder="partnership" />
-  </div>
-<% else %>
-  <ul role="list" class="overflow-auto">
-    <%= for partner <- @partners do %>
-      <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="min-w-fit block hover:bg-zinc-50">
-        <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
-          <div class="flex gap-x-4">
-            <.avatar fg_color="white" name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
-            <div class="min-w-0 flex-auto">
-              <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
-              <div class="flex flex-row items-center gap-x-1 text-sm leading-6">
-                <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                <p class="text-blue-500"><%= partner.location.name %></p>
+  <!-- Partners index -->
+  <%= if @empty? and @has_permissions? do %>
+    <div class="mt-32">
+      <.empty_state url={Routes.partner_new_path(@socket, :new, @organization)} placeholder="partnership" />
+    </div>
+  <% else %>
+    <ul role="list" class="overflow-auto max-w-5xl">
+      <%= for partner <- @partners do %>
+        <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="min-w-fit block hover:bg-zinc-50">
+          <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
+            <div class="flex gap-x-4">
+              <.avatar fg_color="white" name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
+              <div class="min-w-0 flex-auto">
+                <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
+                <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
+                  <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                  <p class="text-blue-500"><%= partner.location.name %></p>
+                </div>
+                <p class="mt-1 truncate text-xs leading-5 text-zinc-500">
+                  <%= Enum.map(String.split(partner.benefits, "\n"), fn phrase -> %>
+                    <%= if String.length(phrase) < 150 do %>
+                      <%= phrase %><br />
+                    <% else %>
+                      <%= String.slice(phrase, 0..150) <> "..." %> <br />
+                    <% end %>
+                  <% end) %>
+                </p>
               </div>
-              <p class="mt-1 truncate text-xs leading-5 text-zinc-500">
-                <%= Enum.map(String.split(partner.benefits, "\n"), fn phrase -> %>
-                  <%= if String.length(phrase) < 200 do %>
-                    <%= phrase %><br />
-                  <% else %>
-                    <%= String.slice(phrase, 0..200) %><br />
-                  <% end %>
-                <% end) %>
-              </p>
             </div>
-          </div>
-        </li>
-      </.link>
-    <% end %>
-  </ul>
-  <.pagination items={@partners} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
-<% end %>
+          </li>
+        </.link>
+      <% end %>
+    </ul>
+    <.pagination items={@partners} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+  <% end %>
+</.page>

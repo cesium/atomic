@@ -1,11 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Empty
-  import AtomicWeb.Components.Pagination
-  import AtomicWeb.Components.Button
-
+  import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
   alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Partners
@@ -25,6 +21,7 @@ defmodule AtomicWeb.PartnerLive.Index do
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:current_page, :partners)
+     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(:organization, organization)
      |> assign(partners_with_flop)
@@ -49,4 +46,7 @@ defmodule AtomicWeb.PartnerLive.Index do
         %{partners: [], meta: flop}
     end
   end
+
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+  defp current_tab(_socket, _params), do: "all"
 end
