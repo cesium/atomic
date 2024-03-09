@@ -34,6 +34,7 @@ let Hooks = {
   StickyScroll: StickyScroll
 };
 
+
 Hooks.ScrollToTop = {
   mounted() {
     this.el.addEventListener("click", e => {
@@ -42,6 +43,23 @@ Hooks.ScrollToTop = {
         top: 0,
         behavior: 'smooth'
       });
+    })
+  }
+}
+
+
+Hooks.Dropdown = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      e.preventDefault()
+      if(this.el.nextElementSibling.classList.contains("hidden")) {
+        this.el.nextElementSibling.classList.remove("hidden")
+        this.el.classList.add("block")
+      }
+      else {
+        this.el.nextElementSibling.classList.add("hidden")
+        this.el.classList.remove("block")
+      }
     })
   }
 }
