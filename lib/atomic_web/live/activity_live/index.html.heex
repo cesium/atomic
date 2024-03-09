@@ -1,8 +1,8 @@
 <.page title="Activities">
   <:actions>
-    <.primary_button url={Routes.activity_new_path(@socket, :new, @current_organization)}>
+    <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)}>
       <%= gettext("New") %>
-    </.primary_button>
+    </.button>
   </:actions>
   <!-- Tabs -->
   <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -111,6 +111,7 @@ defmodule AtomicWeb do
 
   defp components do
     quote do
+      import AtomicWeb.Components.Button
       import AtomicWeb.Components.Icon
       import AtomicWeb.Components.Modal
       import AtomicWeb.Components.Page
