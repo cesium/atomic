@@ -10,7 +10,7 @@
         </h4>
         <%= if @has_permissions? do %>
           <div class="hidden lg:border-orange-500 lg:block">
-            <.button url={Routes.partner_edit_path(@socket, :edit, @organization, @partner)}>
+            <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)}>
               <%= gettext("Edit Partner") %>
             </.button>
           </div>
