@@ -24,11 +24,11 @@ defmodule Atomic.Repo.Seeds.Partners do
     }
 
     socials = %{
-      instagram: Faker.Internet.url(),
-      facebook: Faker.Internet.url(),
-      twitter: Faker.Internet.url(),
-      youtube: Faker.Internet.url(),
-      tiktok: Faker.Internet.url(),
+      instagram: Faker.Internet.slug(),
+      facebook: Faker.Internet.slug(),
+      x: Faker.Internet.slug(),
+      youtube: Faker.Internet.slug(),
+      tiktok: Faker.Internet.slug(),
       website: Faker.Internet.url()
     }
 

@@ -4,14 +4,14 @@ defmodule Atomic.Socials do
   """
   use Atomic.Schema
 
-  @optional_fields ~w(instagram facebook twitter youtube tiktok website)a
+  @optional_fields ~w(instagram facebook x youtube tiktok website)a
 
   @derive Jason.Encoder
   @primary_key false
   embedded_schema do
     field :instagram, :string
     field :facebook, :string
-    field :twitter, :string
+    field :x, :string
     field :youtube, :string
     field :tiktok, :string
     field :website, :string

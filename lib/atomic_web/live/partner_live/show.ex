@@ -1,7 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Button}
+  import AtomicWeb.Components.Avatar
 
   alias Atomic.Accounts
   alias Atomic.Organizations
