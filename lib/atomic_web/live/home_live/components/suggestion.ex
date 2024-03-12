@@ -23,7 +23,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
     <li class="flex items-center space-x-3">
       <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @organization)} class="flex min-w-0 flex-1 items-center space-x-3 py-4">
         <div class="my-auto flex-shrink-0">
-          <.avatar name={@organization.name} class="!h-10 !w-10 !text-lg" fg_color="white" size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
+          <.avatar name={@organization.name} class="!h-10 !w-10 !text-lg" color={:light_gray} size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
         </div>
         <div class="min-w-0 flex-1">
           <p class="text-sm font-medium text-gray-900">
