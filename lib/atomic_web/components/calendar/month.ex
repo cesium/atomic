@@ -58,9 +58,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
                 </p>
                 <div class="flex flex-row items-center gap-x-2 pt-2">
                   <.link navigate={Routes.activity_index_path(AtomicWeb.Endpoint, :index)}>
-                    <.badge variable={:dot} bg_color="purple-600">
-                      Activity
-                    </.badge>
+                    <.badge variant="outline" color="primary" label="Activity" />
                   </.link>
                   <time datetime={activity.start} class="flex items-center text-zinc-700">
                     <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
