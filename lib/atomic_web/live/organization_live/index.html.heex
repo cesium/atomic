@@ -1,9 +1,9 @@
 <.page title="Organizations">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.primary_button url={Routes.organization_new_path(@socket, :new)}>
+      <.button navigate={Routes.organization_new_path(@socket, :new)}>
         <%= gettext("New") %>
-      </.primary_button>
+      </.button>
     <% end %>
   </:actions>
   <!-- Organization index -->
@@ -16,7 +16,7 @@
       <%= for organization <- @organizations do %>
         <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} fg_color="white" bg_color="zinc-400" />
+            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_gray} />
             <div class="ml-4">
               <h4 class="font-medium text-lg text-zinc-900">
                 <%= organization.name %>

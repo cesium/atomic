@@ -15,7 +15,7 @@ defmodule AtomicWeb.Components.Activity do
     <div>
       <div class="flex space-x-3">
         <div class="my-auto flex-shrink-0">
-          <.avatar name={@activity.organization.name} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} bg_color="zinc-200" fg_color="zinc-600" />
+          <.avatar name={@activity.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} />
         </div>
         <div class="min-w-0 flex-1">
           <object>
@@ -46,21 +46,21 @@ defmodule AtomicWeb.Components.Activity do
         <div class="flex space-x-4">
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <Heroicons.clock solid class="h-5 w-5" />
+              <.icon name={:clock} solid class="h-5 w-5" />
               <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
               <span class="sr-only">starting in</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <Heroicons.user_group solid class="h-5 w-5" />
+              <.icon name={:user_group} solid class="h-5 w-5" />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
               <span class="sr-only">enrollments</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <Heroicons.map_pin solid class="h-5 w-5" />
+              <.icon name={:map_pin} solid class="h-5 w-5" />
               <span class="font-medium text-gray-900"><%= @activity.location.name %></span>
               <span class="sr-only">location</span>
             </span>

@@ -2,6 +2,7 @@ defmodule AtomicWeb.Router do
   use AtomicWeb, :router
 
   import AtomicWeb.UserAuth
+  import PhoenixStorybook.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -241,6 +242,15 @@ defmodule AtomicWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+
+    scope "/" do
+      storybook_assets()
+    end
+
+    scope "/", AtomicWeb do
+      pipe_through [:browser]
+      live_storybook("/storybook", backend_module: AtomicWeb.Storybook)
     end
   end
 

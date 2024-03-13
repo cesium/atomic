@@ -5,7 +5,7 @@ defmodule AtomicWeb.Components.Icon do
   use Phoenix.Component
 
   attr :rest, :global,
-    doc: "the arbitrary HTML attributes for the svg container",
+    doc: "The arbitrary HTML attributes for the svg container",
     include: ~w(fill stroke stroke-width)
 
   attr :name, :atom, required: true
@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Icon do
   attr :solid, :boolean, default: false
   attr :mini, :boolean, default: false
 
-  def render(assigns) do
+  def icon(assigns) do
     apply(Heroicons, assigns.name, [assigns])
   end
 end

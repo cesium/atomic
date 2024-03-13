@@ -34,7 +34,7 @@
             </dt>
             <dd class="mt-1 flex text-sm text-zinc-900">
               <div class="flex w-full">
-                <Heroicons.users solid class="h-5 w-5 text-zinc-400" />
+                <.icon name={:users} solid class="h-5 w-5 text-zinc-400" />
                 <div class="pl-2.5">
                   <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
                 </div>
@@ -52,21 +52,21 @@
               <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
                 <div class="flex gap-x-2">
                   <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                    <Heroicons.calendar solid class="h-5 w-5 text-zinc-400" />
+                    <.icon name={:calendar} solid class="h-5 w-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
                       <%= display_date(@activity.start) %>
                     </p>
                   </div>
                 </div>
                 <div class="inset-y-0 my-auto flex md:pl-3">
-                  <Heroicons.clock solid class="h-5 w-5 text-zinc-400" />
+                  <.icon name={:clock} solid class="h-5 w-5 text-zinc-400" />
                   <p class="block pl-1.5 max-w-6xl">
                     <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
                   </p>
                 </div>
                 <div class="flex text-sm md:pl-3">
                   <%= if @activity.location do %>
-                    <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                    <.icon name={:map_pin} solid class="h-5 w-5 text-zinc-400" />
                     <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
                       <%= @activity.location.name %>
                     </.link>
@@ -97,7 +97,7 @@
                   <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                     <div class="text-sm font-medium text-zinc-500"></div>
                     <div class="mt-1 flex items-center">
-                      <.avatar name={speaker.name} size={:xs} bg_color="zinc-500" fg_color="white" class="mr-2 inline-flex" />
+                      <.avatar name={speaker.name} size={:xs} color={:light_gray} class="mr-2 inline-flex" />
                       <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
                         <%= extract_first_last_name(speaker.name) %>
                       </.link>
@@ -157,12 +157,12 @@
   <%= if @has_permissions? do %>
     <.link patch={Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity)} class="button">
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.pencil solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+        <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
       </div>
     </.link>
     <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <Heroicons.trash solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+        <.icon name={:trash} solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
       </div>
     <% end %>
   <% end %>

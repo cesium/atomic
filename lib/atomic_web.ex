@@ -93,11 +93,8 @@ defmodule AtomicWeb do
       import Phoenix.LiveView.Helpers
       import Phoenix.Component
 
-      # Import page layout component
-      import AtomicWeb.Components.Page
-
       # Import commonly used components
-      import AtomicWeb.Components.Modal
+      unquote(components())
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
@@ -108,6 +105,15 @@ defmodule AtomicWeb do
 
       alias Atomic.Uploaders
       alias AtomicWeb.Router.Helpers, as: Routes
+    end
+  end
+
+  defp components do
+    quote do
+      import AtomicWeb.Components.Button
+      import AtomicWeb.Components.Icon
+      import AtomicWeb.Components.Modal
+      import AtomicWeb.Components.Page
     end
   end
 
