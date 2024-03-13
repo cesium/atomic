@@ -1,0 +1,107 @@
+/* Badge */
+.atomic-badge {
+    @apply flex items-center justify-center border rounded focus:outline-none gap-x-2 whitespace-nowrap;
+  }
+  
+  /* Badges - with icon */
+  
+  .atomic-badge__icon--xs {
+    @apply w-3 h-3;
+  }
+  .atomic-badge__icon--sm {
+    @apply w-4 h-4;
+  }
+  .atomic-badge__icon--md {
+    @apply w-5 h-5;
+  }
+  .atomic-badge__icon--lg {
+    @apply w-5 h-5;
+  }
+  .atomic-badge__icon--xl {
+    @apply w-6 h-6;
+  }
+  
+  /* Badges - sizes */
+  
+  .atomic-badge--xs {
+    @apply text-xs font-semibold px-1;
+  }
+  .atomic-badge--sm {
+    @apply text-sm font-semibold px-1.5;
+  }
+  .atomic-badge--md {
+    @apply text-base font-semibold px-2.5;
+  }
+  .atomic-badge--lg {
+    @apply text-lg font-semibold ;
+  }
+  
+  .atomic-badge--xl {
+    @apply text-xl font-semibold ;
+  }
+  
+  /* Badges - colors */
+  
+  .atomic-badge--primary-light {
+    @apply text-primary-800 bg-primary-100 border-primary-100 dark:bg-primary-200 dark:border-primary-200;
+  }
+  .atomic-badge--primary-dark {
+    @apply text-white bg-primary-600 border-primary-600;
+  }
+  .atomic-badge--primary-outline {
+    @apply text-primary-600 border-primary-600 dark:text-primary-400 dark:border-primary-400;
+  }
+  .atomic-badge--secondary-light {
+    @apply text-secondary-800 bg-secondary-100 border-secondary-100 dark:bg-secondary-200 dark:border-secondary-200;
+  }
+  .atomic-badge--secondary-dark {
+    @apply text-white bg-secondary-600 border-secondary-600;
+  }
+  .atomic-badge--secondary-outline {
+    @apply border text-secondary-600 border-secondary-600 dark:text-secondary-400 dark:border-secondary-400;
+  }
+  .atomic-badge--info-light {
+    @apply text-info-800 bg-info-100 border-info-100 dark:bg-info-200 dark:border-info-200;
+  }
+  .atomic-badge--info-dark {
+    @apply text-white bg-info-600 border-info-600;
+  }
+  .atomic-badge--info-outline {
+    @apply border text-info-600 border-info-600 dark:text-info-400 dark:border-info-400;
+  }
+  .atomic-badge--success-light {
+    @apply text-success-800 bg-success-100 border-success-100 dark:bg-success-200 dark:border-success-200;
+  }
+  .atomic-badge--success-dark {
+    @apply text-white bg-success-600 border-success-600;
+  }
+  .atomic-badge--success-outline {
+    @apply border text-success-600 border-success-600 dark:text-success-400 dark:border-success-400;
+  }
+  .atomic-badge--warning-light {
+    @apply text-warning-800 bg-warning-100 border-warning-100 dark:bg-warning-200 dark:border-warning-200;
+  }
+  .atomic-badge--warning-dark {
+    @apply text-white bg-warning-600 border-warning-600;
+  }
+  .atomic-badge--warning-outline {
+    @apply border text-warning-600 border-warning-600 dark:text-warning-400 dark:border-warning-400;
+  }
+  .atomic-badge--danger-light {
+    @apply text-danger-800 bg-danger-100 border-danger-100 dark:bg-danger-200 dark:border-danger-200;
+  }
+  .atomic-badge--danger-dark {
+    @apply text-white bg-danger-600 border-danger-600;
+  }
+  .atomic-badge--danger-outline {
+    @apply border text-danger-600 border-danger-600 dark:text-danger-400 dark:border-danger-400;
+  }
+  .atomic-badge--gray-light {
+    @apply text-gray-800 bg-gray-100 border-gray-100 dark:bg-gray-200 dark:border-gray-200;
+  }
+  .atomic-badge--gray-dark {
+    @apply text-white bg-gray-600 border-gray-600 dark:bg-gray-700 dark:border-gray-700;
+  }
+  .atomic-badge--gray-outline {
+    @apply text-gray-600 border border-gray-600 dark:text-gray-400 dark:border-gray-400;
+  }
