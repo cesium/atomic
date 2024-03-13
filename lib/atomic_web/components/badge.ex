@@ -4,12 +4,12 @@ defmodule AtomicWeb.Components.Badge do
 
   import AtomicWeb.Components.Icon
 
-  attr :size, :string, default: "md", values: ["xs", "sm", "md", "lg", "xl"]
-  attr :variant, :string, default: "light", values: ["light", "dark", "outline"]
+  attr :size, :atom, default: :md, values: [:xs, :sm, :md, :lg, :xl]
+  attr :variant, :atom, default: :light, values: [:light, :dark, :outline]
 
-  attr :color, :string,
-    default: "primary",
-    values: ["primary", "secondary", "info", "success", "warning", "danger", "gray"]
+  attr :color, :atom,
+    default: :primary,
+    values: [:primary, :secondary, :info, :success, :warning, :danger, :gray]
 
   attr :icon_position, :atom,
     values: [:left, :right],
