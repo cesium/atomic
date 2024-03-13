@@ -14,10 +14,10 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
         <p class="text-lg font-semibold"><%= @department.name %></p>
         <div class="mt-4 mb-2 grid grid-cols-7 gap-2">
           <%= for person <- @collaborators |> Enum.take(4) do %>
-            <.avatar name={person.user.name} size={:xs} fg_color="white" bg_color="zinc-400" class="ring-1 ring-white" />
+            <.avatar name={person.user.name} size={:xs} color={:light_gray} class="ring-1 ring-white" />
           <% end %>
           <%= if length(@collaborators) > 4 do %>
-            <.avatar name={"+#{length(@collaborators) - 4}"} size={:xs} auto_generate_initials={false} fg_color="white" bg_color="zinc-400" class="ring-1 ring-white" />
+            <.avatar name={"+#{length(@collaborators) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" />
           <% end %>
         </div>
       </div>

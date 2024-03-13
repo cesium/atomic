@@ -76,7 +76,7 @@
               <div class="max-w-full mb-2 flex flex-wrap">
                 <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
                   <div class="h-12">
-                    <.avatar name={collaborator.user.name} size={:sm} />
+                    <.avatar name={collaborator.user.name} size={:sm} color={:light_gray} />
                   </div>
                 <% end %>
               </div>
