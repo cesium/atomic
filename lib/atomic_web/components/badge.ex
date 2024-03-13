@@ -4,12 +4,20 @@ defmodule AtomicWeb.Components.Badge do
 
   import AtomicWeb.Components.Icon
 
-  attr :size, :atom, default: :md, values: [:xs, :sm, :md, :lg, :xl]
-  attr :variant, :atom, default: :light, values: [:light, :dark, :outline]
+  attr :size, :atom,
+    default: :md,
+    values: [:xs, :sm, :md, :lg, :xl],
+    doc: "The size of the badge."
+
+  attr :variant, :atom,
+    default: :light,
+    values: [:light, :dark, :outline],
+    doc: "The variant of the badge."
 
   attr :color, :atom,
     default: :primary,
-    values: [:primary, :secondary, :info, :success, :warning, :danger, :gray]
+    values: [:primary, :secondary, :info, :success, :warning, :danger, :gray],
+    doc: "Badge color."
 
   attr :icon_position, :atom,
     values: [:left, :right],
@@ -25,9 +33,8 @@ defmodule AtomicWeb.Components.Badge do
 
   attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
 
-  attr :with_icon, :boolean, default: false, doc: "adds some icon base classes"
-  attr :class, :string, default: "", doc: "CSS class for parent div"
-  attr :label, :string, default: nil, doc: "label your badge"
+  attr :class, :string, default: "", doc: "Additional classes to apply to the badge."
+  attr :label, :string, default: nil, doc: "Badge label."
   attr :rest, :global
   slot :inner_block, required: false
 
