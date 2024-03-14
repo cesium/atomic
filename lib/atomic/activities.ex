@@ -481,22 +481,6 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Returns the total number of enrolled users in an activity.
-
-  ## Examples
-
-      iex> get_total_enrolled(activity_id)
-      10
-
-      iex> get_total_enrolled(activity_id)
-      0
-  """
-  def get_total_enrolled(activity_id) do
-    activity = get_activity!(activity_id)
-    activity.enrolled
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking enrollment changes.
 
   ## Examples
