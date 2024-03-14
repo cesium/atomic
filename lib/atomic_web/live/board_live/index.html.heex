@@ -2,17 +2,17 @@
   <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
     <div class="flex items-center border-b-2 border-zinc-200 justify-between">
       <div class="min-w-0 flex flex-row items-center justsiy-center">
-        <Heroicons.arrow_small_left solid class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
+        <.icon name={:arrow_small_left} solid class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
         <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
           <%= gettext("Board") %> <%= @year %>
         </h2>
-        <Heroicons.arrow_small_right solid class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
+        <.icon name={:arrow_small_right} solid class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 mb-2 lg:block">
-          <.primary_button url={Routes.board_new_path(@socket, :new, @organization)}>
+          <.button navigate={Routes.board_new_path(@socket, :new, @organization)}>
             + <%= gettext("New Board Member") %>
-          </.primary_button>
+          </.button>
         </div>
       <% end %>
     </div>
@@ -26,7 +26,7 @@
           <div class="flex flex-row items-center space-x-8">
             <%= if @role in [:owner, :admin] do %>
               <span class="handle cursor-row-resize">
-                <Heroicons.bars_3 solid class="w-5 h-5 text-zinc-400" />
+                <.icon name={:bars_3} solid class="w-5 h-5 text-zinc-400" />
               </span>
             <% end %>
             <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>

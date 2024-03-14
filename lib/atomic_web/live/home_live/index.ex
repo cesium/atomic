@@ -2,8 +2,8 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Activity, Announcement}
-  import AtomicWeb.HomeLive.Components.{Schedule, FollowSuggestions}
+  import AtomicWeb.Components.{Activity, Announcement, Tabs}
+  import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
 
   alias Atomic.Activities
   alias Atomic.Feed
@@ -28,7 +28,7 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:page_title, gettext("Home"))
      |> assign(:schedule, fetch_schedule(socket))
      |> assign(:current_tab, current_tab(socket, params))
-     |> assign(:organizations, list_organizations_to_follow(socket))}
+     |> assign(:organizations, list_organizations_to_follow(socket.assigns))}
   end
 
   @impl true
@@ -125,20 +125,16 @@ defmodule AtomicWeb.HomeLive.Index do
     end
   end
 
-  defp list_organizations_to_follow(assigns) when assigns.is_authenticated? do
-    Organizations.list_top_organizations_for_user(assigns.current_user, limit: 3)
-  end
+  defp list_organizations_to_follow(assigns) do
+    case assigns.is_authenticated? do
+      true ->
+        Organizations.list_top_not_followed_organization(assigns.current_user.id, limit: 3)
 
-  defp list_organizations_to_follow(_assigns) do
-    Organizations.list_top_organizations(limit: 3)
+      _ ->
+        Organizations.list_top_organizations(limit: 3)
+    end
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
   defp current_tab(_socket, _params), do: "all"
-
-  defp tab_class(tab, current_tab) do
-    if tab == current_tab,
-      do: "border-b-2 border-orange-500 text-gray-900",
-      else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-  end
 end

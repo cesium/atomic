@@ -1,18 +1,24 @@
-// See the Tailwind configuration guide for advanced usage
-// https://tailwindcss.com/docs/configuration
-
-let plugin = require('tailwindcss/plugin')
+const colors = require("tailwindcss/colors");
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
+  darkMode: 'selector',
   content: [
     './js/**/*.js',
     '../lib/*_web.ex',
     '../lib/*_web/**/*.*ex',
+    '../storybook/**/*.exs'
   ],
   theme: {
     extend: {
-      border: {
-        '1': '1px'
+      colors: {
+        primary: colors.orange,
+        secondary: colors.sky,
+        success: colors.green,
+        danger: colors.red,
+        warning: colors.yellow,
+        info: colors.blue,
+        gray: colors.gray,
       },
       backgroundImage: {
         'hero-pattern': "url('/images/atomic_background.svg')",

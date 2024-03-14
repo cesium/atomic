@@ -65,6 +65,7 @@ defmodule Atomic.MixProject do
       {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:flop_phoenix, "~> 0.20.0"},
+      {:phoenix_storybook, "~> 0.5.6"},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
@@ -102,7 +103,7 @@ defmodule Atomic.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
+      setup: ["deps.get", "ecto.setup", "tailwind.install --if-missing"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seed"],
       "ecto.seed": ["run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],

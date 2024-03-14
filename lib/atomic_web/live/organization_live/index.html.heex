@@ -1,9 +1,9 @@
-<.live_component module={AtomicWeb.Components.Page} id="organization-index" title="Organizations">
+<.page title="Organizations">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.primary_button url={Routes.organization_new_path(@socket, :new, @current_organization)}>
+      <.button navigate={Routes.organization_new_path(@socket, :new)}>
         <%= gettext("New") %>
-      </.primary_button>
+      </.button>
     <% end %>
   </:actions>
   <!-- Organization index -->
@@ -15,20 +15,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
       <%= for organization <- @organizations do %>
         <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
-          <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 rounded-lg">
-            <%= if is_nil(Uploaders.Logo.url({organization.logo, organization}, :original)) do %>
-              <div class="relative flex-shrink-0 rounded-2xl min-w-20 min-h-20">
-                <span class="inline-flex justify-center items-center w-20 h-20 rounded-2xl bg-zinc-400">
-                  <span class="text-4xl font-medium leading-none text-white select-none sm:text-5xl">
-                    <%= extract_initials(organization.name) %>
-                  </span>
-                </span>
-              </div>
-            <% else %>
-              <div class="relative flex-shrink-0 w-20 h-20 rounded-2xl">
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="object-center absolute rounded-2xl w-20 h-20" />
-              </div>
-            <% end %>
+          <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
+            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_gray} />
             <div class="ml-4">
               <h4 class="font-medium text-lg text-zinc-900">
                 <%= organization.name %>
@@ -46,4 +34,4 @@
     </div>
     <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
   <% end %>
-</.live_component>
+</.page>

@@ -20,7 +20,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     <%= entry.title %>
                   </p>
                   <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <Heroicons.clock solid class="h-4 w-4" />
+                    <.icon name={:clock} solid class="h-4 w-4" />
                     <p class="text-xs font-semibold">
                       <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
                     </p>
@@ -47,7 +47,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     <%= entry.title %>
                   </p>
                   <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <Heroicons.clock solid class="h-4 w-4" />
+                    <.icon name={:clock} solid class="h-4 w-4" />
                     <p class="text-xs font-semibold">
                       <%= pretty_display_date(entry.start) %>
                     </p>

@@ -1,9 +1,9 @@
-<.live_component module={AtomicWeb.Components.Page} id="department-index" title="Departments">
+<.page title="Departments">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.primary_button url={Routes.activity_new_path(@socket, :new, @current_organization)}>
+      <.button navigate={Routes.department_new_path(@socket, :new, @current_organization)}>
         <%= gettext("New") %>
-      </.primary_button>
+      </.button>
     <% end %>
   </:actions>
   <!-- Tabs -->
@@ -41,4 +41,4 @@
       <% end %>
     </div>
   <% end %>
-</.live_component>
+</.page>
