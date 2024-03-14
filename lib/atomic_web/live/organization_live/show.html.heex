@@ -4,13 +4,7 @@
       <div class="flex justify-between py-4">
         <div class="w-full gap-x-4 lg:flex lg:flex-col">
           <div class="flex flex-col items-center lg:flex-row space-x-2 lg:space-x-8">
-            <div>
-              <%= if @organization.logo do %>
-                <img src={Logo.url({@organization.logo, @organization}, :original)} class="mb-2 w-32 h-32 block" />
-              <% else %>
-                <img src={Routes.static_path(@socket, "/images/atomic.svg")} class="mb-2 w-64 h-64 block lg:mb-8" />
-              <% end %>
-            </div>
+            <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} color={:light_gray} />
             <div class="flex-1 space-x-2">
               <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
                 <div x-data="{ open: false }" class="flex flex-col items-center lg:items-start lg:justify-start justify-center space-y-2">
@@ -31,7 +25,7 @@
                       </button>
                     <% else %>
                       <%= if @organization.name == "CeSIUM" do %>
-                        <div class="lg:my-0 w-32 rounded-md bg-orange-400 text-lg py-2 text-center text-sm font-medium text-white shadow-sm inline">Following</div>
+                        <div class="lg:my-0 w-32 rounded-md bg-orange-400 py-2 text-center text-sm font-medium text-white shadow-sm inline">Following</div>
                       <% else %>
                         <div class="relative">
                           <div class="inline-flex rounded-md shadow-sm">
@@ -79,12 +73,12 @@
                     <%= if @has_permissions? do %>
                       <.link patch={Routes.organization_edit_path(@socket, :edit, @organization)} class="button">
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <Heroicons.pencil solid class="mr-3 w-5 h-5 text-gray-400" /> Edit
+                          <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-gray-400" /> Edit
                         </div>
                       </.link>
                       <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <Heroicons.trash solid class="mr-3 w-5 h-5 text-gray-400" /> Delete
+                          <.icon name={:trash} solid class="mr-3 w-5 h-5 text-gray-400" /> Delete
                         </div>
                       <% end %>
                     <% end %>
@@ -106,15 +100,9 @@
     <p class="text-md text-zinc-900">
       People
     </p>
-    <div class="mt-4 mb-2 grid grid-cols-7 gap-2">
+    <div class="mt-4 mb-2 grid grid-cols-7 gap-14">
       <%= for person <- @people do %>
-        <div class="relative flex-shrink-0 w-10 h-10 rounded-full bg-zinc-400">
-          <span class="inline-flex justify-center items-center w-10 h-10 rounded-full bg-secondary">
-            <span class="font-medium leading-none select-none text-white text-md">
-              <%= extract_initials(person.name) %>
-            </span>
-          </span>
-        </div>
+        <.avatar name={person.name} size={:sm} color={:light_gray} />
       <% end %>
     </div>
     <.link navigate={Routes.board_index_path(@socket, :index, @organization.id)} class="hover:underline text-blue-500">

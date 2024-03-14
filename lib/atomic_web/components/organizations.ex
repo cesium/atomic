@@ -2,6 +2,8 @@ defmodule AtomicWeb.Components.Organizations do
   @moduledoc false
   use AtomicWeb, :live_component
 
+  import AtomicWeb.Components.Avatar
+
   alias Atomic.Accounts
   alias Atomic.Organizations
 
@@ -24,13 +26,14 @@ defmodule AtomicWeb.Components.Organizations do
             }
             type="button"
           >
-            <span class="text-[0.625rem] flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 font-medium text-zinc-400 group-hover:border-orange-500 group-hover:text-orange-500">
-              <%= if organization.logo do %>
-                <img src={Uploaders.Logo.url({organization.logo, organization}, :original)} class="h-6 w-6 rounded-lg" />
-              <% else %>
-                <%= extract_initials(organization.name) %>
-              <% end %>
-            </span>
+            <.avatar
+              class={"#{if @current_organization && organization.id == @current_organization.id do "border-orange-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-orange-600"} border group-hover:border-orange-600 group-hover:text-orange-500"}
+              src={Uploaders.Logo.url({organization.logo, organization}, :original)}
+              name={organization.name}
+              size={:xs}
+              type={:organization}
+              color={:white}
+            />
             <span class="mt-1 truncate"><%= organization.name %></span>
           </div>
         </li>

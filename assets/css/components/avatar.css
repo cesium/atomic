@@ -1,0 +1,97 @@
+/* Avatar */
+
+.atomic-avatar {
+  @apply font-medium leading-none flex shrink-0 items-center justify-center select-none;
+}
+
+/* Avatar - variants */
+
+.atomic-avatar--user {
+  @apply rounded-full;
+}
+
+.atomic-avatar--organization {
+  @apply rounded-lg;
+}
+
+.atomic-avatar--company {
+  @apply rounded-lg;
+}
+
+/* Avatar - sizes */
+
+.atomic-avatar--xs {
+  @apply h-8 w-8 text-xs;
+}
+
+.atomic-avatar--sm {
+  @apply h-12 w-12 text-lg;
+}
+
+.atomic-avatar--md {
+  @apply h-16 w-16 text-lg;
+}
+
+.atomic-avatar--lg {
+  @apply h-20 w-20 text-4xl;
+}
+
+.atomic-avatar--xl {
+  @apply h-24 w-24 text-4xl;
+}
+
+/* Avatar - colors */
+
+.atomic-avatar--primary {
+  @apply bg-primary-600 text-white;
+}
+
+.atomic-avatar--secondary {
+  @apply bg-secondary-600 text-white;
+}
+
+.atomic-avatar--white {
+  @apply bg-white text-gray-700 border-gray-300 border;
+}
+
+.atomic-avatar--full_white {
+  @apply bg-white text-gray-700;
+}
+
+.atomic-avatar--info {
+  @apply bg-info-600 text-white;
+}
+
+.atomic-avatar--success {
+  @apply bg-success-600 text-white;
+}
+
+.atomic-avatar--warning {
+  @apply bg-warning-600 text-white;
+}
+
+.atomic-avatar--danger {
+  @apply bg-danger-600 text-white;
+}
+
+.atomic-avatar--gray {
+  @apply bg-gray-600 text-white;
+}
+
+.atomic-avatar--light_gray {
+  @apply bg-gray-400 text-white;
+}
+
+.atomic-avatar--light {
+  @apply bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600 border;
+}
+
+.atomic-avatar--dark {
+  @apply bg-gray-950 text-white border-transparent dark:text-gray-950 dark:bg-white;
+}
+
+/* Avatar - With image */
+
+.atomic-avatar--src {
+  @apply bg-transparent;
+}

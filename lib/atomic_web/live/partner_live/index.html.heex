@@ -8,9 +8,9 @@
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 lg:block">
-          <.primary_button url={Routes.partner_new_path(@socket, :new, @current_organization)}>
+          <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)}>
             + <%= gettext("New Partner") %>
-          </.primary_button>
+          </.button>
         </div>
       <% end %>
     </div>
@@ -36,17 +36,7 @@
       <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="w-full block hover:bg-zinc-50">
         <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
           <div class="flex gap-x-4">
-            <div class="h-12 w-12 flex-none rounded-full bg-zinc-50">
-              <%= if partner.image do %>
-                <img src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} class="h-full w-full object-cover object-center" />
-              <% else %>
-                <span class="flex justify-center items-center mr-1.5 w-12 h-12 bg-zinc-500 rounded-xl">
-                  <span class="text-lg font-medium leading-none text-white">
-                    <%= extract_initials(partner.name) %>
-                  </span>
-                </span>
-              <% end %>
-            </div>
+            <.avatar color={:gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
             <div class="min-w-0 flex-auto">
               <p class="text-sm font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
               <p class="mt-1 truncate text-xs leading-5 text-zinc-500"><%= partner.description %></p>

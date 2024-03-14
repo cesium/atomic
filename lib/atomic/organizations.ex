@@ -78,6 +78,27 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Returns a list of the top organizations that are not followed by an user, ordered by the amount of followers.
+
+  ## Examples
+
+      iex> list_top_not_followed_organization(user_id)
+      [%Organization{}, ...]
+
+  """
+  def list_top_not_followed_organization(user_id, opts) when is_list(opts) do
+    Organization
+    |> join(:left, [o], m in Membership, on: m.organization_id == o.id and m.user_id == ^user_id)
+    |> where([o, m], m.role != :follower or is_nil(m.id))
+    |> group_by([o], o.id)
+    |> select([o], %{organization: o, count: count(o.id)})
+    |> order_by([o], desc: o.count)
+    |> apply_filters(opts)
+    |> Repo.all()
+    |> Enum.map(fn %{organization: organization} -> organization end)
+  end
+
+  @doc """
   Returns the list of organizations members.
 
   ## Examples

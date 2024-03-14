@@ -50,7 +50,7 @@ config :esbuild,
   version: "0.14.29",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(js/app.js js/storybook.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
@@ -64,19 +64,27 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :tailwind,
-  version: "3.2.7",
+  version: "3.4.1",
   default: [
     args: ~w(
     --config=tailwind.config.js
     --input=css/app.css
     --output=../priv/static/assets/app.css
-  ),
+    ),
+    cd: Path.expand("../assets", __DIR__)
+  ],
+  storybook: [
+    args: ~w(
+    --config=tailwind.config.js
+    --input=css/storybook.css
+    --output=../priv/static/assets/storybook.css
+    ),
     cd: Path.expand("../assets", __DIR__)
   ]
 
 config :atomic, Atomic.Scheduler,
   jobs: [
-    # Runs every midnight:
+    # Runs every midnight
     {"0 0 * * *", {Atomic.Quantum.CertificateDelivery, :send_certificates, []}}
   ]
 
