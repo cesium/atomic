@@ -78,17 +78,17 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_info({event, _changes}, socket)
       when event in [:new_enrollment, :deleted_enrollment] do
-    {:noreply, reload(socket, %{action: event})}
+    {:noreply, reload(socket, action: event)}
   end
 
-  defp reload(socket, %{action: :new_enrollment}) do
+  defp reload(socket, action: :new_enrollment) do
     socket
     |> assign(:enrolled, socket.assigns.enrolled + 1)
     |> assign(:enrolled?, maybe_put_enrolled(socket))
     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
   end
 
-  defp reload(socket, %{action: :deleted_enrollment}) do
+  defp reload(socket, action: :deleted_enrollment) do
     socket
     |> assign(:enrolled, socket.assigns.enrolled - 1)
     |> assign(:enrolled?, maybe_put_enrolled(socket))
