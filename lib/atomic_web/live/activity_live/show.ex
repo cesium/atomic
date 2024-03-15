@@ -25,7 +25,8 @@ defmodule AtomicWeb.ActivityLive.Show do
      socket
      |> assign(:page_title, "#{activity.title}")
      |> assign(:current_page, :activities)
-     |> assign(:activity, %{activity | enrolled: Activities.get_total_enrolled(id)})
+     |> assign(:activity, activity)
+     |> assign(:enrolled, activity.enrolled)
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
@@ -77,11 +78,19 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_info({event, _changes}, socket)
       when event in [:new_enrollment, :deleted_enrollment] do
-    {:noreply, reload(socket)}
+    {:noreply, reload(socket, action: event)}
   end
 
-  defp reload(socket) do
+  defp reload(socket, action: :new_enrollment) do
     socket
+    |> assign(:enrolled, socket.assigns.enrolled + 1)
+    |> assign(:enrolled?, maybe_put_enrolled(socket))
+    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
+  end
+
+  defp reload(socket, action: :deleted_enrollment) do
+    socket
+    |> assign(:enrolled, socket.assigns.enrolled - 1)
     |> assign(:enrolled?, maybe_put_enrolled(socket))
     |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
   end
