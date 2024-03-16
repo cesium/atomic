@@ -2,8 +2,10 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   use AtomicWeb, :live_component
 
   import AtomicWeb.Components.Avatar
+  import AtomicWeb.Components.Badge
 
   alias Atomic.Departments
+  alias Phoenix.LiveView.JS
 
   @impl true
   def render(assigns) do
@@ -15,43 +17,48 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
         <p class="mt-1"><%= extract_first_name(@collaborator.user.name) %> has requested to be a collaborator of <%= @department.name %>.</p>
       <% end %>
       <!-- User Card -->
-      <div class="mt-4 flex">
-        <.avatar name={@collaborator.user.name} />
-        <div class="ml-3 flex h-full flex-col self-center">
-          <p><%= @collaborator.user.name %></p>
-          <p>@<%= @collaborator.user.slug %></p>
-        </div>
+      <div class="flex">
+        <.link navigate={Routes.profile_show_path(@socket, :show, @collaborator.user)} class="mt-4 flex outline-none">
+          <.avatar color={:light_gray} name={@collaborator.user.name} />
+          <div class="ml-3 flex h-full flex-col self-center">
+            <p><%= @collaborator.user.name %></p>
+            <p>@<%= @collaborator.user.slug %></p>
+          </div>
+        </.link>
         <%= if @collaborator.accepted do %>
-          <div class="bg-green-300/5 ml-auto select-none self-center rounded-xl border border-green-300 px-3 py-2 text-green-400">
+          <.badge variant={:outline} color={:success} size={:md} class="ml-auto font-normal my-5 select-none rounded-xl">
             <p>Collaborator since <%= display_date(@collaborator.inserted_at) %></p>
-          </div>
+          </.badge>
         <% else %>
-          <div class="bg-yellow-300/5 ml-auto select-none self-center rounded-xl border border-yellow-300 px-3 py-2 text-yellow-400">
+          <.badge variant={:outline} color={:warning} size={:md} class="ml-auto border-yellow-400 text-yellow-400 bg-yellow-300/5 font-normal my-5 select-none rounded-xl">
             <p>Not accepted</p>
-          </div>
+          </.badge>
         <% end %>
       </div>
       <!-- Action Buttons -->
-      <div class="mt-8 flex">
+      <div class="mt-8 flex space-x-2">
         <%= if @collaborator.accepted do %>
-          <button phx-click="remove" class="ml-2 flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 hover:bg-gray-50">
-            <div class="flex items-center justify-center">
-              <Heroicons.x_circle class="mr-2 h-5 w-5" /> Remove
-            </div>
-          </button>
+          <.button phx-click="delete" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width> Delete </.button>
         <% else %>
-          <button phx-click="accept" class="mr-2 flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 hover:bg-gray-50">
-            <div class="flex items-center justify-center">
-              <Heroicons.check_circle class="mr-2 h-5 w-5" /> Accept
-            </div>
-          </button>
-          <button phx-click="remove" class="ml-2 flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 hover:bg-gray-50">
-            <div class="flex items-center justify-center">
-              <Heroicons.x_circle class="mr-2 h-5 w-5" /> Deny
-            </div>
-          </button>
+          <.button phx-click="deny" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width> Deny </.button>
+          <.button phx-click="allow" phx-target={@myself} size={:lg} icon={:check_circle} color={:white} full_width> Accept </.button>
         <% end %>
       </div>
+      <!-- Action Confirm Modal -->
+      <.modal :if={@action_modal != nil} id="action-confirm-modal" show on_cancel={JS.push("clear-action", target: @myself)}>
+        <div class="flex flex-col">
+          <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+            <%= display_action_goal_confirm_title(@action_modal) %>
+          </h1>
+          <p class="mt-4">
+            <%= display_action_goal_confirm_description(@action_modal, @department) %>
+          </p>
+          <div class="mt-8 flex flex-row-reverse">
+            <.button phx-click="confirm" class="ml-2" phx-target={@myself} size={:lg} icon={:check_circle} color={if @action_modal != :delete do :white else :danger end} full_width> Confirm </.button>
+            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width> Cancel </.button>
+          </div>
+        </div>
+      </.modal>
     </div>
     """
   end
@@ -59,10 +66,54 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   @impl true
   def update(%{collaborator: collaborator} = assigns, socket) do
     changeset = Departments.change_collaborator(collaborator)
-
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:action_modal, nil)
      |> assign(:changeset, changeset)}
+  end
+
+  @impl true
+  def handle_event("clear-action", _, socket) do
+    {:noreply,
+      socket
+      |> assign(:action_modal, nil)}
+  end
+
+  @impl true
+  def handle_event("allow", _, socket) do
+    {:noreply,
+      socket
+      |> assign(:action_modal, :confirm_invite)}
+  end
+
+  @impl true
+  def handle_event("deny", _, socket) do
+    {:noreply,
+      socket
+      |> assign(:action_modal, :deny_invite)}
+  end
+
+  @impl true
+  def handle_event("delete", _, socket) do
+    {:noreply,
+      socket
+      |> assign(:action_modal, :delete)}
+  end
+
+  defp display_action_goal_confirm_title(action) do
+    case action do
+      :confirm_invite -> gettext("Are you sure you want to accept this request?")
+      :deny_invite -> gettext("Are you sure you want to deny this request?")
+      :delete -> gettext("Are you sure you want to remove this person from the department?")
+    end
+  end
+
+  defp display_action_goal_confirm_description(action, department) do
+    case action do
+      :confirm_invite -> gettext("If you change your mind you can always remove this person later.")
+      :deny_invite -> gettext("If you deny this request, this person will not get access to the department.")
+      :delete -> gettext("If you remove this person, they will no longer have access to %{department_name}.", department_name: department.name)
+    end
   end
 end

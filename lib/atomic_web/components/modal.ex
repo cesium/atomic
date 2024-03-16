@@ -41,7 +41,7 @@ defmodule AtomicWeb.Components.Modal do
           <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
             <.focus_wrap id={"#{@id}-container"} phx-click-away={JS.exec("phx-cancel", to: "##{@id}")} class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition">
               <div class="absolute top-6 right-5">
-                <button phx-click={JS.exec("phx-cancel", to: "##{@id}")} type="button" class="-m-3 flex-none p-3 opacity-20 hover:opacity-40" aria-label={gettext("close")}>
+                <button phx-click={JS.exec("phx-cancel", to: "##{@id}")} type="button" class="outline-none -m-3 flex-none p-3 opacity-20 hover:opacity-40" aria-label={gettext("close")}>
                   <.icon name={:x_mark} solid class="h-5 w-5" />
                 </button>
               </div>
