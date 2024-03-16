@@ -53,11 +53,7 @@
               <% end %>
             <% else %>
               <!-- Exit collaborators view -->
-              <div class="mt-2 h-full lg:mt-0">
-                <button phx-click="show-default">
-                  <Heroicons.arrow_left_circle class="mr-3 w-8 h-8 text-zinc-400 hover:text-orange-500" />
-                </button>
-              </div>
+              <.button icon={:arrow_left} icon_variant={:solid} color={:white} phx-click="show-default"></.button>
             <% end %>
           </div>
         </div>
@@ -95,7 +91,9 @@
                     <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
                     <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
                     <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
-                    <:col :let={collaborator} label="Accepted" field={:string}><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></:col>
+                    <:col :let={collaborator} label="Accepted" field={:string}>
+                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="text-gray-600 rounded-md mx-auto block" />
+                    </:col>
                     <:col :let={collaborator} label="Requested At" field={:string}><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></:col>
                     <:col :let={collaborator}>
                       <%= if collaborator.accepted do %>

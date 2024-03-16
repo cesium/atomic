@@ -61,7 +61,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
               size={:lg}
               icon={:check_circle}
               color={
-                if @action_modal != :delete do
+                if @action_modal != :delete_collaborator do
                   :white
                 else
                   :danger
