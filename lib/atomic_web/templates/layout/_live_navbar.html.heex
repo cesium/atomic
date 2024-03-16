@@ -126,47 +126,37 @@
             <!-- Profile menu or "Sign in" -->
             <li class="-mx-6 mt-auto -mb-2" @click="menu = ! menu">
               <span class="sr-only">Open user menu</span>
-              <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
-                <AtomicWeb.Components.Avatar.avatar
-                  name={@current_user.name}
-                  src={
-                    if @current_user.profile_picture do
-                      Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
-                    else
-                      nil
-                    end
-                  }
-                  size={:xs}
-                  fg_color="zinc-400"
-                  bg_color="zinc-200"
-                  class="!text-sm"
-                />
-                <span class="hidden lg:flex lg:items-center">
-                  <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
-                  <svg class="-rotate-90 ml-2 h-5 w-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-                <div
-                  class="absolute right-0 z-10 w-32 mb-16 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="user-menu-button"
-                  tabindex="-1"
-                  x-show="menu"
-                  x-transition:enter="transition ease-out duration-100"
-                  x-transition:enter-start="transform opacity-0 scale-95"
-                  x-transition:enter-end="transform opacity-100 scale-100"
-                  x-transition:leave="transition ease-in duration-75"
-                  x-transition:leave-start="transform opacity-100 scale-100"
-                  x-transition:leave-end="transform opacity-0 scale-95"
-                  @click.away="menu = false"
-                  @keydown.escape="menu = false"
-                >
-                  <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-                  <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-                </div>
-              </button>
+              <AtomicWeb.Components.Dropdown.dropdown
+                orientation={:top}
+                items={[
+                  %{name: "Your profile", link: Routes.profile_show_path(@socket, :show, @current_user)},
+                  %{name: "Sign out", link: Routes.user_session_path(@socket, :delete)}
+                ]}
+                id="user-menu-button"
+              >
+                <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
+                  <AtomicWeb.Components.Avatar.avatar
+                    name={@current_user.name}
+                    src={
+                      if @current_user.profile_picture do
+                        Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                      else
+                        nil
+                      end
+                    }
+                    size={:xs}
+                    fg_color="zinc-400"
+                    bg_color="zinc-200"
+                    class="!text-sm"
+                  />
+                  <span class="hidden lg:flex lg:items-center">
+                    <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
+                    <svg class="-rotate-90 ml-2 h-5 w-5 text-zinc-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </button>
+              </AtomicWeb.Components.Dropdown.dropdown>
             </li>
           <% else %>
             <div class="border-b border-zinc-200 mt-auto"></div>
@@ -193,42 +183,32 @@
         <%= if @is_authenticated? do %>
           <!-- Profile menu or "Sign in" -->
           <div class="relative block lg:hidden font-semibold">
-            <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
-              <span class="sr-only">Open user menu</span>
-              <AtomicWeb.Components.Avatar.avatar
-                name={@current_user.name}
-                src={
-                  if @current_user.profile_picture do
-                    Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
-                  else
-                    nil
-                  end
-                }
-                size={:xs}
-                fg_color="zinc-400"
-                bg_color="zinc-200"
-                class="!text-[16px]"
-              />
-            </button>
-            <div
-              class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="user-menu-button"
-              tabindex="-1"
-              x-show="menu"
-              x-transition:enter="transition ease-out duration-100"
-              x-transition:enter-start="transform opacity-0 scale-95"
-              x-transition:enter-end="transform opacity-100 scale-100"
-              x-transition:leave="transition ease-in duration-75"
-              x-transition:leave-start="transform opacity-100 scale-100"
-              x-transition:leave-end="transform opacity-0 scale-95"
-              @click.away="menu = false"
-              @keydown.escape="menu = false"
+            <AtomicWeb.Components.Dropdown.dropdown
+              orientation={:top}
+              items={[
+                %{name: "Your profile", link: Routes.profile_show_path(@socket, :show, @current_user)},
+                %{name: "Sign out", link: Routes.user_session_path(@socket, :delete)}
+              ]}
+              id="user-dropdown-menu"
             >
-              <%= link("Your profile", to: Routes.profile_show_path(@socket, :show, @current_user), class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-              <%= link("Sign out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "block px-3 py-1 text-sm leading-6 text-zinc-900 hover:bg-zinc-50") %>
-            </div>
+              <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
+                <span class="sr-only">Open user menu</span>
+                <AtomicWeb.Components.Avatar.avatar
+                  name={@current_user.name}
+                  src={
+                    if @current_user.profile_picture do
+                      Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                    else
+                      nil
+                    end
+                  }
+                  size={:xs}
+                  fg_color="zinc-400"
+                  bg_color="zinc-200"
+                  class="!text-[16px]"
+                />
+              </button>
+            </AtomicWeb.Components.Dropdown.dropdown>
           </div>
         <% else %>
           <div class="flex lg:hidden flex-1 justify-end">

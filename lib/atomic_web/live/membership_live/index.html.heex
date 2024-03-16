@@ -10,18 +10,18 @@
   <div x-data="{ menu: false }" class="flex w-100 flex-row justify-end">
     <!-- Export option dropdown -->
     <div class="relative block font-semibold">
-      <button
-        type="button"
-        class="group flex border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white"
+      <.dropdown
+        orientation={:down}
         id="export-menu-button"
-        aria-expanded="false"
-        aria-haspopup="true"
-        @click="menu = ! menu"
-        @click.away="menu = false"
-        @keydown.escape="menu = false"
+        items={[
+          %{name: "Export to CSV", link: Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"])},
+          %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])}
+        ]}
       >
-        <.icon name={:cloud_arrow_down} solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
-      </button>
+        <button class="group flex border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white">
+          <.icon name={:cloud_arrow_down} solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
+        </button>
+      </.dropdown>
       <div
         class="absolute right-0 z-10 mt-2.5 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none"
         role="menu"
