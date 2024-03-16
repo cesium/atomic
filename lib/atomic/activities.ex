@@ -154,9 +154,7 @@ defmodule Atomic.Activities do
   """
   def verify_maximum_enrollments?(activity_id) do
     activity = get_activity!(activity_id)
-    total_enrolled = get_total_enrolled(activity_id)
-
-    activity.maximum_entries > total_enrolled
+    activity.maximum_entries == activity.enrolled
   end
 
   @doc """
@@ -412,13 +410,25 @@ defmodule Atomic.Activities do
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    %ActivityEnrollment{}
-    |> ActivityEnrollment.changeset(%{
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:activity_enrollments, %ActivityEnrollment{
       activity_id: activity_id,
       user_id: user.id
     })
-    |> Repo.insert()
-    |> broadcast(:new_enrollment)
+    |> Multi.update(:activity, fn %{activity_enrollments: enrollment} ->
+      activity = get_activity!(enrollment.activity_id)
+
+      Activity.changeset(activity, %{enrolled: activity.enrolled + 1})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity_enrollments: enrollment, activity: _activity}} ->
+        broadcast({:ok, enrollment}, :new_enrollment)
+        {:ok, enrollment}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -452,28 +462,22 @@ defmodule Atomic.Activities do
 
   """
   def delete_enrollment(activity_id, %User{} = user) do
-    Repo.delete_all(
-      from e in ActivityEnrollment,
-        where: e.user_id == ^user.id and e.activity_id == ^activity_id
-    )
-    |> broadcast(:deleted_enrollment)
-  end
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:activity_enrollments, get_user_enrolled(user, activity_id))
+    |> Multi.update(:activity, fn %{activity_enrollments: _enrollment} ->
+      activity = get_activity!(activity_id)
 
-  @doc """
-  Returns the total number of enrolled users in an activity.
+      Activity.changeset(activity, %{enrolled: activity.enrolled - 1})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity_enrollments: _enrollment, activity: _activity}} ->
+        broadcast({1, nil}, :deleted_enrollment)
+        {1, nil}
 
-  ## Examples
-
-      iex> get_total_enrolled(activity_id)
-      10
-
-      iex> get_total_enrolled(activity_id)
-      0
-  """
-  def get_total_enrolled(activity_id) do
-    ActivityEnrollment
-    |> where(activity_id: ^activity_id)
-    |> Repo.aggregate(:count, :id)
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

@@ -16,13 +16,23 @@ defmodule AtomicWeb.Components.Avatar do
     default: :md,
     doc: "The size of the avatar."
 
-  attr :fg_color, :string,
-    default: "white",
-    doc: "The color of the text when no image is provided."
-
-  attr :bg_color, :string,
-    default: "zinc-400",
-    doc: "The background color of the avatar when no image is provided."
+  attr :color, :atom,
+    default: :primary,
+    values: [
+      :primary,
+      :secondary,
+      :info,
+      :success,
+      :warning,
+      :danger,
+      :gray,
+      :light_gray,
+      :pure_white,
+      :white,
+      :light,
+      :dark
+    ],
+    doc: "Button color."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
 
@@ -30,7 +40,7 @@ defmodule AtomicWeb.Components.Avatar do
     ~H"""
     <span class={generate_classes(assigns)}>
       <%= if @src do %>
-        <img src={@src} class="h-full w-full" />
+        <img src={@src} class={"atomic-avatar--#{assigns.type} h-full w-full"} />
       <% else %>
         <%= extract_initials(@name) %>
       <% end %>
@@ -39,28 +49,13 @@ defmodule AtomicWeb.Components.Avatar do
   end
 
   defp generate_classes(assigns) do
-    "flex shrink-0 items-center justify-center select-none #{classes(:type, assigns)} #{classes(:size, assigns)} #{classes(:bg_color, assigns)} #{classes(:fg_color, assigns)} #{assigns.class}"
+    [
+      "atomic-avatar",
+      assigns.src && "atomic-avatar--src",
+      "atomic-avatar--#{assigns.color}",
+      "atomic-avatar--#{assigns.size}",
+      "atomic-avatar--#{assigns.type}",
+      assigns.class
+    ]
   end
-
-  defp classes(:type, %{type: :user}), do: "rounded-full"
-
-  defp classes(:type, %{type: :organization}), do: "rounded-lg"
-
-  defp classes(:type, %{type: :company}), do: "rounded-lg"
-
-  defp classes(:size, %{size: :xs}), do: "h-8 w-8 text-xs font-medium leading-none"
-
-  defp classes(:size, %{size: :sm}), do: "h-12 w-12 text-lg font-medium leading-none"
-
-  defp classes(:size, %{size: :md}), do: "h-16 w-16 text-lg font-medium leading-none"
-
-  defp classes(:size, %{size: :lg}), do: "h-20 w-20 text-4xl font-medium leading-none"
-
-  defp classes(:size, %{size: :xl}), do: "h-24 w-24 text-4xl font-medium leading-none"
-
-  defp classes(:fg_color, %{fg_color: color}), do: "text-#{color}"
-
-  defp classes(:bg_color, %{bg_color: color, src: nil}), do: "bg-#{color}"
-
-  defp classes(_, _), do: ""
 end

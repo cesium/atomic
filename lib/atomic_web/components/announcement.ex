@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Announcement do
     <div>
       <div class="flex space-x-3">
         <div class="my-auto flex-shrink-0">
-          <.avatar name={@announcement.organization.name} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} bg_color="zinc-200" fg_color="zinc-600" />
+          <.avatar name={@announcement.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
         </div>
         <div class="min-w-0 flex-1">
           <object>
