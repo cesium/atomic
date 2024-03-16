@@ -105,6 +105,24 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
+  def handle_info({:change_collaborator, %{status: status, message: message}}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(status, message)
+     |> assign(:live_action, :show)
+     |> push_patch(
+       to:
+         Routes.department_show_path(
+           socket,
+           :show,
+           socket.assigns.organization,
+           socket.assigns.department,
+           Map.delete(socket.assigns.params, "collaborator_id")
+         )
+     )}
+  end
+
+  @impl true
   def handle_event("collaborate", _, socket) do
     department = socket.assigns.department
     user = socket.assigns.current_user
