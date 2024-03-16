@@ -97,6 +97,7 @@ defmodule Atomic.ActivitiesTest do
       activity = insert(:activity)
 
       assert {:ok, %ActivityEnrollment{}} = Activities.create_enrollment(activity.id, user)
+      assert Activities.get_activity!(activity.id).enrolled == 1
     end
 
     test "update_enrollment/2 with valid data updates the enrollment" do
