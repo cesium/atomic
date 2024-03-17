@@ -19,42 +19,49 @@
                 </h3>
               </.link>
             </div>
-            <%= if @current_view == "show" do %>
-              <!-- Collaborate -->
-              <%= if !@current_collaborator do %>
-                <%= if @department.collaborator_applications do %>
-                  <button
-                    phx-click={
-                        "#{if @is_authenticated? do
-                          "collaborate"
-                        else
-                          "must-login"
-                        end}"
-                      }
-                    class="inline-flex select-none items-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-                  >
-                    <%= gettext("Collaborate") %>
-                  </button>
+            <!-- Actions -->
+            <div class="flex flex-row gap-4">
+              <%= if @current_view == "show" do %>
+                <!-- Collaborate -->
+                <%= if !@current_collaborator do %>
+                  <%= if @department.collaborator_applications do %>
+                    <.button
+                      phx-click={
+                          "#{if @is_authenticated? do
+                            "collaborate"
+                          else
+                            "must-login"
+                          end}"
+                        }
+                      color={:white}
+                      icon={:user_plus}
+                      icon_variant={:solid}
+                    >
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% else %>
+                  <%= if ! @current_collaborator.accepted do %>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% end %>
+                <%= if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do %>
+                  <!-- Collaborators view -->
+                  <.button icon={:user_group} icon_variant={:solid} color={:white} phx-click="show-collaborators"></.button>
+                  <!-- Kanban board -->
+                  <.button icon={:view_columns} icon_variant={:solid} color={:white} phx-click="show-edit"></.button>
+                <% end %>
+                <!-- Edit department -->
+                <%= if @has_permissions? do %>
+                  <.button icon={:pencil} icon_variant={:solid} color={:white} phx-click="show-edit"></.button>
                 <% end %>
               <% else %>
-                <%= if ! @current_collaborator.accepted do %>
-                  <div class="mt-2 h-full lg:mt-0">
-                    <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
-                      Waiting for approval...
-                    </button>
-                  </div>
-                <% else %>
-                  <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                    <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
-                      Collaborator
-                    </div>
-                  </div>
-                <% end %>
+                <!-- Exit collaborators view -->
+                <.button icon={:arrow_left} icon_variant={:solid} color={:white} phx-click="show-default"></.button>
               <% end %>
-            <% else %>
-              <!-- Exit collaborators view -->
-              <.button icon={:arrow_left} icon_variant={:solid} color={:white} phx-click="show-default"></.button>
-            <% end %>
+            </div>
           </div>
         </div>
         <%= if @current_view == "show" do %>

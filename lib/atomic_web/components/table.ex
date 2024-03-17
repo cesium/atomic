@@ -48,7 +48,7 @@ defmodule AtomicWeb.Components.Table do
       assign(assigns, :direction, order_direction(assigns.meta.flop.order_directions, index))
 
     ~H"""
-    <th class="border-r-[1px] py-3.5 px-4 text-left text-sm font-semibold text-zinc-900" scope="col">
+    <th class="border-r-[1px] px-4 py-3.5 text-left text-sm font-semibold text-zinc-900" scope="col">
       <%= if is_sortable?(@field, @meta.schema) && is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
         <div class="flex justify-between">
           <.link patch={build_sorting_query(@field, @meta)} class="mr-2 w-full">
