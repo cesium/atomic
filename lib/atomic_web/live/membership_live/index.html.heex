@@ -18,7 +18,7 @@
           %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])}
         ]}
       >
-        <.button button color={:primary} variant={:inverted} class="group">
+        <.button color={:primary} variant={:inverted} class="group">
           <.icon name={:cloud_arrow_down} solid class="mr-2 -ml-1 w-5 h-5 text-orange-500 group-hover:text-white" /> Export Memberships
         </.button>
       </.dropdown>
