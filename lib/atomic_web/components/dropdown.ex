@@ -5,7 +5,6 @@ defmodule AtomicWeb.Components.Dropdown do
   alias Phoenix.LiveView.JS
 
   attr :id, :string, required: true, doc: "The id of the dropdown."
-  attr :image, :string, default: "", doc: "The image of the dropdown."
   attr :items, :list, default: [], doc: "The items to display in the dropdown."
 
   attr :orientation, :atom,
