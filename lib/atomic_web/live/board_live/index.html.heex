@@ -1,38 +1,91 @@
-<div class="bg-white py-8">
-  <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="flex items-center border-b-2 border-zinc-200 justify-between">
-      <div class="min-w-0 flex flex-row items-center justsiy-center">
-        <.icon name={:arrow_small_left} solid class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
+<.page title="Board">
+  <div class="flex items-center justify-between border-b-2 border-zinc-200">
+    <%!-- <div class="justsiy-center flex min-w-0 flex-row items-center">
+        <.icon name={:arrow_small_left} solid class="mr-2 mb-2 h-8 w-8 cursor-pointer text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
+        <h2 class="mb-2 text-xl font-bold leading-7 text-zinc-900 sm:truncate sm:text-4xl">
           <%= gettext("Board") %> <%= @year %>
         </h2>
-        <.icon name={:arrow_small_right} solid class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
+        <.icon name={:arrow_small_right} solid class="mb-2 ml-2 h-8 w-8 cursor-pointer text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
+      </div> --%>
+    <%= if not @empty? and @has_permissions? do %>
+      <div class="mb-2 hidden lg:block lg:border-orange-500">
+        <.button navigate={Routes.board_new_path(@socket, :new, @organization)}>
+          + <%= gettext("New Board Member") %>
+        </.button>
       </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 mb-2 lg:block">
-          <.button navigate={Routes.board_new_path(@socket, :new, @organization)}>
-            + <%= gettext("New Board Member") %>
-          </.button>
-        </div>
-      <% end %>
+    <% end %>
+  </div>
+  <%= if @empty? and @has_permissions? do %>
+    <div class="mt-32">
+      <.empty_state url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
     </div>
-    <%= if @empty? and @has_permissions? do %>
-      <div class="mt-32">
-        <.empty_state url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
+  <% else %>
+    <%= if @has_permissions? do %>
+      <div class="max-w-64 container mx-6 mt-8 flex h-10 flex-row justify-between divide-x overflow-hidden rounded-lg border border-zinc-200 lg:mx-8">
+        <form phx-change="update_year" class="w-full">
+          <select class="w-full border-none" name="year">
+            <%= for board <- @boards do %>
+              <option value={board.year} selected={board.year == @year}><%= board.year %></option>
+            <% end %>
+          </select>
+        </form>
+        <span class="flex items-center">
+          <.button navigate={Routes.board_new_path(@socket, :new, @organization)} color={:light} class="border-none">
+            <.icon name={:plus} solid class="h-5 w-5 text-zinc-400" />
+          </.button>
+        </span>
+      </div>
+      <div class="border-zinc-30 container mx-6 mt-4 w-auto divide-y rounded-lg overflow-hidden border lg:mx-8">
+        <div class="flex flex-row bg-zinc-50 p-3">
+          <span><%= length(@board_departments) %> departments in your organization</span>
+        </div>
+        <ul id="sortable-list" phx-hook="InitSorting" class="flex max-w-7xl flex-col divide-y">
+          <%= for board_department <- @board_departments do %>
+            <li id={"board-department-#{board_department.id}"} class="flex max-w-full flex-row gap-x-5 p-2 text-center lg:mx-0 lg:max-w-none">
+              <div class="flex w-full justify-between">
+                <div class="flex flex-row items-center space-x-4">
+                  <%= if @role in [:owner, :admin] do %>
+                    <span class="handle cursor-row-resize">
+                      <.icon name={:bars_3} solid class="h-5 w-5 text-zinc-400" />
+                    </span>
+                  <% end %>
+                  <h1 class="w-fit text-lg tracking-tight text-zinc-900 sm:text-md"><%= board_department.name %></h1>
+                </div>
+                <div class="relative">
+                  <div class="container justify-center">
+                    <div class="flex flex-wrap justify-items-end">
+                      <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
+                        <.avatar class="mx-auto" color={:light_gray} name={user_organization.user.name} size={:xs} src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="text-nowrap">
+                <%= length(Board.get_board_department_users(board_department.id, preloads: [:user])) %> members
+              </span>
+              <.button navigate={Routes.board_new_path(@socket, :new, @organization)} color={:light}>
+                <span class="h-4 w-4 select-none">
+                  <.icon name={:pencil} />
+                </span>
+              </.button>
+            </li>
+          <% end %>
+        </ul>
       </div>
     <% else %>
       <%= for board_department <- @board_departments do %>
-        <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
+        <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none">
           <div class="flex flex-row items-center space-x-8">
             <%= if @role in [:owner, :admin] do %>
               <span class="handle cursor-row-resize">
-                <.icon name={:bars_3} solid class="w-5 h-5 text-zinc-400" />
+                <.icon name={:bars_3} solid class="h-5 w-5 text-zinc-400" />
               </span>
             <% end %>
             <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
           </div>
-          <div class="relative mb-10 lg:gap-x-24 ">
-            <div class="justify-center container mx-auto pt-5">
+          <div class="relative mb-10 lg:gap-x-24">
+            <div class="container mx-auto justify-center pt-5">
               <div class="flex flex-wrap justify-center">
                 <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
                   <.member_bubble user_organization={user_organization} />
@@ -43,5 +96,5 @@
         </li>
       <% end %>
     <% end %>
-  </ul>
-</div>
+  <% end %>
+</.page>

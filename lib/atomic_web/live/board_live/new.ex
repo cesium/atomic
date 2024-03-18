@@ -11,12 +11,14 @@ defmodule AtomicWeb.BoardLive.New do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => _organization_id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id}, _, socket) do
     {:noreply,
      socket
      |> assign(:current_page, :board)
      |> assign(:page_title, gettext("New Board"))
      |> assign(:user_organization, %UserOrganization{})
-     |> assign(:users, Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end))}
+     |> assign(:organization_id, organization_id)}
+
+    #  |> assign(:users, Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end))}
   end
 end
