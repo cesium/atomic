@@ -87,8 +87,8 @@ defmodule AtomicWeb.Components.Calendar do
               <div class="hidden md:ml-4 md:flex md:items-center">
                 <div class="relative">
                   <.dropdown
-                    orientation={:down}
                     id="calendar-dropdown"
+                    orientation={:down}
                     items={[
                       %{name: gettext("Week view"), link: @current_week_path},
                       %{name: gettext("Month view"), link: @current_month_path}
