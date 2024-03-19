@@ -34,7 +34,6 @@ let Hooks = {
   StickyScroll: StickyScroll
 };
 
-
 Hooks.ScrollToTop = {
   mounted() {
     this.el.addEventListener("click", e => {

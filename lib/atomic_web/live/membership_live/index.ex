@@ -5,6 +5,7 @@ defmodule AtomicWeb.MembershipLive.Index do
   import AtomicWeb.Components.Pagination
   import AtomicWeb.Components.Table
   import AtomicWeb.Components.Dropdown
+
   alias Atomic.Organizations
 
   @impl true
