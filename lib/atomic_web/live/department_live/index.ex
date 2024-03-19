@@ -22,7 +22,11 @@ defmodule AtomicWeb.DepartmentLive.Index do
       Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
       |> Enum.map(fn department ->
         collaborators =
-          department.id |> Departments.list_collaborators_by_department_id(preloads: [:user])
+          department.id
+          |> Departments.list_collaborators_by_department_id(
+            preloads: [:user],
+            where: [accepted: true]
+          )
 
         {department, collaborators}
       end)

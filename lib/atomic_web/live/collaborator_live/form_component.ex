@@ -1,8 +1,7 @@
 defmodule AtomicWeb.CollaboratorLive.FormComponent do
   use AtomicWeb, :live_component
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Badge
+  import AtomicWeb.Components.{Avatar, Badge}
 
   alias Atomic.Departments
   alias Phoenix.LiveView.JS
@@ -35,6 +34,12 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
           </.badge>
         <% end %>
       </div>
+      <%= if !@collaborator.accepted do %>
+        <div class="my-4 flex w-full select-none flex-row justify-center gap-2" aria-label={"#{display_date(@collaborator.inserted_at)} #{display_time(@collaborator.inserted_at)}"}>
+          <.icon class="my-auto h-5 w-5" name={:calendar} />
+          <p>Requested <%= Timex.from_now(@collaborator.inserted_at) %></p>
+        </div>
+      <% end %>
       <!-- Action Buttons -->
       <div class="mt-8 flex space-x-2">
         <%= if @collaborator.accepted do %>

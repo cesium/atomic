@@ -5,6 +5,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   import AtomicWeb.Components.Table
   import AtomicWeb.Components.Pagination
   import AtomicWeb.Components.Modal
+  import AtomicWeb.DepartmentLive.Components.DepartmentBannerPlaceholder
 
   alias Atomic.Accounts
   alias Atomic.Departments
@@ -178,6 +179,8 @@ defmodule AtomicWeb.DepartmentLive.Show do
 
   @impl true
   def handle_event("show-default", _payload, socket) do
+    IO.puts("TESTE VOLTAR")
+
     {:noreply,
      socket
      |> push_patch(

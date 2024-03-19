@@ -1,7 +1,7 @@
 <div class="min-h-[100vh] lg:border-r">
   <!-- Department Header -->
   <div class="w-full h-32 select-none">
-    <img class="h-full w-full object-cover" src={"https://github.com/identicons/#{@department.name |> String.slice(0..3)}.png"} />
+    <.department_banner_placeholder department={@department} class="object-cover" />
   </div>
   <div class="flex flex-col items-stretch justify-between lg:flex-row">
     <div class="flex w-full flex-col bg-white lg:flex-row">
@@ -82,6 +82,11 @@
                     <.avatar name={collaborator.user.name} size={:sm} color={:light_gray} />
                   </div>
                 <% end %>
+                <!-- People empty state -->
+                <%= if length(@all_collaborators) == 0 do %>
+                  <.icon class="mx-32 text-gray-900" name={:users} />
+                  <p class="text-center mb-4 select-none text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
+                <% end %>
               </div>
               <p phx-click="show-collaborators" class="hover:underline text-orange-500 hover:cursor-pointer">View all collaborators</p>
             </div>
@@ -101,7 +106,6 @@
                     <:col :let={collaborator} label="Accepted" field={:string}>
                       <input type="checkbox" disabled={true} checked={collaborator.accepted} class="text-gray-600 rounded-md mx-auto block" />
                     </:col>
-                    <:col :let={collaborator} label="Requested At" field={:string}><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></:col>
                     <:col :let={collaborator}>
                       <%= if collaborator.accepted do %>
                         <.button icon={:pencil} icon_variant={:solid} color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Edit</.button>

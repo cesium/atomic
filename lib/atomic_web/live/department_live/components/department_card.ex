@@ -3,6 +3,7 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
   use AtomicWeb, :component
 
   import AtomicWeb.Components.Avatar
+  import AtomicWeb.DepartmentLive.Components.DepartmentBannerPlaceholder
 
   attr :department, :map, required: true, doc: "The department to display."
   attr :collaborators, :list, required: true, doc: "The list of collaborators in the department."
@@ -22,7 +23,9 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
         </div>
       </div>
       <div>
-        <img class="h-36 w-full rounded-r-lg object-cover" src={"https://github.com/identicons/#{@department.name |> String.slice(0..3)}.png"} />
+        <div class="h-36 w-full rounded-r-lg object-cover">
+          <.department_banner_placeholder department={@department} class="rounded-r-lg" />
+        </div>
       </div>
     </div>
     """
