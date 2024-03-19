@@ -95,7 +95,7 @@ defmodule AtomicWeb.Components.Calendar do
                     ]}
                   >
                     <:wrapper>
-                      <.button color={:white} color={:white} icon={:chevron_down} icon_position={:right} icon_variant={:solid}>
+                      <.button color={:white} icon={:chevron_down} icon_position={:right} icon_variant={:solid}>
                         <%= if @mode == "month" do %>
                           <%= gettext("Month view") %>
                         <% else %>
