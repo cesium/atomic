@@ -4,6 +4,48 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   alias Atomic.Departments
 
   @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form :let={f} for={@changeset} id="department-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+        <div class="flex flex-col gap-y-8">
+          <div class="flex flex-col gap-y-1">
+            <div>
+              <%= label(f, :name, class: "text-sm font-semibold") %>
+              <p class="text-xs text-gray-500">The name of the department</p>
+            </div>
+            <%= text_input(f, :name, class: "focus:ring-primary-500 focus:border-primary-500") %>
+            <%= error_tag(f, :name) %>
+          </div>
+
+          <div class="flex flex-col gap-y-1">
+            <div>
+              <%= label(f, :description, class: "text-sm font-semibold") %>
+              <p class="text-xs text-gray-500">A brief description of the department</p>
+            </div>
+            <%= text_input(f, :description, class: "focus:ring-primary-500 focus:border-primary-500") %>
+            <%= error_tag(f, :description) %>
+          </div>
+
+          <div class="align-center flex">
+            <%= checkbox(f, :collaborator_applications, class: "text-primary-500 my-auto focus:ring-primary-500 focus:border-primary-500") %>
+            <div class="ml-4">
+              <%= label(f, :collaborator_applications, class: "text-sm font-semibold") %>
+              <p class="text-xs text-gray-500">Allow any user to apply to be a collaborator in this department</p>
+            </div>
+            <%= error_tag(f, :collaborator_applications) %>
+          </div>
+
+          <div class="mt-8 flex w-full justify-end">
+            <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+          </div>
+        </div>
+      </.form>
+    </div>
+    """
+  end
+
+  @impl true
   def update(%{department: department} = assigns, socket) do
     changeset = Departments.change_department(department)
 
@@ -23,6 +65,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"department" => department_params}, socket) do
     save_department(socket, socket.assigns.action, department_params)
   end

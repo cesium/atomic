@@ -9,7 +9,7 @@
   <!-- Departments index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={Routes.department_new_path(@socket, :new, @organization)} placeholder="department" />
+      <.empty_state url={Routes.department_edit_path(@socket, :new, @current_organization)} placeholder="department" />
     </div>
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
