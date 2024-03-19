@@ -12,7 +12,9 @@ defmodule AtomicWeb.Components.Dropdown do
     doc: "The orientation of the dropdown.",
     values: [:down, :up]
 
-  slot :wrapper, required: true, doc: "Slot to be rendered as a wrapper of the dropdown. For example, a custom button."
+  slot :wrapper,
+    required: true,
+    doc: "Slot to be rendered as a wrapper of the dropdown. For example, a custom button."
 
   def dropdown(assigns) do
     ~H"""
