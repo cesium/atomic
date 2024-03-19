@@ -94,14 +94,15 @@ defmodule AtomicWeb.Components.Calendar do
                       %{name: gettext("Month view"), link: @current_month_path}
                     ]}
                   >
-                    <.button color={:white}>
-                      <%= if @mode == "month" do %>
-                        <%= gettext("Month view") %>
-                      <% else %>
-                        <%= gettext("Week view") %>
-                      <% end %>
-                      <.icon name={:chevron_down} solid class="-mr-1 ml-2 h-5 w-5" />
-                    </.button>
+                    <:wrapper>
+                      <.button color={:white} color={:white} icon={:chevron_down} icon_position={:right} icon_variant={:solid}>
+                        <%= if @mode == "month" do %>
+                          <%= gettext("Month view") %>
+                        <% else %>
+                          <%= gettext("Week view") %>
+                        <% end %>
+                      </.button>
+                    </:wrapper>
                   </.dropdown>
 
                   <div x-bind:class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">

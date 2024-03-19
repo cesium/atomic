@@ -12,12 +12,12 @@ defmodule AtomicWeb.Components.Dropdown do
     doc: "The orientation of the dropdown.",
     values: [:down, :up]
 
-  slot :inner_block, required: true, doc: "Slot for the body content of the dropdown."
+  slot :wrapper, required: true, doc: "Slot for the body content of the dropdown."
 
   def dropdown(assigns) do
     ~H"""
     <div class="relative inline-block text-left" phx-click={JS.toggle(to: "##{assigns.id}", in: "block", out: "hidden")} phx-click-away={JS.hide(to: "##{assigns.id}")}>
-      <%= render_slot(@inner_block) %>
+      <%= render_slot(@wrapper) %>
       <div id={assigns.id} class={"#{if assigns.orientation == :down, do: "origin-top-right top-full", else: "origin-bottom-right bottom-full"} absolute right-0 z-10 mt-2 hidden w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"}>
         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
           <%= for item <- assigns.items do %>

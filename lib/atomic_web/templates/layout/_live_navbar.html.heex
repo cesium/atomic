@@ -134,26 +134,28 @@
                 ]}
                 id="user-menu-button"
               >
-                <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
-                  <AtomicWeb.Components.Avatar.avatar
-                    name={@current_user.name}
-                    src={
-                      if @current_user.profile_picture do
-                        Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
-                      else
-                        nil
-                      end
-                    }
-                    size={:xs}
-                    fg_color="zinc-400"
-                    bg_color="zinc-200"
-                    class="!text-sm"
-                  />
-                  <span class="hidden lg:flex lg:items-center">
-                    <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
-                    <.icon name={:chevron_right} solid class="h-5 w-5 text-zinc-400" />
-                  </span>
-                </button>
+                <:wrapper>
+                  <button class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-zinc-700 select-none">
+                    <AtomicWeb.Components.Avatar.avatar
+                      name={@current_user.name}
+                      src={
+                        if @current_user.profile_picture do
+                          Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                        else
+                          nil
+                        end
+                      }
+                      size={:xs}
+                      fg_color="zinc-400"
+                      bg_color="zinc-200"
+                      class="!text-sm"
+                    />
+                    <span class="hidden lg:flex lg:items-center">
+                      <span class="text-sm font-semibold leading-6 text-zinc-900" aria-hidden="true"><%= @current_user.name %></span>
+                      <.icon name={:chevron_right} solid class="h-5 w-5 text-zinc-400" />
+                    </span>
+                  </button>
+                </:wrapper>
               </AtomicWeb.Components.Dropdown.dropdown>
             </li>
           <% else %>
@@ -189,23 +191,25 @@
               ]}
               id="user-dropdown-menu"
             >
-              <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
-                <span class="sr-only">Open user menu</span>
-                <AtomicWeb.Components.Avatar.avatar
-                  name={@current_user.name}
-                  src={
-                    if @current_user.profile_picture do
-                      Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
-                    else
-                      nil
-                    end
-                  }
-                  size={:xs}
-                  fg_color="zinc-400"
-                  bg_color="zinc-200"
-                  class="!text-[16px]"
-                />
-              </button>
+              <:wrapper>
+                <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
+                  <span class="sr-only">Open user menu</span>
+                  <AtomicWeb.Components.Avatar.avatar
+                    name={@current_user.name}
+                    src={
+                      if @current_user.profile_picture do
+                        Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
+                      else
+                        nil
+                      end
+                    }
+                    size={:xs}
+                    fg_color="zinc-400"
+                    bg_color="zinc-200"
+                    class="!text-[16px]"
+                  />
+                </button>
+              </:wrapper>
             </AtomicWeb.Components.Dropdown.dropdown>
           </div>
         <% else %>
