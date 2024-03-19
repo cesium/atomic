@@ -1,7 +1,7 @@
 <.page title="Departments">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.department_new_path(@socket, :new, @current_organization)}>
+      <.button patch={Routes.department_edit_path(@socket, :new, @current_organization)}>
         <%= gettext("New") %>
       </.button>
     <% end %>

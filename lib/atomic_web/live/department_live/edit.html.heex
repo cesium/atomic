@@ -1,1 +1,25 @@
-<.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_show_path(@socket, :show, @organization_id, @department)} />
+<.page title={
+  if @live_action in [:new] do
+    "New Department"
+  else
+    "Edit #{@department.name}"
+  end
+}>
+  <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+    <.live_component
+      module={AtomicWeb.DepartmentLive.FormComponent}
+      id="department-edit"
+      organization={@current_organization}
+      title={@page_title}
+      action={@live_action}
+      department={@department}
+      return_to={
+        if @live_action in [:new] do
+          Routes.department_index_path(@socket, :index, @organization_id)
+        else
+          Routes.department_show_path(@socket, :show, @organization_id, @department)
+        end
+      }
+    />
+  </div>
+</.page>

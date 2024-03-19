@@ -51,11 +51,11 @@
                   <!-- Collaborators view -->
                   <.button icon={:user_group} icon_variant={:solid} color={:white} phx-click="show-collaborators"></.button>
                   <!-- Kanban board -->
-                  <.button icon={:view_columns} icon_variant={:solid} color={:white} phx-click="show-edit"></.button>
+                  <.button icon={:view_columns} icon_variant={:solid} color={:white} disabled></.button>
                 <% end %>
                 <!-- Edit department -->
                 <%= if @has_permissions? do %>
-                  <.button icon={:pencil} icon_variant={:solid} color={:white} phx-click="show-edit"></.button>
+                  <.button icon={:pencil} icon_variant={:solid} color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)}></.button>
                 <% end %>
               <% else %>
                 <!-- Exit collaborators view -->
