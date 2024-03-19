@@ -99,15 +99,16 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   end
 
   defp delete_collaborator(socket) do
-    with {:ok, _} <- Departments.delete_collaborator(socket.assigns.collaborator) do
-      send(
-        self(),
-        {:change_collaborator,
-         %{status: :success, message: gettext("Collaborator removed successfully.")}}
-      )
+    case Departments.delete_collaborator(socket.assigns.collaborator) do
+      {:ok, _} ->
+        send(
+          self(),
+          {:change_collaborator,
+           %{status: :success, message: gettext("Collaborator removed successfully.")}}
+        )
 
-      {:noreply, socket |> assign(:action_modal, nil)}
-    else
+        {:noreply, socket |> assign(:action_modal, nil)}
+
       _ ->
         send(
           self(),
