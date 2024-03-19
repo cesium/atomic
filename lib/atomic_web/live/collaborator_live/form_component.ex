@@ -58,7 +58,8 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
           <p class="mt-4">
             <%= display_action_goal_confirm_description(@action_modal, @department) %>
           </p>
-          <div class="mt-8 flex flex-row-reverse">
+          <div class="mt-8 flex flex-row">
+            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width>Cancel</.button>
             <.button
               phx-click="confirm"
               class="ml-2"
@@ -76,7 +77,6 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
             >
               Confirm
             </.button>
-            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width>Cancel</.button>
           </div>
         </div>
       </.modal>

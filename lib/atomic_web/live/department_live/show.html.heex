@@ -1,12 +1,12 @@
 <div class="min-h-[100vh] lg:border-r">
   <!-- Department Header -->
-  <div class="w-full h-32 select-none">
+  <div class="h-32 w-full select-none">
     <.department_banner_placeholder department={@department} class="object-cover" />
   </div>
   <div class="flex flex-col items-stretch justify-between lg:flex-row">
     <div class="flex w-full flex-col bg-white lg:flex-row">
       <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-        <div class="max-w-5xl mx-4 sm:mx-6 lg:mx-8">
+        <div class="mx-4 max-w-5xl sm:mx-6 lg:mx-8">
           <div class="my-6 flex min-w-0 flex-row items-center justify-between">
             <!-- Department info -->
             <div>
@@ -49,7 +49,21 @@
                 <% end %>
                 <%= if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do %>
                   <!-- Collaborators view -->
-                  <.button icon={:user_group} icon_variant={:solid} color={:white} phx-click="show-collaborators"></.button>
+                  <.button
+                    icon={:user_group}
+                    icon_variant={:solid}
+                    color={:white}
+                    patch={
+                      Routes.department_show_path(
+                        @socket,
+                        :show,
+                        @organization.id,
+                        @department.id,
+                        tab: "collaborators"
+                      )
+                    }
+                  >
+                  </.button>
                   <!-- Kanban board -->
                   <.button icon={:view_columns} icon_variant={:solid} color={:white} disabled></.button>
                 <% end %>
@@ -59,7 +73,20 @@
                 <% end %>
               <% else %>
                 <!-- Exit collaborators view -->
-                <.button icon={:arrow_left} icon_variant={:solid} color={:white} phx-click="show-default"></.button>
+                <.button
+                  icon={:arrow_left}
+                  icon_variant={:solid}
+                  color={:white}
+                  patch={
+                    Routes.department_show_path(
+                      @socket,
+                      :show,
+                      @organization.id,
+                      @department.id
+                    )
+                  }
+                >
+                </.button>
               <% end %>
             </div>
           </div>
@@ -69,14 +96,14 @@
           <div class="mx-4 sm:mx-6 lg:mx-8">
             <%= @department.description %>
           </div>
-          <div class="mt-8 mx-4 sm:mx-6 lg:mx-8 grid grid-cols-3 grid-rows-1">
+          <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
             <div class="col-span-2">
-              <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Recent Activity</h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Recent Activity</h2>
             </div>
             <!-- People -->
             <div class="w-full">
-              <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">People</h2>
-              <div class="max-w-full mb-2 flex flex-wrap">
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">People</h2>
+              <div class="mb-2 flex max-w-full flex-wrap gap-1">
                 <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
                   <div class="h-12">
                     <.avatar name={collaborator.user.name} size={:sm} color={:light_gray} />
@@ -85,10 +112,23 @@
                 <!-- People empty state -->
                 <%= if length(@all_collaborators) == 0 do %>
                   <.icon class="mx-32 text-gray-900" name={:users} />
-                  <p class="text-center mb-4 select-none text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
+                  <p class="mb-4 select-none text-center text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
                 <% end %>
               </div>
-              <p phx-click="show-collaborators" class="hover:underline text-orange-500 hover:cursor-pointer">View all collaborators</p>
+              <.link
+                patch={
+                  Routes.department_show_path(
+                    @socket,
+                    :show,
+                    @organization.id,
+                    @department.id,
+                    tab: "collaborators"
+                  )
+                }
+                class="text-orange-500 hover:cursor-pointer hover:underline"
+              >
+                View all collaborators
+              </.link>
             </div>
           </div>
         <% end %>
@@ -97,14 +137,14 @@
             <%= if @has_permissions? do %>
               <!-- Collaborators admin view -->
               <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
                 <div class="border-t border-l">
                   <.table items={@collaborators} meta={@meta} filter={[]}>
                     <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
                     <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
                     <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
                     <:col :let={collaborator} label="Accepted" field={:string}>
-                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="text-gray-600 rounded-md mx-auto block" />
+                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="mx-auto block rounded-md text-gray-600" />
                     </:col>
                     <:col :let={collaborator}>
                       <%= if collaborator.accepted do %>
@@ -115,17 +155,17 @@
                     </:col>
                   </.table>
                 </div>
-                <.pagination items={@collaborators} meta={@meta} params={@params} class="pt-2 flex w-full items-center justify-between border border-t-0" />
+                <.pagination items={@collaborators} meta={@meta} params={@params} class="flex w-full items-center justify-between border border-t-0 pt-2" />
               </div>
             <% else %>
               <!-- Collaborators user view -->
               <div class="mx-4 sm:mx-6 lg:mx-8">
-                <h2 class="flex-1 mb-2 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
                 <%= for collaborator <- @collaborators do %>
-                  <div class="border border-zinc-200 hover:bg-zinc-50 p-3">
+                  <div class="border border-zinc-200 p-3 hover:bg-zinc-50">
                     <div class="flex">
                       <.avatar name={collaborator.user.name} />
-                      <div class="ml-3 h-full flex flex-col self-center">
+                      <div class="ml-3 flex h-full flex-col self-center">
                         <p><%= collaborator.user.name %></p>
                         <p>@<%= collaborator.user.slug %></p>
                       </div>

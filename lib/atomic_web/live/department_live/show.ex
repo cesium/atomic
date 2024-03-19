@@ -161,39 +161,6 @@ defmodule AtomicWeb.DepartmentLive.Show do
      |> push_navigate(to: Routes.user_session_path(socket, :new))}
   end
 
-  @impl true
-  def handle_event("show-collaborators", _payload, socket) do
-    {:noreply,
-     socket
-     |> push_patch(
-       to:
-         Routes.department_show_path(
-           socket,
-           :show,
-           socket.assigns.organization.id,
-           socket.assigns.department.id,
-           tab: "collaborators"
-         )
-     )}
-  end
-
-  @impl true
-  def handle_event("show-default", _payload, socket) do
-    IO.puts("TESTE VOLTAR")
-
-    {:noreply,
-     socket
-     |> push_patch(
-       to:
-         Routes.department_show_path(
-           socket,
-           :show,
-           socket.assigns.organization.id,
-           socket.assigns.department.id
-         )
-     )}
-  end
-
   defp maybe_put_collaborator(socket, _department_id) when not socket.assigns.is_authenticated?,
     do: nil
 

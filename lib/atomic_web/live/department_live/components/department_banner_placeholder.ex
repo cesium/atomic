@@ -27,7 +27,8 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentBannerPlaceholder do
       {"#34e89e", "#0f3443"},
       {"#44A08D", "#093637"},
       {"#DCE35B", "#45B649"},
-      {"#c0c0aa", "#1cefff"}
+      {"#c0c0aa", "#1cefff"},
+      {"#ee0979", "#ff6a00"}
     ]
 
     # Convert the UUID to an integer
