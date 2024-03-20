@@ -6,8 +6,7 @@ defmodule AtomicWeb.ActivityLive.New do
 
   @impl true
   def mount(_params, _session, socket) do
-    changeset = Activity.changeset(%Activity{})
-    {:ok, assign(socket, form: to_form(changeset))}
+    {:ok, assign(socket, activity: %Activity{})}
   end
 
   @impl true
