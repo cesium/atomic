@@ -20,7 +20,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
         },
         slots: [
           """
+          <:wrapper>
           <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Button</button>
+          </:wrapper>
           """
         ]
       },
@@ -41,7 +43,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             },
             slots: [
               """
-              <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Button Down</button>
+              <:wrapper>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Button Down</button>
+              </:wrapper>
               """
             ]
           },
@@ -58,7 +62,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             },
             slots: [
               """
-              <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Button Top</button>
+              <:wrapper>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Button Top</button>
+              </:wrapper>
               """
             ]
           }

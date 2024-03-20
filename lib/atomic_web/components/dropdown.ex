@@ -18,11 +18,11 @@ defmodule AtomicWeb.Components.Dropdown do
 
   def dropdown(assigns) do
     ~H"""
-    <div class="relative inline-block text-left" phx-click={JS.toggle(to: "##{assigns.id}", in: "block", out: "hidden")} phx-click-away={JS.hide(to: "##{assigns.id}")}>
+    <div class="relative inline-block text-left" phx-click={JS.toggle(to: "##{@id}", in: "block", out: "hidden")} phx-click-away={JS.hide(to: "##{@id}")}>
       <%= render_slot(@wrapper) %>
-      <div id={assigns.id} class={"#{if assigns.orientation == :down, do: "origin-top-right top-full", else: "origin-bottom-right bottom-full"} absolute right-0 z-10 mt-2 hidden w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"}>
+      <div id={@id} class={"#{if @orientation == :down, do: "origin-top-right top-full", else: "origin-bottom-right bottom-full"} absolute right-0 z-10 mt-2 hidden w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"}>
         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-          <%= for item <- assigns.items do %>
+          <%= for item <- @items do %>
             <a href={item.link} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
               <%= item.name %>
             </a>
