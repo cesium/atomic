@@ -69,6 +69,52 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             ]
           }
         ]
+      },
+      %VariationGroup{
+        id: :icons,
+        description: "Icons",
+        variations: [
+          %Variation{
+            id: :button,
+            attributes: %{
+              id: "dropdown-solid-icons",
+              icon_variant: :solid,
+              items: [
+                %{name: "Profile", link: "#", icon: :user},
+                %{name: "Settings", link: "#", icon: :cog},
+                %{name: "Logout", link: "#", icon: :arrow_left_on_rectangle}
+              ],
+              orientation: :down
+            },
+            slots: [
+              """
+              <:wrapper>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Dropdown with Solid Icons</button>
+              </:wrapper>
+              """
+            ]
+          },
+          %Variation{
+            id: :top,
+            attributes: %{
+              id: "dropdown-outline-icons",
+              icon_variant: :outline,
+              items: [
+                %{name: "Profile", link: "#", icon: :user},
+                %{name: "Settings", link: "#", icon: :cog},
+                %{name: "Logout", link: "#", icon: :arrow_left_on_rectangle}
+              ],
+              orientation: :top
+            },
+            slots: [
+              """
+              <:wrapper>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Dropdown with Outline Icons</button>
+              </:wrapper>
+              """
+            ]
+          }
+        ]
       }
     ]
   end

@@ -13,9 +13,10 @@
       <.dropdown
         orientation={:down}
         id="export-menu-button"
+        icon_variant={:solid}
         items={[
-          %{name: "Export to CSV", link: Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"])},
-          %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])}
+          %{name: "Export to CSV", link: Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"]), icon: :queue_list},
+          %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"]), icon: :table_cells}
         ]}
       >
         <:wrapper>
