@@ -5,6 +5,7 @@ defmodule AtomicWeb.Components.Activity do
   use AtomicWeb, :component
 
   import AtomicWeb.Components.Avatar
+  import AtomicWeb.Components.Popover
 
   alias Atomic.Activities.Activity
 
@@ -14,9 +15,10 @@ defmodule AtomicWeb.Components.Activity do
     ~H"""
     <div>
       <div class="flex space-x-3">
-        <div class="my-auto flex-shrink-0">
+        <div data-popover-target="organization" class="my-auto flex-shrink-0">
           <.avatar name={@activity.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} />
         </div>
+        <.popover type={:organization} organization={@activity.organization}/>
         <div class="min-w-0 flex-1">
           <object>
             <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)}>
