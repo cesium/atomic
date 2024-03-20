@@ -1,6 +1,6 @@
-defmodule AtomicWeb.Components.Field do
+defmodule AtomicWeb.Components.Forms do
   @moduledoc """
-  Fields to be used in conjunction with the `form` component from Phoenix.
+  Collection of fields to be used in conjunction with the `form` component from Phoenix.
   """
   use Phoenix.Component
 

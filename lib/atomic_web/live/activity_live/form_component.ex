@@ -5,7 +5,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   alias Atomic.Uploader
   alias AtomicWeb.Components.{ImageUploader, MultiSelect}
 
-  import AtomicWeb.Components.Field
+  import AtomicWeb.Components.Forms
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
