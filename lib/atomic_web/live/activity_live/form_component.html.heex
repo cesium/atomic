@@ -3,7 +3,7 @@
     <div class="relative py-5 border-b border-gray-200 sm:py-6">
       <div class="flex flex-col gap-y-3 lg:self-end">
         <div class="w-full">
-          <.field type="text" field={@form[:title]} placeholder="Choose a title" phx-debounce="blur" />
+          <.field type="text" field={@form[:title]} placeholder="Choose a title" required />
         </div>
       </div>
     </div>
@@ -16,21 +16,21 @@
       <div class="flex flex-col">
         <div class="flex pt-6 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <.field type="datetime-local" field={@form[:start]} label="Starting date" />
+            <.field type="datetime-local" field={@form[:start]} label="Starting date" required />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <.field type="datetime-local" field={@form[:finish]} label="Ending date" />
+            <.field type="datetime-local" field={@form[:finish]} label="Ending date" required />
           </div>
         </div>
 
         <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <.field type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" />
+            <.field type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" required />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <.field type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" />
+            <.field type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
           </div>
         </div>
 
@@ -51,13 +51,14 @@
         </div>
 
         <div class="flex-grow mt-4">
-          <.field type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} />
+          <.field type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         </div>
       </div>
     </div>
 
     <div class="flex-grow mt-4">
       <div class="flex justify-center lg:justify-end">
+        <!-- TODO: Implement a button with spinner when saving -->
         <.button type="submit" phx-disable-with="Saving...">Save</.button>
       </div>
     </div>

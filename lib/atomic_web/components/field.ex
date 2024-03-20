@@ -75,7 +75,7 @@ defmodule AtomicWeb.Components.Field do
     doc:
       "The message to be displayed when there are no options available for inputs in a group (checkboxes or radio button)."
 
-  attr :rows, :string, default: "4", doc: "The number of rows for textarea inputs."
+  attr :rows, :integer, default: 4, doc: "The number of rows for textarea inputs."
 
   attr :selected, :any, default: nil, doc: "The selected value for select inputs."
 
@@ -97,13 +97,11 @@ defmodule AtomicWeb.Components.Field do
   def field(%{field: %HTML.FormField{} = field} = assigns) do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
-    # |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+    |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
     |> assign_new(:name, fn ->
-      if assigns.multiple && assigns.type not in ["checkbox-group", "radio-group"] do
-        field.name <> "[]"
-      else
-        field.name
-      end
+      if assigns.multiple && assigns.type not in ["checkbox-group", "radio-group"],
+        do: field.name <> "[]",
+        else: field.name
     end)
     |> assign_new(:value, fn -> field.value end)
     |> assign_new(:label, fn -> humanize(field.field) end)
@@ -142,8 +140,8 @@ defmodule AtomicWeb.Components.Field do
         <%= HTML.Form.options_for_select(@options, @selected || @value) %>
       </select>
 
-      <%!-- <.field_error :for{msg <- @errors}><%= msg %><./field_error> --%>
-      <%!-- <.field_help_text help_text={@help_text} /> --%>
+      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
   end
@@ -159,8 +157,8 @@ defmodule AtomicWeb.Components.Field do
         <%= Phoenix.HTML.Form.normalize_value("textarea", @value) %>
       </textarea>
 
-      <%!-- <.field_error :for{msg <- @errors}><%= msg %><./field_error> --%>
-      <%!-- <.field_help_text help_text={@help_text} /> --%>
+      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
   end
@@ -182,8 +180,8 @@ defmodule AtomicWeb.Components.Field do
         <div><%= @label %></div>
       </label>
 
-      <%!-- <.field_error :for{msg <- @errors}><%= msg %><./field_error> --%>
-      <%!-- <.field_help_text help_text={@help_text} /> --%>
+      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
   end
@@ -231,8 +229,8 @@ defmodule AtomicWeb.Components.Field do
         <% end %>
       </div>
 
-      <%!-- <.field_error :for={msg <- @errors}><%= msg %></.field_error> --%>
-      <%!-- <.field_help_text help_text={@help_text} /> --%>
+      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
   end
@@ -269,8 +267,8 @@ defmodule AtomicWeb.Components.Field do
         <% end %>
       </div>
 
-      <%!-- <.field_error :for={msg <- @errors}><%= msg %></.field_error> --%>
-      <%!-- <.field_help_text help_text={@help_text} /> --%>
+      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
   end
@@ -290,7 +288,9 @@ defmodule AtomicWeb.Components.Field do
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
+
       <input type={@type} name={@name} id={@id} value={Phoenix.HTML.Form.normalize_value(@type, @value)} class={@class} required={@required} {@rest} />
+
       <.field_error :for={msg <- @errors}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
@@ -355,19 +355,14 @@ defmodule AtomicWeb.Components.Field do
   defp get_class_for_type("range"), do: "atomic-range-input"
   defp get_class_for_type(_), do: "atomic-text-input"
 
-  # TODO: translate_error/1 function
+  defp translate_error({msg, opts}) do
+    if count = opts[:count] do
+      Gettext.dngettext(AtomicWeb.Gettext, "errors", msg, msg, count, opts)
+    else
+      Gettext.dgettext(AtomicWeb.Gettext, "errors", msg, opts)
+    end
+  end
 
-  @doc """
-         Converts an attribute/form field into its humanize version.
-
-           iex> humanize(:username)
-           "Username"
-           iex> humanize(:created_at)
-           "Created at"
-           iex> humanize("user_id")
-           "User"
-
-       """ && false
   defp humanize(atom) when is_atom(atom), do: humanize(Atom.to_string(atom))
 
   defp humanize(bin) when is_binary(bin) do
