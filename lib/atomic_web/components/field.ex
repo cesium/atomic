@@ -137,7 +137,7 @@ defmodule AtomicWeb.Components.Field do
         <%= @label %>
       </.field_label>
 
-      <select id={@id} name={@name} class={@class} multiple={@multiple} required={@required} {@rest}>
+      <select id={@id} name={@name} class={["atomic-select", @class]} multiple={@multiple} required={@required} {@rest}>
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= HTML.Form.options_for_select(@options, @selected || @value) %>
       </select>
@@ -150,13 +150,12 @@ defmodule AtomicWeb.Components.Field do
 
   def field(%{type: "textarea"} = assigns) do
     ~H"""
-    <%!-- FIXME: Some classes are missing --%>
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
 
-      <textarea id={@id} name={@name} class={@class} rows={@rows} required={@required} {@rest}>
+      <textarea id={@id} name={@name} class={["atomic-text-input", @class]} rows={@rows} required={@required} {@rest}>
         <%= Phoenix.HTML.Form.normalize_value("textarea", @value) %>
       </textarea>
 
@@ -172,13 +171,13 @@ defmodule AtomicWeb.Components.Field do
 
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
-      <label class={@label_class}>
+      <label class={["atomic-switch-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
-        <label class="pc-switch">
+        <label class="atomic-switch">
           <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["sr-only peer", @class]} {@rest} />
 
-          <span class="pc-switch__fake-input"></span>
-          <span class="pc-switch__fake-input-bg"></span>
+          <span class="atomic-switch__fake-input"></span>
+          <span class="atomic-switch__fake-input-bg"></span>
         </label>
         <div><%= @label %></div>
       </label>
@@ -211,14 +210,14 @@ defmodule AtomicWeb.Components.Field do
 
       <input type="hidden" name={@name} value="" />
       <div class={[
-        "pc-checkbox-group",
-        @group_layout == "row" && "pc-checkbox-group--row",
-        @group_layout == "col" && "pc-checkbox-group--col",
+        "atomic-checkbox-group",
+        @group_layout == "row" && "atomic-checkbox-group--row",
+        @group_layout == "col" && "atomic-checkbox-group--col",
         @class
       ]}>
         <%= for {label, value} <- @options do %>
-          <label class="pc-checkbox-label">
-            <input type="checkbox" name={@name <> "[]"} checked_value={value} unchecked_value="" value={value} checked={to_string(value) in @checked} hidden_input={false} class="pc-checkbox" disabled={value in @disabled_options} {@rest} />
+          <label class="atomic-checkbox-label">
+            <input type="checkbox" name={@name <> "[]"} checked_value={value} unchecked_value="" value={value} checked={to_string(value) in @checked} hidden_input={false} class="atomic-checkbox" disabled={value in @disabled_options} {@rest} />
             <div>
               <%= label %>
             </div>
@@ -226,7 +225,7 @@ defmodule AtomicWeb.Components.Field do
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
-          <div class="pc-checkbox-group--empty-message">
+          <div class="atomic-checkbox-group--empty-message">
             <%= @empty_message %>
           </div>
         <% end %>
@@ -248,15 +247,15 @@ defmodule AtomicWeb.Components.Field do
       </.field_label>
 
       <div class={[
-        "pc-radio-group",
-        @group_layout == "row" && "pc-radio-group--row",
-        @group_layout == "col" && "pc-radio-group--col",
+        "atomic-radio-group",
+        @group_layout == "row" && "atomic-radio-group--row",
+        @group_layout == "col" && "atomic-radio-group--col",
         @class
       ]}>
         <input type="hidden" name={@name} value="" />
         <%= for {label, value} <- @options do %>
-          <label class="pc-checkbox-label">
-            <input type="radio" name={@name} value={value} checked={to_string(value) == to_string(@value) || to_string(value) == to_string(@checked)} class="pc-radio" {@rest} />
+          <label class="atomic-radio-label">
+            <input type="radio" name={@name} value={value} checked={to_string(value) == to_string(@value) || to_string(value) == to_string(@checked)} class="atomic-radio" {@rest} />
             <div>
               <%= label %>
             </div>
@@ -264,7 +263,7 @@ defmodule AtomicWeb.Components.Field do
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
-          <div class="pc-checkbox-group--empty-message">
+          <div class="atomic-radio-group--empty-message">
             <%= @empty_message %>
           </div>
         <% end %>
@@ -306,8 +305,7 @@ defmodule AtomicWeb.Components.Field do
 
   defp field_wrapper(assigns) do
     ~H"""
-    <%!-- FIXME: Some classes are missing --%>
-    <div phx-feedback-for={@name} {@rest} class={@class}>
+    <div phx-feedback-for={@name} {@rest} class={[@class, "atomic-form-field-wrapper", @errors != [] && "atomic-form-field-wrapper--error"]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -321,8 +319,7 @@ defmodule AtomicWeb.Components.Field do
 
   defp field_label(assigns) do
     ~H"""
-    <%!-- FIXME: Some classes are missing --%>
-    <label for={@for} class={@class} {@rest}>
+    <label for={@for} class={["atomic-label", @class, @required && "atomic-label--required"]} {@rest}>
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -332,7 +329,7 @@ defmodule AtomicWeb.Components.Field do
 
   defp field_error(assigns) do
     ~H"""
-    <p>
+    <p class="atomic-form-field-error">
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -345,7 +342,7 @@ defmodule AtomicWeb.Components.Field do
 
   def field_help_text(assigns) do
     ~H"""
-    <div :if={render_slot(@inner_block) || @help_text} class={["pc-form-help-text", @class]} {@rest}>
+    <div :if={render_slot(@inner_block) || @help_text} class={["atomic-form-help-text", @class]} {@rest}>
       <%= render_slot(@inner_block) || @help_text %>
     </div>
     """
@@ -353,10 +350,10 @@ defmodule AtomicWeb.Components.Field do
 
   defp get_class_for_type("radio"), do: "atomic-radio"
   defp get_class_for_type("checkbox"), do: "atomic-checkbox"
-  defp get_class_for_type("color"), do: "atomic-color"
-  defp get_class_for_type("file"), do: "atomic-file"
-  defp get_class_for_type("range"), do: "atomic-range"
-  defp get_class_for_type(_), do: "atomic-text"
+  defp get_class_for_type("color"), do: "atomic-color-input"
+  defp get_class_for_type("file"), do: "atomic-file-input"
+  defp get_class_for_type("range"), do: "atomic-range-input"
+  defp get_class_for_type(_), do: "atomic-text-input"
 
   # TODO: translate_error/1 function
 
