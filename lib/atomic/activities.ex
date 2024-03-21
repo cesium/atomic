@@ -41,10 +41,10 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_activities_by_organization_id((99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_activities_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", opts)
       [%Activity{}, ...]
 
-      iex> list_activities_by_organization_id((99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_activities_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", opts)
       ** (Ecto.NoResultsError)
   """
   def list_activities_by_organization_id(organization_id, params \\ %{})
@@ -180,13 +180,13 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> create_activity_with_post(%{field: value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: value, field: ~N[2020-01-01 00:00:00]})
       {:ok, %Activity{}}
 
       iex> create_activity_with_post(%{field: value})
       {:error, %Ecto.Changeset{}}
 
-      iex> create_activity_with_post(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: bad_value, field: ~N[2020-01-01 00:00:00]})
       {:error, %Ecto.Changeset{}}
 
       iex> create_activit__with_post(%{field: bad_value})
@@ -541,7 +541,7 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_speakers_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_speakers_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Speaker{}, ...]
 
   """

@@ -13,10 +13,16 @@ defmodule Atomic.Exporter do
 
   ## Examples
 
-    iex> entities_to_csv([%{name: "John Doe", age: 23}, %{name: "Jane Doe", age: 25}], [[:name], [:age]])
+    iex> entities_to_csv([%{name: "John Doe", age: 23}, %{name: "Jane Doe", age: 25}], [
+    ...>   [:name],
+    ...>   [:age]
+    ...> ])
     "name,age\\nJohn Doe,23\\nJane Doe,25"
 
-    iex> entities_to_csv([%{name: "John Doe", age: 23, dog: %{name: "Cooper", breed: "Beagle"}}], [[:name], [:dog, :breed]])
+    iex> entities_to_csv([%{name: "John Doe", age: 23, dog: %{name: "Cooper", breed: "Beagle"}}], [
+    ...>   [:name],
+    ...>   [:dog, :breed]
+    ...> ])
     "name,breed\\nJohn Doe,Beagle"
   """
   def entities_to_csv(entities, columns) do
@@ -38,7 +44,12 @@ defmodule Atomic.Exporter do
 
   ## Examples
 
-    iex> entities_to_xlsx_workbook([%{name: "John Doe", age: 23}, %{name: "Jane Doe", age: 25}], [[[:name], 20], [[:age], 10]], [], "People")
+    iex> entities_to_xlsx_workbook(
+    ...>   [%{name: "John Doe", age: 23}, %{name: "Jane Doe", age: 25}],
+    ...>   [[[:name], 20], [[:age], 10]],
+    ...>   [],
+    ...>   "People"
+    ...> )
     %Elixlsx.Workbook{
       sheets: [
         %Elixlsx.Sheet{
