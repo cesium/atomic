@@ -26,7 +26,7 @@ defmodule Atomic.Board do
 
   ## Examples
 
-      iex> list_boards_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_boards_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Board{}, ...]
 
   """
@@ -39,7 +39,10 @@ defmodule Atomic.Board do
 
   ## Examples
 
-      iex> get_boards([99d7c9e5-4212-4f59-a097-28aaa33c2621, 99d7c9e5-4212-4f59-a097-28aaa33c2621])
+      iex> get_boards([
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621",
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621"
+      ...> ])
       [%Board{}, ...]
 
       iex> get_boards(nil)
@@ -158,7 +161,7 @@ defmodule Atomic.Board do
 
   ## Examples
 
-      iex> list_board_departments_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_board_departments_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%BoardDepartments{}, ...]
 
   """
@@ -171,7 +174,10 @@ defmodule Atomic.Board do
 
   ## Examples
 
-      iex> get_board_departments([99d7c9e5-4212-4f59-a097-28aaa33c2621, 99d7c9e5-4212-4f59-a097-28aaa33c2621])
+      iex> get_board_departments([
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621",
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621"
+      ...> ])
       [%BoardDepartments{}, ...]
 
       iex> get_board_departments(nil)
