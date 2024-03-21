@@ -19,7 +19,7 @@ defmodule Atomic.Ecto.Year do
     {:ok, "2019/2020"}
 
     iex> Year.cast("2019-2020")
-    {:error,  [message: "Invalid string format"]}
+    {:error, [message: "Invalid string format"]}
 
     iex> Year.cast("2019-2021")
     {:error, [message: gettext("Second year is not the first + 1")]}

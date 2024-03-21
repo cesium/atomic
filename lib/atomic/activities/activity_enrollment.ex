@@ -37,9 +37,8 @@ defmodule Atomic.Activities.ActivityEnrollment do
   defp validate_maximum_entries(changeset) do
     activity_id = get_field(changeset, :activity_id)
     activity = Activities.get_activity!(activity_id)
-    enrolled = Activities.get_total_enrolled(activity.id)
 
-    if activity.maximum_entries <= enrolled do
+    if activity.maximum_entries <= activity.enrolled do
       add_error(changeset, :activity_id, gettext("maximum number of enrollments reached"))
     else
       changeset

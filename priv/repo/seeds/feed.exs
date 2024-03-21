@@ -59,7 +59,8 @@ defmodule Atomic.Repo.Seeds.Feed do
       location: location,
       minimum_entries: Enum.random(1..10),
       maximum_entries: Enum.random(11..20),
-      organization_id: organization_id
+      organization_id: organization_id,
+      enrolled: Enum.random(0..10)
     }
     |> Activities.create_activity_with_post()
     |> case do

@@ -41,10 +41,10 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_activities_by_organization_id((99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_activities_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", opts)
       [%Activity{}, ...]
 
-      iex> list_activities_by_organization_id((99d7c9e5-4212-4f59-a097-28aaa33c2621, opts)
+      iex> list_activities_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", opts)
       ** (Ecto.NoResultsError)
   """
   def list_activities_by_organization_id(organization_id, params \\ %{})
@@ -154,9 +154,7 @@ defmodule Atomic.Activities do
   """
   def verify_maximum_enrollments?(activity_id) do
     activity = get_activity!(activity_id)
-    total_enrolled = get_total_enrolled(activity_id)
-
-    activity.maximum_entries > total_enrolled
+    activity.maximum_entries == activity.enrolled
   end
 
   @doc """
@@ -182,13 +180,13 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> create_activity_with_post(%{field: value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: value, field: ~N[2020-01-01 00:00:00]})
       {:ok, %Activity{}}
 
       iex> create_activity_with_post(%{field: value})
       {:error, %Ecto.Changeset{}}
 
-      iex> create_activity_with_post(%{field: bad_value, ~N[2020-01-01 00:00:00]})
+      iex> create_activity_with_post(%{field: bad_value, field: ~N[2020-01-01 00:00:00]})
       {:error, %Ecto.Changeset{}}
 
       iex> create_activit__with_post(%{field: bad_value})
@@ -412,13 +410,25 @@ defmodule Atomic.Activities do
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    %ActivityEnrollment{}
-    |> ActivityEnrollment.changeset(%{
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:activity_enrollments, %ActivityEnrollment{
       activity_id: activity_id,
       user_id: user.id
     })
-    |> Repo.insert()
-    |> broadcast(:new_enrollment)
+    |> Multi.update(:activity, fn %{activity_enrollments: enrollment} ->
+      activity = get_activity!(enrollment.activity_id)
+
+      Activity.changeset(activity, %{enrolled: activity.enrolled + 1})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity_enrollments: enrollment, activity: _activity}} ->
+        broadcast({:ok, enrollment}, :new_enrollment)
+        {:ok, enrollment}
+
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -452,28 +462,22 @@ defmodule Atomic.Activities do
 
   """
   def delete_enrollment(activity_id, %User{} = user) do
-    Repo.delete_all(
-      from e in ActivityEnrollment,
-        where: e.user_id == ^user.id and e.activity_id == ^activity_id
-    )
-    |> broadcast(:deleted_enrollment)
-  end
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:activity_enrollments, get_user_enrolled(user, activity_id))
+    |> Multi.update(:activity, fn %{activity_enrollments: _enrollment} ->
+      activity = get_activity!(activity_id)
 
-  @doc """
-  Returns the total number of enrolled users in an activity.
+      Activity.changeset(activity, %{enrolled: activity.enrolled - 1})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{activity_enrollments: _enrollment, activity: _activity}} ->
+        broadcast({1, nil}, :deleted_enrollment)
+        {1, nil}
 
-  ## Examples
-
-      iex> get_total_enrolled(activity_id)
-      10
-
-      iex> get_total_enrolled(activity_id)
-      0
-  """
-  def get_total_enrolled(activity_id) do
-    ActivityEnrollment
-    |> where(activity_id: ^activity_id)
-    |> Repo.aggregate(:count, :id)
+      {:error, _reason, changeset, _actions} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -537,7 +541,7 @@ defmodule Atomic.Activities do
 
   ## Examples
 
-      iex> list_speakers_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_speakers_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Speaker{}, ...]
 
   """
