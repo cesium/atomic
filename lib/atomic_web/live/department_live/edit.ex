@@ -11,20 +11,11 @@ defmodule AtomicWeb.DepartmentLive.Edit do
   end
 
   @impl true
-  def handle_params(params, uri, %{:assigns => %{:live_action => live_action}} = socket) do
-    case live_action do
-      :new ->
-        handle_params_new(params, uri, socket)
-
-      :edit ->
-        handle_params_edit(params, uri, socket)
-
-      _ ->
-        {:noreply, socket}
-    end
-  end
-
-  def handle_params_edit(%{"organization_id" => organization_id, "id" => id} = _params, _, socket) do
+  def handle_params(
+        %{"organization_id" => organization_id, "id" => id} = _params,
+        _,
+        %{:assigns => %{:live_action => :edit}} = socket
+      ) do
     department = Departments.get_department!(id)
 
     {:noreply,
@@ -35,7 +26,12 @@ defmodule AtomicWeb.DepartmentLive.Edit do
      |> assign(:department, department)}
   end
 
-  def handle_params_new(%{"organization_id" => organization_id} = _params, _, socket) do
+  @impl true
+  def handle_params(
+        %{"organization_id" => organization_id} = _params,
+        _,
+        %{:assigns => %{:live_action => :new}} = socket
+      ) do
     {:noreply,
      socket
      |> assign(:organization_id, organization_id)
