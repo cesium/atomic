@@ -4,8 +4,7 @@ defmodule AtomicWeb.Components.Activity do
   """
   use AtomicWeb, :component
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Popover
+  import AtomicWeb.Components.{Avatar, Popover}
 
   alias Atomic.Activities.Activity
 
@@ -14,23 +13,26 @@ defmodule AtomicWeb.Components.Activity do
   def activity(assigns) do
     ~H"""
     <div>
-      <div class="flex space-x-3">
-        <div data-popover-target="organization" class="my-auto flex-shrink-0">
-          <.avatar name={@activity.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} />
+      <div class="flex">
+        <div class="my-auto flex-shrink-0">
+          <.popover type={:organization} organization={@activity.organization} position="position:top">
+            <.avatar name={@activity.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} />
+          </.popover>
         </div>
-        <.popover type={:organization} organization={@activity.organization}/>
-        <div class="min-w-0 flex-1">
-          <object>
-            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)}>
-              <span class="text-sm font-medium text-gray-900 hover:underline focus:outline-none">
-                <%= @activity.organization.name %>
-              </span>
-            </.link>
-          </object>
-          <p class="text-sm text-gray-500">
-            <span class="sr-only">Published on</span>
-            <time><%= relative_datetime(@activity.inserted_at) %></time>
-          </p>
+        <div class="ml-3">
+          <div class="min-w-0 flex-1">
+            <object>
+              <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)}>
+                <span class="text-sm font-medium text-gray-900 hover:underline focus:outline-none">
+                  <%= @activity.organization.name %>
+                </span>
+              </.link>
+            </object>
+            <p class="text-sm text-gray-500">
+              <span class="sr-only">Published on</span>
+              <time><%= relative_datetime(@activity.inserted_at) %></time>
+            </p>
+          </div>
         </div>
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @activity.title %></h2>
