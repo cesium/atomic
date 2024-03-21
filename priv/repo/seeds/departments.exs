@@ -56,11 +56,19 @@ defmodule Atomic.Repo.Seeds.Departments do
   def seed_collaborators do
     for department <- Repo.all(Department) do
       for user <- Repo.all(Atomic.Accounts.User) do
+        is_accepted = Enum.random([true, false])
+
         if Enum.random(0..6) == 1 do
           %{
             department_id: department.id,
             user_id: user.id,
-            accepted: Enum.random([true, false])
+            accepted: is_accepted,
+            accepted_at:
+              if is_accepted do
+                NaiveDateTime.utc_now()
+              else
+                nil
+              end
           }
           |> Departments.create_collaborator()
         end

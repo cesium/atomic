@@ -253,6 +253,24 @@ defmodule Atomic.Departments do
   end
 
   @doc """
+  Accepts a collaborator.
+
+  ## Examples
+
+      iex> accept_collaborator(collaborator)
+      {:ok, %Collaborator{}}
+
+      iex> accept_collaborator(collaborator)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def accept_collaborator(%Collaborator{} = collaborator) do
+    collaborator
+    |> Collaborator.changeset(%{accepted: true, accepted_at: NaiveDateTime.utc_now()})
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a collaborator.
 
   ## Examples

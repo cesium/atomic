@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.Collaborator do
   alias Atomic.Organizations.Department
 
   @required_fields ~w(user_id department_id)a
-  @optional_fields ~w(accepted)a
+  @optional_fields ~w(accepted accepted_at)a
 
   @derive {
     Flop.Schema,
@@ -29,6 +29,7 @@ defmodule Atomic.Organizations.Collaborator do
     belongs_to :department, Department
 
     field :accepted, :boolean, default: false
+    field :accepted_at, :naive_datetime
 
     timestamps()
   end

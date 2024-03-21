@@ -26,7 +26,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
         </.link>
         <%= if @collaborator.accepted do %>
           <.badge variant={:outline} color={:success} size={:md} class="my-5 select-none rounded-xl py-1 font-normal sm:ml-auto sm:py-0">
-            <p>Collaborator since <%= display_date(@collaborator.inserted_at) %></p>
+            <p>Collaborator since <%= display_date(@collaborator.accepted_at) %></p>
           </.badge>
         <% else %>
           <.badge variant={:outline} color={:warning} size={:md} class="bg-yellow-300/5 my-5 select-none rounded-xl border-yellow-400 py-1 font-normal text-yellow-400 sm:ml-auto sm:py-0">
@@ -67,10 +67,10 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
               size={:lg}
               icon={:check_circle}
               color={
-                if @action_modal != :delete_collaborator do
-                  :white
-                else
+                if @action_modal in [:delete_collaborator, :deny_request] do
                   :danger
+                else
+                  :success
                 end
               }
               full_width
@@ -95,12 +95,29 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
      |> assign(:changeset, changeset)}
   end
 
-  defp confirm_collaborator_request(socket) do
-    {:noreply, socket}
-  end
-
   defp deny_collaborator_request(socket) do
-    {:noreply, socket}
+    case Departments.delete_collaborator(socket.assigns.collaborator) do
+      {:ok, _} ->
+        send(
+          self(),
+          {:change_collaborator,
+           %{status: :success, message: gettext("Collaborator request denied.")}}
+        )
+
+        {:noreply, socket |> assign(:action_modal, nil)}
+
+      _ ->
+        send(
+          self(),
+          {:change_collaborator,
+           %{
+             status: :error,
+             message: gettext("Could not deny the collaborator request. Please try again later.")
+           }}
+        )
+
+        {:noreply, socket |> assign(:action_modal, nil)}
+    end
   end
 
   defp delete_collaborator(socket) do
@@ -128,10 +145,35 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
     end
   end
 
+  defp accept_collaborator_request(socket) do
+    case Departments.accept_collaborator(socket.assigns.collaborator) do
+      {:ok, _} ->
+        send(
+          self(),
+          {:change_collaborator,
+           %{status: :success, message: gettext("Collaborator accepted successfully.")}}
+        )
+
+        {:noreply, socket |> assign(:action_modal, nil)}
+
+      _ ->
+        send(
+          self(),
+          {:change_collaborator,
+           %{
+             status: :error,
+             message: gettext("Could not accept the collaborator. Please try again later.")
+           }}
+        )
+
+        {:noreply, socket |> assign(:action_modal, nil)}
+    end
+  end
+
   @impl true
   def handle_event("confirm", _, socket) do
     case socket.assigns.action_modal do
-      :confirm_request -> confirm_collaborator_request(socket)
+      :confirm_request -> accept_collaborator_request(socket)
       :deny_request -> deny_collaborator_request(socket)
       :delete_collaborator -> delete_collaborator(socket)
     end
