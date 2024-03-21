@@ -91,7 +91,8 @@ defmodule Atomic.MixProject do
       {:pdf_generator, "~> 0.6.2"},
       {:quantum, "~> 3.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:elixlsx, "~> 0.5.1"}
+      {:elixlsx, "~> 0.5.1"},
+      {:doctest_formatter, "~> 0.2.0", runtime: false}
     ]
   end
 

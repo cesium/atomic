@@ -24,7 +24,7 @@ defmodule Atomic.Departments do
 
   ## Examples
 
-      iex> list_departments_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_departments_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Department{}, ...]
 
   """
@@ -40,7 +40,10 @@ defmodule Atomic.Departments do
 
   ## Examples
 
-      iex> get_departments([99d7c9e5-4212-4f59-a097-28aaa33c2621, 99d7c9e5-4212-4f59-a097-28aaa33c2621])
+      iex> get_departments([
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621",
+      ...>   "99d7c9e5-4212-4f59-a097-28aaa33c2621"
+      ...> ])
       [%Department{}, ...]
 
       iex> get_departments(nil)
@@ -155,7 +158,7 @@ defmodule Atomic.Departments do
 
   ## Examples
 
-      iex> list_collaborators_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_collaborators_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Collaborator{}, ...]
 
   """
@@ -319,7 +322,7 @@ defmodule Atomic.Departments do
 
   ## Examples
 
-      iex> list_collaborators_by_department_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_collaborators_by_department_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Collaborator{}, ...]
 
   """
