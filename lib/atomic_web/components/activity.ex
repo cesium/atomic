@@ -15,7 +15,7 @@ defmodule AtomicWeb.Components.Activity do
     <div>
       <div class="flex">
         <div class="my-auto flex-shrink-0">
-          <.popover type={:organization} organization={@activity.organization} position={:top}>
+          <.popover type={:organization} organization={@activity.organization} position={:right}>
             <:wrapper>
               <.avatar name={@activity.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} />
             </:wrapper>

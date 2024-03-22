@@ -30,9 +30,12 @@ defmodule AtomicWeb.Components.Popover do
       <%= render_slot(@wrapper) %>
       <div class={[
         "hidden group-hover:block transition-all delay-700 duration-300 ease-in-out",
-        triangle_class(position: @position)
+        triangle_class(position: @position),
       ]}>
-        <div class="absolute mt-2 z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition-all delay-700 duration-300 ease-in-out">
+        <div class={[
+            "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition-all delay-700 duration-300 ease-in-out",
+            popover_position(position: @position)
+          ]}>
           <%= render_popover(assigns, type: @type) %>
         </div>
       </div>
@@ -41,19 +44,35 @@ defmodule AtomicWeb.Components.Popover do
   end
 
   def triangle_class(position: :bottom) do
-    "before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
   end
 
   def triangle_class(position: :top) do
-    "before:border-l-[10px] before:border-t-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:bottom-full before:border-l-[10px] before:border-t-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mt-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
   end
 
   def triangle_class(position: :left) do
-    "before:border-t-[10px] before:border-l-[10px] before:border-b-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:right-full before:border-t-[10px] before:border-l-[10px] before:border-b-[10px] before:absolute before:my-3 before:mr-8 before:h-0 before:w-0 before:border-t-transparent before:border-l-gray-200 before:border-b-transparent"
   end
 
   def triangle_class(position: :right) do
-    "before:border-t-[10px] before:border-r-[10px] before:border-b-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:left-full before:top-0 before:border-t-[10px] before:border-r-[10px] before:border-b-[10px] before:absolute before:mt-9 before:h-0 before:w-0 before:border-t-transparent before:border-r-gray-200 before:border-b-transparent"
+  end
+
+  def popover_position(position: :bottom) do
+    "mt-2"
+  end
+
+  def popover_position(position: :top) do
+    "bottom-full mb-2"
+  end
+
+  def popover_position(position: :right) do
+    "left-full mx-2 top-0"
+  end
+
+  def popover_position(position: :left) do
+    "right-full mx-2 top-0"
   end
 
   def render_popover(assigns, type: :organization) do
