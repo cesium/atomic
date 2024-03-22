@@ -13,8 +13,10 @@ defmodule AtomicWeb.Components.Announcement do
     <div>
       <div class="flex">
         <div class="my-auto flex-shrink-0">
-          <.popover type={:organization} organization={@announcement.organization} position="position:top">
-            <.avatar name={@announcement.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
+          <.popover type={:organization} organization={@announcement.organization} position={:bottom}>
+            <:wrapper>
+              <.avatar name={@announcement.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
+            </:wrapper>
           </.popover>
         </div>
         <div class="ml-3">

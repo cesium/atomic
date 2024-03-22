@@ -12,20 +12,27 @@ defmodule AtomicWeb.Components.Popover do
     default: :user,
     doc: "The type of entity associated with the avatar."
 
-  attr :position, :string, required: true
+  attr :position, :atom,
+    values: [:top, :right, :bottom, :left],
+    required: true,
+    doc: "The position of the popover."
+
   attr :organization, :map, default: %{}, doc: "The organization to render."
   attr :user, :map, default: %{}, doc: "The user to render."
-  slot :inner_block
+
+  slot :wrapper,
+    required: true,
+    doc: "Slot to be rendered as a wrapper of the popover. For example, a avatar."
 
   def popover(assigns) do
     ~H"""
     <div class="group relative h-min">
-      <%= render_slot(@inner_block) %>
-      <div class="hidden transition delay-700 duration-300 ease-in before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent group-hover:block">
-        <div class={[
-          "absolute mt-2 z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden transition delay-700 duration-300 ease-in group-hover:block",
-          @position
-        ]}>
+      <%= render_slot(@wrapper) %>
+      <div class={[
+        "hidden group-hover:block transition-all delay-700 duration-300 ease-in-out",
+        triangle_class(position: @position)
+      ]}>
+        <div class="absolute mt-2 z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition-all delay-700 duration-300 ease-in-out">
           <%= render_popover(assigns, type: @type) %>
         </div>
       </div>
@@ -33,9 +40,25 @@ defmodule AtomicWeb.Components.Popover do
     """
   end
 
+  def triangle_class(position: :bottom) do
+    "before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+  end
+
+  def triangle_class(position: :top) do
+    "before:border-l-[10px] before:border-t-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+  end
+
+  def triangle_class(position: :left) do
+    "before:border-t-[10px] before:border-l-[10px] before:border-b-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+  end
+
+  def triangle_class(position: :right) do
+    "before:border-t-[10px] before:border-r-[10px] before:border-b-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+  end
+
   def render_popover(assigns, type: :organization) do
     ~H"""
-    <div class="p-3">
+    <div class="relative p-3">
       <div class="mb-2 mb-4 flex items-center justify-between">
         <.avatar name={@organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
         <div>
@@ -55,13 +78,4 @@ defmodule AtomicWeb.Components.Popover do
     """
   end
 
-  def render_popover(assigns, type: :user) do
-    ~H"""
-    <div class="p-3">
-      <div class="mb-2 mb-4 flex items-center justify-between">
-        User
-      </div>
-    </div>
-    """
-  end
 end
