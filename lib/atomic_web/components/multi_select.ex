@@ -7,7 +7,7 @@ defmodule AtomicWeb.Components.MultiSelect do
     @target - the target to send the event to
 
   The component events are:
-    toggle_option - toggles the selected state of an item. This event should be defined in the component that you passed in the @target attribute.
+    toggle-option - toggles the selected state of an item. This event should be defined in the component that you passed in the @target attribute.
   """
 
   use AtomicWeb, :live_component
@@ -56,7 +56,7 @@ defmodule AtomicWeb.Components.MultiSelect do
             style="display: none;"
           >
             <%= for item <- @items do %>
-              <li class="flex cursor-pointer select-none items-center justify-between py-2 pr-3 pl-3 text-gray-900" role="option" phx-target={@target} phx-click={JS.push("toggle_option", value: %{id: item.id})}>
+              <li class="flex cursor-pointer select-none items-center justify-between py-2 pr-3 pl-3 text-gray-900" role="option" phx-target={@target} phx-click={JS.push("toggle-option", value: %{id: item.id})}>
                 <span class="block truncate font-normal">
                   <%= item.label %>
                 </span>
