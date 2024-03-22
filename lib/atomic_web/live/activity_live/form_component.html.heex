@@ -1,12 +1,9 @@
 <div>
-  <.form :let={f} for={@changeset} id="activity-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+  <.form id="activity-form" for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
     <div class="relative py-5 border-b border-gray-200 sm:py-6">
       <div class="flex flex-col gap-y-3 lg:self-end">
         <div class="w-full">
-          <%= text_input(f, :title, placeholder: "Choose title", phx_debounce: "blur", class: "text-2xl leading-7 text-gray-700 sm:text-3xl h-14 sm:truncate mt-1 font-bold focus:ring-orange-500 focus:border-orange-500 block w-full shadow-sm border-gray-300 rounded-md") %>
-          <div class="flex text-red-500">
-            <%= error_tag(f, :title) %>
-          </div>
+          <.field type="text" field={@form[:title]} placeholder="Choose a title" required />
         </div>
       </div>
     </div>
@@ -19,49 +16,49 @@
       <div class="flex flex-col">
         <div class="flex pt-6 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <Forms.datetime_input id={:start} forms={f} label="Starting date" />
+            <.field type="datetime-local" field={@form[:start]} label="Starting date" required />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <Forms.datetime_input id={:finish} forms={f} label="Finishing date" />
+            <.field type="datetime-local" field={@form[:finish]} label="Ending date" required />
           </div>
         </div>
 
-        <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
+        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <Forms.number_input id={:minimum_entries} forms={f} label="Minimum entries" placeholder="Choose minimum entries" />
+            <.field type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" required />
           </div>
 
           <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-            <Forms.number_input id={:maximum_entries} forms={f} label="Maximum entries" placeholder="Choose maximum entries" />
+            <.field type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
           </div>
         </div>
 
-        <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
-          <%= inputs_for f, :location, fn fl -> %>
+        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
+          <.inputs_for :let={fl} field={@form[:location]}>
             <div class="flex flex-col gap-y-1">
-              <Forms.text_input id={:name} forms={fl} label="Location" placeholder="Choose location name" />
+              <.field type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
             </div>
 
             <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
-              <Forms.text_input id={:url} forms={fl} label="URL" placeholder="Choose event URL" />
+              <.field type="url" field={fl[:url]} label="URL" placeholder="Choose an URL" />
             </div>
-          <% end %>
+          </.inputs_for>
         </div>
 
-        <div class="flex flex-row mt-4 flex-col md:flex-row justify-center md:justify-start">
+        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
           <.live_component module={MultiSelect} id="speakers" items={@speakers} selected_items={@selected_speakers} target={@myself} />
         </div>
 
         <div class="flex-grow mt-4">
-          <Forms.textarea id={:description} forms={f} label="Description" placeholder="Choose description" rows={15} />
+          <.field type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         </div>
       </div>
     </div>
 
     <div class="flex-grow mt-4">
       <div class="flex justify-center lg:justify-end">
-        <%= submit("Save", phx_disable_with: "Saving...", class: "border-2 rounded-md bg-white text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white") %>
+        <.button type="submit" phx-disable-with="Saving...">Save</.button>
       </div>
     </div>
   </.form>
