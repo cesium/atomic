@@ -73,7 +73,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   end
 
   defp save_activity(socket, :new, activity_params) do
-    # TODO: Let user choose whether to create a post
     case Activities.create_activity_with_post(activity_params, &consume_image_data(socket, &1)) do
       {:ok, _activity} ->
         {:noreply,
