@@ -1,0 +1,23 @@
+/* Spinner */
+
+.atomic-spinner {
+  @apply animate-spin;
+}
+
+/* Spinner - sizes */
+
+.atomic-spinner--xs {
+  @apply w-2 h-2 shrink-0;
+}
+.atomic-spinner--sm {
+  @apply w-5 h-5 shrink-0;
+}
+.atomic-spinner--md {
+  @apply w-8 h-8 shrink-0;
+}
+.atomic-spinner--lg {
+  @apply w-16 h-16 shrink-0;
+}
+.atomic-spinner--xl {
+  @apply w-24 h-24 shrink-0;
+}

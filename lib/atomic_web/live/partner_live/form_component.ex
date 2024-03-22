@@ -2,6 +2,50 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Partners
+  alias AtomicWeb.Components.ImageUploader
+
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form :let={f} for={@changeset} id="partner-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+        <h2 class="mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("General") %></h2>
+        <div class="flex flex-col gap-y-8">
+          <div class="flex flex-col gap-y-1">
+            <div>
+              <%= label(f, :name, class: "text-sm font-semibold") %>
+              <p class="text-xs text-gray-500">The name of the partner</p>
+            </div>
+            <%= text_input(f, :name, class: "focus:ring-primary-500 focus:border-primary-500") %>
+            <%= error_tag(f, :name) %>
+          </div>
+          <div class="flex flex-col gap-y-1">
+            <div>
+              <%= label(f, :description, class: "text-sm font-semibold") %>
+              <p class="text-xs text-gray-500">A brief description of the partner</p>
+            </div>
+            <%= text_input(f, :description, class: "focus:ring-primary-500 focus:border-primary-500") %>
+            <%= error_tag(f, :description) %>
+          </div>
+        </div>
+        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
+        <div class="w-full gap-y-1">
+          <div>
+            <%= label(f, :banner, class: "text-sm font-semibold") %>
+            <p class="mb-2 text-xs text-gray-500">The banner of the partner</p>
+          </div>
+          <div>
+            <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+          </div>
+        </div>
+        <div class="mt-8 flex w-full justify-end">
+          <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+        </div>
+      </.form>
+    </div>
+    """
+  end
 
   @impl true
   def mount(socket) do

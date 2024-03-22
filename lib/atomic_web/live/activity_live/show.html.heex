@@ -36,7 +36,7 @@
               <div class="flex w-full">
                 <.icon name={:users} solid class="h-5 w-5 text-zinc-400" />
                 <div class="pl-2.5">
-                  <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+                  <%= @enrolled %> / <%= @activity.maximum_entries %>
                 </div>
               </div>
             </dd>
@@ -97,7 +97,7 @@
                   <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
                     <div class="text-sm font-medium text-zinc-500"></div>
                     <div class="mt-1 flex items-center">
-                      <.avatar name={speaker.name} size={:xs} bg_color="zinc-500" fg_color="white" class="mr-2 inline-flex" />
+                      <.avatar name={speaker.name} size={:xs} color={:light_gray} class="mr-2 inline-flex" />
                       <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
                         <%= extract_first_last_name(speaker.name) %>
                       </.link>

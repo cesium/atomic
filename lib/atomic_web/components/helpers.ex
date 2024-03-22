@@ -19,17 +19,17 @@ defmodule AtomicWeb.Components.Helpers do
       []
 
       iex> f = %Flop{order_by: [:name, :age], order_directions: [:desc, :asc]}
-      iex> to_query(f)
+      ...> to_query(f)
       [order_directions: [:desc, :asc], order_by: [:name, :age]]
       iex> f |> to_query |> Plug.Conn.Query.encode()
       "order_directions[]=desc&order_directions[]=asc&order_by[]=name&order_by[]=age"
 
       iex> f = %Flop{page: 5, page_size: 20}
-      iex> to_query(f)
+      ...> to_query(f)
       [page_size: 20, page: 5]
 
       iex> f = %Flop{first: 20, after: "g3QAAAABZAAEbmFtZW0AAAAFQXBwbGU="}
-      iex> to_query(f)
+      ...> to_query(f)
       [first: 20, after: "g3QAAAABZAAEbmFtZW0AAAAFQXBwbGU="]
 
       iex> f = %Flop{
@@ -38,7 +38,8 @@ defmodule AtomicWeb.Components.Helpers do
       ...>     %Flop.Filter{field: :age, op: :>, value: 25}
       ...>   ]
       ...> }
-      iex> to_query(f)
+      ...> 
+      ...> to_query(f)
       [
         filters: %{
           0 => %{field: :name, op: :=~, value: "Mag"},
@@ -49,7 +50,7 @@ defmodule AtomicWeb.Components.Helpers do
       "filters[0][field]=name&filters[0][op]=%3D~&filters[0][value]=Mag&filters[1][field]=age&filters[1][op]=%3E&filters[1][value]=25"
 
       iex> f = %Flop{page: 5, page_size: 20}
-      iex> to_query(f, default_limit: 20)
+      ...> to_query(f, default_limit: 20)
       [page: 5]
 
   """

@@ -31,7 +31,10 @@
         <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="min-w-fit block hover:bg-zinc-50">
           <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
             <div class="flex gap-x-4">
-              <.avatar fg_color="white" name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
+              <div class="">
+                <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
+             
+              </div>
               <div class="min-w-0 flex-auto">
                 <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
                 <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">

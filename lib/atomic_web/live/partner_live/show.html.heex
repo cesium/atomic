@@ -1,7 +1,8 @@
 <div class="py-4 lg:px-4 sm:px-0 min-h-fit">
   <div class="flex flex-col gap-2 mt-6 sm:flex-row sm:justify-center">
-    <div class="flex justify-center lg:justify-none">
-      <.avatar fg_color="white" name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+    <div class="flex flex-col lg:justify-none items-center">
+      <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+      <div class="hidden min-h-screen border-r border-zinc-300 border-2 lg:block"></div>
     </div>
     <div>
       <div class="flex justify-between items-center">
@@ -52,13 +53,20 @@
           <.link class="text-blue-500" patch={"https://x.com/" <> @partner.socials.x}><%= @partner.socials.x %></.link>
         </div>
       </div>
-      <p class="mt-1 text-zinc-500">
+      <div class="mt-1 text-zinc-800 py-8">
+        <div class="flex flex-row items-center gap-x-2">
+          <.icon name={:clock} class="h-5 w-5" />
+          <h1 class="text-2xl font-semibold py-4">Overview</h1>
+        </div>
         <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
           <%= phrase %><br />
         <% end) %>
-      </p>
-      <p class="mt-1 text-zinc-500">
-        <p class="text-md font-semibold text-zinc-800">Benefits</p>
+      </div>
+      <div class="mt-1 otext-zinc-800 py-8">
+        <div class="flex flex-row items-center gap-x-2 text-zinc-800">
+          <.icon name={:signal} class="h-5 w-5" />
+          <h1 class="text-2xl font-semibold text-zinc-800 py-4">Benefits</h1>
+        </div>  
         <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
           <%= if String.length(phrase) < 300 do %>
             <%= phrase %><br />
@@ -66,7 +74,11 @@
             <%= String.slice(phrase, 0..300) %><br />
           <% end %>
         <% end) %>
-      </p>
+      </div>
+      <div class="flex flex-row items-center gap-x-2 text-zinc-800">
+        <.icon name={:star} class="h-5 w-5" />
+        <h1 class="text-2xl font-semibold text-zinc-800 py-4">Other Partners</h1>
+      </div>
     </div>
   </div>
 </div>

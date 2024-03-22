@@ -1,4 +1,4 @@
-FROM surnet/alpine-wkhtmltopdf:3.16.2-0.12.6-full as wkhtmltopdf
+FROM surnet/alpine-wkhtmltopdf:3.19.0-0.12.6-full as wkhtmltopdf
 FROM elixir:1.14-alpine
 
 # Install build dependencies
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
         libx11 \
         libxrender \
         libxext \
-        libssl1.1 \
+        libssl3 \
         ca-certificates \
         fontconfig \
         freetype \
@@ -25,7 +25,9 @@ RUN apk add --no-cache \
         ;
 
 # wkhtmltopdf copy bins from ext image
-COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/libwkhtmltox.so /bin/
+COPY --from=wkhtmltopdf /bin/wkhtmltopdf /bin/wkhtmltopdf
+COPY --from=wkhtmltopdf /bin/wkhtmltoimage /bin/wkhtmltoimage
+COPY --from=wkhtmltopdf /bin/libwkhtmltox* /bin/
 
 # Install imagemagick dependencies
 RUN apk add --no-cache file imagemagick

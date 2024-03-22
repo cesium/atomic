@@ -5,6 +5,7 @@ defmodule AtomicWeb.Components.Calendar do
   import AtomicWeb.CalendarUtils
   import AtomicWeb.Components.CalendarMonth
   import AtomicWeb.Components.CalendarWeek
+  import AtomicWeb.Components.Dropdown
 
   alias Timex.Duration
 
@@ -85,14 +86,24 @@ defmodule AtomicWeb.Components.Calendar do
               </div>
               <div class="hidden md:ml-4 md:flex md:items-center">
                 <div class="relative">
-                  <a @click="mode_view = !mode_view" class="flex cursor-pointer items-center py-2 pr-2 pl-3 text-sm font-medium text-zinc-700 hover:bg-zinc-50" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                    <%= if @mode == "month" do
-                      gettext("Month view")
-                    else
-                      gettext("Week view")
-                    end %>
-                    <.icon name={:chevron_down} solid class="ml-2 h-5 w-5 text-zinc-400" />
-                  </a>
+                  <.dropdown
+                    id="calendar-dropdown"
+                    orientation={:down}
+                    items={[
+                      %{name: gettext("Week view"), link: @current_week_path},
+                      %{name: gettext("Month view"), link: @current_month_path}
+                    ]}
+                  >
+                    <:wrapper>
+                      <.button color={:white} icon={:chevron_down} icon_position={:right} icon_variant={:solid}>
+                        <%= if @mode == "month" do %>
+                          <%= gettext("Month view") %>
+                        <% else %>
+                          <%= gettext("Week view") %>
+                        <% end %>
+                      </.button>
+                    </:wrapper>
+                  </.dropdown>
 
                   <div x-bind:class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1" role="none">
