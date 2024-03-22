@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Modal do
     ~H"""
     <div id={@id} phx-mounted={@show && show_modal(@id)} phx-remove={hide_modal(@id)} phx-cancel={JS.exec(@on_cancel, "phx-remove")} class="relative z-50 hidden" data-modal>
       <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
-      <div class="fixed inset-0 overflow-y-auto" aria-labelledby={"#{@id}-title"} aria-describedby={"#{@id}-description"} role="dialog" aria-modal="true" tabindex="0">
+      <div class="fixed inset-0 overflow-hidden" aria-labelledby={"#{@id}-title"} aria-describedby={"#{@id}-description"} role="dialog" aria-modal="true" tabindex="0">
         <div class="flex min-h-full items-center justify-center">
           <div class="w-full max-w-3xl p-4 sm:p-6 lg:py-8">
             <.focus_wrap id={"#{@id}-container"} phx-click-away={JS.exec("phx-cancel", to: "##{@id}")} class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition">
@@ -65,7 +65,6 @@ defmodule AtomicWeb.Components.Modal do
     )
     |> show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
-    |> JS.focus_first(to: "##{id}-content")
   end
 
   def hide_modal(js \\ %JS{}, id) do
@@ -77,6 +76,5 @@ defmodule AtomicWeb.Components.Modal do
     |> hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
-    |> JS.pop_focus()
   end
 end
