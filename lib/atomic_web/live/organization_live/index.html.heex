@@ -1,37 +1,18 @@
-<.page title="Organizations">
+<.page title={@page_title}>
   <:actions>
-    <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.organization_new_path(@socket, :new)}>
+    <%= if @has_permissions? do %>
+      <.button patch="/" icon={:plus}>
         <%= gettext("New") %>
       </.button>
     <% end %>
   </:actions>
-  <!-- Organization index -->
-  <%= if @empty? and @has_permissions? do %>
-    <div class="mt-32">
-      <.empty_state url={Routes.organization_index_path(@socket, :new)} placeholder="organization" />
-    </div>
-  <% else %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
-      <%= for organization <- @organizations do %>
-        <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
-          <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
-            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_gray} />
-            <div class="ml-4">
-              <h4 class="font-medium text-lg text-zinc-900">
-                <%= organization.name %>
-              </h4>
-              <p class="hidden md:block xl:hidden text-xs text-zinc-900">
-                <%= maybe_slice_string(organization.long_name, 35) %>
-              </p>
-              <p class="sm:block md:hidden xl:block text-xs text-zinc-900">
-                <%= maybe_slice_string(organization.long_name, 85) %>
-              </p>
-            </div>
-          </div>
-        </.link>
-      <% end %>
-    </div>
-    <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
-  <% end %>
+  <!-- Organizations index -->
+  <ul role="list" class="flex flex-col space-y-4 md:space-y-8 mx-auto max-w-5xl px-6 lg:px-8">
+    <%= for organization <- @organizations do %>
+      <.link navigate="/">
+        <.organization_card organization={organization} />
+      </.link>
+    <% end %>
+  </ul>
+  <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
 </.page>

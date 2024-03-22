@@ -1,232 +1,232 @@
 [
   {
-      "name": "ADAUM",
-      "long_name": "Associação de Debates Académicos da Universidade do Minho",
-      "description": "Associação de Debates Académicos da Universidade do Minho"
+    "name": "ADAUM",
+    "long_name": "Associação de Debates Académicos da Universidade do Minho",
+    "description": "A ADAUM é uma associação da Universidade do Minho que tem por fim promover o debate competitivo, bem como o espírito crítico."
   },
   {
-      "name": "ADEGE",  
-      "long_name": "Associação de Estudantes de Gestão da Universidade do Minho",
-      "description": "Associação de Estudantes de Gestão da Universidade do Minho"
+    "name": "ADEGE",
+    "long_name": "Associação de Estudantes de Gestão da Universidade do Minho",
+    "description": "A ADEGE é o órgão representativo de todos os estudantes do Licenciatura em Gestão, da Escola de Economia e Gestão da Universidade do Minho (EEG-UM)."
   },
   {
-      "name": "AEDUM",
-      "long_name": "Associação de Estudantes de Direito da Universidade do Minho",
-      "description": "Associação de Estudantes de Direito da Universidade do Minho"
+    "name": "AEDUM",
+    "long_name": "Associação de Estudantes de Direito da Universidade do Minho",
+    "description": "A Associação de Estudantes de Direito da Universidade do Minho é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Direito, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "AEECUM",
-      "long_name": "Associação de Estudantes de Engenharia Civil da Universidade do Minho",   
-      "description": "Associação Estudantes Engenharia Civil da Universidade do Minho"
+    "name": "AEECUM",
+    "long_name": "Associação de Estudantes de Engenharia Civil da Universidade do Minho",
+    "description": "Associação sempre ao serviço dos estudantes de Engenharia Civil da Universidade do Minho!"
   },
   {
-      "name": "AEESECG",
-      "long_name": "Associação de Estudantes da Escola Superior de Enfermagem Calouste Gulbenkian",
-      "description": "Associação de Estudantes da Escola Superior de Enfermagem Calouste Gulbenkian"
+    "name": "AEESECG",
+    "long_name": "Associação de Estudantes da Escola Superior de Enfermagem Calouste Gulbenkian",
+    "description": "A AEESECG tem como objectivo primordial representar e defender os interesses dos estudantes da ESE-UM. Fomentar as relações de cooperação e amizade aos antigos alunos da AEESECG, promover a formação cultural e humana da comunidade estudantil, através da dinamização de actividades cientifico-pedagógicacas, sócio-culturais, recreativas e desportivas. Além disso pretende desenvolver a cooperação e solidariedade entre os estudantes da ESE-UM, promovendo uma política de igualdade de oportunidades."
   },
   {
-      "name": "AEHUM",
-      "long_name": "Associação de Estudantes de História da Universidade do Minho",
-      "description": "Associação de Estudantes da História da Universidade do Minho"
+    "name": "AEHUM",
+    "long_name": "Associação de Estudantes de História da Universidade do Minho",
+    "description": "A Associação de Estudantes de História da Universidade do Minho é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de História, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "AEPUM",
-      "long_name": "Associação de Estudantes de Psicologia da Universidade do Minho",
-      "description": "Associação de Estudantes de Psicologia da Universidade do Minho"
+    "name": "AEPUM",
+    "long_name": "Associação de Estudantes de Psicologia da Universidade do Minho",
+    "description": "A Associação de Estudantes de Psicologia da Universidade do Minho é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Psicologia, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "AIESEC Minho",
-      "long_name": "Association Internationale des Etudiants en Sciences Economiques et Commerciales – UMinho",
-      "description": "Association Internationale des Etudiants en Sciences Economiques et Commerciales – UMinho"
+    "name": "AIESEC Minho",
+    "long_name": "Association Internationale des Etudiants en Sciences Economiques et Commerciales – UMinho",
+    "description": "A Association Internationale des Etudiants en Sciences Economiques et Commerciales – UMinho é uma associação de estudantes da Universidade do Minho que tem como objetivo dotar os seus membros de competências de liderança e empreendedorismo, bem como promover a mobilidade internacional dos estudantes."
   },
   {
-      "name": "AIS.SC",
-      "long_name": "Association for Information Systems Student Chapter",
-      "description": "Association for Information Systems Student Chapter"
+    "name": "AIS.SC",
+    "long_name": "Association for Information Systems Student Chapter",
+    "description": "A Association for Information Systems Student Chapter é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a partilha de conhecimento e experiências na área dos sistemas de informação, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "A3RUM",
-      "long_name": "Associação de Alunos de Arqueologia da Universidade do Minho",
-      "description": "Associação de Alunos de Arqueologia da Universidade do Minho"
+    "name": "A3RUM",
+    "long_name": "Associação de Alunos de Arqueologia da Universidade do Minho",
+    "description": "A Associação de Alunos de Arqueologia da Universidade do Minho é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Arqueologia, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "CEAP",
-      "long_name": "Centro de Estudos de Administração Pública",
-      "description": "Centro de Estudos de Administração Pública"
+    "name": "CEAP",
+    "long_name": "Centro de Estudos de Administração Pública",
+    "description": "O Centro de Estudos de Administração Pública é um associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Administração Pública, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "CECRI",
-      "long_name": "Centro de Estudos de Comunicação e Relações Internacionais",
-      "description": "Centro de Estudos do Curso de Relações Internacionais"
+    "name": "CECRI",
+    "long_name": "Centro de Estudos de Comunicação e Relações Internacionais",
+    "description": "O Centro de Estudos de Comunicação e Relações Internacionais é um associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Comunicação e Relações Internacionais, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "CeSIUM",
-      "long_name": "Centro de Estudantes de Engenharia Informática da Universidade do Minho",
-      "description": "Centro de Estudantes de Engenharia de Sistemas e Informática da Universidade do Minho"
+    "name": "CeSIUM",
+    "long_name": "Centro de Estudantes de Engenharia Informática da Universidade do Minho",
+    "description": "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓"
   },
   {
-      "name": "CineFOCUM",
-      "long_name": "Núcleo de Cinemas da Universidade do Minho",
-      "description": "Núcleo de Cinema da Universidade do Minho"
+    "name": "CineFOCUM",
+    "long_name": "Núcleo de Cinemas da Universidade do Minho",
+    "description": "O CineFOCUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a cultura cinematográfica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "ELSA",
-      "long_name": "European Law Students Association",
-      "description": "European Law Students Association"
+    "name": "ELSA",
+    "long_name": "European Law Students Association",
+    "description": "ELSA UMinho é uma afiliação da ELSA Portugal, que por sua vez é uma afiliação da ELSA International. A ELSA é a maior associação de estudantes de Direito do mundo, com mais de 60,000 membros em 43 países."
   },
   {
-      "name": "GAEB",
-      "long_name": "Grupo de Alunos de Engenharia Biomédica",
-      "description": "Grupo de Alunos de Engenharia Biomédica"
+    "name": "GAEB",
+    "long_name": "Grupo de Alunos de Engenharia Biomédica",
+    "description": "O GAEB é um grupo de alunos da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Engenharia Biomédica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "GACCUM",
-      "long_name": "Grupo de Alunos de Ciências da Comunicação",
-      "description": "Grupo dos Alunos de Ciências da Comunicação"
+    "name": "GACCUM",
+    "long_name": "Grupo de Alunos de Ciências da Comunicação",
+    "description": "O Grupo de Alunos de Ciências da Comunicação é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Ciências da Comunicação, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "GeoPlanUM",
-      "long_name": "Associação dos Estudantes de Geografia e Planeamento da Universidade do Minho",
-      "description": "Associação dos Estudantes de Geografia e Planeamento da Universidade do Minho"
+    "name": "GeoPlanUM",
+    "long_name": "Associação dos Estudantes de Geografia e Planeamento da Universidade do Minho",
+    "description": "O GeoPlanUM é uma associação de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Geografia e Planeamento, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "Music UM",
-      "long_name": "Núcleo de Estudantes de Música da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Música da Universidade do Minho"
+    "name": "Music UM",
+    "long_name": "Núcleo de Estudantes de Música da Universidade do Minho",
+    "description": "O Music UM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a cultura musical, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NAECUM",
-      "long_name": "Núcleo de Alunos de Economia da Universidade do Minho",
-      "description": "Núcleo de Alunos de Economia da Universidade do Minho"
+    "name": "NAECUM",
+    "long_name": "Núcleo de Alunos de Economia da Universidade do Minho",
+    "description": "O NAECUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Economia, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NAMECUM",
-      "long_name": "Núcleo de Alunos de Engenharia Mecânica da Universidade do Minho",
-      "description": "Núcleo de Alunos de Engenharia Mecânica da Universidade do Minho"
+    "name": "NAMECUM",
+    "long_name": "Núcleo de Alunos de Engenharia Mecânica da Universidade do Minho",
+    "description": "O NAMECUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Engenharia Mecânica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NAQUM",
-      "long_name": "Núcleo de Alunos de Química da Universidade do Minho",
-      "description": "Núcleo de Alunos de Química da Universidade do Minho"
+    "name": "NAQUM",
+    "long_name": "Núcleo de Alunos de Química da Universidade do Minho",
+    "description": "O NAQUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Química, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEAUM",
-       "long_name": "Núcleo de Estudantes de Arquitetura da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Arquitetura da Universidade do Minho"
+    "name": "NEAUM",
+    "long_name": "Núcleo de Estudantes de Arquitetura da Universidade do Minho",
+    "description": "O NEAUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Arquitetura, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEBAUM",
-      "long_name": "Núcleo de Estudantes de Biologia Aplicada da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Biologia Aplicada da Universidade do Minho"
+    "name": "NEBAUM",
+    "long_name": "Núcleo de Estudantes de Biologia Aplicada da Universidade do Minho",
+    "description": "O NEBAUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Biologia Aplicada, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEBQUM",
-      "long_name": "Núcleo de Estudantes de Bioquímica da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Bioquímica da Universidade do Minho"
+    "name": "NEBQUM",
+    "long_name": "Núcleo de Estudantes de Bioquímica da Universidade do Minho",
+    "description": "O NEBQUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Bioquímica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NECC",
-      "long_name": "Núcleo de Estudantes de Ciências da Comunicação da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Ciências da Computação da Universidade do Minho"
+    "name": "NECC",
+    "long_name": "Núcleo de Estudantes de Ciências da Computação da Universidade do Minho",
+    "description": "O NECC é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Ciências da Computação, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NECSUM",
-      "long_name": "Núcleo de Estudantes do Curso da Sociologia da Universidade do Minho",
-      "description": "Núcleo de Estudantes do Curso de Sociologia da Universidade do Minho"
+    "name": "NECSUM",
+    "long_name": "Núcleo de Estudantes do Curso da Sociologia da Universidade do Minho",
+    "description": "O NECSUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Sociologia, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEDUM",
-      "long_name": "Núcleo de Estudantes de Educação da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Educação da Universidade do Minho"
+    "name": "NEDUM",
+    "long_name": "Núcleo de Estudantes de Educação da Universidade do Minho",
+    "description": "O NEDUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Educação, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEEB",
-      "long_name": "Núcleo de Estudantes de Engenharia Biológica",
-      "description": "Núcleo de Estudos de Engenharia Biológica"
+    "name": "NEEB",
+    "long_name": "Núcleo de Estudantes de Engenharia Biológica",
+    "description": "O NEEB é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Engenharia Biológica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEEBUM",
-      "long_name": "Núcleo de Estudantes de Educação Básica da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Educação Básica da Universidade do Minho"
+    "name": "NEEBUM",
+    "long_name": "Núcleo de Estudantes de Educação Básica da Universidade do Minho",
+    "description": "O NEEBUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Educação Básica, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEECUM",
-      "long_name": "Núcleo de Estudantes de Engenharia de Comunicações da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Engenharia de Comunicações da Universidade do Minho"
+    "name": "NEECUM",
+    "long_name": "Núcleo de Estudantes de Engenharia de Comunicações da Universidade do Minho",
+    "description": "O NEECUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Engenharia de Comunicações, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEEGIUM",
-      "long_name": "Núcleo de Estudantes de Engenharia e Gestão Industrial da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Engenharia e Gestão Industrial da Universidade do Minho"
+    "name": "NEEGIUM",
+    "long_name": "Núcleo de Estudantes de Engenharia e Gestão Industrial da Universidade do Minho",
+    "description": "O NEEGIUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Engenharia e Gestão Industrial, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEEUM",
-      "long_name": "Núcleo de Estudantes de Estatística da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Estatística da Universidade do Minho"
+    "name": "NEEUM",
+    "long_name": "Núcleo de Estudantes de Estatística da Universidade do Minho",
+    "description": "O NEEUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Estatística, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEFILUM",
-      "long_name": "Núcleo de Estudantes de Filosofia da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Filosofia da Universidade do Minho"
+    "name": "NEFILUM",
+    "long_name": "Núcleo de Estudantes de Filosofia da Universidade do Minho",
+    "description": "O NEFILUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Filosofia, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEFUM",
-      "long_name": "Núcleo de Estudantes de Física da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Física da Universidade do Minho"
+    "name": "NEFUM",
+    "long_name": "Núcleo de Estudantes de Física da Universidade do Minho",
+    "description": "O NEFUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Física, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEIEEEUM",
-      "long_name": "Núcleo de Estudantes de Engenharia Eletrotécnica e de Computadores da Universidade do Minho",
-      "description": "Núcleo Estudantil do Institute of Electrical & Electronics Engineers da Universidade do Minho"
+    "name": "NEIEEEUM",
+    "long_name": "Núcleo Estudantil do Institute of Electrical & Electronics Engineers da Universidade do Minho",
+    "description": "O NEIEEUM é uma afiliação do Institute of Electrical & Electronics Engineers (IEEE) na Universidade do Minho."
   },
   {
-      "name": "NELAUM",
-      "long_name": "Núcleo de Estudantes de Línguas Aplicadas da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Línguas Aplicadas da Universidade do Minho"
+    "name": "NELAUM",
+    "long_name": "Núcleo de Estudantes de Línguas Aplicadas da Universidade do Minho",
+    "description": "O NELAUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Línguas Aplicadas, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEMUM",
-      "long_name": "Núcleo de Estudantes de Medicina da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Medicina da Universidade do Minho"
+    "name": "NEMUM",
+    "long_name": "Núcleo de Estudantes de Medicina da Universidade do Minho",
+    "description": "O NEMUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Medicina, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NENIUM",
-      "long_name": "Núcleo de Estudantes de Negócios Internacionais da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Negócios Internacionais da Universidade do Minho"
+    "name": "NENIUM",
+    "long_name": "Núcleo de Estudantes de Negócios Internacionais da Universidade do Minho",
+    "description": "O NENIUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Negócios Internacionais, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEOUM",
-      "long_name": "Núcleo de Estudantes de Optometria da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Optometria da Universidade do Minho"
+    "name": "NEOUM",
+    "long_name": "Núcleo de Estudantes de Optometria da Universidade do Minho",
+    "description": "O NEOUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Optometria, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEPLUM",
-      "long_name": "Núcleo de Estudantes de Estudos Portugueses e Lusófonos da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Estudos Portugueses e Lusófonos da Universidade do Minho"
+    "name": "NEPLUM",
+    "long_name": "Núcleo de Estudantes de Estudos Portugueses e Lusófonos da Universidade do Minho",
+    "description": "O NEPLUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Estudos Portugueses e Lusófonos, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-      "name": "NEMKT",
-      "long_name": "Núcleo de Estudantes de Marketing da Universidade do Minho",
-      "description": "Núcleo de Estudantes de Marketing da Universidade do Minho"
+    "name": "NEMKT",
+    "long_name": "Núcleo de Estudantes de Marketing da Universidade do Minho",
+    "description": "O NEMKT é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Marketing, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
     "name": "NUCCLEUM",
     "long_name": "Núcleo de Estudantes de Linguas e Literaturas Europeias da Universidade do Minho",
-    "description": "Núcleo de Estudantes de Linguas e Literaturas Europeias da Universidade do Minho"
+    "description": "O NUCCLEUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Linguas e Literaturas Europeias, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
-    "name": "Núcleo de Estudante de Contabilidade da Universidade do Minho",
-    "long_name": "",
-    "description": ""
+    "name": "NECONTUM",
+    "long_name": "Núcleo de Estudante de Contabilidade da Universidade do Minho",
+    "description": "O NECONTUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Contabilidade, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
     "name": "NUMERUM",
     "long_name": "Núcleo de Estudantes de Matemática da Universidade do Minho",
-    "description": "Núcleo de Estudantes de Matemática da Universidade do Minho"
+    "description": "O NUMERUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Matemática, bem como a realização de atividades culturais, desportivas e de lazer."
   },
   {
     "name": "PoliticUM",
-    "long_name": "",
-    "description": ""
+    "long_name": "Núcleo de Estudantes de Ciência Política da Universidade do Minho",
+    "description": "O PoliticUM é um núcleo de estudantes da Universidade do Minho que tem como objetivo promover a integração dos estudantes do curso de Ciência Política, bem como a realização de atividades culturais, desportivas e de lazer."
   }
 ]
