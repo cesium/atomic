@@ -10,7 +10,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
 
   @impl true
   def handle_params(%{"id" => partner_id} = _params, _, socket) do
-    partner = Partners.get_partner!(partner_id)
+    partner = Partners.get_partner!(partner_id, preload: [:organization])
 
     {:noreply,
      socket

@@ -14,15 +14,15 @@ defmodule AtomicWeb.MembershipLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name} = params, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
 
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Memberships")}")
      |> assign(:current_page, :memberships)
      |> assign(:params, params)
-     |> assign(list_memberships(organization_id, params))}
+     |> assign(list_memberships(organization.id, params))}
   end
 
   defp list_memberships(id, params) do

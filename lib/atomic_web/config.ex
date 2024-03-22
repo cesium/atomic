@@ -39,28 +39,28 @@ defmodule AtomicWeb.Config do
           key: :departments,
           title: "Departments",
           icon: :cube,
-          url: Routes.department_index_path(conn, :index, current_organization.id),
+          url: Routes.department_index_path(conn, :index, current_organization.name),
           tabs: []
         },
         %{
           key: :partners,
           title: "Partners",
           icon: :user_group,
-          url: Routes.partner_index_path(conn, :index, current_organization.id),
+          url: Routes.partner_index_path(conn, :index, current_organization.name),
           tabs: []
         },
         %{
           key: :memberships,
           title: "Memberships",
           icon: :user_plus,
-          url: Routes.membership_index_path(conn, :index, current_organization.id),
+          url: Routes.membership_index_path(conn, :index, current_organization.name),
           tabs: []
         },
         %{
           key: :board,
           title: "Board",
           icon: :users,
-          url: Routes.board_index_path(conn, :index, current_organization.id),
+          url: Routes.board_index_path(conn, :index, current_organization.name),
           tabs: []
         },
         %{

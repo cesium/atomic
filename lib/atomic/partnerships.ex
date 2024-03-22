@@ -52,7 +52,7 @@ defmodule Atomic.Partners do
       ** (Ecto.NoResultsError)
 
   """
-  def get_partner!(id), do: Repo.get!(Partner, id)
+  def get_partner!(id, preloads \\ []), do: Repo.get!(Partner, id)
 
   @doc """
   Creates a partner.

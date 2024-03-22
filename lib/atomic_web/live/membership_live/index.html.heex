@@ -15,8 +15,8 @@
         id="export-menu-button"
         icon_variant={:solid}
         items={[
-          %{name: "Export to CSV", link: Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"]), icon: :queue_list},
-          %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"]), icon: :table_cells}
+          %{name: "Export to CSV", link: Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_name"]), icon: :queue_list},
+          %{name: "Export to Excel", link: Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_name"]), icon: :table_cells}
         ]}
       >
         <:wrapper>
@@ -41,13 +41,13 @@
         @click.away="menu = false"
         @keydown.escape="menu = false"
       >
-        <.link href={Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_id"])} method="get">
+        <.link href={Routes.data_export_path(@socket, :export_memberships_csv, @params["organization_name"])} method="get">
           <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
             <.icon name={:queue_list} solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
             <p>Export to CSV</p>
           </div>
         </.link>
-        <.link href={Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_id"])} method="get">
+        <.link href={Routes.data_export_path(@socket, :export_memberships_xlsx, @params["organization_name"])} method="get">
           <div class="flex px-4 py-2 text-sm leading-6 text-zinc-900 hover:bg-zinc-50">
             <.icon name={:table_cells} solid class="self-center mr-2 -ml-1 w-5 h-5 text-zinc-900" />
             <p>Export to Excel</p>

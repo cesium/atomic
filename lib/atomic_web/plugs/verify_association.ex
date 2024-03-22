@@ -25,7 +25,7 @@ defmodule AtomicWeb.Plugs.VerifyAssociation do
   end
 
   defp verify_association(entity, conn) do
-    if has_relation?(entity, conn.params["organization_id"]) do
+    if has_relation?(entity, conn.params["organization_name"]) do
       conn
     else
       conn
@@ -34,9 +34,9 @@ defmodule AtomicWeb.Plugs.VerifyAssociation do
     end
   end
 
-  defp has_relation?(_, organization_id) when is_nil(organization_id), do: false
+  defp has_relation?(_, organization_name) when is_nil(organization_name), do: false
 
-  defp has_relation?(entity, organization_id) do
-    entity.organization_id == organization_id
+  defp has_relation?(entity, organization_name) do
+    entity.organization_id == organization_name
   end
 end

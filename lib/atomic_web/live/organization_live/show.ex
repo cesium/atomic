@@ -15,8 +15,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id} = _params, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name} = _params, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
 
     {:noreply,
      socket
@@ -25,11 +25,11 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)
      |> assign(:organization, organization)
-     |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
-     |> assign(list_activities(organization_id))
-     |> assign(:followers_count, Organizations.count_followers(organization_id))
+     |> assign(:departments, Departments.list_departments_by_organization_id(organization.id))
+     |> assign(list_activities(organization.id))
+     |> assign(:followers_count, Organizations.count_followers(organization.id))
      |> assign(:following?, maybe_put_following(socket, organization))
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization.id))}
   end
 
   @impl true

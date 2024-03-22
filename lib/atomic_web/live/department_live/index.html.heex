@@ -1,7 +1,7 @@
 <.page title="Departments">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.department_new_path(@socket, :new, @current_organization)}>
+      <.button navigate={Routes.department_new_path(@socket, :new, @current_organization.name)}>
         <%= gettext("New") %>
       </.button>
     <% end %>
@@ -33,7 +33,7 @@
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
       <%= for department <- @departments do %>
-        <.link navigate={Routes.department_show_path(@socket, :show, @organization, department)} class="col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow">
+        <.link navigate={Routes.department_show_path(@socket, :show, @organization.name, department)} class="col-span-1 flex flex-col divide-y divide-zinc-200 rounded-lg bg-white text-center shadow">
           <div class="flex items-center justify-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 rounded-lg">
             <h3 class="mt-1 text-sm font-medium text-zinc-900"><%= department.name %></h3>
           </div>

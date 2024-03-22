@@ -14,7 +14,7 @@
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
       <%= for organization <- @organizations do %>
-        <.link navigate={Routes.organization_show_path(@socket, :show, organization)}>
+        <.link navigate={Routes.organization_show_path(@socket, :show, organization.name)}>
           <div class="flex items-center space-x-4 px-4 py-4 border border-zinc-200 hover:bg-zinc-50 hover:cursor-pointer rounded-lg">
             <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_gray} />
             <div class="ml-4">

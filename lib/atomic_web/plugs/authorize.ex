@@ -29,9 +29,10 @@ defmodule AtomicWeb.Plugs.Authorize do
   end
 
   defp authorized?(conn, minimum_authorized_role) do
-    organization_id = get_organization_id(conn)
+    organization_name = get_organization_name(conn)
+    organization = Organizations.get_organization_by_name!(organization_name)
 
-    case {organization_id, conn.assigns.current_user} do
+    case {organization.id, conn.assigns.current_user} do
       {nil, _} ->
         false
 
@@ -52,6 +53,16 @@ defmodule AtomicWeb.Plugs.Authorize do
     case conn.params["organization_id"] do
       organization_id when is_binary(organization_id) ->
         organization_id
+
+      _ ->
+        nil
+    end
+  end
+
+  defp get_organization_name(conn) do
+    case conn.params["organization_name"] do
+      organization_name when is_binary(organization_name) ->
+        organization_name
 
       _ ->
         nil

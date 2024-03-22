@@ -8,7 +8,7 @@
       </div>
       <%= if not @empty? and @has_permissions? do %>
         <div class="hidden lg:border-orange-500 lg:block">
-          <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)}>
+          <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization.name)}>
             + <%= gettext("New Partner") %>
           </.button>
         </div>
@@ -33,7 +33,7 @@
 <% else %>
   <ul role="list" class="overflow-auto">
     <%= for partner <- @partners do %>
-      <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="w-full block hover:bg-zinc-50">
+      <.link navigate={Routes.partner_show_path(@socket, :show, @organization.name, partner)} class="w-full block hover:bg-zinc-50">
         <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
           <div class="flex gap-x-4">
             <.avatar color={:gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />

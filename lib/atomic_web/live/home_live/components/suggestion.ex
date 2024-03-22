@@ -21,7 +21,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
   def render(assigns) do
     ~H"""
     <li class="flex items-center space-x-3">
-      <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @organization)} class="flex min-w-0 flex-1 items-center space-x-3 py-4">
+      <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @organization.name)} class="flex min-w-0 flex-1 items-center space-x-3 py-4">
         <div class="my-auto flex-shrink-0">
           <.avatar name={@organization.name} class="!h-10 !w-10 !text-lg" color={:light_gray} size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
         </div>

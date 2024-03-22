@@ -13,8 +13,8 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name, "id" => id}, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
     partner = Partners.get_partner!(id)
 
     {:noreply,
@@ -23,7 +23,7 @@ defmodule AtomicWeb.PartnerLive.Show do
      |> assign(:current_page, :partners)
      |> assign(:organization, organization)
      |> assign(:partner, partner)
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization.id))}
   end
 
   defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,

@@ -12,8 +12,8 @@ defmodule AtomicWeb.DepartmentLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name, "id" => id}, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
     department = Departments.get_department!(id)
 
     {:noreply,
@@ -27,7 +27,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
        :collaborators,
        Departments.list_collaborators_by_department_id(department.id, preloads: [:user])
      )
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization.id))}
   end
 
   @impl true

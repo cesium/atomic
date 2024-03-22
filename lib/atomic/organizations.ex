@@ -169,6 +169,25 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Gets a single organization by name.
+
+  Raises `Ecto.NoResultsError` if the Organization does not exist.
+
+  ## Examples
+
+      iex> get_organization_by_name!("CeSIUM")
+      %Organization{}
+
+      iex> get_organization_by_name!("CeSIUT")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_organization_by_name!(organization_name, preloads \\ []) do
+    Repo.get_by!(Organization, name: organization_name)
+    |> Repo.preload(preloads)
+  end
+
+  @doc """
   Creates an organization.
 
   ## Examples

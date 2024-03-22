@@ -75,7 +75,7 @@ defmodule AtomicWeb.Router do
     live_session :admin, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
       live "/organizations/new", OrganizationLive.New, :new
 
-      scope "/organizations/:organization_id" do
+      scope "/organizations/:organization_name" do
         live "/edit", OrganizationLive.Edit, :edit
 
         scope "/activities" do
@@ -139,7 +139,7 @@ defmodule AtomicWeb.Router do
       live "/announcements", AnnouncementLive.Index, :index
 
       live "/activities/:id", ActivityLive.Show, :show
-      live "/organizations/:organization_id", OrganizationLive.Show, :show
+      live "/organizations/:organization_name", OrganizationLive.Show, :show
       live "/announcements/:id", AnnouncementLive.Show, :show
 
       live "/profile/:slug", ProfileLive.Show, :show
@@ -158,7 +158,7 @@ defmodule AtomicWeb.Router do
 
       live "/users/confirm_email/:token", ProfileLive.Edit, :confirm_email
 
-      scope "/organizations/:organization_id" do
+      scope "/organizations/:organization_name" do
         scope "/departments" do
           pipe_through :confirm_department_association
           live "/", DepartmentLive.Index, :index

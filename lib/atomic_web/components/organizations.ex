@@ -64,7 +64,7 @@ defmodule AtomicWeb.Components.Organizations do
        socket
        |> assign(current_organization: organization)
        |> put_flash(:info, "#{gettext("Now editing as")} #{organization.name}")
-       |> push_navigate(to: Routes.organization_show_path(socket, :show, organization))}
+       |> push_navigate(to: Routes.organization_show_path(socket, :show, organization.name))}
     end
   end
 end

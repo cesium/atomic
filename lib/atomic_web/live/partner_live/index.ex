@@ -16,10 +16,10 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name} = params, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
 
-    partners_with_flop = list_partners(organization_id)
+    partners_with_flop = list_partners(organization.id)
 
     {:noreply,
      socket
@@ -29,7 +29,7 @@ defmodule AtomicWeb.PartnerLive.Index do
      |> assign(:organization, organization)
      |> assign(partners_with_flop)
      |> assign(:empty?, Enum.empty?(partners_with_flop.partners))
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization.id))}
   end
 
   defp has_permissions?(socket, organization_id) do

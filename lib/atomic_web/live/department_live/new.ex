@@ -2,6 +2,7 @@ defmodule AtomicWeb.DepartmentLive.New do
   @moduledoc false
   use AtomicWeb, :live_view
 
+  alias Atomic.Organizations
   alias Atomic.Organizations.Department
 
   @impl true
@@ -10,11 +11,13 @@ defmodule AtomicWeb.DepartmentLive.New do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+  def handle_params(%{"organization_name" => organization_name}, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
+
     {:noreply,
      socket
      |> assign(:current_page, :department)
      |> assign(:page_title, gettext("New Department"))
-     |> assign(:department, %Department{organization_id: organization_id})}
+     |> assign(:department, %Department{organization_id: organization.id})}
   end
 end

@@ -14,11 +14,11 @@ defmodule AtomicWeb.DepartmentLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
-    organization = Organizations.get_organization!(organization_id)
+  def handle_params(%{"organization_name" => organization_name}, _, socket) do
+    organization = Organizations.get_organization_by_name!(organization_name)
 
     departments =
-      Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
+      Departments.list_departments_by_organization_id(organization.id, preloads: [:organization])
 
     {:noreply,
      socket
@@ -27,7 +27,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
      |> assign(:organization, organization)
      |> assign(:departments, departments)
      |> assign(:empty?, Enum.empty?(departments))
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions?(socket, organization.id))}
   end
 
   defp has_permissions?(socket, organization_id) do
