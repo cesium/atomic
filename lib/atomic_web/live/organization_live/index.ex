@@ -1,13 +1,11 @@
 defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Empty
-  import AtomicWeb.Components.Pagination
-  import AtomicWeb.Components.Button
+  alias Atomic.{Accounts, Organizations}
+  alias Phoenix.LiveView.JS
 
-  alias Atomic.Accounts
-  alias Atomic.Organizations
+  import AtomicWeb.Components.{Forms, Pagination}
+  import AtomicWeb.OrganizationLive.Components.OrganizationCard
 
   @impl true
   def mount(_params, _session, socket) do
@@ -15,21 +13,23 @@ defmodule AtomicWeb.OrganizationLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    organizations_with_flop = list_organizations(params)
+  def handle_params(params, _, socket) do
+    %{organizations: organizations, meta: meta} = list_organizations(params)
 
     {:noreply,
      socket
-     |> assign(:page_title, gettext("Organizations"))
+     |> assign(:page_title, "Organizations")
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
-     |> assign(organizations_with_flop)
-     |> assign(:empty?, Enum.empty?(organizations_with_flop.organizations))
+     |> assign(:meta, meta)
+     |> assign(:organizations, organizations)
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
   defp list_organizations(params) do
-    case Organizations.list_organizations(Map.put(params, "page_size", 18)) do
+    params = Map.put(params, "page_size", 6)
+
+    case Organizations.list_organizations(params) do
       {:ok, {organizations, meta}} ->
         %{organizations: organizations, meta: meta}
 
@@ -40,7 +40,6 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
-  defp has_permissions?(socket) do
-    Accounts.has_master_permissions?(socket.assigns.current_user.id)
-  end
+  defp has_permissions?(socket),
+    do: Accounts.has_master_permissions?(socket.assigns.current_user.id)
 end

@@ -73,11 +73,7 @@ defmodule AtomicWeb.Router do
     ]
 
     live_session :admin, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
-      live "/organizations/new", OrganizationLive.New, :new
-
       scope "/organizations/:organization_id" do
-        live "/edit", OrganizationLive.Edit, :edit
-
         scope "/activities" do
           pipe_through :confirm_activity_association
           live "/new", ActivityLive.New, :new
@@ -139,7 +135,6 @@ defmodule AtomicWeb.Router do
       live "/announcements", AnnouncementLive.Index, :index
 
       live "/activities/:id", ActivityLive.Show, :show
-      live "/organizations/:organization_id", OrganizationLive.Show, :show
       live "/announcements/:id", AnnouncementLive.Show, :show
 
       live "/profile/:slug", ProfileLive.Show, :show
@@ -186,10 +181,6 @@ defmodule AtomicWeb.Router do
 
       pipe_through [:member]
       live "/card/:membership_id", CardLive.Show, :show
-
-      # Only masters can create organizations
-      pipe_through [:master]
-      live "/organizations/new", OrganizationLive.New, :new
     end
   end
 
