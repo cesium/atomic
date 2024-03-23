@@ -2,8 +2,9 @@ defmodule AtomicWeb.OrganizationLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.{Accounts, Organizations}
+  alias Phoenix.LiveView.JS
 
-  import AtomicWeb.Components.Pagination
+  import AtomicWeb.Components.{Forms, Pagination}
   import AtomicWeb.OrganizationLive.Components.OrganizationCard
 
   @impl true
@@ -18,7 +19,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, "Organizations")
-     |> assign(:current_page, :organization)
+     |> assign(:current_page, :organizations)
      |> assign(:params, params)
      |> assign(:meta, meta)
      |> assign(:organizations, organizations)

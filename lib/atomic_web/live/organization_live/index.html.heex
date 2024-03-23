@@ -7,12 +7,17 @@
     <% end %>
   </:actions>
   <!-- Organizations index -->
-  <ul role="list" class="flex flex-col space-y-4 md:space-y-8 mx-auto max-w-5xl px-6 lg:px-8">
-    <%= for organization <- @organizations do %>
-      <.link navigate="/">
-        <.organization_card organization={organization} />
-      </.link>
-    <% end %>
-  </ul>
+  <div class="flex flex-col mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <.field phx-mounted={JS.focus()} type="search" name="search" value="" label="" placeholder={"#{gettext("Search for an organization")}..."} />
+    <ul role="list" class="space-y-6">
+      <%= for organization <- @organizations do %>
+        <li>
+          <.link navigate="/">
+            <.organization_card organization={organization} />
+          </.link>
+        </li>
+      <% end %>
+    </ul>
+  </div>
   <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
 </.page>
