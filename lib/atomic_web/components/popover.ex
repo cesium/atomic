@@ -30,12 +30,12 @@ defmodule AtomicWeb.Components.Popover do
       <%= render_slot(@wrapper) %>
       <div class={[
         "hidden z-50 group-hover:block transition delay-700 duration-300 ease-in-out",
-        triangle_class(position: @position),
+        triangle_class(position: @position)
       ]}>
         <div class={[
-            "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition delay-700 duration-300 group-hover:ease-in-out",
-            popover_position(position: @position)
-          ]}>
+          "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition delay-700 duration-300 group-hover:ease-in-out",
+          popover_position(position: @position)
+        ]}>
           <%= render_popover(assigns, type: @type) %>
         </div>
       </div>
@@ -93,5 +93,4 @@ defmodule AtomicWeb.Components.Popover do
     <div data-popper-arrow></div>
     """
   end
-
 end
