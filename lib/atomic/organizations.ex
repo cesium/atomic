@@ -504,11 +504,11 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> count_followers(organization_id)
+      iex> count_followers("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       5
 
-      iex> count_followers(organization_id) when organization_id == CeSIUM.id
-      100000000000000000000000000
+      iex> count_followers("9as7c9e5-4212-4f59-a097-28aaa33c2621")
+      100_000_000_000_000_000_000_000_000
   """
   def count_followers(organization_id) do
     Membership
@@ -665,7 +665,7 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Announcement{}, ...]
 
   """
@@ -681,7 +681,7 @@ defmodule Atomic.Organizations do
 
   ## Examples
 
-      iex> list_announcements_by_organization_id(99d7c9e5-4212-4f59-a097-28aaa33c2621)
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
       [%Announcement{}, ...]
 
   """

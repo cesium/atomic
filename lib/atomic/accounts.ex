@@ -257,7 +257,11 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> deliver_update_email_instructions(user, current_email, &Routes.user_update_email_url(conn, :edit, &1))
+      iex> deliver_update_email_instructions(
+      ...>   user,
+      ...>   current_email,
+      ...>   &Routes.user_update_email_url(conn, :edit, &1)
+      ...> )
       {:ok, %{to: ..., body: ...}}
 
   """
@@ -349,10 +353,16 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> deliver_user_confirmation_instructions(user, &Routes.user_confirmation_url(conn, :edit, &1))
+      iex> deliver_user_confirmation_instructions(
+      ...>   user,
+      ...>   &Routes.user_confirmation_url(conn, :edit, &1)
+      ...> )
       {:ok, %{to: ..., body: ...}}
 
-      iex> deliver_user_confirmation_instructions(confirmed_user, &Routes.user_confirmation_url(conn, :edit, &1))
+      iex> deliver_user_confirmation_instructions(
+      ...>   confirmed_user,
+      ...>   &Routes.user_confirmation_url(conn, :edit, &1)
+      ...> )
       {:error, :already_confirmed}
 
   """
@@ -396,7 +406,10 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> deliver_user_reset_password_instructions(user, &Routes.user_reset_password_url(conn, :edit, &1))
+      iex> deliver_user_reset_password_instructions(
+      ...>   user,
+      ...>   &Routes.user_reset_password_url(conn, :edit, &1)
+      ...> )
       {:ok, %{to: ..., body: ...}}
 
   """
@@ -433,7 +446,10 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> reset_user_password(user, %{password: "new long password", password_confirmation: "new long password"})
+      iex> reset_user_password(user, %{
+      ...>   password: "new long password",
+      ...>   password_confirmation: "new long password"
+      ...> })
       {:ok, %User{}}
 
       iex> reset_user_password(user, %{password: "valid", password_confirmation: "not the same"})
@@ -496,7 +512,7 @@ defmodule Atomic.Accounts do
   ## Examples
 
       iex> list_courses()
-      {:ok,[%Course{}]}
+      {:ok, [%Course{}]}
 
       iex> list_courses()
       {:error, %Ecto.Changeset{}}
@@ -528,10 +544,10 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> has_master_permissions?(a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6)
+      iex> has_master_permissions?("a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6")
       true
 
-      iex> has_master_permissions?(dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m)
+      iex> has_master_permissions?("dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m")
       false
   """
   def has_master_permissions?(user_id) do
@@ -546,10 +562,10 @@ defmodule Atomic.Accounts do
 
   ## Examples
 
-      iex> has_permissions_inside_organization?(a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6, 1)
+      iex> has_permissions_inside_organization?("a534b2c3-4d5e-6f7g-8h9i-0j1k2l3m4n5o6", 1)
       true
 
-      iex> has_permissions_inside_organization?(dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m, 1)
+      iex> has_permissions_inside_organization?("dcba4321-1a2b-3c4d-5e6f-7g8h9i0j1k2l3m", 1)
       false
   """
   def has_permissions_inside_organization?(user_id, organization_id) do

@@ -52,7 +52,7 @@ defmodule Atomic.Activities.Activity do
     timestamps()
   end
 
-  def changeset(activity, attrs) do
+  def changeset(activity, attrs \\ %{}) do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_embed(:location, with: &Location.changeset/2)
