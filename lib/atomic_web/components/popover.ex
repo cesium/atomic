@@ -29,11 +29,11 @@ defmodule AtomicWeb.Components.Popover do
     <div class="group relative h-min">
       <%= render_slot(@wrapper) %>
       <div class={[
-        "hidden group-hover:block transition-all delay-700 duration-300 ease-in-out",
+        "hidden z-50 group-hover:block transition delay-700 duration-300 ease-in-out",
         triangle_class(position: @position),
       ]}>
         <div class={[
-            "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition-all delay-700 duration-300 ease-in-out",
+            "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition delay-700 duration-300 group-hover:ease-in-out",
             popover_position(position: @position)
           ]}>
           <%= render_popover(assigns, type: @type) %>
@@ -44,19 +44,19 @@ defmodule AtomicWeb.Components.Popover do
   end
 
   def triangle_class(position: :bottom) do
-    "before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:border-l-[10px] before:border-b-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mb-8 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
   end
 
   def triangle_class(position: :top) do
-    "before:bottom-full before:border-l-[10px] before:border-t-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mt-8 before:h-0 before:w-0 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
+    "before:bottom-full before:border-l-[10px] before:border-t-[10px] before:border-r-[10px] before:absolute before:mx-3 before:mt-8 before:border-r-transparent before:border-b-gray-200 before:border-l-transparent"
   end
 
   def triangle_class(position: :left) do
-    "before:right-full before:border-t-[10px] before:border-l-[10px] before:border-b-[10px] before:absolute before:my-3 before:mr-8 before:h-0 before:w-0 before:border-t-transparent before:border-l-gray-200 before:border-b-transparent"
+    "before:right-full before:bottom-0 before:border-t-[10px] before:border-l-[10px] before:border-b-[10px] before:absolute before:mt-9 before:border-t-transparent before:border-l-gray-200 before:border-b-transparent"
   end
 
   def triangle_class(position: :right) do
-    "before:left-full before:top-0 before:border-t-[10px] before:border-r-[10px] before:border-b-[10px] before:absolute before:mt-9 before:h-0 before:w-0 before:border-t-transparent before:border-r-gray-200 before:border-b-transparent"
+    "before:left-full before:bottom-0 before:border-t-[10px] before:border-r-[10px] before:border-b-[10px] before:absolute before:mt-9 before:border-t-transparent before:border-r-gray-200 before:border-b-transparent"
   end
 
   def popover_position(position: :bottom) do
@@ -80,9 +80,6 @@ defmodule AtomicWeb.Components.Popover do
     <div class="relative p-3">
       <div class="mb-2 mb-4 flex items-center justify-between">
         <.avatar name={@organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
-        <div>
-          <button type="button" class="rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-orange-800 focus:outline-none focus:ring-4 focus:ring-orange-300 dark:bg-orange-700 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Follow</button>
-        </div>
       </div>
       <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
         <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @organization.id)}>
