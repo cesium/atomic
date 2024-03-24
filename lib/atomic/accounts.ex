@@ -489,6 +489,24 @@ defmodule Atomic.Accounts do
   end
 
   @doc """
+  Updates the user cv.
+
+  ## Examples
+
+      iex> update_user_cv(user, %{cv: ...})
+      {:ok, %User{}}
+
+      iex> update_user_cv(user, %{cv: ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_cv(%User{} = user, attrs \\ %{}) do
+    user
+    |> User.cv_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Updates the user.
 
   ## Examples
@@ -500,10 +518,17 @@ defmodule Atomic.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+  def update_user(
+        %User{} = user,
+        attrs \\ %{},
+        after_save_cv \\ &{:ok, &1},
+        after_save_image \\ &{:ok, &1}
+      ) do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save_cv)
+    |> after_save(after_save_image)
   end
 
   @doc """

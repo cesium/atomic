@@ -3,12 +3,13 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
   alias Atomic.Accounts
 
-  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
+  @extensions_whitelist ~w(.jpg .jpeg .gif .png .pdf .docx)
 
   @impl true
   def mount(socket) do
     {:ok,
      socket
+     |> allow_upload(:cv, accept: @extensions_whitelist, max_entries: 1)
      |> allow_upload(:picture, accept: @extensions_whitelist, max_entries: 1)}
   end
 
@@ -54,6 +55,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     case Accounts.update_user(
            user,
            Map.put(user_params, "email", user.email),
+           &consume_cv_data(socket, &1),
            &consume_image_data(socket, &1)
          ) do
       {:ok, _user} ->
@@ -68,21 +70,48 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   defp consume_image_data(socket, user) do
-    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Accounts.update_user(user, %{
-        "image" => %Plug.Upload{
-          content_type: entry.client_type,
-          filename: entry.client_name,
-          path: path
-        }
-      })
-    end)
-    |> case do
-      [{:ok, user}] ->
-        {:ok, user}
+    if Map.has_key?(socket.assigns.uploads, :image) do
+      consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+        Accounts.update_user_picture(user, %{
+          "image" => %Plug.Upload{
+            content_type: entry.client_type,
+            filename: entry.client_name,
+            path: path
+          }
+        })
+      end)
+      |> case do
+        [{:ok, user}] ->
+          {:ok, user}
 
-      _errors ->
-        {:ok, user}
+        _errors ->
+          {:ok, user}
+      end
     end
+
+    {:ok, user}
+  end
+
+  defp consume_cv_data(socket, user) do
+    if Map.has_key?(socket.assigns.uploads, :cv) do
+      consume_uploaded_entries(socket, :cv, fn %{path: path}, entry ->
+        Accounts.update_user_cv(user, %{
+          "cv" => %Plug.Upload{
+            content_type: entry.client_type,
+            filename: entry.client_name,
+            path: path
+          }
+        })
+      end)
+      |> case do
+        [{:ok, user}] ->
+          {:ok, user}
+
+        _errors ->
+          {:ok, user}
+      end
+    end
+
+    {:ok, user}
   end
 end

@@ -511,4 +511,20 @@ defmodule Atomic.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "upload CV" do
+    test "uploads a CV" do
+      user = insert(:user)
+
+      cv = %Plug.Upload{
+        content_type: "application/pdf",
+        filename: "teste_cv.pdf",
+        path: "priv/fake/teste_cv.pdf"
+      }
+
+      {:ok, user} = Accounts.update_user_cv(user, %{"cv" => cv})
+      assert user.cv
+      assert cv.filename == user.cv.file_name
+    end
+  end
 end
