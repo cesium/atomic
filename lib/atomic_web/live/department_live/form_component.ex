@@ -2,8 +2,9 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Departments
-
   alias AtomicWeb.Components.ImageUploader
+
+  import AtomicWeb.Components.Forms
 
   @impl true
   def render(assigns) do
@@ -11,33 +12,10 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
     <div>
       <.form :let={f} for={@changeset} id="department-form" phx-target={@myself} phx-change="validate" phx-submit="save">
         <h2 class="mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("General") %></h2>
-        <div class="flex flex-col gap-y-8">
-          <div class="flex flex-col gap-y-1">
-            <div>
-              <%= label(f, :name, class: "text-sm font-semibold") %>
-              <p class="text-xs text-gray-500">The name of the department</p>
-            </div>
-            <%= text_input(f, :name, class: "focus:ring-primary-500 focus:border-primary-500") %>
-            <%= error_tag(f, :name) %>
-          </div>
-
-          <div class="flex flex-col gap-y-1">
-            <div>
-              <%= label(f, :description, class: "text-sm font-semibold") %>
-              <p class="text-xs text-gray-500">A brief description of the department</p>
-            </div>
-            <%= text_input(f, :description, class: "focus:ring-primary-500 focus:border-primary-500") %>
-            <%= error_tag(f, :description) %>
-          </div>
-
-          <div class="align-center flex">
-            <%= checkbox(f, :collaborator_applications, class: "text-primary-500 my-auto focus:ring-primary-500 focus:border-primary-500") %>
-            <div class="ml-4">
-              <%= label(f, :collaborator_applications, class: "text-sm font-semibold") %>
-              <p class="text-xs text-gray-500">Allow any user to apply to be a collaborator in this department</p>
-            </div>
-            <%= error_tag(f, :collaborator_applications) %>
-          </div>
+        <div>
+          <.field type="text" help_text="The name of the department" field={f[:name]} placeholder="Name" required />
+          <.field type="textarea" help_text="A brief description of the department" field={f[:description]} placeholder="Description" />
+          <.field type="checkbox" help_text="Allow any user to apply to be a collaborator in this department" field={f[:collaborator_applications]} />
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
         <div class="w-full gap-y-1">
