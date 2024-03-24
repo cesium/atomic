@@ -6,7 +6,7 @@ defmodule AtomicWeb.ActivityLive.New do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, activity: %Activity{})}
   end
 
   @impl true
@@ -15,6 +15,6 @@ defmodule AtomicWeb.ActivityLive.New do
      socket
      |> assign(:page_title, gettext("New Activity"))
      |> assign(:current_page, :activities)
-     |> assign(:activity, %Activity{organization_id: organization_id})}
+     |> assign(:organization_id, organization_id)}
   end
 end
