@@ -65,6 +65,7 @@ defmodule AtomicWeb.Components.Modal do
     )
     |> show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.focus_first(to: "##{id}-container")
   end
 
   def hide_modal(js \\ %JS{}, id) do
@@ -76,5 +77,6 @@ defmodule AtomicWeb.Components.Modal do
     |> hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
+    |> JS.pop_focus()
   end
 end

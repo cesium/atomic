@@ -1,11 +1,8 @@
 defmodule AtomicWeb.BoardLive.FormComponent do
   use AtomicWeb, :live_component
 
-  import AtomicWeb.Components.Dropdown
-
-  alias Atomic.Board
   alias Atomic.Accounts
-  alias AtomicWeb.Components.MultiSelect
+  alias Atomic.Board
   alias Phoenix.LiveView.JS
 
   @impl true
@@ -36,7 +33,7 @@ defmodule AtomicWeb.BoardLive.FormComponent do
               size={:lg}
               icon={:check_circle}
               color={
-                if @action_modal in [:delete_collaborator, :deny_request] do
+                if @action_modal in [:delete_board, :delete_department] do
                   :danger
                 else
                   :success
@@ -55,8 +52,11 @@ defmodule AtomicWeb.BoardLive.FormComponent do
 
   @impl true
   def update(%{organization_id: _org} = assigns, socket) do
-    # changeset = Organizations.change_user_organization(user_organization)~
-    users = Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end)
+    # changeset = Organizations.change_user_organization(user_organization)
+    # users = Enum.map(Accounts.list_users(), fn u -> [key: u.email, value: u.id] end)
+    hide_dropdown()
+    # users = Accounts.list_users()
+    users = %{}
 
     {:ok,
      socket
@@ -94,6 +94,20 @@ defmodule AtomicWeb.BoardLive.FormComponent do
   end
 
   @impl true
+  def handle_event("update", board_params, socket) do
+    users =
+      Enum.filter(Accounts.list_users(), fn u ->
+        String.starts_with?(String.downcase(u.name), String.downcase(board_params["users"]))
+      end)
+
+    show_dropdown()
+
+    {:noreply,
+     socket
+     |> assign(:users, users)}
+  end
+
+  @impl true
   def handle_event("delete", _, socket) do
     {:noreply,
      socket
@@ -109,12 +123,6 @@ defmodule AtomicWeb.BoardLive.FormComponent do
     end
   end
 
-  @impl true
-  def delete_board(board_params, socket) do
-    # save_user_organization(socket, socket.assigns.action, user_organization_params)
-    save_board(socket, :delete, board_params)
-  end
-
   defp save_board(socket, :new, board_params) do
     board_params = Map.put(board_params, "organization_id", socket.assigns.organization_id)
 
@@ -122,7 +130,7 @@ defmodule AtomicWeb.BoardLive.FormComponent do
       {:ok, _board} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Board created successfully")
+         |> put_flash(:sccess, "Board created successfully")
          |> push_navigate(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -138,7 +146,7 @@ defmodule AtomicWeb.BoardLive.FormComponent do
       {:ok, _board} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Board created successfully")
+         |> put_flash(:success, "Board edited successfully")
          |> push_navigate(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -146,15 +154,14 @@ defmodule AtomicWeb.BoardLive.FormComponent do
     end
   end
 
-  defp save_board(socket, :delete, board_params) do
-    board_params = Map.put(board_params, "organization_id", socket.assigns.organization_id)
+  defp save_board(socket, :delete, _board_params) do
     board = Board.get_board!(socket.assigns.board.id)
 
     case Board.delete_board(board) do
       {:ok, _board} ->
         {:noreply,
          socket
-         |> put_flash(:error, "Board deleted successfully")
+         |> put_flash(:success, "Board deleted successfully")
          |> push_navigate(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -219,16 +226,28 @@ defmodule AtomicWeb.BoardLive.FormComponent do
           <%= label(f, :users, class: "text-sm font-semibold") %>
           <p class="text-xs text-gray-500">The name of the department</p>
         </div>
-        <%= select(f, :user_id, @users, class: "rounded-lg border-zinc-200 focus:ring-primary-500 focus:border-primary-500") %>
+        <%!-- <%= select(f, :user_id, @users, class: "rounded-lg border-zinc-200 focus:ring-primary-500 focus:border-primary-500") %> --%>
         <%!-- <.live_component module={MultiSelect} id="users" items={@users} selected_items={[]} target={@myself} /> --%>
+        <div class="flex flex-col">
+          <%= text_input(f, :users, class: "rounded-lg border-zinc-200 focus:ring-primary-500 focus:border-primary-500", phx_change: "update", phx_target: @myself, id: "department-users-input") %>
+          <div class="relative">
+            <div id="department-users-dropdown" class="absolute top-full z-10 hidden max-h-44 w-full origin-top overflow-y-auto rounded-b-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5" phx-click-away={hide_dropdown()}>
+              <%= for user <- @users do %>
+                <a href="#" class="flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
+                  <%= user.name %>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        </div>
         <%= error_tag(f, :users) %>
       </div>
 
       <div class="mt-4 flex w-full justify-end space-x-4">
         <%= if @action in [:edit_board, :edit_department] do %>
-          <.button size={:md} color={:danger} icon={:trash} phx-click="delete" phx-target={@myself}>Delete department</.button>
+          <.button size={:md} color={:danger} icon={:trash} phx-click="delete" phx-target={@myself} full_width>Delete department</.button>
         <% end %>
-        <.button size={:md} color={:white} icon={:check}>Save Changes</.button>
+        <.button size={:md} color={:white} icon={:check} full_width>Save Changes</.button>
       </div>
     </.form>
     """
@@ -248,8 +267,6 @@ defmodule AtomicWeb.BoardLive.FormComponent do
   end
 
   defp display_action_goal_confirm_description(action, board) do
-    IO.inspect(board)
-
     case action do
       :confirm_request ->
         gettext("If you change your mind you can always remove this person later.")
@@ -263,5 +280,25 @@ defmodule AtomicWeb.BoardLive.FormComponent do
           department_name: board.year
         )
     end
+  end
+
+  defp hide_dropdown(js \\ %JS{}) do
+    js
+    |> JS.remove_class("rounded-t-lg", to: "#department-users-input")
+    |> JS.add_class("rounded-lg", to: "#department-users-input")
+    |> JS.hide(
+      transition: {"ease-in duration-150", "scale-y-100", "scale-y-0"},
+      to: "#department-users-dropdown"
+    )
+  end
+
+  defp show_dropdown(js \\ %JS{}) do
+    js
+    |> JS.remove_class("rounded-lg", to: "#department-users-input")
+    |> JS.add_class("rounded-t-lg", to: "#department-users-input")
+    |> JS.show(
+      transition: {"ease-out duration-150", "scale-y-0", "scale-y-100"},
+      to: "#department-users-dropdown"
+    )
   end
 end

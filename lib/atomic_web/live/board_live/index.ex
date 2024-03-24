@@ -105,9 +105,7 @@ defmodule AtomicWeb.BoardLive.Index do
      socket
      |> assign(:board_departments, board_departments)
      |> assign(:empty?, Enum.empty?(board_departments))
-     |> push_patch(
-       to: Routes.board_index_path(socket, :show, socket.assigns.organization.id, id)
-     )}
+     |> push_patch(to: Routes.board_index_path(socket, :show, socket.assigns.organization.id, id))}
   end
 
   @impl true
