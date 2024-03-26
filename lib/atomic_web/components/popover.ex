@@ -8,7 +8,7 @@ defmodule AtomicWeb.Components.Popover do
   import AtomicWeb.Components.Avatar
 
   attr :type, :atom,
-    values: [:user, :organization],
+    values: [:user, :organization, :button],
     default: :user,
     doc: "The type of entity associated with the avatar."
 
@@ -19,6 +19,7 @@ defmodule AtomicWeb.Components.Popover do
 
   attr :organization, :map, default: %{}, doc: "The organization to render."
   attr :user, :map, default: %{}, doc: "The user to render."
+  attr :button, :map, default: %{}, doc: "The button to render."
 
   slot :wrapper,
     required: true,
@@ -33,7 +34,7 @@ defmodule AtomicWeb.Components.Popover do
         triangle_class(position: @position)
       ]}>
         <div class={[
-          "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md hidden group-hover:block transition delay-700 duration-300 group-hover:ease-in-out",
+          "absolute z-50 w-64 bg-slate-50 border border-gray-200 rounded-lg shadow-md",
           popover_position(position: @position)
         ]}>
           <%= render_popover(assigns, type: @type) %>
@@ -81,7 +82,7 @@ defmodule AtomicWeb.Components.Popover do
       <div class="mb-2 mb-4 flex items-center justify-between">
         <.avatar name={@organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
       </div>
-      <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+      <p class="text-base font-semibold leading-none text-gray-900">
         <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @organization.id)}>
           <%= @organization.name %>
         </.link>
@@ -90,7 +91,21 @@ defmodule AtomicWeb.Components.Popover do
         <%= @organization.description %>
       </p>
     </div>
-    <div data-popper-arrow></div>
+    """
+  end
+
+  def render_popover(assigns, type: :button) do
+    ~H"""
+    <div class="relative p-3">
+      <div class="mb-2 mb-4 items-center justify-between">
+        <p class="text-base font-semibold leading-none text-gray-900">
+            <%= @button.name %>
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
+          <%= @button.description %>
+        </p>
+      </div>
+    </div>
     """
   end
 end
