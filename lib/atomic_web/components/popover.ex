@@ -99,9 +99,9 @@ defmodule AtomicWeb.Components.Popover do
     <div class="relative p-3">
       <div class="mb-2 mb-4 items-center justify-between">
         <p class="text-base font-semibold leading-none text-gray-900">
-            <%= @button.name %>
+          <%= @button.name %>
         </p>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
+        <p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <%= @button.description %>
         </p>
       </div>

@@ -3,7 +3,6 @@ defmodule AtomicWeb.Storybook.Components.Popover do
 
   alias AtomicWeb.Components.Popover
 
-
   def function, do: &Popover.popover/1
 
   def variations do
@@ -102,9 +101,8 @@ defmodule AtomicWeb.Storybook.Components.Popover do
               """
             ]
           }
-        ],
+        ]
       }
     ]
   end
-
 end
