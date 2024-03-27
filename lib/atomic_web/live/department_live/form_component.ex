@@ -2,6 +2,39 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Departments
+  alias AtomicWeb.Components.ImageUploader
+
+  import AtomicWeb.Components.Forms
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.form :let={f} for={@changeset} id="department-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+        <h2 class="mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("General") %></h2>
+        <div>
+          <.field type="text" help_text="The name of the department" field={f[:name]} placeholder="Name" required />
+          <.field type="textarea" help_text="A brief description of the department" field={f[:description]} placeholder="Description" />
+          <.field type="checkbox" help_text="Allow any user to apply to be a collaborator in this department" field={f[:collaborator_applications]} />
+        </div>
+        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
+        <div class="w-full gap-y-1">
+          <div>
+            <%= label(f, :banner, class: "text-sm font-semibold") %>
+            <p class="mb-2 text-xs text-gray-500">The banner of the department</p>
+          </div>
+          <div>
+            <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+          </div>
+        </div>
+
+        <div class="mt-8 flex w-full justify-end">
+          <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+        </div>
+      </.form>
+    </div>
+    """
+  end
 
   @impl true
   def update(%{department: department} = assigns, socket) do
@@ -9,6 +42,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
 
     {:ok,
      socket
+     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end
@@ -23,6 +57,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"department" => department_params}, socket) do
     save_department(socket, socket.assigns.action, department_params)
   end

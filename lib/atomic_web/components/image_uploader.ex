@@ -13,15 +13,12 @@ defmodule AtomicWeb.Components.ImageUploader do
   def render(assigns) do
     ~H"""
     <div>
-      <div class="shrink-0 px-4 py-6 1.5xl:shrink-0 1.5xl:px-6 1.5xl:py-5 sm:px-6">
-        <span class="font-sm mb-1 pl-1 text-base text-gray-800 sm:text-lg">
-          Image
-        </span>
+      <div class="shrink-0 1.5xl:shrink-0">
         <.live_file_input upload={@uploads.image} class="hidden" />
         <div class={
             "#{if length(@uploads.image.entries) != 0 do
               "hidden"
-            end} mt-1 border-2 border-gray-300 border-dashed rounded-md"
+            end} border-2 border-gray-300 border-dashed rounded-md"
           } phx-drop-target={@uploads.image.ref}>
           <div class="mx-auto sm:col-span-6 lg:w-full">
             <div class="my-[140px] flex justify-center px-6">

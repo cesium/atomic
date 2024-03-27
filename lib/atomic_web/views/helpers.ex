@@ -226,6 +226,31 @@ defmodule AtomicWeb.Helpers do
   end
 
   @doc """
+  Return the first name of a name.
+
+  ## Examples
+
+        iex> extract_first_name("John Doe")
+        "John"
+
+        iex> extract_first_name("John")
+        "John"
+
+        iex> extract_first_name(nil)
+        ""
+
+  """
+  def extract_first_name(nil), do: ""
+
+  def extract_first_name(name) do
+    name
+    |> String.split(" ")
+    |> Enum.filter(&String.match?(String.slice(&1, 0, 1), ~r/^\p{L}$/u))
+    |> Enum.map(&String.capitalize/1)
+    |> hd()
+  end
+
+  @doc """
   Slices a string if it is longer than the given length
 
   ## Examples

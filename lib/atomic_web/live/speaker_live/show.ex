@@ -1,6 +1,8 @@
 defmodule AtomicWeb.SpeakerLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Modal
+
   alias Atomic.Activities
   alias Phoenix.LiveView.JS
 

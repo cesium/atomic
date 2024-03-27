@@ -6,6 +6,10 @@ defmodule AtomicWeb.Components.Avatar do
 
   attr :name, :string, required: true, doc: "The name of the entity associated with the avatar."
 
+  attr :auto_generate_initials, :boolean,
+    default: true,
+    doc: "Whether to automatically generate the initials from the name."
+
   attr :type, :atom,
     values: [:user, :organization, :company],
     default: :user,
@@ -42,7 +46,11 @@ defmodule AtomicWeb.Components.Avatar do
       <%= if @src do %>
         <img src={@src} class={"atomic-avatar--#{assigns.type} h-full w-full"} />
       <% else %>
-        <%= extract_initials(@name) %>
+        <%= if @auto_generate_initials do %>
+          <%= extract_initials(@name) %>
+        <% else %>
+          <%= @name %>
+        <% end %>
       <% end %>
     </span>
     """

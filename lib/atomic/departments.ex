@@ -180,7 +180,11 @@ defmodule Atomic.Departments do
       ** (Ecto.NoResultsError)
 
   """
-  def get_collaborator!(id), do: Repo.get!(Collaborator, id)
+  def get_collaborator!(id, opts \\ []) do
+    Collaborator
+    |> apply_filters(opts)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Gets a single collaborator.
@@ -252,6 +256,24 @@ defmodule Atomic.Departments do
   end
 
   @doc """
+  Accepts a collaborator.
+
+  ## Examples
+
+      iex> accept_collaborator(collaborator)
+      {:ok, %Collaborator{}}
+
+      iex> accept_collaborator(collaborator)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def accept_collaborator(%Collaborator{} = collaborator) do
+    collaborator
+    |> Collaborator.changeset(%{accepted: true, accepted_at: NaiveDateTime.utc_now()})
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a collaborator.
 
   ## Examples
@@ -278,6 +300,21 @@ defmodule Atomic.Departments do
   """
   def change_collaborator(%Collaborator{} = collaborator, attrs \\ %{}) do
     Collaborator.changeset(collaborator, attrs)
+  end
+
+  @doc """
+  Returns a paginated list of collaborators.
+
+  ## Examples
+
+      iex> list_display_collaborators()
+      [%Collaborator{}, ...]
+
+  """
+  def list_display_collaborators(%{} = flop, opts \\ []) do
+    Collaborator
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Collaborator)
   end
 
   @doc """
