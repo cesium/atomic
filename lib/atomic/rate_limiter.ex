@@ -3,8 +3,8 @@ defmodule Atomic.RateLimiter do
   Rate limiter module for Atomic.
   """
   use Atomic.Context
-  alias Atomic.Organizations.Announcement
   alias Atomic.Activities.Activity
+  alias Atomic.Organizations.Announcement
   alias Atomic.Repo
   @activities_limit_per_day Application.compile_env!(:atomic, :activities_limit_per_day)
   @announcements_limit_per_day Application.compile_env!(:atomic, :announcements_limit_per_day)
@@ -22,7 +22,7 @@ defmodule Atomic.RateLimiter do
   """
   def limit_activities(organization_id) do
     current_time = DateTime.utc_now()
-    twenty_four_hours_ago = DateTime.add(current_time, -86400)
+    twenty_four_hours_ago = DateTime.add(current_time, -86_400)
 
     activity_count =
       Repo.all(
@@ -52,7 +52,7 @@ defmodule Atomic.RateLimiter do
   """
   def limit_announcements(organization_id) do
     current_time = DateTime.utc_now()
-    twenty_four_hours_ago = DateTime.add(current_time, -86400)
+    twenty_four_hours_ago = DateTime.add(current_time, -86_400)
 
     announcement_count =
       Repo.all(

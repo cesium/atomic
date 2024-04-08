@@ -195,7 +195,8 @@ defmodule Atomic.Activities do
 
   """
   def create_activity_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    case RateLimiter.limit_activities(attrs["organization_id"]) do
+    case not is_nil(attrs["organization_id"]) and
+           RateLimiter.limit_activities(attrs["organization_id"]) do
       :ok ->
         Multi.new()
         |> Multi.insert(:post, fn _ ->
@@ -224,7 +225,8 @@ defmodule Atomic.Activities do
   end
 
   def create_activity(attrs \\ %{}) do
-    case RateLimiter.limit_activities(attrs["organization_id"]) do
+    case not is_nil(attrs["organization_id"]) and
+           RateLimiter.limit_activities(attrs["organization_id"]) do
       :ok ->
         %Activity{}
         |> Activity.changeset(attrs)

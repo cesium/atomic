@@ -732,7 +732,8 @@ defmodule Atomic.Organizations do
 
   """
   def create_announcement_with_post(attrs \\ %{}) do
-    case RateLimiter.limit_announcements(attrs["organization_id"]) do
+    case not is_nil(attrs["organization_id"]) and
+           RateLimiter.limit_announcements(attrs["organization_id"]) do
       :ok ->
         Multi.new()
         |> Multi.insert(:post, fn _ ->
@@ -761,7 +762,8 @@ defmodule Atomic.Organizations do
   end
 
   def create_announcement(attrs \\ %{}) do
-    case RateLimiter.limit_announcements(attrs["organization_id"]) do
+    case not is_nil(attrs["organization_id"]) and
+           RateLimiter.limit_announcements(attrs["organization_id"]) do
       :ok ->
         %Announcement{}
         |> Announcement.changeset(attrs)
