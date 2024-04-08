@@ -9,6 +9,7 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Activities.Speaker
   alias Atomic.Feed.Post
+  alias Atomic.Organizations
   alias Atomic.RateLimiter
 
   @doc """
@@ -195,8 +196,8 @@ defmodule Atomic.Activities do
 
   """
   def create_activity_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    case not is_nil(attrs["organization_id"]) and
-           RateLimiter.limit_activities(attrs["organization_id"]) do
+    case Organizations.verify_organization_id?(attrs) and
+           RateLimiter.limit_activities(Map.get(attrs, :organization_id)) do
       :ok ->
         Multi.new()
         |> Multi.insert(:post, fn _ ->
@@ -221,12 +222,15 @@ defmodule Atomic.Activities do
 
       {:error, reason} ->
         {:error, reason}
+
+      false ->
+        {:error, "Organization ID is required."}
     end
   end
 
   def create_activity(attrs \\ %{}) do
-    case not is_nil(attrs["organization_id"]) and
-           RateLimiter.limit_activities(attrs["organization_id"]) do
+    case Organizations.verify_organization_id?(attrs) and
+           RateLimiter.limit_activities(Map.get(attrs, :organization_id)) do
       :ok ->
         %Activity{}
         |> Activity.changeset(attrs)
@@ -234,6 +238,9 @@ defmodule Atomic.Activities do
 
       {:error, reason} ->
         {:error, reason}
+
+      false ->
+        {:error, "Organization ID is required."}
     end
   end
 

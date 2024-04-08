@@ -732,8 +732,8 @@ defmodule Atomic.Organizations do
 
   """
   def create_announcement_with_post(attrs \\ %{}) do
-    case not is_nil(attrs["organization_id"]) and
-           RateLimiter.limit_announcements(attrs["organization_id"]) do
+    case verify_organization_id?(attrs) and
+           RateLimiter.limit_announcements(Map.get(attrs, :organization_id)) do
       :ok ->
         Multi.new()
         |> Multi.insert(:post, fn _ ->
@@ -758,12 +758,15 @@ defmodule Atomic.Organizations do
 
       {:error, reason} ->
         {:error, reason}
+
+      false ->
+        {:error, "Organization ID is required"}
     end
   end
 
   def create_announcement(attrs \\ %{}) do
-    case not is_nil(attrs["organization_id"]) and
-           RateLimiter.limit_announcements(attrs["organization_id"]) do
+    case verify_organization_id?(attrs) and
+           RateLimiter.limit_announcements(Map.get(attrs, :organization_id)) do
       :ok ->
         %Announcement{}
         |> Announcement.changeset(attrs)
@@ -771,6 +774,15 @@ defmodule Atomic.Organizations do
 
       {:error, reason} ->
         {:error, reason}
+    end
+  end
+
+  def verify_organization_id?(attrs) do
+    if not Map.has_key?(attrs, :organization_id) or
+         (Map.has_key?(attrs, :organization_id) and is_nil(Map.get(attrs, :organization_id))) do
+      false
+    else
+      true
     end
   end
 

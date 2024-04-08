@@ -32,7 +32,7 @@ defmodule Atomic.ActivitiesTest do
     end
 
     test "create_activity_with_post/2 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(@invalid_attrs)
+      assert {:error, _reason} = Activities.create_activity_with_post(@invalid_attrs)
     end
 
     test "create_activity_with_post/2 with maximum_entries lower than minimum_entries" do
