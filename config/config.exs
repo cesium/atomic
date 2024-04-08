@@ -11,7 +11,10 @@ config :atomic,
   ecto_repos: [Atomic.Repo],
   generators: [binary_id: true],
   name: "Atomic",
-  timezone: "Europe/Lisbon"
+  timezone: "Europe/Lisbon",
+  activities_limit_per_day: String.to_integer(System.get_env("ACTIVITIES_LIMIT_PER_DAY") || "10"),
+  announcements_limit_per_day:
+    String.to_integer(System.get_env("ANNOUNCEMENTS_LIMIT_PER_DAY") || "10")
 
 # Configures the endpoint
 config :atomic, AtomicWeb.Endpoint,

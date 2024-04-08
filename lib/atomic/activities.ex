@@ -9,6 +9,7 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.ActivityEnrollment
   alias Atomic.Activities.Speaker
   alias Atomic.Feed.Post
+  alias Atomic.RateLimiter
 
   @doc """
   Returns the list of activities.
@@ -194,32 +195,44 @@ defmodule Atomic.Activities do
 
   """
   def create_activity_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
-    Multi.new()
-    |> Multi.insert(:post, fn _ ->
-      %Post{}
-      |> Post.changeset(%{
-        type: "activity"
-      })
-    end)
-    |> Multi.insert(:activity, fn %{post: post} ->
-      %Activity{}
-      |> Activity.changeset(attrs)
-      |> Ecto.Changeset.put_assoc(:post, post)
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{activity: activity, post: _post}} ->
-        after_save({:ok, activity}, after_save)
+    case RateLimiter.limit_activities(attrs["organization_id"]) do
+      :ok ->
+        Multi.new()
+        |> Multi.insert(:post, fn _ ->
+          %Post{}
+          |> Post.changeset(%{
+            type: "activity"
+          })
+        end)
+        |> Multi.insert(:activity, fn %{post: post} ->
+          %Activity{}
+          |> Activity.changeset(attrs)
+          |> Ecto.Changeset.put_assoc(:post, post)
+        end)
+        |> Repo.transaction()
+        |> case do
+          {:ok, %{activity: activity, post: _post}} ->
+            after_save({:ok, activity}, after_save)
 
-      {:error, _reason, changeset, _actions} ->
-        {:error, changeset}
+          {:error, _reason, changeset, _actions} ->
+            {:error, changeset}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
   def create_activity(attrs \\ %{}) do
-    %Activity{}
-    |> Activity.changeset(attrs)
-    |> Repo.insert()
+    case RateLimiter.limit_activities(attrs["organization_id"]) do
+      :ok ->
+        %Activity{}
+        |> Activity.changeset(attrs)
+        |> Repo.insert()
+
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   @doc """

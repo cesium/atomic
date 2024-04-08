@@ -7,6 +7,7 @@ defmodule Atomic.Organizations do
   alias Atomic.Accounts.User
   alias Atomic.Feed.Post
   alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
+  alias Atomic.RateLimiter
 
   @doc """
   Returns the list of organizations.
@@ -731,32 +732,44 @@ defmodule Atomic.Organizations do
 
   """
   def create_announcement_with_post(attrs \\ %{}) do
-    Multi.new()
-    |> Multi.insert(:post, fn _ ->
-      %Post{}
-      |> Post.changeset(%{
-        type: "announcement"
-      })
-    end)
-    |> Multi.insert(:announcement, fn %{post: post} ->
-      %Announcement{}
-      |> Announcement.changeset(attrs)
-      |> Ecto.Changeset.put_assoc(:post, post)
-    end)
-    |> Repo.transaction()
-    |> case do
-      {:ok, %{announcement: announcement, post: _post}} ->
-        {:ok, announcement}
+    case RateLimiter.limit_announcements(attrs["organization_id"]) do
+      :ok ->
+        Multi.new()
+        |> Multi.insert(:post, fn _ ->
+          %Post{}
+          |> Post.changeset(%{
+            type: "announcement"
+          })
+        end)
+        |> Multi.insert(:announcement, fn %{post: post} ->
+          %Announcement{}
+          |> Announcement.changeset(attrs)
+          |> Ecto.Changeset.put_assoc(:post, post)
+        end)
+        |> Repo.transaction()
+        |> case do
+          {:ok, %{announcement: announcement, post: _post}} ->
+            {:ok, announcement}
 
-      {:error, _reason, changeset, _actions} ->
-        {:error, changeset}
+          {:error, _reason, changeset, _actions} ->
+            {:error, changeset}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
   def create_announcement(attrs \\ %{}) do
-    %Announcement{}
-    |> Announcement.changeset(attrs)
-    |> Repo.insert()
+    case RateLimiter.limit_announcements(attrs["organization_id"]) do
+      :ok ->
+        %Announcement{}
+        |> Announcement.changeset(attrs)
+        |> Repo.insert()
+
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 
   @doc """
