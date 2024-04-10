@@ -8,6 +8,7 @@ defmodule Atomic.Repo.Migrations.CreateDepartments do
       add :description, :text
       add :banner, :string
       add :collaborator_applications, :boolean, default: false, null: false
+      add :archived, :boolean, default: false, null: false
 
       add :organization_id, references(:organizations, on_delete: :delete_all, type: :binary_id),
         null: false

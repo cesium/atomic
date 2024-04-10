@@ -9,7 +9,7 @@ defmodule Atomic.Repo.Migrations.CreateCollaborators do
 
       add :user_id, references(:users, on_delete: :nothing, type: :binary_id), null: false
 
-      add :department_id, references(:departments, on_delete: :nothing, type: :binary_id),
+      add :department_id, references(:departments, on_delete: :delete_all, type: :binary_id),
         null: false
 
       timestamps()

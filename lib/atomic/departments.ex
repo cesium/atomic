@@ -128,6 +128,42 @@ defmodule Atomic.Departments do
   end
 
   @doc """
+  Archives a department.
+
+  ## Examples
+
+      iex> archive_department(department)
+      {:ok, %Department{}}
+
+      iex> archive_department(department)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def archive_department(%Department{} = department) do
+    department
+    |> Department.changeset(%{archived: true})
+    |> Repo.update()
+  end
+
+  @doc """
+  Unarchives a department.
+
+  ## Examples
+
+      iex> unarchive_department(department)
+      {:ok, %Department{}}
+
+      iex> unarchive_department(department)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def unarchive_department(%Department{} = department) do
+    department
+    |> Department.changeset(%{archived: false})
+    |> Repo.update()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking department changes.
 
   ## Examples

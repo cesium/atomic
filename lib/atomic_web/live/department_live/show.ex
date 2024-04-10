@@ -29,23 +29,27 @@ defmodule AtomicWeb.DepartmentLive.Show do
 
     has_permissions = has_permissions?(socket, organization_id)
 
-    socket
-    |> assign(:current_page, :departments)
-    |> assign(:current_view, current_view(socket, params))
-    |> assign(:page_title, department.name)
-    |> assign(:organization, organization)
-    |> assign(:department, department)
-    |> assign(:params, params)
-    |> assign(:current_collaborator, maybe_put_collaborator(socket, department.id))
-    |> assign(list_collaborators(department.id, params, has_permissions))
-    |> assign(
-      :all_collaborators,
-      Departments.list_collaborators_by_department_id(department.id,
-        preloads: [:user],
-        where: [accepted: true]
+    if department.archived && !has_permissions do
+      raise Ecto.NoResultsError, queryable: Atomic.Organizations.Department
+    else
+      socket
+      |> assign(:current_page, :departments)
+      |> assign(:current_view, current_view(socket, params))
+      |> assign(:page_title, department.name)
+      |> assign(:organization, organization)
+      |> assign(:department, department)
+      |> assign(:params, params)
+      |> assign(:current_collaborator, maybe_put_collaborator(socket, department.id))
+      |> assign(list_collaborators(department.id, params, has_permissions))
+      |> assign(
+        :all_collaborators,
+        Departments.list_collaborators_by_department_id(department.id,
+          preloads: [:user],
+          where: [accepted: true]
+        )
       )
-    )
-    |> assign(:has_permissions?, has_permissions)
+      |> assign(:has_permissions?, has_permissions)
+    end
   end
 
   defp apply_action(

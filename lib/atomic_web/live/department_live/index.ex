@@ -17,19 +17,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
   @impl true
   def handle_params(%{"organization_id" => organization_id}, _, socket) do
     organization = Organizations.get_organization!(organization_id)
-
-    departments =
-      Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
-      |> Enum.map(fn department ->
-        collaborators =
-          department.id
-          |> Departments.list_collaborators_by_department_id(
-            preloads: [:user],
-            where: [accepted: true]
-          )
-
-        {department, collaborators}
-      end)
+    has_permissions = has_permissions?(socket, organization_id)
+    departments = get_department_and_collaborators(organization_id, has_permissions)
 
     {:noreply,
      socket
@@ -38,7 +27,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
      |> assign(:organization, organization)
      |> assign(:departments, departments)
      |> assign(:empty?, Enum.empty?(departments))
-     |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
+     |> assign(:has_permissions?, has_permissions)}
   end
 
   defp has_permissions?(socket, organization_id) do
@@ -47,5 +36,37 @@ defmodule AtomicWeb.DepartmentLive.Index do
         socket.assigns.current_user.id,
         organization_id
       )
+  end
+
+  defp get_department_and_collaborators(organization_id, false) do
+    Departments.list_departments_by_organization_id(organization_id,
+      preloads: [:organization],
+      where: [archived: false]
+    )
+    |> Enum.map(fn department ->
+      collaborators =
+        department.id
+        |> Departments.list_collaborators_by_department_id(
+          preloads: [:user],
+          where: [accepted: true]
+        )
+
+      {department, collaborators}
+    end)
+  end
+
+  defp get_department_and_collaborators(organization_id, true) do
+    Departments.list_departments_by_organization_id(organization_id, preloads: [:organization])
+    |> Enum.sort_by(& &1.archived)
+    |> Enum.map(fn department ->
+      collaborators =
+        department.id
+        |> Departments.list_collaborators_by_department_id(
+          preloads: [:user],
+          where: [accepted: true]
+        )
+
+      {department, collaborators}
+    end)
   end
 end
