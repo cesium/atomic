@@ -1,10 +1,7 @@
 defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Avatar
-  import AtomicWeb.Components.Table
-  import AtomicWeb.Components.Pagination
-  import AtomicWeb.Components.Modal
+  import AtomicWeb.Components.{Avatar, Dropdown, Table, Pagination, Modal}
   import AtomicWeb.DepartmentLive.Components.DepartmentBannerPlaceholder
 
   alias Atomic.Accounts

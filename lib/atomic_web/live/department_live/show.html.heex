@@ -24,7 +24,67 @@
               </.link>
             </div>
             <!-- Actions -->
-            <div class="flex flex-row gap-4">
+            <!-- Small screens -->
+            <div class="flex gap-2 sm:hidden">
+              <%= if @current_view == "show" do %>
+                <!-- Collaborate -->
+                <%= if !@current_collaborator do %>
+                  <%= if @department.collaborator_applications do %>
+                    <.button
+                      phx-click={
+                          "#{if @is_authenticated? do
+                            "collaborate"
+                          else
+                            "must-login"
+                          end}"
+                        }
+                      color={:white}
+                      icon={:user_plus}
+                      icon_variant={:solid}
+                    >
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% else %>
+                  <%= if ! @current_collaborator.accepted do %>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% end %>
+                <.dropdown
+                  id="actions"
+                  items={
+                    [
+                      %{
+                        name: gettext("Collaborators"),
+                        link:
+                          Routes.department_show_path(
+                            @socket,
+                            :show,
+                            @organization.id,
+                            @department.id,
+                            tab: "collaborators"
+                          ),
+                        icon: :user_group
+                      },
+                      %{name: gettext("Kanban"), link: "", icon: :view_columns}
+                    ] ++
+                      if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
+                        [%{name: gettext("Edit"), link: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
+                      else
+                        []
+                      end
+                  }
+                >
+                  <:wrapper>
+                    <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal}></.button>
+                  </:wrapper>
+                </.dropdown>
+              <% end %>
+            </div>
+            <!-- Large screens -->
+            <div class="flex-row gap-4 hidden sm:flex">
               <%= if @current_view == "show" do %>
                 <!-- Collaborate -->
                 <%= if !@current_collaborator do %>
@@ -101,7 +161,7 @@
             <%= @department.description %>
           </div>
           <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
-            <div class="col-span-2">
+            <div class="col-span-3 sm:col-span-2">
               <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Recent Activity</h2>
               <!-- Recent activity empty state -->
               <.link class="flex flex-col items-center justify-center mt-4" navigate={Routes.organization_show_path(@socket, :show, @organization)}>
@@ -111,7 +171,7 @@
               </.link>
             </div>
             <!-- People -->
-            <div class="w-full">
+            <div class="w-full hidden sm:block">
               <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">People</h2>
               <div class="mb-2 flex max-w-full flex-wrap gap-1">
                 <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
