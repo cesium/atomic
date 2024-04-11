@@ -1,7 +1,11 @@
 <div class="min-h-[100vh] lg:border-r">
   <!-- Department Header -->
   <div class="h-32 w-full select-none">
-    <.department_banner_placeholder department={@department} class="object-cover" />
+    <%= if @department.banner do %>
+      <img class="w-full h-32 object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
+    <% else %>
+      <.department_banner_placeholder department={@department} class="object-cover" />
+    <% end %>
   </div>
   <div class="flex flex-col items-stretch justify-between lg:flex-row">
     <div class="flex w-full flex-col bg-white lg:flex-row">

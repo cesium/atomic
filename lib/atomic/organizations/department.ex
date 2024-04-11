@@ -25,4 +25,9 @@ defmodule Atomic.Organizations.Department do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
+
+  def banner_changeset(department, attrs) do
+    department
+    |> cast_attachments(attrs, [:banner])
+  end
 end

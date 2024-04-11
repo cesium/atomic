@@ -87,10 +87,11 @@ defmodule Atomic.Departments do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_department(attrs \\ %{}) do
+  def create_department(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Department{}
     |> Department.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -105,10 +106,11 @@ defmodule Atomic.Departments do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_department(%Department{} = department, attrs) do
+  def update_department(%Department{} = department, attrs, after_save \\ &{:ok, &1}) do
     department
     |> Department.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -367,5 +369,23 @@ defmodule Atomic.Departments do
     |> apply_filters(opts)
     |> where([c], c.department_id == ^id)
     |> Repo.all()
+  end
+
+  @doc """
+  Updates a department banner.
+
+  ## Examples
+
+      iex> update_department_banner(department, %{field: new_value})
+      {:ok, %Department{}}
+
+      iex> update_department_banner(department, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_department_banner(%Department{} = department, attrs) do
+    department
+    |> Department.banner_changeset(attrs)
+    |> Repo.update()
   end
 end

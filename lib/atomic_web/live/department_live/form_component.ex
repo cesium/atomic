@@ -20,8 +20,8 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
         <div class="w-full gap-y-1">
           <div>
-            <%= label(f, :banner, class: "text-sm font-semibold") %>
-            <p class="mb-2 text-xs text-gray-500">The banner of the department</p>
+            <%= label(f, :banner, class: "department-form_description") %>
+            <p class="atomic-form-help-text pb-4">The banner of the department</p>
           </div>
           <div>
             <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
@@ -63,7 +63,11 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   end
 
   defp save_department(socket, :edit, department_params) do
-    case Departments.update_department(socket.assigns.department, department_params) do
+    case Departments.update_department(
+           socket.assigns.department,
+           department_params,
+           &consume_image_data(socket, &1)
+         ) do
       {:ok, _department} ->
         {:noreply,
          socket
@@ -79,7 +83,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
     department_params =
       Map.put(department_params, "organization_id", socket.assigns.organization.id)
 
-    case Departments.create_department(department_params) do
+    case Departments.create_department(department_params, &consume_image_data(socket, &1)) do
       {:ok, _department} ->
         {:noreply,
          socket
@@ -88,6 +92,25 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp consume_image_data(socket, department) do
+    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+      Departments.update_department_banner(department, %{
+        "banner" => %Plug.Upload{
+          content_type: entry.client_type,
+          filename: entry.client_name,
+          path: path
+        }
+      })
+    end)
+    |> case do
+      [{:ok, department}] ->
+        {:ok, department}
+
+      _errors ->
+        {:ok, department}
     end
   end
 end

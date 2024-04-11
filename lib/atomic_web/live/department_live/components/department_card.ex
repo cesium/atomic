@@ -12,7 +12,11 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
     ~H"""
     <div class={["flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50", @department.archived && "opacity-50"]}>
       <div class="h-14 w-full object-cover">
-        <.department_banner_placeholder department={@department} class="rounded-t-lg" />
+        <%= if @department.banner do %>
+          <img class="h-14 w-full rounded-t-lg object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
+        <% else %>
+          <.department_banner_placeholder department={@department} class="rounded-t-lg" />
+        <% end %>
       </div>
       <div class="px-4 py-4">
         <div class="flex">
