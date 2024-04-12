@@ -4,7 +4,6 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   alias Atomic.Partners
   alias AtomicWeb.Components.ImageUploader
 
-
   @impl true
   def render(assigns) do
     ~H"""
