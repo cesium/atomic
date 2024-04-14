@@ -67,8 +67,7 @@
                             tab: "collaborators"
                           ),
                         icon: :user_group
-                      },
-                      %{name: gettext("Kanban"), link: "", icon: :view_columns}
+                      }
                     ] ++
                       if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
                         [%{name: gettext("Edit"), link: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
@@ -128,8 +127,6 @@
                     }
                   >
                   </.button>
-                  <!-- Kanban board -->
-                  <.button icon={:view_columns} icon_variant={:solid} color={:white} disabled></.button>
                 <% end %>
                 <!-- Edit department -->
                 <%= if @has_permissions? do %>
