@@ -12,6 +12,9 @@
           <.button color={:white} icon={:archive_box} phx-click="set-action" phx-value-action={:archive}>
             <%= gettext("Archive") %>
           </.button>
+          <.button color={:white} icon={:trash} disabled title={gettext("You can only delete a department after it has been archived.")}>
+            <%= gettext("Delete") %>
+          </.button>
         <% else %>
           <.button color={:white} icon={:archive_box_x_mark} phx-click="set-action" phx-value-action={:unarchive}>
             <%= gettext("Unarchive") %>
