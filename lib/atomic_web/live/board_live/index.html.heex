@@ -11,7 +11,7 @@
       <form phx-change="update-selected-board" class="w-full">
         <select class="w-full border-none" name="id">
           <%= for board <- @boards do %>
-            <option value={board.id} selected={board.id == @board.id}><%= board.year %></option>
+            <option value={board.id} selected={board.id == @board.id}><%= board.name %></option>
           <% end %>
         </select>
       </form>
@@ -48,7 +48,9 @@
                         <.avatar class="mx-auto ring-1 ring-white" color={:light_gray} name={user_organization.user.name} size={:xs} src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
                       <% end %>
                       <%= if length(Board.get_board_department_users(board_department.id, preloads: [:user])) > 4 do %>
-                        <.avatar name={"+#{length(Board.get_board_department_users(board_department.id, preloads: [:user])) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" />
+                        <%!-- Uncomment this after improve departments pages is merged (auto_generate_initials) --%>
+                        <%!-- <.avatar name={"+#{length(Board.get_board_department_users(board_department.id, preloads: [:user])) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" /> --%>
+                        <.avatar name={"+#{length(Board.get_board_department_users(board_department.id, preloads: [:user])) - 4}"} size={:xs} color={:light_gray} class="ring-1 ring-white" />
                       <% end %>
                     </div>
                   </div>

@@ -87,6 +87,10 @@ defmodule Atomic.Board do
 
   """
   def create_board(attrs \\ %{}) do
+    IO.inspect(attrs)
+    IO.puts("changeset: ")
+    IO.inspect(Board.changeset(%Board{}, attrs))
+
     %Board{}
     |> Board.changeset(attrs)
     |> Repo.insert()
@@ -140,7 +144,7 @@ defmodule Atomic.Board do
   end
 
   def get_organization_board_by_year(year, organization_id) do
-    Repo.get_by(Board, year: year, organization_id: organization_id)
+    Repo.get_by(Board, name: year, organization_id: organization_id)
   end
 
   @doc """

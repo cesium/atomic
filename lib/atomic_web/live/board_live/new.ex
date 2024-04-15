@@ -2,7 +2,6 @@ defmodule AtomicWeb.BoardLive.New do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  alias Atomic.Accounts
   alias Atomic.Organizations.UserOrganization
 
   @impl true
