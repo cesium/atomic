@@ -48,7 +48,7 @@ defmodule AtomicWeb.Components.Gradient do
     Enum.at(@colors, index)
   end
 
-  defp generate_color() do
+  defp generate_color do
     Enum.random(@colors)
   end
 end
