@@ -4,7 +4,7 @@
     <%= if @department.banner do %>
       <img class="w-full h-32 object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
     <% else %>
-      <.department_banner_placeholder department={@department} class="object-cover" />
+      <.gradient seed={@department.id} class="object-cover" />
     <% end %>
   </div>
   <div class="flex flex-col items-stretch justify-between lg:flex-row">

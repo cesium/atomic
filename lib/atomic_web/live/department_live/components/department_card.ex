@@ -2,8 +2,7 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
   @moduledoc false
   use AtomicWeb, :component
 
-  import AtomicWeb.Components.{Avatar, Badge}
-  import AtomicWeb.DepartmentLive.Components.DepartmentBannerPlaceholder
+  import AtomicWeb.Components.{Avatar, Badge, Gradient}
 
   attr :department, :map, required: true, doc: "The department to display."
   attr :collaborators, :list, required: true, doc: "The list of collaborators in the department."
@@ -15,7 +14,7 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
         <%= if @department.banner do %>
           <img class="h-14 w-full rounded-t-lg object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
         <% else %>
-          <.department_banner_placeholder department={@department} class="rounded-t-lg" />
+          <.gradient seed={@department.id} class="rounded-t-lg" />
         <% end %>
       </div>
       <div class="px-4 py-4">
