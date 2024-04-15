@@ -100,76 +100,48 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   defp deny_collaborator_request(socket) do
     case Departments.delete_collaborator(socket.assigns.collaborator) do
       {:ok, _} ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{status: :success, message: gettext("Collaborator request denied.")}}
-        )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
+        notify_result(socket, :success, gettext("Collaborator request denied."))
 
       _ ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{
-             status: :error,
-             message: gettext("Could not deny the collaborator request. Please try again later.")
-           }}
+        notify_result(
+          socket,
+          :error,
+          gettext("Could not deny the collaborator request. Please try again later.")
         )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
     end
   end
 
   defp delete_collaborator(socket) do
     case Departments.delete_collaborator(socket.assigns.collaborator) do
       {:ok, _} ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{status: :success, message: gettext("Collaborator removed successfully.")}}
-        )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
+        notify_result(socket, :success, gettext("Collaborator removed successfully."))
 
       _ ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{
-             status: :error,
-             message: gettext("Could not delete the collaborator. Please try again later.")
-           }}
+        notify_result(
+          socket,
+          :error,
+          gettext("Could not delete the collaborator. Please try again later.")
         )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
     end
   end
 
   defp accept_collaborator_request(socket) do
     case Departments.accept_collaborator(socket.assigns.collaborator) do
       {:ok, _} ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{status: :success, message: gettext("Collaborator accepted successfully.")}}
-        )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
+        notify_result(socket, :success, gettext("Collaborator accepted successfully."))
 
       _ ->
-        send(
-          self(),
-          {:change_collaborator,
-           %{
-             status: :error,
-             message: gettext("Could not accept the collaborator. Please try again later.")
-           }}
+        notify_result(
+          socket,
+          :error,
+          gettext("Could not accept the collaborator. Please try again later.")
         )
-
-        {:noreply, socket |> assign(:action_modal, nil)}
     end
+  end
+
+  defp notify_result(socket, status, message) do
+    send(self(), {:change_collaborator, %{status: status, message: message}})
+    {:noreply, assign(socket, :action_modal, nil)}
   end
 
   @impl true
