@@ -7,8 +7,8 @@ defmodule Atomic.Organizations.Collaborator do
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
 
-  @required_fields ~w(user_id department_id)a
-  @optional_fields ~w(accepted accepted_at)a
+  @required_fields ~w(user_id department_id accepted)a
+  @optional_fields ~w(accepted_at)a
 
   @derive {
     Flop.Schema,

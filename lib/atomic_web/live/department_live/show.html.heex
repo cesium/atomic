@@ -11,10 +11,10 @@
     <div class="flex w-full flex-col bg-white lg:flex-row">
       <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
         <div class="mx-4 max-w-5xl sm:mx-6 lg:mx-8">
-          <div class="my-6 flex min-w-0 flex-row items-center justify-between">
+          <div class="my-6 flex min-w-0 sm:flex-row items-center justify-between">
             <!-- Department info -->
             <div>
-              <h1 class="flex-1 select-none truncate text-2xl font-bold text-gray-900">
+              <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-gray-900">
                 <%= @department.name %>
               </h1>
               <.link navigate={Routes.organization_show_path(@socket, :show, @organization)}>
@@ -41,15 +41,13 @@
                       color={:white}
                       icon={:user_plus}
                       icon_variant={:solid}
+                      title={gettext("Collaborate")}
                     >
-                      <%= gettext("Collaborate") %>
                     </.button>
                   <% end %>
                 <% else %>
                   <%= if ! @current_collaborator.accepted do %>
-                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
-                      <%= gettext("Collaborate") %>
-                    </.button>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled></.button>
                   <% end %>
                 <% end %>
                 <.dropdown
