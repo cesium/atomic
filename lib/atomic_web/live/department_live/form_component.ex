@@ -21,7 +21,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
         <div class="w-full gap-y-1">
           <div>
             <%= label(f, :banner, class: "department-form_description") %>
-            <p class="atomic-form-help-text pb-4"><%= gettext("The banner of the department") %></p>
+            <p class="atomic-form-help-text pb-4"><%= gettext("The banner of the department (2055×256px for best display)") %></p>
           </div>
           <div>
             <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
