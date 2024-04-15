@@ -29,7 +29,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
         </div>
 
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon={:cube}><%= gettext("Save Changes") %></.button>
+          <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
         </div>
       </.form>
     </div>
