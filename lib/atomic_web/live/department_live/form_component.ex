@@ -13,15 +13,15 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
       <.form :let={f} for={@changeset} id="department-form" phx-target={@myself} phx-change="validate" phx-submit="save">
         <h2 class="mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("General") %></h2>
         <div>
-          <.field type="text" help_text="The name of the department" field={f[:name]} placeholder="Name" required />
-          <.field type="textarea" help_text="A brief description of the department" field={f[:description]} placeholder="Description" />
-          <.field type="checkbox" help_text="Allow any user to apply to be a collaborator in this department" field={f[:collaborator_applications]} />
+          <.field type="text" help_text={gettext("The name of the department")} field={f[:name]} placeholder="Name" required />
+          <.field type="textarea" help_text={gettext("A brief description of the department")} field={f[:description]} placeholder="Description" />
+          <.field type="checkbox" help_text={gettext("Allow any user to apply to be a collaborator in this department")} field={f[:collaborator_applications]} />
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
         <div class="w-full gap-y-1">
           <div>
             <%= label(f, :banner, class: "department-form_description") %>
-            <p class="atomic-form-help-text pb-4">The banner of the department</p>
+            <p class="atomic-form-help-text pb-4"><%= gettext("The banner of the department") %></p>
           </div>
           <div>
             <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
@@ -29,7 +29,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
         </div>
 
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+          <.button size={:md} color={:white} icon={:cube}><%= gettext("Save Changes") %></.button>
         </div>
       </.form>
     </div>

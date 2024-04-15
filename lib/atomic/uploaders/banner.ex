@@ -3,6 +3,7 @@ defmodule Atomic.Uploaders.Banner do
   Uploader for department banners.
   """
   use Atomic.Uploader
+
   alias Atomic.Organizations.Department
 
   def storage_dir(_version, {_file, %Department{} = scope}) do

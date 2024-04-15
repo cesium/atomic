@@ -159,7 +159,7 @@
           </div>
           <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
             <div class="col-span-3 sm:col-span-2">
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Recent Activity</h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("Recent Activity") %></h2>
               <!-- Recent activity empty state -->
               <.link class="flex flex-col items-center justify-center mt-4" navigate={Routes.organization_show_path(@socket, :show, @organization)}>
                 <.avatar class="mb-4 p-1" type={:organization} color={:white} size={:lg} name={@organization.name} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
@@ -169,7 +169,7 @@
             </div>
             <!-- People -->
             <div class="w-full hidden sm:block">
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">People</h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("People") %></h2>
               <div class="mb-2 flex max-w-full flex-wrap gap-1">
                 <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
                   <div class="h-12">
@@ -195,7 +195,7 @@
                 }
                 class="text-orange-500 hover:cursor-pointer hover:underline"
               >
-                View all collaborators
+                <%= gettext("View all collaborators") %>
               </.link>
             </div>
           </div>

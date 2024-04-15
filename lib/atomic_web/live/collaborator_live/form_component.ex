@@ -13,7 +13,9 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborator</h1>
       <!-- Request notification -->
       <%= if !@collaborator.accepted do %>
-        <p class="mt-1"><%= extract_first_name(@collaborator.user.name) %> has requested to be a collaborator of <%= @department.name %>.</p>
+        <p class="mt-1">
+          <%= gettext("%{user_name} has requested to be a collaborator of %{department_name}.", user_name: extract_first_name(@collaborator.user.name), department_name: @department.name) %>
+        </p>
       <% end %>
       <!-- User Card -->
       <div class="flex flex-col sm:flex-row">
@@ -26,27 +28,27 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
         </.link>
         <%= if @collaborator.accepted do %>
           <.badge variant={:outline} color={:success} size={:md} class="my-5 select-none rounded-xl py-1 font-normal sm:ml-auto sm:py-0">
-            <p>Collaborator since <%= display_date(@collaborator.accepted_at) %></p>
+            <p><%= gettext("Collaborator since %{accepted_at}", accepted_at: @collaborator.accepted_at) %></p>
           </.badge>
         <% else %>
           <.badge variant={:outline} color={:warning} size={:md} class="bg-yellow-300/5 my-5 select-none rounded-xl border-yellow-400 py-1 font-normal text-yellow-400 sm:ml-auto sm:py-0">
-            <p>Not accepted</p>
+            <p><%= gettext("Not accepted") %></p>
           </.badge>
         <% end %>
       </div>
       <%= if !@collaborator.accepted do %>
         <div class="my-4 flex w-full select-none flex-row justify-center gap-2" aria-label={"#{display_date(@collaborator.inserted_at)} #{display_time(@collaborator.inserted_at)}"}>
           <.icon class="my-auto h-5 w-5" name={:calendar} />
-          <p>Requested <%= Timex.from_now(@collaborator.inserted_at) %></p>
+          <p><%= gettext("Requested %{requested_at}", requested_at: relative_datetime(@collaborator.inserted_at)) %></p>
         </div>
       <% end %>
       <!-- Action Buttons -->
       <div class="mt-8 flex space-x-2">
         <%= if @collaborator.accepted do %>
-          <.button phx-click="delete" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width>Delete</.button>
+          <.button phx-click="delete" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Delete") %></.button>
         <% else %>
-          <.button phx-click="deny" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width>Deny</.button>
-          <.button phx-click="allow" phx-target={@myself} size={:lg} icon={:check_circle} color={:white} full_width>Accept</.button>
+          <.button phx-click="deny" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Deny") %></.button>
+          <.button phx-click="allow" phx-target={@myself} size={:lg} icon={:check_circle} color={:white} full_width><%= gettext("Accept") %></.button>
         <% end %>
       </div>
       <!-- Action Confirm Modal -->
@@ -59,7 +61,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
             <%= display_action_goal_confirm_description(@action_modal, @department) %>
           </p>
           <div class="mt-8 flex flex-row">
-            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width>Cancel</.button>
+            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
             <.button
               phx-click="confirm"
               class="ml-2"
@@ -75,7 +77,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
               }
               full_width
             >
-              Confirm
+              <%= gettext("Confirm") %>
             </.button>
           </div>
         </div>

@@ -25,14 +25,18 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
             <p><%= gettext("Archived") %></p>
           </.badge>
         </div>
-        <div class="min-h-8 mt-4 mb-2 flex flex-row -space-x-1">
+        <ul class="min-h-8 mt-4 mb-2 flex flex-row -space-x-1">
           <%= for person <- @collaborators |> Enum.take(4) do %>
-            <.avatar name={person.user.name} size={:xs} color={:light_gray} class="ring-1 ring-white" />
+            <li>
+              <.avatar name={person.user.name} size={:xs} color={:light_gray} class="ring-1 ring-white" />
+            </li>
           <% end %>
           <%= if length(@collaborators) > 4 do %>
-            <.avatar name={"+#{length(@collaborators) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" />
+            <li>
+              <.avatar name={"+#{length(@collaborators) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" />
+            </li>
           <% end %>
-        </div>
+        </ul>
       </div>
     </div>
     """
