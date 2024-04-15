@@ -22,8 +22,8 @@ defmodule AtomicWeb.Components.Gradient do
 
   def gradient(assigns) do
     {gradient_color_a, gradient_color_b} =
-      if Map.has_key?(assigns, :id) do
-        generate_color(assigns.id)
+      if Map.has_key?(assigns, :seed) do
+        generate_color(assigns.seed)
       else
         generate_color()
       end
