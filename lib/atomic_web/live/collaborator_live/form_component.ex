@@ -126,7 +126,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   end
 
   defp accept_collaborator_request(socket) do
-    case Departments.accept_collaborator(socket.assigns.collaborator) do
+    case Departments.accept_collaborator_request(socket.assigns.collaborator) do
       {:ok, _} ->
         notify_result(socket, :success, gettext("Collaborator accepted successfully."))
 

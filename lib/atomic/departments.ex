@@ -5,6 +5,7 @@ defmodule Atomic.Departments do
   use Atomic.Context
 
   alias Atomic.Organizations.{Collaborator, Department}
+  alias AtomicWeb.DepartmentEmails
 
   @doc """
   Returns the list of departments.
@@ -387,5 +388,40 @@ defmodule Atomic.Departments do
     department
     |> Department.banner_changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Accept collaborator request and send email.
+
+  ## Examples
+
+      iex> accept_collaborator_request(collaborator)
+      {:ok, %Collaborator{}}
+
+      iex> accept_collaborator_request(collaborator)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def accept_collaborator_request(%Collaborator{} = collaborator) do
+    collaborator
+    |> Repo.preload(department: [:organization])
+    |> accept_collaborator()
+    |> case do
+      {:ok, collaborator} ->
+        DepartmentEmails.send_collaborator_accepted_email(
+          collaborator,
+          collaborator.department,
+          AtomicWeb.Router.Helpers.department_show_path(
+            AtomicWeb.Endpoint,
+            :show,
+            collaborator.department.organization,
+            collaborator.department
+          ),
+          to: collaborator.user.email
+        )
+
+      error ->
+        error
+    end
   end
 end
