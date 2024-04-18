@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.Button do
       ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
     doc: "Arbitrary HTML or phx attributes."
 
-  slot :inner_block, required: true, doc: "Slot for the content of the button."
+  slot :inner_block, required: false, doc: "Slot for the content of the button."
 
   def button(assigns) do
     assigns
@@ -109,7 +109,9 @@ defmodule AtomicWeb.Components.Button do
         <% end %>
       </div>
     <% end %>
-    <%= render_slot(@inner_block) %>
+    <%= if Map.has_key?(assigns, :inner_block) do %>
+      <%= render_slot(@inner_block) %>
+    <% end %>
     <%= if (@icon || @spinner) && @icon_position == :right do %>
       <div>
         <%= if @icon do %>

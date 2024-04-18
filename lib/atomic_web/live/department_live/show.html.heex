@@ -42,12 +42,11 @@
                       icon={:user_plus}
                       icon_variant={:solid}
                       title={gettext("Collaborate")}
-                    >
-                    </.button>
+                    />
                   <% end %>
                 <% else %>
                   <%= if ! @current_collaborator.accepted do %>
-                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled></.button>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled />
                   <% end %>
                 <% end %>
                 <.dropdown
@@ -75,7 +74,7 @@
                   }
                 >
                   <:wrapper>
-                    <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal}></.button>
+                    <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal} />
                   </:wrapper>
                 </.dropdown>
               <% end %>
@@ -123,12 +122,11 @@
                         tab: "collaborators"
                       )
                     }
-                  >
-                  </.button>
+                  />
                 <% end %>
                 <!-- Edit department -->
                 <%= if @has_permissions? do %>
-                  <.button icon={:pencil} icon_variant={:solid} color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)}></.button>
+                  <.button icon={:pencil} icon_variant={:solid} color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)} />
                 <% end %>
               <% else %>
                 <!-- Exit collaborators view -->
@@ -144,8 +142,7 @@
                       @department.id
                     )
                   }
-                >
-                </.button>
+                />
               <% end %>
             </div>
           </div>
