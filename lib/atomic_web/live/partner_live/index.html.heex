@@ -1,8 +1,8 @@
 <.page title="Partners">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)}>
-        <%= gettext("New") %>
+      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)} icon={:plus} >
+        New Partner
       </.button>
     <% end %>
   </:actions>
@@ -36,10 +36,12 @@
               </div>
               <div class="min-w-0 flex-auto">
                 <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
-                <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
-                  <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                  <p class="text-blue-500"><%= partner.location.name %></p>
-                </div>
+                <%= if partner.location do %>
+                  <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
+                      <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                      <p class="text-blue-500"><%= partner.location.name %></p>
+                  </div>
+                <% end %>
                 <p class="mt-1 truncate text-xs leading-5 text-zinc-500">
                   <%= Enum.map(String.split(partner.benefits, "\n"), fn phrase -> %>
                     <%= if String.length(phrase) < 150 do %>
