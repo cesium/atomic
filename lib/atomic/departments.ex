@@ -4,8 +4,10 @@ defmodule Atomic.Departments do
   """
   use Atomic.Context
 
+  alias Atomic.Accounts.User
   alias Atomic.Organizations.{Collaborator, Department}
   alias AtomicWeb.DepartmentEmails
+  alias AtomicWeb.Router.Helpers
 
   @doc """
   Returns the list of departments.
@@ -391,6 +393,60 @@ defmodule Atomic.Departments do
   end
 
   @doc """
+  Get all admins of an organization that are collaborators of a department.
+
+  ## Examples
+
+      iex> get_admin_collaborators(department)
+      [%User{}, ...]
+
+  """
+  def get_admin_collaborators(%Department{} = department) do
+    User
+    |> join(:inner, [u], c in assoc(u, :collaborators))
+    |> where([u, c], c.department_id == ^department.id and c.accepted == true)
+    |> join(:inner, [u, c], m in assoc(u, :memberships))
+    |> where([u, c, m], m.organization_id == ^department.organization_id and m.role == :admin)
+    |> Repo.all()
+  end
+
+  @doc """
+  Request collaborator access and send email.
+
+  ## Examples
+
+      iex> request_collaborator_access(user, department)
+      {:ok, %Collaborator{}}
+
+      iex> request_collaborator_access(user, department)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def request_collaborator_access(%User{} = user, %Department{} = department) do
+    case create_collaborator(%{department_id: department.id, user_id: user.id}) do
+      {:ok, %Collaborator{} = collaborator} ->
+        DepartmentEmails.send_collaborator_request_email(
+          collaborator |> Repo.preload(:user),
+          department,
+          Helpers.department_show_path(
+            AtomicWeb.Endpoint,
+            :edit_collaborator,
+            department.organization_id,
+            department,
+            collaborator,
+            tab: "collaborators"
+          ),
+          to: get_admin_collaborators(department) |> Enum.map(& &1.email)
+        )
+
+        {:ok, collaborator}
+
+      error ->
+        error
+    end
+  end
+
+  @doc """
   Accept collaborator request and send email.
 
   ## Examples
@@ -411,7 +467,7 @@ defmodule Atomic.Departments do
         DepartmentEmails.send_collaborator_accepted_email(
           collaborator,
           collaborator.department,
-          AtomicWeb.Router.Helpers.department_show_path(
+          Helpers.department_show_path(
             AtomicWeb.Endpoint,
             :show,
             collaborator.department.organization,

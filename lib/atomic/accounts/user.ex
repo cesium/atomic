@@ -6,7 +6,7 @@ defmodule Atomic.Accounts.User do
 
   alias Atomic.Accounts.Course
   alias Atomic.Activities.ActivityEnrollment
-  alias Atomic.Organizations.{Membership, Organization}
+  alias Atomic.Organizations.{Collaborator, Membership, Organization}
   alias Atomic.Uploaders.ProfilePicture
 
   @required_fields ~w(email password)a
@@ -23,14 +23,17 @@ defmodule Atomic.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-
     field :phone_number, :string
     field :profile_picture, ProfilePicture.Type
     field :role, Ecto.Enum, values: @roles, default: :student
+
     belongs_to :course, Course
     belongs_to :current_organization, Organization
 
     has_many :activity_enrollments, ActivityEnrollment
+    has_many :memberships, Membership
+    has_many :collaborators, Collaborator
+
     many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()

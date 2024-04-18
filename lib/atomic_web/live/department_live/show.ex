@@ -128,7 +128,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
     department = socket.assigns.department
     user = socket.assigns.current_user
 
-    case Departments.create_collaborator(%{department_id: department.id, user_id: user.id}) do
+    case Departments.request_collaborator_access(user, department) do
       {:ok, %Collaborator{} = collaborator} ->
         {:noreply,
          socket

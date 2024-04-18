@@ -27,6 +27,33 @@ defmodule AtomicWeb.DepartmentEmails do
     |> Mailer.deliver()
   end
 
+  @doc """
+  Sends an email to the department admins when a new collaborator requests to join the department.
+
+  ## Examples
+
+      iex> send_collaborator_request_email(collaborator, department, collaborator_review_url,
+      ...>   to: emails
+      ...> )
+      {:ok, email}
+
+      iex> send_collaborator_request_email(collaborator, department, collaborator_review_url,
+      ...>   to: emails
+      ...> )
+      {:error, reason}
+  """
+  def send_collaborator_request_email(collaborator, department, collaborator_review_url,
+        to: emails
+      ) do
+    base_email(to: emails)
+    |> subject("[Atomic] New collaborator request for #{department.name}")
+    |> assign(:collaborator, collaborator)
+    |> assign(:department, department)
+    |> assign(:collaborator_review_url, collaborator_review_url)
+    |> render_body("collaborator_request.html")
+    |> Mailer.deliver()
+  end
+
   defp base_email(to: email) do
     new()
     |> from({"Atomic", "noreply@atomic.cesium.pt"})
