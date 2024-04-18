@@ -1,102 +1,252 @@
-<div x-data="{ option: 'collaborators' }">
-  <div class="my-4">
-    <div class="bg-white">
-      <div class="flex justify-between px-4 py-5 sm:px-6">
-        <div class="my-4 w-full h-full items-center gap-x-4 flex flex-col justify-center gap-y-2 lg:flex-row lg:items-center lg:justify-start">
-          <div>
-            <h1 class="lg:text-2xl font-bold text-zinc-900 text-3xl">
-              <%= @department.name %>
-            </h1>
-          </div>
-          <%= if ! @collaborator do %>
-            <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-              <button
-                phx-click={
-                  "#{if @is_authenticated? do
-                    "collaborate"
-                  else
-                    "must-login"
-                  end}"
-                }
-                class="border-2 rounded-md bg-white border-orange-500 py-2 px-3.5 text-sm font-medium text-orange-500 shadow-sm hover:bg-orange-600 hover:text-white"
-              >
-                Collaborate
-              </button>
+<div class="min-h-[100vh] lg:border-r">
+  <!-- Department Header -->
+  <div class="h-32 w-full select-none">
+    <%= if @department.banner do %>
+      <img class="w-full h-32 object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
+    <% else %>
+      <.gradient seed={@department.id} class="object-cover" />
+    <% end %>
+  </div>
+  <div class="flex flex-col items-stretch justify-between lg:flex-row">
+    <div class="flex w-full flex-col bg-white lg:flex-row">
+      <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
+        <div class="mx-4 max-w-5xl sm:mx-6 lg:mx-8">
+          <div class="my-6 flex min-w-0 sm:flex-row items-center justify-between">
+            <!-- Department info -->
+            <div>
+              <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-gray-900">
+                <%= @department.name %>
+              </h1>
+              <.link navigate={Routes.organization_show_path(@socket, :show, @organization)}>
+                <h3>
+                  @<%= @organization.name %>
+                </h3>
+              </.link>
             </div>
-          <% else %>
-            <%= if ! @collaborator.accepted do %>
-              <div class="mt-2 h-full lg:mt-0">
-                <button class="border-2 rounded-md py-2 px-3.5 text-md font-medium shadow-sm text-zinc-400 cursor-not-allowed">
-                  Waiting for approval...
-                </button>
+            <!-- Actions -->
+            <!-- Small screens -->
+            <div class="flex gap-2 sm:hidden">
+              <%= if @current_view == "show" do %>
+                <!-- Collaborate -->
+                <%= if !@current_collaborator do %>
+                  <%= if @department.collaborator_applications do %>
+                    <.button
+                      phx-click={
+                          "#{if @is_authenticated? do
+                            "collaborate"
+                          else
+                            "must-login"
+                          end}"
+                        }
+                      color={:white}
+                      icon={:user_plus}
+                      icon_variant={:solid}
+                      title={gettext("Collaborate")}
+                    >
+                    </.button>
+                  <% end %>
+                <% else %>
+                  <%= if ! @current_collaborator.accepted do %>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled></.button>
+                  <% end %>
+                <% end %>
+                <.dropdown
+                  id="actions"
+                  items={
+                    [
+                      %{
+                        name: gettext("Collaborators"),
+                        link:
+                          Routes.department_show_path(
+                            @socket,
+                            :show,
+                            @organization.id,
+                            @department.id,
+                            tab: "collaborators"
+                          ),
+                        icon: :user_group
+                      }
+                    ] ++
+                      if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
+                        [%{name: gettext("Edit"), link: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
+                      else
+                        []
+                      end
+                  }
+                >
+                  <:wrapper>
+                    <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal}></.button>
+                  </:wrapper>
+                </.dropdown>
+              <% end %>
+            </div>
+            <!-- Large screens -->
+            <div class="flex-row gap-4 hidden sm:flex">
+              <%= if @current_view == "show" do %>
+                <!-- Collaborate -->
+                <%= if !@current_collaborator do %>
+                  <%= if @department.collaborator_applications do %>
+                    <.button
+                      phx-click={
+                          "#{if @is_authenticated? do
+                            "collaborate"
+                          else
+                            "must-login"
+                          end}"
+                        }
+                      color={:white}
+                      icon={:user_plus}
+                      icon_variant={:solid}
+                    >
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% else %>
+                  <%= if ! @current_collaborator.accepted do %>
+                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
+                      <%= gettext("Collaborate") %>
+                    </.button>
+                  <% end %>
+                <% end %>
+                <%= if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do %>
+                  <!-- Collaborators view -->
+                  <.button
+                    icon={:user_group}
+                    icon_variant={:solid}
+                    color={:white}
+                    patch={
+                      Routes.department_show_path(
+                        @socket,
+                        :show,
+                        @organization.id,
+                        @department.id,
+                        tab: "collaborators"
+                      )
+                    }
+                  >
+                  </.button>
+                <% end %>
+                <!-- Edit department -->
+                <%= if @has_permissions? do %>
+                  <.button icon={:pencil} icon_variant={:solid} color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)}></.button>
+                <% end %>
+              <% else %>
+                <!-- Exit collaborators view -->
+                <.button
+                  icon={:arrow_left}
+                  icon_variant={:solid}
+                  color={:white}
+                  patch={
+                    Routes.department_show_path(
+                      @socket,
+                      :show,
+                      @organization.id,
+                      @department.id
+                    )
+                  }
+                >
+                </.button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <%= if @current_view == "show" do %>
+          <!-- Description -->
+          <div class="mx-4 sm:mx-6 lg:mx-8">
+            <%= @department.description %>
+          </div>
+          <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
+            <div class="col-span-3 sm:col-span-2">
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("Recent Activity") %></h2>
+              <!-- Recent activity empty state -->
+              <.link class="flex flex-col items-center justify-center mt-4" navigate={Routes.organization_show_path(@socket, :show, @organization)}>
+                <.avatar class="mb-4 p-1" type={:organization} color={:white} size={:lg} name={@organization.name} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
+                <p class="select-none text-center text-gray-900"><%= gettext("This department doesn't have any recent activity.") %></p>
+                <p class="select-none text-center text-gray-900"><%= gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name) %></p>
+              </.link>
+            </div>
+            <!-- People -->
+            <div class="w-full hidden sm:block">
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("People") %></h2>
+              <div class="mb-2 flex max-w-full flex-wrap gap-1">
+                <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
+                  <div class="h-12">
+                    <.avatar name={collaborator.user.name} size={:sm} color={:light_gray} />
+                  </div>
+                <% end %>
+                <!-- People empty state -->
+                <%= if length(@all_collaborators) == 0 do %>
+                  <.icon class="mx-32 text-gray-900" name={:users} />
+                  <p class="mb-4 select-none text-center text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
+                <% end %>
+              </div>
+              <.link
+                :if={length(@all_collaborators) != 0}
+                patch={
+                  Routes.department_show_path(
+                    @socket,
+                    :show,
+                    @organization.id,
+                    @department.id,
+                    tab: "collaborators"
+                  )
+                }
+                class="text-orange-500 hover:cursor-pointer hover:underline"
+              >
+                <%= gettext("View all collaborators") %>
+              </.link>
+            </div>
+          </div>
+        <% end %>
+        <%= if @current_view == "collaborators" do %>
+          <%= if length(@collaborators) != 0 do %>
+            <%= if @has_permissions? do %>
+              <!-- Collaborators admin view -->
+              <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <div class="border-t border-l">
+                  <.table items={@collaborators} meta={@meta} filter={[]}>
+                    <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
+                    <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
+                    <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
+                    <:col :let={collaborator} label="Accepted" field={:string}>
+                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="mx-auto block rounded-md text-gray-600" />
+                    </:col>
+                    <:col :let={collaborator}>
+                      <%= if collaborator.accepted do %>
+                        <.button icon={:pencil} icon_variant={:solid} color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Edit</.button>
+                      <% else %>
+                        <.button icon={:envelope} icon_variant={:solid} color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Review</.button>
+                      <% end %>
+                    </:col>
+                  </.table>
+                </div>
+                <.pagination items={@collaborators} meta={@meta} params={@params} class="flex w-full items-center justify-between border border-t-0 pt-2" />
               </div>
             <% else %>
-              <div class="mt-2 h-full lg:border-orange-500 lg:mt-0">
-                <div class="border-2 rounded-md border-orange-500 py-2 px-3.5 text-md font-medium shadow-sm bg-orange-500 text-white">
-                  Collaborator
-                </div>
+              <!-- Collaborators user view -->
+              <div class="mx-4 sm:mx-6 lg:mx-8">
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <%= for collaborator <- @collaborators do %>
+                  <div class="border border-zinc-200 p-3 hover:bg-zinc-50">
+                    <div class="flex">
+                      <.avatar name={collaborator.user.name} />
+                      <div class="ml-3 flex h-full flex-col self-center">
+                        <p><%= collaborator.user.name %></p>
+                        <p>@<%= collaborator.user.slug %></p>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+                <.pagination items={@collaborators} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
               </div>
             <% end %>
           <% end %>
-        </div>
-      </div>
-
-      <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
-        <div class="flex w-full items-center justify-between">
-          <nav class="-mb-px flex flex-1 space-x-6 overflow-x-auto xl:space-x-8" aria-label="Tabs">
-            <%= if @has_permissions? and length(@collaborators) != 0 do %>
-              <div x-on:click="open = 'collaborators'" x-bind:class="open == 'collaborators' ? 'border-zinc-800' : 'border-transparent'" class="text-zinc-500 hover:text-zinc-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer">
-                <%= gettext("Latest Collaborators") %>
-              </div>
-            <% end %>
-          </nav>
-        </div>
-      </div>
+        <% end %>
+      </main>
     </div>
-
-    <%= if length(@collaborators) != 0 do %>
-      <div class="mt-8 flow-root">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table class="min-w-full divide-y divide-zinc-300">
-                <thead class="bg-zinc-50">
-                  <tr>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Name</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Email</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Phone Number</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Accepted</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Requested At</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-zinc-900">Updated At</th>
-                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span class="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-zinc-200 bg-white">
-                  <%= for collaborator <- @collaborators do %>
-                    <tr>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500 sm:pl-6"><%= collaborator.user.name %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= collaborator.user.email %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500">Phone number</td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= AtomicWeb.Helpers.capitalize_first_letter(collaborator.accepted) %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.inserted_at) %> <%= display_time(collaborator.inserted_at) %></td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-zinc-500"><%= display_date(collaborator.updated_at) %> <%= display_time(collaborator.updated_at) %></td>
-                      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <.link patch={Routes.department_index_path(@socket, :edit, @organization, @department)} class="button">
-                          <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                            <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-                          </div>
-                        </.link>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
   </div>
 </div>
+<.modal :if={@live_action in [:edit_collaborator]} id="edit-collaborator" show on_cancel={JS.patch(Routes.department_show_path(@socket, :show, @organization, @department, Map.delete(@params, "collaborator_id")))}>
+  <.live_component module={AtomicWeb.CollaboratorLive.FormComponent} id={@collaborator.id} title={@page_title} action={@live_action} collaborator={@collaborator} department={@department} />
+</.modal>
