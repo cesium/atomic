@@ -7,14 +7,29 @@ defmodule Atomic.Organizations.Collaborator do
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Department
 
-  @required_fields ~w(user_id department_id)a
-  @optional_fields ~w(accepted)a
+  @required_fields ~w(user_id department_id accepted)a
+  @optional_fields ~w(accepted_at)a
+
+  @derive {
+    Flop.Schema,
+    default_limit: 7,
+    filterable: [:accepted],
+    sortable: [:collaborator_name, :inserted_at, :updated_at],
+    default_order: %{
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    },
+    join_fields: [
+      collaborator_name: [binding: :user, field: :name, path: [:user, :name]]
+    ]
+  }
 
   schema "collaborators" do
     belongs_to :user, User
     belongs_to :department, Department
 
     field :accepted, :boolean, default: false
+    field :accepted_at, :naive_datetime
 
     timestamps()
   end

@@ -1,1 +1,75 @@
-<.live_component module={AtomicWeb.DepartmentLive.FormComponent} id={@department.id} organization={@current_organization} title={@page_title} action={@live_action} department={@department} return_to={Routes.department_show_path(@socket, :show, @organization_id, @department)} />
+<.page title={
+  if @live_action in [:new] do
+    gettext("New Department")
+  else
+    gettext("Edit %{department_name}", department_name: @department.name)
+  end
+}>
+  <:actions>
+    <%= if @live_action in [:edit] do %>
+      <div class="flex space-x-4">
+        <%= if !@department.archived do %>
+          <.button color={:white} icon={:archive_box} phx-click="set-action" phx-value-action={:archive}>
+            <%= gettext("Archive") %>
+          </.button>
+          <.button color={:white} icon={:trash} disabled title={gettext("You can only delete a department after it has been archived.")}>
+            <%= gettext("Delete") %>
+          </.button>
+        <% else %>
+          <.button color={:white} icon={:archive_box_x_mark} phx-click="set-action" phx-value-action={:unarchive}>
+            <%= gettext("Unarchive") %>
+          </.button>
+          <.button color={:white} icon={:trash} phx-click="set-action" phx-value-action={:delete}>
+            <%= gettext("Delete") %>
+          </.button>
+        <% end %>
+      </div>
+    <% end %>
+  </:actions>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <.live_component
+      module={AtomicWeb.DepartmentLive.FormComponent}
+      id="department-edit"
+      organization={@current_organization}
+      title={@page_title}
+      action={@live_action}
+      department={@department}
+      return_to={
+        if @live_action in [:new] do
+          Routes.department_index_path(@socket, :index, @organization_id)
+        else
+          Routes.department_show_path(@socket, :show, @organization_id, @department)
+        end
+      }
+    />
+  </div>
+</.page>
+<.modal :if={@action} id="action-modal" show on_cancel={JS.push("clear-action")}>
+  <div class="flex flex-col">
+    <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+      <%= display_action_goal_confirm_title(@action) %>
+    </h1>
+    <p class="mt-4">
+      <%= display_action_goal_confirm_description(@action, @department) %>
+    </p>
+    <div class="mt-8 flex flex-row">
+      <.button phx-click="clear-action" class="mr-2" size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
+      <.button
+        phx-click="confirm-action"
+        class="mr-2"
+        size={:lg}
+        icon={:check_circle}
+        color={
+          if @action == :delete do
+            :danger
+          else
+            :white
+          end
+        }
+        full_width
+      >
+        <%= gettext("Confirm") %>
+      </.button>
+    </div>
+  </div>
+</.modal>
