@@ -406,7 +406,10 @@ defmodule Atomic.Departments do
     |> join(:inner, [u], c in assoc(u, :collaborators))
     |> where([u, c], c.department_id == ^department.id and c.accepted == true)
     |> join(:inner, [u, c], m in assoc(u, :memberships))
-    |> where([u, c, m], m.organization_id == ^department.organization_id and m.role == :admin)
+    |> where(
+      [u, c, m],
+      m.organization_id == ^department.organization_id and m.role in [:admin, :owner]
+    )
     |> Repo.all()
   end
 
