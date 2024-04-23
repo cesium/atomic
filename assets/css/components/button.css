@@ -1,7 +1,7 @@
 /* Buttons */
 
 .atomic-button {
-  @apply inline-flex items-center justify-center font-medium transition duration-150 ease-in-out border rounded-md focus:outline-none;
+  @apply inline-flex items-center justify-center font-medium transition duration-150 ease-in-out border rounded-md select-none focus:outline-none;
 }
 
 /* Buttons - sizes */

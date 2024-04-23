@@ -153,9 +153,7 @@ defmodule AtomicWeb.Components.Forms do
         <%= @label %>
       </.field_label>
 
-      <textarea id={@id} name={@name} class={["atomic-text-input", @class]} rows={@rows} required={@required} {@rest}>
-        <%= Phoenix.HTML.Form.normalize_value("textarea", @value) %>
-      </textarea>
+      <textarea id={@id} name={@name} class={["atomic-text-input", @class]} rows={@rows} required={@required} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
 
       <.field_error :for={msg <- @errors}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />

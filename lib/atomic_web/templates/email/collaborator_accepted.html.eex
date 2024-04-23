@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+   </head>
+   <body>
+        <div>
+            <p>Hello <%= @collaborator.user.name %>,</p>
+
+            <p>Your application to be a collaborator of <%= @department.name %> has been accepted!</p>
+
+            <p>Now you can access the department's projects and tasks <a href=<%= @department_url %>>here</a>.</p>
+
+            <p>This email has been automatically generated. Please, do not reply.</p>
+        </div>
+    </body>
+</html>
