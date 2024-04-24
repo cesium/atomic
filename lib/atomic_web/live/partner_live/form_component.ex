@@ -89,7 +89,6 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
     end
   end
 
-  # lobo
   defp save_partner(socket, :new, partner_params) do
     case Partners.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
