@@ -8,9 +8,9 @@
   <:actions>
     <%= if @live_action in [:edit] do %>
       <div class="flex space-x-4">
-          <.button color={:white} icon={:trash} phx-click="delete" phx-value-partner_id={@partner.id}>
-            <%= gettext("Delete") %>
-          </.button>
+        <.button color={:white} icon={:trash} phx-click="delete" phx-value-partner_id={@partner.id}>
+          <%= gettext("Delete") %>
+        </.button>
       </div>
     <% end %>
   </:actions>

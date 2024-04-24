@@ -17,8 +17,8 @@ defmodule Atomic.Socials do
     field :website, :string
   end
 
-  def changeset(location, attrs) do
-    location
+  def changeset(socials, attrs) do
+    socials
     |> cast(attrs, @optional_fields)
   end
 end

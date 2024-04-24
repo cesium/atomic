@@ -2,7 +2,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <div class="hidden lg:border-orange-500 lg:block">
-        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)}>
+        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon={:plus}>
           <%= gettext("Edit Partner") %>
         </.button>
       </div>
@@ -66,62 +66,62 @@
                   <.link class="text-blue-500" patch={"https://x.com/" <> @partner.socials.x}>X</.link>
                 </div>
               <% end %>
-              </div>
+            </div>
           <% end %>
+        </div>
+      </div>
+      <div>
+        <div class="mt-1 text-zinc-800 py-4 px-2">
+          <div class="flex flex-row items-center gap-x-2">
+            <.icon name={:clock} class="h-5 w-5" />
+            <h1 class="text-2xl font-semibold py-4">Overview</h1>
+          </div>
+          <span class="py-4">
+            <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
+              <%= phrase %>
+            <% end) %>
+          </span>
+        </div>
+        <div class="text-zinc-800 py-4 px-2">
+          <div class="flex flex-row items-center gap-x-2 text-zinc-800">
+            <.icon name={:signal} class="h-5 w-5" />
+            <h1 class="text-2xl font-semibold text-zinc-800 py-4">Benefits</h1>
+          </div>
+          <span>
+            <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
+              <%= if String.length(phrase) < 300 do %>
+                <%= phrase %>
+              <% else %>
+                <%= String.slice(phrase, 0..300) %>
+              <% end %>
+            <% end) %>
+          </span>
+        </div>
+        <div class="flex flex-col gap-x-2 text-zinc-800 px-2">
+          <div class="flex flex-row items-center gap-x-2">
+            <.icon name={:star} class="h-5 w-5" />
+            <h1 class="text-2xl font-semibold text-zinc-800 py-4">Related Partners</h1>
+          </div>
+          <div class="sm:grid sm:grid-cols-2 sm:gap-px">
+            <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
+              <div class="rounded-lg group relative border-2 border-gray-200 shadow bg-white p-4 hover:bg-gray-100 m-2">
+                <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
+                  <div class="flex flex-row items-center space-x-2">
+                    <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
+                    <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
+                  </div>
+                  <%= if partner.location do %>
+                    <div class="flex flex-row items-center gap-x-1">
+                      <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                      <span class="text-blue-500"><%= partner.location.name %></span>
+                    </div>
+                  <% end %>
+                  <span class="text-sm text-zinc-500"><%= partner.description %></span>
+                </.link>
+              </div>
+            <% end %>
           </div>
         </div>
-        <div>
-          <div class="mt-1 text-zinc-800 py-4 px-2">
-            <div class="flex flex-row items-center gap-x-2">
-              <.icon name={:clock} class="h-5 w-5" />
-              <h1 class="text-2xl font-semibold py-4">Overview</h1>
-            </div>
-            <span class="py-4">
-              <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
-                <%= phrase %>
-              <% end) %>
-            </span>
-          </div>
-          <div class="text-zinc-800 py-4 px-2">
-            <div class="flex flex-row items-center gap-x-2 text-zinc-800">
-              <.icon name={:signal} class="h-5 w-5" />
-              <h1 class="text-2xl font-semibold text-zinc-800 py-4">Benefits</h1>
-            </div>
-            <span>
-              <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-                <%= if String.length(phrase) < 300 do %>
-                  <%= phrase %>
-                <% else %>
-                  <%= String.slice(phrase, 0..300) %>
-                <% end %>
-              <% end) %>
-            </span>
-          </div>
-          <div class="flex flex-col gap-x-2 text-zinc-800 px-2">
-            <div class="flex flex-row items-center gap-x-4">
-              <.icon name={:star} class="h-5 w-5" />
-              <h1 class="text-2xl font-semibold text-zinc-800 py-4">Related Partners</h1>
-            </div>
-            <div class="sm:grid sm:grid-cols-2 sm:gap-px">
-              <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
-                <div class="rounded-lg group relative border-2 border-gray-200 shadow bg-white p-4 hover:bg-gray-100 m-2">
-                  <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
-                    <div class="flex flex-row items-center space-x-2">
-                      <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url(partner.image, :original)} type={:company} size={:xs} />
-                      <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
-                    </div>  
-                    <%= if partner.location do %>
-                      <div class="flex flex-row items-center gap-x-1">
-                        <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                        <span class="text-blue-500"><%= partner.location.name %></span>
-                      </div>
-                    <% end %>
-                    <span class="text-sm text-zinc-500"><%= partner.description %></span>
-                  </.link>
-                  </div>
-              <% end %>
-            </div>
-          </div>
       </div>
     </div>
   </div>

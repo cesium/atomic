@@ -10,16 +10,22 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
     ~H"""
     <div>
       <.form :let={f} for={@changeset} id="partner-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-        <h2 class="mb-2 w-full border-b pb-2 teaxt-lg font-semibold text-gray-900"><%= gettext("General") %></h2>
+        <h2 class="teaxt-lg mb-2 w-full border-b pb-2 font-semibold text-gray-900"><%= gettext("General") %></h2>
         <div class="flex flex-col gap-y-8">
           <div class="flex flex-col gap-y-1">
             <.field type="text" help_text={gettext("The name of the partner")} field={f[:name]} placeholder="Name" required />
-            <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required/>
-            <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required/>
-            <.field type="text" help_text={gettext("The website of the partner")} field={f[:website]} placeholder="Website" />
-            <.field type="text" help_text={gettext("The instagram of the partner")} field={f[:instagram]} placeholder="Instagram" />
-            <.field type="text" help_text={gettext("The facebook of the partner")} field={f[:facebook]} placeholder="Facebook" />
-            <.field type="text" help_text={gettext("The twitter of the partner")} field={f[:twitter]} placeholder="Twitter" />
+            <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required />
+            <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required />
+            <.inputs_for :let={location_form} field={f[:location]}>
+              <.field field={location_form[:name]} type="text" placeholder="Location Name" help_text={gettext("The name of the location")} />
+              <.field field={location_form[:address]} type="text" placeholder="Google Maps Address" help_text={gettext("The address of the location")} />
+            </.inputs_for>
+            <.inputs_for :let={socials_form} field={f[:socials]}>
+              <.field field={socials_form[:instagram]} type="text" help_text={gettext("Instagram username")} />
+              <.field field={socials_form[:facebook]} type="text" help_text={gettext("Facebook username")} />
+              <.field field={socials_form[:x]} type="text" help_text={gettext("Twitter username")} />
+              <.field field={socials_form[:website]} type="text" help_text={gettext("Website URL")} />
+            </.inputs_for>
           </div>
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
@@ -66,13 +72,8 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :edit, partner_params) do
-    socials = %{
-      "instagram" => partner_params["instagram"],
-      "facebook" => partner_params["facebook"],
-      "twitter" => partner_params["twitter"],
-      "website" => partner_params["website"]
-    }
-    partner_params = Map.put(partner_params, "socials", socials)
+    IO.inspect(socket)
+
     case Partners.update_partner(
            socket.assigns.partner,
            partner_params,
@@ -89,16 +90,8 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
     end
   end
 
+  # lobo
   defp save_partner(socket, :new, partner_params) do
-    socials = %{
-      "instagram" => partner_params["instagram"],
-      "facebook" => partner_params["facebook"],
-      "twitter" => partner_params["twitter"],
-      "website" => partner_params["website"]
-    }
-    partner_params = Map.put(partner_params, "socials", socials)
-    partner_params = Map.put(partner_params, "organization_id", socket.assigns.current_user.current_organization_id)
-    IO.inspect(partner_params)
     case Partners.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,
@@ -112,8 +105,10 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp consume_image_data(socket, partner) do
-     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Partners.update_partner(partner, %{
+    IO.inspect(socket)
+
+    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+      Partners.update_partner_banner(partner, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,

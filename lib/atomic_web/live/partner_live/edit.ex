@@ -22,9 +22,13 @@ defmodule AtomicWeb.PartnerLive.Edit do
   @impl true
   def handle_event("delete", %{"partner_id" => partner_id}, socket) do
     partner = Partners.get_partner!(partner_id)
+
     case Partners.delete_partner(partner) do
       {:ok, _partner} ->
-        {:noreply, push_patch(socket, to: Routes.partner_index_path(socket, organization_id: partner.organization_id))}
+        {:noreply,
+         push_patch(socket,
+           to: Routes.partner_index_path(socket, :index, organization_id: partner.organization_id)
+         )}
 
       {:error, _reason} ->
         {:noreply, put_flash(socket, :error, "Failed to delete partner")}

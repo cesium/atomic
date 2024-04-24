@@ -16,6 +16,7 @@ defmodule AtomicWeb.PartnerLive.Show do
   def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
     organization = Organizations.get_organization!(organization_id)
     partner = Partners.get_partner!(id)
+    IO.inspect(Partners.list_partners_by_organization_id(organization_id))
 
     {:noreply,
      socket

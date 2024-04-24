@@ -1,7 +1,7 @@
 <.page title="Partners">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)} icon={:plus} >
+      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)} icon={:plus}>
         New Partner
       </.button>
     <% end %>
@@ -31,15 +31,15 @@
         <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="min-w-fit block hover:bg-zinc-50">
           <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
             <div class="flex gap-x-4">
-              <div class="">
+              <div>
                 <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
               </div>
               <div class="min-w-0 flex-auto">
                 <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
                 <%= if partner.location do %>
                   <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
-                      <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
-                      <p class="text-blue-500"><%= partner.location.name %></p>
+                    <Heroicons.map_pin solid class="h-5 w-5 text-zinc-400" />
+                    <p class="text-blue-500"><%= partner.location.name %></p>
                   </div>
                 <% end %>
                 <p class="mt-1 truncate text-xs leading-5 text-zinc-500">
