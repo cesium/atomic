@@ -15,17 +15,17 @@ defmodule AtomicWeb.PartnerLive.Index do
   def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
-    partners_with_flop = list_partners(organization_id)
-
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
      |> assign(:current_page, :partners)
-     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
+     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
-     |> assign(partners_with_flop)
-     |> assign(:empty?, Enum.empty?(partners_with_flop.partners))
+     |> assign(list_partners(socket, organization_id, params))
+     |> then(fn complete_socket ->
+       assign(complete_socket, :empty?, Enum.empty?(complete_socket.assigns.partners))
+     end)
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 
@@ -37,8 +37,15 @@ defmodule AtomicWeb.PartnerLive.Index do
       )
   end
 
-  defp list_partners(id, params \\ %{}) do
-    case Partners.list_partners(params, where: [organization_id: id]) do
+  defp list_partners(socket, id, params) do
+    case current_tab(socket, params) do
+      "all" -> list_all_partners(id, params)
+      "inactive" -> list_inactive_partners(id, params)
+    end
+  end
+
+  def list_all_partners(id, params \\ %{}) do
+    case Partners.list_partners(params, where: [organization_id: id, state: "active"]) do
       {:ok, {partners, meta}} ->
         %{partners: partners, meta: meta}
 
@@ -47,6 +54,19 @@ defmodule AtomicWeb.PartnerLive.Index do
     end
   end
 
-  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+  def list_inactive_partners(id, params \\ %{}) do
+    case Partners.list_partners(params, where: [organization_id: id, state: "inactive"]) do
+      {:ok, {partners, meta}} ->
+        %{partners: partners, meta: meta}
+
+      {:error, flop} ->
+        %{partners: [], meta: flop}
+    end
+  end
+
+  defp current_tab(_socket, params) when is_map_key(params, "tab") do
+    params["tab"]
+  end
+
   defp current_tab(_socket, _params), do: "all"
 end

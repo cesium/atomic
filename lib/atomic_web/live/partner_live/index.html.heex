@@ -16,6 +16,13 @@
               <%= gettext("Current Partners") %>
             </.tab>
           </.link>
+          <%= if @has_permissions? do %>
+            <.link patch="?tab=inactive" replace={false}>
+              <.tab active={@current_tab == "inactive"}>
+                <%= gettext("Inactive Partners") %>
+              </.tab>
+            </.link>
+          <% end %>
         </.tabs>
       </div>
     </div>

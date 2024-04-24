@@ -23,7 +23,12 @@ defmodule AtomicWeb.PartnerLive.Show do
      |> assign(:current_page, :partners)
      |> assign(:organization, organization)
      |> assign(:partner, partner)
-     |> assign(:partners, Partners.list_partners_by_organization_id(organization_id))
+     |> assign(
+       :partners,
+       Partners.list_partners_by_organization_id(
+         where: [organization_id: organization_id, state: "active"]
+       )
+     )
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
 

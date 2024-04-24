@@ -16,6 +16,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <.field type="text" help_text={gettext("The name of the partner")} field={f[:name]} placeholder="Name" required />
             <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required />
             <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required />
+            <.field type="select" help_text={gettext("The state of the partner")} field={f[:state]} options={["active", "inactive"]} required />
             <.inputs_for :let={location_form} field={f[:location]}>
               <.field field={location_form[:name]} type="text" placeholder="Location Name" help_text={gettext("The name of the location")} />
               <.field field={location_form[:address]} type="text" placeholder="Google Maps Address" help_text={gettext("The address of the location")} />
@@ -72,8 +73,6 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :edit, partner_params) do
-    IO.inspect(socket)
-
     case Partners.update_partner(
            socket.assigns.partner,
            partner_params,
@@ -105,8 +104,6 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp consume_image_data(socket, partner) do
-    IO.inspect(socket)
-
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
       Partners.update_partner_banner(partner, %{
         "image" => %Plug.Upload{

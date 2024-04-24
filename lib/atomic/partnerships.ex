@@ -31,12 +31,14 @@ defmodule Atomic.Partners do
 
   ## Examples
 
-      iex> list_partners_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
+      iex> list_partners_by_organization_id(%{organization_id: 123})
       [%Partner{}, ...]
 
   """
-  def list_partners_by_organization_id(id) do
-    Repo.all(from p in Partner, where: p.organization_id == ^id)
+  def list_partners_by_organization_id(opts) when is_list(opts) do
+    Partner
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
