@@ -398,6 +398,22 @@ defmodule Atomic.Activities do
   end
 
   @doc """
+  Returns the count of activities a user has enrolled in.
+
+  ## Examples
+
+      iex> count_user_activities(user_id)
+      1
+  """
+  def count_user_activities(user_id) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
   Creates an enrollment.
 
   ## Examples

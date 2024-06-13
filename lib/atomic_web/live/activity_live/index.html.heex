@@ -1,8 +1,10 @@
 <.page title="Activities">
   <:actions>
-    <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)} icon={:plus}>
-      <%= gettext("New") %>
-    </.button>
+    <%= if @has_permissions? do %>
+      <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)} icon={:plus}>
+        <%= gettext("New") %>
+      </.button>
+    <% end %>
   </:actions>
   <!-- Tabs -->
   <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,11 +14,13 @@
       </.tab>
     </.link>
 
-    <.link patch="?tab=following" replace={false}>
-      <.tab active={@current_tab == "following"}>
-        <%= gettext("Following") %>
-      </.tab>
-    </.link>
+    <%= if @is_authenticated? do %>
+      <.link patch="?tab=following" replace={false}>
+        <.tab active={@current_tab == "following"}>
+          <%= gettext("Following") %>
+        </.tab>
+      </.link>
+    <% end %>
 
     <.link patch="?tab=all" replace={false}>
       <.tab active={@current_tab == "all"}>
@@ -24,11 +28,13 @@
       </.tab>
     </.link>
 
-    <.link patch="?tab=enrolled" replace={false}>
-      <.tab active={@current_tab == "enrolled"}>
-        <%= gettext("Enrolled") %>
-      </.tab>
-    </.link>
+    <%= if @is_authenticated? do %>
+      <.link patch="?tab=enrolled" replace={false}>
+        <.tab active={@current_tab == "enrolled"} number={@enrolled_count}>
+          <%= gettext("Enrolled") %>
+        </.tab>
+      </.link>
+    <% end %>
   </.tabs>
   <!-- Activities index -->
   <%= if @empty? and @has_permissions? do %>

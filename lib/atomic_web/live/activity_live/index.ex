@@ -22,6 +22,7 @@ defmodule AtomicWeb.ActivityLive.Index do
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(:has_permissions?, has_permissions?(socket))
+     |> assign(:enrolled_count, user_activities_count(socket))
      |> assign(list_activities(socket, params))
      |> then(fn complete_socket ->
        assign(complete_socket, :empty?, Enum.empty?(complete_socket.assigns.activities))
@@ -106,5 +107,13 @@ defmodule AtomicWeb.ActivityLive.Index do
   defp has_current_organization?(socket) do
     is_map_key(socket.assigns, :current_organization) and
       not is_nil(socket.assigns.current_organization)
+  end
+
+  defp user_activities_count(socket) do
+    if socket.assigns.is_authenticated? do
+      Activities.count_user_activities(socket.assigns.current_user.id)
+    else
+      0
+    end
   end
 end
