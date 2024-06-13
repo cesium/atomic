@@ -1,14 +1,14 @@
 <.page title="Activities">
   <:actions>
-    <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)}>
+    <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)} icon={:plus}>
       <%= gettext("New") %>
     </.button>
   </:actions>
   <!-- Tabs -->
   <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.link patch="?tab=all" replace={false}>
-      <.tab active={@current_tab == "all"}>
-        <%= gettext("All") %>
+    <.link patch="?tab=upcoming" replace={false}>
+      <.tab active={@current_tab == "upcoming"}>
+        <%= gettext("Upcoming") %>
       </.tab>
     </.link>
 
@@ -18,9 +18,9 @@
       </.tab>
     </.link>
 
-    <.link patch="?tab=upcoming" replace={false}>
-      <.tab active={@current_tab == "upcoming"}>
-        <%= gettext("Upcoming") %>
+    <.link patch="?tab=all" replace={false}>
+      <.tab active={@current_tab == "all"}>
+        <%= gettext("All") %>
       </.tab>
     </.link>
 
@@ -37,59 +37,10 @@
     </div>
   <% else %>
     <div class="overflow-hidden bg-white">
-      <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
+      <ul role="list" class="p-4 overflow-auto grid sm:grid-cols-2 gap-4">
         <%= for activity <- @activities do %>
           <li id={activity.id}>
-            <.link navigate={Routes.activity_show_path(@socket, :show, activity)} class="block hover:bg-zinc-50">
-              <div class="px-4 py-4 lg:px-6">
-                <div class="flex items-center justify-between">
-                  <p class="truncate text-sm font-medium text-zinc-900">
-                    <%= activity.title %>
-                  </p>
-                </div>
-                <div class="mt-2 lg:flex lg:justify-between">
-                  <div class="lg:flex lg:space-x-3">
-                    <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name={:users} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                      <%= Enum.count(activity.activity_enrollments) %> / <%= activity.maximum_entries %>
-                    </p>
-                    <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name={:calendar} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                      <%= if activity.start do %>
-                        <%= display_date(activity.start) %>
-                      <% end %>
-                    </p>
-                    <%= if activity.location do %>
-                      <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <.icon name={:map_pin} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                        <%= activity.location && activity.location.name %>
-                      </p>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
-                  <%= if Activities.verify_maximum_enrollments?(activity.id) do %>
-                    <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name={:bell} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Open
-                    </div>
-                  <% else %>
-                    <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name={:bell} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
-                    </div>
-                  <% end %>
-                  <div class="flex flex-row space-x-2">
-                    <%= for speaker <- activity.speakers do %>
-                      <div class="mt-2 flex items-center">
-                        <.avatar name={speaker.name} size={:xs} color={:light_gray} class="!w-6 !h-6 mr-1.5" />
-                        <p class="text-sm text-zinc-500">
-                          <%= extract_first_last_name(speaker.name) %>
-                        </p>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            </.link>
+            <.activity_card activity={activity} />
           </li>
         <% end %>
       </ul>

@@ -1,7 +1,8 @@
 defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
+  import AtomicWeb.ActivityLive.Components.ActivityCard
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -39,7 +40,9 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_all_activities(_socket, params) do
-    case Activities.list_activities(params, preloads: [:speakers, :activity_enrollments]) do
+    case Activities.list_activities(params,
+           preloads: [:speakers, :activity_enrollments, :organization]
+         ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
 
@@ -53,7 +56,7 @@ defmodule AtomicWeb.ActivityLive.Index do
       Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
     case Activities.list_organizations_activities(organizations, params,
-           preloads: [:speakers, :activity_enrollments]
+           preloads: [:speakers, :activity_enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -64,7 +67,9 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp list_upcoming_activities(_socket, params) do
-    case Activities.list_upcoming_activities(params, preloads: [:speakers, :activity_enrollments]) do
+    case Activities.list_upcoming_activities(params,
+           preloads: [:speakers, :activity_enrollments, :organization]
+         ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
 
@@ -75,7 +80,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_enrolled_activities(socket, params) do
     case Activities.list_user_activities(socket.assigns.current_user.id, params,
-           preloads: [:speakers, :activity_enrollments]
+           preloads: [:speakers, :activity_enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -86,7 +91,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
-  defp current_tab(_socket, _params), do: "all"
+  defp current_tab(_socket, _params), do: "upcoming"
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 
