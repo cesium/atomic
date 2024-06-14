@@ -1,17 +1,35 @@
 <div>
-  <h2><%= @title %></h2>
+  <div class="flex justify-between items-center mt-8 mb-2 w-full pb-2">
+    <h2 class="text-xl font-semibold text-gray-900"><%= @title %></h2>
+
+    <%= if @action == :edit do %>
+      <.button icon={:trash} color={:white}>
+          <%= gettext("Delete") %>
+      </.button>
+    <% end %>
+  </div>
 
   <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <%= label(f, :title) %>
-    <%= text_input(f, :title) %>
-    <%= error_tag(f, :title) %>
+    <div class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900">
+      <%= label(f, :title) %>
+    </div>
 
-    <%= label(f, :description) %>
-    <%= text_input(f, :description) %>
-    <%= error_tag(f, :description) %>
+    <div class="w-full pb-4">
+      <%= text_input(f, :title, class: "w-full h-12 p-2 border rounded") %>
+      <%= error_tag(f, :title) %>
+    </div>
 
-    <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
+    <div class="mb-2 font-semibold text-gray-900">
+      <%= label(f, :description) %>
+    </div>
+
+    <div class="w-full pb-4">
+      <%= textarea(f, :description, class: "w-full h-60 p-2 border rounded") %>
+      <%= error_tag(f, :description) %>
+    </div>
+
+    <div class="flex justify-end">
+      <%= submit("Save", phx_disable_with: "Saving...", class: "bg-transparent hover:bg-orange-500 text-orange-500 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded") %>
     </div>
   </.form>
 </div>
