@@ -1,14 +1,4 @@
 <div>
-  <div class="flex justify-between items-center mt-8 mb-2 w-full pb-2">
-    <h2 class="text-xl font-semibold text-gray-900"><%= @title %></h2>
-
-    <%= if @action == :edit do %>
-      <.button icon={:trash} color={:white}>
-          <%= gettext("Delete") %>
-      </.button>
-    <% end %>
-  </div>
-
   <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
     <div class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900">
       <%= label(f, :title) %>
