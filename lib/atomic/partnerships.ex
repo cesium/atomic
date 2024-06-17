@@ -26,16 +26,7 @@ defmodule Atomic.Partners do
     |> Flop.validate_and_run(flop, for: Partner)
   end
 
-  @doc """
-  Returns the list of partners belonging to an organization.
-
-  ## Examples
-
-      iex> list_partners_by_organization_id(%{organization_id: 123})
-      [%Partner{}, ...]
-
-  """
-  def list_partners_by_organization_id(opts) when is_list(opts) do
+  def list_partners(opts) when is_list(opts) do
     Partner
     |> apply_filters(opts)
     |> Repo.all()

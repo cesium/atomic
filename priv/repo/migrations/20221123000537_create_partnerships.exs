@@ -11,6 +11,7 @@ defmodule Atomic.Repo.Migrations.CreatePartners do
       add :location, :map
       add :socials, :map
       add :state, :string, default: "active"
+      add :notes, :text
 
       add :organization_id, references(:organizations, on_delete: :delete_all, type: :binary_id)
 

@@ -8,7 +8,7 @@
   <:actions>
     <%= if @live_action in [:edit] do %>
       <div class="flex space-x-4">
-        <.button color={:white} icon={:trash} phx-click="delete" phx-value-partner_id={@partner.id}>
+        <.button color={:white} icon={:trash} phx-click="set-action" phx-value-action={:delete}>
           <%= gettext("Delete") %>
         </.button>
       </div>
@@ -18,3 +18,33 @@
     <.live_component module={AtomicWeb.PartnerLive.FormComponent} current_user={@current_user} id={@partner.id} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_index_path(@socket, :index, @current_organization)} />
   </div>
 </.page>
+
+<.modal :if={@action} id="action-modal" show on_cancel={JS.push("clear-action")}>
+  <div class="flex flex-col">
+    <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+      <%= display_action_goal_confirm_title(@action) %>
+    </h1>
+    <p class="mt-4">
+      <%= display_action_goal_confirm_description(@action, @partner) %>
+    </p>
+    <div class="mt-8 flex flex-row">
+      <.button phx-click="clear-action" class="mr-2" size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
+      <.button
+        phx-click="confirm-action"
+        class="mr-2"
+        size={:lg}
+        icon={:check_circle}
+        color={
+          if @action == :delete do
+            :danger
+          else
+            :white
+          end
+        }
+        full_width
+      >
+        <%= gettext("Confirm") %>
+      </.button>
+    </div>
+  </div>
+</.modal>

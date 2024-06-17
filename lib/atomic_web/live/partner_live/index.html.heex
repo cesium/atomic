@@ -10,7 +10,7 @@
   <div class="pt-4">
     <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
       <div class="flex w-full items-center justify-between">
-        <.tabs class="max-w-5-xl px-4 sm:px-6 lg:px-8">
+        <.tabs class="px-4 sm:px-6 lg:px-8">
           <.link patch="?tab=all" replace={false}>
             <.tab active={@current_tab == "all"}>
               <%= gettext("Current Partners") %>
@@ -33,15 +33,15 @@
       <.empty_state url={Routes.partner_new_path(@socket, :new, @organization)} placeholder="partnership" />
     </div>
   <% else %>
-    <ul role="list" class="overflow-auto max-w-5xl">
+    <ul role="list" class="">
       <%= for partner <- @partners do %>
-        <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="min-w-fit block hover:bg-zinc-50">
-          <li class="px-4 flex justify-between border-b-2 border-zinc-200 gap-x-6 py-5">
-            <div class="flex gap-x-4">
-              <div>
+        <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="block hover:bg-zinc-50">
+          <li class="px-4 flex flex-col md:flex-row justify-between border-b border-zinc-200 gap-x-6 py-5">
+            <div class="flex flex-col md:flex-row gap-x-4 w-full">
+              <div class="flex-shrink-0">
                 <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
               </div>
-              <div class="min-w-0 flex-auto">
+              <div class="flex-grow">
                 <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
                 <%= if partner.location do %>
                   <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
@@ -49,7 +49,7 @@
                     <p class="text-blue-500"><%= partner.location.name %></p>
                   </div>
                 <% end %>
-                <p class="mt-1 truncate text-xs leading-5 text-zinc-500">
+                <p class="mt-1 truncate text-xs leading-5 text-zinc-500 overflow-hidden overflow-ellipsis whitespace-normal">
                   <%= Enum.map(String.split(partner.benefits, "\n"), fn phrase -> %>
                     <%= if String.length(phrase) < 150 do %>
                       <%= phrase %><br />
@@ -64,6 +64,7 @@
         </.link>
       <% end %>
     </ul>
+
     <.pagination items={@partners} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
   <% end %>
 </.page>

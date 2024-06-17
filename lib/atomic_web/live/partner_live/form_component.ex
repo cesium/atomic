@@ -16,24 +16,34 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <.field type="text" help_text={gettext("The name of the partner")} field={f[:name]} placeholder="Name" required />
             <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required />
             <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required />
-            <.field type="select" help_text={gettext("The state of the partner")} field={f[:state]} options={["active", "inactive"]} required />
+            <.field type="select" help_text={gettext("The state of the partner")} field={f[:state]} options={["active", "inactive"]} required class="capitalize" />
             <.inputs_for :let={location_form} field={f[:location]}>
-              <.field field={location_form[:name]} type="text" placeholder="Location Name" help_text={gettext("The name of the location")} />
-              <.field field={location_form[:address]} type="text" placeholder="Google Maps Address" help_text={gettext("The address of the location")} />
+              <.field field={location_form[:name]} type="text" placeholder="Location name" help_text={gettext("The name of the location")} required />
             </.inputs_for>
-            <.inputs_for :let={socials_form} field={f[:socials]}>
-              <.field field={socials_form[:instagram]} type="text" help_text={gettext("Instagram username")} />
-              <.field field={socials_form[:facebook]} type="text" help_text={gettext("Facebook username")} />
-              <.field field={socials_form[:x]} type="text" help_text={gettext("Twitter username")} />
-              <.field field={socials_form[:website]} type="text" help_text={gettext("Website URL")} />
-            </.inputs_for>
+            <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Socials") %></h2>
+            <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+              <.inputs_for :let={socials_form} field={f[:socials]}>
+                <.field field={socials_form[:instagram]} type="text" class="w-full" />
+                <.field field={socials_form[:facebook]} type="text" class="w-full" />
+                <.field field={socials_form[:x]} type="text" class="w-full" />
+                <.field field={socials_form[:website]} type="text" class="w-full" />
+              </.inputs_for>
+            </div>
           </div>
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
         <div class="w-full gap-y-1">
           <div>
+            <%= label(f, :image) %>
+            <p class="atomic-form-help-text pb-4"><%= gettext("The image of the partner (960x960px for best display)") %></p>
+          </div>
+          <div>
             <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
           </div>
+        </div>
+        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Internal") %></h2>
+        <div class="w-full gap-y-1">
+          <.field type="textarea" field={f[:notes]} placeholder="Notes" />
         </div>
         <div class="mt-8 flex w-full justify-end">
           <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
@@ -90,6 +100,9 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :new, partner_params) do
+    organization_id = socket.assigns.current_user.current_organization_id
+    partner_params = Map.put(partner_params, "organization_id", organization_id)
+
     case Partners.create_partner(partner_params, &consume_image_data(socket, &1)) do
       {:ok, _partner} ->
         {:noreply,

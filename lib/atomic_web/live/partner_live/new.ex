@@ -14,6 +14,6 @@ defmodule AtomicWeb.PartnerLive.New do
      socket
      |> assign(:page_title, "New Partner")
      |> assign(:partner, %Partner{})
-     |> assign(:current_page, :partner)}
+     |> assign(:current_page, :partners)}
   end
 end

@@ -9,7 +9,7 @@ defmodule Atomic.Organizations.Partner do
   alias Atomic.Socials
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description benefits state image)a
+  @optional_fields ~w(description benefits state image notes)a
   @states ~w(active inactive)a
 
   @derive {
@@ -33,6 +33,8 @@ defmodule Atomic.Organizations.Partner do
     embeds_one :socials, Socials, on_replace: :update
     belongs_to :organization, Organization
 
+    field :notes, :string
+
     timestamps()
   end
 
@@ -50,4 +52,6 @@ defmodule Atomic.Organizations.Partner do
     partner
     |> cast_attachments(attrs, [:image])
   end
+
+  # lobo
 end
