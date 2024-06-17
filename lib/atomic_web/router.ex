@@ -225,7 +225,7 @@ defmodule AtomicWeb.Router do
     pipe_through [:browser]
 
     scope "/users" do
-      delete "/log_out", UserSessionController, :delete
+      get "/log_out", UserSessionController, :delete
       get "/confirm", UserConfirmationController, :new
       post "/confirm", UserConfirmationController, :create
       get "/confirm/:token", UserConfirmationController, :edit
