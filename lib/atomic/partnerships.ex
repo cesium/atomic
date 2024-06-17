@@ -109,6 +109,24 @@ defmodule Atomic.Partners do
   end
 
   @doc """
+  Archives a partner.
+
+  ## Examples
+
+      iex> archive_partner(partner)
+      {:ok, %Partner{}}
+
+      iex> archive_partner(partner)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def archive_partner(%Partner{} = partner) do
+    partner
+    |> Partner.changeset(%{archived: true})
+    |> Repo.update()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking partner changes.
 
   ## Examples

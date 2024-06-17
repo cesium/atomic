@@ -25,7 +25,7 @@ defmodule AtomicWeb.PartnerLive.Show do
      |> assign(:partner, partner)
      |> assign(
        :partners,
-       Partners.list_partners(where: [organization_id: organization_id, state: "active"])
+       Partners.list_partners(where: [organization_id: organization_id, archived: false])
      )
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end

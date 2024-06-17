@@ -45,7 +45,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   def list_all_partners(id, params \\ %{}) do
-    case Partners.list_partners(params, where: [organization_id: id, state: "active"]) do
+    case Partners.list_partners(params, where: [organization_id: id, archived: false]) do
       {:ok, {partners, meta}} ->
         %{partners: partners, meta: meta}
 
@@ -55,7 +55,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   def list_inactive_partners(id, params \\ %{}) do
-    case Partners.list_partners(params, where: [organization_id: id, state: "inactive"]) do
+    case Partners.list_partners(params, where: [organization_id: id, archived: true]) do
       {:ok, {partners, meta}} ->
         %{partners: partners, meta: meta}
 

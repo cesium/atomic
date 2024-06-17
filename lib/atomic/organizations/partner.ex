@@ -9,8 +9,7 @@ defmodule Atomic.Organizations.Partner do
   alias Atomic.Socials
 
   @required_fields ~w(name organization_id)a
-  @optional_fields ~w(description benefits state image notes)a
-  @states ~w(active inactive)a
+  @optional_fields ~w(description benefits archived image notes)a
 
   @derive {
     Flop.Schema,
@@ -27,7 +26,7 @@ defmodule Atomic.Organizations.Partner do
     field :name, :string
     field :description, :string
     field :benefits, :string
-    field :state, Ecto.Enum, values: @states, default: :active
+    field :archived, :boolean, default: false
     field :image, Uploaders.PartnerImage.Type
     embeds_one :location, Location, on_replace: :update
     embeds_one :socials, Socials, on_replace: :update
