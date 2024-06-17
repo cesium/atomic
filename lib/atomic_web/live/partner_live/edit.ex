@@ -50,12 +50,6 @@ defmodule AtomicWeb.PartnerLive.Edit do
 
   defp display_action_goal_confirm_title(action) do
     case action do
-      :archive ->
-        gettext("Are you sure you want to archive this partner?")
-
-      :unarchive ->
-        gettext("Are you sure you want to unarchive this partner?")
-
       :delete ->
         gettext("Are you sure you want do delete this partner?")
     end
@@ -63,14 +57,6 @@ defmodule AtomicWeb.PartnerLive.Edit do
 
   defp display_action_goal_confirm_description(action, partner) do
     case action do
-      :archive ->
-        gettext("You can always change you mind later and make it public again.")
-
-      :unarchive ->
-        gettext(
-          "This will make it so that any person can view this partner and their collaborators."
-        )
-
       :delete ->
         gettext(
           "This will permanently delete %{partner_name}, this action is not reversible.",
