@@ -40,7 +40,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   defp list_partners(socket, id, params) do
     case current_tab(socket, params) do
       "all" -> list_all_partners(id, params)
-      "inactive" -> list_inactive_partners(id, params)
+      "inactive" -> list_archived_partners(id, params)
     end
   end
 
@@ -54,7 +54,7 @@ defmodule AtomicWeb.PartnerLive.Index do
     end
   end
 
-  def list_inactive_partners(id, params \\ %{}) do
+  def list_archived_partners(id, params \\ %{}) do
     case Partners.list_partners(params, where: [organization_id: id, archived: true]) do
       {:ok, {partners, meta}} ->
         %{partners: partners, meta: meta}
