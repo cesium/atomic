@@ -52,6 +52,4 @@ defmodule Atomic.Organizations.Partner do
     partner
     |> cast_attachments(attrs, [:image])
   end
-
-  # lobo
 end
