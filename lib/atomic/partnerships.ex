@@ -127,6 +127,23 @@ defmodule Atomic.Partners do
   end
 
   @doc """
+  Unarchives a partner.
+
+  ## Examples
+
+      iex> unarchive_partner(partner)
+      {:ok, %Partner{}}
+
+      iex> unarchive_partner(partner)
+      {:error, %Ecto.Changeset{}}
+  """
+  def unarchive_partner(%Partner{} = partner) do
+    partner
+    |> Partner.changeset(%{archived: false})
+    |> Repo.update()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking partner changes.
 
   ## Examples

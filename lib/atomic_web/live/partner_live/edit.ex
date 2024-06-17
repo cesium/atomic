@@ -65,6 +65,22 @@ defmodule AtomicWeb.PartnerLive.Edit do
     end
   end
 
+  def handle_event("confirm-action", _params, %{assigns: %{action: :unarchive}} = socket) do
+    partner = socket.assigns.partner
+    organization_id = partner.organization_id
+
+    case Partners.unarchive_partner(partner) do
+      {:ok, _partner} ->
+        {:noreply,
+         socket
+         |> put_flash(:success, "Partner archived successfully")
+         |> push_redirect(to: Routes.partner_index_path(socket, :index, organization_id))}
+
+      {:error, _reason} ->
+        {:noreply, put_flash(socket, :error, "Failed to delete partner")}
+    end
+  end
+
   defp display_action_goal_confirm_title(action) do
     case action do
       :archive ->

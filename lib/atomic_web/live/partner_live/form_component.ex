@@ -16,7 +16,6 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <.field type="text" help_text={gettext("The name of the partner")} field={f[:name]} placeholder="Name" required />
             <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required />
             <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required />
-            <.field type="select" help_text={gettext("The state of the partner")} field={f[:archived]} options={[true, false]} required class="capitalize" />
             <.inputs_for :let={location_form} field={f[:location]}>
               <.field field={location_form[:name]} type="text" placeholder="Location name" help_text={gettext("The name of the location")} required />
             </.inputs_for>
