@@ -1,7 +1,7 @@
 <.page title="Partners">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.partner_new_path(@socket, :new, @current_organization)} icon={:plus}>
+      <.button navigate={Routes.partner_edit_path(@socket, :new, @current_organization)} icon={:plus}>
         New Partner
       </.button>
     <% end %>
@@ -30,7 +30,7 @@
   <!-- Partners index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={Routes.partner_new_path(@socket, :new, @organization)} placeholder="partnership" />
+      <.empty_state url={Routes.partner_edit_path(@socket, :new, @organization)} placeholder="partnership" />
     </div>
   <% else %>
     <ul role="list" class="">
