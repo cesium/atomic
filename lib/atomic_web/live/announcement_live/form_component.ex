@@ -3,6 +3,8 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
 
   alias Atomic.Organizations
 
+  import AtomicWeb.Components.Forms
+
   @impl true
   def mount(socket) do
     {:ok, socket}
