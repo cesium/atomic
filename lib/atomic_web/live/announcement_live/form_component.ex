@@ -30,6 +30,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"announcement" => announcement_params}, socket) do
     save_announcement(socket, socket.assigns.action, announcement_params)
   end
