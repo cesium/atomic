@@ -4,5 +4,7 @@
       <%= gettext("Delete") %>
     </.button>
   </:actions>
-  <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id} organization={@current_organization} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_show_path(@socket, :show, @announcement)} />
+  <div class="pt-4 px-4">
+    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={@announcement.id} organization={@current_organization} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_show_path(@socket, :show, @announcement)} />
+  </div>
 </.page>

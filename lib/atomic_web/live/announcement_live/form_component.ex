@@ -50,7 +50,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     end
   end
 
-  defp save_announcement(socket, :announcement, announcement_params) do
+  defp save_announcement(socket, :new, announcement_params) do
     announcement_params =
       Map.put(announcement_params, "organization_id", socket.assigns.organization.id)
 
