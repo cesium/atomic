@@ -1,17 +1,11 @@
 <div>
-  <h2><%= @title %></h2>
-
   <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <%= label(f, :title) %>
-    <%= text_input(f, :title) %>
-    <%= error_tag(f, :title) %>
+    <.field field={f[:title]} help_text={gettext("The title of the announcement")} type="text" placeholder="Title" required />
 
-    <%= label(f, :description) %>
-    <%= text_input(f, :description) %>
-    <%= error_tag(f, :description) %>
+    <.field field={f[:description]} help_text={gettext("Announcement description")} type="text" placeholder="Description" required />
 
-    <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
+    <div class="mt-8 flex w-full justify-end">
+      <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
     </div>
   </.form>
 </div>
