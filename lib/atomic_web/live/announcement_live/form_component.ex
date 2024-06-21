@@ -3,6 +3,8 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
 
   alias Atomic.Organizations
 
+  import AtomicWeb.Components.Forms
+
   @impl true
   def mount(socket) do
     {:ok, socket}
@@ -28,6 +30,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"announcement" => announcement_params}, socket) do
     save_announcement(socket, socket.assigns.action, announcement_params)
   end
@@ -48,7 +51,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     end
   end
 
-  defp save_announcement(socket, :announcement, announcement_params) do
+  defp save_announcement(socket, :new, announcement_params) do
     announcement_params =
       Map.put(announcement_params, "organization_id", socket.assigns.organization.id)
 
