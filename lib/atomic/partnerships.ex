@@ -86,6 +86,18 @@ defmodule Atomic.Partners do
     |> after_save(after_save)
   end
 
+  @doc """
+  Updates a partner's picture.
+
+  ## Examples
+
+      iex> update_partner_picture(partner, %{image: %Plug.Upload{}})
+      {:ok, %Partner{}}
+
+      iex> update_partner_picture(partner, %{image: %Plug.Upload{}})
+      {:error, %Ecto.Changeset{}}
+
+  """
   def update_partner_picture(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
     partner
     |> Partner.image_changeset(attrs)
