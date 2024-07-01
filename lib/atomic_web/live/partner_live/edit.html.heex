@@ -27,7 +27,7 @@
     <% end %>
   </:actions>
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.live_component module={AtomicWeb.PartnerLive.FormComponent} current_user={@current_user} id={@partner.id || :new} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_index_path(@socket, :index, @current_organization)} />
+    <.live_component module={AtomicWeb.PartnerLive.FormComponent} organization={@current_organization} id={@partner.id || :new} title={@page_title} action={@live_action} partner={@partner} return_to={Routes.partner_index_path(@socket, :index, @current_organization)} />
   </div>
 </.page>
 

@@ -17,7 +17,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <.field type="text" help_text={gettext("A brief description of the partner")} field={f[:description]} placeholder="Description" required />
             <.field type="textarea" help_text={gettext("Benefits of the partnership")} field={f[:benefits]} placeholder="Benefits" required />
             <.inputs_for :let={location_form} field={f[:location]}>
-              <.field field={location_form[:name]} type="text" placeholder="Location name" help_text={gettext("The name of the location")} required />
+              <.field field={location_form[:name]} label="Address" type="text" placeholder="Address" help_text={gettext("Address of the partner")} required />
             </.inputs_for>
             <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Socials") %></h2>
             <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
@@ -99,7 +99,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   end
 
   defp save_partner(socket, :new, partner_params) do
-    organization_id = socket.assigns.current_user.current_organization_id
+    organization_id = socket.assigns.organization.id
     partner_params = Map.put(partner_params, "organization_id", organization_id)
 
     case Partners.create_partner(partner_params, &consume_image_data(socket, &1)) do
@@ -116,7 +116,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
   defp consume_image_data(socket, partner) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Partners.update_partner_banner(partner, %{
+      Partners.update_partner_picture(partner, %{
         "image" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,

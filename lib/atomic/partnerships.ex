@@ -86,7 +86,7 @@ defmodule Atomic.Partners do
     |> after_save(after_save)
   end
 
-  def update_partner_banner(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
+  def update_partner_picture(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
     partner
     |> Partner.image_changeset(attrs)
     |> Repo.update()
