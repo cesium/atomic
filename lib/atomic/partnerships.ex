@@ -5,6 +5,7 @@ defmodule Atomic.Partners do
   use Atomic.Context
 
   alias Atomic.Organizations.Partner
+  alias Atomic.Socials
 
   @doc """
   Returns the list of partners.
@@ -25,17 +26,10 @@ defmodule Atomic.Partners do
     |> Flop.validate_and_run(flop, for: Partner)
   end
 
-  @doc """
-  Returns the list of partners belonging to an organization.
-
-  ## Examples
-
-      iex> list_partners_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
-      [%Partner{}, ...]
-
-  """
-  def list_partners_by_organization_id(id) do
-    Repo.all(from p in Partner, where: p.organization_id == ^id)
+  def list_partners(opts) when is_list(opts) do
+    Partner
+    |> apply_filters(opts)
+    |> Repo.all()
   end
 
   @doc """
@@ -66,10 +60,11 @@ defmodule Atomic.Partners do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_partner(attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+  def create_partner(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     %Partner{}
     |> Partner.changeset(attrs)
     |> Repo.insert()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -84,9 +79,28 @@ defmodule Atomic.Partners do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_partner(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
+  def update_partner(%Partner{} = partner, attrs, after_save \\ &{:ok, &1}) do
     partner
     |> Partner.changeset(attrs)
+    |> Repo.update()
+    |> after_save(after_save)
+  end
+
+  @doc """
+  Updates a partner's picture.
+
+  ## Examples
+
+      iex> update_partner_picture(partner, %{image: %Plug.Upload{}})
+      {:ok, %Partner{}}
+
+      iex> update_partner_picture(partner, %{image: %Plug.Upload{}})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_partner_picture(%Partner{} = partner, attrs, _after_save \\ &{:ok, &1}) do
+    partner
+    |> Partner.image_changeset(attrs)
     |> Repo.update()
   end
 
@@ -107,6 +121,41 @@ defmodule Atomic.Partners do
   end
 
   @doc """
+  Archives a partner.
+
+  ## Examples
+
+      iex> archive_partner(partner)
+      {:ok, %Partner{}}
+
+      iex> archive_partner(partner)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def archive_partner(%Partner{} = partner) do
+    partner
+    |> Partner.changeset(%{archived: true})
+    |> Repo.update()
+  end
+
+  @doc """
+  Unarchives a partner.
+
+  ## Examples
+
+      iex> unarchive_partner(partner)
+      {:ok, %Partner{}}
+
+      iex> unarchive_partner(partner)
+      {:error, %Ecto.Changeset{}}
+  """
+  def unarchive_partner(%Partner{} = partner) do
+    partner
+    |> Partner.changeset(%{archived: false})
+    |> Repo.update()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking partner changes.
 
   ## Examples
@@ -117,5 +166,9 @@ defmodule Atomic.Partners do
   """
   def change_partner(%Partner{} = partner, attrs \\ %{}) do
     Partner.changeset(partner, attrs)
+  end
+
+  def change_partner_socials(%Socials{} = socials, attrs \\ %{}) do
+    Socials.changeset(socials, attrs)
   end
 end
