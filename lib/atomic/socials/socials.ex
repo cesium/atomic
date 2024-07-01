@@ -20,5 +20,6 @@ defmodule Atomic.Socials do
   def changeset(socials, attrs) do
     socials
     |> cast(attrs, @optional_fields)
+    |> validate_format(:website, ~r{^https?://}, message: "must start with http:// or https://")
   end
 end
