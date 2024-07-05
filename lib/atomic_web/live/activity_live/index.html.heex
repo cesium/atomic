@@ -7,45 +7,56 @@
     <% end %>
   </:actions>
   <!-- Tabs -->
-  <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.link patch="?tab=upcoming" replace={false}>
-      <.tab active={@current_tab == "upcoming"}>
-        <%= gettext("Upcoming") %>
+  <.tabs class="overflow-scroll scrollbar-hide max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <.link patch="?tab=discover" replace={false}>
+      <.tab active={@current_tab == "discover"}>
+        <.icon name={:globe_alt} class="h-5 w-5 mr-1" />
+        <%= gettext("Discover") %>
       </.tab>
     </.link>
 
     <%= if @is_authenticated? do %>
       <.link patch="?tab=following" replace={false}>
         <.tab active={@current_tab == "following"}>
+          <.icon name={:eye} class="h-5 w-5 mr-1" />
           <%= gettext("Following") %>
         </.tab>
       </.link>
     <% end %>
 
-    <.link patch="?tab=all" replace={false}>
-      <.tab active={@current_tab == "all"}>
-        <%= gettext("All") %>
-      </.tab>
-    </.link>
-
     <%= if @is_authenticated? do %>
       <.link patch="?tab=enrolled" replace={false}>
-        <.tab active={@current_tab == "enrolled"} number={@enrolled_count}>
-          <%= gettext("Enrolled") %>
+        <.tab active={@current_tab == "enrolled"} number={@upcoming_enrolled_count}>
+          <.icon name={:ticket} class="h-5 w-5 mr-1" />
+          <%= gettext("Upcoming") %>
+        </.tab>
+      </.link>
+      <.link patch="?tab=past" replace={false}>
+        <.tab active={@current_tab == "past"}>
+          <.icon name={:clock} class="h-5 w-5 mr-1" />
+          <%= gettext("Past") %>
         </.tab>
       </.link>
     <% end %>
   </.tabs>
   <!-- Activities index -->
-  <%= if @empty? and @has_permissions? do %>
-    <div class="mt-32">
-      <.empty_state url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" />
-    </div>
+  <%= if @empty? do %>
+    <%= if @has_permissions? do %>
+      <div class="mt-32">
+        <.empty_state url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" />
+      </div>
+    <% else %>
+      <div class="text-zinc-600 mt-32 flex flex-col items-center w-full justify-center">
+        <.icon class="w-24" name={:megaphone} />
+        <p class="pt-4"><%= gettext("No activities to show.") %></p>
+        <p><%= activities_empty_state_description(@current_tab) %></p>
+      </div>
+    <% end %>
   <% else %>
     <div class="overflow-hidden bg-white">
       <ul role="list" class="p-4 overflow-auto grid sm:grid-cols-2 gap-4">
         <%= for activity <- @activities do %>
-          <li id={activity.id}>
+          <li id={activity.id} class={@current_tab == "past" && "opacity-70"}>
             <.activity_card activity={activity} />
           </li>
         <% end %>

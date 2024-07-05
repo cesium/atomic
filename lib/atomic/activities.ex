@@ -398,18 +398,97 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Returns the count of activities a user has enrolled in.
+  Returns the list of upcoming activities a user has enrolled in.
 
   ## Examples
 
-      iex> count_user_activities(user_id)
-      1
+      iex> list_upcoming_user_activities(user_id)
+      [%Activity{}, ...]
   """
-  def count_user_activities(user_id) do
+  def list_upcoming_user_activities(user_id, params \\ %{})
+
+  def list_upcoming_user_activities(user_id, opts) when is_list(opts) do
     from(a in Activity,
       join: e in assoc(a, :activity_enrollments),
       where: e.user_id == ^user_id
     )
+    |> where([a], fragment("? > now()", a.start))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_upcoming_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_upcoming_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the list of past activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_past_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+  def list_past_user_activities(user_id, params \\ %{})
+
+  def list_past_user_activities(user_id, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_past_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_past_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the count of upcoming activities a user has enrolled in.
+
+  ## Examples
+
+      iex> user_upcoming_activities_count(user_id)
+      1
+  """
+  def user_upcoming_activities_count(user_id) do
+    from(a in Activity,
+      join: e in assoc(a, :activity_enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
     |> Repo.aggregate(:count, :id)
   end
 
