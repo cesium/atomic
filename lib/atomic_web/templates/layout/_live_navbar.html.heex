@@ -130,7 +130,7 @@
                 orientation={:top}
                 items={[
                   %{name: "Your profile", link: Routes.profile_show_path(@socket, :show, @current_user)},
-                  %{name: "Sign out", link: Routes.user_session_path(@socket, :delete)}
+                  %{name: "Sign out", link: Routes.user_session_path(@socket, :delete), method: "delete"}
                 ]}
                 id="user-menu-button"
               >

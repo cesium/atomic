@@ -1,25 +1,116 @@
-<div class="py-4 px-4 sm:px-0">
-  <div class="flex flex-col gap-2 mt-6 sm:flex-row sm:items-center">
-    <div>
-      <.avatar color={:gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
-    </div>
-    <div>
-      <div class="flex justify-between items-center">
-        <h4 class="text-2xl font-bold text-zinc-800">
-          <%= @partner.name %>
-        </h4>
+<.page title="Partners">
+  <:actions>
+    <%= if @has_permissions? do %>
+      <div class="lg:border-orange-500 lg:block">
+        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon={:pencil}>
+          <%= gettext("Edit Partner") %>
+        </.button>
       </div>
-      <p class="mt-1 text-zinc-500">
-        <%= @partner.description %>
-      </p>
+    <% end %>
+  </:actions>
+  <div class="lg:px-8 sm:px-0 min-h-fit border-t-100 select-none lg:mx-0 max-w-5xl sm:mx-6 ">
+    <div class="flex flex-col gap-2 mt-6 sm:justify-center">
+      <div class="flex flex-row">
+        <div class="flex flex-col lg:justify-none items-center px-2">
+          <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-gray-900 ml-2">
+              <%= @partner.name %>
+            </h1>
+          </div>
+          <%= if @partner.location do %>
+            <div class="flex flex-row items-center gap-x-1 text-md leading-6">
+              <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+              <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
+            </div>
+          <% end %>
+          <%= if @partner.socials do %>
+            <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
+              <%= if @partner.socials.website do %>
+                <div class="flex flex-row items-center gap-x-1 ">
+                  <.icon name={:globe_alt} class="h-5 w-5 text-zinc-400" />
+                  <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
+                </div>
+              <% end %>
+              <%= if @partner.socials.instagram do %>
+                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                  <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
+                  <.link class="text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
+                </div>
+              <% end %>
+              <%= if @partner.socials.facebook do %>
+                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                  <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
+                  <.link class="text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
+                </div>
+              <% end %>
+              <%= if @partner.socials.x do %>
+                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                  <img src="/images/x.svg" class="h-5 w-5" alt="X" />
+                  <.link class="text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div>
+        <div class="mt-1 text-zinc-800 py-4 px-2">
+          <div class="flex flex-row items-center gap-x-2">
+            <.icon name={:clock} class="h-5 w-5 mb-2" />
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
+          </div>
+          <span class="py-4">
+            <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
+              <%= phrase %>
+            <% end) %>
+          </span>
+        </div>
+        <div class="text-zinc-800 py-4 px-2">
+          <div class="flex flex-row items-center gap-x-2 text-zinc-800">
+            <.icon name={:signal} class="h-5 w-5 mb-2" />
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
+          </div>
+          <span>
+            <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
+              <%= if String.length(phrase) < 300 do %>
+                <%= phrase %>
+              <% else %>
+                <%= String.slice(phrase, 0..300) %>
+              <% end %>
+            <% end) %>
+          </span>
+        </div>
+        <%= if @partners do %>
+          <div class="flex flex-col gap-x-2 text-zinc-800">
+            <div class="flex flex-row items-center gap-x-2 px-2">
+              <.icon name={:star} class="h-5 w-5 mb-2" />
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900 py-2">Related Partners</h2>
+            </div>
+            <div class="sm:grid sm:grid-cols-2 sm:gap-px">
+              <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
+                <div class="rounded-lg group relative border border-zinc-200 bg-white p-4 hover:bg-zinc-50 m-2">
+                  <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
+                    <div class="flex flex-row items-center space-x-2">
+                      <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
+                      <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
+                    </div>
+                    <%= if partner.location do %>
+                      <div class="flex flex-row items-center gap-x-1">
+                        <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+                        <span class="text-blue-500"><%= partner.location.name %></span>
+                      </div>
+                    <% end %>
+                    <span class="text-md text-zinc-500"><%= partner.description %></span>
+                  </.link>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
-
-<%= if @has_permissions? do %>
-  <.link patch={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} class="button">
-    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-      <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-    </div>
-  </.link>
-<% end %>
+</.page>

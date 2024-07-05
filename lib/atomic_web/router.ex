@@ -99,7 +99,7 @@ defmodule AtomicWeb.Router do
 
         scope "/partners" do
           pipe_through :confirm_partner_association
-          live "/new", PartnerLive.New, :new
+          live "/new", PartnerLive.Edit, :new
           live "/:id/edit", PartnerLive.Edit, :edit
         end
 

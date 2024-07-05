@@ -1,1 +1,5 @@
-<.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={:new} organization={@current_organization} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_index_path(@socket, :index)} />
+<.page title={gettext("New Announcement")}>
+  <div class="pt-4 px-4">
+    <.live_component module={AtomicWeb.AnnouncementLive.FormComponent} id={:new} organization={@current_organization} title={@page_title} action={@live_action} announcement={@announcement} return_to={Routes.announcement_index_path(@socket, :index)} />
+  </div>
+</.page>

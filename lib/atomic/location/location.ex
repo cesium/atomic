@@ -1,6 +1,6 @@
-defmodule Atomic.Activities.Location do
+defmodule Atomic.Location do
   @moduledoc """
-  An activity location embedded struct schema.
+  A location embedded struct schema.
   """
   use Atomic.Schema
 
