@@ -26,7 +26,7 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
           build-flags: --all-warnings --warnings-as-errors
 
-      - name: 🎨 Check code formating
+      - name: 🎨 Check code formatting
         run: mix format --check-formatted
 
       - name: 🔍 Lint the code
