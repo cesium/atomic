@@ -98,5 +98,5 @@
   <% end %>
 </.page>
 <.modal :if={@live_action in [:new_board, :edit_board, :new_department, :edit_department]} id="board-modal" show on_cancel={JS.patch(Routes.board_index_path(@socket, :show, @organization, @board))}>
-  <.live_component module={AtomicWeb.BoardLive.FormComponent} organization_id={@organization.id} board={@board} id="board-forms" action={@live_action} title={@page_title} return_to={Routes.board_index_path(@socket, :show, @current_organization, @board)} />
+  <.live_component module={AtomicWeb.BoardLive.FormComponent} organization_id={@organization.id} department_id={@department_id} board={@board} id="board-forms" action={@live_action} title={@page_title} return_to={Routes.board_index_path(@socket, :show, @current_organization, @board)} />
 </.modal>

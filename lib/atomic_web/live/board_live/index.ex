@@ -22,6 +22,8 @@ defmodule AtomicWeb.BoardLive.Index do
   @impl true
   def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     board_id = Map.get(params, "id")
+    department_id = Map.get(params, "department_id")
+
     current_year = Year.current_year()
     boards = Board.list_boards_by_organization_id(organization_id)
 
@@ -52,7 +54,8 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:boards, boards)
      |> assign(:board, board)
      |> assign(:params, params)
-     |> assign(:year, current_year)}
+     |> assign(:year, current_year)
+     |> assign(:department_id, department_id)}
   end
 
   @impl true
