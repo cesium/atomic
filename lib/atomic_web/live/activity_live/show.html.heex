@@ -1,3 +1,108 @@
+<.page title={@activity.title}>
+  <:title_wrapper :let={title}>
+    <div>
+      <h1 class="select-none pb-2 truncate text-2xl font-bold text-gray-900">
+        <%= title %>
+      </h1>
+      <span class="flex items-center gap-2">
+        <p>
+          <%= gettext("hosted by") %>
+        </p>
+        <.link navigate={Routes.organization_show_path(@socket, :show, @activity.organization)} class="flex items-center gap-1">
+          <.avatar class="border-zinc-200 border" src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} name={@activity.organization.name} size={:xs} type={:organization} color={:white} />
+          <%= @activity.organization.name %>
+        </.link>
+      </span>
+    </div>
+  </:title_wrapper>
+  <:actions>
+    <%= if @is_authenticated? do %>
+      <%= if not @max_enrolled? do %>
+        <.button color={:white} icon={:ticket} phx-click="enroll" disabled={@enrolled?}>
+          <%= gettext("Register") %>
+        </.button>
+      <% end %>
+      <%= if @has_permissions? do %>
+        <.button navigate={Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity)} icon={:pencil}>
+          <%= gettext("Edit activity") %>
+        </.button>
+      <% end %>
+    <% end %>
+  </:actions>
+  <div class="flex flex-row gap-12 mx-4 max-w-5xl sm:mx-6 lg:mx-8">
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-row gap-16">
+        <!-- Date -->
+        <%= if @activity.start do %>
+          <div class="flex items-center gap-2">
+            <.icon name={:calendar} solid class="h-5 w-5 text-gray-700" />
+            <!-- One day activity -->
+            <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
+              <div class="flex flex-col">
+                <p class="font-medium">
+                  <%= pretty_display_date(@activity.start) %>
+                </p>
+                <p>
+                  <%= "#{display_time(@activity.start)}-#{display_time(@activity.finish)}" %>
+                </p>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <!-- Capacity -->
+        <div class="flex items-center gap-2">
+          <.icon name={:user_group} solid class="h-5 w-5 text-gray-700" />
+          <p class="font-medium">
+            <%= @enrolled %> / <%= @activity.maximum_entries %>
+          </p>
+        </div>
+        <!-- Location -->
+        <%= if @activity.location do %>
+          <div class="flex items-center gap-2">
+            <.icon name={:map_pin} solid class="h-5 w-5 text-gray-700" />
+            <.link href={@activity.location.url || "https://www.google.com/maps/search/?api=1&query=#{@activity.location.name}"} target="_blank">
+              <p class="font-medium">
+                <%= @activity.location.name %>
+              </p>
+            </.link>
+          </div>
+        <% end %>
+      </div>
+      <!-- About -->
+      <div>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <%= gettext("About") %>
+        </h2>
+        <p>
+          <%= text_to_html(@activity.description) %>
+        </p>
+      </div>
+      <!-- Speakers -->
+      <%= if @activity.speakers != [] do %>
+        <div>
+          <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+            <%= gettext("Speakers") %>
+          </h2>
+          <%= for speaker <- @activity.speakers do %>
+            <div class="flex flex-row items-center gap-2">
+              <.avatar name={speaker.name} size={:sm} color={:light_gray} class="mr-2 inline-flex" />
+              <p><%= speaker.name %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <!-- Activity image -->
+    <div class="h-[40%] object-cover">
+      <%= if @activity.image do %>
+        <img class="h-full w-full object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+      <% else %>
+        <.gradient seed={@activity.id} />
+      <% end %>
+    </div>
+  </div>
+</.page>
+<!--
 <div class="my-4">
   <div class="bg-white">
     <div class="flex justify-between px-4 py-5 sm:px-6">
@@ -167,3 +272,4 @@
     <% end %>
   <% end %>
 </div>
+-->
