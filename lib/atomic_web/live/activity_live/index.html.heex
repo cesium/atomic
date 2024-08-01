@@ -8,6 +8,15 @@
   </:actions>
   <!-- Tabs -->
   <.tabs class="overflow-scroll scrollbar-hide max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%= if @is_authenticated? and @has_current_organization? do %>
+      <.link patch="?tab=organization" replace={false}>
+        <.tab active={@current_tab == "organization"}>
+          <.icon name={:globe_alt} class="h-5 w-5 mr-1" />
+          <%= @current_user.current_organization.name <> gettext("'s activities") %>
+        </.tab>
+      </.link>
+    <% end %>
+
     <.link patch="?tab=discover" replace={false}>
       <.tab active={@current_tab == "discover"}>
         <.icon name={:globe_alt} class="h-5 w-5 mr-1" />

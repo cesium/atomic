@@ -22,6 +22,7 @@ defmodule AtomicWeb.ActivityLive.Index do
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)
      |> assign(:has_permissions?, has_permissions?(socket))
+     |> assign(:has_current_organization?, has_current_organization?(socket))
      |> assign(:upcoming_enrolled_count, user_activities_count(socket))
      |> assign(list_activities(socket, params))
      |> then(fn complete_socket ->
@@ -33,6 +34,7 @@ defmodule AtomicWeb.ActivityLive.Index do
     params = Map.put(params, "page_size", 6)
 
     case current_tab(socket, params) do
+      "organization" -> list_organization_activities(socket, params)
       "discover" -> list_discover_activities(socket, params)
       "following" -> list_following_activities(socket, params)
       "enrolled" -> list_enrolled_activities(socket, params)
@@ -40,8 +42,20 @@ defmodule AtomicWeb.ActivityLive.Index do
     end
   end
 
+  defp list_organization_activities(socket, params) do
+    case Activities.list_organization_activities(socket.assigns.current_organization.id, params,
+           preloads: [:speakers, :activity_enrollments, :organization]
+         ) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
+  end
+
   defp list_discover_activities(_socket, params) do
-    case Activities.list_activities(params,
+    case Activities.list_upcoming_activities(params,
            preloads: [:speakers, :activity_enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
@@ -92,7 +106,10 @@ defmodule AtomicWeb.ActivityLive.Index do
   end
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
-  defp current_tab(_socket, _params), do: "discover"
+
+  defp current_tab(socket, _params) do
+    if has_current_organization?(socket), do: "organization", else: "discover"
+  end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 

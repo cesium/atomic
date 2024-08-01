@@ -476,6 +476,40 @@ defmodule Atomic.Activities do
   end
 
   @doc """
+  Returns the list of activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+
+  def list_organization_activities(organization_id, params \\ %{})
+
+  def list_organization_activities(organization_id, opts) when is_list(opts) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_organization_activities(organization_id, flop) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_organization_activities(organization_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
   Returns the count of upcoming activities a user has enrolled in.
 
   ## Examples
