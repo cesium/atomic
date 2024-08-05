@@ -3,10 +3,17 @@ name: Build and Test
 on:
   push:
     branches: [develop]
+    paths:
+    - '**/*.ex'
+    - '**/*.exs'
+    - '**/*.html.heex'
   pull_request:
     branches: [develop]
     types: [opened, synchronize]
-
+    paths:
+    - '**/*.ex'
+    - '**/*.exs'
+    - '**/*.html.heex'
 jobs:
   build:
     runs-on: ubuntu-latest
