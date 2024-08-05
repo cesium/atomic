@@ -76,3 +76,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Other configurations for the app
+config :pdf_generator, raise_on_missing_wkhtmltopdf_binary: false
