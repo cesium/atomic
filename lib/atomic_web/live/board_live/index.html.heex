@@ -2,7 +2,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <.button icon={:plus} icon_class="stroke-2" patch={Routes.board_index_path(@socket, :new_board, @organization)}>
-        <%= gettext("New") %>
+        <%= gettext("New Board") %>
       </.button>
     <% end %>
   </:actions>
@@ -34,11 +34,9 @@
             <li id={"board-department-#{board_department.id}"} class="flex max-w-full flex-row gap-x-5 p-2 text-center lg:mx-0 lg:max-w-none">
               <div class="flex w-full justify-between">
                 <div class="flex flex-row items-center space-x-4">
-                  <%= if @role in [:owner, :admin] do %>
                     <span class="handle cursor-row-resize">
                       <.icon name={:bars_3} solid class="h-5 w-5 text-zinc-400" />
                     </span>
-                  <% end %>
                   <h1 class="w-fit text-left text-lg tracking-tight text-zinc-900 sm:text-md"><%= board_department.name %></h1>
                 </div>
                 <div class="relative hidden md:block">
@@ -56,7 +54,7 @@
                   </div>
                 </div>
               </div>
-              <span class="whitespace-nowrap">
+              <span class="whitespace-nowrap flex items-center justify-center">
                 <%= length(Board.get_board_department_users(board_department.id, preloads: [:user])) %> members
               </span>
               <.button patch={Routes.board_index_path(@socket, :edit_department, @organization, @board.id, board_department, @params)} color={:light} class="max-h-8">
@@ -77,11 +75,6 @@
     <%= for board_department <- @board_departments do %>
       <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none">
         <div class="flex flex-row items-center space-x-8">
-          <%= if @role in [:owner, :admin] do %>
-            <span class="handle cursor-row-resize">
-              <.icon name={:bars_3} solid class="h-5 w-5 text-zinc-400" />
-            </span>
-          <% end %>
           <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
         </div>
         <div class="relative mb-10 lg:gap-x-24">

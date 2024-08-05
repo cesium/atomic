@@ -153,6 +153,15 @@ defmodule AtomicWeb.BoardLive.FormComponent do
     end
   end
 
+  @impl true
+  def handle_event("remove_user", %{"user-id" => user_id}, socket) do
+    IO.inspect(user_id)
+
+    IO.puts("Remove user")
+
+    {:noreply, assign(socket, :users, Board.get_board_department_users(socket.assigns.department_id))}
+  end
+
   defp save_board(socket, :new, board_params) do
     board_params =
       Map.put(board_params["board"], "organization_id", socket.assigns.organization_id)
@@ -364,7 +373,7 @@ defmodule AtomicWeb.BoardLive.FormComponent do
                   <li class="w-full">
                     <div class="flex items-center justify-between p-2">
                       <p><%= user_organization.user.name %></p>
-                      <.button color={:light} class="max-h-8">
+                      <.button color={:light} type="button" phx-target={@myself} phx-click="remove_user" phx-value-user-id={user_organization.user.id} class="max-h-8">
                         <span class="h-4 w-4 select-none">
                           <.icon name={:trash} />
                         </span>
