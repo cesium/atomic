@@ -101,7 +101,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     do: false
 
   defp maybe_put_following(socket, organization) do
-    Organizations.is_member_of?(socket.assigns.current_user, organization)
+    Organizations.member_of?(socket.assigns.current_user, organization)
   end
 
   defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,

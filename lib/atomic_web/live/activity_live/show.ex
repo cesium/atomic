@@ -98,7 +98,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp maybe_put_enrolled(socket) do
-    Activities.is_participating?(socket.assigns.id, socket.assigns.current_user.id)
+    Activities.participating?(socket.assigns.id, socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
