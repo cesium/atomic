@@ -49,7 +49,7 @@ defmodule AtomicWeb.Components.Table do
 
     ~H"""
     <th class="border-r-[1px] px-4 py-3.5 text-left text-sm font-semibold text-zinc-900" scope="col">
-      <%= if is_sortable?(@field, @meta.schema) && is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
+      <%= if sortable?(@field, @meta.schema) && filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
         <div class="flex justify-between">
           <.link patch={build_sorting_query(@field, @meta)} class="mr-2 w-full">
             <div class="flex justify-between">
@@ -60,7 +60,7 @@ defmodule AtomicWeb.Components.Table do
           <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
         </div>
       <% else %>
-        <%= if is_sortable?(@field, @meta.schema) do %>
+        <%= if sortable?(@field, @meta.schema) do %>
           <.link patch={build_sorting_query(@field, @meta)}>
             <div class="flex justify-between">
               <span><%= @label %></span>
@@ -68,7 +68,7 @@ defmodule AtomicWeb.Components.Table do
             </div>
           </.link>
         <% else %>
-          <%= if is_filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
+          <%= if filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
             <div class="flex justify-between">
               <span><%= @label %></span>
               <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
@@ -167,17 +167,17 @@ defmodule AtomicWeb.Components.Table do
   defp order_direction(nil, _), do: :asc
   defp order_direction(directions, index), do: Enum.at(directions, index)
 
-  defp is_sortable?(nil, _), do: false
-  defp is_sortable?(_, nil), do: true
+  defp sortable?(nil, _), do: false
+  defp sortable?(_, nil), do: true
 
-  defp is_sortable?(field, module) do
+  defp sortable?(field, module) do
     field in (module |> struct() |> Flop.Schema.sortable())
   end
 
-  defp is_filterable?(nil, _), do: false
-  defp is_filterable?(_, nil), do: true
+  defp filterable?(nil, _), do: false
+  defp filterable?(_, nil), do: true
 
-  defp is_filterable?(field, module) do
+  defp filterable?(field, module) do
     field in (module |> struct() |> Flop.Schema.filterable())
   end
 end

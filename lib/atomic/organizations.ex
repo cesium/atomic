@@ -310,14 +310,14 @@ defmodule Atomic.Organizations do
 
     ## Examples
 
-        iex> is_member_of?(user, organization)
+        iex> member_of?(user, organization)
         true
 
-        iex> is_member_of?(user, organization)
+        iex> member_of?(user, organization)
         false
 
   """
-  def is_member_of?(%User{} = user, %Organization{} = organization) do
+  def member_of?(%User{} = user, %Organization{} = organization) do
     Membership
     |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
     |> Repo.exists?()
@@ -351,28 +351,6 @@ defmodule Atomic.Organizations do
     |> case do
       nil -> nil
       membership -> membership.role
-    end
-  end
-
-  @doc """
-  Verifies if an user is an admin or owner of an organization that is organizing an activity.
-
-  ## Examples
-
-      iex> is_admin?(user, departments)
-      true
-
-      iex> is_admin?(user, departments)
-      false
-
-  """
-  def is_admin?(_user, []), do: false
-
-  def is_admin?(user, [department | rest]) do
-    case get_role(user.id, department.organization_id) do
-      :owner -> true
-      :admin -> true
-      _ -> is_admin?(user, rest)
     end
   end
 

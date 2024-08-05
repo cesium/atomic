@@ -162,13 +162,13 @@ defmodule Atomic.Activities do
 
     ## Examples
 
-        iex> is_participating?(activity_id, user_id)
+        iex> participating?(activity_id, user_id)
         true
 
-        iex> is_participating?(activity_id, user_id)
+        iex> participating?(activity_id, user_id)
         false
   """
-  def is_participating?(activity_id, user_id) do
+  def participating?(activity_id, user_id) do
     ActivityEnrollment
     |> where(activity_id: ^activity_id, user_id: ^user_id)
     |> Repo.exists?()
