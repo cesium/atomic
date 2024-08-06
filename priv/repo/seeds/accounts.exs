@@ -7,13 +7,13 @@ defmodule Atomic.Repo.Seeds.Accounts do
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
-  @admins File.read!("priv/fake/admins.txt") |> String.split("\n")
+  @masters File.read!("priv/fake/masters.txt") |> String.split("\n")
   @students File.read!("priv/fake/students.txt") |> String.split("\n")
 
   def run do
     case Repo.all(User) do
       [] ->
-        seed_users(@admins, :admin)
+        seed_users(@masters, :master)
         seed_users(@students, :student)
 
       _ ->

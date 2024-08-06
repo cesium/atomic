@@ -1,4 +1,4 @@
-defmodule Atomic.Activities.ActivityEnrollment do
+defmodule Atomic.Activities.Enrollment do
   @moduledoc """
   An activity enrollment.
   """
@@ -11,7 +11,7 @@ defmodule Atomic.Activities.ActivityEnrollment do
   @required_fields ~w(activity_id user_id)a
   @optional_fields ~w(present)a
 
-  schema "activity_enrollments" do
+  schema "enrollments" do
     field :present, :boolean, default: false
 
     belongs_to :activity, Activity
@@ -33,7 +33,6 @@ defmodule Atomic.Activities.ActivityEnrollment do
     |> validate_required(@required_fields)
   end
 
-  # Validates if the maximum number of enrollments has been reached.
   defp validate_maximum_entries(changeset) do
     activity_id = get_field(changeset, :activity_id)
     activity = Activities.get_activity!(activity_id)

@@ -45,7 +45,7 @@ defmodule AtomicWeb.Plugs.Authorize do
     role = Organizations.get_role(user.id, organization_id)
     allowed_roles = Organizations.roles_bigger_than_or_equal(minimum_authorized_role)
 
-    (organization_id in user_organizations && role in allowed_roles) || user.role == :admin
+    organization_id in user_organizations && role in allowed_roles
   end
 
   defp get_organization_id(conn) do

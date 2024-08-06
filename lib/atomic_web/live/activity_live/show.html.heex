@@ -90,24 +90,6 @@
             </dd>
           </div>
           <div class="col-span-2">
-            <div class="sm:grid sm:grid-cols-1">
-              <%= if @activity.speakers != [] do %>
-                <%= gettext("Speaker") %>
-                <%= for speaker <- @activity.speakers do %>
-                  <div class="flex flex-col border-2 w-52 p-2 mt-2 rounded">
-                    <div class="text-sm font-medium text-zinc-500"></div>
-                    <div class="mt-1 flex items-center">
-                      <.avatar name={speaker.name} size={:xs} color={:light_gray} class="mr-2 inline-flex" />
-                      <.link navigate={Routes.speaker_show_path(@socket, :show, @activity.organization_id, speaker)} class="text-md text-blue-500">
-                        <%= extract_first_last_name(speaker.name) %>
-                      </.link>
-                    </div>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-          <div class="col-span-2">
             <%= if @enrolled? do %>
               <dt class="text-sm font-medium text-zinc-500">
                 <%= gettext("Your already enrolled in the activity, below is your QRCode") %>

@@ -1,6 +1,6 @@
 defmodule Atomic.Organizations.Partner do
   @moduledoc """
-    A partnership between an organization and a partner.
+  Schema representing a partner of an organization.
   """
   use Atomic.Schema
 
@@ -25,14 +25,16 @@ defmodule Atomic.Organizations.Partner do
   schema "partners" do
     field :name, :string
     field :description, :string
+    field :notes, :string
+
     field :benefits, :string
     field :archived, :boolean, default: false
     field :image, Uploaders.PartnerImage.Type
+
     embeds_one :location, Location, on_replace: :update
     embeds_one :socials, Socials, on_replace: :update
-    belongs_to :organization, Organization
 
-    field :notes, :string
+    belongs_to :organization, Organization
 
     timestamps()
   end
@@ -42,7 +44,6 @@ defmodule Atomic.Organizations.Partner do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_embed(:location, with: &Location.changeset/2)
     |> cast_embed(:socials, with: &Socials.changeset/2)
-    |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
   end

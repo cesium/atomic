@@ -1,41 +1,29 @@
 defmodule Atomic.Organizations.Membership do
-  @moduledoc false
+  @moduledoc """
+  Schema representing a user's membership in an organization.
+
+  Memberships are used to track the relationship between a user and an organization.
+
+  Types of memberships:
+    * `owner` - The user has full control over the organization.
+    * `admin` - The user can only control the organization's departments.
+    * `follower` - The user is following the organization.
+
+  This schema can be further extended to include additional roles, such as `member`.
+  """
   use Atomic.Schema
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(user_id organization_id created_by_id role)a
-  @optional_fields ~w(number)a
+  @required_fields ~w(user_id organization_id role)a
+  @optional_fields ~w()a
 
-  @roles ~w(follower member admin owner)a
-
-  @export_fields [
-    [[:number], 10],
-    [[:user, :name], 40],
-    [[:user, :phone_number], 20],
-    [[:user, :email], 30],
-    [[:user, :inserted_at], 30]
-  ]
-
-  @derive {
-    Flop.Schema,
-    filterable: [:member_name, :inserted_at],
-    sortable: [:member_name, :inserted_at, :updated_at, :number],
-    default_order: %{
-      order_by: [:inserted_at],
-      order_directions: [:desc]
-    },
-    join_fields: [
-      member_name: [binding: :user, field: :name, path: [:user, :name]]
-    ]
-  }
+  @roles ~w(follower admin owner)a
 
   schema "memberships" do
-    field :number, :integer, read_after_writes: true
     field :role, Ecto.Enum, values: @roles
 
-    belongs_to :created_by, User
     belongs_to :user, User
     belongs_to :organization, Organization
 
@@ -48,5 +36,5 @@ defmodule Atomic.Organizations.Membership do
     |> validate_required(@required_fields)
   end
 
-  def export_fields, do: @export_fields
+  def roles, do: @roles
 end

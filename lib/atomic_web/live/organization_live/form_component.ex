@@ -1,17 +1,11 @@
 defmodule AtomicWeb.OrganizationLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Activities
   alias Atomic.Organizations
 
   @impl true
   def mount(socket) do
-    speakers = Activities.list_speakers()
-
-    {:ok,
-     socket
-     |> allow_upload(:card, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
-     |> assign(:speakers, speakers)}
+    {:ok, socket}
   end
 
   @impl true
@@ -39,8 +33,6 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   end
 
   defp save_organization(socket, :edit, organization_params) do
-    consume_card_data(socket, socket.assigns.organization)
-
     case Organizations.update_organization(socket.assigns.organization, organization_params) do
       {:ok, _organization} ->
         {:noreply,
@@ -63,25 +55,6 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
-    end
-  end
-
-  defp consume_card_data(socket, organization) do
-    consume_uploaded_entries(socket, :card, fn %{path: path}, entry ->
-      Organizations.update_card_image(organization, %{
-        "card_image" => %Plug.Upload{
-          content_type: entry.client_type,
-          filename: entry.client_name,
-          path: path
-        }
-      })
-    end)
-    |> case do
-      [{:ok, organization}] ->
-        {:ok, organization}
-
-      _errors ->
-        {:ok, organization}
     end
   end
 end

@@ -137,7 +137,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <%= @text %>
       </time>
       <%= if (activities = get_date_activities(@activities, @date)) != [] do %>
-        <span class="sr-only">Enum.count(activities) events</span>
+        <span class="sr-only"><%= Enum.count(activities) %> events</span>
         <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
           <%= for activity <- activities do %>
             <%= if activity do %>

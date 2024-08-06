@@ -75,7 +75,7 @@ defmodule Atomic.OrganizationsTest do
     alias Atomic.Organizations.Membership
 
     test "list_memberships/1 returns all memberships of organization" do
-      membership = insert(:membership, role: :member)
+      membership = insert(:membership, role: :admin)
 
       memberships =
         Organizations.list_memberships(%{"organization_id" => membership.organization_id})
@@ -111,21 +111,20 @@ defmodule Atomic.OrganizationsTest do
       membership = insert(:membership)
 
       attrs = %{
-        number: 42
+        role: :admin
       }
 
       assert {:ok, %Membership{} = membership} =
                Organizations.update_membership(membership, attrs)
 
-      assert membership.number == 42
+      assert membership.role == :admin
     end
 
     test "update_membership/2 with invalid data updates the membership" do
       membership = insert(:membership)
 
       attrs = %{
-        user_id: nil,
-        number: 42
+        user_id: nil
       }
 
       assert {:error, %Ecto.Changeset{}} = Organizations.update_membership(membership, attrs)
@@ -141,62 +140,6 @@ defmodule Atomic.OrganizationsTest do
     test "change_membership/1 returns an membership changeset" do
       membership = insert(:membership)
       assert %Ecto.Changeset{} = Organizations.change_membership(membership)
-    end
-  end
-
-  describe "board" do
-    test "list_users_organizations/2 returns none users organizations" do
-      assert Organizations.list_users_organizations() == []
-    end
-
-    test "list_users_organizations/2 returns all users organizations" do
-      user_organization = insert(:user_organization)
-      organizations = Organizations.list_users_organizations() |> Enum.map(& &1.id)
-
-      assert organizations == [user_organization.id]
-    end
-
-    test "get_user_organization!/2 raises Ecto.NoResultsError" do
-      insert(:user_organization)
-
-      assert_raise Ecto.NoResultsError,
-                   fn -> Organizations.get_user_organization!(Ecto.UUID.generate()) end
-    end
-
-    test "get_user_organization!/2 returns existing user organization" do
-      user_organization = insert(:user_organization)
-
-      assert Organizations.get_user_organization!(user_organization.id).id ==
-               user_organization.id
-    end
-
-    test "update_user_organization/2 updates existing user_organization" do
-      user_organization = insert(:user_organization)
-      board_department = insert(:board_department)
-
-      {:ok, new_user_organization} =
-        Organizations.update_user_organization(user_organization, %{
-          role: "Vice-Presidente",
-          board_departments_id: board_department.id
-        })
-
-      assert new_user_organization.role == "Vice-Presidente"
-    end
-
-    test "delete_user_organization/1 deletes existing user organization" do
-      user_organization = insert(:user_organization)
-
-      assert {:ok, _} = Organizations.delete_user_organization(user_organization)
-      assert Organizations.list_users_organizations() == []
-    end
-
-    test "change_user_organization/2 returns a changeset" do
-      user_organization = insert(:user_organization)
-
-      assert %Ecto.Changeset{} =
-               Organizations.change_user_organization(user_organization, %{
-                 role: "Vice-Presidente"
-               })
     end
   end
 

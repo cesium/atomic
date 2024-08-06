@@ -1,11 +1,9 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Avatar
-
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Activities.ActivityEnrollment
+  alias Atomic.Activities.Enrollment
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -19,7 +17,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:speakers, :organization])
+    activity = Activities.get_activity!(id, [:organization])
 
     {:noreply,
      socket
@@ -37,7 +35,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_event("enroll", _payload, socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {:ok, %ActivityEnrollment{}} ->
+      {:ok, %Enrollment{}} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")

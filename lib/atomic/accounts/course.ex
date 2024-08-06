@@ -1,6 +1,6 @@
 defmodule Atomic.Accounts.Course do
   @moduledoc """
-  A course the user is enrolled in
+  A course the user is enrolled in.
   """
   use Atomic.Schema
 
@@ -12,14 +12,13 @@ defmodule Atomic.Accounts.Course do
   schema "courses" do
     field :name, :string
     field :cycle, Ecto.Enum, values: @cycles
+
     has_many :users, User
 
     timestamps()
   end
 
-  @doc """
-    A changeset for a course.
-  """
+  @doc false
   def changeset(course, attrs) do
     course
     |> cast(attrs, @required_fields)

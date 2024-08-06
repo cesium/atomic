@@ -46,10 +46,6 @@
           </.inputs_for>
         </div>
 
-        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
-          <.live_component module={MultiSelect} id="speakers" items={@speakers} selected_items={@selected_speakers} target={@myself} />
-        </div>
-
         <div class="flex-grow mt-4">
           <.field type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         </div>
