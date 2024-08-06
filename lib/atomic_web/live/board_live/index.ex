@@ -2,13 +2,17 @@ defmodule AtomicWeb.BoardLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Empty
+  import AtomicWeb.Components.Avatar
   import AtomicWeb.Components.Board
   import AtomicWeb.Components.Button
+  import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.Modal
 
   alias Atomic.Accounts
   alias Atomic.Board
   alias Atomic.Ecto.Year
   alias Atomic.Organizations
+  alias Phoenix.LiveView.JS
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,9 +20,18 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+    board_id = Map.get(params, "id")
+    department_id = Map.get(params, "department_id")
+
     current_year = Year.current_year()
-    board = Board.get_organization_board_by_year(current_year, organization_id)
+    boards = Board.list_boards_by_organization_id(organization_id)
+
+    board =
+      case board_id do
+        nil -> Board.get_organization_board_by_year(current_year, organization_id)
+        _ -> Board.get_board!(board_id)
+      end
 
     board_departments =
       case board do
@@ -38,7 +51,11 @@ defmodule AtomicWeb.BoardLive.Index do
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))
      |> assign(:organization, organization)
      |> assign(:role, role)
-     |> assign(:year, current_year)}
+     |> assign(:boards, boards)
+     |> assign(:board, board)
+     |> assign(:params, params)
+     |> assign(:year, current_year)
+     |> assign(:department_id, department_id)}
   end
 
   @impl true
@@ -78,6 +95,23 @@ defmodule AtomicWeb.BoardLive.Index do
   end
 
   @impl true
+  def handle_event("update-selected-board", %{"id" => id}, socket) do
+    board = Board.get_board!(id)
+
+    board_departments =
+      case board do
+        nil -> []
+        _ -> Board.get_board_departments_by_board_id(board.id)
+      end
+
+    {:noreply,
+     socket
+     |> assign(:board_departments, board_departments)
+     |> assign(:empty?, Enum.empty?(board_departments))
+     |> push_patch(to: Routes.board_index_path(socket, :show, socket.assigns.organization.id, id))}
+  end
+
+  @impl true
   def handle_event("update-sorting", %{"ids" => ids}, socket) do
     ids = Enum.filter(ids, fn id -> String.length(id) > 0 end)
 
@@ -90,6 +124,24 @@ defmodule AtomicWeb.BoardLive.Index do
     end)
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:change_collaborator, %{status: status, message: message}}, socket) do
+    {:noreply,
+     socket
+     |> put_flash(status, message)
+     |> assign(:live_action, :show)
+     |> push_patch(
+       to:
+         Routes.department_show_path(
+           socket,
+           :show,
+           socket.assigns.organization,
+           socket.assigns.department,
+           Map.delete(socket.assigns.params, "collaborator_id")
+         )
+     )}
   end
 
   defp has_permissions?(socket, organization_id) do

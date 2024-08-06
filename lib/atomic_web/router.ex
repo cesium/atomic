@@ -111,8 +111,11 @@ defmodule AtomicWeb.Router do
 
         scope "/board" do
           pipe_through :confirm_board_association
-          live "/new", BoardLive.New, :new
-          live "/:id/edit", BoardLive.Edit, :edit
+          # live "/new", BoardLive.New, :new
+          live "/new", BoardLive.Index, :new_board
+          live "/:id/edit", BoardLive.Index, :edit_board
+          live "/:id/department/new", BoardLive.Index, :new_department
+          live "/:id/department/:department_id/edit", BoardLive.Index, :edit_department
         end
 
         scope "/memberships" do
@@ -169,7 +172,7 @@ defmodule AtomicWeb.Router do
         scope "/board" do
           pipe_through :confirm_board_association
           live "/", BoardLive.Index, :index
-          live "/:id", BoardLive.Show, :show
+          live "/:id", BoardLive.Index, :show
         end
 
         scope "/partners" do

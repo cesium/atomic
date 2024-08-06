@@ -127,13 +127,13 @@ defmodule AtomicWeb.Components.Button do
 
   defp icon_content(assigns) do
     ~H"""
-    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
+    <.icon name={@icon} class={generate_icon_classes(assigns)} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
     """
   end
 
   defp spinner_content(assigns) do
     ~H"""
-    <.spinner size_class={"#{generate_icon_classes(assigns)}"} size={@size} />
+    <.spinner size_class={generate_icon_classes(assigns)} size={@size} />
     """
   end
 

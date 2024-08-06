@@ -75,7 +75,7 @@ defmodule Atomic.Repo.Seeds.Memberships do
           %Board{}
           |> Board.changeset(%{
             "organization_id" => organization.id,
-            "year" => Year.current_year()
+            "name" => Year.current_year()
           })
           |> Repo.insert!()
         end

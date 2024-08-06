@@ -87,6 +87,10 @@ defmodule Atomic.Board do
 
   """
   def create_board(attrs \\ %{}) do
+    IO.inspect(attrs)
+    IO.puts("changeset: ")
+    IO.inspect(Board.changeset(%Board{}, attrs))
+
     %Board{}
     |> Board.changeset(attrs)
     |> Repo.insert()
@@ -104,7 +108,7 @@ defmodule Atomic.Board do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_board(%Board{} = board, attrs) do
+  def update_board(board, attrs) do
     board
     |> Board.changeset(attrs)
     |> Repo.update()
@@ -140,7 +144,7 @@ defmodule Atomic.Board do
   end
 
   def get_organization_board_by_year(year, organization_id) do
-    Repo.get_by(Board, year: year, organization_id: organization_id)
+    Repo.get_by(Board, name: year, organization_id: organization_id)
   end
 
   @doc """
@@ -195,11 +199,16 @@ defmodule Atomic.Board do
   end
 
   def get_board_department_users(board_departments_id, opts \\ []) do
-    UserOrganization
-    |> where([u], u.board_departments_id == ^board_departments_id)
-    |> order_by([u], u.priority)
-    |> apply_filters(opts)
-    |> Repo.all()
+    if board_departments_id == nil do
+      []
+    else
+      UserOrganization
+      |> where([u], u.board_departments_id == ^board_departments_id)
+      |> order_by([u], u.priority)
+      |> apply_filters(opts)
+      |> Repo.all()
+      |> Repo.preload(:user)
+    end
   end
 
   @doc """

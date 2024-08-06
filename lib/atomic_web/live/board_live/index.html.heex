@@ -1,47 +1,95 @@
-<div class="bg-white py-8">
-  <ul id="sortable-list" phx-hook="InitSorting" class="flex flex-col mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="flex items-center border-b-2 border-zinc-200 justify-between">
-      <div class="min-w-0 flex flex-row items-center justsiy-center">
-        <.icon name={:arrow_small_left} solid class="cursor-pointer mb-2 mr-2 w-8 h-8 text-zinc-400" phx-click="previous-year" phx-value-organization_id={@organization.id} />
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 mb-2 sm:truncate sm:text-4xl">
-          <%= gettext("Board") %> <%= @year %>
-        </h2>
-        <.icon name={:arrow_small_right} solid class="cursor-pointer mb-2 ml-2 w-8 h-8 text-zinc-400" phx-click="next-year" phx-value-organization_id={@organization.id} />
-      </div>
-      <%= if not @empty? and @has_permissions? do %>
-        <div class="hidden lg:border-orange-500 mb-2 lg:block">
-          <.button navigate={Routes.board_new_path(@socket, :new, @organization)}>
-            + <%= gettext("New Board Member") %>
+<.page title="Board">
+  <:actions>
+    <%= if @has_permissions? do %>
+      <.button icon={:plus} icon_class="stroke-2" patch={Routes.board_index_path(@socket, :new_board, @organization)}>
+        <%= gettext("New Board") %>
+      </.button>
+    <% end %>
+  </:actions>
+  <%= if @has_permissions? do %>
+    <div class="max-w-64 container mx-6 mt-8 flex h-10 flex-row justify-between divide-x overflow-hidden rounded-lg border border-zinc-200 lg:mx-8">
+      <form phx-change="update-selected-board" class="w-full">
+        <select class="w-full border-none" name="id">
+          <%= for board <- @boards do %>
+            <option value={board.id} selected={board.id == @board.id}><%= board.name %></option>
+          <% end %>
+        </select>
+      </form>
+      <span class="flex items-center">
+        <.button patch={Routes.board_index_path(@socket, :edit_board, @organization, @board.id)} color={:light} class="border-none">
+          <.icon name={:pencil} solid class="h-5 w-5 text-zinc-400" />
+        </.button>
+      </span>
+    </div>
+    <%= if not @empty? do %>
+      <div class="border-zinc-30 container mx-6 mt-4 w-auto divide-y overflow-hidden rounded-lg border lg:mx-8">
+        <div class="flex flex-row justify-between items-center bg-zinc-50 p-2">
+          <span><%= length(@board_departments) %> departments in your organization</span>
+          <.button patch={Routes.board_index_path(@socket, :new_department, @organization, @board.id)} color={:light} variant={:outline}>
+            <.icon name={:plus} solid class="h-4 w-4 text-zinc-400" />
           </.button>
         </div>
-      <% end %>
-    </div>
-    <%= if @empty? and @has_permissions? do %>
-      <div class="mt-32">
-        <.empty_state url={Routes.board_new_path(@socket, :new, @organization)} placeholder="board member" />
+        <ul id="sortable-list" phx-hook="InitSorting" class="flex max-w-7xl flex-col divide-y">
+          <%= for board_department <- @board_departments do %>
+            <li id={"board-department-#{board_department.id}"} class="flex max-w-full flex-row gap-x-5 p-2 text-center lg:mx-0 lg:max-w-none">
+              <div class="flex w-full justify-between">
+                <div class="flex flex-row items-center space-x-4">
+                    <span class="handle cursor-row-resize">
+                      <.icon name={:bars_3} solid class="h-5 w-5 text-zinc-400" />
+                    </span>
+                  <h1 class="w-fit text-left text-lg tracking-tight text-zinc-900 sm:text-md"><%= board_department.name %></h1>
+                </div>
+                <div class="relative hidden md:block">
+                  <div class="container justify-center">
+                    <div class="flex flex-wrap justify-items-end">
+                      <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) |> Enum.take(4) do %>
+                        <.avatar class="mx-auto ring-1 ring-white" color={:light_gray} name={user_organization.user.name} size={:xs} src={Uploaders.ProfilePicture.url({user_organization.user.profile_picture, user_organization.user}, :original)} />
+                      <% end %>
+                      <%= if length(Board.get_board_department_users(board_department.id, preloads: [:user])) > 4 do %>
+                        <%!-- Uncomment this after improve departments pages is merged (auto_generate_initials) --%>
+                        <%!-- <.avatar name={"+#{length(Board.get_board_department_users(board_department.id, preloads: [:user])) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" /> --%>
+                        <.avatar name={"+#{length(Board.get_board_department_users(board_department.id, preloads: [:user])) - 4}"} size={:xs} color={:light_gray} class="ring-1 ring-white" />
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="whitespace-nowrap flex items-center justify-center">
+                <%= length(Board.get_board_department_users(board_department.id, preloads: [:user])) %> members
+              </span>
+              <.button patch={Routes.board_index_path(@socket, :edit_department, @organization, @board.id, board_department, @params)} color={:light} class="max-h-8">
+                <span class="h-4 w-4 select-none">
+                  <.icon name={:pencil} />
+                </span>
+              </.button>
+            </li>
+          <% end %>
+        </ul>
       </div>
     <% else %>
-      <%= for board_department <- @board_departments do %>
-        <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none" draggable="true">
-          <div class="flex flex-row items-center space-x-8">
-            <%= if @role in [:owner, :admin] do %>
-              <span class="handle cursor-row-resize">
-                <.icon name={:bars_3} solid class="w-5 h-5 text-zinc-400" />
-              </span>
-            <% end %>
-            <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
-          </div>
-          <div class="relative mb-10 lg:gap-x-24 ">
-            <div class="justify-center container mx-auto pt-5">
-              <div class="flex flex-wrap justify-center">
-                <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
-                  <.member_bubble user_organization={user_organization} />
-                <% end %>
-              </div>
+      <div cass="flex flex-col justify-items-center items-center">
+        <.empty_state url={Routes.board_index_path(@socket, :new_department, @organization, @board)} placeholder="board member" />
+      </div>
+    <% end %>
+  <% else %>
+    <%= for board_department <- @board_departments do %>
+      <li id={"board-department-#{board_department.id}"} class="mt-5 max-w-full gap-x-8 text-center lg:mx-0 lg:max-w-none">
+        <div class="flex flex-row items-center space-x-8">
+          <h1 class="w-fit text-xl font-bold tracking-tight text-zinc-900 sm:text-xl"><%= board_department.name %></h1>
+        </div>
+        <div class="relative mb-10 lg:gap-x-24">
+          <div class="container mx-auto justify-center pt-5">
+            <div class="flex flex-wrap justify-center">
+              <%= for user_organization <- Board.get_board_department_users(board_department.id, preloads: [:user]) do %>
+                <.member_bubble user_organization={user_organization} />
+              <% end %>
             </div>
           </div>
-        </li>
-      <% end %>
+        </div>
+      </li>
     <% end %>
-  </ul>
-</div>
+  <% end %>
+</.page>
+<.modal :if={@live_action in [:new_board, :edit_board, :new_department, :edit_department]} id="board-modal" show on_cancel={JS.patch(Routes.board_index_path(@socket, :show, @organization, @board))}>
+  <.live_component module={AtomicWeb.BoardLive.FormComponent} organization_id={@organization.id} department_id={@department_id} board={@board} id="board-forms" action={@live_action} title={@page_title} return_to={Routes.board_index_path(@socket, :show, @current_organization, @board)} />
+</.modal>
