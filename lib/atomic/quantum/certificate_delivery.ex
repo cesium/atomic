@@ -16,7 +16,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   alias Atomic.Mailer
   alias Atomic.Repo
-  alias Atomic.Activities.{Activity, ActivityEnrollment}
+  alias Atomic.Activities.{Activity, Enrollment}
   alias Atomic.Organizations.Organization
   alias AtomicWeb.ActivityEmails
 
@@ -66,7 +66,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
   defp generate_certificate(
-         %ActivityEnrollment{} = enrollment,
+         %Enrollment{} = enrollment,
          %Activity{} = activity,
          %Organization{} = organization
        ) do
@@ -127,7 +127,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
   defp included_enrollments do
     enrollments =
       from s in subquery(last_activities_query()),
-        inner_join: e in ActivityEnrollment,
+        inner_join: e in Enrollment,
         on: e.activity_id == s.activity_id,
         where: e.present,
         select: e

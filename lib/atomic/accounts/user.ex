@@ -1,18 +1,22 @@
 defmodule Atomic.Accounts.User do
   @moduledoc """
   A user of the application capable of authenticating.
+
+  Types of users:
+
+  * `master` - A user who has full access over the application.
+  * `student` - A simple user of the application. That can be, for example, owner of an organization.
   """
   use Atomic.Schema
 
   alias Atomic.Accounts.Course
-  alias Atomic.Activities.ActivityEnrollment
-  alias Atomic.Organizations.{Membership, Organization}
-  alias Atomic.Uploaders.ProfilePicture
+  alias Atomic.Activities.Enrollment
+  alias Atomic.Organizations.{Collaborator, Membership, Organization}
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name slug role phone_number confirmed_at course_id current_organization_id)a
+  @optional_fields ~w(name slug role confirmed_at phone_number course_id current_organization_id)a
 
-  @roles ~w(admin student)a
+  @roles ~w(master student)a
 
   @derive {Phoenix.Param, key: :slug}
 
@@ -20,17 +24,21 @@ defmodule Atomic.Accounts.User do
     field :name, :string
     field :email, :string
     field :slug, :string
+    field :role, Ecto.Enum, values: @roles, default: :student
+
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
-    field :confirmed_at, :naive_datetime
 
+    field :confirmed_at, :naive_datetime
     field :phone_number, :string
-    field :profile_picture, ProfilePicture.Type
-    field :role, Ecto.Enum, values: @roles, default: :student
+    field :profile_picture, Uploaders.ProfilePicture.Type
+
     belongs_to :course, Course
     belongs_to :current_organization, Organization
 
-    has_many :activity_enrollments, ActivityEnrollment
+    has_many :enrollments, Enrollment
+    has_many :collaborators, Collaborator
+
     many_to_many :organizations, Organization, join_through: Membership
 
     timestamps()
@@ -223,4 +231,6 @@ defmodule Atomic.Accounts.User do
       add_error(changeset, :current_password, "is not valid")
     end
   end
+
+  def roles, do: @roles
 end

@@ -552,7 +552,7 @@ defmodule Atomic.Accounts do
   """
   def has_master_permissions?(user_id) do
     user = get_user!(user_id)
-    user.role in [:admin]
+    user.role == :master
   end
 
   alias Atomic.Organizations

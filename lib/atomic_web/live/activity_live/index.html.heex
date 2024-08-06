@@ -51,7 +51,7 @@
                   <div class="lg:flex lg:space-x-3">
                     <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                       <.icon name={:users} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
-                      <%= Enum.count(activity.activity_enrollments) %> / <%= activity.maximum_entries %>
+                      <%= Enum.count(activity.enrollments) %> / <%= activity.maximum_entries %>
                     </p>
                     <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                       <.icon name={:calendar} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" />
@@ -77,16 +77,6 @@
                       <.icon name={:bell} solid class="flex-shrink-0 mr-1.5 w-5 h-5 text-zinc-400" /> Closed
                     </div>
                   <% end %>
-                  <div class="flex flex-row space-x-2">
-                    <%= for speaker <- activity.speakers do %>
-                      <div class="mt-2 flex items-center">
-                        <.avatar name={speaker.name} size={:xs} color={:light_gray} class="!w-6 !h-6 mr-1.5" />
-                        <p class="text-sm text-zinc-500">
-                          <%= extract_first_last_name(speaker.name) %>
-                        </p>
-                      </div>
-                    <% end %>
-                  </div>
                 </div>
               </div>
             </.link>

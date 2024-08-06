@@ -10,7 +10,7 @@ defmodule Atomic.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      preferred_cli_env: [check: :test]
+      preferred_cli_env: [check: :test, ci: :test]
     ]
   end
 
@@ -119,6 +119,12 @@ defmodule Atomic.MixProject do
         "deps.unlock --check-unused",
         "test",
         "lint"
+      ],
+      ci: [
+        "compile",
+        "format --check-formatted",
+        "lint",
+        "test"
       ]
     ]
   end

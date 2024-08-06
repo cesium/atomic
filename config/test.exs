@@ -31,3 +31,6 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Other configurations for the app
+config :pdf_generator, raise_on_missing_wkhtmltopdf_binary: false

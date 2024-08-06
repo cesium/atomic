@@ -92,7 +92,6 @@ defmodule AtomicWeb do
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
       import Phoenix.Component
-      import AtomicWeb.LiveHelpers
 
       # Import commonly used components
       unquote(components())

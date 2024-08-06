@@ -10,6 +10,16 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
   end
 
   @impl true
+  def handle_event("delete", _params, socket) do
+    Organizations.delete_announcement(socket.assigns.announcement)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, gettext("Announcement deleted successfully"))
+     |> push_navigate(to: Routes.announcement_index_path(socket, :index))}
+  end
+
+  @impl true
   def handle_params(%{"organization_id" => _organization_id, "id" => id}, _, socket) do
     announcement = Organizations.get_announcement!(id)
 

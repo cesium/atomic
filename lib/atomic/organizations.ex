@@ -6,7 +6,9 @@ defmodule Atomic.Organizations do
 
   alias Atomic.Accounts.User
   alias Atomic.Feed.Post
-  alias Atomic.Organizations.{Announcement, Membership, Organization, UserOrganization}
+  alias Atomic.Organizations.{Announcement, Membership, Organization}
+
+  ## Organizations
 
   @doc """
   Returns the list of organizations.
@@ -205,24 +207,6 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Updates an organization card image.
-
-  ## Examples
-
-      iex> update_card_image(organization, %{card_image: new_value})
-      {:ok, %Organization{}}
-
-      iex> update_card_image(organization, %{card_image: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_card_image(%Organization{} = organization, attrs) do
-    organization
-    |> Organization.card_changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes a organization.
 
   ## Examples
@@ -250,6 +234,8 @@ defmodule Atomic.Organizations do
   def change_organization(%Organization{} = organization, attrs \\ %{}) do
     Organization.changeset(organization, attrs)
   end
+
+  ## Memberships
 
   @doc """
   Creates a membership.
@@ -297,27 +283,19 @@ defmodule Atomic.Organizations do
     |> Repo.all()
   end
 
-  def list_display_memberships(%{} = flop, opts \\ []) do
-    Membership
-    |> join(:left, [o], p in assoc(o, :user), as: :user)
-    |> where([a], a.role != :follower)
-    |> apply_filters(opts)
-    |> Flop.validate_and_run(flop, for: Membership)
-  end
-
   @doc """
     Verifies if an user is a member of an organization.
 
     ## Examples
 
-        iex> is_member_of?(user, organization)
+        iex> member_of?(user, organization)
         true
 
-        iex> is_member_of?(user, organization)
+        iex> member_of?(user, organization)
         false
 
   """
-  def is_member_of?(%User{} = user, %Organization{} = organization) do
+  def member_of?(%User{} = user, %Organization{} = organization) do
     Membership
     |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
     |> Repo.exists?()
@@ -330,9 +308,6 @@ defmodule Atomic.Organizations do
 
       iex> get_role(user_id, organization_id)
       :follower
-
-      iex> get_role(user_id, organization_id)
-      :member
 
       iex> get_role(user_id, organization_id)
       :admin
@@ -351,28 +326,6 @@ defmodule Atomic.Organizations do
     |> case do
       nil -> nil
       membership -> membership.role
-    end
-  end
-
-  @doc """
-  Verifies if an user is an admin or owner of an organization that is organizing an activity.
-
-  ## Examples
-
-      iex> is_admin?(user, departments)
-      true
-
-      iex> is_admin?(user, departments)
-      false
-
-  """
-  def is_admin?(_user, []), do: false
-
-  def is_admin?(user, [department | rest]) do
-    case get_role(user.id, department.organization_id) do
-      :owner -> true
-      :admin -> true
-      _ -> is_admin?(user, rest)
     end
   end
 
@@ -470,32 +423,16 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns all roles lower or equal to the given role.
-
-  Follower is not considered a role for the purposes of this function
-
-  ## Examples
-
-      iex> roles_less_than_or_equal(:member)
-      [:member]
-
-  """
-  def roles_less_than_or_equal(role) do
-    [:follower, :member, :admin, :owner]
-    |> Enum.drop_while(fn elem -> elem != role end)
-  end
-
-  @doc """
   Returns all roles bigger or equal to the given role.
 
   ## Examples
 
-      iex> roles_bigger_than_or_equal(:member)
-      [:member, :admin, :owner]
+      iex> roles_bigger_than_or_equal(:follower)
+      [:follower, :admin, :owner]
 
   """
   def roles_bigger_than_or_equal(role) do
-    [:follower, :member, :admin, :owner]
+    Membership.roles()
     |> Enum.drop_while(fn elem -> elem != role end)
   end
 
@@ -514,109 +451,6 @@ defmodule Atomic.Organizations do
     Membership
     |> where([m], m.organization_id == ^organization_id and m.role == :follower)
     |> Repo.aggregate(:count, :id)
-  end
-
-  @doc """
-  Returns the list of users organizations.
-
-  ## Examples
-
-      iex> list_users_organizations()
-      [%UserOrganization{}, ...]
-
-      iex> list_users_organizations()
-      [%UserOrganization{}, ...]
-
-  """
-  def list_users_organizations(opts \\ [], preloads \\ []) do
-    UserOrganization
-    |> apply_filters(opts)
-    |> Repo.all()
-    |> Repo.preload(preloads)
-  end
-
-  @doc """
-  Gets a single user organization.
-
-  Raises `Ecto.NoResultsError` if the user organization does not exist.
-
-  ## Examples
-
-      iex> get_user_organization!(123)
-      %UserOrganization{}
-
-      iex> get_user_organization!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_user_organization!(id, preloads \\ []) do
-    Repo.get!(UserOrganization, id)
-    |> Repo.preload(preloads)
-  end
-
-  @doc """
-  Creates an user organization.
-
-  ## Examples
-
-      iex> create_user_organization(%{field: value})
-      {:ok, %UserOrganization{}}
-
-      iex> create_user_organization(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_user_organization(attrs) do
-    %UserOrganization{}
-    |> UserOrganization.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates an user organization.
-
-  ## Examples
-
-      iex> update_user_organization(user_organization, %{field: new_value})
-      {:ok, %UserOrganization{}}
-
-      iex> update_user_organization(user_organization, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_user_organization(%UserOrganization{} = user_organization, attrs) do
-    user_organization
-    |> UserOrganization.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes an user organization.
-
-  ## Examples
-
-      iex> delete_user_organization(user_organization)
-      {:ok, %UserOrganization{}}
-
-      iex> delete_user_organization(user_organization)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_user_organization(%UserOrganization{} = user_organization) do
-    Repo.delete(user_organization)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user_organization changes.
-
-  ## Examples
-
-      iex> change_user_organization(user_organization)
-      %Ecto.Changeset{data: %UserOrganization{}}
-
-  """
-  def change_user_organization(%UserOrganization{} = user_organization, attrs \\ %{}) do
-    UserOrganization.changeset(user_organization, attrs)
   end
 
   @doc """

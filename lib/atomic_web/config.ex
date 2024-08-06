@@ -53,14 +53,7 @@ defmodule AtomicWeb.Config do
           key: :memberships,
           title: "Memberships",
           icon: :user_plus,
-          url: Routes.membership_index_path(conn, :index, current_organization.id),
-          tabs: []
-        },
-        %{
-          key: :board,
-          title: "Board",
-          icon: :users,
-          url: Routes.board_index_path(conn, :index, current_organization.id),
+          url: Routes.home_index_path(conn, :index),
           tabs: []
         },
         %{
