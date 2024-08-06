@@ -36,16 +36,16 @@ defmodule AtomicWeb.Plugs.Authorize do
         false
 
       {id, user} ->
-        user_authorized?(user, id, minimum_authorized_role)
+        user_can_manage_organization?(user, id, minimum_authorized_role)
     end
   end
 
-  defp user_authorized?(user, organization_id, minimum_authorized_role) do
+  defp user_can_manage_organization?(user, organization_id, minimum_authorized_role) do
     user_organizations = Enum.map(user.organizations, & &1.id)
     role = Organizations.get_role(user.id, organization_id)
     allowed_roles = Organizations.roles_bigger_than_or_equal(minimum_authorized_role)
 
-    organization_id in user_organizations && role in allowed_roles
+    (organization_id in user_organizations && role in allowed_roles) || user.role == :master
   end
 
   defp get_organization_id(conn) do

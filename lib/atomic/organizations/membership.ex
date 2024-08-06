@@ -6,7 +6,7 @@ defmodule Atomic.Organizations.Membership do
 
   Types of memberships:
     * `owner` - The user has full control over the organization.
-    * `admin` - The user can only control the organization's departments.
+    * `admin` - The user can control the organization's departments, activities and partners.
     * `follower` - The user is following the organization.
 
   This schema can be further extended to include additional roles, such as `member`.
