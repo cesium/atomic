@@ -34,12 +34,12 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
             </.button>
           </div>
         </div>
-        <div class="mt-1 flex flex-row items-center">
+        <div class="mt-2 flex flex-row items-center">
           <p class="text-sm text-zinc-400">
             <%= @organization.long_name %>
           </p>
         </div>
-        <ul role="list" class="mt-1 flex space-x-6">
+        <ul role="list" class="mt-1 flex flex-col md:flex-row space-y-1 md:space-x-6">
           <li class="flex items-center space-x-1">
             <.icon name={:users} outline class="h-4 w-4" />
             <p class="text-sm">
