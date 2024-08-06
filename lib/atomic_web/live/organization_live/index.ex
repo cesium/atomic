@@ -8,9 +8,11 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    form = to_form(%{}, as: "search")
+
     {:ok,
      socket
-     |> assign(:form, to_form(%{"search" => ""}))
+     |> assign(:form, form)
      |> assign(:query, "")}
   end
 
@@ -23,7 +25,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
      |> assign(:page_title, "Organizations")
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
-     |> assign(:organizations, organizations)
+     |> stream(:organizations, organizations)
      |> assign(:meta, meta)
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
@@ -35,7 +37,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply,
      socket
      |> assign(:query, query)
-     |> assign(:organizations, organizations)
+     |> stream(:organizations, organizations, reset: true)
      |> assign(:meta, meta)}
   end
 

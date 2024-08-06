@@ -11,7 +11,7 @@
     </.form>
 
     <ul role="list" class="space-y-6">
-      <li :for={organization <- @organizations}>
+      <li :for={{id, organization} <- @streams.organizations} id={id}>
         <.link navigate={"/organizations/#{organization.id}"}>
           <.organization_card organization={organization} />
         </.link>
@@ -19,5 +19,5 @@
     </ul>
   </div>
 
-  <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+  <.pagination items={@streams.organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
 </.page>
