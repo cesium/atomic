@@ -3,9 +3,8 @@ defmodule Atomic.ActivitiesTest do
   use Atomic.DataCase
 
   alias Atomic.Activities
+
   import Atomic.Factory
-  import Atomic.ActivitiesFixtures
-  alias Atomic.OrganizationsFixtures
 
   describe "activities" do
     alias Atomic.Activities.Activity
@@ -77,9 +76,7 @@ defmodule Atomic.ActivitiesTest do
   end
 
   describe "enrollments" do
-    alias Atomic.Activities.ActivityEnrollment
-
-    @invalid_attrs %{}
+    alias Atomic.Activities.Enrollment
 
     test "list_enrollments/0 returns all enrollments" do
       enrollment = insert(:enrollment)
@@ -96,7 +93,7 @@ defmodule Atomic.ActivitiesTest do
       user = insert(:user)
       activity = insert(:activity)
 
-      assert {:ok, %ActivityEnrollment{}} = Activities.create_enrollment(activity.id, user)
+      assert {:ok, %Enrollment{}} = Activities.create_enrollment(activity.id, user)
       assert Activities.get_activity!(activity.id).enrolled == 1
     end
 
@@ -104,7 +101,7 @@ defmodule Atomic.ActivitiesTest do
       enrollment = insert(:enrollment)
       update_attrs = %{present: true}
 
-      assert {:ok, %ActivityEnrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
+      assert {:ok, %Enrollment{}} = Activities.update_enrollment(enrollment, update_attrs)
     end
 
     test "delete_enrollment/1 deletes the enrollment" do
@@ -116,64 +113,6 @@ defmodule Atomic.ActivitiesTest do
     test "change_enrollment/1 returns a enrollment changeset" do
       enrollment = insert(:enrollment)
       assert %Ecto.Changeset{} = Activities.change_enrollment(enrollment)
-    end
-  end
-
-  describe "speakers" do
-    alias Atomic.Activities.Speaker
-
-    @invalid_attrs %{bio: nil, name: nil}
-
-    test "list_speakers/0 returns all speakers" do
-      speaker = speaker_fixture()
-      assert Activities.list_speakers() == [speaker]
-    end
-
-    test "get_speaker!/1 returns the speaker with given id" do
-      speaker = speaker_fixture()
-      assert Activities.get_speaker!(speaker.id) == speaker
-    end
-
-    test "create_speaker/1 with valid data creates a speaker" do
-      valid_attrs = %{
-        bio: "some bio",
-        name: "some name",
-        organization_id: OrganizationsFixtures.organization_fixture().id
-      }
-
-      assert {:ok, %Speaker{} = speaker} = Activities.create_speaker(valid_attrs)
-      assert speaker.bio == "some bio"
-      assert speaker.name == "some name"
-    end
-
-    test "create_speaker/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Activities.create_speaker(@invalid_attrs)
-    end
-
-    test "update_speaker/2 with valid data updates the speaker" do
-      speaker = speaker_fixture()
-      update_attrs = %{bio: "some updated bio", name: "some updated name"}
-
-      assert {:ok, %Speaker{} = speaker} = Activities.update_speaker(speaker, update_attrs)
-      assert speaker.bio == "some updated bio"
-      assert speaker.name == "some updated name"
-    end
-
-    test "update_speaker/2 with invalid data returns error changeset" do
-      speaker = speaker_fixture()
-      assert {:error, %Ecto.Changeset{}} = Activities.update_speaker(speaker, @invalid_attrs)
-      assert speaker == Activities.get_speaker!(speaker.id)
-    end
-
-    test "delete_speaker/1 deletes the speaker" do
-      speaker = speaker_fixture()
-      assert {:ok, %Speaker{}} = Activities.delete_speaker(speaker)
-      assert_raise Ecto.NoResultsError, fn -> Activities.get_speaker!(speaker.id) end
-    end
-
-    test "change_speaker/1 returns a speaker changeset" do
-      speaker = speaker_fixture()
-      assert %Ecto.Changeset{} = Activities.change_speaker(speaker)
     end
   end
 end

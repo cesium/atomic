@@ -1,6 +1,7 @@
 defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
   @moduledoc false
   use AtomicWeb, :live_component
+
   import AtomicWeb.Components.Avatar
 
   alias Atomic.Organizations

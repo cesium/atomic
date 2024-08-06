@@ -1,8 +1,9 @@
 defmodule Atomic.Organizations.Department do
   @moduledoc """
-    A department of an organization
+  A department of an organization.
   """
   use Atomic.Schema
+
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(name organization_id)a
@@ -11,9 +12,11 @@ defmodule Atomic.Organizations.Department do
   schema "departments" do
     field :name, :string
     field :description, :string
-    field :banner, Atomic.Uploaders.Banner.Type
+
     field :collaborator_applications, :boolean, default: false
     field :archived, :boolean, default: false
+
+    field :banner, Atomic.Uploaders.Banner.Type
 
     belongs_to :organization, Organization, on_replace: :delete_if_exists
 

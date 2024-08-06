@@ -105,8 +105,6 @@
         <.avatar name={person.name} size={:sm} color={:light_gray} />
       <% end %>
     </div>
-    <.link navigate={Routes.board_index_path(@socket, :index, @organization.id)} class="hover:underline text-blue-500">
-      <%= gettext("View all") %>
-    </.link>
+    <%= gettext("View all") %>
   </div>
 </div>
