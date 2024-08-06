@@ -1,23 +1,23 @@
 <.page title={@page_title}>
-  <:actions>
-    <%= if @has_permissions? do %>
-      <.button patch="/" icon={:plus}>
-        <%= gettext("New") %>
-      </.button>
-    <% end %>
+  <:actions :if={@has_permissions?}>
+    <.button patch="/" icon={:plus}>
+      <%= gettext("New") %>
+    </.button>
   </:actions>
-  <!-- Organizations index -->
+
   <div class="flex flex-col mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-    <.field phx-mounted={JS.focus()} type="search" name="search" value="" label="" placeholder={"#{gettext("Search for an organization")}..."} />
+    <.form id="search-form" for={@form} phx-change="search">
+      <.field phx-mounted={JS.focus()} value={@query} type="search" name="search" placeholder={"#{gettext("Search for an organization")}..."} />
+    </.form>
+
     <ul role="list" class="space-y-6">
-      <%= for organization <- @organizations do %>
-        <li>
-          <.link navigate="/">
-            <.organization_card organization={organization} />
-          </.link>
-        </li>
-      <% end %>
+      <li :for={organization <- @organizations}>
+        <.link navigate={"/organizations/#{organization.id}"}>
+          <.organization_card organization={organization} />
+        </.link>
+      </li>
     </ul>
   </div>
+
   <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
 </.page>

@@ -12,7 +12,7 @@ defmodule Atomic.Organizations.Organization do
 
   @derive {
     Flop.Schema,
-    filterable: [],
+    filterable: [:name],
     sortable: [:name],
     compound_fields: [search: [:name]],
     default_order: %{

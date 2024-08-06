@@ -23,6 +23,7 @@ defmodule AtomicWeb do
 
       import Plug.Conn
       import AtomicWeb.Gettext
+
       alias AtomicWeb.Router.Helpers, as: Routes
     end
   end
@@ -92,6 +93,8 @@ defmodule AtomicWeb do
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
       import Phoenix.Component
+
+      alias Phoenix.LiveView.JS
 
       # Import commonly used components
       unquote(components())

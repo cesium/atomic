@@ -1,0 +1,9 @@
+<.page title={@page_title}>
+  <:actions :if={@has_permissions?}>
+    <.button patch="/" icon={:pencil}>
+      <%= gettext("Edit") %>
+    </.button>
+  </:actions>
+
+  <%= @organization.name %>
+</.page>

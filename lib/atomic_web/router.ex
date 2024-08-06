@@ -92,7 +92,10 @@ defmodule AtomicWeb.Router do
       live "/", HomeLive.Index, :index
       live "/calendar", CalendarLive.Show, :show
       live "/activities", ActivityLive.Index, :index
+
       live "/organizations", OrganizationLive.Index, :index
+      live "/organizations/:id", OrganizationLive.Show, :show
+
       live "/announcements", AnnouncementLive.Index, :index
 
       live "/activities/:id", ActivityLive.Show, :show
