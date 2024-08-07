@@ -74,6 +74,28 @@ else
   log_warn ".env.${ENV} file already exists, skipping..."
 fi
 
+log_info "pre-commit" "Installing pre-commit hooks..."
+
+PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -z "$PROJECT_ROOT" ]; then
+    log_info "error" "Could not find the project root with a .git directory."
+    exit 1
+fi
+
+SOURCE_PATH="$SCRIPT_DIR/pre-commit.sh"
+DESTINATION_PATH="$PROJECT_ROOT/.git/hooks/pre-commit"
+
+if [ ! -f "$DESTINATION_PATH" ]; then
+    cp "$SOURCE_PATH" "$DESTINATION_PATH"
+    chmod +x "$DESTINATION_PATH"
+    log_info "pre-commit" "Pre-commit hook installed successfully."
+else
+    log_info "pre-commit" "A pre-commit hook already exists at $DESTINATION_PATH. Installation skipped."
+fi
+
 if [ $MODE == "local" ]; then
   log_info "setup" "Installing required languages..."
   if not_installed "asdf"; then

@@ -11,7 +11,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:speakers, :organization])
+    activity = Activities.get_activity!(id, [:organization])
 
     {:noreply,
      socket

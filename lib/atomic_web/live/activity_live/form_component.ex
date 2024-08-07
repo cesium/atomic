@@ -3,21 +3,18 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   alias Atomic.Activities
   alias Atomic.Uploader
-  alias AtomicWeb.Components.{ImageUploader, MultiSelect}
+  alias AtomicWeb.Components.ImageUploader
 
   import AtomicWeb.Components.Forms
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do
     changeset = Activities.change_activity(activity)
-    speakers = list_speakers(assigns)
 
     {:ok,
      socket
      |> assign(assigns)
      |> assign_form(changeset)
-     |> assign(:speakers, speakers)
-     |> assign(:selected_speakers, Enum.count(speakers, & &1.selected))
      |> allow_upload(:image, accept: Uploader.extensions_whitelist(), max_entries: 1)}
   end
 
@@ -33,38 +30,11 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("save", %{"activity" => activity_params}, socket) do
-    speakers =
-      List.foldl(socket.assigns.speakers, [], fn speaker, acc ->
-        if speaker.selected do
-          [speaker.id | acc]
-        else
-          acc
-        end
-      end)
-
     activity_params =
       activity_params
-      |> Map.put("speakers", speakers)
       |> Map.put("organization_id", socket.assigns.current_organization.id)
 
     save_activity(socket, socket.assigns.action, activity_params)
-  end
-
-  @impl true
-  def handle_event("toggle-option", %{"id" => id}, socket) do
-    updated_speakers =
-      Enum.map(socket.assigns.speakers, fn option ->
-        if option.id == id do
-          %{option | selected: !option.selected}
-        else
-          option
-        end
-      end)
-
-    {:noreply,
-     socket
-     |> assign(:speakers, updated_speakers)
-     |> assign(:selected_speakers, Enum.count(updated_speakers, & &1.selected))}
   end
 
   @impl true
@@ -119,24 +89,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
       _errors ->
         {:ok, activity}
     end
-  end
-
-  defp list_speakers(assigns) do
-    activity = assigns.activity
-
-    organization_speakers =
-      Activities.list_speakers_by_organization_id(assigns.current_organization.id)
-
-    Enum.map(organization_speakers, fn s ->
-      selected =
-        if(is_list(activity.speakers), do: Enum.member?(activity.speakers, s), else: false)
-
-      %{
-        id: s.id,
-        label: s.name,
-        selected: selected
-      }
-    end)
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do

@@ -8,7 +8,7 @@ defmodule Atomic.Organizations.Announcement do
   alias Atomic.Organizations.Organization
 
   @required_fields ~w(title description organization_id)a
-  @optional_fields ~w(image)a
+  @optional_fields ~w()a
 
   @derive {
     Flop.Schema,

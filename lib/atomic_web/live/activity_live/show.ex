@@ -6,7 +6,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Activities
-  alias Atomic.Activities.ActivityEnrollment
+  alias Atomic.Activities.Enrollment
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
@@ -20,7 +20,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    activity = Activities.get_activity!(id, [:speakers, :organization])
+    activity = Activities.get_activity!(id, [:organization])
 
     {:noreply,
      socket
@@ -38,7 +38,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def handle_event("enroll", _payload, socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {:ok, %ActivityEnrollment{}} ->
+      {:ok, %Enrollment{}} ->
         {:noreply,
          socket
          |> put_flash(:success, "Enrolled successufully!")
@@ -99,7 +99,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp maybe_put_enrolled(socket) do
-    Activities.is_participating?(socket.assigns.id, socket.assigns.current_user.id)
+    Activities.participating?(socket.assigns.id, socket.assigns.current_user.id)
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false

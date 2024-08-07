@@ -7,7 +7,7 @@ defmodule Atomic.Factories.AccountFactory do
 
   defmacro __using__(_opts) do
     quote do
-      @roles ~w(admin student)a
+      @roles User.roles()
 
       def user_factory do
         %User{

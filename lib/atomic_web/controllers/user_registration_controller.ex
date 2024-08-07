@@ -9,7 +9,7 @@ defmodule AtomicWeb.UserRegistrationController do
 
     conn =
       conn
-      |> assign(:roles, ~w(admin student)a)
+      |> assign(:roles, User.roles())
 
     render(conn, "new.html", changeset: changeset)
   end

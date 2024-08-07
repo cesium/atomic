@@ -2,7 +2,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   @moduledoc false
   use AtomicWeb, :component
 
-  alias AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion
+  alias __MODULE__.Suggestion
 
   attr :current_user, :map,
     required: true,

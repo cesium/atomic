@@ -3,7 +3,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
   import AtomicWeb.ActivityLive.Components.ActivityCard
-
+  
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Organizations
@@ -44,7 +44,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_organization_activities(socket, params) do
     case Activities.list_organization_activities(socket.assigns.current_organization.id, params,
-           preloads: [:speakers, :activity_enrollments, :organization]
+           preloads: [:enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -56,7 +56,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_discover_activities(_socket, params) do
     case Activities.list_upcoming_activities(params,
-           preloads: [:speakers, :activity_enrollments, :organization]
+           preloads: [:enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -71,7 +71,7 @@ defmodule AtomicWeb.ActivityLive.Index do
       Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
 
     case Activities.list_organizations_activities(organizations, params,
-           preloads: [:speakers, :activity_enrollments, :organization]
+           preloads: [:enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -83,7 +83,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_enrolled_activities(socket, params) do
     case Activities.list_upcoming_user_activities(socket.assigns.current_user.id, params,
-           preloads: [:speakers, :activity_enrollments, :organization]
+           preloads: [:enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}
@@ -95,7 +95,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   defp list_past_activities(socket, params) do
     case Activities.list_past_user_activities(socket.assigns.current_user.id, params,
-           preloads: [:speakers, :activity_enrollments, :organization]
+           preloads: [:enrollments, :organization]
          ) do
       {:ok, {activities, meta}} ->
         %{activities: activities, meta: meta}

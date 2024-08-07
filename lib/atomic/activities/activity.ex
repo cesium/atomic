@@ -4,21 +4,13 @@ defmodule Atomic.Activities.Activity do
   """
   use Atomic.Schema
 
-  alias Atomic.Activities
-
-  alias Atomic.Activities.{
-    ActivityEnrollment,
-    ActivitySpeaker,
-    Speaker
-  }
-
-  alias Atomic.Events.Event
+  alias Atomic.Activities.Enrollment
   alias Atomic.Feed.Post
   alias Atomic.Location
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries organization_id enrolled)a
-  @optional_fields ~w(event_id image)a
+  @required_fields ~w(title description start finish minimum_entries maximum_entries enrolled organization_id)a
+  @optional_fields ~w()a
 
   @derive {
     Flop.Schema,
@@ -33,21 +25,21 @@ defmodule Atomic.Activities.Activity do
   schema "activities" do
     field :title, :string
     field :description, :string
+
     field :start, :naive_datetime
     field :finish, :naive_datetime
-    field :image, Uploaders.Post.Type
+
     field :maximum_entries, :integer
     field :minimum_entries, :integer
     field :enrolled, :integer, default: 0
 
+    field :image, Uploaders.Post.Type
     embeds_one :location, Location, on_replace: :update
 
     belongs_to :organization, Organization
-    belongs_to :event, Event
-    belongs_to :post, Post, foreign_key: :post_id
+    belongs_to :post, Post
 
-    many_to_many :speakers, Speaker, on_replace: :delete, join_through: ActivitySpeaker
-    has_many :activity_enrollments, ActivityEnrollment, foreign_key: :activity_id
+    has_many :enrollments, Enrollment
 
     timestamps()
   end
@@ -56,14 +48,12 @@ defmodule Atomic.Activities.Activity do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> cast_embed(:location, with: &Location.changeset/2)
-    |> cast_attachments(attrs, [:image])
     |> validate_required(@required_fields)
     |> validate_dates()
     |> validate_entries()
     |> validate_enrollments()
     |> check_constraint(:enrolled, name: :enrolled_less_than_max)
     |> maybe_mark_for_deletion()
-    |> maybe_put_speakers(attrs)
   end
 
   def image_changeset(activity, attrs) do
@@ -153,16 +143,6 @@ defmodule Atomic.Activities.Activity do
   def validate_enrollments_values(enrolled, maximum_entries, changeset) do
     if enrolled > maximum_entries do
       add_error(changeset, :maximum_entries, gettext("maximum number of enrollments reached"))
-    else
-      changeset
-    end
-  end
-
-  defp maybe_put_speakers(changeset, attrs) do
-    if attrs["speakers"] do
-      speakers = Activities.get_speakers(attrs["speakers"])
-
-      Ecto.Changeset.put_assoc(changeset, :speakers, speakers)
     else
       changeset
     end
