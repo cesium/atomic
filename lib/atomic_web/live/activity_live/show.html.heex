@@ -77,20 +77,6 @@
           <%= text_to_html(@activity.description) %>
         </p>
       </div>
-      <!-- Speakers -->
-      <%= if @activity.speakers != [] do %>
-        <div>
-          <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-gray-900">
-            <%= gettext("Speakers") %>
-          </h2>
-          <%= for speaker <- @activity.speakers do %>
-            <div class="flex flex-row items-center gap-2">
-              <.avatar name={speaker.name} size={:sm} color={:light_gray} class="mr-2 inline-flex" />
-              <p><%= speaker.name %></p>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
     </div>
     <!-- Activity image -->
     <div class="h-[40%] object-cover">

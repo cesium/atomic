@@ -3,7 +3,7 @@ defmodule AtomicWeb.ActivityLive.Index do
 
   import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
   import AtomicWeb.ActivityLive.Components.ActivityCard
-  
+
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Organizations

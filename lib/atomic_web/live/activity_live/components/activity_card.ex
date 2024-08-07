@@ -43,18 +43,6 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
                 </span>
               </.link>
             </object>
-            <div class="flex lg:items-center lg:justify-between">
-              <div class="flex flex-row space-x-2">
-                <%= for speaker <- @activity.speakers do %>
-                  <div class="mt-2 flex items-center">
-                    <.avatar name={speaker.name} size={:xs} color={:light_gray} class="!w-6 !h-6 mr-1.5" />
-                    <p class="text-sm text-zinc-500">
-                      <%= extract_first_last_name(speaker.name) %>
-                    </p>
-                  </div>
-                <% end %>
-              </div>
-            </div>
           </div>
           <!-- Activity image -->
           <div class="h-48 object-cover">

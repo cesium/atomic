@@ -408,7 +408,7 @@ defmodule Atomic.Activities do
 
   def list_upcoming_user_activities(user_id, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? > now()", a.start))
@@ -418,7 +418,7 @@ defmodule Atomic.Activities do
 
   def list_upcoming_user_activities(user_id, flop) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? > now()", a.start))
@@ -427,7 +427,7 @@ defmodule Atomic.Activities do
 
   def list_upcoming_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? > now()", a.start))
@@ -447,7 +447,7 @@ defmodule Atomic.Activities do
 
   def list_past_user_activities(user_id, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? < now()", a.start))
@@ -457,7 +457,7 @@ defmodule Atomic.Activities do
 
   def list_past_user_activities(user_id, flop) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? < now()", a.start))
@@ -466,7 +466,7 @@ defmodule Atomic.Activities do
 
   def list_past_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? < now()", a.start))
@@ -518,7 +518,7 @@ defmodule Atomic.Activities do
   """
   def user_upcoming_activities_count(user_id) do
     from(a in Activity,
-      join: e in assoc(a, :activity_enrollments),
+      join: e in assoc(a, :enrollments),
       where: e.user_id == ^user_id
     )
     |> where([a], fragment("? > now()", a.start))
