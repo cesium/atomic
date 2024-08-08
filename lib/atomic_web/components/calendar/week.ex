@@ -7,10 +7,9 @@ defmodule AtomicWeb.Components.CalendarWeek do
   import AtomicWeb.CalendarUtils
 
   attr :id, :string, default: "calendar-week", required: false
-  attr :current_path, :string, required: true
+  attr :current_date, :string, required: true
   attr :activities, :list, required: true
   attr :timezone, :string, required: true
-  attr :current, :string, required: true
   attr :beginning_of_week, :string, required: true
   attr :end_of_week, :string, required: true
   attr :params, :map, required: true
@@ -29,7 +28,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
-              <.link patch={build_path(@current_path, %{"mode" => "week", "day" => day_of_week |> date_to_day(), "month" => @params["month"], "year" => @params["year"]})} class="flex flex-col items-center py-2">
+              <.link patch="" class="flex flex-col items-center py-2">
                 <%= Enum.at(@week_mobile, idx) %>
                 <span class={
                   "#{if @today == day_of_week do
@@ -99,7 +98,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
             </div>
             <!-- Events -->
             <ol class="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:hidden" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
-              <.day date={@current} idx={0} activities={@activities} />
+              <.day date={@current_date} idx={0} activities={@activities} />
             </ol>
             <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
               <%= for idx <- 0..6 do %>

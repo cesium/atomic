@@ -17,7 +17,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
   @impl true
   def handle_params(params, _, socket) do
-    mode = default_mode(params)
+    mode = Map.get(params, "mode", "month")
 
     {:noreply,
      socket
@@ -28,11 +28,8 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:activities, list_activities(socket.assigns.timezone, mode, params))
      |> assign(:current_path, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
      |> assign(:current_date, Timex.today(socket.assigns.timezone))
-     |> assigns_month(
-       Routes.calendar_show_path(AtomicWeb.Endpoint, :show),
-       socket.assigns.timezone,
-       params
-     )}
+     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+     |> assigns_week(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
   end
 
   @impl true
@@ -43,11 +40,7 @@ defmodule AtomicWeb.CalendarLive.Show do
        :current_date,
        socket.assigns.beginning_of_month |> Timex.add(Duration.from_days(-1))
      )
-     |> assigns_month(
-       Routes.calendar_show_path(AtomicWeb.Endpoint, :show),
-       socket.assigns.timezone,
-       socket.assigns.params
-     )}
+     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
   end
 
   @impl true
@@ -55,11 +48,7 @@ defmodule AtomicWeb.CalendarLive.Show do
     {:noreply,
      socket
      |> assign(:current_date, Timex.today(socket.assigns.timezone))
-     |> assigns_month(
-       Routes.calendar_show_path(AtomicWeb.Endpoint, :show),
-       socket.assigns.timezone,
-       socket.assigns.params
-     )}
+     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
   end
 
   @impl true
@@ -67,14 +56,18 @@ defmodule AtomicWeb.CalendarLive.Show do
     {:noreply,
      socket
      |> assign(:current_date, socket.assigns.end_of_month |> Timex.add(Duration.from_days(1)))
-     |> assigns_month(
-       Routes.calendar_show_path(AtomicWeb.Endpoint, :show),
-       socket.assigns.timezone,
-       socket.assigns.params
-     )}
+     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
   end
 
-  defp assigns_month(socket, current_path, timezone, params) do
+  @impl true
+  def handle_event("set-mode", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:current_date, socket.assigns.end_of_month |> Timex.add(Duration.from_days(1)))
+     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+  end
+
+  defp assigns_month(socket, current_path) do
     current = socket.assigns.current_date
     beginning_of_month = Timex.beginning_of_month(current)
     end_of_month = Timex.end_of_month(current)
@@ -116,14 +109,70 @@ defmodule AtomicWeb.CalendarLive.Show do
     |> assign(next_month_path: next_month_path)
   end
 
+  defp assigns_week(socket, current_path) do
+    current = socket.assigns.current_date
+    beginning_of_week = Timex.beginning_of_week(current)
+    end_of_week = Timex.end_of_week(current)
+
+    previous_week_date =
+      current
+      |> Timex.add(Duration.from_days(-7))
+
+    next_week_date =
+      current
+      |> Timex.add(Duration.from_days(7))
+
+    previous_week_day =
+      previous_week_date
+      |> date_to_day()
+
+    previous_week_month =
+      previous_week_date
+      |> date_to_month()
+
+    previous_week_year =
+      previous_week_date
+      |> date_to_year()
+
+    next_week_day =
+      next_week_date
+      |> date_to_day()
+
+    next_week_month =
+      next_week_date
+      |> date_to_month()
+
+    next_week_year =
+      next_week_date
+      |> date_to_year()
+
+    previous_week_path =
+      build_path(current_path, %{
+        mode: "week",
+        day: previous_week_day,
+        month: previous_week_month,
+        year: previous_week_year
+      })
+
+    next_week_path =
+      build_path(current_path, %{
+        mode: "week",
+        day: next_week_day,
+        month: next_week_month,
+        year: next_week_year
+      })
+
+    socket
+    |> assign(beginning_of_week: beginning_of_week)
+    |> assign(end_of_week: end_of_week)
+    |> assign(previous_week_path: previous_week_path)
+    |> assign(next_week_path: next_week_path)
+  end
+
   defp list_activities(timezone, mode, params) do
     start = build_beggining_date(timezone, mode, params)
     finish = build_ending_date(timezone, mode, params)
 
     Activities.list_activities_from_to(start, finish)
   end
-
-  defp default_mode(params) when is_map_key(params, "mode"), do: params["mode"]
-
-  defp default_mode(_params), do: "month"
 end

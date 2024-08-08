@@ -42,9 +42,9 @@
                     orientation={:down}
                     items={
                       [
-                        %{name: gettext("Week view"), link: ""},
+                        %{name: gettext("Week view"), link: "?mode=week"},
                         # Link that switches mode
-                        %{name: gettext("Month view"), link: ""}
+                        %{name: gettext("Month view"), link: "?mode=month"}
                       ]
                     }
                   >
@@ -170,7 +170,7 @@
       <%= if @mode == "month" do %>
         <.calendar_month current_date={@current_date} params={@params} activities={@activities} beginning_of_month={@beginning_of_month} end_of_month={@end_of_month} timezone={@timezone} />
       <% else %>
-        <.calendar_week current_path={@current_path} current={@current} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
+        <.calendar_week current_date={@current_date} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
   </div>

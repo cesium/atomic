@@ -43,7 +43,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <div class="grid w-full grid-cols-7 grid-rows-6 gap-px overflow-hidden">
           <%= for date <- generate_days_list(@beginning_of_month, @end_of_month) do %>
             <%!-- <p><%= @end_of_month %></p> --%>
-            <.day index={date.day} params={@params} date={date} current_date={@current_date} activities={@activities} timezone={@timezone} />
+            <.day params={@params} date={date} current_date={@current_date} activities={@activities} timezone={@timezone} />
           <% end %>
         </div>
       </div>
@@ -100,7 +100,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
     end
   end
 
-  defp day(%{index: index, date: date, timezone: timezone} = assigns) do
+  defp day(%{date: date, timezone: timezone} = assigns) do
     weekday = Timex.weekday(date, :monday)
     today? = Timex.compare(date, Timex.today(timezone))
 
@@ -147,7 +147,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <.link patch={build_path("", %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)})} class={"#{if @index == 0 do col_start(@weekday) end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden"}>
+    <.link patch={build_path("", %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)})} class="min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden">
       <time
         date-time={@date}
         class={
