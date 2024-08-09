@@ -323,27 +323,6 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-   Gets the user enrolled in an given activity.
-
-    ## Examples
-
-        iex> get_user_enrolled(user, activity_id)
-        %Enrollment{}
-
-        iex> get_user_enrolled(user, activity_id)
-        ** (Ecto.NoResultsError)
-  """
-  def get_user_enrolled(user, activity_id) do
-    Enrollment
-    |> where(user_id: ^user.id, activity_id: ^activity_id)
-    |> Repo.one()
-    |> case do
-      nil -> create_enrollment(activity_id, user)
-      enrollment -> enrollment
-    end
-  end
-
-  @doc """
    Gets all user enrollments.
 
     ## Examples
@@ -526,7 +505,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Creates an enrollment.
+  Creates an enrollment and broadcasts .
 
   ## Examples
 
@@ -538,23 +517,15 @@ defmodule Atomic.Activities do
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:enrollments, %Enrollment{
-      activity_id: activity_id,
-      user_id: user.id
-    })
-    |> Multi.update(:activity, fn %{enrollments: enrollment} ->
-      activity = get_activity!(enrollment.activity_id)
-
-      Activity.changeset(activity, %{enrolled: activity.enrolled + 1})
-    end)
-    |> Repo.transaction()
+    %Enrollment{}
+    |> Enrollment.changeset(%{activity_id: activity_id, user_id: user.id})
+    |> Repo.insert()
     |> case do
-      {:ok, %{enrollments: enrollment, activity: _activity}} ->
+      {:ok, enrollment} ->
         broadcast({:ok, enrollment}, :new_enrollment)
         {:ok, enrollment}
 
-      {:error, _reason, changeset, _actions} ->
+      {:error, changeset} ->
         {:error, changeset}
     end
   end
@@ -590,20 +561,15 @@ defmodule Atomic.Activities do
 
   """
   def delete_enrollment(activity_id, %User{} = user) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.delete(:enrollments, get_user_enrolled(user, activity_id))
-    |> Multi.update(:activity, fn %{enrollments: _enrollment} ->
-      activity = get_activity!(activity_id)
-
-      Activity.changeset(activity, %{enrolled: activity.enrolled - 1})
-    end)
-    |> Repo.transaction()
+    get_enrollment!(activity_id, user.id)
+    |> Enrollment.changeset(%{})
+    |> Repo.delete()
     |> case do
-      {:ok, %{enrollments: _enrollment, activity: _activity}} ->
+      {:ok, _} ->
         broadcast({1, nil}, :deleted_enrollment)
-        {1, nil}
+        {:ok, nil}
 
-      {:error, _reason, changeset, _actions} ->
+      {:error, changeset} ->
         {:error, changeset}
     end
   end

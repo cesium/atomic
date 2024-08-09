@@ -2,7 +2,7 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
   @moduledoc false
   use AtomicWeb, :component
 
-  import AtomicWeb.Components.{Avatar, Gradient}
+  import AtomicWeb.Components.Gradient
 
   attr :activity, :map, required: true, doc: "The activity to display."
 
@@ -15,7 +15,7 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
           <!-- Activity information -->
           <div class="col-span-2 px-4 py-4 lg:px-6">
             <div class="flex items-center justify-between">
-              <p class="text-md truncate font-medium text-zinc-900">
+              <p class="text-md truncate font-medium text-zinc-900" title={@activity.title}>
                 <%= @activity.title %>
               </p>
             </div>

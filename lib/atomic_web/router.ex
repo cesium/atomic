@@ -100,6 +100,10 @@ defmodule AtomicWeb.Router do
       live "/announcements", AnnouncementLive.Index, :index
 
       live "/activities/:id", ActivityLive.Show, :show
+      live "/activities/:id/ticket", ActivityLive.Show, :ticket
+      live "/activities/:id/enroll", ActivityLive.Show, :enroll
+      live "/activities/:id/unenroll", ActivityLive.Show, :unenroll
+
       live "/organizations/:organization_id", OrganizationLive.Show, :show
       live "/announcements/:id", AnnouncementLive.Show, :show
 
