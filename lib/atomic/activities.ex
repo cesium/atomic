@@ -568,7 +568,7 @@ defmodule Atomic.Activities do
   """
   def delete_enrollment(activity_id, %User{} = user) do
     get_enrollment!(activity_id, user.id)
-    |> Enrollment.changeset(%{})
+    |> Enrollment.delete_changeset()
     |> Repo.delete()
     |> case do
       {:ok, _} ->

@@ -35,6 +35,12 @@ defmodule Atomic.Activities.Enrollment do
     |> validate_required(@required_fields)
   end
 
+  def delete_changeset(enrollment, attrs \\ %{}) do
+    enrollment
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> prepare_changes(&update_activity_enrolled/1)
+  end
+
   defp validate_maximum_entries(changeset) do
     activity_id = get_field(changeset, :activity_id)
     activity = Activities.get_activity!(activity_id)
@@ -47,8 +53,6 @@ defmodule Atomic.Activities.Enrollment do
   end
 
   defp update_activity_enrolled(changeset) do
-    IO.inspect(changeset)
-
     if activity_id = get_field(changeset, :activity_id) do
       query = from Activity, where: [id: ^activity_id]
       value = if changeset.action == :insert, do: 1, else: -1

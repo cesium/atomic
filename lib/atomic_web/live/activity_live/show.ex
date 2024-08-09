@@ -84,6 +84,8 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_info(updated_activity, socket) do
+    max_enrolled? = updated_activity.enrolled >= updated_activity.maximum_entries
+
     {:noreply,
      socket
      |> assign(
@@ -91,7 +93,16 @@ defmodule AtomicWeb.ActivityLive.Show do
        Map.put(updated_activity, :organization, socket.assigns.activity.organization)
      )
      |> assign(:enrolled?, maybe_put_enrolled(socket))
-     |> assign(:max_enrolled?, updated_activity.enrolled >= updated_activity.maximum_entries)}
+     |> assign(:max_enrolled?, max_enrolled?)
+     |> maybe_close_modal(max_enrolled? and socket.assigns.live_action == :enroll)}
+  end
+
+  defp maybe_close_modal(socket, condition) do
+    if condition do
+      push_patch(socket, to: Routes.activity_show_path(socket, :show, socket.assigns.activity))
+    else
+      socket
+    end
   end
 
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
