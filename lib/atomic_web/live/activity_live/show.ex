@@ -11,8 +11,7 @@ defmodule AtomicWeb.ActivityLive.Show do
   @impl true
   def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
-      Activities.subscribe("new_enrollment")
-      Activities.subscribe("deleted_enrollment")
+      Activities.subscribe_to_activity_update(id)
     end
 
     {:ok, socket |> assign(:id, id)}
@@ -84,23 +83,15 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   @impl true
-  def handle_info({event, _changes}, socket)
-      when event in [:new_enrollment, :deleted_enrollment] do
-    {:noreply, reload(socket, action: event)}
-  end
-
-  defp reload(socket, action: :new_enrollment) do
-    socket
-    |> assign(:enrolled, socket.assigns.enrolled + 1)
-    |> assign(:enrolled?, maybe_put_enrolled(socket))
-    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
-  end
-
-  defp reload(socket, action: :deleted_enrollment) do
-    socket
-    |> assign(:enrolled, socket.assigns.enrolled - 1)
-    |> assign(:enrolled?, maybe_put_enrolled(socket))
-    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
+  def handle_info(updated_activity, socket) do
+    {:noreply,
+     socket
+     |> assign(
+       :activity,
+       Map.put(updated_activity, :organization, socket.assigns.activity.organization)
+     )
+     |> assign(:enrolled?, maybe_put_enrolled(socket))
+     |> assign(:max_enrolled?, updated_activity.enrolled >= updated_activity.maximum_entries)}
   end
 
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false

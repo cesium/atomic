@@ -9,6 +9,8 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.Enrollment
   alias Atomic.Feed.Post
 
+  @pubsub Atomic.PubSub
+
   @doc """
   Returns the list of activities.
 
@@ -222,7 +224,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Updates a activity.
+  Updates an activity and broadcasts the changes to all subscribed clients.
 
   ## Examples
 
@@ -234,10 +236,14 @@ defmodule Atomic.Activities do
 
   """
   def update_activity(%Activity{} = activity, attrs, after_save \\ &{:ok, &1}) do
-    activity
-    |> Activity.changeset(attrs)
-    |> Repo.update()
-    |> after_save(after_save)
+    result =
+      activity
+      |> Activity.changeset(attrs)
+      |> Repo.update()
+      |> after_save(after_save)
+
+    broadcast_activity_update(activity.id)
+    result
   end
 
   @doc """
@@ -505,7 +511,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Creates an enrollment and broadcasts .
+  Creates an enrollment and broadcasts the activity change to all subscribed clients.
 
   ## Examples
 
@@ -522,7 +528,7 @@ defmodule Atomic.Activities do
     |> Repo.insert()
     |> case do
       {:ok, enrollment} ->
-        broadcast({:ok, enrollment}, :new_enrollment)
+        broadcast_activity_update(activity_id)
         {:ok, enrollment}
 
       {:error, changeset} ->
@@ -549,7 +555,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Deletes a enrollment.
+  Deletes a enrollment and broadcasts the activity change to all subscribed clients.
 
   ## Examples
 
@@ -566,7 +572,7 @@ defmodule Atomic.Activities do
     |> Repo.delete()
     |> case do
       {:ok, _} ->
-        broadcast({1, nil}, :deleted_enrollment)
+        broadcast_activity_update(activity_id)
         {:ok, nil}
 
       {:error, changeset} ->
@@ -588,32 +594,21 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Broadcasts an event to the pubsub.
+  Subscribes the caller to the specific activity's updates.
 
   ## Examples
 
-      iex> broadcast(:new_enrollment, enrollment)
-      {:ok, %Enrollment{}}
-
-      iex> broadcast(:deleted_enrollment, nil)
-      {:ok, nil}
-
+      iex> subscribe_to_activity_update(activity_id)
+      :ok
   """
-  def subscribe(topic) when topic in ["new_enrollment", "deleted_enrollment"] do
-    Phoenix.PubSub.subscribe(Atomic.PubSub, topic)
+  def subscribe_to_activity_update(activity_id) do
+    Phoenix.PubSub.subscribe(@pubsub, topic(activity_id))
   end
 
-  defp broadcast({:error, _reason} = error, _event), do: error
+  defp topic(activity_id), do: "activity:#{activity_id}"
 
-  defp broadcast({:ok, %Enrollment{} = enrollment}, event)
-       when event in [:new_enrollment] do
-    Phoenix.PubSub.broadcast!(Atomic.PubSub, "new_enrollment", {event, enrollment})
-    {:ok, enrollment}
-  end
-
-  defp broadcast({number, nil}, event)
-       when event in [:deleted_enrollment] do
-    Phoenix.PubSub.broadcast!(Atomic.PubSub, "deleted_enrollment", {event, nil})
-    {number, nil}
+  defp broadcast_activity_update(activity_id) do
+    activity = get_activity!(activity_id)
+    Phoenix.PubSub.broadcast(@pubsub, topic(activity_id), activity)
   end
 end
