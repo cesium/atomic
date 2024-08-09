@@ -141,8 +141,10 @@ defmodule AtomicWeb.Components.CalendarMonth do
           </li>
         <% end %>
         <%= if Enum.count(get_date_activities(@activities, @date)) > 2 do %>
-          <li class="text-zinc-500">
-            + <%= Enum.count(get_date_activities(@activities, @date)) - 2 %> more
+          <li class="text-zinc-500 hover:text-primary-600">
+            <button type="button" phx-click="show-more" phx-value-date={@date}>
+              +<%= Enum.count(get_date_activities(@activities, @date)) - 2 %> more
+            </button>
           </li>
         <% end %>
       </ol>

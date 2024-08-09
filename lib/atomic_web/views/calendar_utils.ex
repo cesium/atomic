@@ -5,24 +5,20 @@ defmodule AtomicWeb.CalendarUtils do
   use Phoenix.HTML
   use Timex
 
-  def build_beggining_date(timezone, "month", params) do
-    current = current_from_params(timezone, params)
-    Timex.beginning_of_month(current) |> Timex.to_naive_datetime()
+  def build_beggining_date(_timezone, "month", current_date) do
+    Timex.beginning_of_month(current_date) |> Timex.to_naive_datetime()
   end
 
-  def build_beggining_date(timezone, "week", params) do
-    current = current_from_params(timezone, params)
-    Timex.beginning_of_week(current) |> Timex.to_naive_datetime()
+  def build_beggining_date(_timezone, "week", current_date) do
+    Timex.beginning_of_week(current_date) |> Timex.to_naive_datetime()
   end
 
-  def build_ending_date(timezone, "month", params) do
-    current = current_from_params(timezone, params)
-    Timex.end_of_month(current) |> Timex.to_naive_datetime()
+  def build_ending_date(_timezone, "month", current_date) do
+    Timex.end_of_month(current_date) |> Timex.to_naive_datetime()
   end
 
-  def build_ending_date(timezone, "week", params) do
-    current = current_from_params(timezone, params)
-    Timex.end_of_week(current) |> Timex.to_naive_datetime()
+  def build_ending_date(_timezone, "week", current_date) do
+    Timex.end_of_week(current_date) |> Timex.to_naive_datetime()
   end
 
   def current_from_params(timezone, %{"day" => day, "month" => month, "year" => year}) do

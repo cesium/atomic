@@ -1,6 +1,6 @@
 <.page title="Calendar">
   <div>
-    <div x-data="{ mode_view: false }" class="flex-col lg:flex lg:h-full lg:mx-8 m-4 rounded-md ring-1 ring-zinc-200 overflow-hidden">
+    <div x-data="{ mode_view: false }" class="flex-col h-[787px] lg:flex  lg:mx-8 m-4 rounded-md ring-1 ring-zinc-200 overflow-hidden">
       <header class="px-6 py-4 flex flex-col sm:flex-row border-b border-zinc-300 bg-gray-50">
         <div class="flex-1">
           <div class="relative z-20 flex w-full items-center justify-between lg:flex-none">
@@ -71,7 +71,7 @@
                     tabindex="-1"
                   >
                     <div class="py-1" role="none">
-                      <.link patch={@current_path}>
+                      <.link patch="?mode=week">
                         <button
                           type="button"
                           @click="mode_view = false"
@@ -89,7 +89,7 @@
                           <%= gettext("Week view") %>
                         </button>
                       </.link>
-                      <.link patch={@current_path}>
+                      <.link patch="?mode=month">
                         <button
                           type="button"
                           @click="mode_view = false"
@@ -118,13 +118,11 @@
                 </button>
                 <div x-bind:class="mode_view ?'block' : 'hidden'" class="absolute right-0 mt-3 w-36 origin-top-right divide-y divide-zinc-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div class="py-1" role="none">
-                    <.link patch={"#{if @mode == "month" do @current_path else @current_path end}"}>
-                      <button type="button" @click="mode_view = false" class="block w-full px-4 py-2 text-sm text-zinc-700" role="menuitem" tabindex="-1" id="menu-1-item-1">
-                        <%= gettext("Today") %>
-                      </button>
-                    </.link>
+                    <button @click="mode_view = false" phx-click="present" type="button" @click="mode_view = false" class="block w-full px-4 py-2 text-sm text-zinc-700" role="menuitem" tabindex="-1" id="menu-1-item-1">
+                      <%= gettext("Today") %>
+                    </button>
                     <div class="mx-4 border-b border-zinc-200" />
-                    <.link patch={@current_path}>
+                    <.link patch="?mode=week">
                       <button
                         type="button"
                         @click="mode_view = false"
@@ -142,7 +140,7 @@
                         <%= gettext("Week view") %>
                       </button>
                     </.link>
-                    <.link patch={@current_path}>
+                    <.link patch="?mode=month">
                       <button
                         type="button"
                         @click="mode_view = false"

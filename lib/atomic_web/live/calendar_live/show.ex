@@ -18,6 +18,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   @impl true
   def handle_params(params, _, socket) do
     mode = Map.get(params, "mode", "month")
+    current_date = Map.get(socket.assigns, :current_date, Timex.today(socket.assigns.timezone))
 
     {:noreply,
      socket
@@ -25,46 +26,90 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:current_page, :calendar)
      |> assign(:params, params)
      |> assign(:mode, mode)
-     |> assign(:activities, list_activities(socket.assigns.timezone, mode, params))
+     |> assign(:activities, list_activities(socket.assigns.timezone, mode, current_date))
      |> assign(:current_path, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
-     |> assign(:current_date, Timex.today(socket.assigns.timezone))
+     |> assign(:current_date, current_date)
      |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
      |> assigns_week(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
   end
 
   @impl true
   def handle_event("previous", _, socket) do
+    new_date =
+      if socket.assigns.mode == "week" do
+        socket.assigns.current_date |> Timex.add(Duration.from_days(-7))
+      else
+        socket.assigns.beginning_of_month |> Timex.add(Duration.from_days(-1))
+      end
+
     {:noreply,
      socket
      |> assign(
        :current_date,
-       socket.assigns.beginning_of_month |> Timex.add(Duration.from_days(-1))
+       new_date
      )
-     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+     |> assign(
+       :activities,
+       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+     )
+     |> assigns_dates()}
   end
 
   @impl true
   def handle_event("present", _, socket) do
+    new_date = Timex.today(socket.assigns.timezone)
+
     {:noreply,
      socket
-     |> assign(:current_date, Timex.today(socket.assigns.timezone))
-     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+     |> assign(:current_date, new_date)
+     |> assign(
+       :activities,
+       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+     )
+     |> assigns_dates()}
   end
 
   @impl true
   def handle_event("next", _, socket) do
+    new_date =
+      if socket.assigns.mode == "week" do
+        socket.assigns.current_date |> Timex.add(Duration.from_days(7))
+      else
+        socket.assigns.end_of_month |> Timex.add(Duration.from_days(1))
+      end
+
     {:noreply,
      socket
-     |> assign(:current_date, socket.assigns.end_of_month |> Timex.add(Duration.from_days(1)))
-     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+     |> assign(:current_date, new_date)
+     |> assign(
+       :activities,
+       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+     )
+     |> assigns_dates()}
   end
 
   @impl true
-  def handle_event("set-mode", _, socket) do
-    {:noreply,
-     socket
-     |> assign(:current_date, socket.assigns.end_of_month |> Timex.add(Duration.from_days(1)))
-     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+  def handle_event("show-more", %{"date" => date}, socket) do
+    case Timex.parse(date, "{YYYY}-{0M}-{0D}") do
+      {:ok, naive_date} ->
+        date = Timex.to_date(naive_date)
+
+        {:noreply,
+         socket
+         |> assign(:current_date, date)
+         |> push_patch(to: Routes.calendar_show_path(socket, :show, mode: "week"), replace: true)}
+
+      {:error, _reason} ->
+        {:noreply, socket}
+    end
+  end
+
+  defp assigns_dates(socket) do
+    if socket.assigns.mode == "week" do
+      assigns_week(socket, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+    else
+      assigns_month(socket, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+    end
   end
 
   defp assigns_month(socket, current_path) do
@@ -169,9 +214,9 @@ defmodule AtomicWeb.CalendarLive.Show do
     |> assign(next_week_path: next_week_path)
   end
 
-  defp list_activities(timezone, mode, params) do
-    start = build_beggining_date(timezone, mode, params)
-    finish = build_ending_date(timezone, mode, params)
+  defp list_activities(timezone, mode, current_date) do
+    start = build_beggining_date(timezone, mode, current_date)
+    finish = build_ending_date(timezone, mode, current_date)
 
     Activities.list_activities_from_to(start, finish)
   end

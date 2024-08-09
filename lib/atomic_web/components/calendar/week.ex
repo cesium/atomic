@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> assign(today: Timex.today(timezone))
 
     ~H"""
-    <div id={@id} class="flex flex-auto flex-col overflow-auto rounded-lg bg-white">
+    <div id={@id} class="flex flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
@@ -77,7 +77,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
           <div class="left-0 w-12 flex-none bg-white ring-1 ring-zinc-100"></div>
           <div class="grid flex-auto grid-cols-1 grid-rows-1">
             <!-- Horizontal lines -->
-            <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(30, minmax(2.5rem, 1fr))">
+            <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(48, minmax(3.5rem, 1fr))">
               <div class="row-end-1 h-6"></div>
               <%= for hour <- hours() do %>
                 <div>
@@ -100,7 +100,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
             <ol class="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:hidden" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
               <.day date={@current_date} idx={0} activities={@activities} />
             </ol>
-            <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.25rem repeat(301, minmax(0, 1fr))">
+            <ol class="col-start-1 col-end-2 row-start-1 hidden sm:grid sm:grid-cols-7" style="grid-template-rows: 1.75rem repeat(288, minmax(0, 1fr))">
               <%= for idx <- 0..6 do %>
                 <.day date={Timex.shift(@beginning_of_week, days: idx)} idx={idx} activities={@activities} />
               <% end %>
@@ -142,19 +142,29 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> Timex.format!("{m}")
       |> String.to_integer()
 
-    minutes = (minutes * 20 / 60) |> trunc()
-
-    2 + (hours - 8) * 20 + minutes
+    hours * 12 + div(minutes, 5) + 2
   end
 
   defp calc_time(start, finish) do
-    time_diff = (NaiveDateTime.diff(finish, start) / 3600) |> trunc()
+    time_diff = (NaiveDateTime.diff(finish, start) / 60) |> trunc()
 
-    2 + 20 * time_diff
+    if time_diff == 0 do
+      1
+    else
+      div(time_diff, 5)
+    end
   end
 
   defp hours,
     do: [
+      "0H",
+      "1H",
+      "2H",
+      "3H",
+      "4H",
+      "5H",
+      "6H",
+      "7H",
       "8H",
       "9H",
       "10H",
@@ -169,6 +179,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
       "19H",
       "20H",
       "21H",
-      "22H"
+      "22H",
+      "23H"
     ]
 end
