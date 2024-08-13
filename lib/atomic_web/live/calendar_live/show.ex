@@ -104,6 +104,28 @@ defmodule AtomicWeb.CalendarLive.Show do
     end
   end
 
+  @impl true
+  def handle_event("set-current-date", %{"date" => date}, socket) do
+    case Timex.parse(date, "{YYYY}-{0M}-{0D}") do
+      {:ok, naive_date} ->
+        date = Timex.to_date(naive_date)
+
+        date =
+          if date.month != socket.assigns.current_date.month && socket.assigns.mode == "month" do
+            socket.assigns.current_date
+          else
+            date
+          end
+
+        {:noreply,
+         socket
+         |> assign(:current_date, date)}
+
+      {:error, _reason} ->
+        {:noreply, socket}
+    end
+  end
+
   defp assigns_dates(socket) do
     if socket.assigns.mode == "week" do
       assigns_week(socket, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
@@ -215,8 +237,8 @@ defmodule AtomicWeb.CalendarLive.Show do
   end
 
   defp list_activities(timezone, mode, current_date) do
-    start = build_beggining_date(timezone, mode, current_date)
-    finish = build_ending_date(timezone, mode, current_date)
+    start = Timex.shift(build_beggining_date(timezone, mode, current_date), days: -7)
+    finish = Timex.shift(build_ending_date(timezone, mode, current_date), days: 7)
 
     Activities.list_activities_from_to(start, finish)
   end

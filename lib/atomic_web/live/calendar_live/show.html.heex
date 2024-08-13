@@ -1,7 +1,7 @@
 <.page title="Calendar">
-  <div>
-    <div x-data="{ mode_view: false }" class="flex-col h-[787px] lg:flex  lg:mx-8 m-4 rounded-md ring-1 ring-zinc-200 overflow-hidden">
-      <header class="px-6 py-4 flex flex-col sm:flex-row border-b border-zinc-300 bg-gray-50">
+  <div class="bg-gray-50 lg:h-0 lg:min-h-[787px] overflow-hidden rounded-lg ring-1 ring-zinc-900/10 lg:mx-8 m-4">
+    <div x-data="{ mode_view: false }" class="lg:flex lg:h-full lg:flex-col">
+      <header class="px-6 py-4 flex flex-col sm:flex-row border-b border-zinc-300">
         <div class="flex-1">
           <div class="relative z-20 flex w-full items-center justify-between lg:flex-none">
             <span class="font-semibold text-base text-zinc-900">
@@ -61,54 +61,6 @@
                       </button>
                     </:wrapper>
                   </.dropdown>
-
-                  <div
-                    x-bind:class="mode_view ?'block' : 'hidden'"
-                    class="absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="menu-button"
-                    tabindex="-1"
-                  >
-                    <div class="py-1" role="none">
-                      <.link patch="?mode=week">
-                        <button
-                          type="button"
-                          @click="mode_view = false"
-                          class={
-                            "block px-4 w-full py-2 text-sm #{if @mode == "week" do
-                              "hidden"
-                            else
-                              "block"
-                            end}"
-                          }
-                          role="menuitem"
-                          tabindex="-1"
-                          id="menu-0-item-2"
-                        >
-                          <%= gettext("Week view") %>
-                        </button>
-                      </.link>
-                      <.link patch="?mode=month">
-                        <button
-                          type="button"
-                          @click="mode_view = false"
-                          class={
-                            "block px-4 w-full py-2 text-sm #{if @mode == "month" do
-                              "hidden"
-                            else
-                              "block"
-                            end}"
-                          }
-                          role="menuitem"
-                          tabindex="-1"
-                          id="menu-0-item-3"
-                        >
-                          <%= gettext("Month view") %>
-                        </button>
-                      </.link>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="relative ml-6 md:hidden">

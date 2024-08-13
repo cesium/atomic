@@ -22,19 +22,19 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> assign(today: Timex.today(timezone))
 
     ~H"""
-    <div id={@id} class="flex flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-lg bg-white">
+    <div id={@id} class="flex h-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
-              <.link patch="" class="flex flex-col items-center py-2">
+              <.link phx-click="set-current-date" phx-value-date={day_of_week} class="flex flex-col items-center py-2">
                 <%= Enum.at(@week_mobile, idx) %>
                 <span class={
                   "#{if @today == day_of_week do
                     "bg-orange-700 rounded-full text-white"
                   else
-                    if day_of_week |> date_to_day() == @params["day"] do
+                    if day_of_week == @current_date do
                       "bg-zinc-900 rounded-full text-white"
                     else
                       "text-zinc-900"
@@ -115,9 +115,14 @@ defmodule AtomicWeb.Components.CalendarWeek do
   defp day(assigns) do
     ~H"""
     <%= for activity <- get_date_activities(@activities, @date) do %>
-      <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)}"}>
+      <% width = calc_total_overlaps(activity, @activities) + 1 %>
+      <% left = calc_left_amount(activity, @activities) %>
+      <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"
+            grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)};
+            width: #{(1/width)*100}%;
+            left: #{if left > 0 do (left / width) * 100 else 0 end}%"}>
         <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-          <div class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100">
+          <div class={"#{if width != 1 do "hover:z-10 sm:hover:w-max" end} group absolute inset-1 flex flex-col overflow-y-auto overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100"}>
             <p class="order-1 font-semibold text-orange-500">
               <%= activity.title %>
             </p>
@@ -153,6 +158,35 @@ defmodule AtomicWeb.Components.CalendarWeek do
     else
       div(time_diff, 5)
     end
+  end
+
+  defp calc_total_overlaps(current_activity, activities) do
+    current_interval =
+      Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
+
+    activities
+    |> Enum.filter(fn activity ->
+      activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
+
+      activity != current_activity and
+        Timex.Interval.overlaps?(current_interval, activity_interval)
+    end)
+    |> length()
+  end
+
+  defp calc_left_amount(current_activity, activities) do
+    current_interval =
+      Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
+
+    activities
+    |> Enum.take_while(fn activity -> activity != current_activity end)
+    |> Enum.filter(fn activity ->
+      activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
+
+      activity != current_activity and
+        Timex.Interval.overlaps?(current_interval, activity_interval)
+    end)
+    |> length()
   end
 
   defp hours,

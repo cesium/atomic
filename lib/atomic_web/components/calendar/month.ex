@@ -3,7 +3,6 @@ defmodule AtomicWeb.Components.CalendarMonth do
   use AtomicWeb, :component
 
   import AtomicWeb.CalendarUtils
-  import AtomicWeb.Components.Badge
 
   attr :id, :string, default: "calendar-month", required: false
   attr :current_date, :string, required: true
@@ -15,7 +14,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
 
   def calendar_month(assigns) do
     ~H"""
-    <div id={@id} class="shadow lg:flex lg:flex-auto lg:flex-col">
+    <div id={@id} class="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
       <div class="grid grid-cols-7 gap-px border-b border-zinc-300 bg-zinc-200 text-center text-xs font-semibold leading-6 text-zinc-700 lg:flex-none">
         <div class="bg-white py-2">
           M<span class="sr-only sm:not-sr-only">on</span>
@@ -42,36 +41,37 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <div class="flex bg-zinc-200 text-xs leading-6 text-zinc-700 lg:flex-auto">
         <div class="grid w-full grid-cols-7 grid-rows-6 gap-px overflow-hidden">
           <%= for date <- generate_days_list(@beginning_of_month, @end_of_month) do %>
-            <%!-- <p><%= @end_of_month %></p> --%>
             <.day params={@params} date={date} current_date={@current_date} activities={@activities} timezone={@timezone} />
           <% end %>
         </div>
       </div>
     </div>
-    <div class="py-4 lg:hidden">
-      <ol class="divide-y divide-zinc-200 overflow-hidden rounded-lg bg-white text-sm shadow">
-        <%= for activity <- get_date_activities(@activities, current_from_params(@timezone, @params)) do %>
-          <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-            <li class="group flex p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
-              <div class="flex-auto">
-                <p class="font-semibold text-zinc-900">
-                  <%= activity.title %>
-                </p>
-                <div class="flex flex-row items-center gap-x-2 pt-2">
-                  <.link navigate={Routes.activity_index_path(AtomicWeb.Endpoint, :index)}>
-                    <.badge variant={:outline} color={:primary} label="Activity" />
-                  </.link>
-                  <time datetime={activity.start} class="flex items-center text-zinc-700">
-                    <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
-                    <%= Calendar.strftime(activity.start, "%Hh%M") %>
-                  </time>
+    <%= if length(@activities) > 0 do %>
+      <div class="px-4 py-10 sm:px-6 lg:hidden">
+        <ol class="divide-y divide-zinc-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
+          <%= for activity <- @activities do %>
+            <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
+              <li class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
+                <div class="flex-auto">
+                  <p class="font-semibold text-zinc-900">
+                    <%= activity.title %>
+                  </p>
+                  <div class="flex flex-row items-center gap-x-2 pt-2">
+                    <time datetime={activity.start} class="mt-2 flex items-center text-zinc-700">
+                      <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
+                      <%= Calendar.strftime(activity.start, "%Hh%M") %>
+                    </time>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </.link>
-        <% end %>
-      </ol>
-    </div>
+                <.link navigate={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} class="bg-primary-600 flex-none self-center rounded-md px-3 py-2 font-semibold text-white hover:bg-primary-500 focus-visible:outline-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2">
+                  Open activity
+                </.link>
+              </li>
+            </.link>
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
     """
   end
 
@@ -149,11 +149,11 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <.link patch={build_path("", %{mode: "month", day: date_to_day(@date), month: date_to_month(@date), year: date_to_year(@date)})} class="min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden">
+    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50 text-zinc-500" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden"}>
       <time
         date-time={@date}
         class={
-          "ml-auto lg:ml-0 #{if current_from_params(@timezone, @params) == @date do
+          "ml-auto lg:ml-0 #{if @current_date == @date do
             "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
               "bg-orange-700"
             else
