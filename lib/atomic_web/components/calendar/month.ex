@@ -46,10 +46,10 @@ defmodule AtomicWeb.Components.CalendarMonth do
         </div>
       </div>
     </div>
-    <%= if length(@activities) > 0 do %>
+    <%= if length(get_date_activities(@activities, @current_date)) > 0 do %>
       <div class="px-4 py-10 sm:px-6 lg:hidden">
         <ol class="divide-y divide-zinc-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
-          <%= for activity <- @activities do %>
+          <%= for activity <- get_date_activities(@activities, @current_date) do %>
             <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
               <li class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
                 <div class="flex-auto">
@@ -149,7 +149,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50 text-zinc-500" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden"}>
+    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden"}>
       <time
         date-time={@date}
         class={
@@ -162,6 +162,9 @@ defmodule AtomicWeb.Components.CalendarMonth do
           else
             if @today? == 0 do
               "text-orange-700"
+            end
+            if @date.month != @current_date.month do
+              "text-zinc-500"
             end
           end}"
         }
