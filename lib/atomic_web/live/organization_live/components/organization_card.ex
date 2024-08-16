@@ -7,8 +7,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
   alias Atomic.Organizations.Organization
   alias Atomic.Uploaders
 
-  import AtomicWeb.Components.{Avatar, Button}
-  import AtomicWeb.OrganizationLive.Components.OrganizationBannerPlaceholder
+  import AtomicWeb.Components.{Avatar, Button, Gradient}
 
   attr :organization, Organization, required: true, doc: "The organization to display"
   attr :current_user, User, required: false, default: nil, doc: "The current user, if any"
@@ -19,7 +18,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
     ~H"""
     <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
       <div class="h-28 w-full object-cover">
-        <.organization_banner_placeholder organization={@organization} class="rounded-t-lg" />
+        <.gradient seed={@organization.id} class="rounded-t-lg" />
       </div>
 
       <div class="p-4">
