@@ -17,8 +17,13 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
 
     ~H"""
     <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
-      <div class="h-28 w-full object-cover">
+      <div class="h-32 w-full select-none">
+        <!-- FIXME: Add banner support -->
+        <%!-- <%= if @organization.banner do %>
+          <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
+        <% else %> --%>
         <.gradient seed={@organization.id} class="rounded-t-lg" />
+        <%!-- <% end %> --%>
       </div>
 
       <div class="p-4">
