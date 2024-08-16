@@ -13,7 +13,7 @@
     <ul role="list" class="space-y-6">
       <li :for={{id, organization} <- @streams.organizations} id={id}>
         <.link navigate={"/organizations/#{organization.id}"}>
-          <.organization_card organization={organization} />
+          <.organization_card organization={organization} current_user={@current_user} />
         </.link>
       </li>
     </ul>

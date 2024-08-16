@@ -2,25 +2,35 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
   @moduledoc false
   use AtomicWeb, :component
 
+  alias Atomic.Accounts.User
+  alias Atomic.Organizations
   alias Atomic.Organizations.Organization
+  alias Atomic.Uploaders
 
-  import AtomicWeb.Components.Button
+  import AtomicWeb.Components.{Avatar, Button}
   import AtomicWeb.OrganizationLive.Components.OrganizationBannerPlaceholder
 
-  attr :organization, Organization, required: true, doc: "The organization to display."
+  attr :organization, Organization, required: true, doc: "The organization to display"
+  attr :current_user, User, required: false, default: nil, doc: "The current user, if any"
 
   def organization_card(assigns) do
+    assigns = Map.put(assigns, :followers, Organizations.count_followers(assigns.organization.id))
+
     ~H"""
     <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
       <div class="h-28 w-full object-cover">
         <.organization_banner_placeholder organization={@organization} class="rounded-t-lg" />
       </div>
+
       <div class="p-4">
         <div class="relative flex w-full">
           <div class="flex flex-1">
             <div class="-mt-[6rem]">
-              <div class="relative rounded-full">
-                <img class="size-32 relative rounded-lg border border-zinc-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-aaKrOSMD7Wf0JGMgncPHLPZ-aHgbMgY0sw&usqp=CAU" />
+              <div class={[
+                "relative rounded-lg",
+                @organization.logo && "bg-white"
+              ]}>
+                <.avatar name={@organization.name} color={:white} size={:lg} class="!size-32 relative p-1" type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
                 <div class="absolute"></div>
               </div>
             </div>
@@ -28,34 +38,48 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
               <%= @organization.name %>
             </p>
           </div>
-          <div class="flex flex-col text-right">
-            <.button>
-              Follow
-            </.button>
-          </div>
+
+          <%= if @current_user do %>
+            <%= if Organizations.user_following?(@current_user.id, @organization.id) do %>
+              <.button disabled><%= gettext("Following") %></.button>
+            <% else %>
+              <%!-- TODO: Complete functionality --%>
+              <.button><%= gettext("Follow") %></.button>
+            <% end %>
+          <% end %>
         </div>
-        <div class="mt-2 flex flex-row items-center">
-          <p class="text-sm text-zinc-400">
-            <%= @organization.long_name %>
-          </p>
-        </div>
-        <ul role="list" class="mt-1 flex flex-col md:flex-row space-y-1 md:space-x-6">
+
+        <p class="mt-2 text-sm text-zinc-400">
+          <%= @organization.long_name %>
+        </p>
+
+        <ul role="list" class="mt-2 flex flex-col space-y-1 md:flex-row md:items-center md:space-x-3">
           <li class="flex items-center space-x-1">
-            <.icon name={:users} outline class="h-4 w-4" />
-            <p class="text-sm">
-              <span class="font-semibold">103</span> followers
-            </p>
+            <.icon name={:users} outline class="size-4" />
+            <%= if @followers != 1 do %>
+              <p class="text-sm">
+                <span class="font-semibold"><%= @followers %></span> followers
+              </p>
+            <% else %>
+              <p class="text-sm">
+                <span class="font-semibold">1</span> follower
+              </p>
+            <% end %>
           </li>
-          <li class="flex items-center space-x-1">
-            <.icon name={:map_pin} outline class="h-4 w-4" />
-            <p class="text-sm">Building 7, 1.04</p>
+
+          <li :if={@organization.location} class="flex items-center space-x-1">
+            <.icon name={:map_pin} outline class="size-4" />
+            <p class="text-sm"><%= @organization.location %></p>
           </li>
-          <li class="flex items-center space-x-1">
-            <.icon name={:link} outline class="h-4 w-4" />
-            <%!-- FIXME: Should be an href --%>
-            <p class="text-sm hover:underline">https://cesium.di.uminho.pt</p>
+
+          <li :if={@organization.socials && @organization.socials.website} class="group">
+            <object>
+              <.link href={@organization.socials.website} target="_blank" class="flex items-center space-x-1">
+                <.icon name={:link} outline class="size-4" />
+                <p class="text-sm group-hover:underline"><%= @organization.socials.website %></p>
+              </.link>
+            </object>
           </li>
-          <%!-- TODO: List all other socials --%>
         </ul>
       </div>
     </div>

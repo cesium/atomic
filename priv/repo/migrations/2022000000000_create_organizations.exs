@@ -10,7 +10,9 @@ defmodule Atomic.Repo.Migrations.CreateOrganizations do
       add :description, :text, null: false
 
       add :logo, :string
-      add :location, :map
+      add :location, :string
+
+      add :socials, :map
 
       timestamps()
     end

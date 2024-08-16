@@ -46,7 +46,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
     params =
       Map.put(params, "filters", %{
-        filters: %{field: :name, op: :ilike, value: "%#{query}%"}
+        filters: %{field: :name, op: :ilike, value: query}
       })
 
     case Organizations.list_organizations(params) do

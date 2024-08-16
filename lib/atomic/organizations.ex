@@ -284,20 +284,41 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-    Verifies if an user is a member of an organization.
+  Verifies if an user is a member of an organization.
 
-    ## Examples
+  ## Examples
 
-        iex> member_of?(user, organization)
-        true
+      iex> member_of?(user, organization)
+      true
 
-        iex> member_of?(user, organization)
-        false
+      iex> member_of?(user, organization)
+      false
 
   """
   def member_of?(%User{} = user, %Organization{} = organization) do
     Membership
     |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
+    |> Repo.exists?()
+  end
+
+  @doc """
+  Checks if an user is following an organization.
+
+  ## Examples
+
+      iex> user_following?(123, 456)
+      true
+
+      iex> user_following?(456, 789)
+      false
+
+  """
+  def user_following?(user_id, organization_id) do
+    Membership
+    |> where(
+      [m],
+      m.user_id == ^user_id and m.organization_id == ^organization_id and m.role == :follower
+    )
     |> Repo.exists?()
   end
 
@@ -437,15 +458,16 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the amount of followers in an organization.
+  Counts the number of followers in an organization.
 
   ## Examples
 
-      iex> count_followers("99d7c9e5-4212-4f59-a097-28aaa33c2621")
+      iex> count_followers(123)
       5
 
-      iex> count_followers("9as7c9e5-4212-4f59-a097-28aaa33c2621")
-      100_000_000_000_000_000_000_000_000
+      iex> count_followers(456)
+      0
+
   """
   def count_followers(organization_id) do
     Membership
@@ -466,6 +488,8 @@ defmodule Atomic.Organizations do
     from(m in Membership, where: m.organization_id == ^organization_id)
     |> Repo.aggregate(:count, :id)
   end
+
+  ## Announcements
 
   @doc """
   Returns the list of announcements.
