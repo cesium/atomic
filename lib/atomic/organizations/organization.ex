@@ -4,8 +4,7 @@ defmodule Atomic.Organizations.Organization do
 
   alias Atomic.Accounts.User
   alias Atomic.Organizations.{Announcement, Department, Membership, Partner}
-  alias Atomic.Uploaders
-  alias Atomic.Socials
+  alias Atomic.{Socials, Uploaders}
 
   @required_fields ~w(name long_name description)a
   @optional_fields ~w(location)a

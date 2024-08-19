@@ -2,24 +2,25 @@ defmodule AtomicWeb.Components.Tabs do
   @moduledoc false
   use AtomicWeb, :component
 
-  attr :class, :string, default: "", doc: "The class to apply to the tabs"
   attr :underline, :boolean, default: true, doc: "Whether to show a bottom border on the tabs"
+  attr :class, :string, default: "", doc: "The class to apply to the tabs"
   attr :rest, :global
+
   slot :inner_block, required: false
 
   def tabs(assigns) do
     ~H"""
-    <div
+    <nav
       {@rest}
       class={[
-        "flex gap-x-8 gap-y-2",
+        "gap-x-8 gap-y-2",
         @underline && "border-b border-gray-200",
         @class
       ]}
       aria-label="Tabs"
     >
       <%= render_slot(@inner_block) %>
-    </div>
+    </nav>
     """
   end
 

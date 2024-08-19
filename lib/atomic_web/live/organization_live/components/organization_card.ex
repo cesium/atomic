@@ -34,8 +34,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
                 "relative rounded-lg",
                 @organization.logo && "bg-white"
               ]}>
-                <.avatar name={@organization.name} color={:white} size={:lg} class="!size-32 relative p-1" type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
-                <div class="absolute"></div>
+                <.avatar name={@organization.name} color={:white} size={:lg} class="!size-32 p-1" type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
               </div>
             </div>
             <p class="ml-3 text-lg font-semibold text-zinc-900">
@@ -43,12 +42,12 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
             </p>
           </div>
 
+          <%!-- TODO: Maybe show button when there's no current user, but with a must login warning? --%>
           <%= if @current_user do %>
             <%= if Organizations.user_following?(@current_user.id, @organization.id) do %>
-              <.button disabled><%= gettext("Following") %></.button>
+              <.button icon={:star} icon_variant={:solid}><%= gettext("Following") %></.button>
             <% else %>
-              <%!-- TODO: Complete functionality --%>
-              <.button><%= gettext("Follow") %></.button>
+              <.button icon={:star}><%= gettext("Follow") %></.button>
             <% end %>
           <% end %>
         </div>
@@ -57,34 +56,34 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
           <%= @organization.long_name %>
         </p>
 
-        <ul role="list" class="mt-2 flex flex-col space-y-1 md:flex-row md:items-center md:space-x-3">
-          <li class="flex items-center space-x-1">
-            <.icon name={:users} outline class="size-4" />
-            <%= if @followers != 1 do %>
-              <p class="text-sm">
-                <span class="font-semibold"><%= @followers %></span> followers
-              </p>
-            <% else %>
-              <p class="text-sm">
-                <span class="font-semibold">1</span> follower
-              </p>
-            <% end %>
-          </li>
+        <div role="list" class="mt-2 flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
+          <ul class="flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
+            <li class="flex items-center space-x-1">
+              <.icon name={:users} outline class="size-4" />
+              <%= if @followers != 1 do %>
+                <p class="text-sm">
+                  <span class="font-semibold"><%= @followers %></span> followers
+                </p>
+              <% else %>
+                <p class="text-sm">
+                  <span class="font-semibold">1</span> follower
+                </p>
+              <% end %>
+            </li>
 
-          <li :if={@organization.location} class="flex items-center space-x-1">
-            <.icon name={:map_pin} outline class="size-4" />
-            <p class="text-sm"><%= @organization.location %></p>
-          </li>
+            <li :if={@organization.location} class="flex items-center space-x-1">
+              <.icon name={:map_pin} outline class="size-4" />
+              <p class="text-sm"><%= @organization.location %></p>
+            </li>
+          </ul>
 
-          <li :if={@organization.socials && @organization.socials.website} class="group">
-            <object>
-              <.link href={@organization.socials.website} target="_blank" class="flex items-center space-x-1">
-                <.icon name={:link} outline class="size-4" />
-                <p class="text-sm group-hover:underline"><%= @organization.socials.website %></p>
-              </.link>
-            </object>
-          </li>
-        </ul>
+          <div :if={@organization.socials && @organization.socials.website} class="group">
+            <.link href={@organization.socials.website} target="_blank" class="flex items-center space-x-1">
+              <.icon name={:link} outline class="size-4" />
+              <p class="text-sm group-hover:underline"><%= @organization.socials.website %></p>
+            </.link>
+          </div>
+        </div>
       </div>
     </div>
     """

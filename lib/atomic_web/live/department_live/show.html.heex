@@ -1,5 +1,5 @@
 <.page title={@page_title} description={"@#{@organization.name}"}>
-  <:before>
+  <:header>
     <div class="h-32 w-full select-none">
       <%= if @department.banner do %>
         <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@department.banner, @department}, :original)} />
@@ -7,7 +7,7 @@
         <.gradient seed={@department.id} class="object-cover" />
       <% end %>
     </div>
-  </:before>
+  </:header>
 
   <:actions>
     <div class="flex gap-2 sm:hidden">

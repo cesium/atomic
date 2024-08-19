@@ -31,7 +31,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
         instagram: "cesiuminho",
         x: "cesiuminho",
         linkedin: "cesiuminho",
-        website: "https://cesium.di.uminho.pt"
+        website: "https://cesium.pt"
       }
     }
     |> Repo.insert!()

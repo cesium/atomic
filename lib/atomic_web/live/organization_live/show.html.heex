@@ -1,9 +1,76 @@
-<.page title={@page_title}>
-  <:actions :if={@has_permissions?}>
-    <.button patch="/" icon={:pencil}>
-      <%= gettext("Edit") %>
-    </.button>
+<.page title={@page_title} description="@cesium">
+  <:header>
+    <div class="h-32 w-full select-none">
+      <%!-- FIXME: Add banner support --%>
+      <%!-- <%= if @organization.banner do %>
+        <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
+      <% else %> --%>
+      <.gradient seed={@organization.id} class="object-cover" />
+      <%!-- <% end %> --%>
+    </div>
+  </:header>
+
+  <:actions>
+    <div class="flex space-x-4">
+      <%= if @has_permissions? do %>
+        <p class="sr-only"><%= gettext("Edit") %></p>
+        <.button icon={:pencil} icon_variant={:solid} color={:white} />
+      <% end %>
+
+      <%= if @current_user do %>
+        <p class="sr-only"><%= gettext("Contact") %></p>
+        <.link href="mailto:cesium@di.uminho.pt" target="_blank">
+          <.button icon={:envelope} icon_variant={:solid} color={:white} />
+        </.link>
+
+        <%!-- TODO: Maybe show button when there's no current user, but with a must login warning? --%>
+        <%= if !Organizations.user_following?(@current_user.id, @organization.id) do %>
+          <.button icon={:star} icon_variant={:solid} color={:white}><%= gettext("Following") %></.button>
+        <% else %>
+          <.button icon={:star}><%= gettext("Follow") %></.button>
+        <% end %>
+      <% end %>
+    </div>
   </:actions>
 
-  <%= @organization.name %>
+  <.tabs class="overflow-scroll scrollbar-hide flex px-4 sm:px-6 lg:px-8">
+    <.link patch="?tab=about" replace={false}>
+      <.tab id="about-tab" active={@current_tab == "about"}>
+        <.icon name={:information_circle} class="size-5 mr-2" />
+        <%= gettext("About") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=posts" replace={false}>
+      <.tab id="posts-tab" active={@current_tab == "posts"}>
+        <.icon name={:newspaper} class="size-5 mr-2" />
+        <%= gettext("Posts") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=departments" replace={false}>
+      <.tab id="department-tab" active={@current_tab == "departments"}>
+        <.icon name={:cube} class="size-5 mr-2" />
+        <%= gettext("Departments") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=partners" replace={false}>
+      <.tab id="partners-tab" active={@current_tab == "partners"}>
+        <.icon name={:heart} class="size-5 mr-2" />
+        <%= gettext("Partners") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=members" replace={false}>
+      <.tab id="members-tab" active={@current_tab == "members"}>
+        <.icon name={:user_group} class="size-5 mr-2" />
+        <%= gettext("Members") %>
+      </.tab>
+    </.link>
+  </.tabs>
+
+  <div :if={@current_tab == "about"}>
+    <.organization_about organization={@organization} />
+  </div>
 </.page>

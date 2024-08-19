@@ -11,14 +11,14 @@ defmodule AtomicWeb.Components.Page do
     default: false,
     doc: "Whether to show a bottom border after the page header."
 
-  slot :before, optional: true, doc: "Slot for content to be rendered before the page header."
+  slot :header, optional: true, doc: "Slot for content to be rendered as the page header."
 
   slot :actions, optional: true, doc: "Slot for actions to be rendered in the page header."
   slot :inner_block, optional: true, doc: "Slot for the body content of the page."
 
   def page(assigns) do
     ~H"""
-    <%= render_slot(@before) %>
+    <%= render_slot(@header) %>
 
     <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
       <div class={"#{if @bottom_border, do: 'border-b', else: ''} min-h-[100vh] flex w-full flex-col bg-white lg:flex-row lg:border-r"}>
