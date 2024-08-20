@@ -149,7 +149,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 hover:bg-zinc-100 focus:z-10 lg:hidden"}>
+    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50" else "hover:bg-zinc-100" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 focus:z-10 lg:hidden"}>
       <time
         date-time={@date}
         class={

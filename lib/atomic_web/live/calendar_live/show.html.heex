@@ -1,5 +1,5 @@
 <.page title="Calendar">
-  <div class="bg-gray-50 lg:h-0 lg:min-h-[787px] overflow-hidden rounded-lg ring-1 ring-zinc-900/10 lg:mx-8 m-4">
+  <div class="bg-gray-50 lg:h-0 lg:min-h-[787px] overflow-hidden rounded-lg ring-1 ring-zinc-900/10 lg:mx-8 mx-4">
     <div x-data="{ mode_view: false }" class="lg:flex lg:h-full lg:flex-col">
       <header class="px-6 py-4 flex flex-col sm:flex-row border-b border-zinc-300">
         <div class="flex-1">
@@ -123,5 +123,9 @@
         <.calendar_week current_date={@current_date} params={@params} activities={@activities} beginning_of_week={@beginning_of_week} end_of_week={@end_of_week} timezone={@timezone} />
       <% end %>
     </div>
+  </div>
+  <div class="flex mx-4 mt-3 gap-1 lg:mx-8 text-zinc-400 text-sm">
+    <.icon name={:information_circle} outline class="h-5 w-5" />
+    <p>See here the activities of the organizations you follow.</p>
   </div>
 </.page>

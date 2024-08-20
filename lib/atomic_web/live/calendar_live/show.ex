@@ -8,6 +8,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   import AtomicWeb.Components.Dropdown
 
   alias Atomic.Activities
+  alias Atomic.Organizations
   alias Timex.Duration
 
   @impl true
@@ -26,7 +27,10 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:current_page, :calendar)
      |> assign(:params, params)
      |> assign(:mode, mode)
-     |> assign(:activities, list_activities(socket.assigns.timezone, mode, current_date))
+     |> assign(
+       :activities,
+       list_activities(socket.assigns.timezone, mode, current_date, socket.assigns.current_user)
+     )
      |> assign(:current_path, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
      |> assign(:current_date, current_date)
      |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
@@ -50,7 +54,12 @@ defmodule AtomicWeb.CalendarLive.Show do
      )
      |> assign(
        :activities,
-       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+       list_activities(
+         socket.assigns.timezone,
+         socket.assigns.mode,
+         new_date,
+         socket.assigns.current_user
+       )
      )
      |> assigns_dates()}
   end
@@ -64,7 +73,12 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:current_date, new_date)
      |> assign(
        :activities,
-       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+       list_activities(
+         socket.assigns.timezone,
+         socket.assigns.mode,
+         new_date,
+         socket.assigns.current_user
+       )
      )
      |> assigns_dates()}
   end
@@ -83,7 +97,12 @@ defmodule AtomicWeb.CalendarLive.Show do
      |> assign(:current_date, new_date)
      |> assign(
        :activities,
-       list_activities(socket.assigns.timezone, socket.assigns.mode, new_date)
+       list_activities(
+         socket.assigns.timezone,
+         socket.assigns.mode,
+         new_date,
+         socket.assigns.current_user
+       )
      )
      |> assigns_dates()}
   end
@@ -236,10 +255,19 @@ defmodule AtomicWeb.CalendarLive.Show do
     |> assign(next_week_path: next_week_path)
   end
 
-  defp list_activities(timezone, mode, current_date) do
-    start = Timex.shift(build_beggining_date(timezone, mode, current_date), days: -7)
-    finish = Timex.shift(build_ending_date(timezone, mode, current_date), days: 7)
+  defp list_activities(timezone, mode, current_date, current_user) do
+    if current_user do
+      organizations_id =
+        Organizations.list_organizations_followed_by_user(current_user.id)
+        |> Enum.map(fn org -> org.id end)
 
-    Activities.list_activities_from_to(start, finish)
+      start = Timex.shift(build_beggining_date(timezone, mode, current_date), days: -7)
+      finish = Timex.shift(build_ending_date(timezone, mode, current_date), days: 7)
+
+      Activities.list_activities_from_to(start, finish)
+      |> Enum.filter(fn activity -> activity.organization_id in organizations_id end)
+    else
+      []
+    end
   end
 end
