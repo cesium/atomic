@@ -2,7 +2,6 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Uploader
   alias AtomicWeb.Components.ImageUploader
 
   import AtomicWeb.Components.Forms
@@ -15,7 +14,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_form(changeset)
-     |> allow_upload(:image, accept: Uploader.extensions_whitelist(), max_entries: 1)}
+     |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
 
   @impl true
