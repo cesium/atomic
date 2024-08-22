@@ -1,5 +1,7 @@
 defmodule AtomicWeb.Components.Dropdown do
-  @moduledoc false
+  @moduledoc """
+  A customizable dropdown component for displaying a list of items, with flexible styling and behavior options.
+  """
   use Phoenix.Component
 
   import AtomicWeb.Components.Icon
