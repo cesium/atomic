@@ -215,9 +215,12 @@ defmodule AtomicWeb.Components.Sidebar do
     [
       %{
         name: gettext("Your profile"),
-        link: Routes.profile_show_path(AtomicWeb.Endpoint, :show, current_user)
+        navigate: Routes.profile_show_path(AtomicWeb.Endpoint, :show, current_user)
       },
-      %{name: gettext("Sign out"), link: Routes.user_session_path(AtomicWeb.Endpoint, :delete)}
+      %{
+        name: gettext("Sign out"),
+        navigate: Routes.user_session_path(AtomicWeb.Endpoint, :delete)
+      }
     ]
   end
 end
