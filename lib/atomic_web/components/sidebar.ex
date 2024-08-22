@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Sidebar do
     assigns = assign(assigns, :organizations, Organizations.list_user_organizations(user.id))
 
     ~H"""
-    <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true" id="sidebar">
+    <div class="relative z-50 hidden" role="dialog" aria-modal="true" id="sidebar">
       <div class="bg-zinc-900/80 fixed inset-0"></div>
       <div class="fixed inset-0 flex" id="sidebar-content">
         <div class="relative mr-16 flex w-full max-w-xs flex-1">
