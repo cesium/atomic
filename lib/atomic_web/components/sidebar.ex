@@ -13,21 +13,14 @@ defmodule AtomicWeb.Components.Sidebar do
 
   def desktop_sidebar(assigns) do
     user = assigns[:current_user]
-    assigns = assign(assigns, :organizations, Organizations.list_user_organizations(user.id))
+    organizations = Organizations.list_user_organizations(user.id)
+    assigns = assign(assigns, :organizations, organizations)
 
     ~H"""
-    <div class="relative z-50 hidden" role="dialog" aria-modal="true" id="sidebar">
+    <div class="relative z-50 hidden" role="dialog" aria-modal="true" id="desktop-sidebar">
       <div class="bg-zinc-900/80 fixed inset-0"></div>
-      <div class="fixed inset-0 flex" id="sidebar-content">
+      <div class="fixed inset-0 flex" id="desktop-sidebar-content">
         <div class="relative mr-16 flex w-full max-w-xs flex-1">
-          <div class="absolute top-0 left-full flex w-16 justify-center pt-9">
-            <button type="button" class="-m-2.5" phx-click={%JS{} |> JS.hide(to: "#sidebar", transition: {"ease-in duration-200", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})}>
-              <span class="sr-only">Close sidebar</span>
-              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
           <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
             <.link navigate={Routes.home_index_path(AtomicWeb.Endpoint, :index)} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
               <img src={Routes.static_path(AtomicWeb.Endpoint, "/images/atomic.svg")} class="h-12 w-auto" />
@@ -56,14 +49,6 @@ defmodule AtomicWeb.Components.Sidebar do
                     <% end %>
                   </ul>
                 </li>
-                <%= if @is_authenticated do %>
-                  <%= if Enum.count(@organizations) > 0 do %>
-                    <li>
-                      <div class="select-none text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
-                      <.live_component id="organizations_mobile" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
-                    </li>
-                  <% end %>
-                <% end %>
               </ul>
             </nav>
           </div>
@@ -76,54 +61,86 @@ defmodule AtomicWeb.Components.Sidebar do
   end
 
   def mobile_sidebar(assigns) do
+    user = assigns[:current_user]
+    organizations = Organizations.list_user_organizations(user.id)
+    assigns = assign(assigns, :organizations, organizations)
+
     ~H"""
-    <div class="sticky top-0 z-40 mt-2 flex h-16 shrink-0 items-center gap-x-4 bg-white pr-4 sm:gap-x-6 sm:pr-6 lg:hidden lg:pr-8">
-      <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" phx-click={%JS{} |> JS.show(to: "#sidebar", transition: {"ease-in duration-300", "transform opacity-0 scale-95", "transform opacity-100 scale-100"})}>
+    <div class="relative z-50 lg:hidden">
+      <button
+        type="button"
+        phx-click={
+          %JS{}
+          |> JS.show(to: "#mobile-sidebar", transition: {"ease-in duration-300", "transform -translate-x-full", "transform translate-x-0"})
+          |> JS.show(to: "#sidebar-overlay", transition: {"ease-in duration-75", "opacity-0", "opacity-80"})
+        }
+        class="fixed top-4 right-2 z-50"
+      >
         <span class="sr-only">Open sidebar</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
+        <.icon name={:bars_3} class="h-6 w-6" />
       </button>
-      <div class="flex flex-1 justify-end gap-x-4 self-stretch lg:gap-x-6">
-        <div class="flex items-center gap-x-4 lg:gap-x-6">
-          <%= if @is_authenticated do %>
-            <!-- Profile menu or "Sign in" -->
-            <div class="relative block font-semibold lg:hidden">
-              <.dropdown orientation={:down} items={dropdown_items(@current_user)} id="user-dropdown-menu">
-                <:wrapper>
-                  <button
-                    type="button"
-                    class="-m-1.5 flex items-center p-1.5"
-                    id="user-menu-button-mobile"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    phx-click={%JS{} |> JS.show(to: "#user-dropdown-menu", transition: {"ease-out duration-300", "transform opacity-0 scale-95", "transform opacity-100 scale-100"})}
-                  >
-                    <span class="sr-only">Open user menu</span>
-                    <.avatar
-                      name={@current_user.name}
-                      src={
-                        if @current_user.profile_picture do
-                          Uploaders.ProfilePicture.url({@current_user, @current_user.profile_picture}, :original)
-                        else
-                          nil
-                        end
-                      }
-                      size={:xs}
-                      color={:light_gray}
-                      class="!text-[16px]"
-                    />
-                  </button>
-                </:wrapper>
-              </.dropdown>
+
+      <div
+        id="sidebar-overlay"
+        class="bg-zinc-900/80 pointer-events-none fixed inset-0 z-40 opacity-0 transition-opacity duration-300"
+        phx-click={
+          %JS{}
+          |> JS.hide(to: "#mobile-sidebar", transition: {"ease-in duration-300", "transform translate-x-0", "transform -translate-x-full"})
+          |> JS.hide(to: "#sidebar-overlay", transition: {"ease-in duration-75", "opacity-80", "opacity-0"})
+        }
+      />
+      <!-- Sidebar Panel -->
+      <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden -translate-x-full transform transition-transform duration-300" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 flex">
+          <div class="relative flex w-64 max-w-xs flex-col bg-white">
+            <div class="flex justify-between p-4">
+              <div class="flex items-center gap-x-4">
+                <img src={Routes.static_path(AtomicWeb.Endpoint, "/images/atomic.svg")} class="h-10 w-auto" />
+                <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
+              </div>
+              <button
+                type="button"
+                phx-click={
+                  %JS{}
+                  |> JS.hide(to: "#mobile-sidebar", transition: {"ease-out duration-300", "transform translate-x-0", "transform -translate-x-full"})
+                  |> JS.hide(to: "#sidebar-overlay", transition: {"ease-out duration-75", "opacity-80", "opacity-0"})
+                }
+                class="absolute top-0 right-0 p-4"
+              >
+                <span class="sr-only">Close sidebar</span>
+                <.icon name={:x_mark} class="h-6 w-6 text-zinc-700" />
+              </button>
             </div>
-          <% else %>
-            <div class="flex flex-1 justify-end lg:hidden">
-              <%= live_redirect to: Routes.user_session_path(AtomicWeb.Endpoint, :new), class: "text-md font-semibold leading-6 text-zinc-900" do %>
-                Sign in <span aria-hidden="true">&rarr;</span>
+            <div class="flex-1 overflow-y-auto px-4 py-4">
+              <nav class="flex flex-col gap-y-4">
+                <ul role="list" class="space-y-1">
+                  <%= for page <- AtomicWeb.Config.pages(AtomicWeb.Endpoint, @current_user, @current_organization) do %>
+                    <li class="select-none">
+                      <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6" do %>
+                        <.icon
+                          name={page.icon}
+                          class={
+                            "#{if @current_page == page.key do
+                              "text-orange-500"
+                            else
+                              "text-zinc-400 group-hover:text-orange-500"
+                            end} h-6 w-6 shrink-0"
+                          }
+                        />
+                        <%= page.title %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </nav>
+              <%= if @is_authenticated do %>
+                <%= if Enum.count(@organizations) > 0 do %>
+                  <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                  <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
+                <% end %>
               <% end %>
             </div>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>
@@ -132,7 +149,8 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp navigation(assigns) do
     user = assigns[:current_user]
-    assigns = assign(assigns, :organizations, Organizations.list_user_organizations(user.id))
+    organizations = Organizations.list_user_organizations(user.id)
+    assigns = assign(assigns, :organizations, organizations)
 
     ~H"""
     <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -166,11 +184,11 @@ defmodule AtomicWeb.Components.Sidebar do
               <%= if Enum.count(@organizations) > 0 do %>
                 <li>
                   <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
-                  <.live_component id="organizations_desktop" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
+                  <.live_component id="desktop-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
                 </li>
               <% end %>
               <!-- Profile menu or "Sign in" -->
-              <li class="left-1/4 -mx-6 mt-auto -mb-2" phx-click={%JS{} |> JS.show(to: "#user-menu-button", transition: {"ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"})}>
+              <li class="left-1/4 -mx-6 mt-auto -mb-2">
                 <span class="sr-only">Open user menu</span>
                 <.dropdown orientation={:up} items={dropdown_items(@current_user)} id="user-menu-button">
                   <:wrapper>

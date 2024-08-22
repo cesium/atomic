@@ -1,4 +1,10 @@
-<!-- Desktop Sidebar -->
-<AtomicWeb.Components.Sidebar.desktop_sidebar current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated?} />
-<!-- Mobile Sidebar -->
-<AtomicWeb.Components.Sidebar.mobile_sidebar current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated?} />
+<div>
+  <!-- Desktop Sidebar -->
+  <div class="hidden lg:block">
+    <AtomicWeb.Components.Sidebar.desktop_sidebar current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated?} />
+  </div>
+  <!-- Mobile Sidebar -->
+  <div class="block lg:hidden">
+    <AtomicWeb.Components.Sidebar.mobile_sidebar current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated?} />
+  </div>
+</div>
