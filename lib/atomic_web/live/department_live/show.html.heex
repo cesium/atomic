@@ -55,7 +55,7 @@
                     [
                       %{
                         name: gettext("Collaborators"),
-                        link:
+                        navigate:
                           Routes.department_show_path(
                             @socket,
                             :show,
@@ -67,7 +67,7 @@
                       }
                     ] ++
                       if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
-                        [%{name: gettext("Edit"), link: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
+                        [%{name: gettext("Edit"), navigate: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
                       else
                         []
                       end

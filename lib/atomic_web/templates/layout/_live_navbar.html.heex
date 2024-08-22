@@ -129,8 +129,8 @@
               <AtomicWeb.Components.Dropdown.dropdown
                 orientation={:top}
                 items={[
-                  %{name: "Your profile", link: Routes.profile_show_path(@socket, :show, @current_user)},
-                  %{name: "Sign out", link: Routes.user_session_path(@socket, :delete), method: "delete"}
+                  %{name: "Your profile", navigate: Routes.profile_show_path(@socket, :show, @current_user)},
+                  %{name: "Sign out", href: Routes.user_session_path(@socket, :delete), method: "delete"}
                 ]}
                 id="user-menu-button"
               >
@@ -185,13 +185,13 @@
             <AtomicWeb.Components.Dropdown.dropdown
               orientation={:down}
               items={[
-                %{name: "Your profile", link: Routes.profile_show_path(@socket, :show, @current_user)},
-                %{name: "Sign out", link: Routes.user_session_path(@socket, :delete)}
+                %{name: "Your profile", navigate: Routes.profile_show_path(@socket, :show, @current_user)},
+                %{name: "Sign out", navigate: Routes.user_session_path(@socket, :delete)}
               ]}
               id="user-dropdown-menu"
             >
               <:wrapper>
-                <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
+                <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button-mobile" aria-expanded="false" aria-haspopup="true" @click="menu = ! menu" @click.away="menu = false" @keydown.escape="menu = false">
                   <span class="sr-only">Open user menu</span>
                   <AtomicWeb.Components.Avatar.avatar
                     name={@current_user.name}
