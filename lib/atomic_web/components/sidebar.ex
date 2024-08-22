@@ -219,7 +219,8 @@ defmodule AtomicWeb.Components.Sidebar do
       },
       %{
         name: gettext("Sign out"),
-        navigate: Routes.user_session_path(AtomicWeb.Endpoint, :delete)
+        href: Routes.user_session_path(AtomicWeb.Endpoint, :delete),
+        method: "delete"
       }
     ]
   end
