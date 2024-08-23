@@ -154,8 +154,8 @@ defmodule AtomicWeb.Components.CalendarMonth do
         date-time={@date}
         class={
           "ml-auto lg:ml-0 #{if @current_date == @date do
-            "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
-              "bg-orange-700"
+            "flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
+              "bg-orange-600"
             else
               "bg-zinc-900"
             end} text-white shirk-0"
@@ -174,9 +174,9 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <%= if (activities = get_date_activities(@activities, @date)) != [] do %>
         <span class="sr-only"><%= Enum.count(activities) %> events</span>
         <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
-          <%= for activity <- activities do %>
+          <%= for activity <- Enum.take(activities, 3) do %>
             <%= if activity do %>
-              <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-700"></span>
+              <span class="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-zinc-400"></span>
             <% end %>
           <% end %>
         </span>

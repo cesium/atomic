@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> assign(today: Timex.today(timezone))
 
     ~H"""
-    <div id={@id} class="flex h-full flex-auto flex-col overflow-y-auto overflow-x-hidden rounded-lg bg-white">
+    <div id={@id} class="flex flex-auto flex-col overflow-y-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
@@ -46,7 +46,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
               </.link>
             <% end %>
           </div>
-          <div class="-mr-px hidden grid-cols-7 divide-x divide-zinc-100 border-r border-zinc-100 text-sm leading-6 text-zinc-500 sm:grid">
+          <div class="hidden grid-cols-7 divide-x divide-zinc-100 border-r border-zinc-100 text-sm leading-6 text-zinc-500 sm:grid">
             <div class="col-end-1 w-12"></div>
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
                   <%= Enum.at(@week, idx) %>
                   <span class={
                     "#{if @today == day_of_week do
-                      "flex ml-1.5 w-8 h-8 text-white bg-orange-700 rounded-full"
+                      "flex ml-1.5 w-8 h-8 text-white bg-primary-600 rounded-full"
                     else
                       "text-zinc-900"
                     end} items-center justify-center font-semibold"
@@ -74,14 +74,14 @@ defmodule AtomicWeb.Components.CalendarWeek do
           </div>
         </div>
         <div class="flex flex-auto">
-          <div class="left-0 w-12 flex-none bg-white ring-1 ring-zinc-100"></div>
+          <div class="sticky left-0 w-12 flex-none bg-white ring-1 ring-zinc-100"></div>
           <div class="grid flex-auto grid-cols-1 grid-rows-1">
             <!-- Horizontal lines -->
             <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(48, minmax(3.5rem, 1fr))">
               <div class="row-end-1 h-6"></div>
               <%= for hour <- hours() do %>
                 <div>
-                  <div class="left-0 -mt-2.5 -ml-14 w-12 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
+                  <div class="sticky left-0 -mt-2.5 -ml-14 w-12 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
                 </div>
                 <div></div>
               <% end %>
@@ -122,7 +122,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
             width: #{(1/width)*100}%;
             left: #{if left > 0 do (left / width) * 100 else 0 end}%"}>
         <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-          <div class={"#{if width != 1 do "hover:z-10 sm:hover:w-max" end} group absolute inset-1 flex flex-col overflow-y-auto overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100"}>
+          <div class={"#{if width != 1 do "sm:hover:z-10 sm:hover:w-max sm:max-w-32 sm:hover:overflow-y-auto" end} group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100 sm:overflow-y-hidden"}>
             <p class="order-1 font-semibold text-orange-500">
               <%= activity.title %>
             </p>
