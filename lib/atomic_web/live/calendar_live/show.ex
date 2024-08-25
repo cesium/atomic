@@ -282,6 +282,17 @@ defmodule AtomicWeb.CalendarLive.Show do
     end)
   end
 
+  defp split_all_activities_by_day(activities) do
+    Enum.map(activities, fn activity ->
+      if multi_day_activity?(activity) do
+        split_activity_by_day(activity)
+      else
+        [activity]
+      end
+    end)
+    |> List.flatten()
+  end
+
   defp list_activities(timezone, mode, current_date, current_user) do
     if current_user do
       organizations_id =
@@ -293,14 +304,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
       Activities.list_activities_from_to(start, finish)
       |> Enum.filter(fn activity -> activity.organization_id in organizations_id end)
-      |> Enum.map(fn activity ->
-        if multi_day_activity?(activity) do
-          split_activity_by_day(activity)
-        else
-          [activity]
-        end
-      end)
-      |> List.flatten()
+      |> split_all_activities_by_day()
     else
       []
     end

@@ -165,17 +165,6 @@ defmodule AtomicWeb.Components.CalendarWeek do
     current_interval =
       Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
 
-    IO.inspect(
-      activities
-      |> Enum.filter(fn activity ->
-        activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
-
-        activity != current_activity && activity.start.day == current_activity.start.day and
-          Timex.Interval.overlaps?(current_interval, activity_interval)
-      end)
-      |> length()
-    )
-
     activities
     |> Enum.filter(fn activity ->
       activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
