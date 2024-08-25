@@ -255,6 +255,33 @@ defmodule AtomicWeb.CalendarLive.Show do
     |> assign(next_week_path: next_week_path)
   end
 
+  defp multi_day_activity?(activity) do
+    Timex.diff(activity.finish, activity.start, :days) > 0
+  end
+
+  defp split_activity_by_day(activity) do
+    start_date = Timex.to_date(activity.start)
+    end_date = Timex.to_date(activity.finish)
+
+    Enum.map(0..Timex.diff(end_date, start_date, :days), fn offset ->
+      day_start =
+        if offset > 0 do
+          Timex.shift(activity.start, days: offset) |> Timex.beginning_of_day()
+        else
+          activity.start
+        end
+
+      day_end =
+        if offset == Timex.diff(end_date, start_date, :days) do
+          activity.finish
+        else
+          Timex.end_of_day(day_start)
+        end
+
+      %{activity | start: day_start, finish: day_end}
+    end)
+  end
+
   defp list_activities(timezone, mode, current_date, current_user) do
     if current_user do
       organizations_id =
@@ -266,6 +293,14 @@ defmodule AtomicWeb.CalendarLive.Show do
 
       Activities.list_activities_from_to(start, finish)
       |> Enum.filter(fn activity -> activity.organization_id in organizations_id end)
+      |> Enum.map(fn activity ->
+        if multi_day_activity?(activity) do
+          split_activity_by_day(activity)
+        else
+          [activity]
+        end
+      end)
+      |> List.flatten()
     else
       []
     end
