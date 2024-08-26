@@ -24,7 +24,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
     ~H"""
     <div id={@id} class="flex flex-auto flex-col overflow-y-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-        <div class="sticky top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
+        <div class="sticky top-0 z-20 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
@@ -74,7 +74,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
           </div>
         </div>
         <div class="flex flex-auto">
-          <div class="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-zinc-100"></div>
+          <div class="sticky left-0 z-20 w-14 flex-none bg-white ring-1 ring-zinc-100"></div>
           <div class="grid flex-auto grid-cols-1 grid-rows-1">
             <!-- Horizontal lines -->
             <div class="col-start-1 col-end-2 row-start-1 grid divide-y divide-zinc-100" style="grid-template-rows: repeat(48, minmax(3.5rem, 1fr))">
@@ -123,7 +123,7 @@ defmodule AtomicWeb.Components.CalendarWeek do
             width: #{(1/width)*100}%;
             left: #{if left > 0 do (left / width) * 100 else 0 end}%"}>
         <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-          <div class={"#{if width != 1 do "sm:hover:z-10 sm:hover:w-max sm:max-w-32" end} group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100 sm:overflow-y-hidden sm:hover:overflow-y-auto"}>
+          <div class={"#{if width != 1 do "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]" end} group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100 sm:overflow-y-hidden sm:hover:overflow-y-auto"}>
             <p class="order-1 font-semibold text-orange-500">
               <%= activity.title %>
             </p>
