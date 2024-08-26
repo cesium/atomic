@@ -22,9 +22,9 @@ defmodule AtomicWeb.Components.CalendarWeek do
       |> assign(today: Timex.today(timezone))
 
     ~H"""
-    <div id={@id} class="flex flex-auto flex-col overflow-y-auto rounded-lg bg-white">
+    <div id={@id} class="isolate flex flex-auto flex-col overflow-y-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-        <div class="sticky top-0 z-20 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
+        <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
