@@ -40,7 +40,7 @@ defmodule AtomicWeb.Components.Sidebar do
         </button>
         <div class="left-1/4 mt-auto -mb-2" @click="menu = ! menu">
           <span class="sr-only">Open user menu</span>
-          <.sidebar_dropdown current_user={@current_user} />
+          <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>
       </div>
       <!-- Sidebar Panel -->
@@ -88,7 +88,7 @@ defmodule AtomicWeb.Components.Sidebar do
         <% end %>
         <!-- Sidebar -->
         <div class="absolute bottom-0 w-full">
-          <.sidebar_dropdown current_user={@current_user} />
+          <.sidebar_dropdown current_user={@current_user} orientation={:up} />
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@ defmodule AtomicWeb.Components.Sidebar do
   defp sidebar_dropdown(assigns) do
     ~H"""
     <%= if @current_user do %>
-      <AtomicWeb.Components.Dropdown.dropdown orientation={:up} items={dropdown_items(@current_user)} id="user-menu-button">
+      <AtomicWeb.Components.Dropdown.dropdown orientation={@orientation} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
             <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
