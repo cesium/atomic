@@ -50,13 +50,6 @@ defmodule AtomicWeb.Config do
           tabs: []
         },
         %{
-          key: :memberships,
-          title: "Memberships",
-          icon: :user_plus,
-          url: Routes.home_index_path(conn, :index),
-          tabs: []
-        },
-        %{
           key: :scanner,
           title: "Scanner",
           icon: :qr_code,
