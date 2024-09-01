@@ -185,7 +185,10 @@ defmodule AtomicWeb.Components.Sidebar do
       transition:
         {"ease-out duration-1000", "transform translate-x-0", "transform -translate-x-full"}
     )
-    |> JS.hide(to: "#sidebar-overlay")
+    |> JS.hide(
+      to: "#sidebar-overlay",
+      transition: {"ease-out duration-500", "opacity-100", "opacity-0"}
+    )
     |> JS.dispatch("focus", to: "#mobile-sidebar")
   end
 
