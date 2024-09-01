@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Sidebar do
           <span class="sr-only">Open sidebar</span>
           <.icon name={:bars_3} class="!h-6 !w-6" />
         </button>
-        <div class="left-1/4 mt-auto -mb-2" @click="menu = ! menu">
+        <div class="left-1/4 mt-auto -mb-2">
           <span class="sr-only">Open user menu</span>
           <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>

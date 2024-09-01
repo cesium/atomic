@@ -22,7 +22,7 @@
           </div>
         </div>
         <!-- Tabs -->
-        <div x-data="{ option: 'all' }" class="sticky top-0 z-10 bg-white block">
+        <div x-data="{ option: 'all' }" class="sticky top-11 lg:top-0 z-10 bg-white block">
           <.tabs class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
             <.tab id="tab-all" active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
               <%= gettext("All") %>
