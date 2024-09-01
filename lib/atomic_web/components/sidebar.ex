@@ -43,9 +43,10 @@ defmodule AtomicWeb.Components.Sidebar do
           <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>
       </div>
+      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50" phx-click={hide_mobile_sidebar()}></div>
       <!-- Sidebar Panel -->
-      <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 flex">
+      <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden w-64" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 flex w-fit">
           <div class="relative flex w-64 max-w-xs flex-col border-r bg-white">
             <div class="flex justify-between p-4">
               <.sidebar_header />
@@ -64,7 +65,6 @@ defmodule AtomicWeb.Components.Sidebar do
               <% end %>
             </div>
           </div>
-          <div id="sidebar-overlay" class="fixed inset-y-0 right-0 z-40 bg-black bg-opacity-50" style="width: calc(100% - 16rem);" phx-click={hide_mobile_sidebar()}></div>
         </div>
       </div>
     </div>
