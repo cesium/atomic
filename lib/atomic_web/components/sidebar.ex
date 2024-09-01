@@ -43,8 +43,6 @@ defmodule AtomicWeb.Components.Sidebar do
           <.sidebar_dropdown current_user={@current_user} />
         </div>
       </div>
-
-      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden bg-black bg-opacity-50"></div>
       <!-- Sidebar Panel -->
       <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 flex">
@@ -66,6 +64,7 @@ defmodule AtomicWeb.Components.Sidebar do
               <% end %>
             </div>
           </div>
+          <div id="sidebar-overlay" class="fixed inset-y-0 right-0 z-40 bg-black bg-opacity-50" style="width: calc(100% - 16rem);" phx-click={hide_mobile_sidebar()}></div>
         </div>
       </div>
     </div>
@@ -88,7 +87,9 @@ defmodule AtomicWeb.Components.Sidebar do
           <.live_component id="desktop-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
         <% end %>
         <!-- Sidebar -->
-        <.sidebar_dropdown current_user={@current_user} />
+        <div class="absolute bottom-0 w-full">
+          <.sidebar_dropdown current_user={@current_user} />
+        </div>
       </div>
     </div>
     """
@@ -118,12 +119,12 @@ defmodule AtomicWeb.Components.Sidebar do
   defp sidebar_dropdown(assigns) do
     ~H"""
     <%= if @current_user do %>
-      <AtomicWeb.Components.Dropdown.dropdown orientation={:down} items={dropdown_items(@current_user)} id="user-menu-button">
+      <AtomicWeb.Components.Dropdown.dropdown orientation={:up} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
             <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
             <span class="text-sm font-semibold leading-6" aria-hidden="true"><%= @current_user.name %></span>
-            <.icon name={:chevron_down} solid class="h-5 w-5" />
+            <.icon name={:chevron_right} solid class="h-5 w-5" />
           </button>
         </:wrapper>
       </AtomicWeb.Components.Dropdown.dropdown>
@@ -171,7 +172,7 @@ defmodule AtomicWeb.Components.Sidebar do
     |> JS.show(
       to: "#mobile-sidebar",
       transition:
-        {"ease-in duration-1000", "transform translate-x-0", "transform -translate-x-full"}
+        {"transition ease-in-out duration-300 transform", "-translate-x-full", "translate-x-0"}
     )
     |> JS.show(to: "#sidebar-overlay")
     |> JS.dispatch("focus", to: "#mobile-sidebar")
