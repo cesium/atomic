@@ -50,8 +50,8 @@ defmodule AtomicWeb.Components.CalendarMonth do
       <div class="px-4 py-10 sm:px-6 lg:hidden">
         <ol class="divide-y divide-zinc-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
           <%= for activity <- get_date_activities(@activities, @current_date) do %>
-            <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-              <li class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
+            <li>
+              <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)} class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
                 <div class="flex-auto">
                   <p class="font-semibold text-zinc-900">
                     <%= activity.title %>
@@ -63,11 +63,8 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     </time>
                   </div>
                 </div>
-                <.link navigate={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} class="bg-primary-600 flex-none self-center rounded-md px-3 py-2 font-semibold text-white hover:bg-primary-500 focus-visible:outline-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2">
-                  Open activity
-                </.link>
-              </li>
-            </.link>
+              </.link>
+            </li>
           <% end %>
         </ol>
       </div>
@@ -104,7 +101,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
     weekday = Timex.weekday(date, :monday)
     today? = Timex.compare(date, Timex.today(timezone))
 
-    class =
+    class_desktop =
       class_list([
         {"relative py-2 px-3 lg:h-28 lg:flex flex-col hidden", true},
         {"bg-white", assigns.current_date.month == date.month},
@@ -115,13 +112,13 @@ defmodule AtomicWeb.Components.CalendarMonth do
       assigns
       |> assign(disabled: today? < 0)
       |> assign(:text, Timex.format!(date, "{D}"))
-      |> assign(:class, class)
+      |> assign(:class_desktop, class_desktop)
       |> assign(:date, date)
       |> assign(:today?, today?)
       |> assign(:weekday, weekday)
 
     ~H"""
-    <div class={@class}>
+    <div class={@class_desktop}>
       <time date-time={@date} class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if @today? == 0 do
             "flex h-6 w-6 items-center justify-center rounded-full bg-primary-600 font-semibold text-white"
@@ -162,9 +159,9 @@ defmodule AtomicWeb.Components.CalendarMonth do
           else
             if @today? == 0 do
               "text-orange-700"
-            end
-            if @date.month != @current_date.month do
-              "text-zinc-500"
+            else if @date.month != @current_date.month do
+                "text-zinc-500"
+              end
             end
           end}"
         }
