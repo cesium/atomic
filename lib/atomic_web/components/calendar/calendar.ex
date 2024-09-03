@@ -90,8 +90,8 @@ defmodule AtomicWeb.Components.Calendar do
                     id="calendar-dropdown"
                     orientation={:down}
                     items={[
-                      %{name: gettext("Week view"), link: @current_week_path},
-                      %{name: gettext("Month view"), link: @current_month_path}
+                      %{name: gettext("Week view"), patch: @current_week_path},
+                      %{name: gettext("Month view"), patch: @current_month_path}
                     ]}
                   >
                     <:wrapper>

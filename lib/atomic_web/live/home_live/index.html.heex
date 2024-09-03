@@ -24,14 +24,14 @@
         <!-- Tabs -->
         <div x-data="{ option: 'all' }" class="sticky top-0 z-10 bg-white block">
           <.tabs class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
-            <.tab active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
+            <.tab id="tab-all" active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
               <%= gettext("All") %>
             </.tab>
-            <.tab active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
+            <.tab id="tab-following" active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
               <%= gettext("Following") %>
             </.tab>
             <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
-              <.tab active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
+              <.tab id="tab-schedule" active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
                 <%= gettext("Schedule") %>
               </.tab>
             <% end %>
@@ -46,7 +46,7 @@
                   <.activity activity={post.activity} />
                 </.link>
               <% else %>
-                <.link navigate={Routes.announcement_show_path(@socket, :show, post)}>
+                <.link navigate={Routes.announcement_show_path(@socket, :show, post.announcement)}>
                   <.announcement announcement={post.announcement} />
                 </.link>
               <% end %>
