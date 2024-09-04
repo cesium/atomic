@@ -98,27 +98,20 @@ defmodule AtomicWeb.Components.CalendarMonth do
   end
 
   defp day(%{date: date, timezone: timezone} = assigns) do
-    weekday = Timex.weekday(date, :monday)
     today? = Timex.compare(date, Timex.today(timezone))
-
-    class_desktop =
-      class_list([
-        {"relative py-2 px-3 lg:h-28 lg:flex flex-col hidden", true},
-        {"bg-white", assigns.current_date.month == date.month},
-        {"bg-zinc-50 text-zinc-500", assigns.current_date.month != date.month}
-      ])
 
     assigns =
       assigns
-      |> assign(disabled: today? < 0)
       |> assign(:text, Timex.format!(date, "{D}"))
-      |> assign(:class_desktop, class_desktop)
       |> assign(:date, date)
       |> assign(:today?, today?)
-      |> assign(:weekday, weekday)
 
     ~H"""
-    <div class={@class_desktop}>
+    <div class={[
+      "relative py-2 px-3 lg:h-28 lg:flex flex-col hidden",
+      @current_date.month == @date.month && "bg-white",
+      @current_date.month != @date.month && "bg-zinc-50 text-zinc-500"
+    ]}>
       <time date-time={@date} class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if @today? == 0 do
             "flex h-6 w-6 items-center justify-center rounded-full bg-primary-600 font-semibold text-white"
@@ -146,25 +139,25 @@ defmodule AtomicWeb.Components.CalendarMonth do
         <% end %>
       </ol>
     </div>
-    <.link phx-click="set-current-date" phx-value-date={@date} class={"#{if @current_date.month != @date.month do "bg-zinc-50" else "hover:bg-zinc-100" end} min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 focus:z-10 lg:hidden"}>
+    <.link
+      phx-click="set-current-date"
+      phx-value-date={@date}
+      class={[
+        "min-h-[56px] flex w-full flex-col bg-white px-3 py-2 text-zinc-900 focus:z-10 lg:hidden",
+        @current_date.month == @date.month && "hover:bg-zinc-100",
+        @current_date.month != @date.month && "bg-zinc-50"
+      ]}
+    >
       <time
         date-time={@date}
-        class={
-          "ml-auto lg:ml-0 #{if @current_date == @date do
-            "flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
-              "bg-orange-600"
-            else
-              "bg-zinc-900"
-            end} text-white shirk-0"
-          else
-            if @today? == 0 do
-              "text-orange-700"
-            else if @date.month != @current_date.month do
-                "text-zinc-500"
-              end
-            end
-          end}"
-        }
+        class={[
+          "ml-auto lg:ml-0",
+          @current_date == @date && "flex h-6 w-6 items-center justify-center rounded-full text-white shrink-0",
+          @current_date == @date && @today? == 0 && "bg-primary-600",
+          @current_date == @date && @today? != 0 && "bg-zinc-900",
+          @current_date != @date && @today? == 0 && "text-primary-700",
+          @current_date != @date && @date.month != @current_date.month && "text-zinc-500"
+        ]}
       >
         <%= @text %>
       </time>

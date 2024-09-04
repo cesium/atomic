@@ -30,17 +30,12 @@ defmodule AtomicWeb.Components.CalendarWeek do
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <.link phx-click="set-current-date" phx-value-date={day_of_week} class="flex flex-col items-center py-2">
                 <%= Enum.at(@week_mobile, idx) %>
-                <span class={
-                  "#{if @today == day_of_week do
-                    "bg-orange-700 rounded-full text-white"
-                  else
-                    if day_of_week == @current_date do
-                      "bg-zinc-900 rounded-full text-white"
-                    else
-                      "text-zinc-900"
-                    end
-                  end} flex items-center justify-center w-8 h-8 mt-1 font-semibold"
-                }>
+                <span class={[
+                  "flex items-center justify-center w-8 h-8 mt-1 font-semibold",
+                  @today == day_of_week && "bg-primary-700 rounded-full text-white",
+                  @today != day_of_week && day_of_week == @current_date && "bg-zinc-900 rounded-full text-white",
+                  @today != day_of_week && day_of_week != @current_date && "text-zinc-900"
+                ]}>
                   <%= day_of_week |> date_to_day() %>
                 </span>
               </.link>
@@ -51,21 +46,13 @@ defmodule AtomicWeb.Components.CalendarWeek do
             <%= for idx <- 0..6 do %>
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <div id={"day-of-week-#{idx}"} class="flex h-12 items-center justify-center">
-                <span class={
-                  if @today == day_of_week do
-                    "flex items-baseline"
-                  else
-                    ""
-                  end
-                }>
+                <span class={@today == day_of_week && "flex items-baseline"}>
                   <%= Enum.at(@week, idx) %>
-                  <span class={
-                    "#{if @today == day_of_week do
-                      "flex ml-1.5 w-8 h-8 text-white bg-primary-600 rounded-full"
-                    else
-                      "text-zinc-900"
-                    end} items-center justify-center font-semibold"
-                  }>
+                  <span class={[
+                    "items-center justify-center font-semibold",
+                    @today == day_of_week && "flex ml-1.5 w-8 h-8 text-white bg-primary-600 rounded-full",
+                    @today != day_of_week && "text-zinc-900"
+                  ]}>
                     <%= day_of_week |> date_to_day() %>
                   </span>
                 </span>
@@ -123,11 +110,14 @@ defmodule AtomicWeb.Components.CalendarWeek do
             width: #{(1/width)*100}%;
             left: #{if left > 0 do (left / width) * 100 else 0 end}%"}>
         <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
-          <div class={"#{if width != 1 do "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]" end} group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-orange-50 p-2 text-xs leading-5 hover:bg-orange-100 sm:overflow-y-hidden sm:hover:overflow-y-auto"}>
-            <p class="order-1 font-semibold text-orange-500">
+          <div class={[
+            "group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-primary-50 p-2 text-xs leading-5 hover:bg-primary-100 sm:overflow-y-hidden sm:hover:overflow-y-auto",
+            width != 1 && "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]"
+          ]}>
+            <p class="text-primary-500 order-1 font-semibold">
               <%= activity.title %>
             </p>
-            <p class="text-orange-500 group-hover:text-orange-800">
+            <p class="text-primary-500 group-hover:text-primary-800">
               <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
             </p>
           </div>
