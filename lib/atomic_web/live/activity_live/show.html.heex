@@ -51,7 +51,7 @@
   </div>
   <div class="grid grid-cols-5 gap-12 mx-4 max-w-5xl sm:mx-6 lg:mx-8">
     <div class="sm:col-span-3 col-span-5 flex flex-col gap-4">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row gap-16 justify-between sm:justify-normal">
         <!-- Date -->
         <%= if @activity.start do %>
           <div class="flex items-center gap-2">
@@ -77,17 +77,6 @@
             <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
           </p>
         </div>
-        <!-- Location -->
-        <%= if @activity.location do %>
-          <div class="flex items-center gap-2">
-            <.icon name={:map_pin} solid class="h-5 w-5 text-gray-700" />
-            <.link href={@activity.location.url || "https://www.google.com/maps/search/?api=1&query=#{@activity.location.name}"} target="_blank">
-              <p class="font-medium">
-                <%= @activity.location.name %>
-              </p>
-            </.link>
-          </div>
-        <% end %>
       </div>
       <!-- Enrollment (desktop) -->
       <%= if @enrolled? do %>
@@ -113,9 +102,16 @@
         <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
           <%= gettext("About") %>
         </h2>
-        <p class="flex gap-2">
+        <div class="flex flex-col gap-2">
           <%= text_to_html(@activity.description) %>
-        </p>
+        </div>
+      </div>
+      <!-- Location -->
+      <div :if={@activity.location}>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <%= gettext("Location") %>
+        </h2>
+        <.map location={@activity.location.name} />
       </div>
       <!-- Action buttons (mobile) -->
       <div class="sm:hidden block pt-8">
@@ -135,7 +131,7 @@
     <!-- Activity image (desktop) -->
     <div class="sm:block hidden col-span-2 w-full object-cover">
       <%= if @activity.image do %>
-        <img class="h-full w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+        <img class="max-h-fit w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
       <% else %>
         <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
       <% end %>

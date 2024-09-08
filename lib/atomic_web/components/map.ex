@@ -33,7 +33,7 @@ defmodule AtomicWeb.Components.Map do
 
   defp map_static(assigns) do
     ~H"""
-    <.link href={"https://www.google.com/maps/search/?api=1&query=#{@location}"} target="_blank" class="select-none overflow-hidden" style={"height: #{@height}px; width: #{generate_width(assigns)}"}>
+    <.link href={"https://www.google.com/maps/search/?api=1&query=#{@location}"} target="_blank" class="flex select-none overflow-hidden" style={"height: #{@height}px; width: #{generate_width(assigns)}"}>
       <iframe width={generate_width(assigns)} height={@height + 300} src={generate_request(assigns)} frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border:0; margin-top: -150px;" class="pointer-events-none"></iframe>
     </.link>
     """
