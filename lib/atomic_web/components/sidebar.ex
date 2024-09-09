@@ -100,7 +100,7 @@ defmodule AtomicWeb.Components.Sidebar do
     <ul role="list" class="-mx-2 space-y-1">
       <%= for page <- AtomicWeb.Config.pages(AtomicWeb.Endpoint, @current_user, @current_organization) do %>
         <li class="select-none">
-          <%= live_redirect to: page.url, class: "#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6" do %>
+          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
             <.icon name={page.icon} class={
                 "#{if @current_page == page.key do
                   "text-orange-500"
@@ -109,7 +109,7 @@ defmodule AtomicWeb.Components.Sidebar do
                 end} h-6 w-6 shrink-0"
               } />
             <%= page.title %>
-          <% end %>
+          </.link>
         </li>
       <% end %>
     </ul>
@@ -146,12 +146,8 @@ defmodule AtomicWeb.Components.Sidebar do
     """
   end
 
-  defp dropdown_items(current_user) do
-    case current_user do
-      nil -> []
-      _ -> authenticated_dropdown_items(current_user)
-    end
-  end
+  defp dropdown_items(nil), do: []
+  defp dropdown_items(current_user), do: authenticated_dropdown_items(current_user)
 
   defp authenticated_dropdown_items(current_user) do
     [
@@ -200,10 +196,6 @@ defmodule AtomicWeb.Components.Sidebar do
     end
   end
 
-  defp get_organizations(user) do
-    case user do
-      nil -> []
-      _ -> Organizations.list_user_organizations(user.id)
-    end
-  end
+  defp get_organizations(nil), do: []
+  defp get_organizations(user), do: Organizations.list_user_organizations(user.id)
 end
