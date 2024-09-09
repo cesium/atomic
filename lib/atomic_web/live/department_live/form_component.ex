@@ -42,7 +42,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
+     |> allow_upload(:image, accept: Uploaders.Banner.extension_whitelist(), max_entries: 1)
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end
