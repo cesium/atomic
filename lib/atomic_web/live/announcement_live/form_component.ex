@@ -2,6 +2,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Organizations
+  alias AtomicWeb.Components.ImageUploader
 
   import AtomicWeb.Components.Forms
 
@@ -17,7 +18,8 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
 
   @impl true
@@ -35,10 +37,16 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     save_announcement(socket, socket.assigns.action, announcement_params)
   end
 
+  @impl true
+  def handle_event("cancel-image", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :image, ref)}
+  end
+
   defp save_announcement(socket, :edit, announcement_params) do
     case Organizations.update_announcement(
            socket.assigns.announcement,
-           announcement_params
+           announcement_params,
+           &consume_image_data(socket, &1)
          ) do
       {:ok, _announcement} ->
         {:noreply,
@@ -55,7 +63,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     announcement_params =
       Map.put(announcement_params, "organization_id", socket.assigns.organization.id)
 
-    case Organizations.create_announcement_with_post(announcement_params) do
+    case Organizations.create_announcement_with_post(announcement_params, &consume_image_data(socket, &1)) do
       {:ok, _announcement} ->
         {:noreply,
          socket
@@ -64,6 +72,25 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  defp consume_image_data(socket, announcement) do
+    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+      Organizations.update_announcement_image(announcement, %{
+        "image" => %Plug.Upload{
+          content_type: entry.content_type,
+          filename: entry.client_name,
+          path: path
+        }
+      })
+    end)
+    |> case do
+      [{:ok, announcement}] ->
+        {:ok, announcement}
+
+      _errors ->
+        {:ok, announcement}
     end
   end
 end

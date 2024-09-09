@@ -564,7 +564,7 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement_with_post(attrs \\ %{}) do
+  def create_announcement_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
@@ -580,7 +580,7 @@ defmodule Atomic.Organizations do
     |> Repo.transaction()
     |> case do
       {:ok, %{announcement: announcement, post: _post}} ->
-        {:ok, announcement}
+        after_save.({:ok, announcement})
 
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
@@ -638,5 +638,23 @@ defmodule Atomic.Organizations do
   """
   def change_announcement(%Announcement{} = announcement, attrs \\ %{}) do
     Announcement.changeset(announcement, attrs)
+  end
+
+  @doc """
+  Updates an announcement image.
+
+  ## Examples
+
+      iex> update_announcement_image(announcement, %{field: new_value})
+      {:ok, %Announcement{}}
+
+      iex> update_announcement_image(announcement, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_announcement_image(%Announcement{} = announcement, attrs) do
+    announcement
+    |> Announcement.image_changeset(attrs)
+    |> Repo.update()
   end
 end
