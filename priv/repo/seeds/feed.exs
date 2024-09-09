@@ -56,7 +56,7 @@ defmodule Atomic.Repo.Seeds.Feed do
       description: Faker.Lorem.paragraph(),
       start: build_start_date(i),
       finish: build_finish_date(i),
-      location: location,
+      location: %{name: Faker.Company.name(), address: Faker.Address.street_address()},
       minimum_entries: Enum.random(1..10),
       maximum_entries: Enum.random(11..20),
       organization_id: organization_id,

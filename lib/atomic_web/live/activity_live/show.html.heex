@@ -50,7 +50,7 @@
     </div>
   </div>
   <div class="grid grid-cols-5 gap-12 mx-4 max-w-5xl sm:mx-6 lg:mx-8">
-    <div class="sm:col-span-3 col-span-5 flex flex-col gap-4">
+    <div class="sm:col-span-3 col-span-5 flex flex-col gap-6">
       <div class="flex flex-row gap-16 justify-between sm:justify-normal">
         <!-- Date -->
         <%= if @activity.start do %>
@@ -111,7 +111,17 @@
         <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
           <%= gettext("Location") %>
         </h2>
-        <.map location={@activity.location.name} />
+        <div class="pb-4">
+          <p>
+            <%= @activity.location.name %>
+          </p>
+          <p class="text-sm text-gray-600">
+            <%= @activity.location.address %>
+          </p>
+        </div>
+        <figure class="border rounded-xl">
+          <.map location={@activity.location.address} class="rounded-xl" />
+        </figure>
       </div>
       <!-- Action buttons (mobile) -->
       <div class="sm:hidden block pt-8">

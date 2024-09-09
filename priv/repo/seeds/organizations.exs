@@ -27,8 +27,9 @@ defmodule Atomic.Repo.Seeds.Organizations do
       description:
         "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓",
       location: %{
-        name: "Departamento de Informática, Campus de Gualtar, Universidade do Minho",
-        url: "https://cesium.di.uminho.pt"
+        name: "Departamento de Informática, Universidade do Minho",
+        address:
+          "Departamento de Informática, UMinho, Campus de Gualtar, 4710-057 Braga, Portugal"
       }
     }
     |> Repo.insert!()
