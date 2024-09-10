@@ -1,15 +1,8 @@
 <div class="py-4 px-4 sm:px-0">
-  <div class="px-4 flex flex-col gap-2 mt-6 sm:flex-row sm:items-center">
-    <div>
-      <div class="flex justify-between items-center">
-        <h4 class="text-2xl font-bold text-zinc-800">
-          <%= @announcement.title %>
-        </h4>
-      </div>
-      <p class="mt-1 text-zinc-500">
-        <%= @announcement.description %>
-      </p>
-    </div>
+  <div id={@announcement.id} class="py-4 px-4 mx-auto max-w-5xl sm:px-2 lg:px-4">
+    <.link navigate={Routes.announcement_show_path(@socket, :show, @announcement)}>
+      <.announcement announcement={@announcement} />
+    </.link>
   </div>
 </div>
 
