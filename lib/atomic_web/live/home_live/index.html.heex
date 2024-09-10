@@ -46,13 +46,9 @@
                   <.activity activity={post.activity} />
                 </.link>
               <% else %>
-                <%= if post.announcement do %>
-                  <.link navigate={Routes.announcement_show_path(@socket, :show, post.announcement)}>
-                    <.announcement announcement={post.announcement} />
-                  </.link>
-                <% else %>
-                  <p>No announcements available</p>
-                <% end %>
+                <.link navigate={Routes.announcement_show_path(@socket, :show, post.announcement)}>
+                  <.announcement announcement={post.announcement} />
+                </.link>
               <% end %>
             </li>
           </ul>
