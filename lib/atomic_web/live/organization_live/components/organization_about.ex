@@ -5,11 +5,11 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationAbout do
   alias Atomic.Organizations.Organization
   alias Atomic.Socials
 
-  attr :organization, Organization, required: true, doc: "The organization which about to display"
+  attr :organization, Organization, required: true, doc: "the organization which about to display"
 
   def organization_about(assigns) do
     ~H"""
-    <div class="mt-8 px-4 sm:px-6 lg:px-8">
+    <div id="organization-about">
       <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("Description") %></h2>
       <p><%= @organization.description %></p>
 

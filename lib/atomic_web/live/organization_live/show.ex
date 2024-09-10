@@ -3,8 +3,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
   alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.OrganizationLive.Components.OrganizationAbout
   import AtomicWeb.Components.{Gradient, Tabs}
+  import AtomicWeb.OrganizationLive.Components.{OrganizationAbout, OrganizationDepartments}
 
   @impl true
   def mount(_params, _session, socket) do

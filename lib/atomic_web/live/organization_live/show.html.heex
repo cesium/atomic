@@ -24,7 +24,7 @@
         </.link>
 
         <%!-- TODO: Maybe show button when there's no current user, but with a must login warning? --%>
-        <%= if !Organizations.user_following?(@current_user.id, @organization.id) do %>
+        <%= if Organizations.user_following?(@current_user.id, @organization.id) do %>
           <.button icon={:star} icon_variant={:solid} color={:white}><%= gettext("Following") %></.button>
         <% else %>
           <.button icon={:star}><%= gettext("Follow") %></.button>
@@ -70,7 +70,13 @@
     </.link>
   </.tabs>
 
-  <div :if={@current_tab == "about"}>
-    <.organization_about organization={@organization} />
+  <div class="mt-8 px-4 sm:px-6 lg:px-8">
+    <div :if={@current_tab == "about"}>
+      <.organization_about organization={@organization} />
+    </div>
+
+    <div :if={@current_tab == "departments"}>
+      <.organization_departments organization={@organization} />
+    </div>
   </div>
 </.page>
