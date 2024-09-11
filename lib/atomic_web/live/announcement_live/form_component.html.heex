@@ -8,14 +8,14 @@
           <.field field={f[:description]} type="textarea" placeholder="Write a description" required class="w-full overflow-auto resize-none h-44 xl:h-64" />
         </div>
 
-        <div>
+        <div class="space-y-4">
           <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+
+          <div class="flex justify-end">
+            <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class="absolute bottom-0 right-0">
-      <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
     </div>
   </.form>
 </div>
