@@ -1,11 +1,11 @@
 <div>
-  <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <div class="flex gap-4 mb-6">
+  <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save" class="space-y-6">
+    <div class="flex gap-4">
       <div class="flex-1 flex flex-col">
-        <div class="flex-1 space-y-4">
+        <div class="flex-1">
           <.field field={f[:title]} type="text" placeholder="Choose a title for the announcement" required class="w-full" />
 
-          <.field field={f[:description]} type="textarea" placeholder="Write a description" required class="w-full h-44 overflow-auto" />
+          <.field field={f[:description]} type="textarea" placeholder="Write a description" required class="w-full overflow-auto resize-none h-44 xl:h-64" />
         </div>
       </div>
       
