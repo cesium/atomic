@@ -9,7 +9,7 @@
         </div>
 
         <div class="space-y-4">
-          <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+          <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} class="object-cover" />
 
           <div class="flex justify-end">
             <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
