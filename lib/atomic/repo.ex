@@ -4,4 +4,6 @@ defmodule Atomic.Repo do
     adapter: Ecto.Adapters.Postgres
 
   use Paginator
+
+  def count(query), do: aggregate(query, :count)
 end

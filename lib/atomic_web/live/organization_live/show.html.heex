@@ -63,7 +63,7 @@
     </.link>
 
     <.link patch="?tab=members" replace={false}>
-      <.tab id="members-tab" active={@current_tab == "members"}>
+      <.tab id="members-tab" active={@current_tab == "members"} number={@member_count}>
         <.icon name={:user_group} class="size-5 mr-2" />
         <%= gettext("Members") %>
       </.tab>

@@ -281,6 +281,43 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
+  Counts the number of members in an organization.
+  A member is someone who is connected to the organization with a role other than `:follower`.
+
+  ## Examples
+
+      iex> count_memberships(123)
+      5
+
+      iex> count_memberships(456)
+      0
+
+  """
+  def count_memberships(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role != :follower)
+    |> Repo.count()
+  end
+
+  @doc """
+  Counts the number of followers in an organization.
+
+  ## Examples
+
+      iex> count_followers(123)
+      5
+
+      iex> count_followers(456)
+      0
+
+  """
+  def count_followers(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
+    |> Repo.count()
+  end
+
+  @doc """
   Verifies if an user is a member of an organization.
 
   ## Examples
@@ -452,38 +489,6 @@ defmodule Atomic.Organizations do
   def roles_bigger_than_or_equal(role) do
     Membership.roles()
     |> Enum.drop_while(fn elem -> elem != role end)
-  end
-
-  @doc """
-  Counts the number of followers in an organization.
-
-  ## Examples
-
-      iex> count_followers(123)
-      5
-
-      iex> count_followers(456)
-      0
-
-  """
-  def count_followers(organization_id) do
-    Membership
-    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
-    |> Repo.aggregate(:count, :id)
-  end
-
-  @doc """
-  Returns the amount of members in an organization.
-
-  ## Examples
-
-      iex> get_total_organization_members(organization_id)
-      5
-
-  """
-  def get_total_organization_members(organization_id) do
-    from(m in Membership, where: m.organization_id == ^organization_id)
-    |> Repo.aggregate(:count, :id)
   end
 
   ## Announcements

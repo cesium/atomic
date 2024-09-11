@@ -21,6 +21,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   def handle_params(%{"id" => id} = params, _, socket) do
     organization = Organizations.get_organization!(id)
     members = maybe_list_members(organization.id, params["tab"])
+    member_count = Organizations.count_memberships(organization.id)
 
     {:noreply,
      socket
@@ -29,6 +30,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
      |> assign(:members, members)
+     |> assign(:member_count, member_count)
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
