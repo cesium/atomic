@@ -1,4 +1,4 @@
-defmodule AtomicWeb.OrganizationLive.Components.OrganizationDepartments do
+defmodule AtomicWeb.OrganizationLive.Components.DepartmentsGrid do
   @moduledoc """
   Internal organization-related component for displaying its departments.
   """
@@ -14,7 +14,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationDepartments do
     required: true,
     doc: "the organization which departments to display"
 
-  def organization_departments(assigns) do
+  def departments_grid(assigns) do
     ~H"""
     <div id="organization-departments" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2">
       <%= for department <- list_departments(@organization) do %>

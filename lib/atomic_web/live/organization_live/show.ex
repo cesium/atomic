@@ -4,7 +4,13 @@ defmodule AtomicWeb.OrganizationLive.Show do
   alias Atomic.{Accounts, Organizations}
 
   import AtomicWeb.Components.{Gradient, Tabs}
-  import AtomicWeb.OrganizationLive.Components.{OrganizationAbout, OrganizationDepartments}
+
+  import AtomicWeb.OrganizationLive.Components.{
+    About,
+    DepartmentsGrid,
+    MembershipsTable,
+    MembershipBanner
+  }
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,6 +20,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"id" => id} = params, _, socket) do
     organization = Organizations.get_organization!(id)
+    members = maybe_list_members(organization.id, params["tab"])
 
     {:noreply,
      socket
@@ -21,8 +28,14 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:current_page, :organization)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
+     |> assign(:members, members)
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
+
+  defp maybe_list_members(organization_id, "members"),
+    do: Organizations.list_memberships(organization_id, preloads: [:user])
+
+  defp maybe_list_members(_organization, _tab), do: nil
 
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
   defp current_tab(_socket, _params), do: "about"

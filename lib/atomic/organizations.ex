@@ -136,17 +136,25 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of organizations where an user is an admin or owner.
+  Returns the list of organizations which are connected with the user.
+  By default, it returns the organizations where the user is an admin or owner.
 
   ## Examples
 
-      iex> list_user_organizations(user_id)
+      iex> list_user_organizations(123)
       [%Organization{}, ...]
+
+      iex> list_user_organizations(456)
+      []
+
+      iex> list_user_organizations(123, [:follower])
+      [%Organization{}, ...]
+
   """
-  def list_user_organizations(user_id, opts \\ []) do
+  def list_user_organizations(user_id, roles \\ [:admin, :owner], opts \\ []) do
     Organization
     |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
-    |> where([o, m], m.user_id == ^user_id and m.role in [:admin, :owner])
+    |> where([o, m], m.user_id == ^user_id and m.role in ^roles)
     |> apply_filters(opts)
     |> Repo.all()
   end
@@ -256,30 +264,19 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of memberships.
+  Returns the list of members in an organization.
+  A member is someone who is connected to the organization with a role other than `:follower`.
 
   ## Examples
 
-      iex> list_memberships(%{"organization_id" => id})
-      [%Organization{}, ...]
-
-      iex> list_memberships(%{"user_id" => id})
+      iex> list_memberships(123)
       [%Organization{}, ...]
 
   """
-  def list_memberships(params, preloads \\ [])
-
-  def list_memberships(%{"organization_id" => organization_id}, preloads) do
+  def list_memberships(organization_id, opts \\ []) do
     Membership
-    |> where([a], a.organization_id == ^organization_id and a.role != :follower)
-    |> Repo.all()
-    |> Repo.preload(preloads)
-  end
-
-  def list_memberships(%{"user_id" => user_id}, preloads) do
-    Membership
-    |> where([a], a.user_id == ^user_id)
-    |> Repo.preload(preloads)
+    |> where([m], m.organization_id == ^organization_id and m.role != :follower)
+    |> apply_filters(opts)
     |> Repo.all()
   end
 

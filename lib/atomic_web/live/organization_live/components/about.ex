@@ -1,4 +1,4 @@
-defmodule AtomicWeb.OrganizationLive.Components.OrganizationAbout do
+defmodule AtomicWeb.OrganizationLive.Components.About do
   @moduledoc false
   use AtomicWeb, :component
 
@@ -7,7 +7,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationAbout do
 
   attr :organization, Organization, required: true, doc: "the organization which about to display"
 
-  def organization_about(assigns) do
+  def about(assigns) do
     ~H"""
     <div id="organization-about">
       <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("Description") %></h2>

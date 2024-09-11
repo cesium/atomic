@@ -70,13 +70,24 @@
     </.link>
   </.tabs>
 
-  <div class="mt-8 px-4 sm:px-6 lg:px-8">
-    <div :if={@current_tab == "about"}>
-      <.organization_about organization={@organization} />
+  <div class="mt-8">
+    <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
+      <.about organization={@organization} />
     </div>
 
-    <div :if={@current_tab == "departments"}>
-      <.organization_departments organization={@organization} />
+    <div :if={@current_tab == "departments"} class="px-4 sm:px-6 lg:px-8">
+      <.departments_grid organization={@organization} />
+    </div>
+
+    <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
+      <.membership_banner organization={@organization} />
+    </div>
+    <!-- Because divider can't have padding, we need to separate it from the rest of the content -->
+    <div :if={@current_tab == "members"} class="my-8 w-full min-h-full border-b" />
+
+    <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
+      <!-- Members are directly passed since their calculation depends on the current tab -->
+      <.memberships_table members={@members} />
     </div>
   </div>
 </.page>
