@@ -104,11 +104,7 @@ defmodule AtomicWeb.Components.Avatar do
     <ul class={"#{generate_avatar_group_spacing_class(@spacing)} #{if @wrap do "flex-wrap" end} #{@class} flex flex-row"}>
       <%= for item <- @items do %>
         <li>
-          <%= if Map.has_key?(item, :src) do %>
-            <.avatar name={item[:name]} src={item[:src]} type={@type} size={@size} color={@color} class={"#{@avatar_class} atomic-avatar-grouped"} auto_generate_initials={Map.get(item, :auto_generate_initials, true)} />
-          <% else %>
-            <.avatar name={item[:name]} type={@type} size={@size} color={@color} class={"#{@avatar_class} atomic-avatar-grouped"} auto_generate_initials={Map.get(item, :auto_generate_initials, true)} />
-          <% end %>
+          <.avatar name={item[:name]} src={item[:src]} type={@type} size={@size} color={@color} class={"#{@avatar_class} atomic-avatar-grouped"} auto_generate_initials={Map.get(item, :auto_generate_initials, true)} />
         </li>
       <% end %>
     </ul>
