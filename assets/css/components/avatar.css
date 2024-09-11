@@ -95,3 +95,9 @@
 .atomic-avatar--src {
   @apply bg-transparent;
 }
+
+/* Avatar Group */
+
+.atomic-avatar-grouped {
+  @apply ring-1 ring-white;
+}
