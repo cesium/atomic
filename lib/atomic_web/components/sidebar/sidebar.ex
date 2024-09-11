@@ -5,11 +5,13 @@ defmodule AtomicWeb.Components.Sidebar do
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
   alias Atomic.Organizations
+  alias AtomicWeb.Components.{MastersButton, MastersButtonModal}
 
   attr :current_user, :map, required: true
   attr :current_organization, :map, required: true
   attr :current_page, :atom, required: true
   attr :is_authenticated, :boolean, required: true
+  attr :action, :boolean, default: false
 
   def desktop_sidebar(assigns) do
     user = assigns[:current_user]
@@ -22,7 +24,7 @@ defmodule AtomicWeb.Components.Sidebar do
       <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />
     </div>
     <!-- Navigation -->
-    <.navigation current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated} />
+    <.navigation action={@action} current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated} />
     """
   end
 
@@ -88,6 +90,8 @@ defmodule AtomicWeb.Components.Sidebar do
         <% end %>
         <!-- Sidebar -->
         <div class="absolute bottom-0 w-full">
+          <.live_component id="masters-button" module={MastersButton} action={@action} />
+          <.live_component id="masters-modal" module={MastersButtonModal} action={@action} organizations={@organizations} />
           <.sidebar_dropdown current_user={@current_user} orientation={:up} />
         </div>
       </div>
@@ -143,6 +147,15 @@ defmodule AtomicWeb.Components.Sidebar do
       <img src={Routes.static_path(AtomicWeb.Endpoint, "/images/atomic.svg")} class="h-14 w-auto" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
+    """
+  end
+
+  defp sidebar_masters_button(assigns) do
+    ~H"""
+    <.button color={:white} size={:sm} navigate="" class="w-56">
+      <.icon name={:plus} class="h-5 w-5" />
+      <span class="ml-2 text-sm font-semibold leading-6"><%= gettext("View an organization") %></span>
+    </.button>
     """
   end
 
