@@ -63,7 +63,10 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     announcement_params =
       Map.put(announcement_params, "organization_id", socket.assigns.organization.id)
 
-    case Organizations.create_announcement_with_post(announcement_params, &consume_image_data(socket, &1)) do
+    case Organizations.create_announcement_with_post(
+           announcement_params,
+           &consume_image_data(socket, &1)
+         ) do
       {:ok, _announcement} ->
         {:noreply,
          socket
