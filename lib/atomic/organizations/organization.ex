@@ -6,7 +6,7 @@ defmodule Atomic.Organizations.Organization do
   alias Atomic.Organizations.{Announcement, Department, Membership, Partner}
   alias Atomic.{Socials, Uploaders}
 
-  @required_fields ~w(name long_name description)a
+  @required_fields ~w(name email long_name description)a
   @optional_fields ~w(location)a
 
   @derive {
@@ -22,6 +22,7 @@ defmodule Atomic.Organizations.Organization do
 
   schema "organizations" do
     field :name, :string
+    field :email, :string
     field :long_name, :string
     field :description, :string
 

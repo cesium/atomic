@@ -34,6 +34,15 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
+  # FIXME: Notification, somehow, is not appearing
+  @impl true
+  def handle_event("must-login", _, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:error, gettext("You must be logged in to follow an organization"))
+     |> push_navigate(to: Routes.user_session_path(socket, :new))}
+  end
+
   defp maybe_list_members(organization_id, "members"),
     do: Organizations.list_memberships(organization_id, preloads: [:user])
 

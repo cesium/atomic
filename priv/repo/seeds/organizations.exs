@@ -22,6 +22,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
     # Seed CeSIUM
     %Organization{
       name: "CeSIUM",
+      email: "cesium@di.uminho.pt",
       long_name: "Centro de Estudantes de Engenharia Informática da Universidade do Minho",
       description:
         "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓",
@@ -49,9 +50,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
     |> Enum.each(fn organization ->
       %{
         name: organization["name"],
+        email: Faker.Internet.email(),
         long_name: organization["long_name"],
         description: organization["description"],
-        website: Faker.Internet.url()
+        socials: %{
+          website: Faker.Internet.url()
+        }
       }
       |> Organizations.create_organization()
     end)

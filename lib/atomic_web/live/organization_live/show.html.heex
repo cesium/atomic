@@ -17,18 +17,17 @@
         <.button icon={:pencil} icon_variant={:solid} color={:white} />
       <% end %>
 
-      <%= if @current_user do %>
-        <p class="sr-only"><%= gettext("Contact") %></p>
-        <.link href="mailto:cesium@di.uminho.pt" target="_blank">
-          <.button icon={:envelope} icon_variant={:solid} color={:white} />
-        </.link>
+      <p class="sr-only"><%= gettext("Contact") %></p>
+      <.link href={"mailto:#{@organization.email}"} target="_blank">
+        <.button icon={:envelope} icon_variant={:solid} color={:white} />
+      </.link>
 
-        <%!-- TODO: Maybe show button when there's no current user, but with a must login warning? --%>
-        <%= if Organizations.user_following?(@current_user.id, @organization.id) do %>
-          <.button icon={:star} icon_variant={:solid} color={:white}><%= gettext("Following") %></.button>
-        <% else %>
-          <.button icon={:star}><%= gettext("Follow") %></.button>
-        <% end %>
+      <%= if @current_user && Organizations.user_following?(@current_user.id, @organization.id) do %>
+        <%!-- TODO: Dropdown with unfollow option --%>
+        <.button icon={:star} icon_variant={:solid} color={:white}><%= gettext("Following") %></.button>
+      <% else %>
+        <%!-- TODO: Follow functionality --%>
+        <.button phx-click={(!@current_user && "must-login") || "follow"} icon={:star}><%= gettext("Follow") %></.button>
       <% end %>
     </div>
   </:actions>
