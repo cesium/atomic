@@ -25,12 +25,20 @@ defmodule Atomic.Activities.Enrollment do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_maximum_entries()
     |> validate_required(@required_fields)
+    |> unique_constraint([:activity_id, :user_id], name: :unique_enrollments)
+    |> prepare_changes(&update_activity_enrolled/1)
   end
 
   def update_changeset(enrollment, attrs) do
     enrollment
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+  end
+
+  def delete_changeset(enrollment, attrs \\ %{}) do
+    enrollment
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> prepare_changes(&update_activity_enrolled/1)
   end
 
   defp validate_maximum_entries(changeset) do
@@ -42,5 +50,22 @@ defmodule Atomic.Activities.Enrollment do
     else
       changeset
     end
+  end
+
+  defp update_activity_enrolled(changeset) do
+    if activity_id = get_field(changeset, :activity_id) do
+      query = from Activity, where: [id: ^activity_id]
+      value = if changeset.action == :insert, do: 1, else: -1
+
+      case changeset.action do
+        action when action in [:insert, :delete] ->
+          changeset.repo.update_all(query, inc: [enrolled: value])
+
+        _ ->
+          changeset
+      end
+    end
+
+    changeset
   end
 end

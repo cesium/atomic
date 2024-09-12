@@ -4,14 +4,14 @@ defmodule Atomic.Location do
   """
   use Atomic.Schema
 
-  @required_fields ~w(name)a
-  @optional_fields ~w(url)a
+  @required_fields ~w(name address)a
+  @optional_fields ~w()a
 
   @derive Jason.Encoder
   @primary_key false
   embedded_schema do
     field :name, :string
-    field :url, :string
+    field :address, :string
   end
 
   def changeset(location, attrs) do

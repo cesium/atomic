@@ -1,151 +1,210 @@
-<div class="my-4">
-  <div class="bg-white">
-    <div class="flex justify-between px-4 py-5 sm:px-6">
-      <div class="my-4 w-full items-center gap-x-4 lg:flex">
-        <div class="flex-1">
-          <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
-            <%= @activity.title %>
-          </h1>
+<.page title={@activity.title}>
+  <:title_wrapper :let={title}>
+    <div class="grid">
+      <h1 class="select-none pb-2  text-2xl font-bold text-gray-900">
+        <%= title %>
+      </h1>
+      <span class="flex items-center gap-2">
+        <p>
+          <%= gettext("hosted by") %>
+        </p>
+        <.link navigate={Routes.organization_show_path(@socket, :show, @activity.organization)} class="flex items-center gap-1">
+          <.avatar class={@activity.organization.logo && "border-0"} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} name={@activity.organization.name} size={:xs} type={:organization} color={:white} />
+          <%= @activity.organization.name %>
+        </.link>
+      </span>
+    </div>
+  </:title_wrapper>
+  <:actions>
+    <!-- Actions (desktop) -->
+    <div class="sm:flex hidden gap-4">
+      <%= if @is_authenticated? do %>
+        <.button :if={not @max_enrolled? and !@enrolled?} color={:white} icon={:ticket} patch={Routes.activity_show_path(@socket, :enroll, @activity)} disabled={@enrolled?}>
+          <%= gettext("Register") %>
+        </.button>
+        <.button :if={@enrolled?} patch={Routes.activity_show_path(@socket, :ticket, @activity)} color={:white} icon={:ticket}>
+          <%= gettext("Ticket") %>
+        </.button>
+        <.button :if={@has_permissions?} navigate={Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity)} icon={:pencil}>
+          <%= gettext("Edit activity") %>
+        </.button>
+      <% end %>
+    </div>
+    <!-- Actions (mobile) -->
+    <div class="sm:hidden block">
+      <.dropdown id="activity-actions-dropdown" items={generate_dropdown_items(@enrolled?, @has_permissions?, @activity, @socket)}>
+        <:wrapper>
+          <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal} />
+        </:wrapper>
+      </.dropdown>
+    </div>
+  </:actions>
+  <!-- Activity image (mobile) -->
+  <div class="sm:hidden pb-8 px-8 sm:px-6 flex w-full justify-center">
+    <div class="w-full aspect-square object-cover">
+      <%= if @activity.image do %>
+        <img class="h-full w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+      <% else %>
+        <.gradient class="rounded-xl" seed={@activity.id} />
+      <% end %>
+    </div>
+  </div>
+  <div class="grid grid-cols-5 gap-12 mx-4 max-w-5xl sm:mx-6 lg:mx-8">
+    <div class="sm:col-span-3 col-span-5 flex flex-col gap-6">
+      <div class="flex flex-row gap-16 justify-between sm:justify-normal">
+        <!-- Date -->
+        <%= if @activity.start do %>
+          <div class="flex items-center gap-2">
+            <.icon name={:calendar} solid class="h-5 w-5 text-gray-700" />
+            <!-- One day activity -->
+            <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
+              <div class="flex flex-col">
+                <p class="font-medium">
+                  <%= pretty_display_date(@activity.start) %>
+                </p>
+                <p>
+                  <%= "#{display_time(@activity.start)}-#{display_time(@activity.finish)}" %>
+                </p>
+              </div>
+            <% end %>
+            <!-- TODO: Support for multi-day activities -->
+          </div>
+        <% end %>
+        <!-- Capacity -->
+        <div class="flex items-center gap-2">
+          <.icon name={:user_group} solid class="h-5 w-5 text-gray-700" />
+          <p class="font-medium">
+            <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+          </p>
+        </div>
+      </div>
+      <!-- Enrollment (desktop) -->
+      <%= if @enrolled? do %>
+        <div class="sm:block hidden">
+          <div class="flex flex-row items-center gap-2">
+            <.icon name={:check_badge} solid class="h-5 w-5 text-gray-700" />
+            <div>
+              <h2 class="flex-1 select-none truncate text-md font-semibold text-gray-900">
+                <%= gettext("You are going!") %>
+              </h2>
+              <p>
+                <%= gettext("If you can't go please unenroll") %>
+                <.link patch={Routes.activity_show_path(@socket, :unenroll, @activity)}>
+                  <span class="text-primary-500 underline"><%= gettext("here") %></span>.
+                </.link>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <!-- About -->
+      <div>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <%= gettext("About") %>
+        </h2>
+        <div class="flex flex-col gap-2">
+          <%= text_to_html(@activity.description) %>
+        </div>
+      </div>
+      <!-- Location -->
+      <div :if={@activity.location}>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <%= gettext("Location") %>
+        </h2>
+        <div class="pb-4">
+          <p>
+            <%= @activity.location.name %>
+          </p>
+          <p class="text-sm text-gray-600">
+            <%= @activity.location.address %>
+          </p>
+        </div>
+        <figure class="border rounded-xl">
+          <.map location={@activity.location.address} class="rounded-xl" />
+        </figure>
+      </div>
+      <!-- Action buttons (mobile) -->
+      <div class="sm:hidden block pt-8">
+        <!-- Register button -->
+        <.button :if={not @max_enrolled? and !@enrolled?} icon={:ticket} size={:lg} patch={Routes.activity_show_path(@socket, :enroll, @activity)} disabled={@enrolled?} full_width>
+          <%= gettext("Register") %>
+        </.button>
+        <!-- Ticket and unenroll buttons -->
+        <div :if={@enrolled?} class="grid grid-cols-3 gap-2">
+          <.button class="col-span-2" patch={Routes.activity_show_path(@socket, :ticket, @activity)} icon={:ticket} size={:lg} full_width>
+            <%= gettext("View ticket") %>
+          </.button>
+          <.button patch={Routes.activity_show_path(@socket, :unenroll, @activity)} color={:white} icon={:user_minus} size={:lg} full_width></.button>
         </div>
       </div>
     </div>
-
-    <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
-      <div class="w-full px-4 py-5 sm:px-6">
-        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <div class="col-span-2 sm:col-span-1">
-            <dt class="font medium text-lg leading-6 text-zinc-900">
-              <%= gettext("Preview activity") %>
-            </dt>
-            <dd class="mt-1 text-sm text-zinc-600">
-              <%= gettext("Check here every detail of this activity") %>
-            </dd>
-          </div>
-
-          <div class={
-            if @has_permissions? do
-              "col-span-1"
-            else
-              "col-span-2"
-            end
-          }>
-            <dt class="text-sm font-medium text-zinc-500">
-              <%= gettext("Enrollments") %>
-            </dt>
-            <dd class="mt-1 flex text-sm text-zinc-900">
-              <div class="flex w-full">
-                <.icon name={:users} solid class="h-5 w-5 text-zinc-400" />
-                <div class="pl-2.5">
-                  <%= @enrolled %> / <%= @activity.maximum_entries %>
-                </div>
-              </div>
-            </dd>
-          </div>
-
-          <div class="col-span-2">
-            <dt class="grid grid-cols-2 items-center">
-              <div class="text-sm font-medium text-zinc-500">
-                <%= gettext("Date and location") %>
-              </div>
-            </dt>
-            <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
-              <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
-                <div class="flex gap-x-2">
-                  <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                    <.icon name={:calendar} solid class="h-5 w-5 text-zinc-400" />
-                    <p class="block pl-1.5 max-w-6xl">
-                      <%= display_date(@activity.start) %>
-                    </p>
-                  </div>
-                </div>
-                <div class="inset-y-0 my-auto flex md:pl-3">
-                  <.icon name={:clock} solid class="h-5 w-5 text-zinc-400" />
-                  <p class="block pl-1.5 max-w-6xl">
-                    <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
-                  </p>
-                </div>
-                <div class="flex text-sm md:pl-3">
-                  <%= if @activity.location do %>
-                    <.icon name={:map_pin} solid class="h-5 w-5 text-zinc-400" />
-                    <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
-                      <%= @activity.location.name %>
-                    </.link>
-                  <% else %>
-                    <%= if @activity.location do %>
-                      <div class="pl-1.5 text-zinc-900">
-                        <%= @activity.location.name %>
-                      </div>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
-          </div>
-          <div class="col-span-2">
-            <dt class="text-sm font-medium text-zinc-500">
-              <%= gettext("Description") %>
-            </dt>
-            <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
-              <%= @activity.description %>
-            </dd>
-          </div>
-          <div class="col-span-2">
-            <%= if @enrolled? do %>
-              <dt class="text-sm font-medium text-zinc-500">
-                <%= gettext("Your already enrolled in the activity, below is your QRCode") %>
-              </dt>
-              <dd class="mt-1 flex text-sm text-zinc-900">
-                <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
-              </dd>
-              <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
-                <span>
-                  <%= gettext("If you can't go please") %>
-                </span>
-                <button class="text-blue-500" phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
-                  <%= gettext("Unenroll") %>
-                </button>
-              </dd>
-            <% else %>
-              <%= if not @max_enrolled? do %>
-                <div class="flex flex-col">
-                  <dt class="text-sm font-medium text-zinc-500">
-                    <%= gettext("You are not enrolled in this activity") %>
-                  </dt>
-                  <%= if @is_authenticated? do %>
-                    <button
-                      phx-click="enroll"
-                      phx-disable-with={gettext("Enrolling...")}
-                      phx-throttle="0"
-                      class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-                    >
-                      <%= gettext("Enroll") %>
-                    </button>
-                  <% else %>
-                    <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
-                      <%= gettext("Enroll") %>
-                    </button>
-                  <% end %>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        </dl>
+    <div class="sm:block hidden col-span-2 w-full object-cover">
+      <!-- Activity image (desktop) -->
+      <%= if @activity.image do %>
+        <img class="max-h-fit w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+      <% else %>
+        <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
+      <% end %>
+      <!-- Activity participants (desktop) -->
+      <div :if={@activity.enrolled > 0} class="pt-4">
+        <h2 class="mb-2 flex-1 select-none truncate text-md font-semibold text-gray-900">
+          <%= gettext("%{enrolled} Going", enrolled: @activity.enrolled) %>
+        </h2>
+        <.avatar_group
+          size={:xs}
+          items={
+            @participants
+            |> Enum.take(6)
+            |> Enum.map(fn p -> %{name: p.name} end)
+            |> then(fn avatars ->
+              if length(@participants) > 6 do
+                Enum.concat(avatars, [%{name: "+#{length(@participants) - 6}", auto_generate_initials: false}])
+              else
+                avatars
+              end
+            end)
+          }
+        />
       </div>
     </div>
   </div>
-</div>
-
-<div class="flex flex-row space-x-1">
-  <%= if @has_permissions? do %>
-    <.link patch={Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity)} class="button">
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-      </div>
-    </.link>
-    <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name={:trash} solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
-      </div>
-    <% end %>
-  <% end %>
-</div>
+</.page>
+<!-- Ticket show modal -->
+<.modal :if={@live_action in [:ticket] and @enrolled?} class="!w-min" id="ticket-modal" show on_cancel={JS.patch(Routes.activity_show_path(@socket, :show, @activity))}>
+  <div class="w-full flex flex-col gap-2 justify-center text-center">
+    <p class="text-md font-semibold text-gray-900">
+      <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
+    </p>
+    <%= draw_ticket_qr_code(@activity, @current_user, @socket) |> raw %>
+  </div>
+</.modal>
+<!-- Enrollment modal -->
+<.modal :if={@live_action in [:enroll, :unenroll]} id="action-confirm-modal" show on_cancel={JS.patch(Routes.activity_show_path(@socket, :show, @activity))}>
+  <div class="flex flex-col">
+    <h1 class="flex-1 select-none text-lg font-semibold text-gray-900">
+      <%= display_action_goal_confirm_title(@live_action) %>
+    </h1>
+    <p class="mt-4">
+      <%= display_action_goal_confirm_description(@live_action) %>
+    </p>
+    <div class="mt-8 flex flex-row">
+      <.button patch={Routes.activity_show_path(@socket, :show, @activity)} class="mr-2" size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
+      <.button
+        phx-click="confirm"
+        class="ml-2"
+        size={:lg}
+        icon={:check_circle}
+        color={
+          if @live_action == :unenroll do
+            :danger
+          else
+            :success
+          end
+        }
+        full_width
+      >
+        <%= gettext("Confirm") %>
+      </.button>
+    </div>
+  </div>
+</.modal>

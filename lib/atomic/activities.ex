@@ -9,6 +9,8 @@ defmodule Atomic.Activities do
   alias Atomic.Activities.Enrollment
   alias Atomic.Feed.Post
 
+  @pubsub Atomic.PubSub
+
   @doc """
   Returns the list of activities.
 
@@ -222,7 +224,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Updates a activity.
+  Updates an activity and broadcasts the changes to all subscribed clients.
 
   ## Examples
 
@@ -234,10 +236,14 @@ defmodule Atomic.Activities do
 
   """
   def update_activity(%Activity{} = activity, attrs, after_save \\ &{:ok, &1}) do
-    activity
-    |> Activity.changeset(attrs)
-    |> Repo.update()
-    |> after_save(after_save)
+    result =
+      activity
+      |> Activity.changeset(attrs)
+      |> Repo.update()
+      |> after_save(after_save)
+
+    broadcast_activity_update(activity.id)
+    result
   end
 
   @doc """
@@ -323,27 +329,6 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-   Gets the user enrolled in an given activity.
-
-    ## Examples
-
-        iex> get_user_enrolled(user, activity_id)
-        %Enrollment{}
-
-        iex> get_user_enrolled(user, activity_id)
-        ** (Ecto.NoResultsError)
-  """
-  def get_user_enrolled(user, activity_id) do
-    Enrollment
-    |> where(user_id: ^user.id, activity_id: ^activity_id)
-    |> Repo.one()
-    |> case do
-      nil -> create_enrollment(activity_id, user)
-      enrollment -> enrollment
-    end
-  end
-
-  @doc """
    Gets all user enrollments.
 
     ## Examples
@@ -357,6 +342,22 @@ defmodule Atomic.Activities do
   def list_user_enrollments(user_id) do
     Enrollment
     |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of participants in an activity.
+
+  ## Examples
+
+      iex> list_activity_participants(activity_id)
+      [%Enrollment{}, ...]
+  """
+  def list_activity_participants(id) do
+    from(u in User,
+      join: e in assoc(u, :enrollments),
+      where: e.activity_id == ^id
+    )
     |> Repo.all()
   end
 
@@ -397,7 +398,136 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Creates an enrollment.
+  Returns the list of upcoming activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_upcoming_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+  def list_upcoming_user_activities(user_id, params \\ %{})
+
+  def list_upcoming_user_activities(user_id, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_upcoming_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_upcoming_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the list of past activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_past_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+  def list_past_user_activities(user_id, params \\ %{})
+
+  def list_past_user_activities(user_id, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_past_user_activities(user_id, flop) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_past_user_activities(user_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? < now()", a.start))
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the list of activities a user has enrolled in.
+
+  ## Examples
+
+      iex> list_user_activities(user_id)
+      [%Activity{}, ...]
+  """
+
+  def list_organization_activities(organization_id, params \\ %{})
+
+  def list_organization_activities(organization_id, opts) when is_list(opts) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
+  def list_organization_activities(organization_id, flop) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  def list_organization_activities(organization_id, %{} = flop, opts) when is_list(opts) do
+    from(a in Activity,
+      where: a.organization_id == ^organization_id
+    )
+    |> apply_filters(opts)
+    |> Flop.validate_and_run(flop, for: Activity)
+  end
+
+  @doc """
+  Returns the count of upcoming activities a user has enrolled in.
+
+  ## Examples
+
+      iex> user_upcoming_activities_count(user_id)
+      1
+  """
+  def user_upcoming_activities_count(user_id) do
+    from(a in Activity,
+      join: e in assoc(a, :enrollments),
+      where: e.user_id == ^user_id
+    )
+    |> where([a], fragment("? > now()", a.start))
+    |> Repo.aggregate(:count, :id)
+  end
+
+  @doc """
+  Creates an enrollment and broadcasts the activity change to all subscribed clients.
 
   ## Examples
 
@@ -409,23 +539,15 @@ defmodule Atomic.Activities do
 
   """
   def create_enrollment(activity_id, %User{} = user) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:enrollments, %Enrollment{
-      activity_id: activity_id,
-      user_id: user.id
-    })
-    |> Multi.update(:activity, fn %{enrollments: enrollment} ->
-      activity = get_activity!(enrollment.activity_id)
-
-      Activity.changeset(activity, %{enrolled: activity.enrolled + 1})
-    end)
-    |> Repo.transaction()
+    %Enrollment{}
+    |> Enrollment.changeset(%{activity_id: activity_id, user_id: user.id})
+    |> Repo.insert()
     |> case do
-      {:ok, %{enrollments: enrollment, activity: _activity}} ->
-        broadcast({:ok, enrollment}, :new_enrollment)
+      {:ok, enrollment} ->
+        broadcast_activity_update(activity_id)
         {:ok, enrollment}
 
-      {:error, _reason, changeset, _actions} ->
+      {:error, changeset} ->
         {:error, changeset}
     end
   end
@@ -449,7 +571,7 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Deletes a enrollment.
+  Deletes a enrollment and broadcasts the activity change to all subscribed clients.
 
   ## Examples
 
@@ -461,20 +583,15 @@ defmodule Atomic.Activities do
 
   """
   def delete_enrollment(activity_id, %User{} = user) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.delete(:enrollments, get_user_enrolled(user, activity_id))
-    |> Multi.update(:activity, fn %{enrollments: _enrollment} ->
-      activity = get_activity!(activity_id)
-
-      Activity.changeset(activity, %{enrolled: activity.enrolled - 1})
-    end)
-    |> Repo.transaction()
+    get_enrollment!(activity_id, user.id)
+    |> Enrollment.delete_changeset()
+    |> Repo.delete()
     |> case do
-      {:ok, %{enrollments: _enrollment, activity: _activity}} ->
-        broadcast({1, nil}, :deleted_enrollment)
-        {1, nil}
+      {:ok, _} ->
+        broadcast_activity_update(activity_id)
+        {:ok, nil}
 
-      {:error, _reason, changeset, _actions} ->
+      {:error, changeset} ->
         {:error, changeset}
     end
   end
@@ -493,32 +610,21 @@ defmodule Atomic.Activities do
   end
 
   @doc """
-  Broadcasts an event to the pubsub.
+  Subscribes the caller to the specific activity's updates.
 
   ## Examples
 
-      iex> broadcast(:new_enrollment, enrollment)
-      {:ok, %Enrollment{}}
-
-      iex> broadcast(:deleted_enrollment, nil)
-      {:ok, nil}
-
+      iex> subscribe_to_activity_update(activity_id)
+      :ok
   """
-  def subscribe(topic) when topic in ["new_enrollment", "deleted_enrollment"] do
-    Phoenix.PubSub.subscribe(Atomic.PubSub, topic)
+  def subscribe_to_activity_update(activity_id) do
+    Phoenix.PubSub.subscribe(@pubsub, topic(activity_id))
   end
 
-  defp broadcast({:error, _reason} = error, _event), do: error
+  defp topic(activity_id), do: "activity:#{activity_id}"
 
-  defp broadcast({:ok, %Enrollment{} = enrollment}, event)
-       when event in [:new_enrollment] do
-    Phoenix.PubSub.broadcast!(Atomic.PubSub, "new_enrollment", {event, enrollment})
-    {:ok, enrollment}
-  end
-
-  defp broadcast({number, nil}, event)
-       when event in [:deleted_enrollment] do
-    Phoenix.PubSub.broadcast!(Atomic.PubSub, "deleted_enrollment", {event, nil})
-    {number, nil}
+  defp broadcast_activity_update(activity_id) do
+    activity = get_activity!(activity_id)
+    Phoenix.PubSub.broadcast(@pubsub, topic(activity_id), activity)
   end
 end
