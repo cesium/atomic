@@ -13,8 +13,6 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
   attr :current_user, User, required: false, default: nil, doc: "The current user, if any"
 
   def organization_card(assigns) do
-    assigns = Map.put(assigns, :followers, Organizations.count_followers(assigns.organization.id))
-
     ~H"""
     <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
       <div class="h-32 w-full select-none">
@@ -60,9 +58,9 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
           <ul class="flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
             <li class="flex items-center space-x-1">
               <.icon name={:users} outline class="size-4" />
-              <%= if @followers != 1 do %>
+              <%= if @organization.follower_count != 1 do %>
                 <p class="text-sm">
-                  <span class="font-semibold"><%= @followers %></span> followers
+                  <span class="font-semibold"><%= @organization.follower_count %></span> followers
                 </p>
               <% else %>
                 <p class="text-sm">

@@ -12,7 +12,7 @@ defmodule Atomic.Organizations.Organization do
   @derive {
     Flop.Schema,
     filterable: [:name],
-    sortable: [:name],
+    sortable: [:name, :follower_count],
     compound_fields: [search: [:name]],
     default_order: %{
       order_by: [:name],
@@ -28,6 +28,10 @@ defmodule Atomic.Organizations.Organization do
 
     field :logo, Uploaders.Logo.Type
     field :location, :string
+
+    # field used to better track the number of followers
+    # can only be updated by the system and through the memberships schema
+    field :follower_count, :integer, default: 0
 
     embeds_one :socials, Socials, on_replace: :update
 

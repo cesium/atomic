@@ -300,24 +300,6 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Counts the number of followers in an organization.
-
-  ## Examples
-
-      iex> count_followers(123)
-      5
-
-      iex> count_followers(456)
-      0
-
-  """
-  def count_followers(organization_id) do
-    Membership
-    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
-    |> Repo.count()
-  end
-
-  @doc """
   Verifies if an user is a member of an organization.
 
   ## Examples

@@ -13,6 +13,8 @@ defmodule Atomic.Repo.Migrations.CreateOrganizations do
       add :logo, :string
       add :location, :string
 
+      add :follower_count, :integer
+
       add :socials, :map
 
       timestamps()

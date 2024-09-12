@@ -3,7 +3,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.Components.{Forms, Pagination}
+  import AtomicWeb.Components.{Dropdown, Forms, Pagination}
   import AtomicWeb.OrganizationLive.Components.OrganizationCard
 
   @impl true
@@ -22,7 +22,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
     {:noreply,
      socket
-     |> assign(:page_title, "Organizations")
+     |> assign(:page_title, gettext("Organizations"))
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
      |> stream(:organizations, organizations)
@@ -41,13 +41,27 @@ defmodule AtomicWeb.OrganizationLive.Index do
      |> assign(:meta, meta)}
   end
 
-  defp list_organizations(params, query) do
+  @impl true
+  def handle_event("sort", %{"field" => field}, socket) do
+    %{organizations: organizations, meta: meta} =
+      list_organizations(socket.assigns.params, socket.assigns.query, field)
+
+    {:noreply,
+     socket
+     |> stream(:organizations, organizations, reset: true)
+     |> assign(:meta, meta)}
+  end
+
+  defp list_organizations(params, query, order \\ nil) do
     params = Map.put(params, "page_size", 6)
 
     params =
       Map.put(params, "filters", %{
         filters: %{field: :name, op: :ilike, value: query}
       })
+
+    params = if order, do: Map.put(params, "order_by", [order]), else: params
+    params = if order, do: Map.put(params, "order_directions", [:desc]), else: params
 
     case Organizations.list_organizations(params) do
       {:ok, {organizations, meta}} ->

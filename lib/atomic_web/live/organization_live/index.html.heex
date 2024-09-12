@@ -1,11 +1,30 @@
 <.page title={@page_title}>
-  <:actions :if={@has_permissions?}>
-    <.button patch="/" icon={:plus}>
-      <%= gettext("New") %>
-    </.button>
+  <:actions>
+    <%= if @has_permissions? do %>
+      <.button patch="/" icon={:plus}>
+        <%= gettext("New") %>
+      </.button>
+    <% end %>
+
+    <.dropdown
+      id="sort-organizations-menu"
+      orientation={:down}
+      items={[
+        %{name: gettext("Name (A-Z)"), phx_click: "sort", value: %{"field" => "name"}},
+        %{name: gettext("Followers"), phx_click: "sort", value: %{"field" => "follower_count"}}
+      ]}
+    >
+      <:wrapper>
+        <button type="button" class="inline-flex items-center w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+          <.icon name={:bars_arrow_up} class="size-5 -ml-0.5 text-gray-500" />
+          <%= gettext("Sort") %>
+          <.icon name={:chevron_down} class="size-4 -mr-0.5 text-gray-500" />
+        </button>
+      </:wrapper>
+    </.dropdown>
   </:actions>
 
-  <div class="flex flex-col mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto flex max-w-5xl flex-col px-4 sm:px-6 lg:px-8">
     <.form id="search-form" for={@form} phx-change="search">
       <.field phx-mounted={JS.focus()} value={@query} type="search" name="search" placeholder={"#{gettext("Search for an organization")}..."} />
     </.form>
