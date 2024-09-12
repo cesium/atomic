@@ -138,13 +138,34 @@
         </div>
       </div>
     </div>
-    <!-- Activity image (desktop) -->
     <div class="sm:block hidden col-span-2 w-full object-cover">
+      <!-- Activity image (desktop) -->
       <%= if @activity.image do %>
         <img class="max-h-fit w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
       <% else %>
         <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
       <% end %>
+      <!-- Activity participants (desktop) -->
+      <div :if={@activity.enrolled > 0} class="pt-4">
+        <h2 class="mb-2 flex-1 select-none truncate text-md font-semibold text-gray-900">
+          <%= gettext("%{enrolled} Going", enrolled: @activity.enrolled) %>
+        </h2>
+        <.avatar_group
+          size={:xs}
+          items={
+            @participants
+            |> Enum.take(6)
+            |> Enum.map(fn p -> %{name: p.name} end)
+            |> then(fn avatars ->
+              if length(@participants) > 6 do
+                Enum.concat(avatars, [%{name: "+#{length(@participants) - 6}", auto_generate_initials: false}])
+              else
+                avatars
+              end
+            end)
+          }
+        />
+      </div>
     </div>
   </div>
 </.page>

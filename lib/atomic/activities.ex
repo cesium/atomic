@@ -346,6 +346,22 @@ defmodule Atomic.Activities do
   end
 
   @doc """
+  Returns the list of participants in an activity.
+
+  ## Examples
+
+      iex> list_activity_participants(activity_id)
+      [%Enrollment{}, ...]
+  """
+  def list_activity_participants(id) do
+    from(u in User,
+      join: e in assoc(u, :enrollments),
+      where: e.activity_id == ^id
+    )
+    |> Repo.all()
+  end
+
+  @doc """
   Returns the list of activities a user has enrolled in.
 
   ## Examples

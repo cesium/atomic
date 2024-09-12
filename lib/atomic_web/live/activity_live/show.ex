@@ -26,7 +26,7 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:page_title, "#{activity.title}")
      |> assign(:current_page, :activities)
      |> assign(:activity, activity)
-     |> assign(:enrolled, activity.enrolled)
+     |> assign(:participants, Activities.list_activity_participants(id))
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
