@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Activity do
       <!-- Image -->
       <%= if @activity.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="max-w-screen rounded-md sm:max-w-xl max-h-[32rem] object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         </div>
       <% end %>
       <!-- Footer -->
