@@ -39,14 +39,14 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
       <div class="flex-shrink-0">
         <%= if @is_following do %>
           <button type="button" phx-value-organization_id={@organization.id} phx-click="unfollow" phx-target={@myself} class="z-100 inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
-            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
             </svg>
             <span>Unfollow</span>
           </button>
         <% else %>
           <button type="button" phx-value-organization_id={@organization.id} phx-click="follow" phx-target={@myself} class="z-100 inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
-            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
             </svg>
             <span>Follow</span>

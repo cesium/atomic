@@ -26,11 +26,6 @@ defmodule AtomicWeb.Components.Badge do
 
   attr :icon, :atom, default: nil, doc: "The icon to display."
 
-  attr :icon_variant, :atom,
-    default: :outline,
-    values: [:solid, :outline, :mini],
-    doc: "The icon variation to display."
-
   attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the badge."
@@ -50,11 +45,11 @@ defmodule AtomicWeb.Components.Badge do
       ]}
     >
       <%= if @icon && @icon_position == :left do %>
-        <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
+        <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
       <% end %>
       <%= render_slot(@inner_block) || @label %>
       <%= if @icon && @icon_position == :right do %>
-        <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
+        <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
       <% end %>
     </div>
     """

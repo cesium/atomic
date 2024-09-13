@@ -38,17 +38,17 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       </div>
       <%= if !@collaborator.accepted do %>
         <div class="my-4 flex w-full select-none flex-row justify-center gap-2" aria-label={"#{display_date(@collaborator.inserted_at)} #{display_time(@collaborator.inserted_at)}"}>
-          <.icon class="my-auto h-5 w-5" name={:calendar} />
+          <.icon class="my-auto size-5" name={:calendar} />
           <p><%= gettext("Requested %{requested_at}", requested_at: relative_datetime(@collaborator.inserted_at)) %></p>
         </div>
       <% end %>
       <!-- Action Buttons -->
       <div class="mt-8 flex space-x-2">
         <%= if @collaborator.accepted do %>
-          <.button phx-click="delete" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Delete") %></.button>
+          <.button phx-click="delete" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Delete") %></.button>
         <% else %>
-          <.button phx-click="deny" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Deny") %></.button>
-          <.button phx-click="allow" phx-target={@myself} size={:lg} icon={:check_circle} color={:white} full_width><%= gettext("Accept") %></.button>
+          <.button phx-click="deny" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Deny") %></.button>
+          <.button phx-click="allow" phx-target={@myself} size={:lg} icon="hero-check-circle" color={:white} full_width><%= gettext("Accept") %></.button>
         <% end %>
       </div>
       <!-- Action Confirm Modal -->
@@ -61,13 +61,13 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
             <%= display_action_goal_confirm_description(@action_modal, @department) %>
           </p>
           <div class="mt-8 flex flex-row">
-            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
+            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Cancel") %></.button>
             <.button
               phx-click="confirm"
               class="ml-2"
               phx-target={@myself}
               size={:lg}
-              icon={:check_circle}
+              icon="hero-check-circle"
               color={
                 if @action_modal in [:delete_collaborator, :deny_request] do
                   :danger

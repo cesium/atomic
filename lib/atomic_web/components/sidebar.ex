@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Sidebar do
       <div class="flex flex-row items-center justify-between">
         <button type="button" class="-m-2.5 pl-6 text-zinc-700 lg:hidden" phx-click={show_mobile_sidebar()}>
           <span class="sr-only">Open sidebar</span>
-          <.icon name={:bars_3} class="!h-6 !w-6" />
+          <.icon name="hero-bars-3" class="!h-6 !w-6" />
         </button>
         <div class="left-1/4 mt-auto -mb-2">
           <span class="sr-only">Open user menu</span>
@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
               <button type="button" phx-click={hide_mobile_sidebar()} class="absolute top-0 right-0 p-4">
                 <span class="sr-only">Close sidebar</span>
-                <.icon name={:x_mark} class="h-6 w-6 text-zinc-700" />
+                <.icon name="hero-x-mark" class="size-6 text-zinc-700" />
               </button>
             </div>
 
@@ -106,7 +106,7 @@ defmodule AtomicWeb.Components.Sidebar do
                   "text-orange-500"
                 else
                   "text-zinc-400 group-hover:text-orange-500"
-                end} h-6 w-6 shrink-0"
+                end} size-6 shrink-0"
               } />
             <%= page.title %>
           </.link>
@@ -124,14 +124,14 @@ defmodule AtomicWeb.Components.Sidebar do
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
             <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
             <span class="text-sm font-semibold leading-6" aria-hidden="true"><%= @current_user.name %></span>
-            <.icon name={:chevron_right} solid class="h-5 w-5" />
+            <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
         </:wrapper>
       </AtomicWeb.Components.Dropdown.dropdown>
     <% else %>
       <.link navigate={Routes.user_session_path(AtomicWeb.Endpoint, :new)} class="flex select-none items-center space-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
         <span class="text-sm font-semibold leading-6" aria-hidden="true">Sign in</span>
-        <.icon name={:arrow_right_end_on_rectangle} solid class="h-5 w-5" />
+        <.icon name="hero-arrow-right-end-on-rectangle-solid" class="size-5" />
       </.link>
     <% end %>
     """

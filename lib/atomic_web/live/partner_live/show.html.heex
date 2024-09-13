@@ -2,7 +2,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <div class="lg:border-orange-500 lg:block">
-        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon={:pencil}>
+        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
           <%= gettext("Edit Partner") %>
         </.button>
       </div>
@@ -22,7 +22,7 @@
           </div>
           <%= if @partner.location do %>
             <div class="flex flex-row items-center gap-x-1 text-md leading-6">
-              <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+              <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
               <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
             </div>
           <% end %>
@@ -30,25 +30,25 @@
             <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
               <%= if @partner.socials.website do %>
                 <div class="flex flex-row items-center gap-x-1 ">
-                  <.icon name={:globe_alt} class="h-5 w-5 text-zinc-400" />
+                  <.icon name="hero-globe-alt" class="size-5 text-zinc-400" />
                   <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
                 </div>
               <% end %>
               <%= if @partner.socials.instagram do %>
                 <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
+                  <img src="/images/instagram.svg" class="size-5" alt="Instagram" />
                   <.link class="text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
                 </div>
               <% end %>
               <%= if @partner.socials.facebook do %>
                 <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
+                  <img src="/images/facebook.svg" class="size-5" alt="Facebook" />
                   <.link class="text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
                 </div>
               <% end %>
               <%= if @partner.socials.x do %>
                 <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/x.svg" class="h-5 w-5" alt="X" />
+                  <img src="/images/x.svg" class="size-5" alt="X" />
                   <.link class="text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
                 </div>
               <% end %>
@@ -59,7 +59,7 @@
       <div>
         <div class="mt-1 text-zinc-800 py-4 px-2">
           <div class="flex flex-row items-center gap-x-2">
-            <.icon name={:clock} class="h-5 w-5 mb-2" />
+            <.icon name="hero-clock" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
           </div>
           <span class="py-4">
@@ -70,7 +70,7 @@
         </div>
         <div class="text-zinc-800 py-4 px-2">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
-            <.icon name={:signal} class="h-5 w-5 mb-2" />
+            <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
           </div>
           <span>
@@ -86,7 +86,7 @@
         <%= if @partners do %>
           <div class="flex flex-col gap-x-2 text-zinc-800">
             <div class="flex flex-row items-center gap-x-2 px-2">
-              <.icon name={:star} class="h-5 w-5 mb-2" />
+              <.icon name="hero-star" class="size-5 mb-2" />
               <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900 py-2">Related Partners</h2>
             </div>
             <div class="sm:grid sm:grid-cols-2 sm:gap-px">
@@ -99,7 +99,7 @@
                     </div>
                     <%= if partner.location do %>
                       <div class="flex flex-row items-center gap-x-1">
-                        <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+                        <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
                         <span class="text-blue-500"><%= partner.location.name %></span>
                       </div>
                     <% end %>
