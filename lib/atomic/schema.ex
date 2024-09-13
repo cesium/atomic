@@ -2,7 +2,7 @@ defmodule Atomic.Schema do
   @moduledoc """
   The application Schema for all the modules, providing Ecto.UUIDs as default id.
   """
-  use Gettext, backend: :atomic
+  use Gettext, backend: AtomicWeb.Gettext
 
   alias Atomic.Time
 
@@ -10,7 +10,7 @@ defmodule Atomic.Schema do
     quote do
       use Ecto.Schema
       use Waffle.Ecto.Schema
-      use Gettext, backend: :atomic
+      use Gettext, backend: AtomicWeb.Gettext
 
       import Ecto.Changeset
       import Ecto.Query

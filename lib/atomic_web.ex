@@ -20,7 +20,7 @@ defmodule AtomicWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: AtomicWeb
-      use Gettext, backend: :atomic
+      use Gettext, backend: AtomicWeb.Gettext
 
       import Plug.Conn
 
@@ -81,7 +81,7 @@ defmodule AtomicWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      use Gettext, backend: :atomic
+      use Gettext, backend: AtomicWeb.Gettext
     end
   end
 
@@ -101,7 +101,7 @@ defmodule AtomicWeb do
       import Phoenix.View
 
       # Custom imports
-      use Gettext, backend: :atomic
+      use Gettext, backend: AtomicWeb.Gettext
 
       import AtomicWeb.ErrorHelpers
       import AtomicWeb.Helpers
