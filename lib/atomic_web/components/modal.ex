@@ -3,9 +3,9 @@ defmodule AtomicWeb.Components.Modal do
   Reusable modal component.
   """
   use Phoenix.Component
+  use Gettext, backend: :atomic
 
   import AtomicWeb.Components.Icon
-  import AtomicWeb.Gettext
   import AtomicWeb.LiveHelpers
 
   alias Phoenix.LiveView.JS

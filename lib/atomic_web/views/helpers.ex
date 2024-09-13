@@ -3,8 +3,7 @@ defmodule AtomicWeb.Helpers do
   A module with helper functions to display data in views
   """
   use Phoenix.HTML
-
-  import AtomicWeb.Gettext
+  use Gettext, backend: :atomic
 
   alias Timex.Format.DateTime.Formatters.Relative
 

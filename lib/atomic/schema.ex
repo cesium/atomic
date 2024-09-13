@@ -4,14 +4,12 @@ defmodule Atomic.Schema do
   """
   alias Atomic.Time
 
-  import AtomicWeb.Gettext
-
   defmacro __using__(_) do
     quote do
       use Ecto.Schema
       use Waffle.Ecto.Schema
+      use Gettext, backend: :atomic
 
-      import AtomicWeb.Gettext
       import Ecto.Changeset
       import Ecto.Query
 
