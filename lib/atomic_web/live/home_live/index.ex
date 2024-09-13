@@ -72,9 +72,10 @@ defmodule AtomicWeb.HomeLive.Index do
     do: {:noreply, socket}
 
   def handle_event("load-following", _, socket) when socket.assigns.is_authenticated? == false,
-    do: {:noreply,
-     socket
-     |> assign(:current_tab, "following")}
+    do:
+      {:noreply,
+       socket
+       |> assign(:current_tab, "following")}
 
   def handle_event("load-following", _, socket) do
     current_user = socket.assigns.current_user
