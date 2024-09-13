@@ -85,7 +85,7 @@ defmodule AtomicWeb.Components.Table do
   defp filter_input(assigns) do
     ~H"""
     <div x-data="{ open: false }">
-      <span @click="open = ! open" class="flex size-5 cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
+      <span @click="open = ! open" class="size-5 flex cursor-pointer justify-center self-center rounded p-1 hover:bg-zinc-200">
         <span class="self-center">
           <.icon name="hero-magnifying-glass-solid" class="align-center size-4" />
         </span>

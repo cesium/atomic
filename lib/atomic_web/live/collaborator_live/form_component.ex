@@ -38,7 +38,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       </div>
       <%= if !@collaborator.accepted do %>
         <div class="my-4 flex w-full select-none flex-row justify-center gap-2" aria-label={"#{display_date(@collaborator.inserted_at)} #{display_time(@collaborator.inserted_at)}"}>
-          <.icon class="my-auto size-5" name={:calendar} />
+          <.icon class="size-5 my-auto" name="hero-calendar" />
           <p><%= gettext("Requested %{requested_at}", requested_at: relative_datetime(@collaborator.inserted_at)) %></p>
         </div>
       <% end %>

@@ -25,28 +25,28 @@ defmodule AtomicWeb.Storybook.Components.Icon do
         id: :outline,
         description: "Outline",
         attributes: %{
-          name: "hero-academic-cap",
+          name: "hero-academic-cap"
         }
       },
       %Variation{
         id: :solid,
         description: "Solid",
         attributes: %{
-          name: "hero-academic-cap-solid",
+          name: "hero-academic-cap-solid"
         }
       },
       %Variation{
         id: :mini,
         description: "Mini",
         attributes: %{
-          name: "hero-academic-cap-mini",
+          name: "hero-academic-cap-mini"
         }
       },
       %Variation{
         id: :micro,
         description: "Micro",
         attributes: %{
-          name: "hero-academic-cap-micro",
+          name: "hero-academic-cap-micro"
         }
       }
     ]

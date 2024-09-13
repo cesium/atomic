@@ -24,14 +24,18 @@ defmodule AtomicWeb.Components.Badge do
     default: :left,
     doc: "The position of the icon if applicable."
 
-  attr :icon, :atom, default: nil, doc: "The icon to display."
-
+  attr :icon, :string, default: nil, doc: "The icon to display."
   attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the badge."
   attr :label, :string, default: nil, doc: "Badge label."
-  attr :rest, :global
-  slot :inner_block, required: false
+
+  attr :rest, :global,
+    include:
+      ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
+    doc: "Arbitrary HTML or phx attributes."
+
+  slot :inner_block, required: false, doc: "Slot for the content of the badge."
 
   def badge(assigns) do
     ~H"""

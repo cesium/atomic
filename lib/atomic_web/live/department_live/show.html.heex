@@ -181,7 +181,7 @@
                 />
                 <!-- People empty state -->
                 <%= if length(@all_collaborators) == 0 do %>
-                  <.icon class="mx-32 text-gray-900" name={:users} />
+                  <.icon class="mx-32 text-gray-900" name="hero-users" />
                   <p class="mb-4 select-none text-center text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
                 <% end %>
               </div>

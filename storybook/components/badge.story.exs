@@ -454,7 +454,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :mini,
             attributes: %{
               size: :md,
-              icon: "hero-radio-mini",
+              icon: "hero-radio-mini"
             },
             slots: [
               """
@@ -466,7 +466,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :solid,
             attributes: %{
               size: :md,
-              icon: "hero-radio-solid",
+              icon: "hero-radio-solid"
             },
             slots: [
               """
@@ -478,7 +478,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :outline,
             attributes: %{
               size: :md,
-              icon: "hero-radio",
+              icon: "hero-radio"
             },
             slots: [
               """

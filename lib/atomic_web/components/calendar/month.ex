@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     <.badge variant={:outline} color={:primary} label="Activity" />
                   </.link>
                   <time datetime={activity.start} class="flex items-center text-zinc-700">
-                    <.icon name="hero-clock-solid" class="mr-2 size-5 text-zinc-400" />
+                    <.icon name="hero-clock-solid" class="size-5 mr-2 text-zinc-400" />
                     <%= Calendar.strftime(activity.start, "%Hh%M") %>
                   </time>
                 </div>
