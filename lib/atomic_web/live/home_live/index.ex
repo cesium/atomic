@@ -2,7 +2,7 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Activity, Announcement, Tabs}
+  import AtomicWeb.Components.{Activity, Announcement, Tabs, Unauthenticated}
   import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
 
   alias Atomic.Activities
@@ -70,6 +70,11 @@ defmodule AtomicWeb.HomeLive.Index do
   @impl true
   def handle_event("load-following", _, socket) when socket.assigns.current_tab == "following",
     do: {:noreply, socket}
+
+  def handle_event("load-following", _, socket) when socket.assigns.is_authenticated? == false,
+    do: {:noreply,
+     socket
+     |> assign(:current_tab, "following")}
 
   def handle_event("load-following", _, socket) do
     current_user = socket.assigns.current_user
