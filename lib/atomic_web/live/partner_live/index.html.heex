@@ -1,7 +1,7 @@
 <.page title="Partners">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={Routes.partner_edit_path(@socket, :new, @current_organization)} icon={:plus}>
+      <.button navigate={Routes.partner_edit_path(@socket, :new, @current_organization)} icon="hero-plus">
         New Partner
       </.button>
     <% end %>
@@ -45,7 +45,7 @@
                 <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
                 <%= if partner.location do %>
                   <div class="flex flex-row items-center gap-x-1 text-sm leading-6 z-1">
-                    <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+                    <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
                     <p class="text-blue-500"><%= partner.location.name %></p>
                   </div>
                 <% end %>

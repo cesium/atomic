@@ -42,7 +42,7 @@
                                 aria-labelledby="listbox-label"
                               >
                                 <span class="sr-only">Change published status</span>
-                                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <svg class="size-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                   <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                 </svg>
                               </button>
@@ -73,12 +73,12 @@
                     <%= if @has_permissions? do %>
                       <.link patch={Routes.organization_edit_path(@socket, :edit, @organization)} class="button">
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-gray-400" /> Edit
+                          <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-gray-400" /> Edit
                         </div>
                       </.link>
                       <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
                         <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <.icon name={:trash} solid class="mr-3 w-5 h-5 text-gray-400" /> Delete
+                          <.icon name="hero-trash-solid" class="mr-3 w-5 h-5 text-gray-400" /> Delete
                         </div>
                       <% end %>
                     <% end %>

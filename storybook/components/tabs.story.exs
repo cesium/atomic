@@ -67,11 +67,11 @@ defmodule AtomicWeb.Storybook.Components.Tabs do
         slots: [
           """
           <.tab active={true}>
-            <.icon name={:home} class="h-5 w-5 mr-2" />
+            <.icon name="hero-home" class="size-5 mr-2" />
             All
           </.tab>
           <.tab>
-            <.icon name={:star} class="h-5 w-5 mr-2" />
+            <.icon name="hero-star" class="size-5 mr-2" />
             Following
           </.tab>
           """
