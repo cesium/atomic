@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Activity do
       <!-- Image -->
       <%= if @activity.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-xl max-h-[32rem] object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         </div>
       <% end %>
       <!-- Footer -->
@@ -53,10 +53,14 @@ defmodule AtomicWeb.Components.Activity do
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2">
-              <.icon name={:user_group} solid class={[
-                "h-5 w-5",
-                color_class(@activity.enrolled, @activity.maximum_entries)
-                ]}  />
+              <.icon
+                name={:user_group}
+                solid
+                class={[
+                  "h-5 w-5",
+                  color_class(@activity.enrolled, @activity.maximum_entries)
+                ]}
+              />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
               <span class="sr-only text-zinc-400">enrollments</span>
             </span>
@@ -83,6 +87,9 @@ defmodule AtomicWeb.Components.Activity do
   end
 
   defp color_class(enrolled, maximum_entries) when enrolled == maximum_entries, do: "text-red-500"
-  defp color_class(enrolled, maximum_entries) when enrolled > div(maximum_entries,2), do: "text-amber-300"
+
+  defp color_class(enrolled, maximum_entries) when enrolled > div(maximum_entries, 2),
+    do: "text-amber-300"
+
   defp color_class(_, _), do: "text-lime-600"
 end

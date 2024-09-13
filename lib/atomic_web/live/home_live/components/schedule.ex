@@ -33,7 +33,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                 </li>
               </.link>
               <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)}>
-                <div class="text-right text-zinc-400 pb-4">
+                <div class="pb-4 text-right text-zinc-400">
                   <p class="text-xs hover:underline">
                     <%= entry.organization.name %>
                   </p>
@@ -62,14 +62,14 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                         <%= pretty_display_date(entry.start) %>
                       </p>
                     </div>
-                    </div>
+                  </div>
                   <p class="text-justify text-sm text-gray-700">
                     <%= truncate(entry.description, 150) %>
                   </p>
                 </li>
               </.link>
               <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)}>
-                <div class="text-right text-zinc-400 pb-4">
+                <div class="pb-4 text-right text-zinc-400">
                   <p class="text-xs hover:underline">
                     <%= entry.organization.name %>
                   </p>
@@ -85,7 +85,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
 
   defp truncate(text, length) do
     if String.length(text) > length do
-      String.slice(text, 0..length - 1) <> "..."
+      String.slice(text, 0..(length - 1)) <> "..."
     else
       text
     end
