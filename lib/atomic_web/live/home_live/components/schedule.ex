@@ -15,20 +15,29 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           <ul role="list" class="divide-y divide-gray-200">
             <%= for entry <- @schedule.daily do %>
               <.link navigate={Routes.activity_show_path(AtomicWeb.Endpoint, :show, entry)}>
-                <li class="space-y-3 py-4">
-                  <p class="text-md font-semibold hover:underline">
-                    <%= entry.title %>
-                  </p>
-                  <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <.icon name={:clock} solid class="h-4 w-4" />
-                    <p class="text-xs font-semibold">
-                      <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
+                <li class="space-y-3 pt-4">
+                  <div class="flex justify-between">
+                    <p class="text-md font-semibold hover:underline">
+                      <%= entry.title %>
                     </p>
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                      <.icon name={:clock} solid class="h-4 w-4" />
+                      <p class="text-xs font-semibold">
+                        <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
+                      </p>
+                    </div>
                   </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= entry.description %>
+                    <%= truncate(entry.description, 150) %>
                   </p>
                 </li>
+              </.link>
+              <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)}>
+                <div class="text-right text-zinc-400 pb-4">
+                  <p class="text-xs hover:underline">
+                    <%= entry.organization.name %>
+                  </p>
+                </div>
               </.link>
             <% end %>
           </ul>
@@ -42,20 +51,29 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           <ul role="list" class="divide-y divide-gray-200">
             <%= for entry <- @schedule.weekly do %>
               <.link navigate={Routes.activity_show_path(AtomicWeb.Endpoint, :show, entry)}>
-                <li class="space-y-3 py-4">
-                  <p class="text-md font-semibold hover:underline">
-                    <%= entry.title %>
-                  </p>
-                  <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <.icon name={:clock} solid class="h-4 w-4" />
-                    <p class="text-xs font-semibold">
-                      <%= pretty_display_date(entry.start) %>
+                <li class="space-y-3 pt-4">
+                  <div class="flex justify-between">
+                    <p class="text-md font-semibold hover:underline">
+                      <%= entry.title %>
                     </p>
-                  </div>
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                      <.icon name={:calendar} solid class="h-4 w-4" />
+                      <p class="text-xs font-semibold">
+                        <%= pretty_display_date(entry.start) %>
+                      </p>
+                    </div>
+                    </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= entry.description %>
+                    <%= truncate(entry.description, 150) %>
                   </p>
                 </li>
+              </.link>
+              <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)}>
+                <div class="text-right text-zinc-400 pb-4">
+                  <p class="text-xs hover:underline">
+                    <%= entry.organization.name %>
+                  </p>
+                </div>
               </.link>
             <% end %>
           </ul>
@@ -63,5 +81,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
       </div>
     </div>
     """
+  end
+
+  defp truncate(text, length) do
+    if String.length(text) > length do
+      String.slice(text, 0..length - 1) <> "..."
+    else
+      text
+    end
   end
 end
