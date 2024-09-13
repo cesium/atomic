@@ -2,6 +2,8 @@ defmodule Atomic.Schema do
   @moduledoc """
   The application Schema for all the modules, providing Ecto.UUIDs as default id.
   """
+  use Gettext, backend: :atomic
+
   alias Atomic.Time
 
   defmacro __using__(_) do
