@@ -46,16 +46,19 @@ defmodule AtomicWeb.Components.Activity do
         <div class="flex space-x-4">
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name={:clock} solid class="h-5 w-5" />
-              <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
+              <.icon name={:calendar} solid class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+              <span class="font-medium text-gray-900"><%= pretty_display_date(@activity.start) %></span>
               <span class="sr-only">starting in</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
-            <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name={:user_group} solid class="h-5 w-5" />
+            <span class="inline-flex space-x-2">
+              <.icon name={:user_group} solid class={[
+                "h-5 w-5",
+                color_class(@activity.enrolled, @activity.maximum_entries)
+                ]}  />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
-              <span class="sr-only">enrollments</span>
+              <span class="sr-only text-zinc-400">enrollments</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
@@ -78,4 +81,8 @@ defmodule AtomicWeb.Components.Activity do
       "mt-2"
     end
   end
+
+  defp color_class(enrolled, maximum_entries) when enrolled == maximum_entries, do: "text-red-500"
+  defp color_class(enrolled, maximum_entries) when enrolled > div(maximum_entries,2), do: "text-amber-300"
+  defp color_class(_, _), do: "text-lime-600"
 end
