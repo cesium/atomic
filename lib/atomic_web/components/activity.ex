@@ -51,15 +51,12 @@ defmodule AtomicWeb.Components.Activity do
               <span class="sr-only">starting in</span>
             </span>
           </span>
-          <span class="inline-flex items-center text-sm">
+          <span class={[
+            "inline-flex items-center text-sm",
+            color_class(@activity.enrolled, @activity.maximum_entries)
+          ]}>
             <span class="inline-flex space-x-2">
-              <.icon
-                name="hero-user-group-solid"
-                class={[
-                  "h-5 w-5",
-                  color_class(@activity.enrolled, @activity.maximum_entries)
-                ]}
-              />
+              <.icon name="hero-user-group-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
               <span class="sr-only text-zinc-400">enrollments</span>
             </span>
