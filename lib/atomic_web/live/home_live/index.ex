@@ -119,7 +119,7 @@ defmodule AtomicWeb.HomeLive.Index do
   end
 
   defp process_activity(activity, {daily_acc, weekly_acc}) do
-    case within_today_or_this_week(activity.start) do
+    case within_today_or_this_week(activity.start |> NaiveDateTime.to_date()) do
       :today ->
         {[activity | daily_acc], weekly_acc}
 

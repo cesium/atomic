@@ -28,7 +28,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     </div>
                   </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= truncate(entry.description, 150) %>
+                    <%= maybe_slice_string(entry.description, 150) %>
                   </p>
                 </li>
               </.link>
@@ -64,7 +64,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     </div>
                   </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= truncate(entry.description, 150) %>
+                    <%= maybe_slice_string(entry.description, 150) %>
                   </p>
                 </li>
               </.link>
@@ -81,13 +81,5 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
       </div>
     </div>
     """
-  end
-
-  defp truncate(text, length) do
-    if String.length(text) > length do
-      String.slice(text, 0..(length - 1)) <> "..."
-    else
-      text
-    end
   end
 end
