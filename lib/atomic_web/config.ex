@@ -25,7 +25,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qr_code,
+          icon: "hero-qr-code",
           url: Routes.scanner_index_path(conn, :index),
           tabs: []
         }
@@ -38,28 +38,21 @@ defmodule AtomicWeb.Config do
         %{
           key: :departments,
           title: "Departments",
-          icon: :cube,
+          icon: "hero-cube",
           url: Routes.department_index_path(conn, :index, current_organization.id),
           tabs: []
         },
         %{
           key: :partners,
           title: "Partners",
-          icon: :user_group,
+          icon: "hero-user-group",
           url: Routes.partner_index_path(conn, :index, current_organization.id),
-          tabs: []
-        },
-        %{
-          key: :memberships,
-          title: "Memberships",
-          icon: :user_plus,
-          url: Routes.home_index_path(conn, :index),
           tabs: []
         },
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qr_code,
+          icon: "hero-qr-code",
           url: Routes.scanner_index_path(conn, :index),
           tabs: []
         }
@@ -71,35 +64,35 @@ defmodule AtomicWeb.Config do
       %{
         key: :home,
         title: "Home",
-        icon: :home,
+        icon: "hero-home",
         url: Routes.home_index_path(conn, :index),
         tabs: []
       },
       %{
         key: :calendar,
         title: "Calendar",
-        icon: :calendar,
+        icon: "hero-calendar",
         url: Routes.calendar_show_path(conn, :show),
         tabs: []
       },
       %{
         key: :activities,
         title: "Activities",
-        icon: :academic_cap,
+        icon: "hero-academic-cap",
         url: Routes.activity_index_path(conn, :index),
         tabs: []
       },
       %{
         key: :announcements,
         title: "Announcements",
-        icon: :newspaper,
+        icon: "hero-newspaper",
         url: Routes.announcement_index_path(conn, :index),
         tabs: []
       },
       %{
         key: :organizations,
         title: "Organizations",
-        icon: :building_office,
+        icon: "hero-building-office",
         url: Routes.organization_index_path(conn, :index),
         tabs: []
       }

@@ -58,7 +58,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
                   </p>
                   <div class="flex flex-row items-center gap-x-2 pt-2">
                     <time datetime={activity.start} class="mt-2 flex items-center text-zinc-700">
-                      <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
+                      <.icon name="hero-clock-solid" class="size-5 mr-2 text-zinc-400" />
                       <%= Calendar.strftime(activity.start, "%Hh%M") %>
                     </time>
                   </div>
@@ -140,7 +140,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
     ]}>
       <time date-time={@date} class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if @today? == 0 do
-            "flex h-6 w-6 items-center justify-center rounded-full bg-primary-600 font-semibold text-white"
+            "flex size-6 items-center justify-center rounded-full bg-primary-600 font-semibold text-white"
           end}"
         }>
         <%= @text %>
@@ -178,7 +178,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         date-time={@date}
         class={[
           "ml-auto lg:ml-0",
-          @current_date == @date && "flex h-6 w-6 items-center justify-center rounded-full text-white shrink-0",
+          @current_date == @date && "flex size-6 items-center justify-center rounded-full text-white shrink-0",
           @current_date == @date && @today? == 0 && "bg-primary-600",
           @current_date == @date && @today? != 0 && "bg-zinc-900",
           @current_date != @date && @today? == 0 && "text-primary-700",
