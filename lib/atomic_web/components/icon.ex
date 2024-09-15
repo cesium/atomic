@@ -1,19 +1,17 @@
 defmodule AtomicWeb.Components.Icon do
   @moduledoc """
-  A component for rendering an icon from the Heroicons package.
+  A component for rendering icons.
+
+  An icon can either be from the Heroicons or Tabler Icons set.
   """
   use Phoenix.Component
 
-  attr :rest, :global,
-    doc: "The arbitrary HTML attributes for the svg container",
-    include: ~w(fill stroke stroke-width)
+  attr :name, :string, required: true
+  attr :class, :string, default: nil
 
-  attr :name, :atom, required: true
-  attr :outline, :boolean, default: true
-  attr :solid, :boolean, default: false
-  attr :mini, :boolean, default: false
-
-  def icon(assigns) do
-    apply(Heroicons, assigns.name, [assigns])
+  def icon(%{name: "hero-" <> _} = assigns) do
+    ~H"""
+    <span class={[@name, @class]} />
+    """
   end
 end

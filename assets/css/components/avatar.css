@@ -21,23 +21,23 @@
 /* Avatar - sizes */
 
 .atomic-avatar--xs {
-  @apply h-8 w-8 text-xs;
+  @apply size-8 text-xs;
 }
 
 .atomic-avatar--sm {
-  @apply h-12 w-12 text-lg;
+  @apply size-12 text-lg;
 }
 
 .atomic-avatar--md {
-  @apply h-16 w-16 text-lg;
+  @apply size-16 text-lg;
 }
 
 .atomic-avatar--lg {
-  @apply h-20 w-20 text-4xl;
+  @apply size-20 text-4xl;
 }
 
 .atomic-avatar--xl {
-  @apply h-24 w-24 text-4xl;
+  @apply size-24 text-4xl;
 }
 
 /* Avatar - colors */

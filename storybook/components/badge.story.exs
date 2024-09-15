@@ -294,7 +294,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
           %Variation{
             id: :xs,
             attributes: %{
-              icon: :cake,
+              icon: "hero-cake",
               size: :xs
             },
             slots: [
@@ -306,7 +306,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
           %Variation{
             id: :sm,
             attributes: %{
-              icon: :cake,
+              icon: "hero-cake",
               size: :sm
             },
             slots: [
@@ -318,7 +318,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
           %Variation{
             id: :md,
             attributes: %{
-              icon: :cake,
+              icon: "hero-cake",
               size: :md
             },
             slots: [
@@ -330,7 +330,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
           %Variation{
             id: :lg,
             attributes: %{
-              icon: :cake,
+              icon: "hero-cake",
               size: :lg
             },
             slots: [
@@ -342,7 +342,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
           %Variation{
             id: :xl,
             attributes: %{
-              icon: :cake,
+              icon: "hero-cake",
               size: :xl
             },
             slots: [
@@ -422,7 +422,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :icon_left,
             attributes: %{
               size: :md,
-              icon: :trophy,
+              icon: "hero-trophy",
               icon_position: :left
             },
             slots: [
@@ -435,7 +435,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :icon_right,
             attributes: %{
               size: :md,
-              icon: :trophy,
+              icon: "hero-trophy",
               icon_position: :right
             },
             slots: [
@@ -454,8 +454,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :mini,
             attributes: %{
               size: :md,
-              icon: :radio,
-              icon_variant: :mini
+              icon: "hero-radio-mini"
             },
             slots: [
               """
@@ -467,8 +466,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :solid,
             attributes: %{
               size: :md,
-              icon: :radio,
-              icon_variant: :solid
+              icon: "hero-radio-solid"
             },
             slots: [
               """
@@ -480,8 +478,7 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             id: :outline,
             attributes: %{
               size: :md,
-              icon: :radio,
-              icon_variant: :outline
+              icon: "hero-radio"
             },
             slots: [
               """

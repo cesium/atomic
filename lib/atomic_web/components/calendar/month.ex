@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
                     <.badge variant={:outline} color={:primary} label="Activity" />
                   </.link>
                   <time datetime={activity.start} class="flex items-center text-zinc-700">
-                    <.icon name={:clock} solid class="mr-2 h-5 w-5 text-zinc-400" />
+                    <.icon name="hero-clock-solid" class="size-5 mr-2 text-zinc-400" />
                     <%= Calendar.strftime(activity.start, "%Hh%M") %>
                   </time>
                 </div>
@@ -99,7 +99,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
     <div class={@class}>
       <time date-time={@date} class={
           "ml-auto lg:ml-0 pr-2 lg:pr-0 #{if @today? == 0 do
-            "flex h-6 w-6 items-center justify-center rounded-full bg-orange-400 font-semibold text-white shrink-0"
+            "flex size-6 items-center justify-center rounded-full bg-orange-400 font-semibold text-white shrink-0"
           end}"
         }>
         <%= @text %>
@@ -122,7 +122,7 @@ defmodule AtomicWeb.Components.CalendarMonth do
         date-time={@date}
         class={
           "ml-auto lg:ml-0 #{if current_from_params(@timezone, @params) == @date do
-            "ml-auto flex h-6 w-6 items-center justify-center rounded-full #{if @today? == 0 do
+            "ml-auto flex size-6 items-center justify-center rounded-full #{if @today? == 0 do
               "bg-orange-700"
             else
               "bg-zinc-900"
