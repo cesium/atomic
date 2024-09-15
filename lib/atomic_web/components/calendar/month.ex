@@ -72,6 +72,32 @@ defmodule AtomicWeb.Components.CalendarMonth do
     """
   end
 
+  @doc """
+  Generates a list of days for the calendar month, including days from the previous and next months to fill the 6x7 grid.
+
+  ## Example
+
+      iex> generate_days_list(~D[2024-09-01], ~D[2024-09-30])
+      [
+        ~D[2024-08-26],
+        ~D[2024-08-27],
+        ~D[2024-08-28],
+        ~D[2024-08-29],
+        ~D[2024-08-30],
+        ~D[2024-08-31],
+        ~D[2024-09-01],
+        ~D[2024-09-02],
+        ...,
+        ~D[2024-09-29],
+        ~D[2024-09-30],
+        ~D[2024-10-01],
+        ~D[2024-10-02],
+        ~D[2024-10-03],
+        ~D[2024-10-04],
+        ~D[2024-10-05],
+        ~D[2024-10-06]
+      ]
+  """
   defp generate_days_list(beginning_of_month, end_of_month) do
     days_from_last_month = Timex.weekday(beginning_of_month, :monday)
 

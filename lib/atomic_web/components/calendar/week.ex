@@ -101,18 +101,20 @@ defmodule AtomicWeb.Components.CalendarWeek do
   end
 
   defp day(assigns) do
+    assigns =
+      assigns
+      |> assign_activities_positions(get_date_activities(assigns.activities, assigns.date))
+
     ~H"""
-    <%= for activity <- get_date_activities(@activities, @date) do %>
-      <% width = calc_total_overlaps(activity, @activities) + 1 %>
-      <% left = calc_left_amount(activity, @activities) %>
+    <%= for {activity, width, left} <- @activities_with_positions do %>
       <li class={"#{col_start(@idx + 1)} relative mt-px flex"} style={"
             grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)};
-            width: #{(1/width)*100}%;
-            left: #{if left > 0 do (left / width) * 100 else 0 end}%"}>
+            width: #{width}%;
+            left: #{left}%"}>
         <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
           <div class={[
             "group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-primary-50 p-2 text-xs leading-5 hover:bg-primary-100 sm:overflow-y-hidden sm:hover:overflow-y-auto",
-            width != 1 && "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]"
+            width != 100 && "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]"
           ]}>
             <p class="text-primary-500 order-1 font-semibold">
               <%= activity.title %>
@@ -125,6 +127,26 @@ defmodule AtomicWeb.Components.CalendarWeek do
       </li>
     <% end %>
     """
+  end
+
+  defp assign_activities_positions(assigns, day_activities) do
+    activities_with_positions =
+      Enum.map(day_activities, fn activity ->
+        # Calculate the width of the activity in percentage
+        width = 1 / (calc_total_overlaps(activity, day_activities) + 1) * 100
+
+        # Calculate the left position of the activity in percentage
+        left =
+          calc_left_amount(
+            activity,
+            day_activities,
+            calc_total_overlaps(activity, day_activities) + 1
+          )
+
+        {activity, width, left}
+      end)
+
+    assign(assigns, :activities_with_positions, activities_with_positions)
   end
 
   defp calc_row_start(start) do
@@ -141,6 +163,15 @@ defmodule AtomicWeb.Components.CalendarWeek do
     hours * 12 + div(minutes, 5) + 2
   end
 
+  @doc """
+  Calculates the number of grid rows the activity should span based on the time difference between the start and finish.
+  Each row spans a 5-minute interval.
+
+  ## Example
+
+      iex> calc_time(~N[2024-09-11 09:00:00], ~N[2024-09-11 10:00:00])
+      12
+  """
   defp calc_time(start, finish) do
     time_diff = (NaiveDateTime.diff(finish, start) / 60) |> trunc()
 
@@ -151,7 +182,23 @@ defmodule AtomicWeb.Components.CalendarWeek do
     end
   end
 
-  defp calc_total_overlaps(current_activity, activities) do
+  @doc """
+  Calculates the total number of overlapping activities with the current activity on the same day.
+
+  ## Example
+
+      iex> activities = [
+      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
+      ...> ]
+      ...>
+      ...> calc_total_overlaps(
+      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+      ...>   activities
+      ...> )
+      1
+  """
+  def calc_total_overlaps(current_activity, activities) do
     current_interval =
       Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
 
@@ -165,19 +212,47 @@ defmodule AtomicWeb.Components.CalendarWeek do
     |> length()
   end
 
-  defp calc_left_amount(current_activity, activities) do
+  @doc """
+  Calculates the left offset percentage for positioning an activity on the calendar grid.
+
+  The left offset is determined by the number of overlapping activities prior to the current one.
+
+
+  ## Example
+
+      iex> activities = [
+      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
+      ...> ]
+      ...>
+      ...> calc_left_amount(
+      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]},
+      ...>   activities,
+      ...>   2
+      ...> )
+      50.0
+  """
+  defp calc_left_amount(current_activity, activities, activity_total_overlaps) do
     current_interval =
       Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
 
-    activities
-    |> Enum.take_while(fn activity -> activity != current_activity end)
-    |> Enum.filter(fn activity ->
-      activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
+    # Total number of overlaps prior to the current activity
+    total_overlaps =
+      activities
+      |> Enum.take_while(fn activity -> activity != current_activity end)
+      |> Enum.filter(fn activity ->
+        activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
 
-      activity != current_activity && activity.start.day == current_activity.start.day and
-        Timex.Interval.overlaps?(current_interval, activity_interval)
-    end)
-    |> length()
+        activity != current_activity && activity.start.day == current_activity.start.day and
+          Timex.Interval.overlaps?(current_interval, activity_interval)
+      end)
+      |> length()
+
+    if total_overlaps > 0 do
+      total_overlaps / activity_total_overlaps * 100
+    else
+      0
+    end
   end
 
   defp hours,
