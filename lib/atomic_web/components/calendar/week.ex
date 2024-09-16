@@ -164,7 +164,8 @@ defmodule AtomicWeb.Components.CalendarWeek do
   end
 
   # Each row spans a 5-minute interval.
-  # Calculates the number of grid rows the activity should span based on the time difference between the start and finish.
+  # Calculates the number of grid rows the activity should
+  # span based on the time difference between the start and finish.
   #
   # Example
   #

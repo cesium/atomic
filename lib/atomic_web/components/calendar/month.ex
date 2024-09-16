@@ -72,7 +72,8 @@ defmodule AtomicWeb.Components.CalendarMonth do
     """
   end
 
-  # Generates a list of days for the calendar month, including days from the previous and next months to fill the 6x7 grid.
+  # Generates a list of days for the calendar month,
+  # including days from the previous and next months to fill the 6x7 grid.
   #
   # Example
   #
