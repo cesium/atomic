@@ -1,8 +1,8 @@
-defmodule AtomicWeb.Components.CalendarMonth do
+defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
   @moduledoc false
   use AtomicWeb, :component
 
-  import AtomicWeb.CalendarUtils
+  import AtomicWeb.CalendarLive.Components.CalendarUtils
 
   attr :id, :string, default: "calendar-month", required: false
   attr :current_date, :string, required: true

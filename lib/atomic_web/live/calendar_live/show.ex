@@ -2,9 +2,9 @@ defmodule AtomicWeb.CalendarLive.Show do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.CalendarUtils
-  import AtomicWeb.Components.CalendarMonth
-  import AtomicWeb.Components.CalendarWeek
+  import AtomicWeb.CalendarLive.Components.CalendarUtils
+  import AtomicWeb.CalendarLive.Components.CalendarMonth
+  import AtomicWeb.CalendarLive.Components.CalendarWeek
   import AtomicWeb.Components.Dropdown
 
   alias Atomic.Activities

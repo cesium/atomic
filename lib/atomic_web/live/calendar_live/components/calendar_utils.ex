@@ -1,4 +1,4 @@
-defmodule AtomicWeb.CalendarUtils do
+defmodule AtomicWeb.CalendarLive.Components.CalendarUtils do
   @moduledoc """
   Calendar utils functions to be used on all views.
   """

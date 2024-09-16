@@ -1,10 +1,10 @@
-defmodule AtomicWeb.Components.CalendarWeek do
+defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
   @moduledoc false
   use AtomicWeb, :component
 
   alias Timex.Duration
 
-  import AtomicWeb.CalendarUtils
+  import AtomicWeb.CalendarLive.Components.CalendarUtils
 
   attr :id, :string, default: "calendar-week", required: false
   attr :current_date, :string, required: true
