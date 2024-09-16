@@ -9,13 +9,13 @@
                 <time datetime={@beginning_of_month}><%= Timex.format!(@beginning_of_month, "{Mshort} {YYYY}") %></time>
               <% else %>
                 <%= if date_to_month(@beginning_of_week) == date_to_month(@end_of_week) do %>
-                    <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %></time>
+                  <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %></time>
+                <% else %>
+                  <%= if date_to_year(@beginning_of_week) == date_to_year(@end_of_week) do %>
+                    <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
                   <% else %>
-                    <%= if date_to_year(@beginning_of_week) == date_to_year(@end_of_week) do %>
-                      <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
-                    <% else %>
-                      <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
-                    <% end %>
+                    <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
+                  <% end %>
                 <% end %>
               <% end %>
             </span>

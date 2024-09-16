@@ -163,15 +163,14 @@ defmodule AtomicWeb.Components.CalendarWeek do
     hours * 12 + div(minutes, 5) + 2
   end
 
-  @doc """
-  Calculates the number of grid rows the activity should span based on the time difference between the start and finish.
-  Each row spans a 5-minute interval.
+  # Each row spans a 5-minute interval.
+  # Calculates the number of grid rows the activity should span based on the time difference between the start and finish.
+  #
+  # Example
+  #
+  # iex> calc_time(~N[2024-09-11 09:00:00], ~N[2024-09-11 10:00:00])
+  # 12
 
-  ## Example
-
-      iex> calc_time(~N[2024-09-11 09:00:00], ~N[2024-09-11 10:00:00])
-      12
-  """
   defp calc_time(start, finish) do
     time_diff = (NaiveDateTime.diff(finish, start) / 60) |> trunc()
 
@@ -182,22 +181,21 @@ defmodule AtomicWeb.Components.CalendarWeek do
     end
   end
 
-  @doc """
-  Calculates the total number of overlapping activities with the current activity on the same day.
+  # Calculates the total number of overlapping activities with the current activity on the same day.
+  #
+  # Example
+  #
+  # iex> activities = [
+  # ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+  # ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
+  # ...> ]
+  # ...>
+  # ...> calc_total_overlaps(
+  # ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+  # ...>   activities
+  # ...> )
+  # 1
 
-  ## Example
-
-      iex> activities = [
-      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
-      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
-      ...> ]
-      ...>
-      ...> calc_total_overlaps(
-      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
-      ...>   activities
-      ...> )
-      1
-  """
   def calc_total_overlaps(current_activity, activities) do
     current_interval =
       Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
@@ -212,26 +210,24 @@ defmodule AtomicWeb.Components.CalendarWeek do
     |> length()
   end
 
-  @doc """
-  Calculates the left offset percentage for positioning an activity on the calendar grid.
-
-  The left offset is determined by the number of overlapping activities prior to the current one.
-
-
-  ## Example
-
-      iex> activities = [
-      ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
-      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
-      ...> ]
-      ...>
-      ...> calc_left_amount(
-      ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]},
-      ...>   activities,
-      ...>   2
-      ...> )
-      50.0
-  """
+  # Calculates the left offset percentage for positioning an activity on the calendar grid.
+  #
+  # The left offset is determined by the number of overlapping activities prior to the current one.
+  #
+  #
+  # Example
+  #
+  # iex> activities = [
+  # ...>   %{start: ~N[2024-09-11 09:00:00], finish: ~N[2024-09-11 10:00:00]},
+  # ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]}
+  # ...> ]
+  # ...>
+  # ...> calc_left_amount(
+  # ...>   %{start: ~N[2024-09-11 09:30:00], finish: ~N[2024-09-11 10:30:00]},
+  # ...>   activities,
+  # ...>   2
+  # ...> )
+  # 50.0
   defp calc_left_amount(current_activity, activities, activity_total_overlaps) do
     current_interval =
       Timex.Interval.new(from: current_activity.start, until: current_activity.finish)
