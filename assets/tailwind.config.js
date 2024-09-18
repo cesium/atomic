@@ -89,6 +89,7 @@ module.exports = {
           } else if (name.endsWith("-micro")) {
             size = theme("spacing.4")
           }
+
           return {
             [`--hero-${name}`]: `url('data:image/svg+xml;utf8,${content}')`,
             "-webkit-mask": `var(--hero-${name})`,
@@ -101,7 +102,43 @@ module.exports = {
             "height": size
           }
         }
-      }, {values})
+      }, { values })
+    }),
+
+    // Embeds Tabler icons (https://tablericons.com) into app.css bundle
+    plugin(function ({ matchComponents, theme }) {
+      let iconsDir = path.join(__dirname, "../deps/tabler_icons/icons")
+      let values = {}
+      let icons = [
+        ["", "/outline"],
+        ["-filled", "/filled"],
+      ]
+      icons.forEach(([suffix, dir]) => {
+        fs.readdirSync(path.join(iconsDir, dir)).forEach(file => {
+          let name = path.basename(file, ".svg") + suffix
+          values[name] = { name, fullPath: path.join(iconsDir, dir, file) }
+        })
+      })
+      matchComponents({
+        "tabler": ({ name, fullPath }) => {
+          let content = fs.readFileSync(fullPath).toString()
+            .replace(/\r?\n|\r/g, "")
+            .replace(/width="[^"]*"/, "")
+            .replace(/height="[^"]*"/, "");
+
+          return {
+            [`--tabler-${name}`]: `url('data:image/svg+xml;utf8,${content}')`,
+            "-webkit-mask": `var(--tabler-${name})`,
+            "mask": `var(--tabler-${name})`,
+            "mask-repeat": "no-repeat",
+            "background-color": "currentColor",
+            "vertical-align": "middle",
+            "display": "inline-block",
+            "width": theme("spacing.5"),
+            "height": theme("spacing.5")
+          }
+        }
+      }, { values })
     })
   ]
 }

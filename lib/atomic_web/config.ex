@@ -92,7 +92,7 @@ defmodule AtomicWeb.Config do
       %{
         key: :organizations,
         title: "Organizations",
-        icon: "hero-building-office",
+        icon: "tabler-affiliate",
         url: Routes.organization_index_path(conn, :index),
         tabs: []
       }
