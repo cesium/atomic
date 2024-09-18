@@ -159,19 +159,19 @@
 }
 
 .atomic-button__icon--xs {
-  @apply w-3 h-3;
+  @apply !size-3
 }
 .atomic-button__icon--sm {
-  @apply w-4 h-4;
+  @apply !size-4
 }
 .atomic-button__icon--md {
-  @apply w-5 h-5;
+  @apply !size-5
 }
 .atomic-button__icon--lg {
-  @apply w-5 h-5;
+  @apply !size-5
 }
 .atomic-button__icon--xl {
-  @apply w-6 h-6;
+  @apply !size-6
 }
 
 /* Buttons - with full width */
@@ -183,96 +183,6 @@
 
 .atomic-button--with-icon {
   @apply flex items-center gap-2 whitespace-nowrap;
-}
-
-/* Icon Button */
-
-.atomic-icon-button {
-  @apply inline-block p-2 rounded-full;
-}
-
-/* Icon Buttons - colors */
-
-.atomic-icon-button--primary {
-  @apply text-primary-600 dark:text-primary-500;
-}
-.atomic-icon-button--secondary {
-  @apply text-secondary-600 dark:text-secondary-500;
-}
-.atomic-icon-button--gray {
-  @apply text-gray-600 dark:text-gray-500;
-}
-.atomic-icon-button--info {
-  @apply text-info-600 dark:text-info-500;
-}
-.atomic-icon-button--success {
-  @apply text-success-600 dark:text-success-500;
-}
-.atomic-icon-button--warning {
-  @apply text-warning-600 dark:text-warning-500;
-}
-.atomic-icon-button--danger {
-  @apply text-danger-600 dark:text-danger-500;
-}
-
-/* Icon Buttons - background colors */
-
-.atomic-icon-button-bg--primary {
-  @apply hover:bg-primary-50 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--secondary {
-  @apply hover:bg-secondary-50 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--gray {
-  @apply hover:bg-gray-100 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--info {
-  @apply hover:bg-info-50 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--success {
-  @apply hover:bg-success-50 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--warning {
-  @apply hover:bg-warning-50 dark:hover:bg-gray-800;
-}
-.atomic-icon-button-bg--danger {
-  @apply hover:bg-danger-50 dark:hover:bg-gray-800;
-}
-
-/* Icon Button - sizes */
-
-.atomic-icon-button--xs {
-  @apply w-9 h-9;
-}
-.atomic-icon-button--sm {
-  @apply w-10 h-10;
-}
-.atomic-icon-button--md {
-  @apply w-11 h-11;
-}
-.atomic-icon-button--lg {
-  @apply w-12 h-12;
-}
-.atomic-icon-button--xl {
-  @apply w-14 h-14;
-}
-
-/* Icon Button - spinner */
-
-.atomic-icon-button-spinner--xs {
-  @apply w-5 h-5;
-}
-.atomic-icon-button-spinner--sm {
-  @apply w-6 h-6;
-}
-.atomic-icon-button-spinner--md {
-  @apply w-7 h-7;
-}
-.atomic-icon-button-spinner--lg {
-  @apply w-8 h-8;
-}
-.atomic-icon-button-spinner--xl {
-  @apply w-10 h-10;
 }
 
 /* Button - disabled */
