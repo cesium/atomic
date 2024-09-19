@@ -15,21 +15,26 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
   attr :params, :map, required: true
 
   def calendar_week(%{timezone: timezone} = assigns) do
+    days_of_week = for idx <- 0..6 do
+      day_of_week = assigns.beginning_of_week |> Timex.add(Duration.from_days(idx))
+      day_of_week_mobile = Enum.at(["M", "T", "W", "T", "F", "S", "S"], idx)
+      {day_of_week, day_of_week_mobile}
+    end
+
     assigns =
       assigns
-      |> assign(week_mobile: ["M", "T", "W", "T", "F", "S", "S"])
       |> assign(week: ["Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat ", "Sun "])
       |> assign(today: Timex.today(timezone))
+      |> assign(days_of_week: days_of_week)
 
     ~H"""
     <div id={@id} class="isolate flex flex-auto flex-col overflow-y-auto rounded-lg bg-white">
       <div style="width: 165%" class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
         <div class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
-            <%= for idx <- 0..6 do %>
-              <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
+            <%= for {day_of_week, day_of_week_mobile} <- @days_of_week do %>
               <.link phx-click="set-current-date" phx-value-date={day_of_week} class="flex flex-col items-center py-2">
-                <%= Enum.at(@week_mobile, idx) %>
+                <%= day_of_week_mobile %>
                 <span class={[
                   "flex items-center justify-center w-8 h-8 mt-1 font-semibold",
                   @today == day_of_week && "bg-primary-700 rounded-full text-white",
