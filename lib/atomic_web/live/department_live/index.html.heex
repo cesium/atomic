@@ -1,7 +1,7 @@
 <.page title="Departments">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button patch={Routes.department_edit_path(@socket, :new, @current_organization)} icon={:plus}>
+      <.button patch={Routes.department_edit_path(@socket, :new, @current_organization)} icon="hero-plus">
         <%= gettext("New") %>
       </.button>
     <% end %>

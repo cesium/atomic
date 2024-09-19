@@ -7,7 +7,7 @@ defmodule AtomicWeb.Storybook.Components.Icon do
 
   def template do
     """
-    <span class="h-8 w-8">
+    <span class="size-8">
       <.lsb-variation />
     </span>
     """
@@ -16,33 +16,45 @@ defmodule AtomicWeb.Storybook.Components.Icon do
   def variations do
     [
       %Variation{
-        id: :default,
+        id: :hero_outline,
+        description: "Heroicon outline",
         attributes: %{
-          name: :academic_cap
+          name: "hero-academic-cap"
         }
       },
       %Variation{
-        id: :outline,
-        description: "Outline",
+        id: :hero_solid,
+        description: "Heroicon solid",
         attributes: %{
-          name: :academic_cap,
-          outline: true
+          name: "hero-academic-cap-solid"
         }
       },
       %Variation{
-        id: :solid,
-        description: "Solid",
+        id: :hero_mini,
+        description: "Heroicon mini",
         attributes: %{
-          name: :academic_cap,
-          solid: true
+          name: "hero-academic-cap-mini"
         }
       },
       %Variation{
-        id: :mini,
-        description: "Mini",
+        id: :hero_micro,
+        description: "Heroicon micro",
         attributes: %{
-          name: :academic_cap,
-          mini: true
+          name: "hero-academic-cap-micro"
+        }
+      },
+      %Variation{
+        id: :tabler_outline,
+        description: "Tabler outline",
+        attributes: %{
+          name: "tabler-affiliate"
+        }
+      },
+      %Variation{
+        id: :tabler_filled,
+        description: "Tabler filled",
+        attributes: %{
+          name: "tabler-affiliate-filled"
         }
       }
     ]

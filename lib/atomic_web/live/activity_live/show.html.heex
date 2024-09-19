@@ -34,7 +34,7 @@
             </dt>
             <dd class="mt-1 flex text-sm text-zinc-900">
               <div class="flex w-full">
-                <.icon name={:users} solid class="h-5 w-5 text-zinc-400" />
+                <.icon name="hero-users-solid" class="size-5 text-zinc-400" />
                 <div class="pl-2.5">
                   <%= @enrolled %> / <%= @activity.maximum_entries %>
                 </div>
@@ -52,21 +52,21 @@
               <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
                 <div class="flex gap-x-2">
                   <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                    <.icon name={:calendar} solid class="h-5 w-5 text-zinc-400" />
+                    <.icon name="hero-calendar-solid" class="size-5 text-zinc-400" />
                     <p class="block pl-1.5 max-w-6xl">
                       <%= display_date(@activity.start) %>
                     </p>
                   </div>
                 </div>
                 <div class="inset-y-0 my-auto flex md:pl-3">
-                  <.icon name={:clock} solid class="h-5 w-5 text-zinc-400" />
+                  <.icon name="hero-clock-solid" class="size-5 text-zinc-400" />
                   <p class="block pl-1.5 max-w-6xl">
                     <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
                   </p>
                 </div>
                 <div class="flex text-sm md:pl-3">
                   <%= if @activity.location do %>
-                    <.icon name={:map_pin} solid class="h-5 w-5 text-zinc-400" />
+                    <.icon name="hero-map-pin-solid" class="size-5 text-zinc-400" />
                     <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
                       <%= @activity.location.name %>
                     </.link>
@@ -139,12 +139,12 @@
   <%= if @has_permissions? do %>
     <.link patch={Routes.activity_edit_path(@socket, :edit, @activity.organization_id, @activity)} class="button">
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name={:pencil} solid class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+        <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Edit
       </div>
     </.link>
     <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
       <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name={:trash} solid class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+        <.icon name="hero-trash-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Delete
       </div>
     <% end %>
   <% end %>

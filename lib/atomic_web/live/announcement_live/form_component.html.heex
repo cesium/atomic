@@ -8,6 +8,7 @@
           <.field field={f[:description]} type="textarea" placeholder="Write a description" required class="w-full overflow-auto resize-none h-44 xl:h-64" />
         </div>
 
+<<<<<<< jc/improve-announcements
         <div class="space-y-4">
           <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} class="object-cover" />
 
@@ -16,6 +17,10 @@
           </div>
         </div>
       </div>
+=======
+    <div class="mt-8 flex w-full justify-end">
+      <.button size={:md} color={:white} icon="hero-cube" type="submit"><%= gettext("Save Changes") %></.button>
+>>>>>>> develop
     </div>
   </.form>
 </div>

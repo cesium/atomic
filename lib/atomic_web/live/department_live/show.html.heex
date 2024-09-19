@@ -39,14 +39,13 @@
                           end}"
                         }
                       color={:white}
-                      icon={:user_plus}
-                      icon_variant={:solid}
+                      icon="hero-user-plus-solid"
                       title={gettext("Collaborate")}
                     />
                   <% end %>
                 <% else %>
                   <%= if ! @current_collaborator.accepted do %>
-                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled />
+                    <.button color={:white} icon="hero-user-plus-solid" aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled />
                   <% end %>
                 <% end %>
                 <.dropdown
@@ -63,18 +62,18 @@
                             @department.id,
                             tab: "collaborators"
                           ),
-                        icon: :user_group
+                        icon: "hero-user-group"
                       }
                     ] ++
                       if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
-                        [%{name: gettext("Edit"), navigate: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: :pencil}]
+                        [%{name: gettext("Edit"), navigate: Routes.department_edit_path(@socket, :edit, @organization, @department, @params), icon: "hero-pencil"}]
                       else
                         []
                       end
                   }
                 >
                   <:wrapper>
-                    <.button icon_variant={:solid} color={:white} icon={:ellipsis_horizontal} />
+                    <.button color={:white} icon="hero-ellipsis-horizontal-solid" />
                   </:wrapper>
                 </.dropdown>
               <% end %>
@@ -94,15 +93,14 @@
                           end}"
                         }
                       color={:white}
-                      icon={:user_plus}
-                      icon_variant={:solid}
+                      icon="hero-user-plus-solid"
                     >
                       <%= gettext("Collaborate") %>
                     </.button>
                   <% end %>
                 <% else %>
                   <%= if ! @current_collaborator.accepted do %>
-                    <.button color={:white} icon={:user_plus} icon_variant={:solid} aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
+                    <.button color={:white} icon="hero-user-plus-solid" aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
                       <%= gettext("Collaborate") %>
                     </.button>
                   <% end %>
@@ -110,8 +108,7 @@
                 <%= if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do %>
                   <!-- Collaborators view -->
                   <.button
-                    icon={:user_group}
-                    icon_variant={:solid}
+                    icon="hero-user-group-solid"
                     color={:white}
                     patch={
                       Routes.department_show_path(
@@ -126,13 +123,12 @@
                 <% end %>
                 <!-- Edit department -->
                 <%= if @has_permissions? do %>
-                  <.button icon={:pencil} icon_variant={:solid} color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)} />
+                  <.button icon="hero-pencil-solid" color={:white} patch={Routes.department_edit_path(@socket, :edit, @organization, @department, @params)} />
                 <% end %>
               <% else %>
                 <!-- Exit collaborators view -->
                 <.button
-                  icon={:arrow_left}
-                  icon_variant={:solid}
+                  icon="hero-arrow-left-solid"
                   color={:white}
                   patch={
                     Routes.department_show_path(
@@ -165,15 +161,27 @@
             <!-- People -->
             <div class="w-full hidden sm:block">
               <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("People") %></h2>
-              <div class="mb-2 flex max-w-full flex-wrap gap-1">
-                <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
-                  <div class="h-12">
-                    <.avatar name={collaborator.user.name} size={:sm} color={:light_gray} />
-                  </div>
-                <% end %>
+              <div class="mb-2 flex max-w-full gap-1">
+                <!-- People listing -->
+                <.avatar_group
+                  size={:sm}
+                  color={:light_gray}
+                  spacing={0}
+                  wrap
+                  class="gap-1"
+                  items={
+                    @all_collaborators
+                    |> Enum.take(18)
+                    |> Enum.map(fn collaborator ->
+                      %{
+                        name: collaborator.user.name
+                      }
+                    end)
+                  }
+                />
                 <!-- People empty state -->
                 <%= if length(@all_collaborators) == 0 do %>
-                  <.icon class="mx-32 text-gray-900" name={:users} />
+                  <.icon class="mx-32 text-gray-900" name="hero-users" />
                   <p class="mb-4 select-none text-center text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
                 <% end %>
               </div>
@@ -211,9 +219,9 @@
                     </:col>
                     <:col :let={collaborator}>
                       <%= if collaborator.accepted do %>
-                        <.button icon={:pencil} icon_variant={:solid} color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Edit</.button>
+                        <.button icon="hero-pencil-solid" color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Edit</.button>
                       <% else %>
-                        <.button icon={:envelope} icon_variant={:solid} color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Review</.button>
+                        <.button icon="hero-envelope-solid" color={:white} full_width patch={Routes.department_show_path(@socket, :edit_collaborator, @organization, @department, collaborator, @params)}>Review</.button>
                       <% end %>
                     </:col>
                   </.table>
