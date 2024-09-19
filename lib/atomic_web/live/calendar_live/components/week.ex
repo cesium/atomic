@@ -15,11 +15,12 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
   attr :params, :map, required: true
 
   def calendar_week(%{timezone: timezone} = assigns) do
-    days_of_week = for idx <- 0..6 do
-      day_of_week = assigns.beginning_of_week |> Timex.add(Duration.from_days(idx))
-      day_of_week_mobile = Enum.at(["M", "T", "W", "T", "F", "S", "S"], idx)
-      {day_of_week, day_of_week_mobile}
-    end
+    days_of_week =
+      for idx <- 0..6 do
+        day_of_week = assigns.beginning_of_week |> Timex.add(Duration.from_days(idx))
+        day_of_week_mobile = Enum.at(["M", "T", "W", "T", "F", "S", "S"], idx)
+        {day_of_week, day_of_week_mobile}
+      end
 
     assigns =
       assigns
