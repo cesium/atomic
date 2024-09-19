@@ -258,31 +258,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
     end
   end
 
-  defp hours,
-    do: [
-      "0H",
-      "1H",
-      "2H",
-      "3H",
-      "4H",
-      "5H",
-      "6H",
-      "7H",
-      "8H",
-      "9H",
-      "10H",
-      "11H",
-      "12H",
-      "13H",
-      "14H",
-      "15H",
-      "16H",
-      "17H",
-      "18H",
-      "19H",
-      "20H",
-      "21H",
-      "22H",
-      "23H"
-    ]
+  defp hours do
+    0..23 |> Enum.map(fn n -> "#{n}H" end)
+  end
 end
