@@ -17,7 +17,7 @@ defmodule AtomicWeb.UserChangePasswordController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Password updated successfully.")
-        |> put_session(:user_return_to, Routes.user_change_password_path(conn, :edit))
+        |> put_session(:user_return_to, ~p"/users/change_password")
         |> UserAuth.log_in_user(user)
 
       {:error, changeset} ->

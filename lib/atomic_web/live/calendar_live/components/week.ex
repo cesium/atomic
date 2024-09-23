@@ -117,7 +117,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
             grid-row: #{calc_row_start(activity.start)} / span #{calc_time(activity.start, activity.finish)};
             width: #{width}%;
             left: #{left}%"}>
-        <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)}>
+        <.link patch={~p"/activities/#{activity}"}>
           <div class={[
             "group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-primary-50 p-2 text-xs leading-5 hover:bg-primary-100 sm:overflow-y-hidden sm:hover:overflow-y-auto",
             width != 100 && "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]"

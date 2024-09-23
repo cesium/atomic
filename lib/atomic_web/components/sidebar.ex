@@ -98,7 +98,7 @@ defmodule AtomicWeb.Components.Sidebar do
   defp sidebar_list(assigns) do
     ~H"""
     <ul role="list" class="-mx-2 space-y-1">
-      <%= for page <- AtomicWeb.Config.pages(AtomicWeb.Endpoint, @current_user, @current_organization) do %>
+      <%= for page <- AtomicWeb.Config.pages(@current_user, @current_organization) do %>
         <li class="select-none">
           <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
             <.icon name={page.icon} class={
@@ -123,14 +123,14 @@ defmodule AtomicWeb.Components.Sidebar do
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
             <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
-            <span class="text-sm font-semibold leading-6" aria-hidden="true"><%= @current_user.name %></span>
+            <span class="text-sm font-semibold leading-6"><%= @current_user.name %></span>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
         </:wrapper>
       </AtomicWeb.Components.Dropdown.dropdown>
     <% else %>
-      <.link navigate={Routes.user_session_path(AtomicWeb.Endpoint, :new)} class="flex select-none items-center space-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
-        <span class="text-sm font-semibold leading-6" aria-hidden="true">Sign in</span>
+      <.link navigate={~p"/users/log_in"} class="flex select-none items-center space-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
+        <span class="text-sm font-semibold leading-6">Log in</span>
         <.icon name="hero-arrow-right-end-on-rectangle-solid" class="size-5" />
       </.link>
     <% end %>
@@ -139,8 +139,8 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp sidebar_header(assigns) do
     ~H"""
-    <.link navigate={Routes.home_index_path(AtomicWeb.Endpoint, :index)} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
-      <img src={Routes.static_path(AtomicWeb.Endpoint, "/images/atomic.svg")} class="h-14 w-auto" />
+    <.link navigate={~p"/"} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
+      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
     """
@@ -153,11 +153,11 @@ defmodule AtomicWeb.Components.Sidebar do
     [
       %{
         name: gettext("Your profile"),
-        navigate: Routes.profile_show_path(AtomicWeb.Endpoint, :show, current_user)
+        navigate: ~p"/profile/#{current_user}"
       },
       %{
         name: gettext("Sign out"),
-        href: Routes.user_session_path(AtomicWeb.Endpoint, :delete),
+        href: ~p"/users/log_out",
         method: "delete"
       }
     ]

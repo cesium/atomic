@@ -26,7 +26,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
         </ul>
       </div>
       <div class="my-4">
-        <.button patch={Routes.organization_index_path(AtomicWeb.Endpoint, :index)} color={:white} size={:md} full_width>
+        <.button patch={~p"/organizations"} color={:white} size={:md} full_width>
           <%= gettext("View all") %>
         </.button>
       </div>
