@@ -580,10 +580,7 @@ defmodule Atomic.Organizations do
     |> Repo.transaction()
     |> case do
       {:ok, %{announcement: announcement, post: _post}} ->
-        case after_save.({:ok, announcement}) do
-          {:ok, announcement} -> {:ok, announcement}
-          error -> error
-        end
+        after_save.(announcement)
 
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}

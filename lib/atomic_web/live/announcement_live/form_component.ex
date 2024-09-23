@@ -78,7 +78,7 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
     end
   end
 
-  defp consume_image_data(socket, {:ok, announcement}) do
+  defp consume_image_data(socket, announcement) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
       Organizations.update_announcement_image(announcement, %{
         "image" => %Plug.Upload{
