@@ -43,9 +43,9 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
           <%!-- TODO: Maybe show button when there's no current user, but with a must login warning? --%>
           <%= if @current_user do %>
             <%= if Organizations.user_following?(@current_user.id, @organization.id) do %>
-              <.button icon={:star} icon_variant={:solid}><%= gettext("Following") %></.button>
+              <.button icon="hero-star-solid"><%= gettext("Following") %></.button>
             <% else %>
-              <.button icon={:star}><%= gettext("Follow") %></.button>
+              <.button icon="hero-star"><%= gettext("Follow") %></.button>
             <% end %>
           <% end %>
         </div>
@@ -57,7 +57,7 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
         <div role="list" class="mt-2 flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
           <ul class="flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
             <li class="flex items-center space-x-1">
-              <.icon name={:users} outline class="size-4" />
+              <.icon name="hero-users" class="size-4" />
               <%= if @organization.follower_count != 1 do %>
                 <p class="text-sm">
                   <span class="font-semibold"><%= @organization.follower_count %></span> followers
@@ -70,14 +70,14 @@ defmodule AtomicWeb.OrganizationLive.Components.OrganizationCard do
             </li>
 
             <li :if={@organization.location} class="flex items-center space-x-1">
-              <.icon name={:map_pin} outline class="size-4" />
+              <.icon name="hero-map-pin" class="size-4" />
               <p class="text-sm"><%= @organization.location %></p>
             </li>
           </ul>
 
           <div :if={@organization.socials && @organization.socials.website} class="group">
             <.link href={@organization.socials.website} target="_blank" class="flex items-center space-x-1">
-              <.icon name={:link} outline class="size-4" />
+              <.icon name="hero-link" class="size-4" />
               <p class="text-sm group-hover:underline"><%= @organization.socials.website %></p>
             </.link>
           </div>

@@ -20,9 +20,9 @@ defmodule AtomicWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: AtomicWeb
+      use Gettext, backend: AtomicWeb.Gettext
 
       import Plug.Conn
-      import AtomicWeb.Gettext
 
       alias AtomicWeb.Router.Helpers, as: Routes
     end
@@ -81,7 +81,7 @@ defmodule AtomicWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import AtomicWeb.Gettext
+      use Gettext, backend: AtomicWeb.Gettext
     end
   end
 
@@ -102,8 +102,10 @@ defmodule AtomicWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
+      # Custom imports
+      use Gettext, backend: AtomicWeb.Gettext
+
       import AtomicWeb.ErrorHelpers
-      import AtomicWeb.Gettext
       import AtomicWeb.Helpers
 
       alias Atomic.Uploaders

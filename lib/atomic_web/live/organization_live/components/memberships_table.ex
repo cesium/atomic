@@ -8,7 +8,7 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipsTable do
 
   attr :members, :list, required: true, doc: "the list of memberships to display"
 
-  # TODO: Make use of table component
+  # TODO: Make use of table component?
   def memberships_table(assigns) do
     ~H"""
     <div class="mt-8 flow-root">

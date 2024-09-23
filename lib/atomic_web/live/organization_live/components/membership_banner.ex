@@ -22,15 +22,15 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipBanner do
 
         <ul role="list" class="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
           <li class="flex gap-x-3">
-            <.icon name={:check} class="h-6 w-5 flex-none text-orange-600" />
+            <.icon name="hero-check" class="h-6 w-5 flex-none text-orange-600" />
             <p>Access to our room facilities</p>
           </li>
           <li class="flex gap-x-3">
-            <.icon name={:check} class="h-6 w-5 flex-none text-orange-600" />
+            <.icon name="hero-check" class="h-6 w-5 flex-none text-orange-600" />
             <p>Free access to all activities</p>
           </li>
           <li class="flex gap-x-3">
-            <.icon name={:check} class="h-6 w-5 flex-none text-orange-600" />
+            <.icon name="hero-check" class="h-6 w-5 flex-none text-orange-600" />
             <p>Official member t-shirt</p>
           </li>
         </ul>
@@ -44,7 +44,7 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipBanner do
               <span class="text-5xl font-bold tracking-tight text-gray-900">10€</span>
               <span class="text-sm font-semibold leading-6 tracking-wide text-gray-600">EUR</span>
             </p>
-            <.button icon={:banknotes} class="mt-10 text-sm"><%= gettext("Request your membership") %></.button>
+            <.button icon="hero-banknotes" class="mt-10 text-sm"><%= gettext("Request your membership") %></.button>
             <p class="mt-6 text-xs leading-5 text-gray-600"><%= gettext("Payments should be made within our location.") %> <%= @organization.location %></p>
           </div>
         </div>

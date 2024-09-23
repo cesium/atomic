@@ -1,6 +1,6 @@
 <.page title={@page_title}>
   <:actions :if={@has_permissions?}>
-    <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon={:pencil}>
+    <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
       <%= gettext("Edit Partner") %>
     </.button>
   </:actions>
@@ -18,7 +18,6 @@
               <%= @partner.name %>
             </h1>
           </div>
-
           <.link :if={@partner.location} href={Location.link(@partner.location)} target="_blank" class="group flex flex-row items-center space-x-1">
             <.icon name={:map_pin} class="size-4" />
             <p class="text-sm group-hover:underline"><%= @partner.location.name %></p>
@@ -27,7 +26,7 @@
           <ul :if={@partner.socials} class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
             <li :if={@partner.socials.website}>
               <.link href={@partner.socials.website} target="_blank" class="group flex flex-row items-center space-x-1">
-                <.icon name={:link} class="size-4" />
+                <.icon name="hero-link" class="size-4" />
                 <p class="text-sm group-hover:underline"><%= @partner.socials.website %></p>
               </.link>
             </li>
@@ -59,7 +58,7 @@
       <div>
         <div class="mt-1 px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2">
-            <.icon name={:clock} class="mb-2 h-5 w-5" />
+            <.icon name="hero-clock" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
           </div>
           <span class="py-4">
@@ -70,45 +69,14 @@
         </div>
         <div class="px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
-            <.icon name={:signal} class="mb-2 h-5 w-5" />
+            <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
           </div>
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-              <%= if String.length(phrase) < 300 do %>
-                <%= phrase %>
-              <% else %>
-                <%= String.slice(phrase, 0..300) %>
-              <% end %>
+              <%= maybe_slice_string(phrase, 300) %>
             <% end) %>
           </span>
-        </div>
-
-        <div :if={@partners} class="flex flex-col gap-x-2 text-zinc-800">
-          <div class="flex flex-row items-center gap-x-2 px-2">
-            <.icon name={:star} class="mb-2 h-5 w-5" />
-            <h2 class="mb-2 flex-1 select-none truncate py-2 text-lg font-semibold text-gray-900"><%= gettext("Related Partners") %></h2>
-          </div>
-
-          <div class="sm:grid sm:grid-cols-2 sm:gap-px">
-            <div :for={partner <- related_partners(@partner, @partners)} class="group relative m-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-zinc-50">
-              <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
-                <div class="flex flex-row items-center space-x-2">
-                  <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
-
-                  <div class="flex flex-col justify-center">
-                    <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
-                    <.link :if={partner.location} href={Location.link(partner.location)} target="_blank" class="group flex flex-row items-center space-x-1">
-                      <.icon name={:map_pin} class="size-4" />
-                      <p class="text-sm group-hover:underline"><%= partner.location.name %></p>
-                    </.link>
-                  </div>
-                </div>
-
-                <span class="text-md mt-1 text-zinc-500"><%= partner.description %></span>
-              </.link>
-            </div>
-          </div>
         </div>
       </div>
     </div>

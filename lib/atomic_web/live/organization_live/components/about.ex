@@ -24,7 +24,7 @@ defmodule AtomicWeb.OrganizationLive.Components.About do
         <ul role="list" class="flex flex-col space-y-2 md:flex-row md:items-center md:space-x-6 md:space-y-0">
           <li :if={@organization.socials.website}>
             <.link href={@organization.socials.website} target="_blank" class="group flex items-center space-x-1">
-              <.icon name={:link} outline class="size-4" />
+              <.icon name="hero-link" outline class="size-4" />
               <p class="group-hover:underline"><%= @organization.socials.website %></p>
             </.link>
           </li>

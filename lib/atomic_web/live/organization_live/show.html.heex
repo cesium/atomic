@@ -11,59 +11,57 @@
   </:header>
 
   <:actions>
-    <div class="flex space-x-4">
-      <%= if @has_permissions? do %>
-        <p class="sr-only"><%= gettext("Edit") %></p>
-        <.button icon={:pencil} icon_variant={:solid} color={:white} />
-      <% end %>
+    <%= if @has_permissions? do %>
+      <p class="sr-only"><%= gettext("Edit") %></p>
+      <.button icon="hero-pencil-solid" color={:white} />
+    <% end %>
 
-      <p class="sr-only"><%= gettext("Contact") %></p>
-      <.link href={"mailto:#{@organization.email}"} target="_blank">
-        <.button icon={:envelope} icon_variant={:solid} color={:white} />
-      </.link>
+    <p class="sr-only"><%= gettext("Contact") %></p>
+    <.link href={"mailto:#{@organization.email}"} target="_blank">
+      <.button icon="hero-envelope-solid" color={:white} />
+    </.link>
 
-      <%= if @current_user && Organizations.user_following?(@current_user.id, @organization.id) do %>
-        <%!-- TODO: Dropdown with unfollow option --%>
-        <.button icon={:star} icon_variant={:solid} color={:white}><%= gettext("Following") %></.button>
-      <% else %>
-        <%!-- TODO: Follow functionality --%>
-        <.button phx-click={(!@current_user && "must-login") || "follow"} icon={:star}><%= gettext("Follow") %></.button>
-      <% end %>
-    </div>
+    <%= if @current_user && Organizations.user_following?(@current_user.id, @organization.id) do %>
+      <%!-- TODO: Dropdown with unfollow option --%>
+      <.button icon="hero-star-solid" color={:white}><%= gettext("Following") %></.button>
+    <% else %>
+      <%!-- TODO: Follow functionality --%>
+      <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star"><%= gettext("Follow") %></.button>
+    <% end %>
   </:actions>
 
-  <.tabs class="overflow-scroll scrollbar-hide flex px-4 sm:px-6 lg:px-8">
+  <.tabs class="scrollbar-hide flex overflow-scroll px-4 sm:px-6 lg:px-8">
     <.link patch="?tab=about" replace={false}>
       <.tab id="about-tab" active={@current_tab == "about"}>
-        <.icon name={:information_circle} class="size-5 mr-2" />
+        <.icon name="hero-information-circle" class="size-5 mr-2" />
         <%= gettext("About") %>
       </.tab>
     </.link>
 
     <.link patch="?tab=posts" replace={false}>
       <.tab id="posts-tab" active={@current_tab == "posts"}>
-        <.icon name={:newspaper} class="size-5 mr-2" />
+        <.icon name="hero-newspaper" class="size-5 mr-2" />
         <%= gettext("Posts") %>
       </.tab>
     </.link>
 
     <.link patch="?tab=departments" replace={false}>
       <.tab id="department-tab" active={@current_tab == "departments"}>
-        <.icon name={:cube} class="size-5 mr-2" />
+        <.icon name="hero-cube" class="size-5 mr-2" />
         <%= gettext("Departments") %>
       </.tab>
     </.link>
 
     <.link patch="?tab=partners" replace={false}>
       <.tab id="partners-tab" active={@current_tab == "partners"}>
-        <.icon name={:heart} class="size-5 mr-2" />
+        <.icon name="tabler-heart-handshake" class="size-5 mr-2" />
         <%= gettext("Partners") %>
       </.tab>
     </.link>
 
     <.link patch="?tab=members" replace={false}>
       <.tab id="members-tab" active={@current_tab == "members"} number={@member_count}>
-        <.icon name={:user_group} class="size-5 mr-2" />
+        <.icon name="hero-user-group" class="size-5 mr-2" />
         <%= gettext("Members") %>
       </.tab>
     </.link>
@@ -82,10 +80,11 @@
       <.membership_banner organization={@organization} />
     </div>
     <!-- Because divider can't have padding, we need to separate it from the rest of the content -->
-    <div :if={@current_tab == "members"} class="my-8 w-full min-h-full border-b" />
+    <div :if={@current_tab == "members"} class="my-8 min-h-full w-full border-b" />
 
     <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
-      <!-- Members are directly passed since their calculation depends on the current tab -->
+      <!-- Members are directly passed (instead of the whole organization)
+      since their calculation depends on the current tab -->
       <.memberships_table members={@members} />
     </div>
   </div>

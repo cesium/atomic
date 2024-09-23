@@ -34,7 +34,9 @@ defmodule AtomicWeb.Components.Page do
                 </h3>
               </div>
 
-              <%= render_slot(@actions) %>
+              <div class="flex space-x-4">
+                <%= render_slot(@actions) %>
+              </div>
             </div>
           </div>
 

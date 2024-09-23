@@ -46,21 +46,21 @@ defmodule AtomicWeb.Components.Activity do
         <div class="flex space-x-4">
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name={:clock} solid class="h-5 w-5" />
+              <.icon name="hero-clock-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
               <span class="sr-only">starting in</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name={:user_group} solid class="h-5 w-5" />
+              <.icon name="hero-user-group-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
               <span class="sr-only">enrollments</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name={:map_pin} solid class="h-5 w-5" />
+              <.icon name="hero-map-pin-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= @activity.location.name %></span>
               <span class="sr-only">location</span>
             </span>
