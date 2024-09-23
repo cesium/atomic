@@ -2,14 +2,52 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Accounts
+  alias AtomicWeb.Components.ImageUploader
+  import AtomicWeb.Components.Forms
 
-  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div class="px-4 pt-4">
+      <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
+        <!-- Section for profile picture upload -->
+        <div class="mb-6 flex justify-center">
+          <div class="flex flex-col items-center pr-4">
+            <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
+            <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
+          </div>
+          <!-- Grid layout for social media and contact fields -->
+          <div class="flex flex-col gap-y-8">
+            <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+              <.inputs_for :let={socials_form} field={f[:socials]}>
+                <.field field={socials_form[:instagram]} type="text" class="w-full" />
+                <.field field={socials_form[:facebook]} type="text" class="w-full" />
+                <.field field={socials_form[:x]} type="text" class="w-full" />
+                <.field field={f[:tiktok]} type="text" placeholder="TikTok" class="w-full" />
+              </.inputs_for>
+            </div>
+          </div>
+          <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
+          <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
+          <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
+        </div>
+        <!-- Submit button -->
+        <div class="mt-8 flex w-full justify-end">
+          <.button size={:md} color={:white} icon="hero-cube" phx-click="submit">Save</.button>
+        </div>
+      </.form>
+    </div>
+    """
+  end
 
   @impl true
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:picture, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:image,
+       accept: Uploaders.ProfilePicture.extension_whitelist(),
+       max_entries: 1
+     )}
   end
 
   @impl true
@@ -32,6 +70,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"user" => user_params}, socket) do
     user = socket.assigns.user
 
@@ -69,8 +108,8 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
   defp consume_image_data(socket, user) do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
-      Accounts.update_user(user, %{
-        "image" => %Plug.Upload{
+      Accounts.update_user_picture(user, %{
+        "profile_picture" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
           path: path
