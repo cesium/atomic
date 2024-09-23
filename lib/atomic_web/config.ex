@@ -20,7 +20,7 @@ defmodule AtomicWeb.Config do
     end
   end
 
-  def user_pages() do
+  def user_pages do
     default_pages() ++
       [
         %{
@@ -60,7 +60,7 @@ defmodule AtomicWeb.Config do
       ]
   end
 
-  def default_pages() do
+  def default_pages do
     [
       %{
         key: :home,
