@@ -33,7 +33,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         </div>
         <!-- Submit button -->
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon="hero-cube" phx-click="submit">Save</.button>
+          <.button size={:md} color={:white} icon="hero-cube">Save</.button>
         </div>
       </.form>
     </div>
@@ -99,7 +99,14 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:success, flash_text)
-         |> push_navigate(to: Routes.profile_show_path(socket, :show, user_params["slug"]))}
+         |> push_navigate(
+           to:
+             Routes.profile_show_path(
+               socket,
+               :show,
+               user_params["slug"] || socket.assigns.user.slug
+             )
+         )}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
