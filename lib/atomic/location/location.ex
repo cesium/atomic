@@ -19,4 +19,7 @@ defmodule Atomic.Location do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
   end
+
+  def link(location) when is_map_key(location, :url), do: location.url
+  def link(location), do: "https://www.google.com/maps/search/?api=1&query=#{location.name}"
 end

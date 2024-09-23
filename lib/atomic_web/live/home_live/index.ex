@@ -75,8 +75,8 @@ defmodule AtomicWeb.HomeLive.Index do
     current_user = socket.assigns.current_user
 
     %{entries: entries, metadata: metadata} =
-      Organizations.list_memberships(%{"user_id" => current_user.id})
-      |> Enum.map(& &1.organization_id)
+      Organizations.list_user_organizations(current_user.id, [:follower])
+      |> Enum.map(& &1.id)
       |> Feed.list_posts_following_paginated([])
 
     {:noreply,

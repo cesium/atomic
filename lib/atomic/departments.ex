@@ -195,19 +195,6 @@ defmodule Atomic.Departments do
   end
 
   @doc """
-  Returns the list of collaborators belonging to an organization.
-
-  ## Examples
-
-      iex> list_collaborators_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
-      [%Collaborator{}, ...]
-
-  """
-  def list_collaborators_by_organization_id(id) do
-    Repo.all(from p in Collaborator, where: p.organization_id == ^id)
-  end
-
-  @doc """
   Gets a single collaborator.
 
   Raises `Ecto.NoResultsError` if the Collaborator does not exist.
@@ -363,14 +350,14 @@ defmodule Atomic.Departments do
 
   ## Examples
 
-      iex> list_collaborators_by_department_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
+      iex> list_department_collaborators(123)
       [%Collaborator{}, ...]
 
   """
-  def list_collaborators_by_department_id(id, opts \\ []) do
+  def list_department_collaborators(id, opts \\ []) do
     Collaborator
-    |> apply_filters(opts)
     |> where([c], c.department_id == ^id)
+    |> apply_filters(opts)
     |> Repo.all()
   end
 

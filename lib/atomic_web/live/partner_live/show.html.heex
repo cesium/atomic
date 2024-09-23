@@ -1,63 +1,62 @@
-<.page title="Partners">
-  <:actions>
-    <%= if @has_permissions? do %>
-      <div class="lg:border-orange-500 lg:block">
-        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
-          <%= gettext("Edit Partner") %>
-        </.button>
-      </div>
-    <% end %>
+<.page title={@page_title}>
+  <:actions :if={@has_permissions?}>
+    <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
+      <%= gettext("Edit Partner") %>
+    </.button>
   </:actions>
-  <div class="lg:px-8 sm:px-0 min-h-fit border-t-100 select-none lg:mx-0 max-w-5xl sm:mx-6 ">
-    <div class="flex flex-col gap-2 mt-6 sm:justify-center">
+
+  <div class="border-t-100 min-h-fit max-w-5xl select-none sm:mx-6 sm:px-0 lg:mx-0 lg:px-8">
+    <div class="mt-6 flex flex-col gap-2 sm:justify-center">
       <div class="flex flex-row">
-        <div class="flex flex-col lg:justify-none items-center px-2">
+        <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
+
         <div>
           <div class="flex items-center justify-between">
-            <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-gray-900 ml-2">
+            <h1 class="text-wrap flex-1 select-none truncate text-xl font-bold text-gray-900 sm:text-2xl">
               <%= @partner.name %>
             </h1>
           </div>
-          <%= if @partner.location do %>
-            <div class="flex flex-row items-center gap-x-1 text-md leading-6">
-              <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
-              <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
-            </div>
-          <% end %>
-          <%= if @partner.socials do %>
-            <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
-              <%= if @partner.socials.website do %>
-                <div class="flex flex-row items-center gap-x-1 ">
-                  <.icon name="hero-globe-alt" class="size-5 text-zinc-400" />
-                  <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
-                </div>
-              <% end %>
-              <%= if @partner.socials.instagram do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/instagram.svg" class="size-5" alt="Instagram" />
-                  <.link class="text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
-                </div>
-              <% end %>
-              <%= if @partner.socials.facebook do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/facebook.svg" class="size-5" alt="Facebook" />
-                  <.link class="text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
-                </div>
-              <% end %>
-              <%= if @partner.socials.x do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/x.svg" class="size-5" alt="X" />
-                  <.link class="text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+          <.link :if={@partner.location} href={Location.link(@partner.location)} target="_blank" class="group flex flex-row items-center space-x-1">
+            <.icon name={:map_pin} class="size-4" />
+            <p class="text-sm group-hover:underline"><%= @partner.location.name %></p>
+          </.link>
+
+          <ul :if={@partner.socials} class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
+            <li :if={@partner.socials.website}>
+              <.link href={@partner.socials.website} target="_blank" class="group flex flex-row items-center space-x-1">
+                <.icon name="hero-link" class="size-4" />
+                <p class="text-sm group-hover:underline"><%= @partner.socials.website %></p>
+              </.link>
+            </li>
+
+            <li :if={@partner.socials.instagram}>
+              <.link href={Socials.link(:instagram, @partner.socials.instagram)} class="group flex flex-row items-center space-x-1">
+                <%= Socials.icon(:instagram) |> raw() %>
+                <p class="text-sm group-hover:underline"><%= @partner.socials.instagram %></p>
+              </.link>
+            </li>
+
+            <li :if={@partner.socials.facebook}>
+              <.link href={Socials.link(:facebook, @partner.socials.facebook)} class="group flex flex-row items-center space-x-1">
+                <%= Socials.icon(:facebook) |> raw() %>
+                <p class="text-sm group-hover:underline"><%= @partner.socials.facebook %></p>
+              </.link>
+            </li>
+
+            <li :if={@partner.socials.x}>
+              <.link href={Socials.link(:x, @partner.socials.x)} class="group flex flex-row items-center space-x-1">
+                <%= Socials.icon(:x) |> raw() %>
+                <p class="text-sm group-hover:underline"><%= @partner.socials.x %></p>
+              </.link>
+            </li>
+          </ul>
         </div>
       </div>
+
       <div>
-        <div class="mt-1 text-zinc-800 py-4 px-2">
+        <div class="mt-1 px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2">
             <.icon name="hero-clock" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
@@ -68,48 +67,17 @@
             <% end) %>
           </span>
         </div>
-        <div class="text-zinc-800 py-4 px-2">
+        <div class="px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
           </div>
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-              <%= if String.length(phrase) < 300 do %>
-                <%= phrase %>
-              <% else %>
-                <%= String.slice(phrase, 0..300) %>
-              <% end %>
+              <%= maybe_slice_string(phrase, 300) %>
             <% end) %>
           </span>
         </div>
-        <%= if @partners do %>
-          <div class="flex flex-col gap-x-2 text-zinc-800">
-            <div class="flex flex-row items-center gap-x-2 px-2">
-              <.icon name="hero-star" class="size-5 mb-2" />
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900 py-2">Related Partners</h2>
-            </div>
-            <div class="sm:grid sm:grid-cols-2 sm:gap-px">
-              <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
-                <div class="rounded-lg group relative border border-zinc-200 bg-white p-4 hover:bg-zinc-50 m-2">
-                  <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
-                    <div class="flex flex-row items-center space-x-2">
-                      <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
-                      <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
-                    </div>
-                    <%= if partner.location do %>
-                      <div class="flex flex-row items-center gap-x-1">
-                        <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
-                        <span class="text-blue-500"><%= partner.location.name %></span>
-                      </div>
-                    <% end %>
-                    <span class="text-md text-zinc-500"><%= partner.description %></span>
-                  </.link>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
       </div>
     </div>
   </div>

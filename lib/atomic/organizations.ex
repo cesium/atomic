@@ -136,17 +136,25 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of organizations where an user is an admin or owner.
+  Returns the list of organizations which are connected with the user.
+  By default, it returns the organizations where the user is an admin or owner.
 
   ## Examples
 
-      iex> list_user_organizations(user_id)
+      iex> list_user_organizations(123)
       [%Organization{}, ...]
+
+      iex> list_user_organizations(456)
+      []
+
+      iex> list_user_organizations(123, [:follower])
+      [%Organization{}, ...]
+
   """
-  def list_user_organizations(user_id, opts \\ []) do
+  def list_user_organizations(user_id, roles \\ [:admin, :owner], opts \\ []) do
     Organization
     |> join(:inner, [o], m in Membership, on: m.organization_id == o.id)
-    |> where([o, m], m.user_id == ^user_id and m.role in [:admin, :owner])
+    |> where([o, m], m.user_id == ^user_id and m.role in ^roles)
     |> apply_filters(opts)
     |> Repo.all()
   end
@@ -256,48 +264,77 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of memberships.
+  Returns the list of members in an organization.
+  A member is someone who is connected to the organization with a role other than `:follower`.
 
   ## Examples
 
-      iex> list_memberships(%{"organization_id" => id})
-      [%Organization{}, ...]
-
-      iex> list_memberships(%{"user_id" => id})
+      iex> list_memberships(123)
       [%Organization{}, ...]
 
   """
-  def list_memberships(params, preloads \\ [])
-
-  def list_memberships(%{"organization_id" => organization_id}, preloads) do
+  def list_memberships(organization_id, opts \\ []) do
     Membership
-    |> where([a], a.organization_id == ^organization_id and a.role != :follower)
-    |> Repo.all()
-    |> Repo.preload(preloads)
-  end
-
-  def list_memberships(%{"user_id" => user_id}, preloads) do
-    Membership
-    |> where([a], a.user_id == ^user_id)
-    |> Repo.preload(preloads)
+    |> where([m], m.organization_id == ^organization_id and m.role != :follower)
+    |> apply_filters(opts)
     |> Repo.all()
   end
 
   @doc """
-    Verifies if an user is a member of an organization.
+  Counts the number of members in an organization.
+  A member is someone who is connected to the organization with a role other than `:follower`.
 
-    ## Examples
+  ## Examples
 
-        iex> member_of?(user, organization)
-        true
+      iex> count_memberships(123)
+      5
 
-        iex> member_of?(user, organization)
-        false
+      iex> count_memberships(456)
+      0
+
+  """
+  def count_memberships(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role != :follower)
+    |> Repo.count()
+  end
+
+  @doc """
+  Verifies if an user is a member of an organization.
+
+  ## Examples
+
+      iex> member_of?(user, organization)
+      true
+
+      iex> member_of?(user, organization)
+      false
 
   """
   def member_of?(%User{} = user, %Organization{} = organization) do
     Membership
     |> where([m], m.user_id == ^user.id and m.organization_id == ^organization.id)
+    |> Repo.exists?()
+  end
+
+  @doc """
+  Checks if an user is following an organization.
+
+  ## Examples
+
+      iex> user_following?(123, 456)
+      true
+
+      iex> user_following?(456, 789)
+      false
+
+  """
+  def user_following?(user_id, organization_id) do
+    Membership
+    |> where(
+      [m],
+      m.user_id == ^user_id and m.organization_id == ^organization_id and m.role == :follower
+    )
     |> Repo.exists?()
   end
 
@@ -436,36 +473,7 @@ defmodule Atomic.Organizations do
     |> Enum.drop_while(fn elem -> elem != role end)
   end
 
-  @doc """
-  Returns the amount of followers in an organization.
-
-  ## Examples
-
-      iex> count_followers("99d7c9e5-4212-4f59-a097-28aaa33c2621")
-      5
-
-      iex> count_followers("9as7c9e5-4212-4f59-a097-28aaa33c2621")
-      100_000_000_000_000_000_000_000_000
-  """
-  def count_followers(organization_id) do
-    Membership
-    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
-    |> Repo.aggregate(:count, :id)
-  end
-
-  @doc """
-  Returns the amount of members in an organization.
-
-  ## Examples
-
-      iex> get_total_organization_members(organization_id)
-      5
-
-  """
-  def get_total_organization_members(organization_id) do
-    from(m in Membership, where: m.organization_id == ^organization_id)
-    |> Repo.aggregate(:count, :id)
-  end
+  ## Announcements
 
   @doc """
   Returns the list of announcements.

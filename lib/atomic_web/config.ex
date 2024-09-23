@@ -45,7 +45,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :partners,
           title: "Partners",
-          icon: "hero-user-group",
+          icon: "tabler-heart-handshake",
           url: Routes.partner_index_path(conn, :index, current_organization.id),
           tabs: []
         },

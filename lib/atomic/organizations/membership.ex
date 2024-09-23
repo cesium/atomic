@@ -9,7 +9,7 @@ defmodule Atomic.Organizations.Membership do
     * `admin` - The user can control the organization's departments, activities and partners.
     * `follower` - The user is following the organization.
 
-  This schema can be further extended to include additional roles, such as `member`.
+  This schema can be further extended to include additional roles, such as `member` (with even different denominations).
   """
   use Atomic.Schema
 
@@ -34,6 +34,19 @@ defmodule Atomic.Organizations.Membership do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> prepare_changes(&maybe_increment_follower_count/1)
+  end
+
+  defp maybe_increment_follower_count(changeset) do
+    organization_id = get_change(changeset, :organization_id)
+    role = get_change(changeset, :role)
+
+    if organization_id && role && role == :follower do
+      query = from Organization, where: [id: ^organization_id]
+      changeset.repo.update_all(query, inc: [follower_count: 1])
+    end
+
+    changeset
   end
 
   def roles, do: @roles

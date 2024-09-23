@@ -44,7 +44,7 @@ defmodule Atomic.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
-      {:flop, "~> 0.17.0"},
+      {:flop, "~> 0.20.2"},
       {:paginator, "~> 1.2.0"},
 
       # security

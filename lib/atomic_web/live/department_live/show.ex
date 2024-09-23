@@ -39,7 +39,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
       |> assign(list_collaborators(department.id, params, has_permissions))
       |> assign(
         :all_collaborators,
-        Departments.list_collaborators_by_department_id(department.id,
+        Departments.list_department_collaborators(department.id,
           preloads: [:user],
           where: [accepted: true]
         )
@@ -73,7 +73,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
     |> assign(list_collaborators(department.id, params, has_permissions))
     |> assign(
       :all_collaborators,
-      Departments.list_collaborators_by_department_id(department.id,
+      Departments.list_department_collaborators(department.id,
         preloads: [:user],
         where: [accepted: true]
       )

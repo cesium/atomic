@@ -1,110 +1,91 @@
-<div x-data="{ option: 'activities' }" class="py-5">
-  <div class="border-b border-zinc-200">
-    <div class="bg-white">
-      <div class="flex justify-between py-4">
-        <div class="w-full gap-x-4 lg:flex lg:flex-col">
-          <div class="flex flex-col items-center lg:flex-row space-x-2 lg:space-x-8">
-            <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} color={:light_gray} />
-            <div class="flex-1 space-x-2">
-              <div class="flex flex-col lg:flex-row items-center lg:items-start lg:justify-start justify-center lg:space-x-2">
-                <div x-data="{ open: false }" class="flex flex-col items-center lg:items-start lg:justify-start justify-center space-y-2">
-                  <h2 class="font-medium text-zinc-900 text-2xl">
-                    <%= @organization.name %>
-                  </h2>
-                  <p class="text-xs text-gray-900">
-                    <%= @organization.long_name %>
-                  </p>
-                  <div class="flex flex-row items-center space-x-2 text-sm">
-                    <span class="text-zinc-900 font-bold inline-flex items-center"><%= @followers_count %></span>
-                    <span class="text-zinc-900 w-full inline-flex items-center">Followers</span>
-                  </div>
-                  <div class="flex space-x-2">
-                    <%= if not @following? do %>
-                      <button phx-click="follow" type="button" class="w-32 text-center rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
-                        Follow
-                      </button>
-                    <% else %>
-                      <%= if @organization.name == "CeSIUM" do %>
-                        <div class="lg:my-0 w-32 rounded-md bg-orange-400 py-2 text-center text-sm font-medium text-white shadow-sm inline">Following</div>
-                      <% else %>
-                        <div class="relative">
-                          <div class="inline-flex rounded-md shadow-sm">
-                            <div class="inline-flex rounded-md shadow-sm">
-                              <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-orange-400 px-3 py-2.5 text-white shadow-sm">
-                                <p class="text-sm font-medium">Following</p>
-                              </div>
-                              <button
-                                type="button"
-                                @click="open = true"
-                                class="inline-flex items-center rounded-l-none rounded-r-md bg-orange-400 px-2 py-2.5 hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
-                                aria-haspopup="listbox"
-                                aria-expanded="true"
-                                aria-labelledby="listbox-label"
-                              >
-                                <span class="sr-only">Change published status</span>
-                                <svg class="size-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                </svg>
-                              </button>
-                            </div>
-                          </div>
-                          <ul
-                            x-show="open"
-                            phx-click="unfollow"
-                            @click.away="open = false"
-                            @click="open = false"
-                            class="absolute left-0 z-10 -mr-1 mt-2 w-72 origin-top-left divide-y divide-zinc-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-auto sm:left-0"
-                            tabindex="-1"
-                            role="listbox"
-                            aria-labelledby="listbox-label"
-                            aria-activedescendant="listbox-option-0"
-                          >
-                            <li class="text-gray-900 cursor-default select-none p-4 text-sm hover:cursor-pointer hover:bg-zinc-50">
-                              <div class="flex flex-col">
-                                <div class="flex justify-between">
-                                  <p class="font-normal">Unfollow</p>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      <% end %>
-                    <% end %>
-                    <%= if @has_permissions? do %>
-                      <.link patch={Routes.organization_edit_path(@socket, :edit, @organization)} class="button">
-                        <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-gray-400" /> Edit
-                        </div>
-                      </.link>
-                      <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
-                        <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 shadow-sm hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-                          <.icon name="hero-trash-solid" class="mr-3 w-5 h-5 text-gray-400" /> Delete
-                        </div>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <span class="mt-8 break-normal"><%= @organization.description %></span>
-        </div>
-      </div>
+<.page title={@page_title} description="@cesium">
+  <:header>
+    <div class="h-32 w-full select-none">
+      <%!-- FIXME: Add banner support --%>
+      <%!-- <%= if @organization.banner do %>
+        <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
+      <% else %> --%>
+      <.gradient seed={@organization.id} class="object-cover" />
+      <%!-- <% end %> --%>
     </div>
-  </div>
-</div>
+  </:header>
 
-<div class="flex space-x-20 w-full">
-  <div class="sm:w-3/4"></div>
-  <div class="sm:w-1/4">
-    <p class="text-md text-zinc-900">
-      People
-    </p>
-    <div class="mt-4 mb-2 grid grid-cols-7 gap-14">
-      <%= for person <- @people do %>
-        <.avatar name={person.name} size={:sm} color={:light_gray} />
-      <% end %>
+  <:actions>
+    <%= if @has_permissions? do %>
+      <p class="sr-only"><%= gettext("Edit") %></p>
+      <.button icon="hero-pencil-solid" color={:white} />
+    <% end %>
+
+    <p class="sr-only"><%= gettext("Contact") %></p>
+    <.link href={"mailto:#{@organization.email}"} target="_blank">
+      <.button icon="hero-envelope-solid" color={:white} />
+    </.link>
+
+    <%= if @current_user && Organizations.user_following?(@current_user.id, @organization.id) do %>
+      <%!-- TODO: Dropdown with unfollow option --%>
+      <.button icon="hero-star-solid" color={:white}><%= gettext("Following") %></.button>
+    <% else %>
+      <%!-- TODO: Follow functionality --%>
+      <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star"><%= gettext("Follow") %></.button>
+    <% end %>
+  </:actions>
+
+  <.tabs class="scrollbar-hide flex overflow-scroll px-4 sm:px-6 lg:px-8">
+    <.link patch="?tab=about" replace={false}>
+      <.tab id="about-tab" active={@current_tab == "about"}>
+        <.icon name="hero-information-circle" class="size-5 mr-2" />
+        <%= gettext("About") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=posts" replace={false}>
+      <.tab id="posts-tab" active={@current_tab == "posts"}>
+        <.icon name="hero-newspaper" class="size-5 mr-2" />
+        <%= gettext("Posts") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=departments" replace={false}>
+      <.tab id="department-tab" active={@current_tab == "departments"}>
+        <.icon name="hero-cube" class="size-5 mr-2" />
+        <%= gettext("Departments") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=partners" replace={false}>
+      <.tab id="partners-tab" active={@current_tab == "partners"}>
+        <.icon name="tabler-heart-handshake" class="size-5 mr-2" />
+        <%= gettext("Partners") %>
+      </.tab>
+    </.link>
+
+    <.link patch="?tab=members" replace={false}>
+      <.tab id="members-tab" active={@current_tab == "members"} number={@member_count}>
+        <.icon name="hero-user-group" class="size-5 mr-2" />
+        <%= gettext("Members") %>
+      </.tab>
+    </.link>
+  </.tabs>
+
+  <div class="mt-8">
+    <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
+      <.about organization={@organization} />
     </div>
-    <%= gettext("View all") %>
+
+    <div :if={@current_tab == "departments"} class="px-4 sm:px-6 lg:px-8">
+      <.departments_grid organization={@organization} />
+    </div>
+
+    <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
+      <.membership_banner organization={@organization} />
+    </div>
+    <!-- Because divider can't have padding, we need to separate it from the rest of the content -->
+    <div :if={@current_tab == "members"} class="my-8 min-h-full w-full border-b" />
+
+    <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
+      <!-- Members are directly passed (instead of the whole organization)
+      since their calculation depends on the current tab -->
+      <.memberships_table members={@members} />
+    </div>
   </div>
-</div>
+</.page>

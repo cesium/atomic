@@ -105,7 +105,7 @@ module.exports = {
       }, { values })
     }),
 
-    // Embeds Tabler icons (https://tablericons.com) into app.css bundle
+    // Embeds Tabler icons (https://tabler.io/icons) into app.css bundle
     plugin(function ({ matchComponents, theme }) {
       let iconsDir = path.join(__dirname, "../deps/tabler_icons/icons")
       let values = {}
