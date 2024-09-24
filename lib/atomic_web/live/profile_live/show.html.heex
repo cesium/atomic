@@ -31,24 +31,34 @@
           <% end %>
         </div>
         <!-- Social Media Links -->
-        <div class="mt-4 flex gap-4">
-          <div class="flex flex-row items-center gap-x-1">
-            <img src="/images/tiktok.svg" class="h-5 w-5" alt="TikTok" />
-            <.link class="text-blue-500">Tik Tok</.link>
+        <%= if @user.socials do %>
+          <div class="mt-4 flex gap-4">
+            <%= if @user.socials.tiktok do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/tiktok.svg" class="h-5 w-5" alt="TikTok" />
+                <.link class="text-blue-500" href={"https://tiktok.com/" <> @user.socials.tiktok}>Tik Tok</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.instagram do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
+                <.link class="text-blue-500" href={"https://instagram.com/" <> @user.socials.instagram}>Instagram</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.facebook do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
+                <.link class="text-blue-500" href={"https://facebook.com/" <> @user.socials.facebook}>Facebook</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.x do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/x.svg" class="h-5 w-5" alt="X" />
+                <.link class="text-blue-500" href={"https://x.com/" <> @user.socials.x}>X</.link>
+              </div>
+            <% end %>
           </div>
-          <div class="flex flex-row items-center gap-x-1">
-            <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
-            <.link class="text-blue-500">Instagram</.link>
-          </div>
-          <div class="flex flex-row items-center gap-x-1">
-            <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
-            <.link class="text-blue-500">Facebook</.link>
-          </div>
-          <div class="flex flex-row items-center gap-x-1">
-            <img src="/images/x.svg" class="h-5 w-5" alt="X" />
-            <.link class="text-blue-500">X</.link>
-          </div>
-        </div>
+        <% end %>
 
         <div class="fllex-row mt-4 flex gap-8">
           <%= if @user.email do %>
