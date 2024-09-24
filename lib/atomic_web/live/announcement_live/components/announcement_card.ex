@@ -4,7 +4,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
 
   def announcement_card(assigns) do
     ~H"""
-    <div class="flex flex-col justify-center rounded-lg hover:bg-zinc-50">
+    <div class="flex flex-col justify-center rounded-lg">
       <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)}>
         <div class="p-4">
           <p class="text-lg font-semibold text-zinc-900" title={@announcement.title}>
@@ -15,7 +15,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
           </p>
           <object class="mt-2">
             <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization.id)} class="flex items-center">
-              <.icon name="hero-building_office-solid" class="mr-1.5 h-5 w-5 text-zinc-400" />
+              <.icon name="hero-building-office-solid" class="mr-1.5 h-5 w-5 text-zinc-400" />
               <span class="text-sm text-zinc-500 focus:outline-none">
                 <%= @announcement.organization.name %>
               </span>
