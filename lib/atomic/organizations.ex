@@ -635,7 +635,6 @@ defmodule Atomic.Organizations do
     end
   end
 
-
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking announcement changes.
 
