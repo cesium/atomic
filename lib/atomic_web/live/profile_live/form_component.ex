@@ -20,16 +20,16 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
           <div class="flex flex-col gap-y-8">
             <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
               <.inputs_for :let={socials_form} field={f[:socials]}>
-                <.field field={socials_form[:instagram]} type="text" class="w-full" />
-                <.field field={socials_form[:facebook]} type="text" class="w-full" />
-                <.field field={socials_form[:x]} type="text" class="w-full" />
-                <.field field={f[:tiktok]} type="text" placeholder="TikTok" class="w-full" />
+                <.field field={socials_form[:instagram]} type="text" placeholder="Instagram" class="w-full" />
+                <.field field={socials_form[:facebook]} type="text" placeholder="Facebook" class="w-full" />
+                <.field field={socials_form[:x]} type="text" placeholder="X" class="w-full" />
+                <.field field={socials_form[:tiktok]} type="text" placeholder="TikTok" class="w-full" />
               </.inputs_for>
             </div>
+            <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
+            <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
+            <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
           </div>
-          <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
-          <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
-          <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
         </div>
         <!-- Submit button -->
         <div class="mt-8 flex w-full justify-end">
