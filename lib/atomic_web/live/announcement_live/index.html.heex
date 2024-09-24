@@ -32,7 +32,7 @@
           <li id={announcement.id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-2 lg:px-4">
             <.link navigate={Routes.announcement_show_path(@socket, :show, announcement)}>
               <div class="break-words">
-                <.announcement announcement={announcement} />
+                <.announcement_card announcement={announcement} />
               </div>
             </.link>
           </li>
