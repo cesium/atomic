@@ -605,10 +605,11 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_announcement(%Announcement{} = announcement, attrs, _after_save \\ &{:ok, &1}) do
+  def update_announcement(%Announcement{} = announcement, attrs, after_save \\ &{:ok, &1}) do
     announcement
     |> Announcement.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -624,7 +625,10 @@ defmodule Atomic.Organizations do
 
   """
   def delete_announcement(%Announcement{} = announcement) do
-    Repo.delete(announcement)
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:announcement, announcement)
+    |> Ecto.Multi.delete(:post, Repo.get!(Post, announcement.post_id))
+    |> Repo.transaction()
   end
 
   @doc """
