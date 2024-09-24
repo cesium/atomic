@@ -629,7 +629,12 @@ defmodule Atomic.Organizations do
     |> Ecto.Multi.delete(:announcement, announcement)
     |> Ecto.Multi.delete(:post, Repo.get!(Post, announcement.post_id))
     |> Repo.transaction()
+    |> case do
+      {:ok, _changes} -> {:ok, announcement}
+      {:error, _step, reason, _changes} -> {:error, reason}
+    end
   end
+
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking announcement changes.
