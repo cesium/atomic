@@ -2,8 +2,6 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
   @moduledoc false
   use AtomicWeb, :component
 
-  @assigns [:announcement]
-
   def announcement_card(assigns) do
     ~H"""
     <div class="flex flex-col justify-center rounded-lg hover:bg-zinc-50">
@@ -25,7 +23,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
           </object>
         </div>
         <%= if @announcement.image do %>
-          <div class="h-[250px] md:h-[450px] overflow-hidden">
+          <div class="h-[250px] overflow-hidden md:h-[450px]">
             <img class="h-full w-full object-cover" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
           </div>
         <% end %>

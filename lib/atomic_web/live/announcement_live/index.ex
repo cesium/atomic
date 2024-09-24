@@ -1,7 +1,7 @@
 defmodule AtomicWeb.AnnouncementLive.Index do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Announcement, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
   import AtomicWeb.AnnouncementLive.Components.AnnouncementCard
 
   alias Atomic.Accounts
