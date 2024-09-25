@@ -1,11 +1,20 @@
-<div>
-  <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <.field field={f[:title]} help_text={gettext("The title of the announcement")} type="text" placeholder="Title" required />
+<div class="relative">
+  <.form :let={f} for={@changeset} id="announcement-form" phx-target={@myself} phx-change="validate" phx-submit="save" class="space-y-6">
+    <div class="relative pb-16">
+      <div class="grid gap-4 xl:grid-cols-2">
+        <div class="flex flex-col">
+          <.field field={f[:title]} type="text" placeholder="Choose a title for the announcement" required class="w-full" />
 
-    <.field field={f[:description]} help_text={gettext("Announcement description")} type="text" placeholder="Description" required />
+          <.field field={f[:description]} type="textarea" placeholder="Write a description" required class="w-full overflow-auto resize-none h-44 xl:h-64" />
+        </div>
+        <div class="space-y-4">
+          <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} class="object-cover" />
 
-    <div class="mt-8 flex w-full justify-end">
-      <.button size={:md} color={:white} icon="hero-cube" type="submit"><%= gettext("Save Changes") %></.button>
+          <div class="flex justify-end">
+            <.button size={:md} color={:white} icon="hero-cube" type="submit"><%= gettext("Save Changes") %></.button>
+          </div>
+        </div>
+      </div>
     </div>
   </.form>
 </div>

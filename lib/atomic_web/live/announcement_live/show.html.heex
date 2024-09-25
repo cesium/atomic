@@ -1,22 +1,14 @@
 <div class="py-4 px-4 sm:px-0">
-  <div class="px-4 flex flex-col gap-2 mt-6 sm:flex-row sm:items-center">
-    <div>
-      <div class="flex justify-between items-center">
-        <h4 class="text-2xl font-bold text-zinc-800">
-          <%= @announcement.title %>
-        </h4>
-      </div>
-      <p class="mt-1 text-zinc-500">
-        <%= @announcement.description %>
-      </p>
-    </div>
+  <div id={@announcement.id} class="py-4 px-4 mx-auto max-w-5xl sm:px-2 lg:px-4">
+    <.link navigate={Routes.announcement_show_path(@socket, :show, @announcement)}>
+      <.announcement announcement={@announcement} />
+    </.link>
   </div>
+  <%= if @has_permissions? do %>
+    <.link patch={Routes.announcement_edit_path(@socket, :edit, @announcement.organization, @announcement)} class="px-4 button">
+      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+      </div>
+    </.link>
+  <% end %>
 </div>
-
-<%= if @has_permissions? do %>
-  <.link patch={Routes.announcement_edit_path(@socket, :edit, @announcement.organization, @announcement)} class="px-2 button">
-    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-      <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-    </div>
-  </.link>
-<% end %>
