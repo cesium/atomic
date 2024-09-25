@@ -7,7 +7,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
   def schedule(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <div :if={length(@schedule.daily) != 0} class="px-4 pt-4 pb-2 border-b border-gray-200 sm:px-0">
+      <div :if={length(@schedule.daily) != 0} class="border-b border-gray-200 px-4 pt-4 pb-2 sm:px-0">
         <p class="font-semibold text-zinc-400">
           Today
         </p>
@@ -32,7 +32,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                   </p>
                 </li>
               </.link>
-              <div class="text-zinc-400 text-right">
+              <div class="text-right text-zinc-400">
                 <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs hover:underline">
                   <%= entry.organization.name %>
                 </.link>
@@ -41,7 +41,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           </ul>
         </div>
       </div>
-      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-2', else: 'pt-4'} pb-2 px-4 sm:px-0"}>
+      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-2', else: 'pt-4'} px-4 pb-2 sm:px-0"}>
         <p class="font-semibold text-zinc-400">
           This week
         </p>
@@ -66,7 +66,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                   </p>
                 </li>
               </.link>
-              <div class="text-zinc-400 text-right">
+              <div class="text-right text-zinc-400">
                 <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs hover:underline">
                   <%= entry.organization.name %>
                 </.link>

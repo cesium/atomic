@@ -54,7 +54,10 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
   end
 
   def handle_event("follow", _params, socket) when is_nil(socket.assigns.current_user) do
-    {:noreply, socket |> put_flash(:info, "You must be logged in to follow organizations") |> redirect(to: Routes.user_session_path(AtomicWeb.Endpoint, :new))}
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must be logged in to follow organizations")
+     |> redirect(to: Routes.user_session_path(AtomicWeb.Endpoint, :new))}
   end
 
   @impl true
