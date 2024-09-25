@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Announcement do
       <!-- Image -->
       <%= if @announcement.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
+          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
         </div>
       <% end %>
     </div>
