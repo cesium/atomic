@@ -485,6 +485,7 @@ defmodule Atomic.Accounts do
   def update_user_picture(%User{} = user, attrs \\ %{}) do
     user
     |> User.picture_changeset(attrs)
+    |> IO.inspect()
     |> Repo.update()
   end
 
@@ -500,10 +501,11 @@ defmodule Atomic.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+  def update_user(%User{} = user, attrs \\ %{}, after_save \\ &{:ok, &1}) do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save)
   end
 
   @doc """

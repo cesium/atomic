@@ -5,6 +5,7 @@ defmodule AtomicWeb.Components.Sidebar do
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
   alias Atomic.Organizations
+  import AtomicWeb.Components.Avatar
 
   attr :current_user, :map, required: true
   attr :current_organization, :map, required: true
@@ -122,7 +123,7 @@ defmodule AtomicWeb.Components.Sidebar do
       <AtomicWeb.Components.Dropdown.dropdown orientation={@orientation} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
-            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
+            <.avatar name={@current_user.name} color={:light_gray} class="!text-sm" type={:user} src={Uploaders.ProfilePicture.url({@current_user.profile_picture, @current_user}, :original)} />
             <span class="text-sm font-semibold leading-6" aria-hidden="true"><%= @current_user.name %></span>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
@@ -190,9 +191,9 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp user_image(user) do
     if user.profile_picture do
-      Uploaders.ProfilePicture.url({user, user.profile_picture}, :original)
+      Atomic.Uploaders.ProfilePicture.url({user, user.profile_picture}, :original)
     else
-      nil
+      ""
     end
   end
 
