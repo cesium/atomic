@@ -38,23 +38,26 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
       </.link>
       <div class="flex-shrink-0">
         <%= if @is_following do %>
-          <button type="button" phx-value-organization_id={@organization.id} phx-click="unfollow" phx-target={@myself} class="z-100 inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
-            <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-            </svg>
+          <.button phx-value-organization_id={@organization.id} phx-click="unfollow" phx-target={@myself} color={:white} size={:xs}>
+            <.icon name="hero-minus-solid" class="size-5 text-gray-400" />
             <span>Unfollow</span>
-          </button>
+          </.button>
         <% else %>
-          <button type="button" phx-value-organization_id={@organization.id} phx-click="follow" phx-target={@myself} class="z-100 inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
-            <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-            </svg>
+          <.button phx-value-organization_id={@organization.id} phx-click="follow" phx-target={@myself} color={:white} size={:xs}>
+            <.icon name="hero-plus" class="size-5 text-gray-400" />
             <span>Follow</span>
-          </button>
+          </.button>
         <% end %>
       </div>
     </li>
     """
+  end
+
+  def handle_event("follow", _params, socket) when is_nil(socket.assigns.current_user) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "You must be logged in to follow organizations")
+     |> redirect(to: Routes.user_session_path(AtomicWeb.Endpoint, :new))}
   end
 
   @impl true

@@ -39,35 +39,39 @@
         </div>
         <!-- Feed -->
         <%= if @current_tab != "schedule" do %>
-          <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-            <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
-              <%= if post.type == :activity do %>
-                <.link navigate={Routes.activity_show_path(@socket, :show, post.activity)}>
-                  <.activity activity={post.activity} />
-                </.link>
-              <% else %>
-                <.link navigate={Routes.announcement_show_path(@socket, :show, post.announcement)}>
-                  <.announcement announcement={post.announcement} />
-                </.link>
-              <% end %>
-            </li>
-          </ul>
+          <%= if @is_authenticated? == false && @current_tab == "following" do %>
+            <div class="mt-6">
+              <.unauthenticated_state />
+            </div>
+          <% else %>
+            <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
+              <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
+                <%= if post.type == :activity do %>
+                  <.link navigate={Routes.activity_show_path(@socket, :show, post.activity)}>
+                    <.activity activity={post.activity} />
+                  </.link>
+                <% else %>
+                  <.link navigate={Routes.announcement_show_path(@socket, :show, post.announcement)}>
+                    <.announcement announcement={post.announcement} />
+                  </.link>
+                <% end %>
+              </li>
+            </ul>
+          <% end %>
         <% else %>
           <.schedule schedule={@schedule} />
         <% end %>
       </article>
     </main>
   </div>
-  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pr-4 pb-6 pl-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
+  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pb-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
+    <!-- Organizations to follow -->
+    <section aria-labelledby="organizations-to-follow" class="border-b border-gray-200 pl-6 pr-4 pt-6">
+      <.follow_suggestions current_user={@current_user} organizations={@organizations} />
+    </section>
     <!-- Schedule -->
-    <section aria-labelledby="schedule">
+    <section aria-labelledby="schedule" class="pl-6 pr-4">
       <.schedule schedule={@schedule} />
     </section>
-    <!-- Organizations to follow -->
-    <%= if @is_authenticated? do %>
-      <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
-        <.follow_suggestions current_user={@current_user} organizations={@organizations} />
-      </section>
-    <% end %>
   </div>
 </div>

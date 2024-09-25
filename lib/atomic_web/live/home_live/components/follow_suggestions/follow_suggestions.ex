@@ -15,8 +15,8 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   def follow_suggestions(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <p class="text-lg font-semibold text-gray-900">
-        Organizations to follow
+      <p class="font-semibold leading-6 text-zinc-400">
+        <%= title(@current_user) %>
       </p>
       <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200">
@@ -25,7 +25,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
           <% end %>
         </ul>
       </div>
-      <div class="my-4">
+      <div class="mt-2 mb-4">
         <.button patch={Routes.organization_index_path(AtomicWeb.Endpoint, :index)} color={:white} size={:md} full_width>
           <%= gettext("View all") %>
         </.button>
@@ -33,4 +33,8 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
     </div>
     """
   end
+
+  defp title(current_user) when is_nil(current_user), do: gettext("Top organizations")
+
+  defp title(_current_user), do: gettext("Organizations you may like")
 end

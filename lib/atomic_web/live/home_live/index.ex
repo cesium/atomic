@@ -2,7 +2,7 @@ defmodule AtomicWeb.HomeLive.Index do
   @moduledoc false
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Activity, Announcement, Tabs}
+  import AtomicWeb.Components.{Activity, Announcement, Tabs, Unauthenticated}
   import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
 
   alias Atomic.Activities
@@ -71,6 +71,12 @@ defmodule AtomicWeb.HomeLive.Index do
   def handle_event("load-following", _, socket) when socket.assigns.current_tab == "following",
     do: {:noreply, socket}
 
+  def handle_event("load-following", _, socket) when socket.assigns.is_authenticated? == false,
+    do:
+      {:noreply,
+       socket
+       |> assign(:current_tab, "following")}
+
   def handle_event("load-following", _, socket) do
     current_user = socket.assigns.current_user
 
@@ -93,27 +99,44 @@ defmodule AtomicWeb.HomeLive.Index do
      |> assign(:current_tab, "schedule")}
   end
 
-  defp fetch_schedule(socket) when socket.assigns.is_authenticated? do
-    {daily, weekly} =
-      Activities.list_user_activities(socket.assigns.current_user.id,
-        preloads: [:organization],
-        order_by: [desc: :start]
-      )
-      |> Enum.reduce({[], []}, &process_activity/2)
-
-    %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
+  defp fetch_schedule(socket) do
+    if socket.assigns.is_authenticated? do
+      fetch_user_schedule(socket.assigns.current_user.id)
+    else
+      fetch_default_schedule()
+    end
   end
 
-  defp fetch_schedule(_socket) do
+  defp fetch_user_schedule(user_id) do
+    {daily, weekly} = fetch_schedule_by_user(user_id)
+
+    case {daily, weekly} do
+      {[], []} ->
+        fetch_default_schedule()
+
+      _ ->
+        %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
+    end
+  end
+
+  defp fetch_default_schedule() do
     {daily, weekly} =
       Activities.list_activities(preloads: [:organization], order_by: [desc: :start])
       |> Enum.reduce({[], []}, &process_activity/2)
 
-    %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
+    %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)} |> dbg()
+  end
+
+  defp fetch_schedule_by_user(user_id) do
+    Activities.list_user_activities(user_id,
+      preloads: [:organization],
+      order_by: [desc: :start]
+    )
+    |> Enum.reduce({[], []}, &process_activity/2)
   end
 
   defp process_activity(activity, {daily_acc, weekly_acc}) do
-    case within_today_or_this_week(activity.start) do
+    case within_today_or_this_week(activity.start |> NaiveDateTime.to_date()) do
       :today ->
         {[activity | daily_acc], weekly_acc}
 
