@@ -13,7 +13,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         <!-- Grid layout for profile picture, name, phone number, email, and social media fields -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Section for profile picture upload -->
-          <div class="flex flex-col items-center pr-4 ">
+          <div class="flex flex-col items-center pr-4">
             <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
             <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
           </div>
@@ -51,7 +51,10 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:image, accept: Uploaders.ProfilePicture.extension_whitelist(), max_entries: 1)
+     |> allow_upload(:image,
+       accept: Uploaders.ProfilePicture.extension_whitelist(),
+       max_entries: 1
+     )
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end
