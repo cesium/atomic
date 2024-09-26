@@ -27,6 +27,8 @@ defmodule Atomic.Organizations.Partner do
     field :description, :string
     field :notes, :string
 
+    field :banner, Atomic.Uploaders.Banner.Type
+
     field :benefits, :string
     field :archived, :boolean, default: false
     field :image, Uploaders.PartnerImage.Type
