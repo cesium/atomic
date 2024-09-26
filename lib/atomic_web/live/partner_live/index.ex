@@ -1,7 +1,8 @@
 defmodule AtomicWeb.PartnerLive.Index do
+  import AtomicWeb.PartnerLive.Components.PartnerCard
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.Components.{Avatar,Gradient, Button, Empty, Pagination, Tabs}
   alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Partners
@@ -12,7 +13,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+  def handle_params(%{"organization_id" => organization_id } = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
     {:noreply,
