@@ -14,7 +14,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
         <div class="flow-root">
           <ul role="list" class="divide-y divide-gray-200">
             <%= for entry <- @schedule.daily do %>
-              <.link navigate={Routes.activity_show_path(AtomicWeb.Endpoint, :show, entry)}>
+              <.link navigate={~p"/activities/#{entry}"}>
                 <li class="space-y-3 py-4">
                   <p class="text-md font-semibold hover:underline">
                     <%= entry.title %>
@@ -41,7 +41,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
         <div class="flow-root">
           <ul role="list" class="divide-y divide-gray-200">
             <%= for entry <- @schedule.weekly do %>
-              <.link navigate={Routes.activity_show_path(AtomicWeb.Endpoint, :show, entry)}>
+              <.link navigate={~p"/activities/#{entry}"}>
                 <li class="space-y-3 py-4">
                   <p class="text-md font-semibold hover:underline">
                     <%= entry.title %>

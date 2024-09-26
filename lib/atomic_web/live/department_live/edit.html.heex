@@ -36,9 +36,9 @@
       department={@department}
       return_to={
         if @live_action in [:new] do
-          Routes.department_index_path(@socket, :index, @organization_id)
+          ~p"/organizations/#{@organization_id}/departments"
         else
-          Routes.department_show_path(@socket, :show, @organization_id, @department)
+          ~p"/organizations/#{@organization_id}/departments/#{@department}"
         end
       }
     />

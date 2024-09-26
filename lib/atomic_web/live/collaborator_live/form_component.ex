@@ -19,7 +19,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       <% end %>
       <!-- User Card -->
       <div class="flex flex-col sm:flex-row">
-        <.link navigate={Routes.profile_show_path(@socket, :show, @collaborator.user)} class="mt-4 flex outline-none">
+        <.link navigate={~p"/profile/#{@collaborator.user}"} class="mt-4 flex outline-none">
           <.avatar color={:light_gray} name={@collaborator.user.name} />
           <div class="ml-3 flex h-full flex-col self-center">
             <p><%= @collaborator.user.name %></p>

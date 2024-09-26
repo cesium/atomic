@@ -56,7 +56,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
         {:noreply,
          socket
          |> put_flash(:success, "Partner deleted successfully")
-         |> push_redirect(to: Routes.partner_index_path(socket, :index, organization_id))}
+         |> push_navigate(to: ~p"/organizations/#{organization_id}/partners")}
 
       {:error, _reason} ->
         {:noreply, put_flash(socket, :error, "Failed to delete partner")}
@@ -73,7 +73,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
         {:noreply,
          socket
          |> put_flash(:success, "Partner archived successfully")
-         |> push_redirect(to: Routes.partner_index_path(socket, :index, organization_id))}
+         |> push_navigate(to: ~p"/organizations/#{organization_id}/partners")}
 
       {:error, _reason} ->
         {:noreply, put_flash(socket, :error, "Failed to delete partner")}
@@ -88,8 +88,8 @@ defmodule AtomicWeb.PartnerLive.Edit do
       {:ok, _partner} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Partner archived successfully")
-         |> push_redirect(to: Routes.partner_index_path(socket, :index, organization_id))}
+         |> put_flash(:success, "Partner unarchived successfully")
+         |> push_navigate(to: ~p"/organizations/#{organization_id}/partners")}
 
       {:error, _reason} ->
         {:noreply, put_flash(socket, :error, "Failed to delete partner")}
