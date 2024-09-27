@@ -52,7 +52,7 @@ defmodule AtomicWeb.Components.Forms do
 
   attr :errors, :list,
     default: [],
-    doc: "A list of erros to be displayed. If not provided, it will be generated."
+    doc: "A list of errors to be displayed. If not provided, it will be generated."
 
   attr :checked, :any, doc: "The checked flag for checkboxes and checkboxes groups."
 
@@ -82,6 +82,8 @@ defmodule AtomicWeb.Components.Forms do
   attr :class, :string, default: nil, doc: "The class to be added to the input."
   attr :wrapper_class, :string, default: nil, doc: "The wrapper div class."
   attr :label_class, :string, default: nil, doc: "Extra class for the label."
+  attr :error_class, :string, default: nil, doc: "Extra error class for the input."
+  attr :error_label_class, :string, default: nil, doc: "Extra class for the error message."
   attr :help_text, :string, default: nil, doc: "Context/help for the input."
 
   attr :required, :boolean,
@@ -113,16 +115,16 @@ defmodule AtomicWeb.Components.Forms do
       assign_new(assigns, :checked, fn -> HTML.Form.normalize_value("checkbox", value) end)
 
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <label class={["atomic-checkbox-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
-        <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["atomic-checkbox", @class]} {@rest} />
+        <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["atomic-checkbox", @class, @errors != [] && @error_class]} {@rest} />
         <div class={[@required && "atomic-label--required"]}>
           <%= @label %>
         </div>
       </label>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -130,17 +132,17 @@ defmodule AtomicWeb.Components.Forms do
 
   def field(%{type: "select"} = assigns) do
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
 
-      <select id={@id} name={@name} class={["atomic-select", @class]} multiple={@multiple} required={@required} {@rest}>
+      <select id={@id} name={@name} class={["atomic-select", @class, @errors != [] && @error_class]} multiple={@multiple} required={@required} {@rest}>
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= HTML.Form.options_for_select(@options, @selected || @value) %>
       </select>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -153,9 +155,9 @@ defmodule AtomicWeb.Components.Forms do
         <%= @label %>
       </.field_label>
 
-      <textarea id={@id} name={@name} class={["atomic-text-input", @class]} rows={@rows} required={@required} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+      <textarea id={@id} name={@name} class={["atomic-text-input", @class, @errors != [] && @error_class]} rows={@rows} required={@required} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -166,11 +168,11 @@ defmodule AtomicWeb.Components.Forms do
       assign_new(assigns, :checked, fn -> HTML.Form.normalize_value("checkbox", value) end)
 
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <label class={["atomic-switch-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
         <label class="atomic-switch">
-          <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["sr-only peer", @class]} {@rest} />
+          <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["sr-only peer", @class, @errors != [] && @error_class]} {@rest} />
 
           <span class="atomic-switch__fake-input"></span>
           <span class="atomic-switch__fake-input-bg"></span>
@@ -178,7 +180,7 @@ defmodule AtomicWeb.Components.Forms do
         <div><%= @label %></div>
       </label>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -199,7 +201,7 @@ defmodule AtomicWeb.Components.Forms do
       end)
 
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
@@ -209,7 +211,8 @@ defmodule AtomicWeb.Components.Forms do
         "atomic-checkbox-group",
         @group_layout == "row" && "atomic-checkbox-group--row",
         @group_layout == "col" && "atomic-checkbox-group--col",
-        @class
+        @class,
+        @errors != [] && @error_class
       ]}>
         <%= for {label, value} <- @options do %>
           <label class="atomic-checkbox-label">
@@ -227,7 +230,7 @@ defmodule AtomicWeb.Components.Forms do
         <% end %>
       </div>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -237,7 +240,7 @@ defmodule AtomicWeb.Components.Forms do
     assigns = assign_new(assigns, :checked, fn -> nil end)
 
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
@@ -246,7 +249,8 @@ defmodule AtomicWeb.Components.Forms do
         "atomic-radio-group",
         @group_layout == "row" && "atomic-radio-group--row",
         @group_layout == "col" && "atomic-radio-group--col",
-        @class
+        @class,
+        @errors != [] && @error_class
       ]}>
         <input type="hidden" name={@name} value="" />
         <%= for {label, value} <- @options do %>
@@ -265,7 +269,7 @@ defmodule AtomicWeb.Components.Forms do
         <% end %>
       </div>
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -279,17 +283,24 @@ defmodule AtomicWeb.Components.Forms do
 
   # All other inputs: text, datetime-local, url, password, etc.
   def field(assigns) do
-    assigns = assign(assigns, class: [assigns.class, get_class_for_type(assigns.type)])
+    assigns =
+      assign(assigns,
+        class: [
+          assigns.class,
+          get_class_for_type(assigns.type),
+          assigns.errors != [] && assigns.error_class
+        ]
+      )
 
     ~H"""
-    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
+    <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
         <%= @label %>
       </.field_label>
 
       <input type={@type} name={@name} id={@id} value={Phoenix.HTML.Form.normalize_value(@type, @value)} class={@class} required={@required} {@rest} />
 
-      <.field_error :for={msg <- @errors}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -297,13 +308,14 @@ defmodule AtomicWeb.Components.Forms do
 
   attr :class, :string, default: nil
   attr :errors, :list, default: []
+  attr :error_class, :string, default: nil
   attr :name, :string
   attr :rest, :global
   slot :inner_block, required: true
 
   defp field_wrapper(assigns) do
     ~H"""
-    <div phx-feedback-for={@name} {@rest} class={[@class, "atomic-form-field-wrapper", @errors != [] && "atomic-form-field-wrapper--error"]}>
+    <div phx-feedback-for={@name} {@rest} class={[@class, "atomic-form-field-wrapper", @errors != [] && !@error_class && "atomic-form-field-wrapper--error"]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -323,11 +335,12 @@ defmodule AtomicWeb.Components.Forms do
     """
   end
 
+  attr :class, :string, default: nil
   slot :inner_block, required: true
 
   defp field_error(assigns) do
     ~H"""
-    <p class="atomic-form-field-error">
+    <p class={["atomic-form-field-error", @class]}>
       <%= render_slot(@inner_block) %>
     </p>
     """

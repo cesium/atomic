@@ -28,6 +28,7 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:activity, activity)
      |> assign(:participants, Activities.list_activity_participants(id))
      |> assign(:enrolled?, maybe_put_enrolled(socket))
+     |> assign(:enrollment_id, maybe_put_enrollment_id(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
        assign(complete_socket, :has_permissions?, has_permissions?(complete_socket))
@@ -105,6 +106,12 @@ defmodule AtomicWeb.ActivityLive.Show do
     end
   end
 
+  defp maybe_put_enrollment_id(socket) when not socket.assigns.is_authenticated?, do: nil
+
+  defp maybe_put_enrollment_id(socket) do
+    Activities.get_enrollment!(socket.assigns.id, socket.assigns.current_user.id)
+  end
+
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
 
   defp maybe_put_enrolled(socket) do
@@ -121,13 +128,12 @@ defmodule AtomicWeb.ActivityLive.Show do
       )
   end
 
-  def draw_ticket_qr_code(activity, user, _socket) do
-    internal_route = "/activities/#{activity.id}/ticket/#{user.id}/confirm"
-    url = build_url() <> internal_route
+  def draw_ticket_qr_code(enrollment_id) do
+    enrollment_id = enrollment_id.id
 
-    url
+    enrollment_id
     |> QRCodeEx.encode()
-    |> QRCodeEx.svg(color: "#111827", width: 295, background_color: :transparent)
+    |> QRCodeEx.svg(color: "#111827", width: 200, background_color: :transparent)
   end
 
   defp build_url do

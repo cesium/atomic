@@ -175,7 +175,7 @@
     <p class="text-md font-semibold text-gray-900">
       <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
     </p>
-    <%= draw_ticket_qr_code(@activity, @current_user, @socket) |> raw %>
+    <%= draw_ticket_qr_code(@enrollment_id) |> raw %>
   </div>
 </.modal>
 <!-- Enrollment modal -->
