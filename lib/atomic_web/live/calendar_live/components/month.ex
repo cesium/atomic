@@ -48,7 +48,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
       <div class="px-4 py-10 sm:px-6 lg:hidden">
         <ol class="divide-y divide-zinc-100 overflow-hidden rounded-lg bg-white text-sm shadow ring-1 ring-black ring-opacity-5">
           <li :for={activity <- get_date_activities(@activities, @current_date)}>
-            <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)} class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
+            <.link patch={~p"/activities/#{activity}"} class="group flex justify-between p-4 pr-6 focus-within:bg-gray-50 hover:bg-gray-50">
               <div class="flex-auto">
                 <p class="font-semibold text-zinc-900">
                   <%= activity.title %>
@@ -143,7 +143,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
       </time>
       <ol class="mt-2 -space-y-1">
         <li :for={activity <- get_date_activities(@activities, @date) |> Enum.take(2)}>
-          <.link patch={Routes.activity_show_path(AtomicWeb.Endpoint, :show, activity)} class="group flex">
+          <.link patch={~p"/activities/#{activity}"} class="group flex">
             <p class="flex-auto truncate font-medium text-zinc-900 group-hover:text-primary-600">
               <%= activity.title %>
             </p>

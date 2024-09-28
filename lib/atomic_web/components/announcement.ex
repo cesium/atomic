@@ -17,7 +17,7 @@ defmodule AtomicWeb.Components.Announcement do
         </div>
         <div class="min-w-0 flex-1">
           <object>
-            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @announcement.organization.id)} class="hover:underline focus:outline-none">
+            <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
               <p class="text-sm font-medium text-gray-900">
                 <%= @announcement.organization.name %>
               </p>
