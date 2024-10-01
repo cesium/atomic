@@ -19,7 +19,7 @@ defmodule AtomicWeb.ProfileLive.Edit do
        |> assign(:current_page, :profile)
        |> assign(:user, user)}
     else
-      {:noreply, socket |> redirect(to: Routes.profile_show_path(socket, :show, user_slug))}
+      {:noreply, socket |> redirect(to: ~p"/profile/#{user_slug}")}
     end
   end
 
@@ -29,13 +29,13 @@ defmodule AtomicWeb.ProfileLive.Edit do
         {:noreply,
          socket
          |> put_flash(:info, "Email changed successfully.")
-         |> redirect(to: Routes.profile_show_path(socket, :show, socket.assigns.current_user))}
+         |> redirect(to: ~p"/profile/#{socket.assigns.current_user}")}
 
       :error ->
         {:noreply,
          socket
          |> put_flash(:error, "Email change link is invalid or it has expired.")
-         |> redirect(to: Routes.profile_show_path(socket, :show, socket.assigns.current_user))}
+         |> redirect(to: ~p"/profile/#{socket.assigns.current_user}")}
     end
   end
 end

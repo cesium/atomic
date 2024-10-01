@@ -88,7 +88,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
             Accounts.deliver_update_email_instructions(
               applied_user,
               user.email,
-              &Routes.profile_edit_url(socket, :confirm_email, &1)
+              &url(~p"/users/confirm_email/#{&1}")
             )
 
             "Profile updated successfully, please check your email to confirm the new address."
@@ -106,14 +106,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:success, flash_text)
-         |> push_navigate(
-           to:
-             Routes.profile_show_path(
-               socket,
-               :show,
-               user_params["slug"] || socket.assigns.user.slug
-             )
-         )}
+         |> push_navigate(to: ~p"/profile/#{user_params["slug"]}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

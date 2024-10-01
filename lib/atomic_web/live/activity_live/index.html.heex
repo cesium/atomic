@@ -1,6 +1,6 @@
 <.page title="Activities">
   <:actions>
-    <.button navigate={Routes.activity_new_path(@socket, :new, @current_organization)}>
+    <.button navigate={~p"/organizations/#{@organization}/activities/new"}>
       <%= gettext("New") %>
     </.button>
   </:actions>
@@ -33,14 +33,14 @@
   <!-- Activities index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={Routes.activity_new_path(@socket, :new, @current_organization)} placeholder="activity" />
+      <.empty_state url={~p"/organizations/#{@organization}/activities/new"} placeholder="activity" />
     </div>
   <% else %>
     <div class="overflow-hidden bg-white">
       <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
         <%= for activity <- @activities do %>
           <li id={activity.id}>
-            <.link navigate={Routes.activity_show_path(@socket, :show, activity)} class="block hover:bg-zinc-50">
+            <.link navigate={~p"/activities/#{activity}"} class="block hover:bg-zinc-50">
               <div class="px-4 py-4 lg:px-6">
                 <div class="flex items-center justify-between">
                   <p class="truncate text-sm font-medium text-zinc-900">

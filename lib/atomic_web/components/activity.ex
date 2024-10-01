@@ -19,7 +19,7 @@ defmodule AtomicWeb.Components.Activity do
         </div>
         <div class="min-w-0 flex-1">
           <object>
-            <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)}>
+            <.link navigate={~p"/organizations/#{@activity.organization.id}"}>
               <span class="text-sm font-medium text-gray-900 hover:underline focus:outline-none">
                 <%= @activity.organization.name %>
               </span>

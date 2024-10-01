@@ -47,9 +47,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
          socket
          |> put_flash(:success, "Started following " <> socket.assigns.organization.name)
          |> assign(:following?, true)
-         |> push_patch(
-           to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
-         )}
+         |> push_patch(to: ~p"/organizations/#{socket.assigns.organization}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -70,9 +68,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
          socket
          |> put_flash(:success, "Stopped following " <> socket.assigns.organization.name)
          |> assign(:following?, false)
-         |> push_patch(
-           to: Routes.organization_show_path(socket, :show, socket.assigns.organization.id)
-         )}
+         |> push_patch(to: ~p"/organizations/#{socket.assigns.organization}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -84,7 +80,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> put_flash(:error, gettext("You must be logged in to follow an organization."))
-     |> push_navigate(to: Routes.user_session_path(socket, :new))}
+     |> push_navigate(to: ~p"/users/log_in")}
   end
 
   defp list_activities(organization_id) do

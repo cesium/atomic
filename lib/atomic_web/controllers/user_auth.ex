@@ -2,11 +2,12 @@ defmodule AtomicWeb.UserAuth do
   @moduledoc """
   This module contains functions to log users in and out.
   """
+  use AtomicWeb, :verified_routes
+
   import Plug.Conn
   import Phoenix.Controller
 
   alias Atomic.Accounts
-  alias AtomicWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -95,7 +96,7 @@ defmodule AtomicWeb.UserAuth do
     conn
     |> renew_session()
     |> delete_resp_cookie(@remember_me_cookie)
-    |> redirect(to: Routes.user_session_path(conn, :new))
+    |> redirect(to: ~p"/users/log_in")
   end
 
   @doc """
@@ -163,7 +164,7 @@ defmodule AtomicWeb.UserAuth do
       conn
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
-      |> redirect(to: Routes.user_session_path(conn, :new))
+      |> redirect(to: ~p"/users/log_in")
       |> halt()
     end
   end
