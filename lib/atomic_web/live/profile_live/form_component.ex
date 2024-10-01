@@ -4,6 +4,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   alias Atomic.Accounts
   alias AtomicWeb.Components.ImageUploader
   import AtomicWeb.Components.Forms
+  import AtomicWeb.Components.{Button, Avatar}
 
   @impl true
   def render(assigns) do
@@ -14,10 +15,17 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Section for profile picture upload -->
           <div class="flex flex-col items-center pr-4">
-            <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-            <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
+            <%= if @user.profile_picture != NULL  do %>
+              <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
+              <div class="mb-4 border-4">
+                <.avatar name={@user.name} color={:light_gray} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
+              </div>
+              <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
+            <% else %>
+              <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
+              <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
+            <% end %>
           </div>
-
           <div class="flex flex-col gap-6">
             <!-- Name, phone number, email fields -->
             <div class="grid grid-cols-1 gap-4">
