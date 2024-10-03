@@ -29,7 +29,7 @@
     <div class="overflow-hidden bg-white">
       <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
         <%= for announcement <- @announcements do %>
-          <li id={announcement.id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-2 lg:px-4">
+          <li id={announcement.id} class="py-4 mx-auto max-w-5xl border-b border-gray-200 lg:px-6">
             <.link navigate={Routes.announcement_show_path(@socket, :show, announcement)}>
               <div class="break-words">
                 <.announcement_card announcement={announcement} />
