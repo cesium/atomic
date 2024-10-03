@@ -9,6 +9,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
   def schedule(assigns) do
     ~H"""
     <div class="overflow-hidden">
+      <%= if length(@schedule.daily) == 0 && length(@schedule.weekly) == 0 do %>
+        <div class="px-4 pt-4 pb-2 sm:px-0">
+          <p class="text-center text-zinc-400">
+            No activities scheduled.
+          </p>
+        </div>
+      <% end %>
       <div :if={length(@schedule.daily) != 0} class="border-b border-gray-200 px-4 pt-4 pb-2 sm:px-0">
         <p class="font-semibold text-zinc-400">
           Today

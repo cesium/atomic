@@ -90,7 +90,11 @@
           <:wrapper>
             <.button color={:white} size={:xs} class="flex space-x-1 items-center">
               <span>
-                <%= gettext("All") %>
+                <%= if @schedule == :user do %>
+                  <%= gettext("My schedule") %>
+                <% else %>
+                  <%= gettext("All") %>
+                <% end %>
               </span>
               <.icon name="hero-chevron-down" class="size-4" />
             </.button>

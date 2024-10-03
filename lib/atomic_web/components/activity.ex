@@ -87,5 +87,5 @@ defmodule AtomicWeb.Components.Activity do
   defp color_class(enrolled, maximum_entries) when enrolled > div(maximum_entries, 2),
     do: "text-amber-300"
 
-  defp color_class(_, _), do: "text-lime-600"
+  defp color_class(_, _), do: "text-green-500"
 end
