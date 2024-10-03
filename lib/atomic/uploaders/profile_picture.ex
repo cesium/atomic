@@ -2,7 +2,7 @@ defmodule Atomic.Uploaders.ProfilePicture do
   @moduledoc """
   Uploader for profile pictures.
   """
-  use Atomic.Uploader, extensions: ~w(.jpg .jpeg .png .gif)
+  use Atomic.Uploader, extensions: ~w(.jpg .jpeg .png .gif), max_size: 500
   alias Atomic.Accounts.User
 
   @versions [:original]
