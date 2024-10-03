@@ -5,6 +5,7 @@ defmodule AtomicWeb.Components.Sidebar do
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
   alias Atomic.Organizations
+  alias Atomic.Uploaders.ProfilePicture
 
   attr :current_user, :map, required: true
   attr :current_organization, :map, required: true
@@ -190,7 +191,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp user_image(user) do
     if user.profile_picture do
-      Uploaders.ProfilePicture.url({user, user.profile_picture}, :original)
+      ProfilePicture.url({user.profile_picture, user}, :original)
     else
       nil
     end

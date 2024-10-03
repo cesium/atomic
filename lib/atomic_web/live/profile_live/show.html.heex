@@ -1,14 +1,66 @@
-<div>
-  <div class="pt-4 px-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1 space-y-2">
-        <div class="flex flex-row">
-          <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
-            <%= @user.name %>
-          </h2>
+<div class="relative">
+  <div class="h-64 w-full border-b-2 bg-cover">
+    <.gradient class="h-64 w-full bg-cover bg-center" seed={@user.id} />
+  </div>
+  <!-- Profile Info Container -->
+  <div class="relative px-4 pt-4">
+    <div class="flex items-start">
+      <!-- Profile Picture -->
+      <div class="relative -mt-16 flex-shrink-0">
+        <div class="relative">
+          <.avatar name={@user.name} color={:light_gray} class="h-36 w-36 text-4xl rounded-full border-4 border-white" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
         </div>
-        <p class="text-zinc-500">@<%= @user.slug %></p>
-        <div class="grid grid-cols-1 gap-4 py-6 mb-2 sm:grid-cols-2 lg:grid-cols-3">
+      </div>
+      <div class="flex-1 pl-6">
+        <!-- User Info -->
+        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
+          <%= @user.name %>
+        </h2>
+
+        <div class="mt-2">
+          <%= if length(@organizations) > 0 do %>
+            <div class="mt-2">
+              <%= for organization <- @organizations do %>
+                <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
+                  <%= organization.name %> - <%= Atomic.Organizations.get_role(@user.id, organization.id) %>
+                </p>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="py-2">No organizations found.</p>
+          <% end %>
+        </div>
+        <!-- Social Media Links -->
+        <%= if @user.socials do %>
+          <div class="mt-4 flex gap-4">
+            <%= if @user.socials.tiktok do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/tiktok.svg" class="h-5 w-5" alt="TikTok" />
+                <.link class="text-blue-500" target="_blank" href={"https://tiktok.com/" <> @user.socials.tiktok}>Tik Tok</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.instagram do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
+                <.link class="text-blue-500" target="_blank" href={"https://instagram.com/" <> @user.socials.instagram}>Instagram</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.facebook do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
+                <.link class="text-blue-500" target="_blank" href={"https://facebook.com/" <> @user.socials.facebook}>Facebook</.link>
+              </div>
+            <% end %>
+            <%= if @user.socials.x do %>
+              <div class="flex flex-row items-center gap-x-1">
+                <img src="/images/x.svg" class="h-5 w-5" alt="X" />
+                <.link class="text-blue-500" target="_blank" href={"https://x.com/" <> @user.socials.x}>X</.link>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="fllex-row mt-4 flex gap-8">
           <%= if @user.email do %>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">Email</dt>
@@ -32,11 +84,7 @@
           <% end %>
         </div>
       </div>
-      <.avatar class="sm:w-44 sm:h-44 sm:text-6xl" name={@user.name} size={:xl} color={:light_gray} />
     </div>
-    <!-- Divider -->
-    <div class="py-6 mb-2 border-b border-zinc-200"></div>
-
     <%= if @is_current_user do %>
       <div class="w-24 flex justify-end">
         <.button patch={~p"/profile/#{@user}/edit"}>
