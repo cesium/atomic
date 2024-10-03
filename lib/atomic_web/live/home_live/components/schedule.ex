@@ -1,8 +1,10 @@
 defmodule AtomicWeb.HomeLive.Components.Schedule do
   @moduledoc false
   use AtomicWeb, :component
+  alias Atomic.Activities
 
   attr :schedule, :map, required: true, doc: "The schedule to display."
+  attr :current_user, :map, required: true, doc: "The current user."
 
   def schedule(assigns) do
     ~H"""
@@ -32,11 +34,20 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                   </p>
                 </li>
               </.link>
-              <div class="text-right text-zinc-400">
-                <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs hover:underline">
-                  <%= entry.organization.name %>
-                </.link>
-              </div>
+              <%= if check_enrolled(entry, @current_user) do %>
+                <div class="flex justify-between pt-2">
+                  <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
+                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% else %>
+                <div class="pt-2 text-right">
+                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% end %>
             <% end %>
           </ul>
         </div>
@@ -66,11 +77,20 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                   </p>
                 </li>
               </.link>
-              <div class="text-right text-zinc-400">
-                <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs hover:underline">
-                  <%= entry.organization.name %>
-                </.link>
-              </div>
+              <%= if check_enrolled(entry, @current_user) do %>
+                <div class="flex justify-between pt-2">
+                  <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
+                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% else %>
+                <div class="pt-2 text-right">
+                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% end %>
             <% end %>
           </ul>
         </div>
@@ -78,4 +98,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
     </div>
     """
   end
+
+  defp check_enrolled(_entry, nil), do: false
+  defp check_enrolled(entry, user), do: Activities.participating?(entry.id, user.id)
 end

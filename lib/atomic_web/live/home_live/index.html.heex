@@ -30,7 +30,7 @@
             <.tab id="tab-following" active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
               <%= gettext("Following") %>
             </.tab>
-            <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
+            <%= if length(@schedule_default.weekly) + length(@schedule_default.daily) > 0 do %>
               <.tab id="tab-schedule" active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
                 <%= gettext("Schedule") %>
               </.tab>
@@ -59,7 +59,7 @@
             </ul>
           <% end %>
         <% else %>
-          <.schedule schedule={@schedule} />
+          <.schedule schedule={@schedule_default} current_user={@current_user} />
         <% end %>
       </article>
     </main>
@@ -71,7 +71,37 @@
     </section>
     <!-- Schedule -->
     <section aria-labelledby="schedule" class="pl-6 pr-4">
-      <.schedule schedule={@schedule} />
+      <div class="flex justify-between items-center pt-4">
+        <h1 class="text-xl font-bold text-gray-90">Schedule</h1>
+        <.dropdown
+          id="schedule-dropdown"
+          orientation={:down}
+          items={[
+            %{
+              name: gettext("All"),
+              phx_click: "show-schedule-default"
+            },
+            %{
+              name: gettext("My schedule"),
+              phx_click: "show-schedule-user"
+            }
+          ]}
+        >
+          <:wrapper>
+            <.button color={:white} size={:xs} class="flex space-x-1 items-center">
+              <span>
+                <%= gettext("All") %>
+              </span>
+              <.icon name="hero-chevron-down" class="size-4" />
+            </.button>
+          </:wrapper>
+        </.dropdown>
+      </div>
+      <%= if @schedule == :user do %>
+        <.schedule schedule={@schedule_user} current_user={@current_user} />
+      <% else %>
+        <.schedule schedule={@schedule_default} current_user={@current_user} />
+      <% end %>
     </section>
   </div>
 </div>
