@@ -191,9 +191,9 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp user_image(user) do
     if user.profile_picture do
-      Atomic.Uploaders.ProfilePicture.url({user, user.profile_picture}, :original)
+      Atomic.Uploaders.ProfilePicture.url({user.profile_picture, user}, :original)
     else
-      ""
+      nil
     end
   end
 

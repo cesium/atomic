@@ -15,7 +15,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <!-- Section for profile picture upload -->
           <div class="flex flex-col items-center pr-4">
-            <%= if @user.profile_picture != NULL  do %>
+            <%= if @user.profile_picture != nil  do %>
               <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
               <div class="mb-4 border-4">
                 <.avatar name={@user.name} color={:light_gray} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
@@ -28,10 +28,11 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
           </div>
           <div class="flex flex-col gap-6">
             <!-- Name, phone number, email fields -->
-            <div class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 gap-2">
               <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
               <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
               <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
+              <.field field={f[:slug]} type="text" placeholder="User Name" class="w-full" />
             </div>
             <!-- Social media fields positioned below name, phone, and email -->
             <div class="grid w-full gap-x-4 gap-y-4 sm:grid-cols-1 md:grid-cols-4">
@@ -106,7 +107,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:success, flash_text)
-         |> push_navigate(to: ~p"/profile/#{user_params["slug"]}")}
+         |> push_navigate(to: ~p"/profile/#{user_params["slug"] || user.slug}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

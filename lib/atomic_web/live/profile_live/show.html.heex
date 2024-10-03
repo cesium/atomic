@@ -83,19 +83,8 @@
             </div>
           <% end %>
         </div>
-        <!-- Edit Button for Current User -->
-        <%= if @is_current_user do %>
-          <div class="mt-4 flex justify-start">
-            <.button patch={Routes.profile_edit_path(@socket, :edit, @user)}>
-              <%= gettext("Edit") %>
-            </.button>
-          </div>
-        <% end %>
       </div>
     </div>
-    <!-- Divider -->
-    <div class="py-6 mb-2 border-b border-zinc-200"></div>
-
     <%= if @is_current_user do %>
       <div class="w-24 flex justify-end">
         <.button patch={~p"/profile/#{@user}/edit"}>
