@@ -30,7 +30,7 @@ defmodule Atomic.Uploader do
       end
 
       def max_size do
-        Keyword.get(unquote(opts), :max_size, 500 )
+        Keyword.get(unquote(opts), :max_size, 500)
       end
     end
   end
