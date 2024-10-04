@@ -6,6 +6,7 @@ defmodule AtomicWeb.Components.ImageUploader do
     @target - the target to send the event to
     @width - the width of the uploader area
     @height - the height of the uploader area
+    @id - a unique identifier for this uploader instance
 
   The component events the parent component should define are:
     cancel-image - cancels the upload of an image. This event should be defined in the component that you passed in the @target attribute.
@@ -13,15 +14,17 @@ defmodule AtomicWeb.Components.ImageUploader do
   use AtomicWeb, :live_component
 
   def render(assigns) do
+    unique_ref = assigns.id <> "_upload"  # Generate a unique reference using the passed id
+
     ~H"""
     <div>
       <div class="shrink-0 1.5xl:shrink-0">
         <.live_file_input upload={@uploads.image} class="hidden" />
         <div class={
-            "#{if length(@uploads.image.entries) != 0 do
+          "#{if length(@uploads.image.entries) != 0 do
               "hidden"
             end} #{@class} border-2 border-gray-300 border-dashed rounded-md"
-          } phx-drop-target={@uploads.image.ref}>
+          } phx-drop-target={unique_ref}>
           <div class="flex h-full items-center justify-center px-6">
             <div class="flex flex-col items-center justify-center space-y-1">
               <svg class="size-12 mx-auto text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -29,7 +32,7 @@ defmodule AtomicWeb.Components.ImageUploader do
               </svg>
               <div class="flex flex-col items-center text-sm text-gray-600">
                 <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-orange-500 hover:text-red-800">
-                  <a onclick={"document.getElementById('#{@uploads.image.ref}').click()"}>Upload a file</a>
+                  <a onclick={"document.getElementById('#{unique_ref}').click()"}>Upload a file</a>
                 </label>
                 <p class="pl-1">or drag and drop</p>
               </div>
@@ -48,9 +51,9 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <div class="flex">
                   <figcaption>
                     <%= if String.length(entry.client_name) < 30 do %>
-                      <% entry.client_name %>
+                      <%= entry.client_name %>
                     <% else %>
-                      <% String.slice(entry.client_name, 0..30) <> "... " %>
+                      <%= String.slice(entry.client_name, 0..30) <> "... " %>
                     <% end %>
                   </figcaption>
                   <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
