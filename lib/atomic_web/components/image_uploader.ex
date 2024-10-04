@@ -14,7 +14,8 @@ defmodule AtomicWeb.Components.ImageUploader do
   use AtomicWeb, :live_component
 
   def render(assigns) do
-    unique_ref = assigns.id <> "_upload"  # Generate a unique reference using the passed id
+    # Generate a unique reference using the passed id
+    unique_ref = assigns.id <> "_upload"
 
     ~H"""
     <div>
