@@ -21,30 +21,30 @@ defmodule AtomicWeb.Components.ImageUploader do
     <div>
       <div class="shrink-0 1.5xl:shrink-0">
         <.live_file_input upload={@uploads[@upload_name]} class="hidden" id={unique_ref <> "_file"} />
-          <section>
-            <%= for entry <- @uploads[@upload_name].entries do %>
-              <%= for err <- upload_errors(@uploads[@upload_name], entry) do %>
-                <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
-              <% end %>
-              <article class="upload-entry">
-                <figure class="w-[400px]">
-                  <.live_img_preview entry={entry} />
-                  <div class="flex">
-                    <figcaption>
-                      <%= if String.length(entry.client_name) < 30 do %>
-                        <%= entry.client_name %>
-                      <% else %>
-                        <%= String.slice(entry.client_name, 0..30) <> "... " %>
-                      <% end %>
-                    </figcaption>
-                    <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
-                      <.icon name="hero-x-mark-solid" class="size-5 text-gray-400" />
-                    </button>
-                  </div>
-                </figure>
-              </article>
+        <section>
+          <%= for entry <- @uploads[@upload_name].entries do %>
+            <%= for err <- upload_errors(@uploads[@upload_name], entry) do %>
+              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
             <% end %>
-          </section>
+            <article class="upload-entry">
+              <figure class="w-[400px]">
+                <.live_img_preview entry={entry} />
+                <div class="flex">
+                  <figcaption>
+                    <%= if String.length(entry.client_name) < 30 do %>
+                      <%= entry.client_name %>
+                    <% else %>
+                      <%= String.slice(entry.client_name, 0..30) <> "... " %>
+                    <% end %>
+                  </figcaption>
+                  <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
+                    <.icon name="hero-x-mark-solid" class="size-5 text-gray-400" />
+                  </button>
+                </div>
+              </figure>
+            </article>
+          <% end %>
+        </section>
       </div>
     </div>
     """
