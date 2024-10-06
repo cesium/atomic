@@ -1,18 +1,16 @@
 defmodule AtomicWeb.Components.ImageUploader do
   @moduledoc """
   An image uploader component that allows you to upload an image.
-  The component attributes are:
-    @uploads - the uploads object
-    @target - the target to send the event to
-    @width - the width of the uploader area
-    @height - the height of the uploader area
-
-  The component events the parent component should define are:
-    cancel-image - cancels the upload of an image. This event should be defined in the component that you passed in the @target attribute.
   """
+
   use AtomicWeb, :live_component
+  import Atomic.Uploader
 
   def render(assigns) do
+    max_size = Atomic.Uploader.max_size()
+
+    assigns = Map.put(assigns, :max_size, max_size)
+
     ~H"""
     <div>
       <div class="shrink-0 1.5xl:shrink-0">
@@ -33,7 +31,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                 </label>
                 <p class="pl-1">or drag and drop</p>
               </div>
-              <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+              <p class="text-xs text-gray-500">PNG, JPG, GIF up to <%= @max_size %>KB</p>
             </div>
           </div>
         </div>
@@ -48,9 +46,9 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <div class="flex">
                   <figcaption>
                     <%= if String.length(entry.client_name) < 30 do %>
-                      <% entry.client_name %>
+                      <%= entry.client_name %>
                     <% else %>
-                      <% String.slice(entry.client_name, 0..30) <> "... " %>
+                      <%= String.slice(entry.client_name, 0..30) <> "... " %>
                     <% end %>
                   </figcaption>
                   <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">

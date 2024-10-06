@@ -2,6 +2,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Accounts
+  alias AtomicWeb.Components.ImageUploader
 
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 
@@ -9,8 +10,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:picture_1, accept: @extensions_whitelist, max_entries: 1)
-     |> allow_upload(:picture_2, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:picture, accept: @extensions_whitelist, max_entries: 1)}
   end
 
   @impl true
