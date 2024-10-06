@@ -9,7 +9,8 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:picture, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:picture_1, accept: @extensions_whitelist, max_entries: 1)
+     |> allow_upload(:picture_2, accept: @extensions_whitelist, max_entries: 1)}
   end
 
   @impl true
@@ -68,21 +69,26 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   defp consume_image_data(socket, user) do
-    consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
+    consume_uploaded_entries(socket, :picture_1, fn %{path: path}, entry ->
       Accounts.update_user(user, %{
-        "image" => %Plug.Upload{
+        "image_1" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
           path: path
         }
       })
     end)
-    |> case do
-      [{:ok, user}] ->
-        {:ok, user}
 
-      _errors ->
-        {:ok, user}
-    end
+    consume_uploaded_entries(socket, :picture_2, fn %{path: path}, entry ->
+      Accounts.update_user(user, %{
+        "image_2" => %Plug.Upload{
+          content_type: entry.client_type,
+          filename: entry.client_name,
+          path: path
+        }
+      })
+    end)
+
+    {:ok, user}
   end
 end

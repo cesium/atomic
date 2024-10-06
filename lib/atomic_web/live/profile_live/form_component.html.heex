@@ -47,10 +47,11 @@
           <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></div>
         </div>
       </div>
-      <.live_file_input upload={@uploads.picture} class="hidden" />
-      <a onclick={"document.getElementById('#{@uploads.picture.ref}').click()"}>
+      <.live_component module={AtomicWeb.Components.ImageUploader} id="uploader_1" uploads={@uploads} upload_name={:picture_1} target={@myself} />
+      <!-- se tirar o <a> o codigo funciona mas não faz upload -->
+      <a onclick={"document.getElementById('#{@uploads[@upload_name].ref}').click()"}>
         <div class={
-          "#{if length(@uploads.picture.entries) != 0 do
+          "#{if length(@uploads.picture_1.entries) != 0 do
             "hidden"
           end} relative w-40 h-40 ring-2 ring-zinc-300 rounded-full cursor-pointer bg-zinc-400 sm:w-48 group sm:h-48 hover:bg-tertiary"
         }>
@@ -59,8 +60,36 @@
           </div>
         </div>
         <section>
-          <%= for entry <- @uploads.picture.entries do %>
-            <%= for err <- upload_errors(@uploads.picture, entry) do %>
+          <%= for entry <- @uploads.picture_1.entries do %>
+            <%= for err <- upload_errors(@uploads.picture_1, entry) do %>
+              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+            <% end %>
+            <article class="flex relative items-center w-40 h-40 sm:w-48 sm:h-48 bg-white rounded-full cursor-pointer upload-entry group">
+              <div class="flex absolute z-10 justify-center items-center w-full h-full rounded-full">
+                <.icon name="hero-camera" class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white text-opacity-0 rounded-full group-hover:text-opacity-100" />
+              </div>
+              <figure class="flex justify-center items-center w-full h-full rounded-full group-hover:opacity-80">
+                <.live_img_preview entry={entry} class="object-cover object-center rounded-full w-40 h-40 sm:w-48 sm:h-48 border-4 border-white" />
+              </figure>
+            </article>
+          <% end %>
+        </section>
+      </a>
+      <.live_component module={AtomicWeb.Components.ImageUploader} id="uploader_2" uploads={@uploads} upload_name={:picture_2} target={@myself} />
+      <!-- se tirar o <a> o codigo funciona mas não faz upload -->
+      <a onclick={"document.getElementById('#{@uploads[@upload_name].ref}').click()"}>
+        <div class={
+          "#{if length(@uploads.picture_2.entries) != 0 do
+            "hidden"
+          end} relative w-40 h-40 ring-2 ring-zinc-300 rounded-full cursor-pointer bg-zinc-400 sm:w-48 group sm:h-48 hover:bg-tertiary"
+        }>
+          <div class="flex absolute justify-center items-center w-full h-full">
+            <.icon name="hero-camera" class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white group-hover:text-opacity-70" />
+          </div>
+        </div>
+        <section>
+          <%= for entry <- @uploads.picture_2.entries do %>
+            <%= for err <- upload_errors(@uploads.picture_2, entry) do %>
               <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
             <% end %>
             <article class="flex relative items-center w-40 h-40 sm:w-48 sm:h-48 bg-white rounded-full cursor-pointer upload-entry group">
