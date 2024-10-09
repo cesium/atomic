@@ -4,15 +4,10 @@ defmodule AtomicWeb.Components.ImageUploader do
   """
 
   use AtomicWeb, :live_component
-  import Atomic.Uploader
 
   def render(assigns) do
-    max_size = Atomic.Uploader.max_size()
-
-    assigns = Map.put(assigns, :max_size, max_size)
-
     ~H"""
-    <div>
+    <div id={@id}>
       <div class="shrink-0 1.5xl:shrink-0">
         <.live_file_input upload={@uploads.image} class="hidden" />
         <div class={
@@ -31,7 +26,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                 </label>
                 <p class="pl-1">or drag and drop</p>
               </div>
-              <p class="text-xs text-gray-500">PNG, JPG, GIF up to <%= @max_size %>KB</p>
+              <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10KB</p>
             </div>
           </div>
         </div>

@@ -47,33 +47,9 @@
           <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></div>
         </div>
       </div>
-      <.live_file_input upload={@uploads.picture} class="hidden" />
-      <a onclick={"document.getElementById('#{@uploads.picture.ref}').click()"}>
-        <div class={
-          "#{if length(@uploads.picture.entries) != 0 do
-            "hidden"
-          end} relative w-40 h-40 ring-2 ring-zinc-300 rounded-full cursor-pointer bg-zinc-400 sm:w-48 group sm:h-48 hover:bg-tertiary"
-        }>
-          <div class="flex absolute justify-center items-center w-full h-full">
-            <.icon name="hero-camera" class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white group-hover:text-opacity-70" />
-          </div>
-        </div>
-        <section>
-          <%= for entry <- @uploads.picture.entries do %>
-            <%= for err <- upload_errors(@uploads.picture, entry) do %>
-              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
-            <% end %>
-            <article class="flex relative items-center w-40 h-40 sm:w-48 sm:h-48 bg-white rounded-full cursor-pointer upload-entry group">
-              <div class="flex absolute z-10 justify-center items-center w-full h-full rounded-full">
-                <.icon name="hero-camera" class="mx-auto w-12 h-12 sm:w-20 sm:h-20 text-white text-opacity-0 rounded-full group-hover:text-opacity-100" />
-              </div>
-              <figure class="flex justify-center items-center w-full h-full rounded-full group-hover:opacity-80">
-                <.live_img_preview entry={entry} class="object-cover object-center rounded-full w-40 h-40 sm:w-48 sm:h-48 border-4 border-white" />
-              </figure>
-            </article>
-          <% end %>
-        </section>
-      </a>
+      <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
+      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="1" />
+      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="2"/>
     </div>
     <div class="w-full flex flex-row-reverse mt-8">
       <%= submit do %>

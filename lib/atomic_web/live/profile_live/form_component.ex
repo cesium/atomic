@@ -10,7 +10,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:picture, accept: @extensions_whitelist, max_entries: 1)}
+     |> allow_upload(:image, accept: @extensions_whitelist, max_entries: 1)}
   end
 
   @impl true
