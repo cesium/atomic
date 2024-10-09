@@ -27,7 +27,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <p class="pl-1">or drag and drop</p>
               </div>
               <p class="text-xs text-gray-500">PNG, JPG, GIF up to <%= @size_file %></p>
-              </div>
+            </div>
           </div>
         </div>
         <section>
