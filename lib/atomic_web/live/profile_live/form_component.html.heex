@@ -48,8 +48,8 @@
         </div>
       </div>
       <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="1" />
-      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="2"/>
+      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="1" size_file="10KB"/>
+      <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} class="h-100px w-100px" id="2" size_file="100KB"/>
     </div>
     <div class="w-full flex flex-row-reverse mt-8">
       <%= submit do %>
