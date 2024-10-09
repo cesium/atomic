@@ -21,7 +21,7 @@
             </h1>
           </div>
           <%= if @partner.location do %>
-            <!-- Localização -->
+            <!-- Location -->
             <div class="flex flex-row items-center gap-x-1 text-md leading-6">
               <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
               <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>
@@ -31,7 +31,7 @@
           <% end %>
 
           <%= if @partner.socials do %>
-            <!-- Redes Sociais e Website -->
+            <!-- Socials and Website -->
             <div class="flex flex-wrap gap-x-4 items-center mt-2">
               <!-- Website -->
               <%= if @partner.socials.website do %>
@@ -40,8 +40,10 @@
                   <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
                 </div>
               <% end %>
-              <!-- Redes Sociais -->
-              <.socials entity={@partner} />
+              <!-- Socials -->
+              <%= if @partner.socials do %>
+                <.socials entity={@partner.socials} />
+              <% end %>
             </div>
           <% end %>
         </div>

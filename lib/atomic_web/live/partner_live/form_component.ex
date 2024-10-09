@@ -20,11 +20,12 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
               <.field field={location_form[:name]} label="Address" type="text" placeholder="Address" help_text={gettext("Address of the partner")} required />
             </.inputs_for>
             <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Socials") %></h2>
-            <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
+            <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-5 lg:grid-cols-5">
               <.inputs_for :let={socials_form} field={f[:socials]}>
                 <.field field={socials_form[:instagram]} type="text" class="w-full" />
                 <.field field={socials_form[:facebook]} type="text" class="w-full" />
                 <.field field={socials_form[:x]} type="text" class="w-full" />
+                <.field field={socials_form[:tiktok]} type="text" class="w-full" />
                 <.field field={socials_form[:website]} type="text" class="w-full" />
               </.inputs_for>
             </div>
