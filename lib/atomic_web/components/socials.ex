@@ -3,6 +3,7 @@ defmodule AtomicWeb.Components.Socials do
   use Phoenix.Component
 
   attr :socials, :map, required: true
+  attr :entity, :map, required: true
 
   def socials(assigns) do
     ~H"""
