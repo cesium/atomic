@@ -101,4 +101,10 @@ defmodule AtomicWeb.Components.Helpers do
     |> maybe_put(:order_by, order_by)
     |> maybe_put(:order_directions, order_directions)
   end
+
+  def atom_to_string_capitalize(atom) when is_atom(atom) do
+    atom
+    |> Atom.to_string()
+    |> String.capitalize()
+  end
 end
