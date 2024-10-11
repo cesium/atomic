@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Helpers do
       ...>     %Flop.Filter{field: :age, op: :>, value: 25}
       ...>   ]
       ...> }
-      ...>
+      ...> 
       ...> to_query(f)
       [
         filters: %{
