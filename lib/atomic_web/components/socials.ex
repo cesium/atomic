@@ -2,14 +2,14 @@ defmodule AtomicWeb.Components.Socials do
   @moduledoc false
   use Phoenix.Component
 
-  attr :socials, :map, required: true
   attr :entity, :map, required: true
 
   def socials(assigns) do
+    assigns = assign(assigns, :socials_with_values, get_social_values(assigns.entity))
+
     ~H"""
     <div class="mt-4 flex gap-4">
-      <%= for {social, icon, url_base} <- get_socials() do %>
-        <% social_value = Map.get(@entity, social) %>
+      <%= for {social, icon, url_base, social_value} <- @socials_with_values do %>
         <%= if social_value do %>
           <div class="flex flex-row items-center gap-x-1">
             <img src={"/images/" <> icon} class="h-5 w-5" alt={social |> Atom.to_string() |> String.capitalize()} />
@@ -21,6 +21,14 @@ defmodule AtomicWeb.Components.Socials do
       <% end %>
     </div>
     """
+  end
+
+  defp get_social_values(entity) do
+    get_socials()
+    |> Enum.map(fn {social, icon, url_base} ->
+      social_value = Map.get(entity, social)
+      {social, icon, url_base, social_value}
+    end)
   end
 
   def get_socials do
