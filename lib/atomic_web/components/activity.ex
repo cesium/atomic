@@ -51,11 +51,8 @@ defmodule AtomicWeb.Components.Activity do
               <span class="sr-only">starting in</span>
             </span>
           </span>
-          <span class={[
-            "inline-flex items-center text-sm",
-            color_class(@activity.enrolled, @activity.maximum_entries)
-          ]}>
-            <span class="inline-flex space-x-2">
+          <span class="inline-flex items-center text-sm">
+            <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-user-group-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
               <span class="sr-only text-zinc-400">enrollments</span>
@@ -81,11 +78,4 @@ defmodule AtomicWeb.Components.Activity do
       "mt-2"
     end
   end
-
-  defp color_class(enrolled, maximum_entries) when enrolled == maximum_entries, do: "text-red-500"
-
-  defp color_class(enrolled, maximum_entries) when enrolled > div(maximum_entries, 2),
-    do: "text-amber-300"
-
-  defp color_class(_, _), do: "text-green-500"
 end

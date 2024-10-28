@@ -102,9 +102,9 @@
         </.dropdown>
       </div>
       <%= if @schedule == :user do %>
-        <.schedule schedule={@schedule_user} current_user={@current_user} />
+        <.schedule schedule={@schedule_user} current_user={@current_user} tab="user" />
       <% else %>
-        <.schedule schedule={@schedule_default} current_user={@current_user} />
+        <.schedule schedule={@schedule_default} current_user={@current_user} tab="all" />
       <% end %>
     </section>
   </div>

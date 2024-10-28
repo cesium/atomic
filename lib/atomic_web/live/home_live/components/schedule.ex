@@ -5,15 +5,14 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
 
   attr :schedule, :map, required: true, doc: "The schedule to display."
   attr :current_user, :map, required: true, doc: "The current user."
+  attr :tab, :string, default: "all", values: ["all", "user"], doc: "The tab active."
 
   def schedule(assigns) do
     ~H"""
     <div class="overflow-hidden">
       <%= if length(@schedule.daily) == 0 && length(@schedule.weekly) == 0 do %>
-        <div class="px-4 pt-4 pb-2 sm:px-0">
-          <p class="text-center text-zinc-400">
-            No activities scheduled.
-          </p>
+        <div class="space-y-4 px-4 pt-4 pb-2 text-center text-zinc-400 sm:px-0">
+          <%= show_empty(assigns) %>
         </div>
       <% end %>
       <div :if={length(@schedule.daily) != 0} class="border-b border-gray-200 px-4 pt-4 pb-2 sm:px-0">
@@ -108,4 +107,35 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
 
   defp check_enrolled(_entry, nil), do: false
   defp check_enrolled(entry, user), do: Activities.participating?(entry.id, user.id)
+
+  defp show_empty(assigns) when assigns.tab == "user" do
+    ~H"""
+    <%= if @current_user do %>
+      <p>
+        <%= gettext("Nothing to do in the next week.") %>
+      </p>
+      <p>
+        <%= gettext("Try enrolling in some activities.") %>
+      </p>
+      <.button patch={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color={:white} size={:xs} icon="hero-academic-cap">
+        <%= gettext("Browse activities") %>
+      </.button>
+    <% else %>
+      <p>
+        <%= gettext("You need to be loged in to see your schedule.") %>
+      </p>
+      <.button patch={Routes.user_session_path(AtomicWeb.Endpoint, :new)} icon="hero-arrow-right-end-on-rectangle-solid" color={:white} icon_position={:right} size={:xs}>
+        <%= gettext("Sign in") %>
+      </.button>
+    <% end %>
+    """
+  end
+
+  defp show_empty(assigns) when assigns.tab == "all" do
+    ~H"""
+    <p>
+      <%= gettext("No activities scheduled to the next week.") %>
+    </p>
+    """
+  end
 end
