@@ -3,7 +3,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
 
   describe "GET /users/register" do
     test "renders registration page", %{conn: conn} do
-      conn = get(conn, Routes.user_registration_path(conn, :new))
+      conn = get(conn, ~p"/users/register")
       response = html_response(conn, 200)
       assert response =~ "<span>Register</span>"
       assert response =~ "Login</a>"
@@ -11,7 +11,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
     end
 
     test "redirects if already logged in", %{conn: conn} do
-      conn = conn |> log_in_user(insert(:user)) |> get(Routes.user_registration_path(conn, :new))
+      conn = conn |> log_in_user(insert(:user)) |> get(~p"/users/register")
       assert redirected_to(conn) == "/"
     end
   end
@@ -27,7 +27,7 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
       }
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
+        post(conn, ~p"/users/register", %{
           "user" => user_attrs
         })
 

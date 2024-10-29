@@ -16,37 +16,45 @@ defmodule AtomicWeb.Storybook.Components.Icon do
   def variations do
     [
       %Variation{
-        id: :default,
+        id: :hero_outline,
+        description: "Heroicon outline",
         attributes: %{
           name: "hero-academic-cap"
         }
       },
       %Variation{
-        id: :outline,
-        description: "Outline",
-        attributes: %{
-          name: "hero-academic-cap"
-        }
-      },
-      %Variation{
-        id: :solid,
-        description: "Solid",
+        id: :hero_solid,
+        description: "Heroicon solid",
         attributes: %{
           name: "hero-academic-cap-solid"
         }
       },
       %Variation{
-        id: :mini,
-        description: "Mini",
+        id: :hero_mini,
+        description: "Heroicon mini",
         attributes: %{
           name: "hero-academic-cap-mini"
         }
       },
       %Variation{
-        id: :micro,
-        description: "Micro",
+        id: :hero_micro,
+        description: "Heroicon micro",
         attributes: %{
           name: "hero-academic-cap-micro"
+        }
+      },
+      %Variation{
+        id: :tabler_outline,
+        description: "Tabler outline",
+        attributes: %{
+          name: "tabler-affiliate"
+        }
+      },
+      %Variation{
+        id: :tabler_filled,
+        description: "Tabler filled",
+        attributes: %{
+          name: "tabler-affiliate-filled"
         }
       }
     ]
