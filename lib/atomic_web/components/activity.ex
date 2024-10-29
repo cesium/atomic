@@ -33,7 +33,7 @@ defmodule AtomicWeb.Components.Activity do
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @activity.title %></h2>
       <div class="text-justify text-sm text-gray-700">
-        <p><%= @activity.description %></p>
+        <p><%= maybe_slice_string(@activity.description, 300) %></p>
       </div>
       <!-- Image -->
       <%= if @activity.image do %>

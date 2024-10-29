@@ -123,7 +123,7 @@ defmodule AtomicWeb.HomeLive.Index do
     %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}
   end
 
-  defp fetch_default_schedule() do
+  defp fetch_default_schedule do
     {daily, weekly} =
       Activities.list_activities(preloads: [:organization], order_by: [desc: :start])
       |> Enum.reduce({[], []}, &process_activity/2)
