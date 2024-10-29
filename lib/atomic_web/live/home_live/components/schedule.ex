@@ -43,13 +43,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
               <%= if check_enrolled(entry, @current_user) do %>
                 <div class="flex justify-between pt-2">
                   <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
-                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
                     <%= entry.organization.name %>
                   </.link>
                 </div>
               <% else %>
                 <div class="pt-2 text-right">
-                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
                     <%= entry.organization.name %>
                   </.link>
                 </div>
@@ -86,13 +86,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
               <%= if check_enrolled(entry, @current_user) do %>
                 <div class="flex justify-between pt-2">
                   <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
-                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
                     <%= entry.organization.name %>
                   </.link>
                 </div>
               <% else %>
                 <div class="pt-2 text-right">
-                  <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, entry.organization.id)} class="text-xs text-zinc-400 hover:underline">
+                  <.link navigate={~p"/organizations/#{entry.organization.id}"} class="text-xs text-zinc-400 hover:underline">
                     <%= entry.organization.name %>
                   </.link>
                 </div>
@@ -117,15 +117,15 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
       <p>
         <%= gettext("Try enrolling in some activities.") %>
       </p>
-      <.button patch={Routes.activity_index_path(AtomicWeb.Endpoint, :index)} color={:white} size={:xs} icon="hero-academic-cap">
+      <.button patch={~p"/activities"} color={:white} size={:xs} icon="hero-academic-cap">
         <%= gettext("Browse activities") %>
       </.button>
     <% else %>
       <p>
-        <%= gettext("You need to be loged in to see your schedule.") %>
+        <%= gettext("You need to be logged in to see your schedule.") %>
       </p>
-      <.button patch={Routes.user_session_path(AtomicWeb.Endpoint, :new)} icon="hero-arrow-right-end-on-rectangle-solid" color={:white} icon_position={:right} size={:xs}>
-        <%= gettext("Sign in") %>
+      <.button patch={~p"/users/log_in"} icon="hero-arrow-right-end-on-rectangle-solid" color={:white} icon_position={:right} size={:xs}>
+        <%= gettext("Log In") %>
       </.button>
     <% end %>
     """

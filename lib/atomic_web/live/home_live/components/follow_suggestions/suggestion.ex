@@ -57,7 +57,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
     {:noreply,
      socket
      |> put_flash(:info, "You must be logged in to follow organizations")
-     |> redirect(to: Routes.user_session_path(AtomicWeb.Endpoint, :new))}
+     |> redirect(to: ~p"/users/log_in")}
   end
 
   @impl true

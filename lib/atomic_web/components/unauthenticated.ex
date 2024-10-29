@@ -12,10 +12,10 @@ defmodule AtomicWeb.Components.Unauthenticated do
     <div id={@id} class="text-center">
       <.icon name="hero-user-circle" class="mx-auto h-12 w-12 text-zinc-400" />
       <h3 class="mt-2 text-sm font-semibold text-zinc-900">You are not authenticated</h3>
-      <p class="mt-1 text-sm text-zinc-500">Please sign in to view this content.</p>
+      <p class="mt-1 text-sm text-zinc-500">Please log in to view this content.</p>
       <div class="mt-4 flex justify-center">
-        <.button patch={Routes.user_session_path(AtomicWeb.Endpoint, :new)} icon="hero-arrow-right-end-on-rectangle-solid" icon_position={:right} class="w-fit">
-          <%= gettext("Sign in") %>
+        <.button patch={~p"/users/log_in"} icon="hero-arrow-right-end-on-rectangle-solid" icon_position={:right} class="w-fit">
+          <%= gettext("Log In") %>
         </.button>
       </div>
     </div>
