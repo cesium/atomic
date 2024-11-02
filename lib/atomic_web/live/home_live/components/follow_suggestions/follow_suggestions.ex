@@ -15,7 +15,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   def follow_suggestions(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <p class="font-semibold leading-6 text-zinc-400">
+      <p class="text-gray-90 font-semibold leading-6">
         <%= title(@current_user) %>
       </p>
       <div class="flow-root">

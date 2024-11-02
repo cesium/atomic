@@ -74,6 +74,7 @@
       <div class="flex justify-between items-center pt-4">
         <h1 class="text-xl font-bold text-gray-90">Schedule</h1>
         <.dropdown
+          :if={@current_user}
           id="schedule-dropdown"
           orientation={:down}
           items={[

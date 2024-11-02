@@ -110,24 +110,15 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
 
   defp show_empty(assigns) when assigns.tab == "user" do
     ~H"""
-    <%= if @current_user do %>
-      <p>
-        <%= gettext("Nothing to do in the next week.") %>
-      </p>
-      <p>
-        <%= gettext("Try enrolling in some activities.") %>
-      </p>
-      <.button patch={~p"/activities"} color={:white} size={:xs} icon="hero-academic-cap">
-        <%= gettext("Browse activities") %>
-      </.button>
-    <% else %>
-      <p>
-        <%= gettext("You need to be logged in to see your schedule.") %>
-      </p>
-      <.button patch={~p"/users/log_in"} icon="hero-arrow-right-end-on-rectangle-solid" color={:white} icon_position={:right} size={:xs}>
-        <%= gettext("Log In") %>
-      </.button>
-    <% end %>
+    <p>
+      <%= gettext("Nothing to do in the next week.") %>
+    </p>
+    <p>
+      <%= gettext("Try enrolling in some activities.") %>
+    </p>
+    <.button patch={~p"/activities"} color={:white} size={:md} icon="hero-academic-cap">
+      <%= gettext("Browse activities") %>
+    </.button>
     """
   end
 
