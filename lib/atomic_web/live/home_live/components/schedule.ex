@@ -1,67 +1,132 @@
 defmodule AtomicWeb.HomeLive.Components.Schedule do
   @moduledoc false
   use AtomicWeb, :component
+  alias Atomic.Activities
 
   attr :schedule, :map, required: true, doc: "The schedule to display."
+  attr :current_user, :map, required: true, doc: "The current user."
+  attr :tab, :string, default: "all", values: ["all", "user"], doc: "The tab active."
 
   def schedule(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <div :if={length(@schedule.daily) != 0} class="px-4 pt-6 sm:px-0">
-        <p class="text-xl font-semibold text-gray-900">
+      <%= if length(@schedule.daily) == 0 && length(@schedule.weekly) == 0 do %>
+        <div class="space-y-4 px-4 pt-4 pb-2 text-center text-zinc-400 sm:px-0">
+          <%= show_empty(assigns) %>
+        </div>
+      <% end %>
+      <div :if={length(@schedule.daily) != 0} class="border-b border-gray-200 px-4 pt-4 pb-2 sm:px-0">
+        <p class="font-semibold text-zinc-400">
           Today
         </p>
         <div class="flow-root">
-          <ul role="list" class="divide-y divide-gray-200">
+          <ul role="list">
             <%= for entry <- @schedule.daily do %>
               <.link navigate={~p"/activities/#{entry}"}>
-                <li class="space-y-3 py-4">
-                  <p class="text-md font-semibold hover:underline">
-                    <%= entry.title %>
-                  </p>
-                  <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <.icon name="hero-clock-solid" class="size-4" />
-                    <p class="text-xs font-semibold">
-                      <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
+                <li class="space-y-3 pt-4">
+                  <div class="flex justify-between">
+                    <p class="text-md font-semibold hover:underline">
+                      <%= entry.title %>
                     </p>
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                      <.icon name="hero-clock-solid" class="size-4" />
+                      <p class="text-xs font-semibold">
+                        <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
+                      </p>
+                    </div>
                   </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= entry.description %>
+                    <%= maybe_slice_string(entry.description, 100) %>
                   </p>
                 </li>
               </.link>
+              <%= if check_enrolled(entry, @current_user) do %>
+                <div class="flex justify-between pt-2">
+                  <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% else %>
+                <div class="pt-2 text-right">
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% end %>
             <% end %>
           </ul>
         </div>
       </div>
-      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-3', else: 'pt-6'} px-4 sm:px-0"}>
-        <p class="text-xl font-semibold text-gray-900">
+      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-2', else: 'pt-4'} px-4 pb-2 sm:px-0"}>
+        <p class="font-semibold text-zinc-400">
           This week
         </p>
         <div class="flow-root">
-          <ul role="list" class="divide-y divide-gray-200">
+          <ul role="list">
             <%= for entry <- @schedule.weekly do %>
               <.link navigate={~p"/activities/#{entry}"}>
-                <li class="space-y-3 py-4">
-                  <p class="text-md font-semibold hover:underline">
-                    <%= entry.title %>
-                  </p>
-                  <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
-                    <.icon name="hero-clock-solid" class="size-4" />
-                    <p class="text-xs font-semibold">
-                      <%= pretty_display_date(entry.start) %>
+                <li class="space-y-3 pt-4">
+                  <div class="flex justify-between">
+                    <p class="text-md font-semibold hover:underline">
+                      <%= entry.title %>
                     </p>
+                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                      <.icon name="hero-calendar-solid" class="size-4" />
+                      <p class="text-xs font-semibold">
+                        <%= pretty_display_date(entry.start) %>
+                      </p>
+                    </div>
                   </div>
                   <p class="text-justify text-sm text-gray-700">
-                    <%= entry.description %>
+                    <%= maybe_slice_string(entry.description, 150) %>
                   </p>
                 </li>
               </.link>
+              <%= if check_enrolled(entry, @current_user) do %>
+                <div class="flex justify-between pt-2">
+                  <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
+                  <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% else %>
+                <div class="pt-2 text-right">
+                  <.link navigate={~p"/organizations/#{entry.organization.id}"} class="text-xs text-zinc-400 hover:underline">
+                    <%= entry.organization.name %>
+                  </.link>
+                </div>
+              <% end %>
             <% end %>
           </ul>
         </div>
       </div>
     </div>
+    """
+  end
+
+  defp check_enrolled(_entry, nil), do: false
+  defp check_enrolled(entry, user), do: Activities.participating?(entry.id, user.id)
+
+  defp show_empty(assigns) when assigns.tab == "user" do
+    ~H"""
+    <p>
+      <%= gettext("Nothing to do in the next week.") %>
+    </p>
+    <p>
+      <%= gettext("Try enrolling in some activities.") %>
+    </p>
+    <.button patch={~p"/activities"} color={:white} size={:md} icon="hero-academic-cap">
+      <%= gettext("Browse activities") %>
+    </.button>
+    """
+  end
+
+  defp show_empty(assigns) when assigns.tab == "all" do
+    ~H"""
+    <p>
+      <%= gettext("No activities scheduled to the next week.") %>
+    </p>
     """
   end
 end

@@ -33,12 +33,12 @@ defmodule AtomicWeb.Components.Activity do
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @activity.title %></h2>
       <div class="text-justify text-sm text-gray-700">
-        <p><%= @activity.description %></p>
+        <p><%= maybe_slice_string(@activity.description, 300) %></p>
       </div>
       <!-- Image -->
       <%= if @activity.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         </div>
       <% end %>
       <!-- Footer -->
@@ -46,8 +46,8 @@ defmodule AtomicWeb.Components.Activity do
         <div class="flex space-x-4">
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
-              <.icon name="hero-clock-solid" class="size-5" />
-              <span class="font-medium text-gray-900"><%= relative_datetime(@activity.start) %></span>
+              <.icon name="hero-calendar-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+              <span class="font-medium text-gray-900"><%= pretty_display_date(@activity.start) %></span>
               <span class="sr-only">starting in</span>
             </span>
           </span>
@@ -55,7 +55,7 @@ defmodule AtomicWeb.Components.Activity do
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-user-group-solid" class="size-5" />
               <span class="font-medium text-gray-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
-              <span class="sr-only">enrollments</span>
+              <span class="sr-only text-zinc-400">enrollments</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">

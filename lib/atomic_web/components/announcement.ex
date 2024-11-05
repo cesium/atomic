@@ -31,12 +31,12 @@ defmodule AtomicWeb.Components.Announcement do
       </div>
       <h2 class="mt-3 text-base font-semibold text-gray-900"><%= @announcement.title %></h2>
       <div class="space-y-4 text-justify text-sm text-gray-700">
-        <%= @announcement.description %>
+        <%= maybe_slice_string(@announcement.description, 300) %>
       </div>
       <!-- Image -->
       <%= if @announcement.image do %>
         <div class="mt-4">
-          <img class="max-w-screen rounded-md sm:max-w-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
+          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} />
         </div>
       <% end %>
     </div>
