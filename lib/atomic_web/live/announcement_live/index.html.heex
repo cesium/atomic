@@ -1,7 +1,7 @@
 <.page title="Announcements">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={~p"/announcements/new"}>
+      <.button navigate={~p"/organizations/#{@current_organization}/announcements/new"} icon="hero-plus">
         <%= gettext("New") %>
       </.button>
     <% end %>
@@ -23,14 +23,14 @@
   <!-- Announcements index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={~p"/announcements/new"} placeholder="announcement" />
+      <.empty_state url={~p"/organizations/#{@organization}/announcements/new"} placeholder="announcement" />
     </div>
   <% else %>
     <div class="overflow-hidden bg-white">
       <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
         <%= for announcement <- @announcements do %>
           <li id={announcement.id}>
-            <.link navigate={~p"/announcements/#{announcement}"} class="block hover:bg-zinc-50">
+            <.link navigate={~p"/organizations/#{@organization}/announcements/#{announcement}"} class="block hover:bg-zinc-50">
               <div class="px-4 py-4 lg:px-6">
                 <div class="flex items-center justify-between">
                   <p class="truncate text-sm font-medium text-zinc-900">
