@@ -502,7 +502,9 @@ defmodule Atomic.Organizations do
       iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{})
       {:ok, [%Announcement{}, ...]}
 
-      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{}, [some_option: true])
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{},
+      ...>   some_option: true
+      ...> )
       {:ok, [%Announcement{}, ...]}
 
   """
