@@ -1,7 +1,7 @@
 <.page title="Departments">
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button patch={Routes.department_edit_path(@socket, :new, @current_organization)} icon="hero-plus">
+      <.button patch={~p"/organizations/#{@current_organization}/departments/new"} icon="hero-plus">
         <%= gettext("New") %>
       </.button>
     <% end %>
@@ -9,12 +9,12 @@
   <!-- Departments index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={Routes.department_edit_path(@socket, :new, @current_organization)} placeholder="department" />
+      <.empty_state url={~p"/organizations/#{@current_organization}/departments/new"} placeholder="department" />
     </div>
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
       <%= for {department, collaborators} <- @departments do %>
-        <.link navigate={Routes.department_show_path(@socket, :show, @organization, department)}>
+        <.link navigate={~p"/organizations/#{@current_organization}/departments/#{department}"}>
           <.department_card department={department} collaborators={collaborators} />
         </.link>
       <% end %>

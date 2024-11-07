@@ -11,7 +11,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
 
   describe "GET /users/confirm" do
     test "renders the resend confirmation page", %{conn: conn} do
-      conn = get(conn, Routes.user_confirmation_path(conn, :new))
+      conn = get(conn, ~p"/users/confirm")
       response = html_response(conn, 200)
       assert response =~ "<h1>Resend confirmation instructions</h1>"
     end
@@ -21,7 +21,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
     @tag :capture_log
     test "sends a new confirmation token", %{conn: conn, user: user} do
       conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
+        post(conn, ~p"/users/confirm", %{
           "user" => %{"email" => user.email}
         })
 
@@ -34,7 +34,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
       Repo.update!(Accounts.User.confirm_changeset(user))
 
       conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
+        post(conn, ~p"/users/confirm", %{
           "user" => %{"email" => user.email}
         })
 
@@ -45,7 +45,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
 
     test "does not send confirmation token if email is invalid", %{conn: conn} do
       conn =
-        post(conn, Routes.user_confirmation_path(conn, :create), %{
+        post(conn, ~p"/users/confirm", %{
           "user" => %{"email" => "unknown@example.com"}
         })
 
@@ -62,7 +62,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
           Accounts.deliver_user_confirmation_instructions(user, url)
         end)
 
-      conn = get(conn, Routes.user_confirmation_path(conn, :edit, token))
+      conn = get(conn, ~p"/users/confirm/#{token}")
       assert redirected_to(conn) == "/users/log_in"
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "User confirmed successfully"
       assert Accounts.get_user!(user.id).confirmed_at
@@ -70,7 +70,7 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
       assert Repo.all(Accounts.UserToken) == []
 
       # When not logged in
-      conn = get(conn, Routes.user_confirmation_path(conn, :edit, token))
+      conn = get(conn, ~p"/users/confirm/#{token}")
       assert redirected_to(conn) == "/users/log_in"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
@@ -80,14 +80,14 @@ defmodule AtomicWeb.UserConfirmationControllerTest do
       conn =
         build_conn()
         |> log_in_user(user)
-        |> get(Routes.user_confirmation_path(conn, :edit, token))
+        |> get(~p"/users/confirm/#{token}")
 
       assert redirected_to(conn) == "/"
       refute Phoenix.Flash.get(conn.assigns.flash, :error)
     end
 
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
-      conn = get(conn, Routes.user_confirmation_path(conn, :edit, "oops"))
+      conn = get(conn, ~p"/users/confirm/oops")
       assert redirected_to(conn) == "/users/log_in"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) =~

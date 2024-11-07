@@ -2,7 +2,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <div class="lg:border-orange-500 lg:block">
-        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
+        <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
           <%= gettext("Edit Partner") %>
         </.button>
       </div>
@@ -92,7 +92,7 @@
             <div class="sm:grid sm:grid-cols-2 sm:gap-px">
               <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
                 <div class="rounded-lg group relative border border-zinc-200 bg-white p-4 hover:bg-zinc-50 m-2">
-                  <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
+                  <.link href={~p"/organizations/#{@organization}/partners/#{@partner}"}>
                     <div class="flex flex-row items-center space-x-2">
                       <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
                       <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>

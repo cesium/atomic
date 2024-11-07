@@ -59,9 +59,7 @@ defmodule AtomicWeb.DepartmentLive.Edit do
 
     {:noreply,
      socket
-     |> push_navigate(
-       to: Routes.department_index_path(socket, :index, socket.assigns.organization_id)
-     )
+     |> push_navigate(to: ~p"/organizations/#{socket.assigns.organization_id}/departments")
      |> put_flash(:info, gettext("Department archived successfully"))}
   end
 
@@ -71,9 +69,7 @@ defmodule AtomicWeb.DepartmentLive.Edit do
 
     {:noreply,
      socket
-     |> push_navigate(
-       to: Routes.department_index_path(socket, :index, socket.assigns.organization_id)
-     )
+     |> push_navigate(to: ~p"/organizations/#{socket.assigns.organization_id}/departments")
      |> put_flash(:info, gettext("Department unarchived successfully"))}
   end
 
@@ -83,9 +79,7 @@ defmodule AtomicWeb.DepartmentLive.Edit do
 
     {:noreply,
      socket
-     |> push_navigate(
-       to: Routes.department_index_path(socket, :index, socket.assigns.organization_id)
-     )
+     |> push_navigate(to: ~p"/organizations/#{socket.assigns.organization_id}/departments")
      |> put_flash(:info, gettext("Department deleted successfully"))}
   end
 

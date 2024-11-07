@@ -8,22 +8,22 @@ defmodule AtomicWeb.UserSettingsControllerTest do
 
   describe "GET /users/change_password" do
     test "renders change password page", %{conn: conn} do
-      conn = get(conn, Routes.user_change_password_path(conn, :edit))
+      conn = get(conn, ~p"/users/change_password")
       response = html_response(conn, 200)
       assert response =~ "<span>Change Password</span>"
     end
 
     test "redirects if user is not logged in" do
       conn = build_conn()
-      conn = get(conn, Routes.user_change_password_path(conn, :edit))
-      assert redirected_to(conn) == Routes.user_session_path(conn, :new)
+      conn = get(conn, ~p"/users/change_password")
+      assert redirected_to(conn) == ~p"/users/log_in"
     end
   end
 
   describe "PUT /users/change_password" do
     test "updates the user password and resets tokens", %{conn: conn, user: user} do
       new_password_conn =
-        put(conn, Routes.user_change_password_path(conn, :update), %{
+        put(conn, ~p"/users/change_password", %{
           "action" => "update_password",
           "user" => %{
             "current_password" => valid_user_password(),
@@ -32,7 +32,7 @@ defmodule AtomicWeb.UserSettingsControllerTest do
           }
         })
 
-      assert redirected_to(new_password_conn) == Routes.user_change_password_path(conn, :edit)
+      assert redirected_to(new_password_conn) == ~p"/users/change_password"
       assert get_session(new_password_conn, :user_token) != get_session(conn, :user_token)
 
       assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
@@ -43,7 +43,7 @@ defmodule AtomicWeb.UserSettingsControllerTest do
 
     test "does not update password on invalid data", %{conn: conn} do
       old_password_conn =
-        put(conn, Routes.user_change_password_path(conn, :update), %{
+        put(conn, ~p"/users/change_password", %{
           "action" => "update_password",
           "user" => %{
             "current_password" => "invalid",
