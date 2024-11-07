@@ -2,14 +2,13 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
   @moduledoc false
 
   import AtomicWeb.Components.Avatar
-  alias AtomicWeb.Router.Helpers, as: Routes
 
   use AtomicWeb, :component
 
   def announcement_card(assigns) do
     ~H"""
     <div class="flex flex-col justify-center rounded-lg bg-white lg:p-4">
-      <.link navigate={Routes.announcement_show_path(AtomicWeb.Endpoint, :show, @announcement)}>
+      <.link navigate={~p"/organizations/#{@organization}/announcements/#{@announcement}"} class="block">
         <div class="flex items-center space-x-2 p-4">
           <div class="flex-shrink-0">
             <.avatar name={@announcement.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />

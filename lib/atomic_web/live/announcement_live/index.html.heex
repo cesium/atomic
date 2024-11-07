@@ -30,18 +30,7 @@
       <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
         <%= for announcement <- @announcements do %>
           <li id={announcement.id}>
-            <.link navigate={~p"/organizations/#{@organization}/announcements/#{announcement}"} class="block hover:bg-zinc-50">
-              <div class="px-4 py-4 lg:px-6">
-                <div class="flex items-center justify-between">
-                  <p class="truncate text-sm font-medium text-zinc-900">
-                    <%= announcement.title %>
-                  </p>
-                </div>
-                <p class="mt-2 text-sm text-zinc-500">
-                  <%= announcement.description %>
-                </p>
-              </div>
-            </.link>
+            <.announcement_card announcement={announcement} organization={@organization} />
           </li>
         <% end %>
       </ul>
