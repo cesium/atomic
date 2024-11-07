@@ -5,6 +5,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
 
   alias Atomic.Accounts
   alias Atomic.Organizations
+  alias AtomicWeb.Router.Helpers, as: Routes
 
   @impl true
   def mount(_params, _session, socket) do

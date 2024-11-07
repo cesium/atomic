@@ -2,6 +2,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
   @moduledoc false
 
   import AtomicWeb.Components.Avatar
+  alias AtomicWeb.Router.Helpers, as: Routes
 
   use AtomicWeb, :component
 
