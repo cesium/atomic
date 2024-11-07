@@ -20,27 +20,17 @@ defmodule AtomicWeb.AnnouncementLive.Index do
      socket
      |> assign(:page_title, gettext("Announcements"))
      |> assign(:current_page, :announcements)
-     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
      |> assign(:params, params)
      |> assign(:has_permissions?, has_permissions?(socket))
-     |> assign(list_announcements(socket, params))
+     |> assign(list_announcements_by_organization(socket, params, organization_id))
      |> then(fn complete_socket ->
        assign(complete_socket, :empty?, Enum.empty?(complete_socket.assigns.announcements))
      end)}
   end
 
-  defp list_announcements(socket, params) do
-    params = Map.put(params, "page_size", 6)
-
-    case current_tab(socket, params) do
-      "all" -> list_all_announcements(socket, params)
-      "following" -> list_following_announcements(socket, params)
-    end
-  end
-
-  defp list_all_announcements(_socket, params) do
-    case Organizations.list_announcements(params, preloads: [:organization]) do
+  defp list_announcements_by_organization(_socket, params, organization_id) do
+    case Organizations.list_announcements_by_organization_id(organization_id, params, preloads: [:organization]) do
       {:ok, {announcements, meta}} ->
         %{announcements: announcements, meta: meta}
 
@@ -48,24 +38,6 @@ defmodule AtomicWeb.AnnouncementLive.Index do
         %{announcements: [], meta: flop}
     end
   end
-
-  defp list_following_announcements(socket, params) do
-    organizations =
-      Organizations.list_organizations_followed_by_user(socket.assigns.current_user.id)
-
-    case Organizations.list_organizations_announcements(organizations, params,
-           preloads: [:organization]
-         ) do
-      {:ok, {announcements, meta}} ->
-        %{announcements: announcements, meta: meta}
-
-      {:error, flop} ->
-        %{announcements: [], meta: flop}
-    end
-  end
-
-  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
-  defp current_tab(_socket, _params), do: "all"
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
 

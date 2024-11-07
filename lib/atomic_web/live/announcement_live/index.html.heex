@@ -7,19 +7,7 @@
     <% end %>
   </:actions>
   <!-- Tabs -->
-  <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.link patch="?tab=all" replace={false}>
-      <.tab active={@current_tab == "all"}>
-        <%= gettext("All") %>
-      </.tab>
-    </.link>
-
-    <.link patch="?tab=following" replace={false}>
-      <.tab active={@current_tab == "following"}>
-        <%= gettext("Following") %>
-      </.tab>
-    </.link>
-  </.tabs>
+  <.tabs></.tabs>
   <!-- Announcements index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">

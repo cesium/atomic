@@ -9,7 +9,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
     ~H"""
     <div class="flex flex-col justify-center rounded-lg bg-white lg:p-4">
       <.link navigate={~p"/organizations/#{@organization}/announcements/#{@announcement}"} class="block">
-        <div class="flex items-center space-x-2 p-4">
+        <div class="flex items-center space-x-2 px-4 py-1">
           <div class="flex-shrink-0">
             <.avatar name={@announcement.organization.name} color={:light_gray} class="!h-10 !w-10" size={:xs} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
           </div>
@@ -21,7 +21,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
             </p>
           </div>
         </div>
-        <div class="p-4">
+        <div class="px-4 py-2">
           <p class="text-lg font-semibold text-zinc-900" title={@announcement.title}>
             <%= @announcement.title %>
           </p>
@@ -30,8 +30,8 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
           </p>
         </div>
         <%= if @announcement.image do %>
-          <div class="h-[250px] mt-4 overflow-hidden md:h-[450px]">
-            <img class="h-full w-full rounded-md object-contain" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
+          <div class="h-auto overflow-hidden w-full">
+            <img class="h-full w-full rounded-xl object-cover" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
           </div>
         <% end %>
       </.link>

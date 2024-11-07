@@ -503,11 +503,11 @@ defmodule Atomic.Organizations do
       [%Announcement{}, ...]
 
   """
-  def list_announcements_by_organization_id(id, opts \\ []) do
+  def list_announcements_by_organization_id(id, %{} = flop, opts \\ []) when is_list(opts) do
     Announcement
     |> where(organization_id: ^id)
     |> apply_filters(opts)
-    |> Repo.all()
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """
