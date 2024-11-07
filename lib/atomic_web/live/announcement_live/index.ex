@@ -30,7 +30,9 @@ defmodule AtomicWeb.AnnouncementLive.Index do
   end
 
   defp list_announcements_by_organization(_socket, params, organization_id) do
-    case Organizations.list_announcements_by_organization_id(organization_id, params, preloads: [:organization]) do
+    case Organizations.list_announcements_by_organization_id(organization_id, params,
+           preloads: [:organization]
+         ) do
       {:ok, {announcements, meta}} ->
         %{announcements: announcements, meta: meta}
 
