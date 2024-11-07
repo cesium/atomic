@@ -495,12 +495,15 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of announcements belonging to an organization.
+  Returns the list of announcements belonging to an organization, filtered and validated by the given parameters.
 
   ## Examples
 
-      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
-      [%Announcement{}, ...]
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{})
+      {:ok, [%Announcement{}, ...]}
+
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{}, [some_option: true])
+      {:ok, [%Announcement{}, ...]}
 
   """
   def list_announcements_by_organization_id(id, %{} = flop, opts \\ []) when is_list(opts) do
