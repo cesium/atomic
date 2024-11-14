@@ -23,6 +23,9 @@ defmodule AtomicWeb.Components.Sidebar do
     </div>
     <!-- Navigation -->
     <.navigation current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated} />
+
+    <!-- Legal pages and copyright notice -->
+    <.legal_pages />
     """
   end
 
@@ -63,6 +66,8 @@ defmodule AtomicWeb.Components.Sidebar do
                 <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
+              <!-- Legal pages and copyright notice -->
+            <.legal_pages />
             </div>
           </div>
         </div>
@@ -90,6 +95,8 @@ defmodule AtomicWeb.Components.Sidebar do
         <div class="absolute bottom-0 w-full">
           <.sidebar_dropdown current_user={@current_user} orientation={:up} />
         </div>
+        <!-- Legal pages and copyright notice -->
+        <.legal_pages />
       </div>
     </div>
     """
@@ -143,6 +150,24 @@ defmodule AtomicWeb.Components.Sidebar do
       <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
+    """
+  end
+
+  defp legal_pages(assigns) do
+    ~H"""
+      <div class="w-full flex flex-wrap gap-y-1 gap-x-2 group shrink-0 mt-2">
+        <.link navigate={~p"/tos"} class="shrink-0 select-none">
+          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Terms of Service</p>
+        </.link>
+        <.link navigate={~p"/privacy"} class="shrink-0 select-none">
+          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Privacy Policy</p>
+        </.link>
+        <.link navigate={~p"/cookies"} class="shrink-0 select-none">
+          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Cookie Policy</p>
+        </.link>
+        <span class="flex select-none text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
+    </div>
+
     """
   end
 
