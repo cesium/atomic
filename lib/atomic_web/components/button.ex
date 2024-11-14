@@ -45,13 +45,7 @@ defmodule AtomicWeb.Components.Button do
     default: :left,
     doc: "The position of the icon if applicable."
 
-  attr :icon, :atom, default: nil, doc: "The icon to display."
-
-  attr :icon_variant, :atom,
-    default: :outline,
-    values: [:solid, :outline, :mini],
-    doc: "The icon variation to display."
-
+  attr :icon, :string, default: nil, doc: "The icon to display."
   attr :icon_class, :string, default: "", doc: "Additional classes to apply to the icon."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
@@ -127,7 +121,7 @@ defmodule AtomicWeb.Components.Button do
 
   defp icon_content(assigns) do
     ~H"""
-    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} solid={@icon_variant == :solid} mini={@icon_variant == :mini} />
+    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
     """
   end
 

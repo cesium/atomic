@@ -11,7 +11,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <div class="lg:border-orange-500 lg:block">
-        <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon={:pencil}>
+        <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
           <%= gettext("Edit Partner") %>
         </.button>
       </div>
@@ -65,7 +65,6 @@
               </div>
             <% end %>
           </div>
-        </div>
       </div>
     <!--Tabs-->
       <.tabs class="mt-2 overflow-scroll scrollbar-hide flex px-4 sm:px-6 lg:px-8">

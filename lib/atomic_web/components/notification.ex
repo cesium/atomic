@@ -37,7 +37,7 @@ defmodule AtomicWeb.Components.Notification do
             <div class="ml-4 flex flex-shrink-0">
               <button phx-click="lv:clear-flash" phx-value-key={@type} class="inline-flex rounded-md bg-white text-zinc-400 hover:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-600 focus:ring-offset-2">
                 <span class="sr-only">Close</span>
-                <.icon name={:x_mark} solid class="h-5 w-5" />
+                <.icon name="hero-x-mark-solid" class="size-5" />
               </button>
             </div>
           </div>
@@ -53,22 +53,22 @@ defmodule AtomicWeb.Components.Notification do
     case type do
       "info" ->
         ~H"""
-        <.icon name={:information_circle} solid class="h-6 w-6 text-blue-400" />
+        <.icon name="hero-information-circle-solid" class="size-6 text-blue-400" />
         """
 
       "success" ->
         ~H"""
-        <.icon name={:check_circle} solid class="h-6 w-6 text-green-400" />
+        <.icon name="hero-check-circle-solid" class="size-6 text-green-400" />
         """
 
       "warning" ->
         ~H"""
-        <.icon name={:exclamation_circle} solid class="h-6 w-6 text-yellow-400" />
+        <.icon name="hero-exclamation-circle-solid" class="size-6 text-yellow-400" />
         """
 
       "error" ->
         ~H"""
-        <.icon name={:x_circle} solid class="h-6 w-6 text-red-400" />
+        <.icon name="hero-x-circle-solid" class="size-6 text-red-400" />
         """
     end
   end

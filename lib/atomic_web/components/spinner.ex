@@ -9,7 +9,7 @@ defmodule AtomicWeb.Components.Spinner do
 
   attr :show, :boolean, default: true, doc: "Show or hide spinner."
 
-  attr :size_class, :string, default: nil, doc: "Custom CSS classes for size. eg: h-4 w-4"
+  attr :size_class, :string, default: nil, doc: "Custom CSS classes for size. eg: size-4"
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
 

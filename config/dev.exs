@@ -61,7 +61,7 @@ config :atomic, AtomicWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/atomic_web/(live|views)/.*(ex)$",
+      ~r"lib/atomic_web/(live|views|components)/.*(ex)$",
       ~r"lib/atomic_web/templates/.*(eex)$",
       ~r"storybook/.*(exs)$"
     ]

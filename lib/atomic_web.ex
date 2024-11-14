@@ -17,13 +17,16 @@ defmodule AtomicWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: AtomicWeb
+      use Gettext, backend: AtomicWeb.Gettext
 
       import Plug.Conn
-      import AtomicWeb.Gettext
-      alias AtomicWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -80,7 +83,16 @@ defmodule AtomicWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import AtomicWeb.Gettext
+      use Gettext, backend: AtomicWeb.Gettext
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: AtomicWeb.Endpoint,
+        router: AtomicWeb.Router,
+        statics: AtomicWeb.static_paths()
     end
   end
 
@@ -89,22 +101,23 @@ defmodule AtomicWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
+      # Import LiveView and .heex helpers (<.link>, <.form>, etc)
       import Phoenix.LiveView.Helpers
       import Phoenix.Component
-
-      # Import commonly used components
-      unquote(components())
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
+      # Custom uses, imports and aliases
+      unquote(components())
+
+      use AtomicWeb, :verified_routes
+      use Gettext, backend: AtomicWeb.Gettext
+
       import AtomicWeb.ErrorHelpers
-      import AtomicWeb.Gettext
       import AtomicWeb.Helpers
 
       alias Atomic.Uploaders
-      alias AtomicWeb.Router.Helpers, as: Routes
     end
   end
 

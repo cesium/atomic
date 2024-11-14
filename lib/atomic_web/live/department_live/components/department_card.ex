@@ -24,18 +24,28 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
             <p><%= gettext("Archived") %></p>
           </.badge>
         </div>
-        <ul class="min-h-8 mt-4 mb-2 flex flex-row -space-x-1">
-          <%= for person <- @collaborators |> Enum.take(4) do %>
-            <li>
-              <.avatar name={person.user.name} size={:xs} color={:light_gray} class="ring-1 ring-white" />
-            </li>
-          <% end %>
-          <%= if length(@collaborators) > 4 do %>
-            <li>
-              <.avatar name={"+#{length(@collaborators) - 4}"} size={:xs} auto_generate_initials={false} color={:light_gray} class="ring-1 ring-white" />
-            </li>
-          <% end %>
-        </ul>
+        <.avatar_group
+          size={:xs}
+          color={:light_gray}
+          spacing={-2}
+          class="min-h-8 mt-4 mb-2"
+          items={
+            @collaborators
+            |> Enum.take(4)
+            |> Enum.map(fn person ->
+              %{
+                name: person.user.name
+              }
+            end)
+            |> then(fn avatars ->
+              if length(@collaborators) > 4 do
+                Enum.concat(avatars, [%{name: "+#{length(@collaborators) - 4}", auto_generate_initials: false}])
+              else
+                avatars
+              end
+            end)
+          }
+        />
       </div>
     </div>
     """

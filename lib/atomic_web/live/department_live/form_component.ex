@@ -29,7 +29,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
         </div>
 
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon={:cube} type="submit"><%= gettext("Save Changes") %></.button>
+          <.button size={:md} color={:white} icon="hero-cube" type="submit"><%= gettext("Save Changes") %></.button>
         </div>
       </.form>
     </div>
@@ -42,7 +42,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
+     |> allow_upload(:image, accept: Uploaders.Banner.extension_whitelist(), max_entries: 1)
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end

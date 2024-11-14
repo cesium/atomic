@@ -2,105 +2,99 @@ defmodule AtomicWeb.Config do
   @moduledoc """
   Web configuration for our pages.
   """
+  use AtomicWeb, :verified_routes
+
   alias Atomic.Accounts
-  alias AtomicWeb.Router.Helpers, as: Routes
 
   # User is not logged in
-  def pages(conn, nil, _current_organization) do
-    default_pages(conn)
+  def pages(nil, _current_organization) do
+    default_pages()
   end
 
   # User is logged in
-  def pages(conn, current_user, current_organization) do
+  def pages(current_user, current_organization) do
     if has_permissions?(current_user, current_organization) do
-      admin_pages(conn, current_organization)
+      admin_pages(current_organization)
     else
-      user_pages(conn)
+      user_pages()
     end
   end
 
-  def user_pages(conn) do
-    default_pages(conn) ++
+  def user_pages do
+    default_pages() ++
       [
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qr_code,
-          url: Routes.scanner_index_path(conn, :index),
+          icon: "hero-qr-code",
+          url: ~p"/scanner",
           tabs: []
         }
       ]
   end
 
-  def admin_pages(conn, current_organization) do
-    default_pages(conn) ++
+  def admin_pages(current_organization) do
+    default_pages() ++
       [
         %{
           key: :departments,
           title: "Departments",
-          icon: :cube,
-          url: Routes.department_index_path(conn, :index, current_organization.id),
+          icon: "hero-cube",
+          url: ~p"/organizations/#{current_organization}/departments",
           tabs: []
         },
         %{
           key: :partners,
           title: "Partners",
-          icon: :user_group,
-          url: Routes.partner_index_path(conn, :index, current_organization.id),
-          tabs: []
-        },
-        %{
-          key: :memberships,
-          title: "Memberships",
-          icon: :user_plus,
-          url: Routes.home_index_path(conn, :index),
+          icon: "hero-user-group",
+          url: ~p"/organizations/#{current_organization}/partners",
           tabs: []
         },
         %{
           key: :scanner,
           title: "Scanner",
-          icon: :qr_code,
-          url: Routes.scanner_index_path(conn, :index),
+          icon: "hero-qr-code",
+          url: ~p"/scanner",
           tabs: []
         }
       ]
   end
 
-  def default_pages(conn) do
+  def default_pages do
     [
       %{
         key: :home,
         title: "Home",
-        icon: :home,
-        url: Routes.home_index_path(conn, :index),
+        icon: "hero-home",
+        url: ~p"/",
         tabs: []
       },
       %{
         key: :calendar,
         title: "Calendar",
-        icon: :calendar,
-        url: Routes.calendar_show_path(conn, :show),
+        icon: "hero-calendar",
+        url: ~p"/calendar",
         tabs: []
       },
       %{
         key: :activities,
         title: "Activities",
-        icon: :academic_cap,
-        url: Routes.activity_index_path(conn, :index),
+        icon: "hero-academic-cap",
+        url: ~p"/activities",
         tabs: []
       },
       %{
         key: :announcements,
         title: "Announcements",
-        icon: :newspaper,
-        url: Routes.announcement_index_path(conn, :index),
+        icon: "hero-newspaper",
+        url: ~p"/announcements",
         tabs: []
       },
       %{
         key: :organizations,
         title: "Organizations",
-        icon: :building_office,
-        url: Routes.organization_index_path(conn, :index),
+        icon: "tabler-affiliate",
+        url: ~p"/organizations",
         tabs: []
       }
     ]

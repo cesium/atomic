@@ -15,7 +15,7 @@ defmodule AtomicWeb.UserResetPasswordController do
     if user do
       Accounts.deliver_user_reset_password_instructions(
         user,
-        &Routes.user_reset_password_url(conn, :edit, &1)
+        &url(~p"/users/reset_password/#{&1}")
       )
     end
 
@@ -24,7 +24,7 @@ defmodule AtomicWeb.UserResetPasswordController do
       :info,
       "If your email or username is in our system, you will receive instructions to reset your password shortly."
     )
-    |> redirect(to: Routes.user_session_path(conn, :new))
+    |> redirect(to: ~p"/users/log_in")
   end
 
   def edit(conn, _params) do
@@ -41,7 +41,7 @@ defmodule AtomicWeb.UserResetPasswordController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Password changed successfully.")
-        |> redirect(to: Routes.user_session_path(conn, :new))
+        |> redirect(to: ~p"/users/log_in")
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset, error_message: nil)

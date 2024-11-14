@@ -1,4 +1,4 @@
-import { Html5Qrcode, Html5QrcodeSupportedFormats } from "../vendor/html5-qrcode.js"
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from "../../vendor/html5-qrcode.js"
 
 function parseURL(url) {
   try {

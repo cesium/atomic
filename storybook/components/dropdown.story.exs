@@ -12,9 +12,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
         attributes: %{
           id: "dropdown",
           items: [
-            %{name: "Profile", link: "#"},
-            %{name: "Settings", link: "#"},
-            %{name: "Logout", link: "#"}
+            %{name: "Profile", navigate: "#"},
+            %{name: "Settings", navigate: "#"},
+            %{name: "Logout", navigate: "#"}
           ],
           orientation: :down
         },
@@ -35,9 +35,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             attributes: %{
               id: "dropdown-down",
               items: [
-                %{name: "Profile", link: "#"},
-                %{name: "Settings", link: "#"},
-                %{name: "Logout", link: "#"}
+                %{name: "Profile", navigate: "#"},
+                %{name: "Settings", navigate: "#"},
+                %{name: "Logout", navigate: "#"}
               ],
               orientation: :down
             },
@@ -54,9 +54,9 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             attributes: %{
               id: "dropdown-top",
               items: [
-                %{name: "Profile", link: "#"},
-                %{name: "Settings", link: "#"},
-                %{name: "Logout", link: "#"}
+                %{name: "Profile", navigate: "#"},
+                %{name: "Settings", navigate: "#"},
+                %{name: "Logout", navigate: "#"}
               ],
               orientation: :top
             },
@@ -78,11 +78,10 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             id: :button,
             attributes: %{
               id: "dropdown-solid-icons",
-              icon_variant: :solid,
               items: [
-                %{name: "Profile", link: "#", icon: :user},
-                %{name: "Settings", link: "#", icon: :cog},
-                %{name: "Logout", link: "#", icon: :arrow_left_on_rectangle}
+                %{name: "Profile", navigate: "#", icon: "hero-users-solid"},
+                %{name: "Settings", navigate: "#", icon: "hero-cog-solid"},
+                %{name: "Logout", navigate: "#", icon: "hero-arrow-left-on-rectangle-solid"}
               ],
               orientation: :down
             },
@@ -98,11 +97,10 @@ defmodule AtomicWeb.Storybook.Components.Dropdown do
             id: :top,
             attributes: %{
               id: "dropdown-outline-icons",
-              icon_variant: :outline,
               items: [
-                %{name: "Profile", link: "#", icon: :user},
-                %{name: "Settings", link: "#", icon: :cog},
-                %{name: "Logout", link: "#", icon: :arrow_left_on_rectangle}
+                %{name: "Profile", navigate: "#", icon: "hero-user"},
+                %{name: "Settings", navigate: "#", icon: "hero-cog"},
+                %{name: "Logout", navigate: "#", icon: "hero-arrow-left-on-rectangle"}
               ],
               orientation: :top
             },

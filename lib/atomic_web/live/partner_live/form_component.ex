@@ -45,7 +45,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
           <.field type="textarea" field={f[:notes]} placeholder="Notes" />
         </div>
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+          <.button size={:md} color={:white} icon="hero-cube">Save Changes</.button>
         </div>
       </.form>
     </div>
@@ -58,7 +58,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:image, accept: Atomic.Uploader.extensions_whitelist(), max_entries: 1)
+     |> allow_upload(:image, accept: Uploaders.PartnerImage.extension_whitelist(), max_entries: 1)
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end

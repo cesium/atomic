@@ -62,10 +62,21 @@ defmodule Atomic.MixProject do
       # frontend
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
-      {:heroicons, "~> 0.5.3"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:flop_phoenix, "~> 0.20.0"},
       {:phoenix_storybook, "~> 0.5.6"},
+
+      # icons
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.1.5",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1,
+       override: true},
+      {:tabler_icons,
+       github: "tabler/tabler-icons", sparse: "icons", app: false, compile: false, depth: 1},
 
       # monitoring
       {:telemetry_metrics, "~> 0.6"},
