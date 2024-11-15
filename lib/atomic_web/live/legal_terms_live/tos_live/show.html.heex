@@ -1,7 +1,64 @@
-<div class="min-h-[100vh] lg:border-r">
-    <.page title="Terms of Service">
-        <div class="px-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, dolorem commodi iste perspiciatis, similique harum porro laboriosam deleniti exercitationem voluptatibus atque consectetur tempora adipisci. Ea quam vero minima placeat reprehenderit! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque consequuntur, dicta doloremque non a aut vel placeat quis laboriosam veritatis repudiandae enim fugit eos, voluptatum voluptate dolores alias perspiciatis est?
+<main class="px-4">
+    <!-- Header -->
+    <header class="w-full fixed flex bg-white justify-between px-8 pt-8 pb-4">
+        <div class="flex place-items-center gap-x-4 lg:pl-12">
+            <.link navigate={~p"/"}>
+                <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+            </.link>
+            <p class="text-2xl font-semibold text-zinc-400 select-none">Terms of Service</p>
         </div>
-    </.page>  
-</div>
+        <!-- Link heading back to the home page (small devices only)-->
+        <div class="flex place-items-center hidden sm:block lg:pr-12">
+            <.link class="atomic-button atomic-button--white atomic-button--md" navigate={~p"/"}>Back home</.link>
+        </div>
+    </header>
+
+    <!--Title-->
+    <section class="flex place-items-center align-center h-fit px-4 py-40 pt-138">
+        <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5">Terms of Service</span>
+    </section>
+
+    <!--Black box-->
+
+    <section class="flex justify-center bg-zinc-800 text-white font-semibold p-10">
+        <p class="w-full flex justify-center md:w-2/3">
+            Lorem ipsum dolor sit amet.
+        </p>
+    </section>
+
+    <!--Summary of Terms content-->
+
+    <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-16">
+        <h2 class="text-2xl sm:text-4xl font-semibold mb-8">Summary of our Terms</h2>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
+        <br>
+        <ul class="list-disc mx-6 mb-8">
+            <li class="mb-4 text-md sm:text-lg text-zinc-900">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est odio explicabo expedita accusamus vero ullam deleniti laboriosam. Blanditiis minima inventore ut dolorum suscipit omnis dolore laudantium quo, mollitia, placeat accusantium.</li>
+            <li class="mb-4 text-md sm:text-lg text-zinc-900">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus veritatis provident laboriosam perferendis ducimus laborum molestiae fuga non aliquid! Dicta veniam fugiat harum? Nemo sunt voluptate dolorem placeat voluptates suscipit?</li>
+            <li class="mb-4 text-md sm:text-lg text-zinc-900">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, sapiente laboriosam quaerat animi sed distinctio dignissimos! Aut iste officia, libero, aspernatur illo nostrum sed autem id, dolorum molestias quae. Cum?</li>
+        </ul>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
+    </section>
+    
+    <!--Division with text-->
+    
+    <section class="px-4 sm:px-8 md:px-36 2xl:px-96">
+        <div class="border my-8"></div>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
+        <br>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
+        <div class="border my-8"></div>
+    </section>
+
+    <!--Atomic Terms of Service content-->
+        
+    <section class="px-4 sm:px-8 md:px-36 2xl:px-96">
+        <h2 class="font-semibold text-4xl sm:text-6xl mb-8">Atomic Terms of Service</h2>  
+        <p class="text-md sm:text-2xl font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo voluptatibus, ea, voluptates jonas.</p>
+        <br>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea quo at repellendus quia pariatur possimus labore laboriosam voluptas totam assumenda. Harum optio suscipit quas fuga laboriosam. Alias, eos! Praesentium, quibusdam! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis blanditiis soluta corporis ea nihil pariatur omnis, corrupti fugit reprehenderit inventore mollitia explicabo neque ex non accusamus rerum earum enim illo!</p>
+        <br>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur qui exercitationem eaque, quibusdam sint sapiente excepturi repudiandae expedita, ipsa tempore dignissimos provident ipsum minus ullam rerum commodi quas? Odit, voluptatibus.</p>
+        <div class="border my-8"></div>
+    </section>
+</main>  

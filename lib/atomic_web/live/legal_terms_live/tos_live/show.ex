@@ -13,4 +13,13 @@ defmodule AtomicWeb.TermsLive.Show do
      |> assign(:current_page, :terms)
      |> assign(:page_title, gettext("Terms of Service"))}
   end
+
+  def test(assigns) do
+    ~H'''
+    <div>
+      Jonas' test
+    </div>
+    '''
+  end
+
 end
