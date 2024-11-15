@@ -66,8 +66,6 @@ defmodule AtomicWeb.Components.Sidebar do
                 <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
-              <!-- Legal pages and copyright notice -->
-            <.legal_pages />
             </div>
           </div>
         </div>
@@ -95,8 +93,6 @@ defmodule AtomicWeb.Components.Sidebar do
         <div class="absolute bottom-0 w-full">
           <.sidebar_dropdown current_user={@current_user} orientation={:up} />
         </div>
-        <!-- Legal pages and copyright notice -->
-        <.legal_pages />
       </div>
     </div>
     """
@@ -167,7 +163,6 @@ defmodule AtomicWeb.Components.Sidebar do
         </.link>
         <span class="flex select-none text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
     </div>
-
     """
   end
 
