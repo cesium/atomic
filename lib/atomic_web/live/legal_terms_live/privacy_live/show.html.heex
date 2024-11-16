@@ -1,7 +1,76 @@
-<div class="min-h-[100vh] lg:border-r">
-    <.page title="Privacy Policy">
-        <div class="px-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, dolorem commodi iste perspiciatis, similique harum porro laboriosam deleniti exercitationem voluptatibus atque consectetur tempora adipisci. Ea quam vero minima placeat reprehenderit! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque consequuntur, dicta doloremque non a aut vel placeat quis laboriosam veritatis repudiandae enim fugit eos, voluptatum voluptate dolores alias perspiciatis est?
+<main class="px-4">
+    <!-- Header -->
+    <header class="w-full fixed flex bg-white justify-between px-8 pt-8 pb-4">
+        <div class="flex place-items-center gap-x-4 lg:pl-12">
+            <.link navigate={~p"/"}>
+                <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+            </.link>
+            <p class="text-2xl font-semibold text-zinc-400 select-none">Privacy Policy</p>
         </div>
-    </.page>  
-</div>
+        <!-- Link heading back to the home page (small devices only)-->
+        <div class="flex place-items-center hidden sm:block lg:pr-12">
+            <.link class="atomic-button atomic-button--white atomic-button--md" navigate={~p"/"}>Back home</.link>
+        </div>
+    </header>
+
+    <!--Title-->
+    <section class="flex place-items-center align-center h-fit px-4 py-40 pt-138">
+        <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5">Privacy Policy</span>
+    </section>
+
+    <!--Black box-->
+
+    <section class="flex justify-center bg-zinc-800 text-white font-semibold p-10">
+        <p class="w-full flex justify-center md:w-2/3">
+            Lorem ipsum dolor sit amet.
+        </p>
+    </section>
+
+    <!--Before you scroll read this-->
+
+    <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-16">
+        <h2 class="text-2xl sm:text-4xl font-semibold mb-8">Before you scroll, jonas this</h2>
+        <p class="text-md sm:text-lg">Jonas ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia maxime tempore sapiente reiciendis omnis reprehenderit maiores fuga assumenda porro sequi cupiditate quibusdam, voluptatem blanditiis, quos inventore cumque distinctio atque ad!</p>
+        <br>
+        <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
+    </section>
+
+    <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-12">
+        <div class="grid place-items-center grid-cols-1 sm:place-items-initial sm:grid-cols-2 sm:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
+            <%= for i <- 1 .. 6 do %>
+                <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                    <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                    <a class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+                </div>
+             <% end %>
+        </div>
+        
+        <div class="border my-8"></div>
+    </section>
+
+    <!--Terms of Service content (sticky part)-->
+
+    <section class="flex flex-col px-4 sm:px-8 md:px-36 2xl:px-96 pt-4">
+        <div class="flex">
+            <div class="hidden xl:block xl:w-1/4 pr-20">
+                <ul class="sticky top-40">
+                    <%= for i <- 1.. 6 do%>
+                        <li> <a href="#" class="text-sm font-semibold pb-2 cursor-default"><%= i %>. Who May Use the Services</a></li>
+                    <% end %>
+                </ul>
+            </div>  
+            <div class="xl:w-3/4">
+                <%= for i <- 1.. 6 do%>
+                    <h3 class="font-semibold text-4xl sm:text-5xl mb-8 pt-12 scroll-mt-24" id="section1">1. Who May Use the Services</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores veritatis beatae corrupti ullam laudantium suscipit obcaecati. Magnam, minima quasi! Cumque, officiis amet? Eius, illum molestias? Error, at. Quos, delectus eligendi? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni molestias tempore eos ea ducimus cupiditate iusto iste, porro illum dolore quae corporis beatae temporibus est consequatur. Ullam distinctio illo laboriosam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad maiores enim voluptatem ut vel. Modi incidunt consectetur similique veniam quaerat accusantium laudantium excepturi a, nulla, officiis eum quas rerum explicabo? Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae fugit earum fugiat, aliquid reiciendis aspernatur rem sunt corrupti accusantium sed quisquam laborum omnis possimus, eos ratione soluta, nemo iure officiis.</p>
+                <% end %>
+
+            </div>    
+        </div>
+        
+
+        <div class="border my-8"></div>
+    </section>
+    
+
+</main>

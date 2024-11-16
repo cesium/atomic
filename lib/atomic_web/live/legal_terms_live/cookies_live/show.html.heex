@@ -1,7 +1,28 @@
-<div class="min-h-[100vh] lg:border-r">
-    <.page title="Cookie Policy">
-        <div class="px-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, dolorem commodi iste perspiciatis, similique harum porro laboriosam deleniti exercitationem voluptatibus atque consectetur tempora adipisci. Ea quam vero minima placeat reprehenderit! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque consequuntur, dicta doloremque non a aut vel placeat quis laboriosam veritatis repudiandae enim fugit eos, voluptatum voluptate dolores alias perspiciatis est?
+<main class="px-4">
+    <!-- Header -->
+    <header class="w-full fixed flex bg-white justify-between px-8 pt-8 pb-4">
+        <div class="flex place-items-center gap-x-4 lg:pl-12">
+            <.link navigate={~p"/"}>
+                <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+            </.link>
+            <p class="text-2xl font-semibold text-zinc-400 select-none">Cookie Policy</p>
         </div>
-    </.page>
-</div>
+        <!-- Link heading back to the home page (small devices only)-->
+        <div class="flex place-items-center hidden sm:block lg:pr-12">
+            <.link class="atomic-button atomic-button--white atomic-button--md" navigate={~p"/"}>Back home</.link>
+        </div>
+    </header>
+
+    <!--Title-->
+    <section class="flex place-items-center align-center h-fit px-4 py-40 pt-138">
+        <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5">Cookie Policy</span>
+    </section>
+
+    <!--Black box-->
+
+    <section class="flex justify-center bg-zinc-800 text-white font-semibold p-10">
+        <p class="w-full flex justify-center md:w-2/3">
+            Lorem ipsum dolor sit amet.
+        </p>
+    </section>
+</main>
