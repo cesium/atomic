@@ -67,6 +67,19 @@ defmodule AtomicWeb.Components.Sidebar do
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
             </div>
+            <!-- Legal Pages Links -->
+            <div class="w-full flex flex-wrap justify-center flex-colunm place-items-center gap-y-1 gap-x-6 group mb-4 mt-2">
+              <.link navigate={~p"/tos"} class="shrink-0 select-none">
+                <p class="text-xs font-semibold text-zinc-400 hover:underline">Terms of Service</p>
+              </.link>
+              <.link navigate={~p"/privacy"} class="shrink-0 select-none">
+                <p class="text-xs font-semibold text-zinc-400 hover:underline">Privacy Policy</p>
+              </.link>
+              <.link navigate={~p"/cookies"} class="shrink-0 select-none">
+                <p class="text-xs font-semibold text-zinc-400 hover:underline">Cookie Policy</p>
+              </.link>
+              <span class="flex text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
+            </div>
           </div>
         </div>
       </div>
