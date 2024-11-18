@@ -1,6 +1,8 @@
 defmodule AtomicWeb.TermsLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LegalTermsLive.Components.{Header,MainTitle,BlackBar}
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket, layout: false}
@@ -13,13 +15,4 @@ defmodule AtomicWeb.TermsLive.Show do
      |> assign(:current_page, :terms)
      |> assign(:page_title, gettext("Terms of Service"))}
   end
-
-  def test(assigns) do
-    ~H'''
-    <div>
-      Jonas' test
-    </div>
-    '''
-  end
-
 end

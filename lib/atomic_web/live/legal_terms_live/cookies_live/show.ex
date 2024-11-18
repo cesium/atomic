@@ -1,6 +1,8 @@
 defmodule AtomicWeb.CookiesLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LegalTermsLive.Components.{Header,MainTitle,BlackBar}
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket, layout: false}
