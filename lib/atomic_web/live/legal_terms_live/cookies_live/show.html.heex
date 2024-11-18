@@ -2,32 +2,32 @@
     <!-- Header -->
     <header class="w-full fixed flex bg-white justify-between px-8 pt-8 pb-4">
         <div class="flex place-items-center gap-x-4 lg:pl-12">
+            <!-- Atomic Logo -->
             <.link navigate={~p"/"}>
                 <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
             </.link>
+            <!-- Section Name -->
             <p class="text-2xl font-semibold text-zinc-400 select-none">Cookie Policy</p>
         </div>
-        <!-- Link heading back to the home page (small devices only)-->
+        <!-- Link to Home (hidden on mobile) -->
         <div class="flex place-items-center hidden sm:block lg:pr-12">
             <.link class="atomic-button atomic-button--white atomic-button--md" navigate={~p"/"}>Back home</.link>
         </div>
     </header>
 
-    <!--Title-->
-    <section class="flex place-items-center align-center h-fit px-4 py-40 pt-138">
+    <!-- Main title -->
+    <section class="flex place-items-center align-center h-fit px-4 xl:px-12 py-40 pt-138">
         <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5">Cookie Policy</span>
     </section>
 
-    <!--Black box-->
-
+    <!-- Black container -->
     <section class="flex justify-center bg-zinc-800 text-white font-semibold p-10">
         <p class="w-full flex justify-center md:w-2/3">
             Lorem ipsum dolor sit amet.
         </p>
     </section>
 
-    <!--Summary of Terms content-->
-
+    <!-- Content Section -->
     <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-16">
         <h2 class="text-2xl sm:text-4xl font-semibold mb-8">How We Use Cookies</h2>
         <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>

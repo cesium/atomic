@@ -2,56 +2,82 @@
     <!-- Header -->
     <header class="w-full fixed flex bg-white justify-between px-8 pt-8 pb-4">
         <div class="flex place-items-center gap-x-4 lg:pl-12">
+            <!-- Atomic Logo -->
             <.link navigate={~p"/"}>
                 <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
             </.link>
+            <!-- Section Name -->
             <p class="text-2xl font-semibold text-zinc-400 select-none">Privacy Policy</p>
         </div>
-        <!-- Link heading back to the home page (small devices only)-->
+        <!-- Link to Home (hidden on mobile) -->
         <div class="flex place-items-center hidden sm:block lg:pr-12">
             <.link class="atomic-button atomic-button--white atomic-button--md" navigate={~p"/"}>Back home</.link>
         </div>
     </header>
 
-    <!--Title-->
-    <section class="flex place-items-center align-center h-fit px-4 py-40 pt-138">
+    <!-- Main title -->
+    <section class="flex place-items-center align-center h-fit px-4 xl:px-12 py-40 pt-138">
         <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5">Privacy Policy</span>
     </section>
 
-    <!--Black box-->
-
+    <!-- Black container -->
     <section class="flex justify-center bg-zinc-800 text-white font-semibold p-10">
         <p class="w-full flex justify-center md:w-2/3">
             Lorem ipsum dolor sit amet.
         </p>
     </section>
 
-    <!--Before you scroll read this-->
-
+    <!-- Summary Section -->
     <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-16">
         <h2 class="text-2xl sm:text-4xl font-semibold mb-8">Before you scroll, jonas this</h2>
         <p class="text-md sm:text-lg">Jonas ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia maxime tempore sapiente reiciendis omnis reprehenderit maiores fuga assumenda porro sequi cupiditate quibusdam, voluptatem blanditiis, quos inventore cumque distinctio atque ad!</p>
+        <!-- Used br tag but it can be replaced for a margin or padding on each element. Just seems more practical. -->
         <br>
         <p class="text-md sm:text-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic nesciunt fuga sint inventore laudantium, et quas cum at ad blanditiis magnam suscipit assumenda enim nemo quod qui animi provident eum!</p>
     </section>
-
+    
+    <!-- Grid Section -->
     <section class="px-4 sm:px-8 md:px-36 2xl:px-96 pt-12">
+        <!-- Grid Container -->
         <div class="grid place-items-center grid-cols-1 sm:place-items-initial sm:grid-cols-2 sm:grid-rows-3 lg:grid-cols-3 lg:grid-rows-2">
-            <%= for i <- 1 .. 6 do %>
-                <div class="w-full flex flex-col justify-center h-44 sm:h-56">
-                    <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
-                    <a class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
-                </div>
-             <% end %>
+            <!-- Grid Item 1 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section1" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
+            <!-- Grid Item 2 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section2" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
+            <!-- Grid Item 3 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section3" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
+            <!-- Grid Item 4 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section4" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
+            <!-- Grid Item 5 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section5" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
+            <!-- Grid Item 6 -->
+            <div class="w-full flex flex-col justify-center h-44 sm:h-56">
+                <h3 class="text-2xl font-semibold pb-8">Jonas Johaness</h3>
+                <a href="#section6" class="underline hover:text-zinc-600 cursor-pointer">Jonas ipsum dolor sit amet consectetur</a>
+            </div>
         </div>
-        
         <div class="border my-8"></div>
     </section>
 
-    <!--Terms of Service content (sticky part)-->
-
+    <!-- Terms of Service Content Section -->
     <section class="flex flex-col px-4 sm:px-8 md:px-36 2xl:px-96 pt-16">
         <div class="flex">
+            <!-- Sticky part -->
             <div class="hidden xl:block xl:w-1/4 pr-20">
                 <ul class="sticky top-40">
                     <li> <a href="#section1" class="text-sm font-semibold pb-2">1. Information We Collect
@@ -67,6 +93,7 @@
                     <li> <a href="#section10" class="text-sm font-semibold pb-2">10. How To Contact Atomic</a></li>
                 </ul>
             </div>  
+            <!-- Content -->
             <div class="xl:w-3/4">
                 <h3 class="font-semibold text-4xl sm:text-5xl mb-8 scroll-mt-24" id="section1">1. Information We Collect</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores veritatis beatae corrupti ullam laudantium suscipit obcaecati. Magnam, minima quasi! Cumque, officiis amet? Eius, illum molestias? Error, at. Quos, delectus eligendi? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni molestias tempore eos ea ducimus cupiditate iusto iste, porro illum dolore quae corporis beatae temporibus est consequatur. Ullam distinctio illo laboriosam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad maiores enim voluptatem ut vel. Modi incidunt consectetur similique veniam quaerat accusantium laudantium excepturi a, nulla, officiis eum quas rerum explicabo? Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae fugit earum fugiat, aliquid reiciendis aspernatur rem sunt corrupti accusantium sed quisquam laborum omnis possimus, eos ratione soluta, nemo iure officiis.</p>
@@ -90,8 +117,6 @@
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores veritatis beatae corrupti ullam laudantium suscipit obcaecati. Magnam, minima quasi! Cumque, officiis amet? Eius, illum molestias? Error, at. Quos, delectus eligendi? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magni molestias tempore eos ea ducimus cupiditate iusto iste, porro illum dolore quae corporis beatae temporibus est consequatur. Ullam distinctio illo laboriosam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad maiores enim voluptatem ut vel. Modi incidunt consectetur similique veniam quaerat accusantium laudantium excepturi a, nulla, officiis eum quas rerum explicabo? Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae fugit earum fugiat, aliquid reiciendis aspernatur rem sunt corrupti accusantium sed quisquam laborum omnis possimus, eos ratione soluta, nemo iure officiis.</p>
             </div>    
         </div>
-        
-
         <div class="border my-8"></div>
     </section>
     
