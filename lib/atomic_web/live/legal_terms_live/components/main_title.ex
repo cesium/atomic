@@ -4,8 +4,8 @@ defmodule AtomicWeb.LegalTermsLive.Components.MainTitle do
 
   def main_title(assigns) do
     ~H"""
-    <section class="flex place-items-center align-center h-fit px-4 xl:px-12 py-40 pt-138">
-      <span class="text-7xl sm:text-9xl text-zinc-800 font-semibold w-86 lg:w-8/12 2xl:w-2/5"><%= @page_title %></span>
+    <section class="align-center pt-138 flex h-fit place-items-center px-4 py-40 xl:px-12">
+      <span class="w-86 text-7xl font-semibold text-zinc-800 sm:text-9xl lg:w-8/12 2xl:w-2/5"><%= @page_title %></span>
     </section>
     """
   end

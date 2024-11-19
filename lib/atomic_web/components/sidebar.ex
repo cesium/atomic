@@ -23,7 +23,6 @@ defmodule AtomicWeb.Components.Sidebar do
     </div>
     <!-- Navigation -->
     <.navigation current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated} />
-
     <!-- Legal pages and copyright notice -->
     <.legal_pages />
     """
@@ -68,7 +67,7 @@ defmodule AtomicWeb.Components.Sidebar do
               <% end %>
             </div>
             <!-- Legal Pages Links -->
-            <div class="w-full flex flex-wrap justify-center flex-colunm place-items-center gap-y-1 gap-x-6 group mb-4 mt-2">
+            <div class="flex-colunm group mt-2 mb-4 flex w-full flex-wrap place-items-center justify-center gap-x-6 gap-y-1">
               <.link navigate={~p"/tos"} class="shrink-0 select-none">
                 <p class="text-xs font-semibold text-zinc-400">Terms of Service</p>
               </.link>
@@ -164,17 +163,17 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp legal_pages(assigns) do
     ~H"""
-      <div class="w-full flex flex-wrap gap-y-1 gap-x-2 group shrink-0 mt-2">
-        <.link navigate={~p"/tos"} class="shrink-0 select-none">
-          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Terms of Service</p>
-        </.link>
-        <.link navigate={~p"/privacy"} class="shrink-0 select-none">
-          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Privacy Policy</p>
-        </.link>
-        <.link navigate={~p"/cookies"} class="shrink-0 select-none">
-          <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Cookie Policy</p>
-        </.link>
-        <span class="flex select-none text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
+    <div class="group mt-2 flex w-full shrink-0 flex-wrap gap-x-2 gap-y-1">
+      <.link navigate={~p"/tos"} class="shrink-0 select-none">
+        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Terms of Service</p>
+      </.link>
+      <.link navigate={~p"/privacy"} class="shrink-0 select-none">
+        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Privacy Policy</p>
+      </.link>
+      <.link navigate={~p"/cookies"} class="shrink-0 select-none">
+        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Cookie Policy</p>
+      </.link>
+      <span class="flex select-none text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
     </div>
     """
   end
