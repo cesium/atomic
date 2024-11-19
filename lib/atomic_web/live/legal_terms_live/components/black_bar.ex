@@ -1,4 +1,7 @@
 defmodule AtomicWeb.LegalTermsLive.Components.BlackBar do
+  @moduledoc """
+  Component for Legal Pages Black Bar.
+  """
   use Phoenix.Component
   use AtomicWeb, :component
 

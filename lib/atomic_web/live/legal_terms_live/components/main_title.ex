@@ -1,4 +1,7 @@
 defmodule AtomicWeb.LegalTermsLive.Components.MainTitle do
+  @moduledoc """
+  Component for Legal Pages Main Title.
+  """
   use Phoenix.Component
   use AtomicWeb, :component
 

@@ -1,4 +1,7 @@
 defmodule AtomicWeb.LegalTermsLive.Components.Header do
+  @moduledoc """
+  Component for Legal Pages Header.
+  """
   use Phoenix.Component
   use AtomicWeb, :component
 
