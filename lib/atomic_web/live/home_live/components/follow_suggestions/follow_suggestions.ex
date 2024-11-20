@@ -15,11 +15,11 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
   def follow_suggestions(assigns) do
     ~H"""
     <div class="overflow-hidden">
-      <p class="text-gray-90 font-semibold leading-6">
+      <p class="text-zinc-90 font-semibold leading-6">
         <%= title(@current_user) %>
       </p>
       <div class="flow-root">
-        <ul role="list" class="divide-y divide-gray-200">
+        <ul role="list" class="divide-y divide-zinc-200">
           <%= for organization <- @organizations do %>
             <.live_component id={organization.id} module={Suggestion} organization={organization} current_user={@current_user} />
           <% end %>
