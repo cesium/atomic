@@ -7,7 +7,7 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
 
   def header(assigns) do
     ~H"""
-    <header class="fixed flex w-full place-items-center justify-between bg-white px-8 pt-8 pb-4">
+    <header class="fixed flex w-full place-items-center justify-between bg-white pl-4 pr-8 pt-8 pb-4">
       <div class="flex place-items-center gap-x-6 md:gap-x-12 lg:pl-12">
         <div class="flex place-items-center gap-x-4">
           <!-- Atomic Logo -->

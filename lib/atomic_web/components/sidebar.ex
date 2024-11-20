@@ -4,6 +4,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.LegalPagesLinks
   alias Atomic.Organizations
 
   attr :current_user, :map, required: true
@@ -23,8 +24,6 @@ defmodule AtomicWeb.Components.Sidebar do
     </div>
     <!-- Navigation -->
     <.navigation current_user={@current_user} current_organization={@current_organization} current_page={@current_page} is_authenticated={@is_authenticated} />
-    <!-- Legal pages and copyright notice -->
-    <.legal_pages />
     """
   end
 
@@ -67,18 +66,7 @@ defmodule AtomicWeb.Components.Sidebar do
               <% end %>
             </div>
             <!-- Legal Pages Links -->
-            <div class="flex-colunm group mt-2 mb-4 flex w-full flex-wrap place-items-center justify-center gap-x-6 gap-y-1">
-              <.link navigate={~p"/tos"} class="shrink-0 select-none">
-                <p class="text-xs font-semibold text-zinc-400">Terms of Service</p>
-              </.link>
-              <.link navigate={~p"/privacy"} class="shrink-0 select-none">
-                <p class="text-xs font-semibold text-zinc-400">Privacy Policy</p>
-              </.link>
-              <.link navigate={~p"/cookies"} class="shrink-0 select-none">
-                <p class="text-xs font-semibold text-zinc-400">Cookie Policy</p>
-              </.link>
-              <span class="flex text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
-            </div>
+            <.legal_pages_links />
           </div>
         </div>
       </div>
@@ -158,23 +146,6 @@ defmodule AtomicWeb.Components.Sidebar do
       <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
-    """
-  end
-
-  defp legal_pages(assigns) do
-    ~H"""
-    <div class="group mt-2 flex w-full shrink-0 flex-wrap gap-x-2 gap-y-1">
-      <.link navigate={~p"/tos"} class="shrink-0 select-none">
-        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Terms of Service</p>
-      </.link>
-      <.link navigate={~p"/privacy"} class="shrink-0 select-none">
-        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Privacy Policy</p>
-      </.link>
-      <.link navigate={~p"/cookies"} class="shrink-0 select-none">
-        <p class="text-xs font-semibold text-zinc-400 hover:text-zinc-500">Cookie Policy</p>
-      </.link>
-      <span class="flex select-none text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
-    </div>
     """
   end
 
