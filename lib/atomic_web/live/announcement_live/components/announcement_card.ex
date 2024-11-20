@@ -7,7 +7,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
 
   def announcement_card(assigns) do
     ~H"""
-    <div class="flex flex-col justify-center rounded-lg bg-white lg:p-4">
+    <div class="mt-2 flex flex-col justify-center rounded-lg bg-white lg:p-4">
       <.link navigate={~p"/organizations/#{@organization}/announcements/#{@announcement}"} class="block">
         <div class="flex items-center space-x-2 px-4 py-1">
           <div class="flex-shrink-0">
@@ -31,7 +31,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
         </div>
         <%= if @announcement.image do %>
           <div class="h-auto w-full overflow-hidden">
-            <img class="h-full w-full rounded-xl object-cover" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
+            <img class="h-full w-full object-cover md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
           </div>
         <% end %>
       </.link>

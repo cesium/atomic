@@ -16,7 +16,9 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
     {:noreply,
      socket
      |> put_flash(:info, gettext("Announcement deleted successfully"))
-     |> push_navigate(to: ~p"/announcements")}
+     |> push_navigate(
+       to: ~p"/organizations/#{socket.assigns.current_organization.id}/announcements"
+     )}
   end
 
   @impl true
