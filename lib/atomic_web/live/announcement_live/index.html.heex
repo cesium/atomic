@@ -1,4 +1,4 @@
-<.page title="Announcements">
+<.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button navigate={~p"/organizations/#{@current_organization}/announcements/new"} icon="hero-plus">
@@ -6,8 +6,6 @@
       </.button>
     <% end %>
   </:actions>
-  <!-- Tabs -->
-  <.tabs></.tabs>
   <!-- Announcements index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
