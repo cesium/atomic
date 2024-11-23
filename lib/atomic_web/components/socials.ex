@@ -9,7 +9,7 @@ defmodule AtomicWeb.Components.Socials do
     assigns = assign(assigns, :socials_with_values, get_social_values(assigns.entity))
 
     ~H"""
-    <div class="mt-4 flex gap-4">
+    <div class="flex gap-4">
       <%= for {social, icon, url_base, social_value} <- @socials_with_values do %>
         <%= if social_value do %>
           <div class="flex flex-row items-center gap-x-1">
