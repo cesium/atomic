@@ -6,7 +6,7 @@ defmodule AtomicWeb.Components.LegalPagesLinks do
 
   def legal_pages_links(assigns) do
     ~H"""
-    <div class="flex-colunm group mt-2 mb-4 flex w-full flex-wrap place-items-center justify-center gap-x-6 gap-y-1">
+    <div class="flex-colunm group mt-2 mb-4 px-8 flex w-full flex-wrap place-items-center justify-center gap-x-6 gap-y-1">
       <.link navigate={~p"/tos"} class="shrink-0 select-none">
         <p class="text-xs font-semibold text-zinc-400">Terms of Service</p>
       </.link>
