@@ -11,7 +11,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <div class="lg:border-orange-500 lg:block">
-        <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
+        <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
           <%= gettext("Edit Partner") %>
         </.button>
       </div>
@@ -19,9 +19,9 @@
   </:actions>
   <div class="lg:px-8 sm:px-0 min-h-fit border-t-100 select-none lg:mx-0 max-w-5xl sm:mx-6 ">
     <div class="flex flex-col gap-2 mt-2 sm:justify-center">
-      <div class="flex flex-row mb-4">
+      <div class="flex flex-row gap-x-4 mb-4">
         <div class="flex flex-col lg:justify-none items-center px-2">
-          <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+          <.avatar class="size-28" color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
         <div class="grid grid-rows-2 gap-y-0">
           <div class="flex items-center justify-between">
@@ -32,7 +32,7 @@
           <div class="grid grid-rows-2">
           <%= if @partner.location do %>
             <div class="flex flex-row items-center gap-x-1 text-md leading-6">
-              <.icon name={:map_pin} class="h-5 w-5 text-zinc-400" />
+              <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
               <.link class="text-blue-500 text-sm" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
             </div>
           <% end %>
@@ -40,7 +40,7 @@
               <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
                 <%= if @partner.socials.website do %>
                   <div class="flex flex-row items-center gap-x-1 ">
-                    <.icon name={:globe_alt} class="h-5 w-5 text-zinc-400" />
+                    <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
                     <.link class="text-sm text-blue-500" href={@partner.socials.website}>Website</.link>
                   </div>
                 <% end %>
@@ -64,19 +64,20 @@
                 <% end %>
               </div>
             <% end %>
+            </div>
           </div>
       </div>
     <!--Tabs-->
       <.tabs class="mt-2 overflow-scroll scrollbar-hide flex px-4 sm:px-6 lg:px-8">
         <.link patch="?tab=benefits" replace={false}>
           <.tab id="benefits-tab" active={@current_tab == "benefits"}>
-            <.icon name={:signal} class="size-5 mr-2" />
+            <.icon name="hero-signal" class="size-5 mr-2" />
             <%= gettext("Benefits") %>
           </.tab>
         </.link>
         <.link patch="?tab=about" replace={false}>
           <.tab id="about-tab" active={@current_tab == "about"}>
-            <.icon name={:information_circle} class="size-5 mr-2" />
+            <.icon name="hero-information-circle" class="size-5 mr-2" />
             <%= gettext("About") %>
           </.tab>
           </.link>
@@ -97,21 +98,21 @@
               <%= if @partners do %>
                 <div class="mt-4 flex flex-col gap-x-2 text-zinc-800">
                   <div class="flex flex-row items-center gap-x-2 px-2">
-                    <.icon name={:star} class="h-5 w-5 mb-2" />
+                    <.icon name="hero-star" class="h-5 w-5 mb-2" />
                     <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900 py-2">Related Partners</h2>
                   </div>
                   <div class="sm:grid sm:grid-cols-2 gap-4 sm:px-6 gap-4 px-4">
                     <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
-                        <.link href={Routes.partner_show_path(@socket, :show, @organization, partner)}>
+                        <.link href={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"}>
                         <li class="px-4 flex flex-row h-full md:flex-row justify-between rounded-lg border border-zinc-200 hover:bg-zinc-50 gap-x-4 py-5">
                           <div class="flex-shrink-0">
-                            <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
+                            <.avatar  class="size-10" color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
                           </div>
-                          <div class="flex-grow flex-col">
+                          <div class="flex-grow flex-col gap-y-5">
                             <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
                             <%= if partner.location do %>
                               <div class="flex flex-row items-center gap-x-1">
-                                <.icon name={:map_pin} class="h-4 w-4 text-zinc-400 my-1" />
+                                <.icon name="hero-map-pin" class="h-4 w-4 text-zinc-400 my-1" />
                                 <span class="text-blue-500 text-xs"><%= partner.location.name %></span>
                               </div>
                             <% end %>

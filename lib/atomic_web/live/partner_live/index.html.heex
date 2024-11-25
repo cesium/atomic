@@ -35,7 +35,7 @@
   <% else %>
     <ul role="list" class="grid grid-cols-2 gap-x-6 gap-y-4 mx-8 my-4">
       <%= for partner <- @partners do %>
-        <.link navigate={Routes.partner_show_path(@socket, :show, @organization, partner)} class="block mt-4 hover:bg-zinc-50">
+        <.link navigate={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"} class="block hover:bg-zinc-50">
           <.partner_card partner={partner}/>
         </.link>
       <% end %>
