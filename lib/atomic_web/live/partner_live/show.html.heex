@@ -12,11 +12,11 @@
     <div class="flex flex-col gap-2 mt-6 sm:justify-center">
       <div class="flex flex-row">
         <div class="flex flex-col lg:justify-none items-center px-2">
-          <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+          <.avatar color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
         <div>
           <div class="flex items-center justify-between">
-            <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-gray-900 ml-2">
+            <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-zinc-900 ml-2">
               <%= @partner.name %>
             </h1>
           </div>
@@ -60,7 +60,7 @@
         <div class="mt-1 text-zinc-800 py-4 px-2">
           <div class="flex flex-row items-center gap-x-2">
             <.icon name="hero-clock" class="size-5 mb-2" />
-            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Overview</h2>
           </div>
           <span class="py-4">
             <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
@@ -71,7 +71,7 @@
         <div class="text-zinc-800 py-4 px-2">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
-            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Benefits</h2>
           </div>
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
@@ -87,14 +87,14 @@
           <div class="flex flex-col gap-x-2 text-zinc-800">
             <div class="flex flex-row items-center gap-x-2 px-2">
               <.icon name="hero-star" class="size-5 mb-2" />
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900 py-2">Related Partners</h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900 py-2">Related Partners</h2>
             </div>
             <div class="sm:grid sm:grid-cols-2 sm:gap-px">
               <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
                 <div class="rounded-lg group relative border border-zinc-200 bg-white p-4 hover:bg-zinc-50 m-2">
                   <.link href={~p"/organizations/#{@organization}/partners/#{@partner}"}>
                     <div class="flex flex-row items-center space-x-2">
-                      <.avatar color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
+                      <.avatar color={:light_zinc} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
                       <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
                     </div>
                     <%= if partner.location do %>

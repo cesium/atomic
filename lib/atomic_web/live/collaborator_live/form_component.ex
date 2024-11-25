@@ -10,7 +10,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborator</h1>
+      <h1 class="flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborator</h1>
       <!-- Request notification -->
       <%= if !@collaborator.accepted do %>
         <p class="mt-1">
@@ -20,7 +20,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       <!-- User Card -->
       <div class="flex flex-col sm:flex-row">
         <.link navigate={~p"/profile/#{@collaborator.user}"} class="mt-4 flex outline-none">
-          <.avatar color={:light_gray} name={@collaborator.user.name} />
+          <.avatar color={:light_zinc} name={@collaborator.user.name} />
           <div class="ml-3 flex h-full flex-col self-center">
             <p><%= @collaborator.user.name %></p>
             <p>@<%= @collaborator.user.slug %></p>
@@ -54,7 +54,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       <!-- Action Confirm Modal -->
       <.modal :if={@action_modal} id="action-confirm-modal" show on_cancel={JS.push("clear-action", target: @myself)}>
         <div class="flex flex-col">
-          <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <h1 class="flex-1 select-none truncate text-lg font-semibold text-zinc-900">
             <%= display_action_goal_confirm_title(@action_modal) %>
           </h1>
           <p class="mt-4">

@@ -95,12 +95,12 @@
 .atomic-badge--danger-outline {
   @apply border text-danger-600 border-danger-600 dark:text-danger-400 dark:border-danger-400;
 }
-.atomic-badge--gray-light {
-  @apply text-gray-800 bg-gray-100 border-gray-100 dark:bg-gray-200 dark:border-gray-200;
+.atomic-badge--zinc-light {
+  @apply text-zinc-800 bg-zinc-100 border-zinc-100 dark:bg-zinc-200 dark:border-zinc-200;
 }
-.atomic-badge--gray-dark {
-  @apply text-white bg-gray-600 border-gray-600 dark:bg-gray-700 dark:border-gray-700;
+.atomic-badge--zinc-dark {
+  @apply text-white bg-zinc-600 border-zinc-600 dark:bg-zinc-700 dark:border-zinc-700;
 }
-.atomic-badge--gray-outline {
-  @apply text-gray-600 border border-gray-600 dark:text-gray-400 dark:border-gray-400;
+.atomic-badge--zinc-outline {
+  @apply text-zinc-600 border border-zinc-600 dark:text-zinc-400 dark:border-zinc-400;
 }

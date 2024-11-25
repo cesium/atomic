@@ -24,7 +24,7 @@ defmodule AtomicWeb.Components.Button do
       :success,
       :warning,
       :danger,
-      :gray,
+      :zinc,
       :pure_white,
       :white,
       :light,

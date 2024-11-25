@@ -15,7 +15,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           <%= show_empty(assigns) %>
         </div>
       <% end %>
-      <div :if={length(@schedule.daily) != 0} class="border-b border-gray-200 px-4 pt-4 pb-2 sm:px-0">
+      <div :if={length(@schedule.daily) != 0} class="border-b border-zinc-200 px-4 pt-4 pb-2 sm:px-0">
         <p class="font-semibold text-zinc-400">
           Today
         </p>
@@ -35,7 +35,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                       </p>
                     </div>
                   </div>
-                  <p class="text-justify text-sm text-gray-700">
+                  <p class="text-justify text-sm text-zinc-700">
                     <%= maybe_slice_string(entry.description, 100) %>
                   </p>
                 </li>
@@ -78,7 +78,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                       </p>
                     </div>
                   </div>
-                  <p class="text-justify text-sm text-gray-700">
+                  <p class="text-justify text-sm text-zinc-700">
                     <%= maybe_slice_string(entry.description, 150) %>
                   </p>
                 </li>
