@@ -95,13 +95,13 @@ defmodule AtomicWeb.Storybook.Components.Button do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray
+              color: :zinc
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           },
@@ -228,14 +228,14 @@ defmodule AtomicWeb.Storybook.Components.Button do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray,
+              color: :zinc,
               variant: :outline
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           },
@@ -366,14 +366,14 @@ defmodule AtomicWeb.Storybook.Components.Button do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray,
+              color: :zinc,
               variant: :inverted
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           },
@@ -504,14 +504,14 @@ defmodule AtomicWeb.Storybook.Components.Button do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray,
+              color: :zinc,
               variant: :shadow
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           },
