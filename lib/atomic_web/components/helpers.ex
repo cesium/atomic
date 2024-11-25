@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Helpers do
       ...>     %Flop.Filter{field: :age, op: :>, value: 25}
       ...>   ]
       ...> }
-      ...> 
+      ...>
       ...> to_query(f)
       [
         filters: %{
@@ -102,9 +102,4 @@ defmodule AtomicWeb.Components.Helpers do
     |> maybe_put(:order_directions, order_directions)
   end
 
-  def atom_to_string_capitalize(atom) when is_atom(atom) do
-    atom
-    |> Atom.to_string()
-    |> String.capitalize()
-  end
 end

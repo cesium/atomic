@@ -1,7 +1,9 @@
 defmodule AtomicWeb.Components.Socials do
   @moduledoc false
-  use Phoenix.Component
-  alias AtomicWeb.Components.Helpers
+
+  use Atomic.Web, :component
+
+  alias AtomicWeb.Helpers
 
   attr :entity, :map, required: true
 
