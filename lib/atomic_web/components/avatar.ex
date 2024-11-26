@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Avatar do
     doc: "The type of entity associated with the avatar."
 
   attr :size, :atom,
-    values: [:xs, :sm, :md, :lg, :xl,:xl],
+    values: [:xs, :sm, :md, :lg, :xl, :xl],
     default: :md,
     doc: "The size of the avatar."
 
@@ -44,7 +44,7 @@ defmodule AtomicWeb.Components.Avatar do
     ~H"""
     <span class={generate_avatar_classes(assigns)}>
       <%= if @src do %>
-        <img src={@src} class={"atomic-avatar--#{assigns.type} object-contain h-full w-full"} />
+        <img src={@src} class={"atomic-avatar--#{assigns.type} h-full w-full object-contain"} />
       <% else %>
         <%= if @auto_generate_initials do %>
           <%= extract_initials(@name) %>
