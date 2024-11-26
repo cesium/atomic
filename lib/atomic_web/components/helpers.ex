@@ -38,7 +38,7 @@ defmodule AtomicWeb.Components.Helpers do
       ...>     %Flop.Filter{field: :age, op: :>, value: 25}
       ...>   ]
       ...> }
-      ...>
+      ...> 
       ...> to_query(f)
       [
         filters: %{
@@ -101,5 +101,4 @@ defmodule AtomicWeb.Components.Helpers do
     |> maybe_put(:order_by, order_by)
     |> maybe_put(:order_directions, order_directions)
   end
-
 end
