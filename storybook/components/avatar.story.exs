@@ -68,17 +68,17 @@ defmodule AtomicWeb.Storybook.Components.Avatar do
             }
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
               name: "João Lobo",
-              color: :gray
+              color: :zinc
             }
           },
           %Variation{
-            id: :light_gray,
+            id: :light_zinc,
             attributes: %{
               name: "João Lobo",
-              color: :light_gray
+              color: :light_zinc
             }
           },
           %Variation{
