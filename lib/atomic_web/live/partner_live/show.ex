@@ -1,7 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar,Gradient,Tabs} 
+  import AtomicWeb.Components.{Avatar, Gradient, Tabs}
 
   alias Atomic.Accounts
   alias Atomic.Organizations

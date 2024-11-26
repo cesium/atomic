@@ -13,7 +13,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id } = params, _, socket) do
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
 
     {:noreply,

@@ -33,11 +33,10 @@
       <.empty_state url={~p"/organizations/#{@organization}/partners/new"} placeholder="partner" />
     </div>
   <% else %>
-    <ul role="list" class="grid grid-cols-2 gap-x-6 gap-y-4 mx-8 my-4">
+    <ul role="list" class="mx-8 my-4 grid grid-cols-2 gap-x-6 gap-y-4">
       <%= for partner <- @partners do %>
         <.link navigate={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"} class="block hover:bg-zinc-50">
-          <.partner_card partner={partner}/>
-
+          <.partner_card partner={partner} />
         </.link>
       <% end %>
     </ul>
