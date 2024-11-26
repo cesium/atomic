@@ -14,7 +14,7 @@
           <div class="my-6 flex min-w-0 items-center justify-between sm:flex-row">
             <!-- Department info -->
             <div>
-              <h1 class="text-wrap flex-1 select-none truncate pr-4 text-xl font-bold text-gray-900 sm:text-2xl">
+              <h1 class="text-wrap flex-1 select-none truncate pr-4 text-xl font-bold text-zinc-900 sm:text-2xl">
                 <%= @department.name %>
               </h1>
               <.link navigate={~p"/organizations/#{@organization}"}>
@@ -120,22 +120,22 @@
           </div>
           <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
             <div class="col-span-3 sm:col-span-2">
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("Recent Activity") %></h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("Recent Activity") %></h2>
               <!-- Recent activity empty state -->
               <.link class="mt-4 flex flex-col items-center justify-center" navigate={~p"/organizations/#{@organization}"}>
                 <.avatar class="mb-4 p-1" type={:organization} color={:white} size={:lg} name={@organization.name} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
-                <p class="select-none text-center text-gray-900"><%= gettext("This department doesn't have any recent activity.") %></p>
-                <p class="select-none text-center text-gray-900"><%= gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name) %></p>
+                <p class="select-none text-center text-zinc-900"><%= gettext("This department doesn't have any recent activity.") %></p>
+                <p class="select-none text-center text-zinc-900"><%= gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name) %></p>
               </.link>
             </div>
             <!-- People -->
             <div class="hidden w-full sm:block">
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900"><%= gettext("People") %></h2>
+              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("People") %></h2>
               <div class="mb-2 flex max-w-full gap-1">
                 <!-- People listing -->
                 <.avatar_group
                   size={:sm}
-                  color={:light_gray}
+                  color={:light_zinc}
                   spacing={0}
                   wrap
                   class="gap-1"
@@ -151,8 +151,8 @@
                 />
                 <!-- People empty state -->
                 <%= if length(@all_collaborators) == 0 do %>
-                  <.icon class="mx-32 text-gray-900" name="hero-users" />
-                  <p class="mb-4 select-none text-center text-gray-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
+                  <.icon class="mx-32 text-zinc-900" name="hero-users" />
+                  <p class="mb-4 select-none text-center text-zinc-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
                 <% end %>
               </div>
               <.link :if={length(@all_collaborators) != 0} patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"} class="text-orange-500 hover:cursor-pointer hover:underline">
@@ -166,14 +166,14 @@
             <%= if @has_permissions? do %>
               <!-- Collaborators admin view -->
               <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborators</h2>
                 <div class="border-t border-l">
                   <.table items={@collaborators} meta={@meta} filter={[]}>
                     <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
                     <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
                     <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
                     <:col :let={collaborator} label="Accepted" field={:string}>
-                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="mx-auto block rounded-md text-gray-600" />
+                      <input type="checkbox" disabled={true} checked={collaborator.accepted} class="mx-auto block rounded-md text-zinc-600" />
                     </:col>
                     <:col :let={collaborator}>
                       <%= if collaborator.accepted do %>
@@ -189,7 +189,7 @@
             <% else %>
               <!-- Collaborators user view -->
               <div class="mx-4 sm:mx-6 lg:mx-8">
-                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborators</h2>
+                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborators</h2>
                 <%= for collaborator <- @collaborators do %>
                   <div class="border border-zinc-200 p-3 hover:bg-zinc-50">
                     <div class="flex">

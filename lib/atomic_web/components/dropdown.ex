@@ -41,7 +41,7 @@ defmodule AtomicWeb.Components.Dropdown do
                     JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})
                   end
                 }
-                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"}
+                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
                 role="menuitem"
                 method={Map.get(item, :method, "get")}
               >
@@ -51,7 +51,7 @@ defmodule AtomicWeb.Components.Dropdown do
                 <%= item.name %>
               </.link>
             <% else %>
-              <div class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700"}>
+              <div class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700"}>
                 <%= if item[:icon] do %>
                   <.icon name={item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
