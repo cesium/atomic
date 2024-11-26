@@ -5,6 +5,22 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
   use Phoenix.Component
   use AtomicWeb, :component
 
+  @pages [
+    {"Terms of Service", "tos"},
+    {"Privacy Policy", "privacy"},
+    {"Cookie Policy", "cookies"}
+  ]
+
+  defp link_pages(current_page) do
+    Enum.map(@pages, fn {title, path} ->
+      if title == current_page do
+        {:current, title, path}
+      else
+        {:link, title, path}
+      end
+    end)
+  end
+
   def header(assigns) do
     ~H"""
     <header class="fixed flex w-full max-w-[2000px] place-items-center justify-between bg-white pt-8 pr-8 pb-4 pl-4">
@@ -14,22 +30,16 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
           <.link navigate={~p"/"}>
             <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
           </.link>
-          <!-- Section Name -->
-          <p class="hidden select-none text-2xl font-semibold text-zinc-400 sm:block"><%= @page_name %></p>
-        </div>
+          </div>
         <div class="flex hidden place-items-center gap-x-2 text-sm font-semibold text-zinc-300 sm:block sm:gap-x-4 sm:space-x-2 md:space-x-4">
-          <%= if @page_name == "Terms of Service" do %>
-            <.link class="hover:text-zinc-400" navigate={~p"/privacy"}>Privacy Policy</.link>
-            <.link class="hover:text-zinc-400" navigate={~p"/cookies"}>Cookie Policy</.link>
+        <%= for {type, title, path} <- link_pages(@page_name) do %>
+          <%= case type do %>
+            <% :current -> %>
+            <span class="text-lg text-zinc-400"> <%= title %> </span>
+            <% :link -> %>
+            <.link class="hover:text-zinc-400" navigate={~p"/#{path}"}><%= title %></.link>
           <% end %>
-          <%= if @page_name == "Privacy Policy" do %>
-            <.link class="hover:text-zinc-400" navigate={~p"/tos"}>Terms of Service</.link>
-            <.link class="hover:text-zinc-400" navigate={~p"/cookies"}>Cookie Policy</.link>
-          <% end %>
-          <%= if @page_name == "Cookie Policy" do %>
-            <.link class="hover:text-zinc-400" navigate={~p"/tos"}>Terms of Service</.link>
-            <.link class="hover:text-zinc-400" navigate={~p"/privacy"}>Privacy Policy</.link>
-          <% end %>
+        <% end %>
         </div>
       </div>
       <!-- Link to Home (hidden on mobile) -->
