@@ -18,7 +18,7 @@ defmodule AtomicWeb.PartnerLive.Components.PartnerCard do
             <div class="grid w-full">
               <div class="flex flex-grow px-6">
                 <div class="flex relative bottom-6">
-                  <.avatar color={:light_gray} class="" name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+                  <.avatar color={:light_zinc} class="" name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
                 </div>
                 <div class="px-4 mt-5">
                   <div class="relative group ">

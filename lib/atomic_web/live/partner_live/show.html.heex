@@ -21,7 +21,7 @@
     <div class="flex flex-col gap-2 mt-2 sm:justify-center">
       <div class="flex flex-row gap-x-4 mb-4">
         <div class="flex flex-col lg:justify-none items-center px-2">
-          <.avatar class="size-28" color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+          <.avatar class="size-28" color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
         <div class="grid grid-rows-2 gap-y-0">
           <div class="flex items-center justify-between">
@@ -106,7 +106,7 @@
                         <.link href={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"}>
                         <li class="px-4 flex flex-row h-full md:flex-row justify-between rounded-lg border border-zinc-200 hover:bg-zinc-50 gap-x-4 py-5">
                           <div class="flex-shrink-0">
-                            <.avatar  class="size-10" color={:light_gray} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
+                            <.avatar  class="size-10" color={:light_zinc} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
                           </div>
                           <div class="flex-grow flex-col gap-y-5">
                             <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
