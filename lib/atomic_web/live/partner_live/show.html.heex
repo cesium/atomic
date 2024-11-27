@@ -21,36 +21,28 @@
             </h1>
           </div>
           <%= if @partner.location do %>
+            <!-- Location -->
             <div class="flex flex-row items-center gap-x-1 text-md leading-6">
-              <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
-              <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
+              <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
+              <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>
+                <%= @partner.location.name %>
+              </.link>
             </div>
           <% end %>
+
           <%= if @partner.socials do %>
-            <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
+            <!-- Socials and Website -->
+            <div class="flex flex-wrap gap-x-4 items-center mt-2">
+              <!-- Website -->
               <%= if @partner.socials.website do %>
-                <div class="flex flex-row items-center gap-x-1 ">
-                  <.icon name="hero-globe-alt" class="size-5 text-zinc-400" />
+                <div class="flex flex-row items-center gap-x-1">
+                  <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
                   <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
                 </div>
               <% end %>
-              <%= if @partner.socials.instagram do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/instagram.svg" class="size-5" alt="Instagram" />
-                  <.link class="text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
-                </div>
-              <% end %>
-              <%= if @partner.socials.facebook do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/facebook.svg" class="size-5" alt="Facebook" />
-                  <.link class="text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
-                </div>
-              <% end %>
-              <%= if @partner.socials.x do %>
-                <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                  <img src="/images/x.svg" class="size-5" alt="X" />
-                  <.link class="text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
-                </div>
+              <!-- Socials -->
+              <%= if @partner.socials do %>
+                <.socials entity={@partner.socials} />
               <% end %>
             </div>
           <% end %>
