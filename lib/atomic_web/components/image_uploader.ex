@@ -9,12 +9,12 @@ defmodule AtomicWeb.Components.ImageUploader do
     ~H"""
     <div id={@id}>
       <div class="shrink-0 1.5xl:shrink-0">
-        <.live_file_input upload={@uploads.image} class="hidden" />
+        <.live_file_input upload={@uploads} class="hidden" />
         <div class={
-            "#{if length(@uploads.image.entries) != 0 do
+            "#{if length(@uploads.entries) != 0 do
               "hidden"
             end} #{@class} border-2 border-gray-300 border-dashed rounded-md"
-          } phx-drop-target={@uploads.image.ref}>
+          } phx-drop-target={@uploads.ref}>
           <div class="flex h-full items-center justify-center px-6">
             <div class="flex flex-col items-center justify-center space-y-1">
               <svg class="size-12 mx-auto text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.ImageUploader do
               </svg>
               <div class="flex flex-col items-center text-sm text-gray-600">
                 <label for="file-upload" class="relative cursor-pointer rounded-md font-medium text-orange-500 hover:text-red-800">
-                  <a onclick={"document.getElementById('#{@uploads.image.ref}').click()"}>Upload a file</a>
+                  <a onclick={"document.getElementById('#{@uploads.ref}').click()"}>Upload a file</a>
                 </label>
                 <p class="pl-1">or drag and drop</p>
               </div>
@@ -31,13 +31,13 @@ defmodule AtomicWeb.Components.ImageUploader do
           </div>
         </div>
         <section>
-          <%= for entry <- @uploads.image.entries do %>
-            <%= for err <- upload_errors(@uploads.image, entry) do %>
+          <%= for entry <- @uploads.entries do %>
+            <%= for err <- upload_errors(@uploads, entry) do %>
               <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
             <% end %>
             <article class="upload-entry">
-              <figure class="w-[400px]">
-                <.live_img_preview entry={entry} />
+              <figure class="w-[100px]">
+                <.live_img_preview entry={entry} id={"preview-#{entry.ref}"} class="rounded-lg shadow-lg" />
                 <div class="flex">
                   <figcaption>
                     <%= if String.length(entry.client_name) < 30 do %>
