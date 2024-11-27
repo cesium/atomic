@@ -1,4 +1,4 @@
-defmodule AtomicWeb.SasumLive.Index do
+defmodule AtomicWeb.SasumLive.Purchase do
   use AtomicWeb, :live_view
 
   alias Atomic.Sasum

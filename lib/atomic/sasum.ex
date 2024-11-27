@@ -13,10 +13,13 @@ defmodule Atomic.Sasum do
   def link_sasum(user_id, sasum_auth_params) do
     user = Accounts.get_user!(user_id)
 
-    case Req.get(@sasum_api_url, params: [auth: sasum_auth_params["email"], pin: sasum_auth_params["password"]]) do
+    case Req.get(@sasum_api_url,
+           params: [auth: sasum_auth_params["email"], pin: sasum_auth_params["password"]]
+         ) do
       {_req, resp} ->
         if resp.status == 200 do
-          data = resp.body |> IO.inspect()
+          data = resp.body
+
           if data["status"] == "OK" do
             Accounts.update_user(user, %{sasum_hash: data["hash"]})
           else
@@ -25,6 +28,7 @@ defmodule Atomic.Sasum do
         else
           {:error, "couldn't connect to sasum"}
         end
+
       _ ->
         {:error, "couldn't connect to sasum"}
     end
@@ -37,12 +41,40 @@ defmodule Atomic.Sasum do
       {_req, resp} ->
         if resp.status == 200 do
           data = resp.body
+
           case Regex.run(~r/src='(data:image\/png;base64,[^']*)'/, data) do
             [_, qr_code] ->
               {:ok, qr_code}
+
             _ ->
               {:error, "couldn't find qr code"}
           end
+        else
+          {:error, "couldn't connect to sasum"}
+        end
+    end
+  end
+
+  def fetch_user_sasum_profile(user_id) do
+    user = Accounts.get_user!(user_id)
+
+    case Req.get(@sasum_api_url, params: [hash: user.sasum_hash, m: "perfil"]) do
+      {_req, resp} ->
+        if resp.status == 200 do
+          data = resp.body
+
+          {:ok,
+           %{
+             name: data["perfil"]["nome"],
+             phone: data["perfil"]["telemovel"],
+             email: data["perfil"]["email"],
+             photo_url:
+               if data["perfil"]["foto"] != "" do
+                 "https://sasum.scl.pt#{data["perfil"]["foto"]}"
+               else
+                 nil
+               end
+           }}
         else
           {:error, "couldn't connect to sasum"}
         end

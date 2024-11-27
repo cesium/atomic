@@ -6,10 +6,10 @@
       <p class="text-sm"><%= @sasum_profile.email %></p>
     </div>
   </div>
-  <.link patch={~p"/sasum/purchase"}>
-    <.button icon="hero-shopping-cart" color={:light}></.button>
+  <.link patch={~p"/sasum"}>
+    <.button icon="hero-arrow-left" color={:light}></.button>
   </.link>
 </div>
-<div class="w-full flex justify-center">
-  <img src={fetch_qr_code(@current_user)} />
+<div class="w-full flex justify-center pt-16">
+  <iframe class="w-96 h-[650px]" src={"https://www.portal.sas.uminho.pt/refeicoes.php?&act=senharefeicao&hash=#{@current_user.sasum_hash}&sb=1"}></iframe>
 </div>

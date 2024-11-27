@@ -114,6 +114,7 @@ defmodule AtomicWeb.Router do
       scope "/sasum" do
         live "/", SasumLive.Index, :index
         live "/link", SasumLive.Link, :index
+        live "/purchase", SasumLive.Purchase, :index
       end
 
       live "/profile/:slug/edit", ProfileLive.Edit, :edit
