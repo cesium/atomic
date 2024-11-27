@@ -111,6 +111,11 @@ defmodule AtomicWeb.Router do
         :require_finished_user_setup
       ]
 
+      scope "/sasum" do
+        live "/", SasumLive.Index, :index
+        live "/link", SasumLive.Link, :index
+      end
+
       live "/profile/:slug/edit", ProfileLive.Edit, :edit
 
       live "/scanner", ScannerLive.Index, :index

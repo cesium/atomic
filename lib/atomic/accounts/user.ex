@@ -14,7 +14,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Organizations.{Collaborator, Membership, Organization}
 
   @required_fields ~w(email password)a
-  @optional_fields ~w(name slug role confirmed_at phone_number course_id current_organization_id)a
+  @optional_fields ~w(name slug role confirmed_at phone_number course_id current_organization_id sasum_hash)a
 
   @roles ~w(master student)a
 
@@ -32,6 +32,8 @@ defmodule Atomic.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :phone_number, :string
     field :profile_picture, Uploaders.ProfilePicture.Type
+
+    field :sasum_hash, :string
 
     belongs_to :course, Course
     belongs_to :current_organization, Organization

@@ -87,6 +87,7 @@ defmodule Atomic.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:inflex, "~> 2.0.0"},
+      {:req, "~> 0.5.7"},
 
       # plugs
       {:plug_cowboy, "~> 2.5"},

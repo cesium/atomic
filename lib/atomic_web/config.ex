@@ -96,6 +96,13 @@ defmodule AtomicWeb.Config do
         icon: "tabler-affiliate",
         url: ~p"/organizations",
         tabs: []
+      },
+      %{
+        key: :sasum,
+        title: "SASUM",
+        icon: "hero-wallet",
+        url: ~p"/sasum",
+        tabs: []
       }
     ]
   end

@@ -1,0 +1,19 @@
+<.page title="Link SASUM Account">
+    <div class="mx-auto max-w-5xl sm:px-6 lg:px-8 px-4">
+        <p>
+            <%= gettext("Connect your SASUM account to Atomic to buy meal passes via the application.") %>
+        </p>
+        <div class="flex justify-center py-12">
+            <div class="flex flex-col w-96 border rounded-b-lg">
+                <img src="/images/sasum-auth-logo.png"/>
+                <.form id="sasum-auth-form" for={@form} autocomplete="off" phx-submit="link" class="py-8 px-4">
+                    <.field id="input-email" name="email" value="" label="E-mail" autocomplete="off" placeholder="aXXXXXX@alunos.uminho.pt"/>
+                    <.field id="input-password" name="password" type="password" value="" label="Password" autocomplete="new-password" />
+                    <.button id="form-button" color={:light} size={:md} full_width>
+                        <%= gettext("Log-in") %>
+                    </.button>
+                </.form>
+            </div>
+        </div>
+    </div>
+</.page>
