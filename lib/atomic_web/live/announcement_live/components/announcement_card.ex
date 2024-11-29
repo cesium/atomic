@@ -7,7 +7,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
 
   def announcement_card(assigns) do
     ~H"""
-    <div class="mt-2 flex flex-col justify-center rounded-lg bg-white lg:p-4">
+    <div class="mt-4 flex flex-col justify-center rounded-lg bg-white md:mt-2 lg:p-4">
       <.link navigate={~p"/organizations/#{@organization}/announcements/#{@announcement}"} class="block">
         <div class="flex items-center space-x-2 px-4 py-1">
           <div class="flex-shrink-0">

@@ -1,7 +1,7 @@
 defmodule AtomicWeb.AnnouncementLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Announcement
+  import AtomicWeb.Components.Avatar
 
   alias Atomic.Accounts
   alias Atomic.Organizations
