@@ -3,6 +3,7 @@ defmodule AtomicWeb.PartnerLive.Show do
 
   import AtomicWeb.Components.{Avatar, Gradient, Tabs}
 
+
   alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Partners

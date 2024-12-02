@@ -25,6 +25,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
                 <.field field={socials_form[:instagram]} type="text" class="w-full" />
                 <.field field={socials_form[:facebook]} type="text" class="w-full" />
                 <.field field={socials_form[:x]} type="text" class="w-full" />
+                <.field field={socials_form[:tiktok]} type="text" class="w-full" />
                 <.field field={socials_form[:website]} type="text" class="w-full" />
               </.inputs_for>
             </div>
