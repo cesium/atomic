@@ -8,18 +8,9 @@
 </div>
 <.page title="">
   <!--Body-->
-  <:actions>
-    <%= if @has_permissions? do %>
-      <div class="lg:block lg:border-orange-500">
-        <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
-          <%= gettext("Edit Partner") %>
-        </.button>
-      </div>
-    <% end %>
-  </:actions>
   <div class="border-t-100 min-h-fit max-w-5xl select-none sm:mx-6 sm:px-0 lg:mx-0 lg:px-8">
     <div class="mt-2 flex flex-col gap-2 sm:justify-center">
-      <div class="mb-4 flex flex-row gap-x-4">
+      <div class="relative mb-4 flex flex-row gap-x-4">
         <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar class="size-28" color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
@@ -62,6 +53,13 @@
                     <.link class="text-sm text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
                   </div>
                 <% end %>
+              </div>
+            <% end %>
+            <%= if @has_permissions? do %>
+              <div class="absolute top-0 right-0 lg:border-orange-500">
+                <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
+                  <%= gettext("Edit Partner") %>
+                </.button>
               </div>
             <% end %>
           </div>
