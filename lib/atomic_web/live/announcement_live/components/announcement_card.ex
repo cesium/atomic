@@ -25,7 +25,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
           <p class="text-lg font-semibold text-zinc-900" title={@announcement.title}>
             <%= @announcement.title %>
           </p>
-          <p class="mt-2 overflow-hidden overflow-wrap break-all text-sm leading-relaxed text-zinc-700">
+          <p class="overflow-wrap mt-2 overflow-hidden break-all text-sm leading-relaxed text-zinc-700">
             <%= maybe_slice_string(@announcement.description, 300) %>
           </p>
         </div>
