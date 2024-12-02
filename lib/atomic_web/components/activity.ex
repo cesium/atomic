@@ -32,7 +32,7 @@ defmodule AtomicWeb.Components.Activity do
         </div>
       </div>
       <h2 class="mt-3 text-base font-semibold text-zinc-900"><%= @activity.title %></h2>
-      <div class="text-justify text-sm text-zinc-700">
+      <div class="overflow-hidden break-words text-justify text-sm text-zinc-700">
         <p><%= maybe_slice_string(@activity.description, 300) %></p>
       </div>
       <!-- Image -->
