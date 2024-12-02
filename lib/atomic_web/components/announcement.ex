@@ -30,7 +30,7 @@ defmodule AtomicWeb.Components.Announcement do
         </div>
       </div>
       <h2 class="mt-3 text-base font-semibold text-zinc-900"><%= @announcement.title %></h2>
-      <div class="space-y-4 text-justify text-sm text-zinc-700">
+      <div class="space-y-4 text-justify text-sm text-zinc-700 overflow-hidden break-words">
         <%= maybe_slice_string(@announcement.description, 300) %>
       </div>
       <!-- Image -->
