@@ -2,7 +2,7 @@
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button navigate={~p"/organizations/#{@current_organization}/announcements/new"} icon="hero-plus">
-        <%= gettext("New") %>
+        <%= gettext("New Announcement") %>
       </.button>
     <% end %>
   </:actions>
