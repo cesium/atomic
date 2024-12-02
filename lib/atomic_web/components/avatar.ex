@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Avatar do
     doc: "The type of entity associated with the avatar."
 
   attr :size, :atom,
-    values: [:xs, :sm, :md, :lg, :xl, :xl],
+    values: [:xs, :sm, :md, :lg, :xl],
     default: :md,
     doc: "The size of the avatar."
 
