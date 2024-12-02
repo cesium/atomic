@@ -26,7 +26,7 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
         </div>
         <.avatar_group
           size={:xs}
-          color={:light_gray}
+          color={:light_zinc}
           spacing={-2}
           class="min-h-8 mt-4 mb-2"
           items={

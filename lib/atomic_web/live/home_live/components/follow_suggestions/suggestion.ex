@@ -24,13 +24,13 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
     <li class="flex items-center space-x-3">
       <.link navigate={~p"/organizations/#{@organization}"} class="flex min-w-0 flex-1 items-center space-x-3 py-4">
         <div class="my-auto flex-shrink-0">
-          <.avatar name={@organization.name} class="!h-10 !w-10 !text-lg" color={:light_gray} size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
+          <.avatar name={@organization.name} class="!h-10 !w-10 !text-lg" color={:light_zinc} size={:xs} type={:organization} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
         </div>
         <div class="min-w-0 flex-1">
-          <p class="text-sm font-medium text-gray-900">
+          <p class="text-sm font-medium text-zinc-900">
             <%= @organization.name %>
           </p>
-          <p class="text-sm text-gray-500">
+          <p class="text-sm text-zinc-500">
             <!-- FIXME: organization.handle -->
             <%= ("@" <> @organization.name) |> String.downcase() |> String.replace(" ", "") %>
           </p>
@@ -39,12 +39,12 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
       <div class="flex-shrink-0">
         <%= if @is_following do %>
           <.button phx-value-organization_id={@organization.id} phx-click="unfollow" phx-target={@myself} color={:white} size={:xs}>
-            <.icon name="hero-minus-solid" class="size-5 text-gray-400" />
+            <.icon name="hero-minus-solid" class="size-5 text-zinc-400" />
             <span>Unfollow</span>
           </.button>
         <% else %>
           <.button phx-value-organization_id={@organization.id} phx-click="follow" phx-target={@myself} color={:white} size={:xs}>
-            <.icon name="hero-plus" class="size-5 text-gray-400" />
+            <.icon name="hero-plus" class="size-5 text-zinc-400" />
             <span>Follow</span>
           </.button>
         <% end %>
