@@ -34,7 +34,7 @@ defmodule Atomic.Accounts.UserNotifier do
       |> subject("Confirm your Account")
       |> assign(:user, user)
       |> assign(:url, url)
-      |> render_body("user_confirmation.txt")
+      |> render_body("user_confirmation.html")
 
     case Mailer.deliver(email) do
       {:ok, _term} -> {:ok, email}
