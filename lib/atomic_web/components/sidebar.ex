@@ -122,7 +122,7 @@ defmodule AtomicWeb.Components.Sidebar do
       <AtomicWeb.Components.Dropdown.dropdown orientation={@orientation} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
-            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
+            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_zinc} class="!text-sm" />
             <span class="text-sm font-semibold leading-6"><%= @current_user.name %></span>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>

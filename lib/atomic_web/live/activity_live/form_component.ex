@@ -75,7 +75,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     consume_uploaded_entries(socket, :image, fn %{path: path}, entry ->
       Activities.update_activity_image(activity, %{
         "image" => %Plug.Upload{
-          content_type: entry.content_type,
+          content_type: entry.client_type,
           filename: entry.client_name,
           path: path
         }
