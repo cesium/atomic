@@ -1,42 +1,40 @@
 <.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if @has_permissions? do %>
-      <.button navigate={Routes.announcement_edit_path(@socket, :edit, @announcement.organization, @announcement)} icon="hero-pencil-solid"><%= gettext("Edit Announcement") %></.button>
+      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid"><%= gettext("Edit Announcement") %></.button>
     <% end %>
   </:actions>
   <div id={@announcement.id} class="mx-auto max-w-5xl">
-    <.link navigate={Routes.announcement_show_path(@socket, :show, @announcement)}>
-      <div class="mt-4 md:mt-2 flex flex-col justify-center rounded-lg bg-white lg:p-4">
-        <div class="flex items-center space-x-2 px-4 py-1">
-          <div class="flex-shrink-0">
-            <.avatar name={@announcement.organization.name} color={:light_zinc} size={:md} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
-          </div>
-          <div>
-            <p class="text-lg sm:text-xl font-bold text-zinc-700"><%= @announcement.organization.name %></p>
-            <p class="text-base md:text-md text-gray-500">
-              <span class="sr-only">Published on</span>
-              <time><%= relative_datetime(@announcement.inserted_at) %></time>
-            </p>
-          </div>
+    <div class="mt-4 md:mt-2 flex flex-col justify-center rounded-lg bg-white lg:p-4">
+      <div class="flex items-center space-x-2 px-4 py-1">
+        <div class="flex-shrink-0">
+          <.avatar name={@announcement.organization.name} color={:light_zinc} size={:md} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
         </div>
-        <div class="px-4 py-2 mt-8">
-          <p class="text-xl md:text-2xl font-semibold text-zinc-900" title={@announcement.title}>
-            <%= @announcement.title %>
-          </p>
-          <p class="mt-2 overflow-hidden break-words text-sm md:text-base leading-relaxed">
-            <span class="py-4 text-zinc-800">
-              <%= Enum.map(String.split(@announcement.description, "\n"), fn phrase -> %>
-                <%= phrase %>
-              <% end) %>
-            </span>
+        <div>
+          <p class="text-lg sm:text-xl font-bold text-zinc-700"><%= @announcement.organization.name %></p>
+          <p class="text-base md:text-md text-gray-500">
+            <span class="sr-only">Published on</span>
+            <time><%= relative_datetime(@announcement.inserted_at) %></time>
           </p>
         </div>
-        <%= if @announcement.image do %>
-          <div class="h-auto w-full overflow-hidden mt-4">
-            <img class="h-full w-full object-cover md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
-          </div>
-        <% end %>
       </div>
-    </.link>
+      <div class="px-4 py-2 mt-8">
+        <p class="text-xl md:text-2xl font-semibold text-zinc-900" title={@announcement.title}>
+          <%= @announcement.title %>
+        </p>
+        <p class="mt-2 overflow-hidden break-words text-sm md:text-base leading-relaxed">
+          <span class="py-4 text-zinc-800">
+            <%= Enum.map(String.split(@announcement.description, "\n"), fn phrase -> %>
+              <%= phrase %>
+            <% end) %>
+          </span>
+        </p>
+      </div>
+      <%= if @announcement.image do %>
+        <div class="h-auto w-full overflow-hidden mt-4">
+          <img class="max-h-[32rem] sm:max-wxl object-cover max-w-screen md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
+        </div>
+      <% end %>
+    </div>
   </div>
 </.page>
