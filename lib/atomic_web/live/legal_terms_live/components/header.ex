@@ -44,8 +44,8 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
       </div>
       <!-- Link to Home (hidden on mobile) -->
       <div class="flex place-items-center lg:pr-12">
-        <.link class="atomic-button atomic-button--white atomic-button--md hidden sm:block" navigate={~p"/"}>Back home</.link>
-        <.link class="atomic-button atomic-button--md hero-home block text-zinc-400 sm:hidden" navigate={~p"/"}></.link>
+        <.button class="atomic-button atomic-button--white atomic-button--md hidden sm:block" patch={~p"/"}><%= gettext("Back Home") %></.button>
+        <.button class="atomic-button atomic-button--md hero-home block text-zinc-400 sm:hidden" patch={~p"/"}></.button>
       </div>
     </header>
     """
