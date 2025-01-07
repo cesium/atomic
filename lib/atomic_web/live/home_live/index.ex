@@ -4,6 +4,7 @@ defmodule AtomicWeb.HomeLive.Index do
 
   import AtomicWeb.Components.{Activity, Announcement, Tabs, Unauthenticated, Dropdown}
   import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
+  import AtomicWeb.Components.LegalPagesLinks
 
   alias Atomic.Activities
   alias Atomic.Feed

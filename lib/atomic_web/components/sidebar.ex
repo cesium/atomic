@@ -4,6 +4,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.LegalPagesLinks
   alias Atomic.Organizations
 
   attr :current_user, :map, required: true
@@ -64,6 +65,8 @@ defmodule AtomicWeb.Components.Sidebar do
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
             </div>
+            <!-- Legal Pages Links -->
+            <.legal_pages_links />
           </div>
         </div>
       </div>
