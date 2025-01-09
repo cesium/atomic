@@ -1,0 +1,228 @@
+{
+  "Direção": [
+    {
+      "Presidência": [
+        {
+          "Sofia Gomes": {
+            "position": "Presidente",
+            "image": "team/sofia-gomes.jpg"
+          }
+        },
+        {
+          "Alexandre Gomes": {
+            "position": "Vice-Presidente",
+            "image": "team/alexandre-gomes.jpg"
+          }
+        },
+        {
+          "Gonçalo Rodrigues": {
+            "position": "Vice-Presidente",
+            "image": "team/goncalo-rodrigues.jpg"
+          }
+        },
+        {
+          "Vitor Leite": {
+            "position": "Tesoureiro",
+            "image": "team/vitor-leite.jpg"
+          }
+        },
+        {
+          "Beatriz Rodrigues": {
+            "position": "Secretária",
+            "image": "team/beatriz-rodrigues.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "CAOS": [
+        {
+          "Rui Oliveira": {
+            "position": "Diretor",
+            "image": "team/rui-oliveira.jpg"
+          }
+        },
+        {
+          "Rui Lopes": {
+            "position": "Codiretor",
+            "image": "team/rui-lopes.jpg"
+          }
+        },
+        {
+          "Tiago Pereira": {
+            "position": "Codiretor",
+            "image": "team/tiago-pereira.jpg"
+          }
+        },
+        {
+          "Enzo Vieira": {
+            "position": "Codiretor",
+            "image": "team/enzo-vieira.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "Departamento de Marketing e Conteúdo": [
+        {
+          "Gustavo Pereira": {
+            "position": "Diretor",
+            "image": "team/gustavo-pereira.jpg"
+          }
+        },
+        {
+          "Júlio Pinto": {
+            "position": "Codiretor",
+            "image": "team/julio-pinto.jpg"
+          }
+        },
+        {
+          "Ricardo Lucena": {
+            "position": "Codiretor",
+            "image": "team/ricardo-lucena.jpg"
+          }
+        },
+        {
+          "Alexandre Neves": {
+            "position": "Codiretor",
+            "image": "team/alexandre-neves.jpg"
+          }
+        },
+        {
+          "Lara Pereira": {
+            "position": "Codiretora",
+            "image": "team/lara-pereira.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "Departamento de Merchandising e Parcerias": [
+        {
+          "Gerson Junior": {
+            "position": "Diretor",
+            "image": "team/gerson-junior.jpg"
+          }
+        },
+        {
+          "Miguel Gramoso": {
+            "position": "Codiretor",
+            "image": "team/miguel-gramoso.jpg"
+          }
+        },
+        {
+          "Inês Marinho": {
+            "position": "Codiretora",
+            "image": "team/ines-marinho.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "Departamento Pedagógico": [
+        {
+          "Henrique Pereira": {
+            "position": "Diretor",
+            "image": "team/henrique-pereira.jpg"
+          }
+        },
+        {
+          "Daniel Pereira": {
+            "position": "Codiretor",
+            "image": "team/daniel-pereira.jpg"
+          }
+        },
+        {
+          "Pedro Sousa": {
+            "position": "Codiretor",
+            "image": "team/pedro-sousa.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "Departamento Recreativo": [
+        {
+          "Leonardo Freitas": {
+            "position": "Diretor",
+            "image": "team/leonardo-freitas.jpg"
+          }
+        },
+        {
+          "Gonçalo Costa": {
+            "position": "Codiretor",
+            "image": "team/goncalo-costa.jpg"
+          }
+        },
+        {
+          "Martim Ferreira": {
+            "position": "Codiretor",
+            "image": "team/martim-ferreira.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "Vogais": [
+        {
+          "Gabriela Prata": {
+            "position": "Vogal",
+            "image": "team/gabriela-prata.jpg"
+          },
+          "Jéssica Fernandes": {
+            "position": "Vogal",
+            "image": "team/jessica-fernandes.jpg"
+          },
+          "José Ferreira": {
+            "position": "Vogal",
+            "image": "team/jose-ferreira.jpg"
+          },
+          "Matilde Bravo": {
+            "position": "Vogal",
+            "image": "team/matilde-bravo.jpg"
+          }
+        }
+      ]
+    }
+  ],
+  "Mesa da Assembleia Geral": [
+    {
+      "Tiago Soares": {
+        "position": "Presidente",
+        "image": "team/tiago-soares.jpg"
+      }
+    },
+    {
+      "Pedro António": {
+        "position": "Vice-Presidente",
+        "image": "team/pedro-antonio.jpg"
+      }
+    },
+    {
+      "Marco Pereira": {
+        "position": "Secretário",
+        "image": "team/marco-pereira.jpg"
+      }
+    }
+  ],
+  "Conselho Fiscal": [
+    {
+      "Filipe Felício": {
+        "position": "Presidente",
+        "image": "team/filipe-felicio.jpg"
+      }
+    },
+    {
+      "Luís Araújo": {
+        "position": "Vice-Presidente",
+        "image": "team/luis-araujo.jpg"
+      }
+    },
+    {
+      "Rui Armada": {
+        "position": "Secretário",
+        "image": "team/rui-armada.jpg"
+      }
+    }
+  ]
+}
