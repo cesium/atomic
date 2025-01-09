@@ -10,14 +10,22 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:image_1, accept: @extensions_whitelist, max_entries: 1, max_file_size: 10_000_000)
-     |> allow_upload(:image_2, accept: @extensions_whitelist, max_entries: 1, max_file_size: 100_000_000)
-    }
+     |> allow_upload(:image_1,
+       accept: @extensions_whitelist,
+       max_entries: 1,
+       max_file_size: 10_000_000
+     )
+     |> allow_upload(:image_2,
+       accept: @extensions_whitelist,
+       max_entries: 1,
+       max_file_size: 100_000_000
+     )}
   end
 
   @impl true
   def update(%{user: user} = assigns, socket) do
     changeset = Accounts.change_user(user)
+
     {:ok,
      socket
      |> assign(assigns)
