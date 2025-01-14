@@ -42,6 +42,10 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  def handle_event("cancel-image", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :image_1, ref)}
+  end
+
   def handle_event("save", %{"user" => user_params}, socket) do
     user = socket.assigns.user
 
@@ -99,9 +103,5 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     end)
 
     {:ok, user}
-  end
-
-  def handle_event("cancel-image", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :image_1, ref)}
   end
 end
