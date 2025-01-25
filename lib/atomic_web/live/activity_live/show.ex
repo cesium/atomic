@@ -37,7 +37,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   @impl true
   def handle_event("confirm", _payload, socket) do
-    case socket.assigns.live_action do
+    case socket.assigns.llive_actionive_action do
       :enroll ->
         action_enroll(socket)
 

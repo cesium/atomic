@@ -6,6 +6,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   import AtomicWeb.Components.Forms
 
+  alias Phoenix.LiveView.JS
+
   @impl true
   def update(%{activity: activity} = assigns, socket) do
     changeset = Activities.change_activity(activity)
@@ -14,6 +16,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_form(changeset)
+     |> assign(:modal, false)
      |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
 
@@ -39,6 +42,13 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
+  end
+
+  @impl true
+  def handle_event("toggle_description_modal", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:modal, not socket.assigns.modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do
