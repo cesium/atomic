@@ -9,25 +9,36 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   alias Phoenix.LiveView.JS
 
   @impl true
-  def update(%{activity: activity} = assigns, socket) do
+  def update(%{activity: activity, action: action} = assigns, socket) do
     changeset = Activities.change_activity(activity)
+    initial_description = case action do
+      :new -> false
+      _ -> true
+    end
 
     {:ok,
      socket
      |> assign(assigns)
      |> assign_form(changeset)
      |> assign(:modal, false)
+     |> assign(:has_description?, initial_description)
      |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
 
   @impl true
   def handle_event("validate", %{"activity" => activity_params}, socket) do
+    description = Map.get(activity_params, "description", "")
+    has_description = is_nil(description) ||  String.trim(description) == ""
+
     changeset =
       socket.assigns.activity
       |> Activities.change_activity(activity_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign_form(socket, changeset)}
+      {:noreply,
+      socket
+      |> assign(:has_description?, not has_description)
+      |> assign_form(changeset)}
   end
 
   @impl true
@@ -46,9 +57,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("toggle_description_modal", _, socket) do
-    {:noreply,
-     socket
-     |> assign(:modal, not socket.assigns.modal)}
+    {:noreply, socket
+      |> assign(:modal, not socket.assigns.modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do

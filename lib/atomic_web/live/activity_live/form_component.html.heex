@@ -23,32 +23,40 @@
           </div>
         </div>
         <div class="flex w-full">
-          <div class="justify-top flex flex-col items-center pt-3">
+          <div class="justify-top flex flex-col items-center pt-3 hidden sm:block">
             <div class="size-3 bg-primary-600 m-1 rounded-full" />
             <div class="border-l-primary-600 h-[3.25rem] border-l border-dashed" />
             <div class="size-3 border-primary-600 m-1 rounded-full border" />
           </div>
           <div class="flex w-full flex-col">
-            <div class="text-nowrap flex items-baseline justify-between gap-y-1 p-1 pl-3">
+            <div class="text-nowrap flex flex-col sm:flex-row items-baseline justify-between gap-y-1 p-1 pl-3">
               <span>Start</span>
-              <.field type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
+              <div class="w-full sm:w-56">
+                <.field class="w-full sm:w-56 atomic-button atomic-button--primary-outline text-gray-900" type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
+              </div>
             </div>
-            <div class="text-nowrap flex items-baseline justify-between gap-y-1 p-1 pl-3">
+            <div class="text-nowrap flex flex-col sm:flex-row items-baseline justify-between gap-y-1 p-1 pl-3">
               <span>End</span>
-              <.field type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
+              <div class="w-full sm:w-56">
+                <.field class="w-full sm:w-56 atomic-button atomic-button--primary-outline text-gray-900" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
+              </div>            
             </div>
           </div>
         </div>
 
-        <.button class="flex flex-col items-start px-2 py-2 rounded-lg bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+        <.button class="flex flex-col items-start px-2 py-2 border-gray-300 rounded-lg bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+          <label class="text-left cursor-pointer text-gray-700">
+            Description
+            <span class="text-danger-600">*</span>
+          </label>
           <div class="w-full">
             <.field
+              :if={@has_description?}
               type="text"
               field={@form[:description]}
-              label="Description"
+              label=""
               readonly
-              required
-              label_class="text-left cursor-pointer"
+              label_class=""
               wrapper_class="m-0"
               autocomplete="off"
               error_class="text-danger-600 placeholder-danger-700"
@@ -61,28 +69,27 @@
         <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-start">
           <.inputs_for :let={fl} field={@form[:location]}>
             <div class="flex flex-col gap-y-1">
-              <.field type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
+              <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
             </div>
-
             <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
-              <.field type="text" field={fl[:address]} label="Address" placeholder="Address" required />
+              <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:address]} label="Address" placeholder="Address" required />
             </div>
           </.inputs_for>
         </div>
 
         <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-start">
           <div class="flex flex-col gap-y-1">
-            <.field type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" required />
+            <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" required />
           </div>
 
           <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
-            <.field type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
+            <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
           </div>
         </div>
 
-        <.modal :if={@modal} class="" id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
+        <.modal :if={@modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
           <div class="mt-4 flex-grow">
-            <.field class="min-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
+            <.field class="min-h-10 resize-none " type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
             <div class="w-full flex justify-end">
               <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
                 <span><%= gettext("Done") %></span>
@@ -90,6 +97,7 @@
             </div>
           </div>
         </.modal>
+        
       </div>
     </div>
 
