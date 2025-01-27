@@ -145,15 +145,15 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   defp generate_dropdown_items(is_enrolled, can_edit, activity, socket) do
-    [%{name: gettext("Share"), link: "/", icon: :share}]
+    [%{name: gettext("Share"), navigate: "/", icon: :share}]
     |> append_if_true(is_enrolled, %{
       name: gettext("Unenroll"),
-      link: Routes.activity_show_path(socket, :unenroll, activity),
+      navigate: Routes.activity_show_path(socket, :unenroll, activity),
       icon: :user_minus
     })
     |> append_if_true(can_edit, %{
       name: gettext("Edit"),
-      link: Routes.activity_edit_path(socket, :edit, activity.organization, activity),
+      navigate: Routes.activity_edit_path(socket, :edit, activity.organization, activity),
       icon: :pencil
     })
   end
