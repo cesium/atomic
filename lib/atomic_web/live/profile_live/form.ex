@@ -11,14 +11,12 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     ~H"""
     <div class="px-4 pt-4">
       <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-        <!-- Grid layout for profile picture, name, phone number, email, and social media fields -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <!-- Section for profile picture upload -->
           <div class="flex flex-col items-center pr-4">
             <%= if @user.profile_picture != nil  do %>
               <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
               <div class="mb-4 border-4">
-                <.avatar name={@user.name} color={:light_gray} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
+                <.avatar name={@user.name} color={:zinc} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
               </div>
               <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
             <% else %>
@@ -27,14 +25,12 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
             <% end %>
           </div>
           <div class="flex flex-col gap-6">
-            <!-- Name, phone number, email fields -->
             <div class="grid grid-cols-1 gap-2">
               <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
               <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
               <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
               <.field field={f[:slug]} type="text" placeholder="User Name" class="w-full" />
             </div>
-            <!-- Social media fields positioned below name, phone, and email -->
             <div class="grid w-full gap-x-4 gap-y-4 sm:grid-cols-1 md:grid-cols-4">
               <.inputs_for :let={socials_form} field={f[:socials]}>
                 <.field field={socials_form[:instagram]} type="text" placeholder="Instagram" class="w-full" />
@@ -45,7 +41,6 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
             </div>
           </div>
         </div>
-        <!-- Submit button -->
         <div class="mt-8 flex w-full justify-end">
           <.button size={:md} color={:white} icon="hero-cube">Save</.button>
         </div>

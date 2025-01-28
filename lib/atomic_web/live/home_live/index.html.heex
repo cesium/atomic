@@ -7,11 +7,11 @@
           <div class="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
             <div class="flex flex-row my-6 min-w-0 select-none gap-x-2">
               <%= if @is_authenticated? do %>
-                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                <h1 class="text-2xl font-bold text-zinc-900 truncate">
                   Welcome, <%= @current_user.name %>
                 </h1>
               <% else %>
-                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                <h1 class="text-2xl font-bold text-zinc-900 truncate">
                   Welcome to Atomic
                 </h1>
               <% end %>
@@ -30,7 +30,7 @@
             <.tab id="tab-following" active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
               <%= gettext("Following") %>
             </.tab>
-            <%= if length(@schedule.weekly) + length(@schedule.daily) > 0 do %>
+            <%= if length(@schedule_default.weekly) + length(@schedule_default.daily) > 0 do %>
               <.tab id="tab-schedule" active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
                 <%= gettext("Schedule") %>
               </.tab>
@@ -39,35 +39,76 @@
         </div>
         <!-- Feed -->
         <%= if @current_tab != "schedule" do %>
-          <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-            <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
-              <%= if post.type == :activity do %>
-                <.link navigate={~p"/activities/#{post.activity}"}>
-                  <.activity activity={post.activity} />
-                </.link>
-              <% else %>
-                <.link navigate={~p"/announcements/#{post.announcement}"}>
-                  <.announcement announcement={post.announcement} />
-                </.link>
-              <% end %>
-            </li>
-          </ul>
+          <%= if @is_authenticated? == false && @current_tab == "following" do %>
+            <div class="mt-6">
+              <.unauthenticated_state />
+            </div>
+          <% else %>
+            <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
+              <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-zinc-200 sm:px-6 lg:px-8">
+                <%= if post.type == :activity do %>
+                  <.link navigate={~p"/activities/#{post.activity}"}>
+                    <.activity activity={post.activity} />
+                  </.link>
+                <% else %>
+                  <.link navigate={~p"/announcements/#{post.announcement}"}>
+                    <.announcement announcement={post.announcement} />
+                  </.link>
+                <% end %>
+              </li>
+            </ul>
+          <% end %>
         <% else %>
-          <.schedule schedule={@schedule} />
+          <.schedule schedule={@schedule_default} current_user={@current_user} />
         <% end %>
       </article>
     </main>
   </div>
-  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pr-4 pb-6 pl-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
-    <!-- Schedule -->
-    <section aria-labelledby="schedule">
-      <.schedule schedule={@schedule} />
-    </section>
+  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pb-6 w-full border-t border-zinc-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
     <!-- Organizations to follow -->
-    <%= if @is_authenticated? do %>
-      <section aria-labelledby="organizations-to-follow" class={if @schedule.weekly, do: "pt-6", else: "pt-3 "}>
-        <.follow_suggestions current_user={@current_user} organizations={@organizations} />
-      </section>
-    <% end %>
+    <section aria-labelledby="organizations-to-follow" class="border-b border-zinc-200 pl-6 pr-4 pt-6">
+      <.follow_suggestions current_user={@current_user} organizations={@organizations} />
+    </section>
+    <!-- Schedule -->
+    <section aria-labelledby="schedule" class="pl-6 pr-4">
+      <div class="flex justify-between items-center pt-4">
+        <h1 class="text-xl font-bold text-zinc-90">Schedule</h1>
+        <.dropdown
+          :if={@current_user}
+          id="schedule-dropdown"
+          orientation={:down}
+          items={[
+            %{
+              name: gettext("All"),
+              phx_click: "show-schedule-default"
+            },
+            %{
+              name: gettext("My schedule"),
+              phx_click: "show-schedule-user"
+            }
+          ]}
+        >
+          <:wrapper>
+            <.button color={:white} size={:xs} class="flex space-x-1 items-center">
+              <span>
+                <%= if @schedule == :user do %>
+                  <%= gettext("My schedule") %>
+                <% else %>
+                  <%= gettext("All") %>
+                <% end %>
+              </span>
+              <.icon name="hero-chevron-down" class="size-4" />
+            </.button>
+          </:wrapper>
+        </.dropdown>
+      </div>
+      <%= if @schedule == :user do %>
+        <.schedule schedule={@schedule_user} current_user={@current_user} tab="user" />
+      <% else %>
+        <.schedule schedule={@schedule_default} current_user={@current_user} tab="all" />
+      <% end %>
+    </section>
+    <!-- Legal Pages Links -->
+    <.legal_pages_links />
   </div>
 </div>

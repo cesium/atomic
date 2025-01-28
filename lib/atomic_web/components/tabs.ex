@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Tabs do
       {@rest}
       class={[
         "flex gap-x-8 gap-y-2",
-        @underline && "border-b border-gray-200",
+        @underline && "border-b border-zinc-200",
         @class
       ]}
       aria-label="Tabs"
@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "bg-orange-100 text-orange-600",
-        else: "text-gray-500 hover:text-gray-600"
+        else: "text-zinc-500 hover:text-zinc-600"
 
     [base_classes, active_classes]
   end
@@ -64,12 +64,12 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "border-orange-500 text-orange-600",
-        else: "text-gray-500 border-transparent hover:border-gray-300 hover:text-gray-600"
+        else: "text-zinc-500 border-transparent hover:border-zinc-300 hover:text-zinc-600"
 
     underline_classes =
       if active && underline,
         do: "",
-        else: "hover:border-gray-300"
+        else: "hover:border-zinc-300"
 
     [base_classes, active_classes, underline_classes]
   end
@@ -80,12 +80,12 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "text-white bg-orange-600",
-        else: "text-white bg-gray-500"
+        else: "text-white bg-zinc-500"
 
     underline_classes =
       if active,
         do: "bg-orange-100 text-orange-600",
-        else: "text-gray-500 bg-gray-100"
+        else: "text-zinc-500 bg-zinc-100"
 
     [base_classes, active_classes, underline_classes]
   end
@@ -96,7 +96,7 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "text-white bg-primary-600",
-        else: "text-white bg-gray-500"
+        else: "text-white bg-zinc-500"
 
     [base_classes, active_classes]
   end

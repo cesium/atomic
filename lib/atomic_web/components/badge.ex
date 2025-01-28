@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Badge do
 
   attr :color, :atom,
     default: :primary,
-    values: [:primary, :secondary, :info, :success, :warning, :danger, :gray],
+    values: [:primary, :secondary, :info, :success, :warning, :danger, :zinc],
     doc: "Badge color."
 
   attr :icon_position, :atom,
