@@ -10,7 +10,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
     ~H"""
     <div>
       <.form :let={f} for={@changeset} id="partner-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-        <h2 class="teaxt-lg mb-2 w-full border-b pb-2 font-semibold text-gray-900"><%= gettext("General") %></h2>
+        <h2 class="teaxt-lg mb-2 w-full border-b pb-2 font-semibold text-zinc-900"><%= gettext("General") %></h2>
         <div class="flex flex-col gap-y-8">
           <div class="flex flex-col gap-y-1">
             <.field type="text" help_text={gettext("The name of the partner")} field={f[:name]} placeholder="Name" required />
@@ -20,18 +20,19 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
               <.field field={location_form[:name]} label="Location name" type="text" placeholder="Name" help_text={gettext("Location name")} required />
               <.field field={location_form[:address]} label="Address" type="text" placeholder="Address" help_text={gettext("Address of the partner")} required />
             </.inputs_for>
-            <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Socials") %></h2>
+            <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-zinc-900"><%= gettext("Socials") %></h2>
             <div class="grid w-full gap-x-4 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4">
               <.inputs_for :let={socials_form} field={f[:socials]}>
                 <.field field={socials_form[:instagram]} type="text" class="w-full" />
                 <.field field={socials_form[:facebook]} type="text" class="w-full" />
                 <.field field={socials_form[:x]} type="text" class="w-full" />
+                <.field field={socials_form[:tiktok]} type="text" class="w-full" />
                 <.field field={socials_form[:website]} type="text" class="w-full" />
               </.inputs_for>
             </div>
           </div>
         </div>
-        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Personalization") %></h2>
+        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-zinc-900"><%= gettext("Personalization") %></h2>
         <div class="w-full gap-y-1">
           <div>
             <%= label(f, :image) %>
@@ -41,12 +42,12 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
           </div>
         </div>
-        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-gray-900"><%= gettext("Internal") %></h2>
+        <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-zinc-900"><%= gettext("Internal") %></h2>
         <div class="w-full gap-y-1">
           <.field type="textarea" field={f[:notes]} placeholder="Notes" />
         </div>
         <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon={:cube}>Save Changes</.button>
+          <.button size={:md} color={:white} icon="hero-cube">Save Changes</.button>
         </div>
       </.form>
     </div>

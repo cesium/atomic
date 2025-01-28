@@ -11,11 +11,6 @@ defmodule AtomicWeb.Components.Dropdown do
 
   attr :items, :list, default: [], doc: "The items to display in the dropdown."
 
-  attr :icon_variant, :atom,
-    default: :outline,
-    values: [:solid, :outline, :mini],
-    doc: "The icon variation to display."
-
   attr :orientation, :atom,
     default: :down,
     doc: "The orientation of the dropdown.",
@@ -46,19 +41,19 @@ defmodule AtomicWeb.Components.Dropdown do
                     JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})
                   end
                 }
-                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"}
+                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
                 role="menuitem"
                 method={Map.get(item, :method, "get")}
               >
                 <%= if item[:icon] do %>
-                  <.icon solid={@icon_variant == :solid} mini={@icon_variant == :mini} name={item.icon} class="ml-2 inline-block h-5 w-5" />
+                  <.icon name={"hero-" <> item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
                 <%= item.name %>
               </.link>
             <% else %>
-              <div class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700"}>
+              <div class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700"}>
                 <%= if item[:icon] do %>
-                  <.icon solid={@icon_variant == :solid} mini={@icon_variant == :mini} name={item.icon} class="ml-2 inline-block h-5 w-5" />
+                  <.icon name={"hero-" <> item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
                 <%= item.name %>
               </div>

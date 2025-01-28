@@ -11,10 +11,12 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def update(%{activity: activity, action: action} = assigns, socket) do
     changeset = Activities.change_activity(activity)
-    initial_description = case action do
-      :new -> false
-      _ -> true
-    end
+
+    initial_description =
+      case action do
+        :new -> false
+        _ -> true
+      end
 
     {:ok,
      socket
@@ -28,17 +30,17 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def handle_event("validate", %{"activity" => activity_params}, socket) do
     description = Map.get(activity_params, "description", "")
-    has_description = is_nil(description) ||  String.trim(description) == ""
+    has_description = is_nil(description) || String.trim(description) == ""
 
     changeset =
       socket.assigns.activity
       |> Activities.change_activity(activity_params)
       |> Map.put(:action, :validate)
 
-      {:noreply,
-      socket
-      |> assign(:has_description?, not has_description)
-      |> assign_form(changeset)}
+    {:noreply,
+     socket
+     |> assign(:has_description?, not has_description)
+     |> assign_form(changeset)}
   end
 
   @impl true
@@ -57,8 +59,9 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("toggle_description_modal", _, socket) do
-    {:noreply, socket
-      |> assign(:modal, not socket.assigns.modal)}
+    {:noreply,
+     socket
+     |> assign(:modal, not socket.assigns.modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do

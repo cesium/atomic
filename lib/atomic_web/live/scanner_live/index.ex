@@ -36,7 +36,7 @@ defmodule AtomicWeb.ScannerLive.Index do
       {:noreply,
        socket
        |> put_flash(:error, "You are not authorized to this")
-       |> redirect(to: Routes.scanner_index_path(socket, :index))}
+       |> redirect(to: ~p"/scanner")}
     end
   end
 
@@ -49,7 +49,7 @@ defmodule AtomicWeb.ScannerLive.Index do
          socket
          |> put_flash(:success, "Participation confirmed!")
          |> assign(:changeset, nil)
-         |> redirect(to: Routes.scanner_index_path(socket, :index))}
+         |> redirect(to: ~p"/scanner")}
 
       {:error, changeset} ->
         {:noreply,

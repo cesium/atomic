@@ -17,7 +17,6 @@ defmodule AtomicWeb.ActivityLive.Edit do
      socket
      |> assign(:current_page, :activities)
      |> assign(:page_title, gettext("Edit Activity"))
-     |> assign(:current_organization, activity.organization)
      |> assign(:activity, activity)}
   end
 end

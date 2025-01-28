@@ -56,13 +56,13 @@ defmodule AtomicWeb.ActivityLive.Show do
          socket
          |> put_flash(:success, gettext("Enrolled successufully!"))
          |> assign(:enrolled?, true)
-         |> push_patch(to: Routes.activity_show_path(socket, :show, socket.assigns.activity))}
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
 
       {:error, _changeset} ->
         {:noreply,
          socket
          |> put_flash(:error, gettext("Unable to enroll. Please try again later."))
-         |> push_patch(to: Routes.activity_show_path(socket, :show, socket.assigns.activity))}
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
     end
   end
 
@@ -73,13 +73,13 @@ defmodule AtomicWeb.ActivityLive.Show do
          socket
          |> put_flash(:success, "Unenrolled successufully!")
          |> assign(:enrolled?, false)
-         |> push_patch(to: Routes.activity_show_path(socket, :show, socket.assigns.activity))}
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
 
       {:error, _changeset} ->
         {:noreply,
          socket
          |> put_flash(:error, gettext("Unable to unenroll. Please try again."))
-         |> push_patch(to: Routes.activity_show_path(socket, :show, socket.assigns.activity))}
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
     end
   end
 
@@ -100,7 +100,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
   defp maybe_close_modal(socket, condition) do
     if condition do
-      push_patch(socket, to: Routes.activity_show_path(socket, :show, socket.assigns.activity))
+      push_patch(socket, to: ~p"/activities/#{socket.assigns.activity.id}")
     else
       socket
     end
@@ -144,17 +144,17 @@ defmodule AtomicWeb.ActivityLive.Show do
     end
   end
 
-  defp generate_dropdown_items(is_enrolled, can_edit, activity, socket) do
-    [%{name: gettext("Share"), navigate: "/", icon: :share}]
+  defp generate_dropdown_items(is_enrolled, can_edit, activity, _) do
+    [%{name: gettext("Share"), navigate: "/", icon: "share"}]
     |> append_if_true(is_enrolled, %{
       name: gettext("Unenroll"),
-      navigate: Routes.activity_show_path(socket, :unenroll, activity),
-      icon: :user_minus
+      navigate: ~p"/activities/#{activity.id}/unenroll",
+      icon: "user-minus"
     })
     |> append_if_true(can_edit, %{
       name: gettext("Edit"),
-      navigate: Routes.activity_edit_path(socket, :edit, activity.organization, activity),
-      icon: :pencil
+      navigate: ~p"/organizations/#{activity.organization}/activities/#{activity.id}/edit",
+      icon: "pencil"
     })
   end
 

@@ -10,7 +10,7 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">Collaborator</h1>
+      <h1 class="flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborator</h1>
       <!-- Request notification -->
       <%= if !@collaborator.accepted do %>
         <p class="mt-1">
@@ -19,8 +19,8 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       <% end %>
       <!-- User Card -->
       <div class="flex flex-col sm:flex-row">
-        <.link navigate={Routes.profile_show_path(@socket, :show, @collaborator.user)} class="mt-4 flex outline-none">
-          <.avatar color={:light_gray} name={@collaborator.user.name} />
+        <.link navigate={~p"/profile/#{@collaborator.user}"} class="mt-4 flex outline-none">
+          <.avatar color={:light_zinc} name={@collaborator.user.name} />
           <div class="ml-3 flex h-full flex-col self-center">
             <p><%= @collaborator.user.name %></p>
             <p>@<%= @collaborator.user.slug %></p>
@@ -38,36 +38,36 @@ defmodule AtomicWeb.CollaboratorLive.FormComponent do
       </div>
       <%= if !@collaborator.accepted do %>
         <div class="my-4 flex w-full select-none flex-row justify-center gap-2" aria-label={"#{display_date(@collaborator.inserted_at)} #{display_time(@collaborator.inserted_at)}"}>
-          <.icon class="my-auto h-5 w-5" name={:calendar} />
+          <.icon class="size-5 my-auto" name="hero-calendar" />
           <p><%= gettext("Requested %{requested_at}", requested_at: relative_datetime(@collaborator.inserted_at)) %></p>
         </div>
       <% end %>
       <!-- Action Buttons -->
       <div class="mt-8 flex space-x-2">
         <%= if @collaborator.accepted do %>
-          <.button phx-click="delete" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Delete") %></.button>
+          <.button phx-click="delete" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Delete") %></.button>
         <% else %>
-          <.button phx-click="deny" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Deny") %></.button>
-          <.button phx-click="allow" phx-target={@myself} size={:lg} icon={:check_circle} color={:white} full_width><%= gettext("Accept") %></.button>
+          <.button phx-click="deny" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Deny") %></.button>
+          <.button phx-click="allow" phx-target={@myself} size={:lg} icon="hero-check-circle" color={:white} full_width><%= gettext("Accept") %></.button>
         <% end %>
       </div>
       <!-- Action Confirm Modal -->
       <.modal :if={@action_modal} id="action-confirm-modal" show on_cancel={JS.push("clear-action", target: @myself)}>
         <div class="flex flex-col">
-          <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+          <h1 class="flex-1 select-none truncate text-lg font-semibold text-zinc-900">
             <%= display_action_goal_confirm_title(@action_modal) %>
           </h1>
           <p class="mt-4">
             <%= display_action_goal_confirm_description(@action_modal, @department) %>
           </p>
           <div class="mt-8 flex flex-row">
-            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon={:x_circle} color={:white} full_width><%= gettext("Cancel") %></.button>
+            <.button phx-click="clear-action" class="mr-2" phx-target={@myself} size={:lg} icon="hero-x-circle" color={:white} full_width><%= gettext("Cancel") %></.button>
             <.button
               phx-click="confirm"
               class="ml-2"
               phx-target={@myself}
               size={:lg}
-              icon={:check_circle}
+              icon="hero-check-circle"
               color={
                 if @action_modal in [:delete_collaborator, :deny_request] do
                   :danger

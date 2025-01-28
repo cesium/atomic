@@ -10,7 +10,7 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
     ~H"""
     <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
       <!-- TODO: Add almost full! Indicator -->
-      <.link navigate={Routes.activity_show_path(AtomicWeb.Endpoint, :show, @activity)}>
+      <.link navigate={~p"/activities/#{@activity}"}>
         <div class="grid grid-cols-3">
           <!-- Activity information -->
           <div class="col-span-2 px-4 py-4 lg:px-6">
@@ -22,22 +22,22 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
             <div class="mt-2 lg:flex lg:justify-between">
               <div class="lg:flex lg:space-x-3">
                 <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                  <.icon name={:calendar} solid class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+                  <.icon name="hero-calendar" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
                   <%= if @activity.start do %>
                     <%= pretty_display_date(@activity.start) %>
                   <% end %>
                 </p>
                 <%= if @activity.location do %>
                   <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                    <.icon name={:map_pin} solid class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+                    <.icon name="hero-map-pin" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
                     <%= @activity.location && @activity.location.name %>
                   </p>
                 <% end %>
               </div>
             </div>
             <object>
-              <.link navigate={Routes.organization_show_path(AtomicWeb.Endpoint, :show, @activity.organization.id)} class="group flex max-w-min pt-2">
-                <.icon name={:building_office} solid class="mr-1.5 h-5 w-5 text-zinc-400" />
+              <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="group flex max-w-min pt-2">
+                <.icon name="hero-building-office" class="mr-1.5 h-5 w-5 text-zinc-400" />
                 <span class="text-sm text-zinc-500 focus:outline-none group-hover:underline">
                   <%= @activity.organization.name %>
                 </span>

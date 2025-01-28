@@ -41,14 +41,14 @@
               <span>End</span>
               <div class="w-full sm:w-56">
                 <.field class="w-full sm:w-56 atomic-button atomic-button--primary-outline text-gray-900" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
-              </div>              
+              </div>
             </div>
           </div>
         </div>
-        
+
         <label class="atomic-label atomic-label--required cursor-pointer">
           Description
-        </label>  
+        </label>
         <.button class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-lg bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
           <%= if not @has_description? do %>
             <label class="text-left cursor-pointer text-gray-500">
@@ -114,10 +114,7 @@
             </div>
           </div>
         </.modal>
-        
       </div>
     </div>
-
-
   </.form>
 </div>

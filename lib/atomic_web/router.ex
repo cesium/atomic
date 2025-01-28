@@ -98,6 +98,9 @@ defmodule AtomicWeb.Router do
       live "/activities", ActivityLive.Index, :index
       live "/organizations", OrganizationLive.Index, :index
       live "/announcements", AnnouncementLive.Index, :index
+      live "/tos", TermsLive.Show, :show
+      live "/privacy", PrivacyLive.Show, :show
+      live "/cookies", CookiesLive.Show, :show
 
       live "/activities/:id", ActivityLive.Show, :show
       live "/activities/:id/ticket", ActivityLive.Show, :ticket
