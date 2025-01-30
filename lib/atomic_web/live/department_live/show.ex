@@ -29,11 +29,11 @@ defmodule AtomicWeb.DepartmentLive.Show do
       raise Ecto.NoResultsError, queryable: Atomic.Organizations.Department
     else
       socket
-      |> assign(:current_page, :departments)
-      |> assign(:current_view, current_view(socket, params))
       |> assign(:page_title, department.name)
-      |> assign(:organization, organization)
+      |> assign(:current_page, :departments)
       |> assign(:department, department)
+      |> assign(:current_view, current_view(socket, params))
+      |> assign(:organization, organization)
       |> assign(:params, params)
       |> assign(:current_collaborator, maybe_put_collaborator(socket, department.id))
       |> assign(list_collaborators(department.id, params, has_permissions))

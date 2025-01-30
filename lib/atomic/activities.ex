@@ -358,8 +358,13 @@ defmodule Atomic.Activities do
       join: e in assoc(u, :enrollments),
       where: e.activity_id == ^id
     )
-    |> Repo.all()
   end
+
+  def list_display_participants(id, %{} = flop, opts \\ []) do
+    list_activity_participants(id)
+    |> Flop.validate_and_run(flop, opts)
+  end
+
 
   @doc """
   Returns the list of activities a user has enrolled in.

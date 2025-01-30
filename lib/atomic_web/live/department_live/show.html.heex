@@ -166,7 +166,7 @@
             <%= if @has_permissions? do %>
               <!-- Collaborators admin view -->
               <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborators</h2>
+                <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborators</h2>
                 <div class="border-t border-l">
                   <.table items={@collaborators} meta={@meta} filter={[]}>
                     <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>

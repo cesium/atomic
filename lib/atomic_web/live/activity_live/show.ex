@@ -1,7 +1,7 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Map}
+  import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Table, Map, Pagination}
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -18,21 +18,48 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     activity = Activities.get_activity!(id, [:organization])
 
     {:noreply,
      socket
+     |> assign(:attendees_modal, false)
+     |> apply_action(socket.assigns.live_action, params)
      |> assign(:page_title, "#{activity.title}")
      |> assign(:current_page, :activities)
+     |> assign(:params, params)
      |> assign(:activity, activity)
-     |> assign(:participants, Activities.list_activity_participants(id))
+     |> assign(list_participants_paginated(id, params))
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:enrollment_id, maybe_put_enrollment_id(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
        assign(complete_socket, :has_permissions?, has_permissions?(complete_socket))
      end)}
+  end
+
+  defp apply_action(socket, :show, params) do
+    socket
+    |> assign(:current_view, current_view(socket, params))
+  end
+
+  defp apply_action(socket, :participants, params) do
+    socket
+    |> assign(:current_view, current_view(socket, params))
+  end
+
+  defp apply_action(socket, _, _) do
+    socket
+  end
+
+  defp list_participants_paginated(id, params) do
+    case Activities.list_display_participants(id, params) do
+      {:ok, {participants, meta}} ->
+        %{participants: participants, meta: meta}
+
+      {:error, flop} ->
+        %{participants: [], meta: flop}
+    end
   end
 
   @impl true
@@ -48,6 +75,12 @@ defmodule AtomicWeb.ActivityLive.Show do
         {:noreply, socket}
     end
   end
+
+  def handle_event("handle_attendees_modal", _, socket) do
+    {:noreply, socket |> assign(:attendees_modal, not socket.assigns.attendees_modal)}
+  end
+
+
 
   def action_enroll(socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
@@ -180,4 +213,8 @@ defmodule AtomicWeb.ActivityLive.Show do
         gettext("Beware that you will lose your spot if you unenroll.")
     end
   end
+
+  defp current_view(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+
+  defp current_view(_socket, _params), do: "show"
 end
