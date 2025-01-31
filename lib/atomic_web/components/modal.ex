@@ -30,7 +30,6 @@ defmodule AtomicWeb.Components.Modal do
   attr :id, :string, required: true
   attr :show, :boolean, default: false
   attr :class, :string, default: ""
-  attr :modal_class, :string, default: ""
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
 

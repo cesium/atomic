@@ -35,12 +35,12 @@
       <div class="sm:hidden block">
         <.dropdown id="activity-actions-dropdown" items={generate_dropdown_items(@enrolled?, @has_permissions?, @activity, @socket)}>
           <:wrapper>
-            <.button icon_variant={:solid} color={:white} icon="hero-ellipsis_horizontal" />
+            <.button icon="hero-ellipsis-horizontal" color={:white} />
           </:wrapper>
         </.dropdown>
       </div>
     <% end %>
-    <%= if @current_view == "attendees" do %>
+    <%= if @current_view == "participants" do %>
       <.button icon="hero-arrow-left-solid" color={:white} patch={~p"/activities/#{@activity.id}"} />
     <% end %>
   </:actions>
@@ -61,7 +61,7 @@
           <!-- Date -->
           <%= if @activity.start do %>
             <div class="flex items-center gap-2">
-              <.icon name="hero-calendar" solid class="h-5 w-5 text-gray-700" />
+              <.icon name="hero-calendar" class="h-5 w-5 text-gray-700" />
               <!-- One day activity -->
               <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
                 <div class="flex flex-col">
@@ -77,7 +77,7 @@
             </div>
           <% end %>
           <!-- Capacity -->
-          <.link phx-click="handle_attendees_modal">
+          <.link phx-click="handle_participants_modal">
             <div class="flex items-center gap-2">
               <.icon name="hero-user-group" class="h-5 w-5 text-gray-700" />
               <p class="font-medium">
@@ -179,11 +179,11 @@
             <span class="text-orange-500 flex justify-center pt-2"><%= gettext("No participants on this activity") %></span>
           <% else %>
             <%= if @has_permissions? do %>
-              <.link patch={~p"/activities/#{@activity.id}?tab=attendees"} class="text-orange-500 hover:cursor-pointer hover:underline">
+              <.link patch="?tab=participants" class="text-orange-500 hover:cursor-pointer hover:underline">
                 <%= gettext("View all") %>
               </.link>
             <% else %>
-              <.link phx-click="handle_attendees_modal" class="text-orange-500 hover:cursor-pointer hover:underline">
+              <.link phx-click="handle_participants_modal" class="text-orange-500 hover:cursor-pointer hover:underline">
                 <%= gettext("View all") %>
               </.link>
             <% end %>
@@ -192,7 +192,7 @@
       </div>
     </div>
   <% end %>
-  <%= if @current_view == "attendees" do %>
+  <%= if @current_view == "participants" do %>
     <%= if length(@participants) != 0 do %>
       <%= if @has_permissions? do %>
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -217,7 +217,7 @@
   <% end %>
 </.page>
 <!-- Ticket show modal -->
-<.modal :if={@live_action in [:ticket] and @enrolled?} modal_class="p-0" id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
+<.modal :if={@live_action in [:ticket] and @enrolled?} id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
   <div class="w-full flex flex-col gap-2 justify-center text-center">
     <p class="text-md font-semibold text-gray-900">
       <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
@@ -255,20 +255,23 @@
     </div>
   </div>
 </.modal>
-<!-- Attendees show modal -->
-<.modal :if={@attendees_modal} show id="attendees_modal" on_cancel={JS.push("handle_attendees_modal")}>
+<!-- Participants show modal -->
+<.modal :if={@participants_modal} show id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
   <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
-  <%= if length(@participants) != 0 do %> 
+  <%= if length(@participants) != 0 do %>
     <div class="">
       <ul>
         <%= for participant <- @participants do %>
-          <li class="h-6 p-6 border-b flex items-center justify-center"><%= participant.name %></li>
+          <li class="h-6 py-6 px-0 border-b flex items-center justify-center">
+            <.avatar size={:xs} name={participant.name} type={:user} />
+            <span class="ml-4"><%= participant.name %></span>
+          </li>
         <% end %>
       </ul>
     </div>
   <% else %>
-  <div class="mt-4">
-    <span>There are no participants for this activity</span>
-  </div>
+    <div class="mt-4">
+      <span>There are no participants for this activity</span>
+    </div>
   <% end %>
 </.modal>

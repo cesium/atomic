@@ -365,7 +365,6 @@ defmodule Atomic.Activities do
     |> Flop.validate_and_run(flop, opts)
   end
 
-
   @doc """
   Returns the list of activities a user has enrolled in.
 

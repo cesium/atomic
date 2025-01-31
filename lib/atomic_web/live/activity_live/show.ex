@@ -23,7 +23,7 @@ defmodule AtomicWeb.ActivityLive.Show do
 
     {:noreply,
      socket
-     |> assign(:attendees_modal, false)
+     |> assign(:participants_modal, false)
      |> apply_action(socket.assigns.live_action, params)
      |> assign(:page_title, "#{activity.title}")
      |> assign(:current_page, :activities)
@@ -76,11 +76,9 @@ defmodule AtomicWeb.ActivityLive.Show do
     end
   end
 
-  def handle_event("handle_attendees_modal", _, socket) do
-    {:noreply, socket |> assign(:attendees_modal, not socket.assigns.attendees_modal)}
+  def handle_event("handle_participants_modal", _, socket) do
+    {:noreply, socket |> assign(:participants_modal, not socket.assigns.participants_modal)}
   end
-
-
 
   def action_enroll(socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
@@ -167,14 +165,6 @@ defmodule AtomicWeb.ActivityLive.Show do
     enrollment_id
     |> QRCodeEx.encode()
     |> QRCodeEx.svg(color: "#111827", width: 200, background_color: :transparent)
-  end
-
-  defp build_url do
-    if Mix.env() == :dev do
-      "http://localhost:4000"
-    else
-      "https://#{Application.fetch_env!(:atomic, AtomicWeb.Endpoint)[:url][:host]}"
-    end
   end
 
   defp generate_dropdown_items(is_enrolled, can_edit, activity, _) do
