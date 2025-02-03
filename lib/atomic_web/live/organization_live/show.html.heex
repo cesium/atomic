@@ -81,7 +81,6 @@
     </div>
     <!-- Because divider can't have padding, we need to separate it from the rest of the content -->
     <div :if={@current_tab == "members"} class="my-8 min-h-full w-full border-b" />
-
     <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
       <!-- Members are directly passed (instead of the whole organization)
       since their calculation depends on the current tab -->

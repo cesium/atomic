@@ -20,7 +20,7 @@ defmodule AtomicWeb.Endpoint do
     at: "/",
     from: :atomic,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: AtomicWeb.static_paths()
 
   plug(Plug.Static,
     at: "/uploads",

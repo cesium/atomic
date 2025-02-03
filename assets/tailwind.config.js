@@ -21,7 +21,7 @@ module.exports = {
         danger: colors.red,
         warning: colors.yellow,
         info: colors.blue,
-        gray: colors.gray,
+        zinc: colors.zinc,
       },
       backgroundImage: {
         'hero-pattern': "url('/images/atomic_background.svg')",

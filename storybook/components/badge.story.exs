@@ -95,13 +95,13 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: "gray"
+              color: "zinc"
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           }
@@ -184,14 +184,14 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray,
+              color: :zinc,
               variant: :dark
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           }
@@ -274,14 +274,14 @@ defmodule AtomicWeb.Storybook.Components.Badges do
             ]
           },
           %Variation{
-            id: :gray,
+            id: :zinc,
             attributes: %{
-              color: :gray,
+              color: :zinc,
               variant: :outline
             },
             slots: [
               """
-              <span>Gray</span>
+              <span>zinc</span>
               """
             ]
           }

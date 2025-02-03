@@ -36,9 +36,9 @@
       department={@department}
       return_to={
         if @live_action in [:new] do
-          Routes.department_index_path(@socket, :index, @organization_id)
+          ~p"/organizations/#{@organization_id}/departments"
         else
-          Routes.department_show_path(@socket, :show, @organization_id, @department)
+          ~p"/organizations/#{@organization_id}/departments/#{@department}"
         end
       }
     />
@@ -46,7 +46,7 @@
 </.page>
 <.modal :if={@action} id="action-modal" show on_cancel={JS.push("clear-action")}>
   <div class="flex flex-col">
-    <h1 class="flex-1 select-none truncate text-lg font-semibold text-gray-900">
+    <h1 class="flex-1 select-none truncate text-lg font-semibold text-zinc-900">
       <%= display_action_goal_confirm_title(@action) %>
     </h1>
     <p class="mt-4">

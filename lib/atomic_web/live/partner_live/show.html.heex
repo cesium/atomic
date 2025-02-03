@@ -1,6 +1,6 @@
 <.page title={@page_title}>
   <:actions :if={@has_permissions?}>
-    <.button navigate={Routes.partner_edit_path(@socket, :edit, @organization, @partner)} icon="hero-pencil">
+    <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
       <%= gettext("Edit Partner") %>
     </.button>
   </:actions>
@@ -9,12 +9,12 @@
     <div class="mt-6 flex flex-col gap-2 sm:justify-center">
       <div class="flex flex-row">
         <div class="flex flex-col items-center px-2 lg:justify-none">
-          <.avatar color={:light_gray} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
+          <.avatar color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
 
         <div>
           <div class="flex items-center justify-between">
-            <h1 class="text-wrap flex-1 select-none truncate text-xl font-bold text-gray-900 sm:text-2xl">
+            <h1 class="text-wrap flex-1 select-none truncate text-xl font-bold text-zinc-900 sm:text-2xl">
               <%= @partner.name %>
             </h1>
           </div>
@@ -23,35 +23,22 @@
             <p class="text-sm group-hover:underline"><%= @partner.location.name %></p>
           </.link>
 
-          <ul :if={@partner.socials} class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
-            <li :if={@partner.socials.website}>
-              <.link href={@partner.socials.website} target="_blank" class="group flex flex-row items-center space-x-1">
-                <.icon name="hero-link" class="size-4" />
-                <p class="text-sm group-hover:underline"><%= @partner.socials.website %></p>
-              </.link>
-            </li>
-
-            <li :if={@partner.socials.instagram}>
-              <.link href={Socials.link(:instagram, @partner.socials.instagram)} class="group flex flex-row items-center space-x-1">
-                <%= Socials.icon(:instagram) |> raw() %>
-                <p class="text-sm group-hover:underline"><%= @partner.socials.instagram %></p>
-              </.link>
-            </li>
-
-            <li :if={@partner.socials.facebook}>
-              <.link href={Socials.link(:facebook, @partner.socials.facebook)} class="group flex flex-row items-center space-x-1">
-                <%= Socials.icon(:facebook) |> raw() %>
-                <p class="text-sm group-hover:underline"><%= @partner.socials.facebook %></p>
-              </.link>
-            </li>
-
-            <li :if={@partner.socials.x}>
-              <.link href={Socials.link(:x, @partner.socials.x)} class="group flex flex-row items-center space-x-1">
-                <%= Socials.icon(:x) |> raw() %>
-                <p class="text-sm group-hover:underline"><%= @partner.socials.x %></p>
-              </.link>
-            </li>
-          </ul>
+          <%= if @partner.socials do %>
+            <!-- Socials and Website -->
+            <div class="flex flex-wrap gap-x-4 items-center mt-2">
+              <!-- Website -->
+              <%= if @partner.socials.website do %>
+                <div class="flex flex-row items-center gap-x-1">
+                  <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
+                  <.link class="text-blue-500" href={@partner.socials.website}>Website</.link>
+                </div>
+              <% end %>
+              <!-- Socials -->
+              <%= if @partner.socials do %>
+                <.socials entity={@partner.socials} />
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
 
@@ -59,7 +46,7 @@
         <div class="mt-1 px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2">
             <.icon name="hero-clock" class="size-5 mb-2" />
-            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Overview</h2>
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Overview</h2>
           </div>
           <span class="py-4">
             <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
@@ -70,7 +57,7 @@
         <div class="px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
-            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-gray-900">Benefits</h2>
+            <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Benefits</h2>
           </div>
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>

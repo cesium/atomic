@@ -21,7 +21,7 @@ defmodule AtomicWeb.Components.Avatar do
     doc: "The size of the avatar."
 
   attr :color, :atom,
-    default: :light_gray,
+    default: :light_zinc,
     values: [
       :primary,
       :secondary,
@@ -29,8 +29,8 @@ defmodule AtomicWeb.Components.Avatar do
       :success,
       :warning,
       :danger,
-      :gray,
-      :light_gray,
+      :zinc,
+      :light_zinc,
       :pure_white,
       :white,
       :light,
@@ -74,7 +74,7 @@ defmodule AtomicWeb.Components.Avatar do
     doc: "The size of the avatars."
 
   attr :color, :atom,
-    default: :light_gray,
+    default: :light_zinc,
     values: [
       :primary,
       :secondary,
@@ -82,8 +82,8 @@ defmodule AtomicWeb.Components.Avatar do
       :success,
       :warning,
       :danger,
-      :gray,
-      :light_gray,
+      :zinc,
+      :light_zinc,
       :pure_white,
       :white,
       :light,

@@ -23,7 +23,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, "Calendar")
+     |> assign(:page_title, gettext("Calendar"))
      |> assign(:current_page, :calendar)
      |> assign(:params, params)
      |> assign(:mode, mode)
@@ -31,10 +31,10 @@ defmodule AtomicWeb.CalendarLive.Show do
        :activities,
        list_activities(socket.assigns.timezone, mode, current_date, socket.assigns.current_user)
      )
-     |> assign(:current_path, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+     |> assign(:current_path, ~p"/calendar")
      |> assign(:current_date, current_date)
-     |> assigns_month(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
-     |> assigns_week(Routes.calendar_show_path(AtomicWeb.Endpoint, :show))}
+     |> assigns_month(~p"/calendar")
+     |> assigns_week(~p"/calendar")}
   end
 
   @impl true
@@ -116,7 +116,7 @@ defmodule AtomicWeb.CalendarLive.Show do
         {:noreply,
          socket
          |> assign(:current_date, date)
-         |> push_patch(to: Routes.calendar_show_path(socket, :show, mode: "week"), replace: true)}
+         |> push_patch(to: ~p"/calendar?mode=week", replace: true)}
 
       {:error, _reason} ->
         {:noreply, socket}
@@ -147,9 +147,9 @@ defmodule AtomicWeb.CalendarLive.Show do
 
   defp assigns_dates(socket) do
     if socket.assigns.mode == "week" do
-      assigns_week(socket, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+      assigns_week(socket, ~p"/calendar")
     else
-      assigns_month(socket, Routes.calendar_show_path(AtomicWeb.Endpoint, :show))
+      assigns_month(socket, ~p"/calendar")
     end
   end
 

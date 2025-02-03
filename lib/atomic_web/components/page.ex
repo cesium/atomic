@@ -26,14 +26,13 @@ defmodule AtomicWeb.Components.Page do
           <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div class="my-6 flex min-w-0 flex-row items-center justify-between">
               <div class="flex flex-col">
-                <h1 class="flex-1 select-none truncate text-2xl font-bold text-gray-900">
+                <h1 class="flex-1 select-none truncate text-2xl font-bold text-zinc-900">
                   <%= @title %>
                 </h1>
-                <h3 :if={@description} class="flex-1 select-none truncate text-sm font-medium text-gray-500">
+                <h3 :if={@description} class="flex-1 select-none truncate text-sm font-medium text-zinc-500">
                   <%= @description %>
                 </h3>
               </div>
-
               <div class="flex space-x-4">
                 <%= render_slot(@actions) %>
               </div>
