@@ -495,19 +495,24 @@ defmodule Atomic.Organizations do
   end
 
   @doc """
-  Returns the list of announcements belonging to an organization.
+  Returns the list of announcements belonging to an organization, filtered and validated by the given parameters.
 
   ## Examples
 
-      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621")
-      [%Announcement{}, ...]
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{})
+      {:ok, [%Announcement{}, ...]}
+
+      iex> list_announcements_by_organization_id("99d7c9e5-4212-4f59-a097-28aaa33c2621", %{},
+      ...>   some_option: true
+      ...> )
+      {:ok, [%Announcement{}, ...]}
 
   """
-  def list_announcements_by_organization_id(id, opts \\ []) do
+  def list_announcements_by_organization_id(id, %{} = flop, opts \\ []) when is_list(opts) do
     Announcement
     |> where(organization_id: ^id)
     |> apply_filters(opts)
-    |> Repo.all()
+    |> Flop.validate_and_run(flop, for: Announcement)
   end
 
   @doc """
@@ -564,7 +569,7 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_announcement_with_post(attrs \\ %{}) do
+  def create_announcement_with_post(attrs \\ %{}, after_save \\ &{:ok, &1}) do
     Multi.new()
     |> Multi.insert(:post, fn _ ->
       %Post{}
@@ -580,7 +585,7 @@ defmodule Atomic.Organizations do
     |> Repo.transaction()
     |> case do
       {:ok, %{announcement: announcement, post: _post}} ->
-        {:ok, announcement}
+        after_save.(announcement)
 
       {:error, _reason, changeset, _actions} ->
         {:error, changeset}
@@ -605,10 +610,11 @@ defmodule Atomic.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_announcement(%Announcement{} = announcement, attrs, _after_save \\ &{:ok, &1}) do
+  def update_announcement(%Announcement{} = announcement, attrs, after_save \\ &{:ok, &1}) do
     announcement
     |> Announcement.changeset(attrs)
     |> Repo.update()
+    |> after_save(after_save)
   end
 
   @doc """
@@ -624,7 +630,14 @@ defmodule Atomic.Organizations do
 
   """
   def delete_announcement(%Announcement{} = announcement) do
-    Repo.delete(announcement)
+    Ecto.Multi.new()
+    |> Ecto.Multi.delete(:announcement, announcement)
+    |> Ecto.Multi.delete(:post, Repo.get!(Post, announcement.post_id))
+    |> Repo.transaction()
+    |> case do
+      {:ok, _changes} -> {:ok, announcement}
+      {:error, _step, reason, _changes} -> {:error, reason}
+    end
   end
 
   @doc """
@@ -638,5 +651,23 @@ defmodule Atomic.Organizations do
   """
   def change_announcement(%Announcement{} = announcement, attrs \\ %{}) do
     Announcement.changeset(announcement, attrs)
+  end
+
+  @doc """
+  Updates an announcement image.
+
+  ## Examples
+
+      iex> update_announcement_image(announcement, %{field: new_value})
+      {:ok, %Announcement{}}
+
+      iex> update_announcement_image(announcement, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_announcement_image(%Announcement{} = announcement, attrs) do
+    announcement
+    |> Announcement.image_changeset(attrs)
+    |> Repo.update()
   end
 end
