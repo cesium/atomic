@@ -30,7 +30,7 @@ defmodule AtomicWeb.AnnouncementLive.Components.AnnouncementCard do
           </p>
         </div>
         <%= if @announcement.image do %>
-          <div class="h-auto w-full overflow-hidden">
+          <div class="h-auto w-full overflow-hidden px-4">
             <img class="max-h-[32rem] max-w-screen object-cover sm:max-w-xl md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
           </div>
         <% end %>
