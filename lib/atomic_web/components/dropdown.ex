@@ -32,15 +32,7 @@ defmodule AtomicWeb.Components.Dropdown do
         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
           <%= for item <- @items do %>
             <%= if item[:patch] || item[:navigate] || item[:href] || item[:phx_click] do %>
-              <.link
-                patch={item[:patch]}
-                navigate={item[:navigate]}
-                href={item[:href]}
-                phx-click={maybe_phx_click(item, @id)}
-                class={"#{item[:class]}
-                flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
-                role="menuitem" method={Map.get(item, :method, "get")}>
-
+              <.link patch={item[:patch]} navigate={item[:navigate]} href={item[:href]} phx-click={maybe_phx_click(item, @id)} class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"} role="menuitem" method={Map.get(item, :method, "get")}>
                 <%= if item[:icon] do %>
                   <.icon name={item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>

@@ -3,7 +3,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.Components.{Dropdown, Forms, Pagination}
+  import AtomicWeb.Components.{Dropdown, Forms, Pagination, Empty, Avatar}
   import AtomicWeb.OrganizationLive.Components.OrganizationCard
 
   @impl true

@@ -1,7 +1,7 @@
 defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.{Accounts, Organizations}
+  alias Atomic.{Accounts, Organizations, Departments}
 
   import AtomicWeb.Components.{Gradient, Tabs}
 
@@ -18,8 +18,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
-    organization = Organizations.get_organization!(id)
+  def handle_params(%{"organization_id" => organization_id} = params, _, socket) do
+    organization = Organizations.get_organization!(organization_id)
     members = maybe_list_members(organization.id, params["tab"])
     member_count = Organizations.count_memberships(organization.id)
 
@@ -93,6 +93,20 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> push_navigate(to: ~p"/users/log_in")}
   end
 
+  defp list_activities(organization_id) do
+    case Activities.list_activities_by_organization_id(organization_id) do
+      {:ok, {activities, meta}} ->
+        %{activities: activities, meta: meta}
+
+      {:error, flop} ->
+        %{activities: [], meta: flop}
+    end
+  end
+
+  defp maybe_put_following(socket, organization) do
+    Organizations.member_of?(socket.assigns.current_user, organization)
+  end
+
   defp maybe_list_members(organization_id, "members"),
     do: Organizations.list_memberships(organization_id, preloads: [:user])
 
@@ -101,14 +115,21 @@ defmodule AtomicWeb.OrganizationLive.Show do
   defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
   defp current_tab(_socket, _params), do: "about"
 
-  defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
+  defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
+    do: false
 
-  defp has_permissions?(socket) do
-    has_current_organization?(socket) and
-      (Accounts.has_permissions_inside_organization?(
-         socket.assigns.current_user.id,
-         socket.assigns.current_organization.id
-       ) or Accounts.has_master_permissions?(socket.assigns.current_user.id))
+  defp has_permissions?(socket, _organization_id)
+       when not is_map_key(socket.assigns, :current_organization) or
+              is_nil(socket.assigns.current_organization) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id)
+  end
+
+  defp has_permissions?(socket, organization_id) do
+    Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
+      Accounts.has_permissions_inside_organization?(
+        socket.assigns.current_user.id,
+        organization_id
+      )
   end
 
   defp has_current_organization?(socket) do
