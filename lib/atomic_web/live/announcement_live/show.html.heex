@@ -11,7 +11,9 @@
           <.avatar name={@announcement.organization.name} color={:light_zinc} size={:md} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
         </div>
         <div>
-          <p class="text-lg sm:text-xl font-bold text-zinc-700"><%= @announcement.organization.name %></p>
+          <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
+            <p class="text-lg sm:text-xl font-bold text-zinc-700"><%= @announcement.organization.name %></p>
+          </.link>
           <p class="text-base md:text-md text-gray-500">
             <span class="sr-only">Published on</span>
             <time><%= relative_datetime(@announcement.inserted_at) %></time>
