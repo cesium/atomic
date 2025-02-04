@@ -25,47 +25,47 @@
                             "must-login"
                           end}"
                         }
-                      color={:white}
-                      icon="hero-user-plus-solid"
-                      title={gettext("Collaborate")}
-                    />
-                  <% end %>
-                <% else %>
-                  <%= if ! @current_collaborator.accepted do %>
-                    <.button color={:white} icon="hero-user-plus-solid" aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled />
-                  <% end %>
-                <% end %>
-                <.dropdown
-                  id="actions"
-                  items={
-                    [
-                      %{
-                        name: gettext("Collaborators"),
-                        navigate: ~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators",
-                        icon: "hero-user-group"
-                      }
-                    ] ++
-                      if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
-                        [%{name: gettext("Edit"), navigate: ~p"/organizations/#{@organization}/departments/#{@department}/edit?#{@params}", icon: "hero-pencil"}]
-                      else
-                        []
-                      end
-                  }
-                >
-                  <:wrapper>
-                    <.button color={:white} icon="hero-ellipsis-horizontal-solid" />
-                  </:wrapper>
-                </.dropdown>
-              <% end %>
-            </div>
-            <!-- Large screens -->
-            <div class="hidden flex-row gap-4 sm:flex">
-              <%= if @current_view == "show" do %>
-                <!-- Collaborate -->
-                <%= if !@current_collaborator do %>
-                  <%= if @department.collaborator_applications do %>
-                    <.button
-                      phx-click={
+              color={:white}
+              icon="hero-user-plus-solid"
+              title={gettext("Collaborate")}
+            />
+          <% end %>
+        <% else %>
+          <%= if ! @current_collaborator.accepted do %>
+            <.button color={:white} icon="hero-user-plus-solid" aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled />
+          <% end %>
+        <% end %>
+        <.dropdown
+          id="actions"
+          items={
+            [
+              %{
+                name: gettext("Collaborators"),
+                navigate: ~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators",
+                icon: "hero-user-group"
+              }
+            ] ++
+              if @has_permissions? || (@current_collaborator && @current_collaborator.accepted) do
+                [%{name: gettext("Edit"), navigate: ~p"/organizations/#{@organization}/departments/#{@department}/edit?#{@params}", icon: "hero-pencil"}]
+              else
+                []
+              end
+          }
+        >
+          <:wrapper>
+            <.button color={:white} icon="hero-ellipsis-horizontal-solid" />
+          </:wrapper>
+        </.dropdown>
+      <% end %>
+    </div>
+    <!-- Large screens -->
+    <div class="hidden flex-row gap-4 sm:flex">
+      <%= if @current_view == "show" do %>
+        <!-- Collaborate -->
+        <%= if !@current_collaborator do %>
+          <%= if @department.collaborator_applications do %>
+            <.button
+              phx-click={
                           "#{if @is_authenticated? do
                             "collaborate"
                           else
@@ -126,11 +126,7 @@
             <p class="mb-4 select-none text-center text-zinc-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
           <% end %>
         </div>
-        <.link
-          :if={length(@all_collaborators) != 0}
-          patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"}
-          class="text-orange-500 hover:cursor-pointer hover:underline"
-        >
+        <.link :if={length(@all_collaborators) != 0} patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"} class="text-orange-500 hover:cursor-pointer hover:underline">
           <%= gettext("View all collaborators") %>
         </.link>
       </div>
