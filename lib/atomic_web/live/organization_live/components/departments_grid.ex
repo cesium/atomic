@@ -18,7 +18,7 @@ defmodule AtomicWeb.OrganizationLive.Components.DepartmentsGrid do
     ~H"""
     <div id="organization-departments" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2">
       <%= for department <- list_departments(@organization) do %>
-        <.link navigate={Routes.department_show_path(AtomicWeb.Endpoint, :show, @organization, department)}>
+        <.link navigate={~p"/organizations/#{@organization.id}/departments/#{department.id}"}>
           <.department_card department={department} collaborators={list_department_collaborators(department)} />
         </.link>
       <% end %>

@@ -473,6 +473,23 @@ defmodule Atomic.Organizations do
     |> Enum.drop_while(fn elem -> elem != role end)
   end
 
+  @doc """
+  Returns the amount of followers in an organization.
+
+  ## Examples
+
+      iex> count_followers("99d7c9e5-4212-4f59-a097-28aaa33c2621")
+      5
+
+      iex> count_followers("9as7c9e5-4212-4f59-a097-28aaa33c2621")
+      100_000_000_000_000_000_000_000_000
+  """
+  def count_followers(organization_id) do
+    Membership
+    |> where([m], m.organization_id == ^organization_id and m.role == :follower)
+    |> Repo.aggregate(:count, :id)
+  end
+
   ## Announcements
 
   @doc """

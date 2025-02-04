@@ -27,7 +27,7 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipsTable do
               <tr :for={member <- @members} class="hover:cursor-pointer hover:bg-gray-50" phx-click={row_click(member)}>
                 <td class="whitespace-nowrap py-5 pr-3 pl-4 text-sm sm:pl-0">
                   <div class="flex items-center">
-                    <.avatar name={member.user.name} size={:sm} color={:light_gray} class="ring-1 ring-white" />
+                    <.avatar name={member.user.name} size={:sm} color={:light_zinc} class="ring-1 ring-white" />
                     <div class="ml-4">
                       <div class="font-medium text-gray-900"><%= member.user.name %></div>
                       <div class="mt-1 text-gray-500"><%= member.user.email %></div>
@@ -46,7 +46,7 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipsTable do
   end
 
   defp row_click(member) do
-    Routes.profile_show_path(AtomicWeb.Endpoint, :show, member.user)
+    ~p"/profile/#{member.user.id}"
     |> JS.navigate()
   end
 end

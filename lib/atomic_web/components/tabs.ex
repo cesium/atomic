@@ -13,7 +13,7 @@ defmodule AtomicWeb.Components.Tabs do
     <nav
       {@rest}
       class={[
-        "gap-x-8 gap-y-2",
+        "flex gap-x-8 gap-y-2",
         @underline && "border-b border-zinc-200",
         @class
       ]}

@@ -3,8 +3,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.Components.{Dropdown, Forms, Pagination, Empty, Avatar}
-  import AtomicWeb.OrganizationLive.Components.OrganizationCard
+  import AtomicWeb.Components.{Dropdown, Pagination, Empty, Avatar}
 
   @impl true
   def mount(_params, _session, socket) do
