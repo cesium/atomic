@@ -1,7 +1,7 @@
 defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.{Accounts, Organizations, Departments}
+  alias Atomic.{Accounts, Organizations, Departments, Activities}
 
   import AtomicWeb.Components.{Gradient, Tabs}
 
@@ -130,10 +130,5 @@ defmodule AtomicWeb.OrganizationLive.Show do
         socket.assigns.current_user.id,
         organization_id
       )
-  end
-
-  defp has_current_organization?(socket) do
-    is_map_key(socket.assigns, :current_organization) and
-      not is_nil(socket.assigns.current_organization)
   end
 end

@@ -105,7 +105,7 @@
       <div class="col-span-3 sm:col-span-2">
         <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("Recent Activity") %></h2>
         <!-- Recent activity empty state -->
-        <.link class="mt-4 flex flex-col items-center justify-center" navigate={Routes.organization_show_path(@socket, :show, @organization)}>
+        <.link class="mt-4 flex flex-col items-center justify-center" navigate={~p"/organizations/#{@organization.id}"}>
           <.avatar class="mb-4 p-1" type={:organization} color={:white} size={:lg} name={@organization.name} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
           <p class="select-none text-center text-zinc-900"><%= gettext("This department doesn't have any recent activity.") %></p>
           <p class="select-none text-center text-zinc-900"><%= gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name) %></p>
