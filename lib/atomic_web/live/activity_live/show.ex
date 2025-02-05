@@ -30,6 +30,7 @@ defmodule AtomicWeb.ActivityLive.Show do
      |> assign(:params, params)
      |> assign(:activity, activity)
      |> assign(list_participants_paginated(id, params))
+     |> assign(:current_view, current_view(socket, params))
      |> assign(:enrolled?, maybe_put_enrolled(socket))
      |> assign(:enrollment_id, maybe_put_enrollment_id(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))

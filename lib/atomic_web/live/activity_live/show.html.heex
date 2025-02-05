@@ -13,7 +13,7 @@
           <%= @activity.organization.name %>
         </.link>
       </span>
-    </div>
+    </div>  
   </:title_wrapper>
   <:actions>
     <%= if @current_view == "show" do %>
@@ -218,7 +218,7 @@
 </.page>
 <!-- Ticket show modal -->
 <.modal :if={@live_action in [:ticket] and @enrolled?} id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
-  <div class="w-full flex flex-col gap-2 justify-center text-center">
+  <div class="w-full flex flex-col gap-2 text-center place-items-center">
     <p class="text-md font-semibold text-gray-900">
       <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
     </p>
