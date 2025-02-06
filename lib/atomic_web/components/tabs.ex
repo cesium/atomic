@@ -81,12 +81,12 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "text-white bg-orange-600",
-        else: "text-white bg-zinc-500"
+        else: "text-white bg-gray-500"
 
     underline_classes =
       if active,
         do: "bg-orange-100 text-orange-600",
-        else: "text-zinc-500 bg-zinc-100"
+        else: "text-gray-500 bg-gray-100"
 
     [base_classes, active_classes, underline_classes]
   end
@@ -97,7 +97,7 @@ defmodule AtomicWeb.Components.Tabs do
     active_classes =
       if active,
         do: "text-white bg-primary-600",
-        else: "text-white bg-zinc-500"
+        else: "text-white bg-gray-500"
 
     [base_classes, active_classes]
   end
