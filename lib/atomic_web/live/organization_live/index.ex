@@ -3,7 +3,8 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.Components.{Dropdown, Pagination, Empty, Avatar}
+  import AtomicWeb.Components.{Dropdown, Pagination, Empty, Forms}
+  import AtomicWeb.OrganizationLive.Components.OrganizationCard
 
   @impl true
   def mount(_params, _session, socket) do
@@ -26,6 +27,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
      |> assign(:params, params)
      |> stream(:organizations, organizations)
      |> assign(:meta, meta)
+     |> assign(:empty?, Enum.empty?(organizations))
      |> assign(:has_permissions?, has_permissions?(socket))}
   end
 
