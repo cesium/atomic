@@ -46,10 +46,10 @@
           </div>
         </div>
 
-        <label class="atomic-label atomic-label--required">
+        <label for="description_button" class="atomic-label atomic-label--required">
           Description
         </label>
-        <.button class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+        <.button id="description_button" class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
           <%= if not @has_description? do %>
             <label class="text-left cursor-pointer text-gray-500">
               Add description
@@ -83,11 +83,24 @@
           </.inputs_for>
         </div>
 
-        <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-start xl:justify-between">
-          <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
-            <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
-          </div>
-        </div>
+        <label for="capacity_button" class="atomic-label atomic-label--required">
+          Capacity
+        </label>
+        <.button id="capacity_button" type="button" class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
+          <.field 
+            class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900" 
+            type="number" 
+            field={@form[:maximum_entries]} 
+            label="Maximum entries" 
+            placeholder="Choose maximum entries" 
+            readonly
+            required 
+            label_class="hidden"
+            wrapper_class="m-0"
+            error_class="text-danger-600 placeholder-danger-700"
+            error_label_class="text-danger-700"
+          />
+        </.button>
 
         <div class="mt-4 flex-grow">
           <div class="flex justify-center lg:justify-end">
@@ -100,18 +113,32 @@
             </.button>
           </div>
         </div>
-
-        <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
-          <div class="mt-4 flex-grow">
-            <.field class="\-h-10 resize-none " type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
-            <div class="w-full flex justify-end">
-              <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
-                <span><%= gettext("Done") %></span>
-              </.button>
-            </div>
-          </div>
-        </.modal>
       </div>
     </div>
+    <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
+      <div class="mt-4 flex-grow">
+        <.field class="\-h-10 resize-none " type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
+        <div class="w-full flex justify-end">
+          <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+            <span><%= gettext("Done") %></span>
+          </.button>
+        </div>
+      </div>
+    </.modal>
+    <.modal :if={@maximum_entries_modal} id="maximum_entries_modal" show on_cancel={JS.push("toggle_maximum_entries_modal", target: @myself)}>
+      <div class="w-full h-full">
+        <div class="">
+          <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+        </div>
+        <div class="flex gap-3">
+          <.button type="button" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
+            Close
+          </.button>
+          <.button type="button" phx-click="" phx-target={@myself}>
+            Remove limit
+          </.button>
+        </div>
+      </div>
+    </.modal>
   </.form>
 </div>

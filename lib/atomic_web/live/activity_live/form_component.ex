@@ -23,6 +23,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
      |> assign(assigns)
      |> assign_form(changeset)
      |> assign(:description_modal, false)
+     |> assign(:maximum_entries_modal, false)
      |> assign(:has_description?, initial_description)
      |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
@@ -62,6 +63,14 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     {:noreply,
      socket
      |> assign(:description_modal, not socket.assigns.description_modal)}
+  end
+
+  @impl true
+  def handle_event("toggle_maximum_entries_modal", _, socket) do
+    {:noreply,
+      socket
+      |> assign(:maximum_entries_modal, not socket.assigns.maximum_entries_modal)
+    }
   end
 
   defp save_activity(socket, :new, activity_params) do
