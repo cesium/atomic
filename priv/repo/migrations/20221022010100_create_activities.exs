@@ -11,7 +11,6 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :start, :naive_datetime, null: false
       add :finish, :naive_datetime, null: false
 
-      add :minimum_entries, :integer, null: false
       add :maximum_entries, :integer, null: false
       add :enrolled, :integer, default: 0, null: false
 

@@ -22,7 +22,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_form(changeset)
-     |> assign(:modal, false)
+     |> assign(:description_modal, false)
      |> assign(:has_description?, initial_description)
      |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
@@ -61,7 +61,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   def handle_event("toggle_description_modal", _, socket) do
     {:noreply,
      socket
-     |> assign(:modal, not socket.assigns.modal)}
+     |> assign(:description_modal, not socket.assigns.description_modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do

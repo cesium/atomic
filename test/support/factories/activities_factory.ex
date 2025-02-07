@@ -12,7 +12,6 @@ defmodule Atomic.Factories.ActivityFactory do
         %Activity{
           title: Faker.Beer.brand(),
           description: Faker.Lorem.paragraph(),
-          minimum_entries: Enum.random(1..10),
           maximum_entries: Enum.random(11..20),
           enrolled: 0,
           start: NaiveDateTime.utc_now(),

@@ -16,7 +16,6 @@ defmodule Atomic.ActivitiesFixtures do
         description: "some description",
         title: "some title",
         maximum_entries: 42,
-        minimum_entries: 0,
         finish: ~N[2022-10-22 20:00:00],
         start: ~N[2022-10-22 20:00:00],
         organization_id: OrganizationsFixtures.organization_fixture().id
