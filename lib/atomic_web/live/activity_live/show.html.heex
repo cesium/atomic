@@ -13,7 +13,7 @@
           <%= @activity.organization.name %>
         </.link>
       </span>
-    </div>  
+    </div>
   </:title_wrapper>
   <:actions>
     <%= if @current_view == "show" do %>
@@ -259,15 +259,13 @@
 <.modal :if={@participants_modal} show id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
   <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
   <%= if length(@participants) != 0 do %>
-    <div class="">
-      <ul>
-        <%= for participant <- @participants do %>
-          <li class="h-6 py-6 px-0 border-b flex items-center justify-center">
-            <.avatar size={:xs} name={participant.name} type={:user} />
-            <span class="ml-4"><%= participant.name %></span>
-          </li>
-        <% end %>
-      </ul>
+    <div class="mt-2 flex align-center place-items-center flex-wrap w-full gap-4">
+      <%= for participant <- @participants do %>
+        <div class="h-6 py-6 px-0 flex items-center">
+          <.avatar size={:xs} name={participant.name} type={:user} />
+          <span class="ml-4"><%= participant.name %></span>
+        </div>
+      <% end %>
     </div>
   <% else %>
     <div class="mt-4">
