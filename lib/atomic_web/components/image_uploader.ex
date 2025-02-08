@@ -16,15 +16,19 @@ defmodule AtomicWeb.Components.ImageUploader do
     <div class="h-full">
       <.live_file_input upload={@uploads.image} class="hidden" />
       <div class="h-full shrink-0 1.5xl:shrink-0">
-        <section class="" phx-drop-target={@uploads.image.ref} onclick={"document.getElementById('#{@uploads.image.ref}').click()"}>
+        <section class={if @uploads.image.entries == [] && !@image, do: "h-full", else: ""} phx-drop-target={@uploads.image.ref} onclick={"document.getElementById('#{@uploads.image.ref}').click()"}>
           <%= if @uploads.image.entries == [] do %>
             <%= if @image do %>
-              <img class="p-4" src={@image} />
+              <div class="flex flex-col place-items-center">
+                <img class="p-4" src={@image} />
+                <span class="text-sm text-orange-500 cursor-pointer hover:text-red-800">Click to upload new image</span>
+                <p class="text-xs text-zinc-500">(PNG, JPG, GIF up to 10MB)</p>
+              </div>
             <% else %>
               <article class="h-full w-full">
                 <figure class="flex h-full items-center justify-center">
                   <div class="flex h-full w-full place-items-center rounded-md border-2 border-dashed border-zinc-300">
-                    <div class="mx-auto sm:col-span-6 lg:w-full">
+                    <div class="flex place-items-center justify-center h-full mx-auto sm:col-span-6 lg:w-full">
                       <div class="my-[140px] flex justify-center px-6">
                         <div class="space-y-1 text-center">
                           <svg class="size-12 mx-auto text-zinc-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -49,7 +53,9 @@ defmodule AtomicWeb.Components.ImageUploader do
         <%= if @uploads.image.entries do %>
           <%= for entry <- @uploads.image.entries do %>
             <%= for err <- upload_errors(@uploads.image, entry) do %>
-              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+            <div class="flex justify-center">
+              <p class="alert alert-danger text-orange-500"><%= Phoenix.Naming.humanize(err) %></p>
+            </div>
             <% end %>
             <article class="upload-entry">
               <figure class="">
