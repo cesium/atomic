@@ -68,9 +68,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def handle_event("toggle_maximum_entries_modal", _, socket) do
     {:noreply,
-      socket
-      |> assign(:maximum_entries_modal, not socket.assigns.maximum_entries_modal)
-    }
+     socket
+     |> assign(:maximum_entries_modal, not socket.assigns.maximum_entries_modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do
