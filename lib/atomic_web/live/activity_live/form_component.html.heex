@@ -87,19 +87,36 @@
           Capacity
         </label>
         <.button id="capacity_button" type="button" class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
-          <.field
+          <%= if @has_max_capacity? do %>
+            <.field
+              class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900"
+              type="number"
+              field={@form[:maximum_entries]}
+              label="Maximum entries"
+              placeholder="Choose maximum entries"
+              readonly
+              required
+              label_class="hidden"
+              wrapper_class="m-0"
+              error_class="text-danger-600 placeholder-danger-700"
+              error_label_class="text-danger-700"
+            />
+          <% else %>
+            <.field
             class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900"
             type="number"
             field={@form[:maximum_entries]}
             label="Maximum entries"
-            placeholder="Choose maximum entries"
+            placeholder="Unlimited"
             readonly
+            value="nil"
             required
             label_class="hidden"
             wrapper_class="m-0"
             error_class="text-danger-600 placeholder-danger-700"
             error_label_class="text-danger-700"
           />
+          <% end %>
         </.button>
 
         <div class="mt-4 flex-grow">
@@ -128,13 +145,17 @@
     <.modal :if={@maximum_entries_modal} id="maximum_entries_modal" show on_cancel={JS.push("toggle_maximum_entries_modal", target: @myself)}>
       <div class="w-full h-full">
         <div class="">
-          <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+          <%= if @has_max_capacity? do %>
+            <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+          <% else %>
+            <.field class="" type="number" value="nil" field={@form[:maximum_entries]} placeholder="Unlimited"/>
+          <% end %>
         </div>
         <div class="flex gap-3">
           <.button type="button" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
             Close
           </.button>
-          <.button type="button" phx-click="" phx-target={@myself}>
+          <.button type="button" phx-target={@myself} phx-click="remove_max_capacity">
             Remove limit
           </.button>
         </div>

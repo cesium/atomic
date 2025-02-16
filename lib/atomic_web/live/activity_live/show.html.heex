@@ -81,7 +81,7 @@
             <div class="flex items-center gap-2">
               <.icon name="hero-user-group" class="h-5 w-5 text-gray-700" />
               <p class="font-medium">
-                <%= @activity.enrolled %> / <%= @activity.maximum_entries %>
+                <%= @activity.enrolled %> <%= if @activity.maximum_entries, do: "/ #{@activity.maximum_entries}" %>
               </p>
             </div>
           </.link>
@@ -199,7 +199,8 @@
           <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Participants</h2>
           <div class="border-t border-l">
             <.table items={@participants} meta={@meta} filter={[]}>
-              <:col :let={participant} label="Name"><%= participant.name %></:col>
+              <:col :let={participant} label="Name"><.link navigate={~p"/profile/#{participant.slug}"} class="hover:underline"><%= participant.name %></.link>
+              </:col>
               <:col :let={participant} label="Email"><%= participant.email %></:col>
               <:col :let={participant} label="Phone number"><%= participant.phone_number %></:col>
             </.table>
@@ -219,7 +220,7 @@
 <!-- Ticket show modal -->
 <.modal :if={@live_action in [:ticket] and @enrolled?} id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
   <div class="w-full flex flex-col gap-2 text-center place-items-center">
-    <p class="text-md font-semibold text-gray-900">
+    <p class="text-md font-semibold text-gray-900 sm:w-1/2">
       <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
     </p>
     <%= draw_ticket_qr_code(@enrollment_id) |> raw %>

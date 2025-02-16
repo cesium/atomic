@@ -9,8 +9,8 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Location
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description start finish maximum_entries enrolled organization_id)a
-  @optional_fields ~w()a
+  @required_fields ~w(title description start finish enrolled organization_id)a
+  @optional_fields ~w(maximum_entries)a
 
   @derive {
     Flop.Schema,
@@ -29,7 +29,7 @@ defmodule Atomic.Activities.Activity do
     field :start, :naive_datetime
     field :finish, :naive_datetime
 
-    field :maximum_entries, :integer
+    field :maximum_entries, :integer, default: nil
     field :enrolled, :integer, default: 0
 
     field :image, Uploaders.Post.Type
@@ -101,6 +101,8 @@ defmodule Atomic.Activities.Activity do
         validate_enrollments_values(enrolled, maximum, changeset)
     end
   end
+
+  def validate_enrollments_values(_enrolled, nil, changeset), do: changeset
 
   def validate_enrollments_values(enrolled, maximum_entries, changeset) do
     if enrolled > maximum_entries do
