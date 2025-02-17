@@ -1,7 +1,7 @@
 <.page title={@activity.title}>
   <:title_wrapper :let={title}>
     <div class="grid">
-      <h1 class="select-none pb-2  text-2xl font-bold text-gray-900">
+      <h1 class="select-none pb-2 text-2xl font-bold text-gray-900">
         <%= title %>
       </h1>
       <span class="flex items-center gap-2">
@@ -18,7 +18,7 @@
   <:actions>
     <%= if @current_view == "show" do %>
       <!-- Actions (desktop) -->
-      <div class="sm:flex hidden gap-4">
+      <div class="hidden gap-4 sm:flex">
         <%= if @is_authenticated? do %>
           <.button :if={not @max_enrolled? and !@enrolled?} color={:white} icon="hero-ticket" patch={~p"/activities/#{@activity.id}/enroll"} disabled={@enrolled?}>
             <%= gettext("Register") %>
@@ -32,7 +32,7 @@
         <% end %>
       </div>
       <!-- Actions (mobile) -->
-      <div class="sm:hidden block">
+      <div class="block sm:hidden">
         <.dropdown id="activity-actions-dropdown" items={generate_dropdown_items(@enrolled?, @has_permissions?, @activity, @socket)}>
           <:wrapper>
             <.button icon="hero-ellipsis-horizontal" color={:white} />
@@ -46,18 +46,18 @@
   </:actions>
   <!-- Activity image (mobile) -->
   <%= if @current_view == "show" do %>
-    <div class="sm:hidden pb-8 px-8 sm:px-6 flex w-full justify-center">
-      <div class="w-full aspect-square object-cover">
+    <div class="flex w-full justify-center px-8 pb-8 sm:hidden sm:px-6">
+      <div class="aspect-square w-full object-cover">
         <%= if @activity.image do %>
-          <img class="h-full w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="h-full w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         <% else %>
           <.gradient class="rounded-xl" seed={@activity.id} />
         <% end %>
       </div>
     </div>
-    <div class="grid grid-cols-5 gap-12 mx-4 max-w-5xl sm:mx-6 lg:mx-8">
-      <div class="sm:col-span-3 col-span-5 flex flex-col gap-6">
-        <div class="flex flex-row gap-16 justify-between sm:justify-normal">
+    <div class="mx-4 grid max-w-5xl grid-cols-5 gap-12 sm:mx-6 lg:mx-8">
+      <div class="col-span-5 flex flex-col gap-6 sm:col-span-3">
+        <div class="flex flex-row justify-between gap-16 sm:justify-normal">
           <!-- Date -->
           <%= if @activity.start do %>
             <div class="flex items-center gap-2">
@@ -88,11 +88,11 @@
         </div>
         <!-- Enrollment (desktop) -->
         <%= if @enrolled? do %>
-          <div class="sm:block hidden">
+          <div class="hidden sm:block">
             <div class="flex flex-row items-center gap-2">
               <.icon name="hero-check-badge" class="h-5 w-5 text-gray-700" />
               <div>
-                <h2 class="flex-1 select-none truncate text-md font-semibold text-gray-900">
+                <h2 class="text-md flex-1 select-none truncate font-semibold text-gray-900">
                   <%= gettext("You are going!") %>
                 </h2>
                 <p>
@@ -127,12 +127,12 @@
               <%= @activity.location.address %>
             </p>
           </div>
-          <figure class="border rounded-xl">
+          <figure class="rounded-xl border">
             <.map location={@activity.location.address} class="rounded-xl" />
           </figure>
         </div>
         <!-- Action buttons (mobile) -->
-        <div class="sm:hidden block pt-8">
+        <div class="block pt-8 sm:hidden">
           <!-- Register button -->
           <.button :if={not @max_enrolled? and !@enrolled?} icon="hero-ticket" size={:lg} patch={~p"/activities/#{@activity.id}/enroll/"} full_width>
             <%= gettext("Register") %>
@@ -146,17 +146,17 @@
           </div>
         </div>
       </div>
-      <div class="sm:block hidden col-span-2 w-full object-cover">
+      <div class="col-span-2 hidden w-full object-cover sm:block">
         <!-- Activity image (desktop) -->
         <%= if @activity.image do %>
-          <img class="max-h-fit w-full object-cover rounded-xl border" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="max-h-fit w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
         <% else %>
           <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
         <% end %>
         <div class="flex flex-col">
           <!-- Activity participants (desktop) -->
           <div :if={@activity.enrolled > 0} class="pt-4">
-            <h2 class="mb-2 flex-1 select-none truncate text-md font-semibold text-gray-900">
+            <h2 class="text-md mb-2 flex-1 select-none truncate font-semibold text-gray-900">
               <%= gettext("%{enrolled} Going", enrolled: @activity.enrolled) %>
             </h2>
             <.avatar_group
@@ -176,7 +176,7 @@
             />
           </div>
           <%= if length(@participants) == 0 do %>
-            <span class="text-orange-500 flex justify-center pt-2"><%= gettext("No participants on this activity") %></span>
+            <span class="flex justify-center pt-2 text-orange-500"><%= gettext("No participants on this activity") %></span>
           <% else %>
             <%= if @has_permissions? do %>
               <.link patch="?tab=participants" class="text-orange-500 hover:cursor-pointer hover:underline">
@@ -199,8 +199,7 @@
           <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Participants</h2>
           <div class="border-t border-l">
             <.table items={@participants} meta={@meta} filter={[]}>
-              <:col :let={participant} label="Name"><.link navigate={~p"/profile/#{participant.slug}"} class="hover:underline"><%= participant.name %></.link>
-              </:col>
+              <:col :let={participant} label="Name"><.link navigate={~p"/profile/#{participant.slug}"} class="hover:underline"><%= participant.name %></.link></:col>
               <:col :let={participant} label="Email"><%= participant.email %></:col>
               <:col :let={participant} label="Phone number"><%= participant.phone_number %></:col>
             </.table>
@@ -219,7 +218,7 @@
 </.page>
 <!-- Ticket show modal -->
 <.modal :if={@live_action in [:ticket] and @enrolled?} id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
-  <div class="w-full flex flex-col gap-2 text-center place-items-center">
+  <div class="flex w-full flex-col place-items-center gap-2 text-center">
     <p class="text-md font-semibold text-gray-900 sm:w-1/2">
       <%= gettext("Show this code to the staff present at the activity to register your presence.") %>
     </p>
@@ -260,9 +259,9 @@
 <.modal :if={@participants_modal} show id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
   <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
   <%= if length(@participants) != 0 do %>
-    <div class="mt-2 flex align-center place-items-center flex-wrap w-full gap-4">
+    <div class="align-center mt-2 flex w-full flex-wrap place-items-center gap-4">
       <%= for participant <- @participants do %>
-        <div class="h-6 py-6 px-0 flex items-center">
+        <div class="flex h-6 items-center px-0 py-6">
           <.avatar size={:xs} name={participant.name} type={:user} />
           <.link navigate={~p"/profile/#{participant.slug}"} class="ml-4 hover:underline"><%= participant.name %></.link>
         </div>

@@ -7,11 +7,11 @@
     <% end %>
   </:actions>
   <!-- Tabs -->
-  <.tabs class="overflow-scroll scrollbar-hide max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
+  <.tabs class="scrollbar-hide max-w-5-xl mx-auto overflow-scroll px-4 sm:px-6 lg:px-8">
     <%= if @is_authenticated? and @has_current_organization? do %>
       <.link patch="?tab=organization" replace={false}>
         <.tab active={@current_tab == "organization"}>
-          <.icon name="hero-globe-alt" class="h-5 w-5 mr-1" />
+          <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
           <%= @current_user.current_organization.name <> gettext("'s activities") %>
         </.tab>
       </.link>
@@ -19,7 +19,7 @@
 
     <.link patch="?tab=discover" replace={false}>
       <.tab active={@current_tab == "discover"}>
-        <.icon name="hero-globe-alt" class="h-5 w-5 mr-1" />
+        <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
         <%= gettext("Discover") %>
       </.tab>
     </.link>
@@ -27,7 +27,7 @@
     <%= if @is_authenticated? do %>
       <.link patch="?tab=following" replace={false}>
         <.tab active={@current_tab == "following"}>
-          <.icon name="hero-eye" class="h-5 w-5 mr-1" />
+          <.icon name="hero-eye" class="mr-1 h-5 w-5" />
           <%= gettext("Following") %>
         </.tab>
       </.link>
@@ -36,13 +36,13 @@
     <%= if @is_authenticated? do %>
       <.link patch="?tab=enrolled" replace={false}>
         <.tab active={@current_tab == "enrolled"} number={@upcoming_enrolled_count}>
-          <.icon name="hero-ticket" class="h-5 w-5 mr-1" />
+          <.icon name="hero-ticket" class="mr-1 h-5 w-5" />
           <%= gettext("Upcoming") %>
         </.tab>
       </.link>
       <.link patch="?tab=past" replace={false}>
         <.tab active={@current_tab == "past"}>
-          <.icon name="hero-clock" class="h-5 w-5 mr-1" />
+          <.icon name="hero-clock" class="mr-1 h-5 w-5" />
           <%= gettext("Past") %>
         </.tab>
       </.link>
@@ -55,7 +55,7 @@
         <.empty_state url={~p"/organizations/#{@current_organization}/activities/new"} placeholder="activity" />
       </div>
     <% else %>
-      <div class="text-zinc-600 mt-32 flex flex-col items-center w-full justify-center">
+      <div class="mt-32 flex w-full flex-col items-center justify-center text-zinc-600">
         <.icon class="w-24" name="hero-megaphone" />
         <p class="pt-4"><%= gettext("No activities to show.") %></p>
         <p><%= activities_empty_state_description(@current_tab) %></p>
@@ -63,7 +63,7 @@
     <% end %>
   <% else %>
     <div class="overflow-hidden bg-white">
-      <ul role="list" class="p-4 overflow-auto grid sm:grid-cols-2 gap-4">
+      <ul role="list" class="grid gap-4 overflow-auto p-4 sm:grid-cols-2">
         <%= for activity <- @activities do %>
           <li id={activity.id} class={@current_tab == "past" && "opacity-70"}>
             <.activity_card activity={activity} />

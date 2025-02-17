@@ -23,24 +23,24 @@
           </div>
         </div>
         <div class="flex w-full">
-          <div class="justify-top flex flex-col items-center pt-3 hidden sm:block">
+          <div class="justify-top flex hidden flex-col items-center pt-3 sm:block">
             <div class="size-3 bg-primary-600 m-1 rounded-full" />
             <div class="flex justify-center">
-              <div class="border-l-primary-600 h-[3.25rem] border-l border-dashed w-[3px]" />
+              <div class="border-l-primary-600 h-[3.25rem] w-[3px] border-l border-dashed" />
             </div>
             <div class="size-3 border-primary-600 m-1 rounded-full border" />
           </div>
           <div class="flex w-full flex-col">
-            <div class="text-nowrap flex flex-col sm:flex-row items-baseline justify-between gap-y-1 sm:p-1 sm:pl-3">
+            <div class="text-nowrap flex flex-col items-baseline justify-between gap-y-1 sm:flex-row sm:p-1 sm:pl-3">
               <span>Start</span>
               <div class="w-full sm:w-56">
-                <.field class="w-full sm:w-56 atomic-button atomic-button--primary-outline text-gray-900" type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
+                <.field class="atomic-button atomic-button--primary-outline w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
               </div>
             </div>
-            <div class="text-nowrap flex flex-col sm:flex-row items-baseline justify-between gap-y-1 sm:p-1 sm:pl-3">
+            <div class="text-nowrap flex flex-col items-baseline justify-between gap-y-1 sm:flex-row sm:p-1 sm:pl-3">
               <span>End</span>
               <div class="w-full sm:w-56">
-                <.field class="w-full sm:w-56 atomic-button atomic-button--primary-outline text-gray-900" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
+                <.field class="atomic-button atomic-button--primary-outline w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
               </div>
             </div>
           </div>
@@ -49,9 +49,9 @@
         <label for="description_button" class="atomic-label atomic-label--required">
           Description
         </label>
-        <.button id="description_button" class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+        <.button id="description_button" class="group atomic-button atomic-button--primary-outline flex flex-col items-start rounded-md border-gray-300 bg-white px-3 py-3 text-gray-300 focus-within:bg-white lg:w-full" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
           <%= if not @has_description? do %>
-            <label class="text-left cursor-pointer text-gray-500">
+            <label class="cursor-pointer text-left text-gray-500">
               Add description
             </label>
           <% end %>
@@ -67,7 +67,7 @@
               autocomplete="off"
               error_class="text-danger-600 placeholder-danger-700"
               error_label_class="text-danger-700"
-              class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900"
+              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
         </.button>
@@ -86,14 +86,14 @@
         <label for="capacity_button" class="atomic-label atomic-label--required">
           Capacity
         </label>
-        <.button id="capacity_button" type="button" class="lg:w-full flex flex-col items-start px-3 py-3 border-gray-300 rounded-md bg-white text-gray-300 group atomic-button atomic-button--primary-outline focus-within:bg-white" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
+        <.button id="capacity_button" type="button" class="group atomic-button atomic-button--primary-outline flex flex-col items-start rounded-md border-gray-300 bg-white px-3 py-3 text-gray-300 focus-within:bg-white lg:w-full" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
           <%= if @has_max_capacity? do %>
             <.field
-              class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900"
+              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
               type="number"
               field={@form[:maximum_entries]}
               label="Maximum entries"
-              placeholder="Choose maximum entries"
+              placeholder="Choose maximum capacity"
               readonly
               required
               label_class="hidden"
@@ -103,19 +103,19 @@
             />
           <% else %>
             <.field
-            class="text-sm p-0 bg-transparent border-none shadow-none cursor-pointer focus:outline-none focus:ring-0 focus:border-transparent text-gray-900"
-            type="number"
-            field={@form[:maximum_entries]}
-            label="Maximum entries"
-            placeholder="Unlimited"
-            readonly
-            value="nil"
-            required
-            label_class="hidden"
-            wrapper_class="m-0"
-            error_class="text-danger-600 placeholder-danger-700"
-            error_label_class="text-danger-700"
-          />
+              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
+              type="number"
+              field={@form[:maximum_entries]}
+              label="Maximum entries"
+              placeholder="Unlimited"
+              value=" "
+              readonly
+              required
+              label_class="hidden"
+              wrapper_class="m-0"
+              error_class="text-danger-600 placeholder-danger-700"
+              error_label_class="text-danger-700"
+            />
           <% end %>
         </.button>
 
@@ -135,7 +135,7 @@
     <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
       <div class="mt-4 flex-grow">
         <.field class="\-h-10 resize-none " type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
-        <div class="w-full flex justify-end">
+        <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
             <span><%= gettext("Done") %></span>
           </.button>
@@ -143,12 +143,12 @@
       </div>
     </.modal>
     <.modal :if={@maximum_entries_modal} id="maximum_entries_modal" show on_cancel={JS.push("toggle_maximum_entries_modal", target: @myself)}>
-      <div class="w-full h-full">
+      <div class="h-full w-full">
         <div class="">
           <%= if @has_max_capacity? do %>
             <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
           <% else %>
-            <.field class="" type="number" value="nil" field={@form[:maximum_entries]} placeholder="Unlimited"/>
+            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="Unlimited" />
           <% end %>
         </div>
         <div class="flex gap-3">

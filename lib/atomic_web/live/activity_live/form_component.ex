@@ -24,7 +24,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
      |> assign_form(changeset)
      |> assign(:description_modal, false)
      |> assign(:maximum_entries_modal, false)
-     |> assign(:has_max_capacity?, true)
+     |> assign(:has_max_capacity?, activity.maximum_entries)
      |> assign(:has_description?, initial_description)
      |> allow_upload(:image, accept: Uploaders.Post.extension_whitelist(), max_entries: 1)}
   end
@@ -32,7 +32,9 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def handle_event("validate", %{"activity" => activity_params}, socket) do
     description = Map.get(activity_params, "description", "")
+    capacity = Map.get(activity_params, "max_entries", "")
     has_description = is_nil(description) || String.trim(description) == ""
+    has_capacity = is_nil(capacity) || String.trim(capacity) == ""
 
     changeset =
       socket.assigns.activity
@@ -42,6 +44,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     {:noreply,
      socket
      |> assign(:has_description?, not has_description)
+     |> assign(:has_max_capacity?, has_capacity)
      |> assign_form(changeset)}
   end
 
@@ -75,9 +78,10 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
 
   @impl true
   def handle_event("remove_max_capacity", _, socket) do
-    {:noreply, socket
-      |> assign(:has_max_capacity?, false)
-      |> assign(:maximum_entries_modal, not socket.assigns.maximum_entries_modal)}
+    {:noreply,
+     socket
+     |> assign(:has_max_capacity?, false)
+     |> assign(:maximum_entries_modal, not socket.assigns.maximum_entries_modal)}
   end
 
   defp save_activity(socket, :new, activity_params) do
