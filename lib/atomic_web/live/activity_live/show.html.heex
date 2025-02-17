@@ -72,6 +72,15 @@
                     <%= "#{display_time(@activity.start)}-#{display_time(@activity.finish)}" %>
                   </p>
                 </div>
+              <% else %>
+                <div class="flex flex-col">
+                  <p class="font-medium">
+                    <%= pretty_display_date(@activity.start) %> - <%= pretty_display_date(@activity.finish) %>
+                  </p>
+                  <p>
+                    <%= "#{display_time(@activity.start)}-#{display_time(@activity.finish)}" %>
+                  </p>
+                </div>
               <% end %>
               <!-- TODO: Support for multi-day activities -->
             </div>
