@@ -107,7 +107,7 @@
               type="number"
               field={@form[:maximum_entries]}
               label="Maximum entries"
-              placeholder="Unlimited"
+              placeholder="∞ Unlimited"
               value=" "
               readonly
               required
@@ -148,7 +148,7 @@
           <%= if @has_max_capacity? do %>
             <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
           <% else %>
-            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="Unlimited" />
+            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
           <% end %>
         </div>
         <div class="flex gap-3">
