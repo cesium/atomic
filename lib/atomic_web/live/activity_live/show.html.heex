@@ -82,7 +82,6 @@
                   </p>
                 </div>
               <% end %>
-              <!-- TODO: Support for multi-day activities -->
             </div>
           <% end %>
           <!-- Capacity -->
@@ -268,14 +267,17 @@
 <.modal :if={@participants_modal} show id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
   <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
   <%= if length(@participants) != 0 do %>
-    <div class="align-center mt-2 flex w-full flex-wrap place-items-center gap-4">
+  <div class="flex justify-center place-items-center w-full">
+    <div class="align-center mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-fit">
       <%= for participant <- @participants do %>
-        <div class="flex h-6 items-center px-0 py-6">
+        <div class="flex h-10">
           <.avatar size={:xs} name={participant.name} type={:user} />
           <.link navigate={~p"/profile/#{participant.slug}"} class="ml-4 hover:underline"><%= participant.name %></.link>
         </div>
       <% end %>
     </div>
+  </div>
+
   <% else %>
     <div class="mt-4">
       <span>There are no participants for this activity</span>

@@ -32,9 +32,9 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   @impl true
   def handle_event("validate", %{"activity" => activity_params}, socket) do
     description = Map.get(activity_params, "description", "")
-    capacity = Map.get(activity_params, "max_entries", "")
+    capacity = Map.get(activity_params, "maximum_entries", "")
     has_description = is_nil(description) || String.trim(description) == ""
-    has_capacity = is_nil(capacity) || String.trim(capacity) == ""
+    capacity_field_empty = is_nil(capacity) || String.trim(capacity) == ""
 
     changeset =
       socket.assigns.activity
@@ -44,7 +44,7 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
     {:noreply,
      socket
      |> assign(:has_description?, not has_description)
-     |> assign(:has_max_capacity?, has_capacity)
+     |> assign(:has_max_capacity?, not capacity_field_empty)
      |> assign_form(changeset)}
   end
 
