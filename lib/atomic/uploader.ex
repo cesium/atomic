@@ -9,12 +9,13 @@ defmodule Atomic.Uploader do
       use Waffle.Definition
       use Waffle.Ecto.Definition
 
-      def validate(file, _) do
+      def validate({file, _}) do
         file_extension = file.file_name |> Path.extname() |> String.downcase()
+        size = file_size(file)
 
         case Enum.member?(extension_whitelist(), file_extension) do
           true ->
-            if file.size <= max_size() do
+            if size <= max_size() do
               :ok
             else
               {:error, "file size exceeds maximum allowed size"}
@@ -30,7 +31,11 @@ defmodule Atomic.Uploader do
       end
 
       def max_size do
-        Keyword.get(unquote(opts), :max_size, 500)
+        Keyword.get(unquote(opts), :max_file_size, 100_000)
+      end
+
+      def file_size(%Waffle.File{} = file) do
+        File.stat!(file.path) |> Map.get(:size)
       end
     end
   end

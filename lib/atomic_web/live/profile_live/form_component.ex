@@ -10,10 +10,10 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def mount(socket) do
     {:ok,
      socket
-     |> allow_upload(:image_1,
+     |> allow_upload(:profile_picture,
        accept: @extensions_whitelist,
        max_entries: 1,
-       max_file_size: 10_000_000
+       max_file_size: 100_000_000
      )
      |> allow_upload(:image_2,
        accept: @extensions_whitelist,
@@ -43,7 +43,21 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :image_1, ref)}
+    socket =
+      case Enum.find(socket.assigns.uploads.profile_picture.entries, fn entry ->
+             entry.ref == ref
+           end) do
+        nil -> socket
+        _entry -> cancel_upload(socket, :profile_picture, ref)
+      end
+
+    socket =
+      case Enum.find(socket.assigns.uploads.image_2.entries, fn entry -> entry.ref == ref end) do
+        nil -> socket
+        _entry -> cancel_upload(socket, :image_2, ref)
+      end
+
+    {:noreply, socket}
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
@@ -65,41 +79,54 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         "Profile updated successfully."
       end
 
-    case Accounts.update_user(
-           user,
-           Map.put(user_params, "email", user.email),
-           &consume_image_data(socket, &1)
-         ) do
-      {:ok, _user} ->
-        {:noreply,
-         socket
-         |> put_flash(:success, flash_text)
-         |> push_navigate(to: ~p"/profile/#{user_params["slug"]}")}
+    case Accounts.update_user(user, Map.put(user_params, "email", user.email)) do
+      {:ok, user} ->
+        case consume_image_data(socket, user) do
+          {:ok, user} ->
+            {:noreply,
+             socket
+             |> put_flash(:success, flash_text)
+             |> push_navigate(to: ~p"/profile/#{user_params["slug"]}")}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
+          {:error, %Ecto.Changeset{} = changeset} ->
+            {:noreply, assign(socket, :changeset, changeset)}
+        end
     end
   end
 
   defp consume_image_data(socket, user) do
-    consume_uploaded_entries(socket, :picture_1, fn %{path: path}, entry ->
-      Accounts.update_user(user, %{
-        "image_1" => %Plug.Upload{
+    consume_uploaded_entries(socket, :profile_picture, fn %{path: path}, entry ->
+      Accounts.update_user_picture(user, %{
+        "profile_picture" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
           path: path
         }
       })
+      |> case do
+        {:ok, user} ->
+          {:ok, user}
+
+        {:errors, _changeset} ->
+          {:error, "An error occurred while updating the user."}
+      end
     end)
 
-    consume_uploaded_entries(socket, :picture_2, fn %{path: path}, entry ->
-      Accounts.update_user(user, %{
+    consume_uploaded_entries(socket, :image_2, fn %{path: path}, entry ->
+      Accounts.update_user_picture(user, %{
         "image_2" => %Plug.Upload{
           content_type: entry.client_type,
           filename: entry.client_name,
           path: path
         }
       })
+      |> case do
+        {:ok, user} ->
+          {:ok, user}
+
+        {:errors, _changeset} ->
+          {:error, "An error occurred while updating the user."}
+      end
     end)
 
     {:ok, user}
