@@ -31,7 +31,7 @@ defmodule Atomic.Uploader do
       end
 
       def max_size do
-        Keyword.get(unquote(opts), :max_file_size, 100_000)
+        Keyword.get(unquote(opts), :max_file_size, 100_000_000)
       end
 
       def file_size(%Waffle.File{} = file) do

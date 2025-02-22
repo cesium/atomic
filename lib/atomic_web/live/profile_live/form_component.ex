@@ -13,7 +13,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
      |> allow_upload(:profile_picture,
        accept: @extensions_whitelist,
        max_entries: 1,
-       max_file_size: 100_000_000
+       max_file_size: 100_000_000_000
      )
      |> allow_upload(:image_2,
        accept: @extensions_whitelist,
@@ -39,7 +39,10 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
       |> Accounts.change_user(user_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, :changeset, changeset)}
+    {:noreply,
+     socket
+     |> put_flash(:error, "file size exceeds maximum allowed size")
+     |> assign(:changeset, changeset)}
   end
 
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
@@ -106,6 +109,13 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
       |> case do
         {:ok, user} ->
           {:ok, user}
+
+        {:error, changeset} ->
+          if changeset.errors[:profile_picture] do
+            {:postpone, "file size exceeds maximum allowed size"}
+          else
+            {:error, changeset}
+          end
 
         {:errors, _changeset} ->
           {:error, "An error occurred while updating the user."}
