@@ -264,15 +264,20 @@
   </div>
 </.modal>
 <!-- Participants show modal -->
-<.modal :if={@participants_modal} show id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
-  <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
+<.modal :if={@participants_modal} show class="max-w-[500px]" id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
+  <div class="flex w-full justify-center">
+    <span class="flex-l text-lg font-semibold text-gray-900">Participants</span>
+  </div>
   <%= if length(@participants) != 0 do %>
   <div class="flex justify-center place-items-center w-full">
-    <div class="align-center mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-fit">
+    <div class="align-center mt-4 grid gap-4 grid-cols-1 w-fit max-h-80 overflow-auto scrollbar-hide">
       <%= for participant <- @participants do %>
-        <div class="flex h-10">
-          <.avatar size={:xs} name={participant.name} type={:user} />
-          <.link navigate={~p"/profile/#{participant.slug}"} class="ml-4 hover:underline"><%= participant.name %></.link>
+        <div class="flex h-10 place-items-center justify-between">
+          <div class="flex place-items-center">
+            <.avatar size={:xs} name={participant.name} type={:user} />
+            <.link navigate={~p"/profile/#{participant.slug}"} class="ml-4 hover:underline"><%= participant.name %></.link>
+          </div>
+          <span class="ml-2 text-gray-500 hidden sm:block"><%= relative_datetime(participant.enrollments |> List.first() |> Map.get(:inserted_at)) %></span>
         </div>
       <% end %>
     </div>

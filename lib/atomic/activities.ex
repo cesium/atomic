@@ -356,7 +356,8 @@ defmodule Atomic.Activities do
   def list_activity_participants(id) do
     from(u in User,
       join: e in assoc(u, :enrollments),
-      where: e.activity_id == ^id
+      where: e.activity_id == ^id,
+      preload: [enrollments: e]
     )
   end
 

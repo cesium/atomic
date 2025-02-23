@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="flex w-full">
-          <div class="justify-top flex hidden flex-col items-center pt-3 sm:block">
+          <div class="justify-top hidden sm:flex flex-col items-center pt-3 ">
             <div class="size-3 bg-primary-600 m-1 rounded-full" />
             <div class="flex justify-center">
               <div class="border-l-primary-600 h-[3.25rem] w-[3px] border-l border-dashed" />
@@ -134,7 +134,7 @@
     </div>
     <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
       <div class="mt-4 flex-grow">
-        <.field class="\-h-10 resize-none " type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
+        <.field class="\-h-10 resize-none atomic-button atomic-button--primary-outline" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
             <span><%= gettext("Done") %></span>
@@ -146,9 +146,9 @@
       <div class="h-full w-full">
         <div class="">
           <%= if @has_max_capacity? do %>
-            <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+            <.field class="atomic-button atomic-button--primary-outline" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
           <% else %>
-            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
+            <.field class="atomic-button atomic-button--primary-outline" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
           <% end %>
         </div>
         <div class="flex gap-3">

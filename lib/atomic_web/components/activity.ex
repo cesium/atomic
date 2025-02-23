@@ -47,14 +47,20 @@ defmodule AtomicWeb.Components.Activity do
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-calendar-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
-              <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.start) %></span>
+              <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
+                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.start) %></span>
+              <% else %>
+                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.start) %></span>
+                <.icon name="hero-arrow-right" class="size-4 mt-[3px]"/>
+                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.finish) %></span>
+              <% end %>
               <span class="sr-only">starting in</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-user-group-solid" class="size-5" />
-              <span class="font-medium text-zinc-900"><%= @activity.enrolled %>/<%= @activity.maximum_entries %></span>
+              <span class="font-medium text-zinc-900"><%= @activity.enrolled %> <%= if @activity.maximum_entries, do: "/" %> <%= @activity.maximum_entries %></span>
               <span class="sr-only text-zinc-400">enrollments</span>
             </span>
           </span>
