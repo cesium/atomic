@@ -7,11 +7,11 @@
           <div class="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
             <div class="flex flex-row my-6 min-w-0 select-none gap-x-2">
               <%= if @is_authenticated? do %>
-                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                <h1 class="text-2xl font-bold text-zinc-900 truncate">
                   Welcome, <%= @current_user.name %>
                 </h1>
               <% else %>
-                <h1 class="text-2xl font-bold text-gray-900 truncate">
+                <h1 class="text-2xl font-bold text-zinc-900 truncate">
                   Welcome to Atomic
                 </h1>
               <% end %>
@@ -45,13 +45,13 @@
             </div>
           <% else %>
             <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-              <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-gray-200 sm:px-6 lg:px-8">
+              <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-zinc-200 sm:px-6 lg:px-8">
                 <%= if post.type == :activity do %>
                   <.link navigate={~p"/activities/#{post.activity}"}>
                     <.activity activity={post.activity} />
                   </.link>
                 <% else %>
-                  <.link navigate={~p"/announcements/#{post.announcement}"}>
+                  <.link navigate={~p"/organizations/#{post.announcement.organization.id}/announcements/#{post.announcement}"}>
                     <.announcement announcement={post.announcement} />
                   </.link>
                 <% end %>
@@ -64,15 +64,15 @@
       </article>
     </main>
   </div>
-  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pb-6 w-full border-t border-gray-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
+  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pb-6 w-full border-t border-zinc-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
     <!-- Organizations to follow -->
-    <section aria-labelledby="organizations-to-follow" class="border-b border-gray-200 pl-6 pr-4 pt-6">
+    <section aria-labelledby="organizations-to-follow" class="border-b border-zinc-200 pl-6 pr-4 pt-6">
       <.follow_suggestions current_user={@current_user} organizations={@organizations} />
     </section>
     <!-- Schedule -->
     <section aria-labelledby="schedule" class="pl-6 pr-4">
       <div class="flex justify-between items-center pt-4">
-        <h1 class="text-xl font-bold text-gray-90">Schedule</h1>
+        <h1 class="text-xl font-bold text-zinc-90">Schedule</h1>
         <.dropdown
           :if={@current_user}
           id="schedule-dropdown"
@@ -108,5 +108,7 @@
         <.schedule schedule={@schedule_default} current_user={@current_user} tab="all" />
       <% end %>
     </section>
+    <!-- Legal Pages Links -->
+    <.legal_pages_links />
   </div>
 </div>

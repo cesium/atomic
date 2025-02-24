@@ -4,6 +4,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.LegalPagesLinks
   alias Atomic.Organizations
 
   attr :current_user, :map, required: true
@@ -64,6 +65,8 @@ defmodule AtomicWeb.Components.Sidebar do
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
             </div>
+            <!-- Legal Pages Links -->
+            <.legal_pages_links />
           </div>
         </div>
       </div>
@@ -122,7 +125,7 @@ defmodule AtomicWeb.Components.Sidebar do
       <AtomicWeb.Components.Dropdown.dropdown orientation={@orientation} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
-            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_gray} class="!text-sm" />
+            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_zinc} class="!text-sm" />
             <span class="text-sm font-semibold leading-6"><%= @current_user.name %></span>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
@@ -190,7 +193,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp user_image(user) do
     if user.profile_picture do
-      Uploaders.ProfilePicture.url({user, user.profile_picture}, :original)
+      Uploaders.ProfilePicture.url({user.profile_picture, user}, :original)
     else
       nil
     end
