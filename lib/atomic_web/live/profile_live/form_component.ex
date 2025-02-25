@@ -13,7 +13,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
      |> allow_upload(:profile_picture,
        accept: @extensions_whitelist,
        max_entries: 1,
-       max_file_size: 100_000_000_000
+       max_file_size: 10_000_000
      )
      |> allow_upload(:image_2,
        accept: @extensions_whitelist,
@@ -41,7 +41,6 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
     {:noreply,
      socket
-     |> put_flash(:error, "file size exceeds maximum allowed size")
      |> assign(:changeset, changeset)}
   end
 
@@ -85,7 +84,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     case Accounts.update_user(user, Map.put(user_params, "email", user.email)) do
       {:ok, user} ->
         case consume_image_data(socket, user) do
-          {:ok, user} ->
+          {:ok, _user} ->
             {:noreply,
              socket
              |> put_flash(:success, flash_text)
@@ -99,46 +98,37 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
   defp consume_image_data(socket, user) do
     consume_uploaded_entries(socket, :profile_picture, fn %{path: path}, entry ->
-      Accounts.update_user_picture(user, %{
-        "profile_picture" => %Plug.Upload{
-          content_type: entry.client_type,
-          filename: entry.client_name,
-          path: path
-        }
-      })
-      |> case do
-        {:ok, user} ->
-          {:ok, user}
-
-        {:error, changeset} ->
-          if changeset.errors[:profile_picture] do
-            {:postpone, "file size exceeds maximum allowed size"}
-          else
-            {:error, changeset}
-          end
-
-        {:errors, _changeset} ->
-          {:error, "An error occurred while updating the user."}
-      end
+      handle_image_upload(user, path, entry, :profile_picture)
     end)
 
     consume_uploaded_entries(socket, :image_2, fn %{path: path}, entry ->
-      Accounts.update_user_picture(user, %{
-        "image_2" => %Plug.Upload{
-          content_type: entry.client_type,
-          filename: entry.client_name,
-          path: path
-        }
-      })
-      |> case do
-        {:ok, user} ->
-          {:ok, user}
-
-        {:errors, _changeset} ->
-          {:error, "An error occurred while updating the user."}
-      end
+      handle_image_upload(user, path, entry, :image_2)
     end)
 
     {:ok, user}
+  end
+
+  defp handle_image_upload(user, path, entry, field) do
+    Accounts.update_user_picture(user, %{
+      "#{field}" => %Plug.Upload{
+        content_type: entry.client_type,
+        filename: entry.client_name,
+        path: path
+      }
+    })
+    |> case do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, changeset} ->
+        if changeset.errors[field] do
+          {:postpone, "File size exceeds maximum allowed size"}
+        else
+          {:error, changeset}
+        end
+
+      {:errors, _changeset} ->
+        {:error, "An error occurred while updating the user."}
+    end
   end
 end
