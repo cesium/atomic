@@ -5,7 +5,7 @@
     </h2>
     <%= if @error_message do %>
       <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
-        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-orange-400 text-red-700 px-4 py-4">
+        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-primary-400 text-red-700 px-4 py-4">
           <.icon name="hero-exclamation-circle-solid" class="w-5 h-5 mr-2 text-red-400" />
           <div>
             <p><%= @error_message %></p>
@@ -18,7 +18,7 @@
 
     <div class="space-y-3 rounded-md w-full flex-col mt-6">
       <div class="flex flex-col items-center justify-center mx-4">
-        <div x-data="{ hide: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+        <div x-data="{ hide: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:ring-1 sm:text-sm">
           <%= label(f, :current_password, "Current password", class: "sr-only") %>
           <%= password_input(f, :current_password, required: true, placeholder: gettext("Current password"), class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:ring-0 sm:text-sm") %>
           <div x-show="hide" x-on:click="hide = false; document.getElementById('update_password_current_password').type = 'text';" class="px-2 w-fit cursor-pointer">
@@ -32,7 +32,7 @@
       </div>
 
       <div class="flex flex-col items-center justify-center mx-4">
-        <div x-data="{ hide: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+        <div x-data="{ hide: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:ring-1 sm:text-sm">
           <%= label(f, :password, "New password", class: "sr-only") %>
           <%= password_input(f, :password, required: true, placeholder: gettext("New password"), class: "relative w-full border-0 text-zinc-900 rounded appearance-none outline-none focus:ring-0 sm:text-sm") %>
           <div x-show="hide" x-on:click="hide = false; document.getElementById('update_password_password').type = 'text';" class="px-2 w-fit cursor-pointer">
@@ -46,7 +46,7 @@
       </div>
 
       <div class="flex flex-col items-center justify-center mx-4">
-        <div x-data="{ hide_confirm: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:ring-1 sm:text-sm">
+        <div x-data="{ hide_confirm: true }" class="sm:w-96 flex flex-row items-center justify-center w-full border border-zinc-300 rounded placeholder-zinc-500 focus-within:z-10 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:ring-1 sm:text-sm">
           <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
           <%= password_input(f, :password_confirmation,
             required: true,
@@ -66,7 +66,7 @@
 
     <div class="w-full flex-col">
       <div class="mx-4 justify-center flex select-none">
-        <%= submit("Change Password", class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
+        <%= submit("Change Password", class: "w-full flex justify-center border-2 rounded-md bg-primary-500 text-lg border-primary-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
       </div>
     </div>
   </.form>
