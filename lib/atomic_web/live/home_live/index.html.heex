@@ -51,7 +51,7 @@
                     <.activity activity={post.activity} />
                   </.link>
                 <% else %>
-                  <.link navigate={~p"/announcements/#{post.announcement}"}>
+                  <.link navigate={~p"/organizations/#{post.announcement.organization.id}/announcements/#{post.announcement}"}>
                     <.announcement announcement={post.announcement} />
                   </.link>
                 <% end %>
@@ -108,5 +108,7 @@
         <.schedule schedule={@schedule_default} current_user={@current_user} tab="all" />
       <% end %>
     </section>
+    <!-- Legal Pages Links -->
+    <.legal_pages_links />
   </div>
 </div>

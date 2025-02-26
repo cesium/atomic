@@ -4,6 +4,7 @@ defmodule AtomicWeb.Components.Sidebar do
 
   alias Phoenix.LiveView.JS
   import AtomicWeb.Components.Icon
+  import AtomicWeb.Components.LegalPagesLinks
   alias Atomic.Organizations
 
   attr :current_user, :map, required: true
@@ -64,6 +65,8 @@ defmodule AtomicWeb.Components.Sidebar do
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
             </div>
+            <!-- Legal Pages Links -->
+            <.legal_pages_links />
           </div>
         </div>
       </div>
@@ -100,12 +103,12 @@ defmodule AtomicWeb.Components.Sidebar do
     <ul role="list" class="-mx-2 space-y-1">
       <%= for page <- AtomicWeb.Config.pages(@current_user, @current_organization) do %>
         <li class="select-none">
-          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
+          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-primary-500" else "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
             <.icon name={page.icon} class={
                 "#{if @current_page == page.key do
-                  "text-orange-500"
+                  "text-primary-500"
                 else
-                  "text-zinc-400 group-hover:text-orange-500"
+                  "text-zinc-400 group-hover:text-primary-500"
                 end} size-6 shrink-0"
               } />
             <%= page.title %>

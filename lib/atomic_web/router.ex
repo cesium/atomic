@@ -98,6 +98,9 @@ defmodule AtomicWeb.Router do
       live "/activities", ActivityLive.Index, :index
       live "/organizations", OrganizationLive.Index, :index
       live "/announcements", AnnouncementLive.Index, :index
+      live "/tos", TermsLive.Show, :show
+      live "/privacy", PrivacyLive.Show, :show
+      live "/cookies", CookiesLive.Show, :show
 
       live "/activities/:id", ActivityLive.Show, :show
       live "/organizations/:organization_id", OrganizationLive.Show, :show
@@ -131,6 +134,12 @@ defmodule AtomicWeb.Router do
           pipe_through :confirm_partner_association
           live "/", PartnerLive.Index, :index
           live "/:id", PartnerLive.Show, :show
+        end
+
+        scope "/announcements" do
+          pipe_through :confirm_announcement_association
+          live "/", AnnouncementLive.Index, :index
+          live "/:id", AnnouncementLive.Show, :show
         end
       end
 
