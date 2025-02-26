@@ -4,10 +4,6 @@ defmodule AtomicWeb.UserSessionController do
   alias Atomic.Accounts
   alias AtomicWeb.UserAuth
 
-  def new(conn, _params) do
-    render(conn, "new.html", error_message: nil)
-  end
-
   def create(conn, %{"user" => user_params}) do
     %{"email" => email, "password" => password} = user_params
     user = Accounts.get_user_by_email_and_password(email, password)

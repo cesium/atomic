@@ -45,6 +45,16 @@ defmodule AtomicWeb do
     end
   end
 
+  def auth_view do
+    quote do
+      use Phoenix.LiveView
+
+      import AtomicWeb.Auth.Components.Pitch
+
+      unquote(view_helpers())
+    end
+  end
+
   def live_view do
     quote do
       use Phoenix.LiveView,

@@ -4,16 +4,6 @@ defmodule AtomicWeb.UserRegistrationController do
   alias Atomic.Accounts
   alias Atomic.Accounts.User
 
-  def new(conn, _params) do
-    changeset = Accounts.change_user_registration(%User{})
-
-    conn =
-      conn
-      |> assign(:roles, User.roles())
-
-    render(conn, "new.html", changeset: changeset)
-  end
-
   def create(conn, %{"user" => user_params}) do
     if user_params["password"] == user_params["password_confirmation"] do
       case Accounts.register_user(user_params) do

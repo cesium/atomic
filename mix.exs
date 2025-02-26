@@ -47,6 +47,10 @@ defmodule Atomic.MixProject do
       {:flop, "~> 0.17.0"},
       {:paginator, "~> 1.2.0"},
 
+      # auth
+      {:ueberauth, "~> 0.10.8"},
+      {:ueberauth_google, "~> 0.12.1"},
+
       # security
       {:bcrypt_elixir, "~> 3.0"},
 
