@@ -5,7 +5,7 @@
         <div class="flex flex-col">
           <.field field={f[:title]} type="text" placeholder="Title" required class="w-full" />
 
-          <.field field={f[:description]} type="textarea" placeholder="Description" required class="w-full overflow-auto resize-none h-44 xl:h-64" />
+          <.field field={f[:description]} type="textarea" placeholder="Description" required class="h-44 w-full resize-none overflow-auto xl:h-64" />
         </div>
         <div class="space-y-4">
           <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} class="object-cover" />

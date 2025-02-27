@@ -1,12 +1,12 @@
-<div class="flex flex-col items-center w-screen h-screen justify-center bg-hero-pattern bg-cover lg:bg-[length:2000px_1400px] bg-no-repeat	bg-opacity-25 bg-center">
-  <.form :let={f} for={%{}} as={:user} action={~p"/users/reset_password"} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
-    <h2 class="mx-4 mt-6 text-center text-5xl font-bold text-zinc-900 select-none">
+<div class="bg-hero-pattern flex h-screen w-screen flex-col items-center justify-center bg-opacity-25 bg-cover bg-center bg-no-repeat lg:bg-[length:2000px_1400px]">
+  <.form :let={f} for={%{}} as={:user} action={~p"/users/reset_password"} class="mx-8 mt-8 flex h-full w-full flex-col items-center justify-center space-y-6 sm:mx-0">
+    <h2 class="mx-4 mt-6 select-none text-center text-5xl font-bold text-zinc-900">
       <%= gettext("Recover Account") %>
     </h2>
     <%= if @error_message do %>
-      <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
-        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-orange-400 text-red-700 px-4 py-4">
-          <.icon name="hero-exclamation-circle-solid" class="w-5 h-5 mr-2 text-red-400" />
+      <div class="mx-4 mt-4 w-full px-4 sm:w-96 sm:px-0">
+        <div class="alert alert-danger flex w-full flex-row border-l-4 border-orange-400 bg-red-100 px-4 py-4 text-sm text-red-700">
+          <.icon name="hero-exclamation-circle-solid" class="mr-2 h-5 w-5 text-red-400" />
           <div>
             <p><%= @error_message %></p>
           </div>
@@ -18,20 +18,20 @@
       <p class="px-4 text-center text-zinc-900"><%= gettext("Enter your email or username and we'll send you an email with a link to get back into your account.") %></p>
     </div>
 
-    <div class="space-y-3 rounded-md w-full flex-col">
+    <div class="w-full flex-col space-y-3 rounded-md">
       <div class="flex justify-center">
         <%= label(f, :input, class: "sr-only") %>
         <%= text_input(f, :input,
           required: true,
           placeholder: gettext("Email address or username"),
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
+          class: "relative mx-4 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:outline-none focus:ring-orange-400 sm:w-96 sm:text-sm"
         ) %>
       </div>
     </div>
 
     <div class="w-full flex-col">
-      <div class="mx-4 justify-center flex select-none">
-        <%= submit class: "w-full flex justify-center border-2 rounded-md bg-orange-500 text-lg border-orange-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96" do %>
+      <div class="mx-4 flex select-none justify-center">
+        <%= submit class: "flex w-full justify-center rounded-md border-2 border-orange-500 bg-orange-500 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96" do %>
           <%= gettext("Reset password") %>
         <% end %>
       </div>

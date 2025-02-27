@@ -5,7 +5,7 @@ defmodule Atomic.Departments do
   use Atomic.Context
 
   alias Atomic.Accounts.User
-  alias Atomic.Organizations.{Collaborator, Department}
+  alias Atomic.Organizations.{Collaborator, Department, Membership}
   alias AtomicWeb.DepartmentEmails
   alias AtomicWeb.Router.Helpers
 
@@ -405,7 +405,7 @@ defmodule Atomic.Departments do
     User
     |> join(:inner, [u], c in assoc(u, :collaborators))
     |> where([u, c], c.department_id == ^department.id and c.accepted == true)
-    |> join(:inner, [u, c], m in assoc(u, :memberships))
+    |> join(:inner, [u], m in Membership, on: m.user_id == u.id)
     |> where(
       [u, c, m],
       m.organization_id == ^department.organization_id and m.role in [:admin, :owner]
