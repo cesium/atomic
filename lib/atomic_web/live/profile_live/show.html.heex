@@ -31,7 +31,6 @@
           <% end %>
         </div>
       </div>
-      <!-- <% IO.inspect(@user) %> -->
       <%= if !@user.profile_picture do %>
         <.avatar class="sm:w-44 sm:h-44 sm:text-6xl" name={@user.name} size={:xl} color={:light_zinc} />
       <% else %>
