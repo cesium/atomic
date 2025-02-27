@@ -10,9 +10,9 @@
       </h2>
     </div>
     <%= if @changeset.action do %>
-      <div class="w-full sm:px-0 px-4 sm:w-96 mx-4 mt-4 ">
-        <div class="flex flex-row w-full alert alert-danger text-sm bg-red-100 border-l-4 border-primary-400 text-red-700 px-4 py-4">
-          <.icon name="hero-exclamation-circle-solid" class="w-5 h-5 mr-2 text-red-400" />
+      <div class="mx-4 mt-4 w-full px-4 sm:w-96 sm:px-0">
+        <div class="alert alert-danger border-primary-400 flex w-full flex-row border-l-4 bg-red-100 px-4 py-4 text-sm text-red-700">
+          <.icon name="hero-exclamation-circle-solid" class="mr-2 h-5 w-5 text-red-400" />
           <div>
             <p>Oops, something went wrong!</p>
           </div>
@@ -26,14 +26,14 @@
         <%= text_input(f, :name,
           required: true,
           placeholder: gettext("Name"),
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-primary-500 focus:ring-primary-500 focus:outline-none sm:text-sm"
+          class: "relative mx-4 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:ring-primary-500 focus:z-10 focus:outline-none sm:w-96 sm:text-sm"
         ) %>
         <span class="mx-4 w-full text-sm text-red-600 sm:w-96"><%= error_tag(f, :name) %></span>
       </div>
       <div class="mx-4 flex flex-col items-center justify-center">
         <%= label(f, :slug, class: "sr-only") %>
-        <div class="flex flex-row relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:outline-none sm:text-sm">
-          <span class="self-center select-none">@</span>
+        <div class="relative mx-4 flex w-full appearance-none flex-row rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:z-10 focus-within:outline-none sm:w-96 sm:text-sm">
+          <span class="select-none self-center">@</span>
           <%= text_input(f, :slug,
             required: true,
             placeholder: gettext("username"),
@@ -48,15 +48,15 @@
           required: true,
           placeholder: gettext("Course"),
           prompt: gettext("Select a course"),
-          class: "relative w-full sm:w-96 mx-4 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-primary-500 focus:ring-primary-500 focus:outline-none sm:text-sm"
+          class: "relative mx-4 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:ring-primary-500 focus:z-10 focus:outline-none sm:w-96 sm:text-sm"
         ) %>
         <span class="mx-4 w-full text-sm text-red-600 sm:w-96"><%= error_tag(f, :course_id) %></span>
       </div>
     </div>
 
     <div class="mt-6 w-full flex-col">
-      <div class="mx-4 justify-center flex select-none">
-        <%= submit("Next Step", class: "w-full flex justify-center border-2 rounded-md bg-primary-500 text-lg border-primary-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm sm:w-96") %>
+      <div class="mx-4 flex select-none justify-center">
+        <%= submit("Next Step", class: "bg-primary-500 border-primary-500 flex w-full justify-center rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96") %>
       </div>
     </div>
   </.form>
