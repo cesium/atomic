@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.LegalPagesLinks do
       <.link navigate={~p"/cookies"} class="shrink-0 select-none">
         <p class="text-xs font-semibold text-zinc-400 hover:underline"><%= gettext("Cookie Policy") %></p>
       </.link>
-      <span class="flex text-xs font-semibold text-zinc-400">&#169; 2024 CeSIUM</span>
+      <span class="flex text-xs font-semibold text-zinc-400">&#169; 2025 CeSIUM</span>
     </div>
     """
   end

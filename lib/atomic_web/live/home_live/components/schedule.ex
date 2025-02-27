@@ -28,7 +28,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     <p class="text-md font-semibold hover:underline">
                       <%= entry.title %>
                     </p>
-                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                    <div class="w-[110px] bg-primary-100 text-primary-500 flex h-6 items-center justify-center space-x-1 rounded-md opacity-70">
                       <.icon name="hero-clock-solid" class="size-4" />
                       <p class="text-xs font-semibold">
                         <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
@@ -71,7 +71,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                     <p class="text-md font-semibold hover:underline">
                       <%= entry.title %>
                     </p>
-                    <div class="w-[110px] flex h-6 items-center justify-center space-x-1 rounded-md bg-orange-100 text-orange-500 opacity-70">
+                    <div class="w-[110px] bg-primary-100 text-primary-500 flex h-6 items-center justify-center space-x-1 rounded-md opacity-70">
                       <.icon name="hero-calendar-solid" class="size-4" />
                       <p class="text-xs font-semibold">
                         <%= pretty_display_date(entry.start) %>
