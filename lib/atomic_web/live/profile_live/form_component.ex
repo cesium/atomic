@@ -46,6 +46,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
     uploads = [:profile_picture, :image_2]
+
     socket =
       Enum.reduce(uploads, socket, fn key, acc ->
         if Enum.any?(Map.get(acc.assigns.uploads, key, %{entries: []}).entries, &(&1.ref == ref)) do
@@ -54,6 +55,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
           acc
         end
       end)
+
     {:noreply, socket}
   end
 
