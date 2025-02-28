@@ -34,7 +34,7 @@ defmodule AtomicWeb.Components.Organizations do
               type={:organization}
               color={:white}
             />
-            <span class="mt-1 truncate"><%= organization.name %></span>
+            <span class="mt-1 truncate">{organization.name}</span>
           </div>
         </li>
       <% end %>

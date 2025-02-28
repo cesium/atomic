@@ -1,38 +1,38 @@
 <.page title="Partners">
   <:actions>
     <%= if @has_permissions? do %>
-      <div class="lg:border-orange-500 lg:block">
+      <div class="lg:block lg:border-orange-500">
         <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
-          <%= gettext("Edit Partner") %>
+          {gettext("Edit Partner")}
         </.button>
       </div>
     <% end %>
   </:actions>
-  <div class="lg:px-8 sm:px-0 min-h-fit border-t-100 select-none lg:mx-0 max-w-5xl sm:mx-6 ">
-    <div class="flex flex-col gap-2 mt-6 sm:justify-center">
+  <div class="border-t-100 min-h-fit max-w-5xl select-none sm:mx-6 sm:px-0 lg:mx-0 lg:px-8">
+    <div class="mt-6 flex flex-col gap-2 sm:justify-center">
       <div class="flex flex-row">
-        <div class="flex flex-col lg:justify-none items-center px-2">
+        <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
         <div>
           <div class="flex items-center justify-between">
-            <h1 class="flex-1 select-none truncate text-wrap text-xl sm:text-2xl font-bold pr-4 text-zinc-900 ml-2">
-              <%= @partner.name %>
+            <h1 class="text-wrap ml-2 flex-1 select-none truncate pr-4 text-xl font-bold text-zinc-900 sm:text-2xl">
+              {@partner.name}
             </h1>
           </div>
           <%= if @partner.location do %>
             <!-- Location -->
-            <div class="flex flex-row items-center gap-x-1 text-md leading-6">
+            <div class="text-md flex flex-row items-center gap-x-1 leading-6">
               <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
               <.link class="text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>
-                <%= @partner.location.name %>
+                {@partner.location.name}
               </.link>
             </div>
           <% end %>
 
           <%= if @partner.socials do %>
             <!-- Socials and Website -->
-            <div class="flex flex-wrap gap-x-4 items-center mt-2">
+            <div class="mt-2 flex flex-wrap items-center gap-x-4">
               <!-- Website -->
               <%= if @partner.socials.website do %>
                 <div class="flex flex-row items-center gap-x-1">
@@ -49,18 +49,18 @@
         </div>
       </div>
       <div>
-        <div class="mt-1 text-zinc-800 py-4 px-2">
+        <div class="mt-1 px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2">
             <.icon name="hero-clock" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Overview</h2>
           </div>
           <span class="py-4">
             <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
-              <%= phrase %>
+              {phrase}
             <% end) %>
           </span>
         </div>
-        <div class="text-zinc-800 py-4 px-2">
+        <div class="px-2 py-4 text-zinc-800">
           <div class="flex flex-row items-center gap-x-2 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Benefits</h2>
@@ -68,9 +68,9 @@
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
               <%= if String.length(phrase) < 300 do %>
-                <%= phrase %>
+                {phrase}
               <% else %>
-                <%= String.slice(phrase, 0..300) %>
+                {String.slice(phrase, 0..300)}
               <% end %>
             <% end) %>
           </span>
@@ -79,23 +79,23 @@
           <div class="flex flex-col gap-x-2 text-zinc-800">
             <div class="flex flex-row items-center gap-x-2 px-2">
               <.icon name="hero-star" class="size-5 mb-2" />
-              <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900 py-2">Related Partners</h2>
+              <h2 class="mb-2 flex-1 select-none truncate py-2 text-lg font-semibold text-zinc-900">Related Partners</h2>
             </div>
             <div class="sm:grid sm:grid-cols-2 sm:gap-px">
               <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
-                <div class="rounded-lg group relative border border-zinc-200 bg-white p-4 hover:bg-zinc-50 m-2">
+                <div class="group relative m-2 rounded-lg border border-zinc-200 bg-white p-4 hover:bg-zinc-50">
                   <.link href={~p"/organizations/#{@organization}/partners/#{@partner}"}>
                     <div class="flex flex-row items-center space-x-2">
                       <.avatar color={:light_zinc} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
-                      <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
+                      <h1 class="text-lg font-semibold text-zinc-800">{partner.name}</h1>
                     </div>
                     <%= if partner.location do %>
                       <div class="flex flex-row items-center gap-x-1">
                         <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
-                        <span class="text-blue-500"><%= partner.location.name %></span>
+                        <span class="text-blue-500">{partner.location.name}</span>
                       </div>
                     <% end %>
-                    <span class="text-md text-zinc-500"><%= partner.description %></span>
+                    <span class="text-md text-zinc-500">{partner.description}</span>
                   </.link>
                 </div>
               <% end %>

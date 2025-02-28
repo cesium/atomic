@@ -44,7 +44,7 @@ defmodule AtomicWeb.Components.ImageUploader do
         <section>
           <%= for entry <- @uploads.image.entries do %>
             <%= for err <- upload_errors(@uploads.image, entry) do %>
-              <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+              <p class="alert alert-danger">{Phoenix.Naming.humanize(err)}</p>
             <% end %>
             <article class="upload-entry">
               <figure class="w-[400px]">

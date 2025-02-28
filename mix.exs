@@ -38,13 +38,14 @@ defmodule Atomic.MixProject do
       # core
       {:phoenix_view, "~> 2.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.19.5"},
+      {:phoenix_live_view, "~> 1.0"},
+      {:phoenix_html_helpers, "~> 1.0"},
 
       # database
-      {:ecto_sql, "~> 3.6"},
+      {:ecto_sql, "~> 3.10"},
       {:phoenix_ecto, "~> 4.4"},
       {:postgrex, ">= 0.0.0"},
-      {:flop, "~> 0.17.0"},
+      {:flop, "~> 0.26.1"},
       {:paginator, "~> 1.2.0"},
 
       # security
@@ -55,7 +56,7 @@ defmodule Atomic.MixProject do
       {:waffle, "~> 1.1"},
 
       # mailer
-      {:phoenix_html, "~> 3.0"},
+      {:phoenix_html, "~> 4.0"},
       {:swoosh, "~> 1.5"},
       {:phoenix_swoosh, "~> 1.0"},
 
@@ -63,8 +64,8 @@ defmodule Atomic.MixProject do
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:tailwind_formatter, "~> 0.3.7", only: [:dev, :test], runtime: false},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
-      {:flop_phoenix, "~> 0.20.0"},
-      {:phoenix_storybook, "~> 0.5.6"},
+      {:flop_phoenix, "~> 0.24.0"},
+      {:phoenix_storybook, "~> 0.8.1"},
 
       # icons
       {:heroicons,
@@ -79,21 +80,21 @@ defmodule Atomic.MixProject do
        github: "tabler/tabler-icons", sparse: "icons", app: false, compile: false, depth: 1},
 
       # monitoring
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
 
       # utilities
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:inflex, "~> 2.0.0"},
+      {:inflex, "~> 2.1"},
 
       # plugs
       {:plug_cowboy, "~> 2.5"},
 
       # testing
       {:faker, "~> 0.17", only: [:dev, :test]},
-      {:ex_machina, "~> 2.7.0"},
+      {:ex_machina, "~> 2.8.0"},
       {:floki, ">= 0.30.0", only: :test},
 
       # tools
@@ -102,8 +103,7 @@ defmodule Atomic.MixProject do
       {:pdf_generator, "~> 0.6.2"},
       {:quantum, "~> 3.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:elixlsx, "~> 0.5.1"},
-      {:doctest_formatter, "~> 0.2.0", runtime: false}
+      {:doctest_formatter, "~> 0.3.1", runtime: false}
     ]
   end
 

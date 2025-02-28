@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content={csrf_token_value()} />
-    <%= live_title_tag(assigns[:page_title] || "500", suffix: " · Atomic") %>
+    <.live_title>
+      {assigns[:page_title] || "Atomic"}
+    </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
   </head>
-  <body class="flex flex-row justify-center items-center overflow-x-hidden bg-white bg-hero-pattern bg-cover lg:bg-75 bg-no-repeat bg-center h-full w-full">
+  <body class="bg-hero-pattern flex h-full w-full flex-row items-center justify-center overflow-x-hidden bg-white bg-cover bg-center bg-no-repeat lg:bg-75">
     <main class="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
       <div class="text-center">
         <p class="text-base font-semibold text-orange-500">500</p>
