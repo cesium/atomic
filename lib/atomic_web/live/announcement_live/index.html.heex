@@ -1,3 +1,6 @@
+<title><%= gettext("Atomic - Announcements") %></title>
+<meta name="description" content={gettext("Announcements")}>
+
 <.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if not @empty? and @has_permissions? do %>

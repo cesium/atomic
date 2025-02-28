@@ -14,5 +14,6 @@ defmodule AtomicWeb.CookiesLive.Show do
      socket
      |> assign(:current_page, :cookies)
      |> assign(:page_title, gettext("Cookie Policy"))}
+     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
   end
 end

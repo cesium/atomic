@@ -235,4 +235,8 @@ defmodule AtomicWeb.Router do
       live_dashboard "/dashboard", metrics: AtomicWeb.Telemetry
     end
   end
+
+  scope "/", AtomicWeb do
+    get "/sitemap.xml", SitemapController, :index
+  end
 end
