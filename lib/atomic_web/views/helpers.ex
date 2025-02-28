@@ -2,8 +2,6 @@ defmodule AtomicWeb.Helpers do
   @moduledoc """
   A module with helper functions to display data in views
   """
-  import Phoenix.HTML
-  import Phoenix.HTML.Form
   use PhoenixHTMLHelpers
   use Gettext, backend: AtomicWeb.Gettext
 
