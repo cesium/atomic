@@ -19,15 +19,15 @@ defmodule AtomicWeb.Components.Organizations do
             phx-value-organization_id={organization.id}
             class={
               "#{if @current_organization && organization.id == @current_organization.id do
-                "bg-zinc-50 text-orange-500"
+                "bg-zinc-50 text-primary-500"
               else
-                "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50"
+                "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50"
               end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
             }
             type="button"
           >
             <.avatar
-              class={"#{if @current_organization && organization.id == @current_organization.id do "border-orange-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-orange-600"} border group-hover:border-orange-600 group-hover:text-orange-500"}
+              class={"#{if @current_organization && organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
               src={Uploaders.Logo.url({organization.logo, organization}, :original)}
               name={organization.name}
               size={:xs}

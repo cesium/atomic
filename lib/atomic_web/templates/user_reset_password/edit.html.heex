@@ -5,7 +5,7 @@
     </h2>
     <%= if @error_message do %>
       <div class="mx-4 mt-4 w-full px-4 sm:w-96 sm:px-0">
-        <div class="alert alert-danger flex w-full flex-row border-l-4 border-orange-400 bg-red-100 px-4 py-4 text-sm text-red-700">
+        <div class="alert alert-danger border-primary-400 flex w-full flex-row border-l-4 bg-red-100 px-4 py-4 text-sm text-red-700">
           <.icon name="hero-exclamation_circle-solid" class="mr-2 h-5 w-5 text-red-400" />
           <div>
             <p>{@error_message}</p>
@@ -16,7 +16,7 @@
 
     <div class="mt-6 w-full flex-col space-y-3 rounded-md">
       <div class="mx-4 flex flex-col items-center justify-center">
-        <div x-data="{ hide: true }" class="flex w-full flex-row items-center justify-center rounded border border-zinc-300 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400 sm:w-96 sm:text-sm">
+        <div x-data="{ hide: true }" class="flex w-full flex-row items-center justify-center rounded border border-zinc-300 placeholder-zinc-500 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:z-10 focus-within:ring-1 sm:w-96 sm:text-sm">
           {label(f, :password, "New password", class: "sr-only")}
           {password_input(f, :password, required: true, placeholder: gettext("New password"), class: "relative w-full appearance-none rounded border-0 text-zinc-900 outline-none focus:ring-0 sm:text-sm")}
           <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="w-fit cursor-pointer px-2">
@@ -30,7 +30,7 @@
       </div>
 
       <div class="mx-4 flex flex-col items-center justify-center">
-        <div x-data="{ hide_confirm: true }" class="flex w-full flex-row items-center justify-center rounded border border-zinc-300 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400 sm:w-96 sm:text-sm">
+        <div x-data="{ hide_confirm: true }" class="flex w-full flex-row items-center justify-center rounded border border-zinc-300 placeholder-zinc-500 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:z-10 focus-within:ring-1 sm:w-96 sm:text-sm">
           {label(f, :password_confirmation, "Confirm new password", class: "sr-only")}
           {password_input(f, :password_confirmation,
             required: true,
@@ -50,7 +50,7 @@
 
     <div class="w-full flex-col">
       <div class="mx-4 flex select-none justify-center">
-        <%= submit class: "flex w-full justify-center rounded-md border-2 border-orange-500 bg-orange-500 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96" do %>
+        <%= submit class: "border-primary-500 bg-primary-500 flex w-full justify-center rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96" do %>
           {gettext("Change Password")}
         <% end %>
       </div>

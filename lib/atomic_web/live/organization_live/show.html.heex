@@ -20,23 +20,23 @@
                   </div>
                   <div class="flex space-x-2">
                     <%= if not @following? do %>
-                      <button phx-click="follow" type="button" class="w-32 rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-medium text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+                      <button phx-click="follow" type="button" class="bg-primary-500 w-32 rounded-md px-3.5 py-2.5 text-center text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                         Follow
                       </button>
                     <% else %>
                       <%= if @organization.name == "CeSIUM" do %>
-                        <div class="inline w-32 rounded-md bg-orange-400 py-2 text-center text-sm font-medium text-white shadow-sm lg:my-0">Following</div>
+                        <div class="bg-primary-400 inline w-32 rounded-md py-2 text-center text-sm font-medium text-white shadow-sm lg:my-0">Following</div>
                       <% else %>
                         <div class="relative">
                           <div class="inline-flex rounded-md shadow-sm">
                             <div class="inline-flex rounded-md shadow-sm">
-                              <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-orange-400 px-3 py-2.5 text-white shadow-sm">
+                              <div class="bg-primary-400 inline-flex items-center gap-x-1.5 rounded-l-md px-3 py-2.5 text-white shadow-sm">
                                 <p class="text-sm font-medium">Following</p>
                               </div>
                               <button
                                 type="button"
                                 @click="open = true"
-                                class="inline-flex items-center rounded-r-md rounded-l-none bg-orange-400 px-2 py-2.5 hover:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50"
+                                class="bg-primary-400 inline-flex items-center rounded-r-md rounded-l-none px-2 py-2.5 hover:bg-primary-600 focus-visible:ring-primary-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50"
                                 aria-haspopup="listbox"
                                 aria-expanded="true"
                                 aria-labelledby="listbox-label"

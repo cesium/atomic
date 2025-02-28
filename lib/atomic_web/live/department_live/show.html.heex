@@ -155,7 +155,7 @@
                   <p class="mb-4 select-none text-center text-zinc-900">{gettext("This department doesn't have any collaborators yet!")}</p>
                 <% end %>
               </div>
-              <.link :if={length(@all_collaborators) != 0} patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"} class="text-orange-500 hover:cursor-pointer hover:underline">
+              <.link :if={length(@all_collaborators) != 0} patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"} class="text-primary-500 hover:cursor-pointer hover:underline">
                 {gettext("View all collaborators")}
               </.link>
             </div>
