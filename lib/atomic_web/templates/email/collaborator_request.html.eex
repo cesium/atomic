@@ -57,10 +57,6 @@
             >
               Hello <strong><%= @collaborator.user.email %></strong>,
             </p>
-            <p
-              style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
-            >
-             <%= @collaborator.user.name %> has requested to be a collaborator of <%= @department.name %>!
             <table
               align="center"
               width="100%"
