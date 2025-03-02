@@ -58,7 +58,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           </ul>
         </div>
       </div>
-      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-2', else: 'pt-4'} px-4 pb-2 sm:px-0"}>
+      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: "pt-2", else: "pt-4"} px-4 pb-2 sm:px-0"}>
         <p class="font-semibold text-zinc-400">
           This week
         </p>

@@ -48,7 +48,10 @@
         </div>
       </div>
       <.live_file_input upload={@uploads.picture} class="hidden" />
-      <a onclick={"document.getElementById('#{@uploads.picture.ref}').click()"}>
+      <a onclick={
+        # {@uploads.picture.ref}").click()"
+        "document.getElementById("
+      }>
         <div class={
           "#{if length(@uploads.picture.entries) != 0 do "hidden" end} relative w-40 h-40 ring-2 ring-zinc-300 rounded-full cursor-pointer bg-zinc-400 sm:w-48 group sm:h-48 hover:bg-tertiary"}>
           <div class="absolute flex h-full w-full items-center justify-center">
