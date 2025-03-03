@@ -1,14 +1,14 @@
 <main>
   <%= if Phoenix.Flash.get(@flash, :info) do %>
-    <div id="info-flash" x-init="setTimeout(function() { document.getElementById('info-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
-      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
-        <div class="bg-blue-400 opacity-100 h-[0.30rem] animate-progress"></div>
+    <div id="info-flash" x-init="setTimeout(function() { document.getElementById('info-flash').remove(); }, 5000);" class="absolute top-0 right-0 mt-2 mr-2 flex w-full justify-end">
+      <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <div class="h-[0.30rem] animate-progress bg-blue-400 opacity-100"></div>
         <div class="p-4">
           <div class="flex items-start">
             <div class="flex-shrink-0">
-              <.icon name="hero-information-circle-solid" class="w-6 h-6 text-blue-400" />
+              <.icon name="hero-information-circle-solid" class="h-6 w-6 text-blue-400" />
             </div>
-            <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
+            <div class="mt-1 ml-3 w-0 flex-1 text-sm font-medium text-zinc-900">
               <%= Phoenix.Flash.get(@flash, :info) %>
             </div>
           </div>
@@ -18,15 +18,15 @@
   <% end %>
 
   <%= if Phoenix.Flash.get(@flash, :error) do %>
-    <div id="error-flash" x-init="setTimeout(function() { document.getElementById('error-flash').remove(); }, 5000);" class="absolute top-0 right-0 w-full flex justify-end mr-2 mt-2">
-      <div class="overflow-hidden w-full max-w-sm bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto">
-        <div class="bg-red-400 opacity-100 h-[0.30rem] animate-progress"></div>
+    <div id="error-flash" x-init="setTimeout(function() { document.getElementById('error-flash').remove(); }, 5000);" class="absolute top-0 right-0 mt-2 mr-2 flex w-full justify-end">
+      <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <div class="h-[0.30rem] animate-progress bg-red-400 opacity-100"></div>
         <div class="p-4">
           <div class="flex items-start">
             <div class="flex-shrink-0">
-              <.icon name="hero-x-circle-solid" class="w-6 h-6 text-red-400" />
+              <.icon name="hero-x-circle-solid" class="h-6 w-6 text-red-400" />
             </div>
-            <div class="flex-1 mt-1 text-sm font-medium text-zinc-900 ml-3 w-0">
+            <div class="mt-1 ml-3 w-0 flex-1 text-sm font-medium text-zinc-900">
               <%= Phoenix.Flash.get(@flash, :error) %>
             </div>
           </div>

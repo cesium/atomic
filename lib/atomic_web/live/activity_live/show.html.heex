@@ -53,14 +53,14 @@
                 <div class="flex gap-x-2">
                   <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
                     <.icon name="hero-calendar-solid" class="size-5 text-zinc-400" />
-                    <p class="block pl-1.5 max-w-6xl">
+                    <p class="block max-w-6xl pl-1.5">
                       <%= display_date(@activity.start) %>
                     </p>
                   </div>
                 </div>
                 <div class="inset-y-0 my-auto flex md:pl-3">
                   <.icon name="hero-clock-solid" class="size-5 text-zinc-400" />
-                  <p class="block pl-1.5 max-w-6xl">
+                  <p class="block max-w-6xl pl-1.5">
                     <%= display_time(@activity.start) %> - <%= display_time(@activity.finish) %>
                   </p>
                 </div>
@@ -97,7 +97,7 @@
               <dd class="mt-1 flex text-sm text-zinc-900">
                 <%= draw_qr_code(@activity, @current_user, @socket) |> raw %>
               </dd>
-              <dd class="mt-1 flex text-sm text-zinc-900 flex-row space-x-1">
+              <dd class="mt-1 flex flex-row space-x-1 text-sm text-zinc-900">
                 <span>
                   <%= gettext("If you can't go please") %>
                 </span>
@@ -116,12 +116,12 @@
                       phx-click="enroll"
                       phx-disable-with={gettext("Enrolling...")}
                       phx-throttle="0"
-                      class="w-fit mt-1 rounded-md bg-primary-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      class="bg-primary-500 mt-1 w-fit rounded-md px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                     >
                       <%= gettext("Enroll") %>
                     </button>
                   <% else %>
-                    <button phx-click="must-login" class="w-fit mt-1 rounded-md bg-primary-500 py-2 px-3.5 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                    <button phx-click="must-login" class="bg-primary-500 mt-1 w-fit rounded-md px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                       <%= gettext("Enroll") %>
                     </button>
                   <% end %>
@@ -138,13 +138,13 @@
 <div class="flex flex-row space-x-1">
   <%= if @has_permissions? do %>
     <.link patch={~p"/organizations/#{@activity.organization_id}/activities/#{@activity}/edit"} class="button">
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Edit
+      <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <.icon name="hero-pencil-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Edit
       </div>
     </.link>
     <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
-      <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name="hero-trash-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Delete
+      <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <.icon name="hero-trash-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Delete
       </div>
     <% end %>
   <% end %>
