@@ -88,7 +88,7 @@ defmodule AtomicWeb.Components.ImageUploader do
     end
   end
 
-  def extencions_string(extensions) do
+  def extensions_to_string(extensions) do
     extensions
     |> String.split(",")
     |> Enum.map_join(", ", fn ext -> String.trim_leading(ext, ".") |> String.upcase() end)
