@@ -28,9 +28,6 @@ defmodule Atomic.Icon do
     path
   end
 
-  @doc """
-  Builds a 5x5 mirrored grid based on the hash values.
-  """
   defp build_grid(hash) do
     hash
     |> Enum.chunk_every(@grid_size, @grid_size, :discard)
@@ -38,17 +35,11 @@ defmodule Atomic.Icon do
     |> List.flatten()
   end
 
-  @doc """
-  Mirrors a row to ensure symmetry.
-  """
   defp mirror(row) do
     [a, b, c | _] = row
     [a, b, c, b, a]
   end
 
-  @doc """
-  Draws the SVG representation of the grid.
-  """
   defp draw(grid, color) do
     [r, g, b] = color
 
