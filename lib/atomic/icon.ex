@@ -50,16 +50,18 @@ defmodule Atomic.Icon do
     footer = "</svg>"
 
     body =
-      grid
-      |> Enum.with_index()
-      |> Enum.filter(fn {val, _} -> rem(val, 2) == 0 end)
-      |> Enum.map(fn {_val, index} ->
-        x = rem(index, @grid_size) * @cell_size
-        y = div(index, @grid_size) * @cell_size
+      Enum.map_join(
+        grid
+        |> Enum.with_index()
+        |> Enum.filter(fn {val, _} -> rem(val, 2) == 0 end),
+        "\n",
+        fn {_val, index} ->
+          x = rem(index, @grid_size) * @cell_size
+          y = div(index, @grid_size) * @cell_size
 
-        "<rect x='#{x}' y='#{y}' width='#{@cell_size}' height='#{@cell_size}' fill='rgb(#{r},#{g},#{b})' />"
-      end)
-      |> Enum.join("\n")
+          "<rect x='#{x}' y='#{y}' width='#{@cell_size}' height='#{@cell_size}' fill='rgb(#{r},#{g},#{b})' />"
+        end
+      )
 
     header <> body <> footer
   end
