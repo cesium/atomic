@@ -19,7 +19,6 @@
               </dd>
             </div>
           <% end %>
-
           <%= if @user.phone_number do %>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-zinc-500">Phone</dt>
@@ -32,7 +31,11 @@
           <% end %>
         </div>
       </div>
-      <.avatar class="sm:w-44 sm:h-44 sm:text-6xl" name={@user.name} size={:xl} color={:light_zinc} />
+      <%= if !@user.profile_picture do %>
+        <.avatar class="sm:w-44 sm:h-44 sm:text-6xl" name={@user.name} size={:xl} color={:light_zinc} />
+      <% else %>
+        <.avatar name={@user.name} color={:light} class="h-36 w-36 text-4xl rounded-full border-4 border-white" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
+      <% end %>
     </div>
     <!-- Divider -->
     <div class="py-6 mb-2 border-b border-zinc-200"></div>
