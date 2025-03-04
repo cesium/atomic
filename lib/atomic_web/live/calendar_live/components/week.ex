@@ -211,7 +211,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
     |> Enum.filter(fn activity ->
       activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
 
-      (activity != current_activity && activity.start.day == current_activity.start.day) and
+      activity != current_activity && activity.start.day == current_activity.start.day and
         Timex.Interval.overlaps?(current_interval, activity_interval)
     end)
     |> length()
@@ -246,7 +246,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
       |> Enum.filter(fn activity ->
         activity_interval = Timex.Interval.new(from: activity.start, until: activity.finish)
 
-        (activity != current_activity && activity.start.day == current_activity.start.day) and
+        activity != current_activity && activity.start.day == current_activity.start.day and
           Timex.Interval.overlaps?(current_interval, activity_interval)
       end)
       |> length()
