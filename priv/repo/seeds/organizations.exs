@@ -2,10 +2,10 @@ defmodule Atomic.Repo.Seeds.Organizations do
   @moduledoc """
   Seeds the database with organizations.
   """
+  alias Atomic.Icon
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
-  alias Atomic.Icon
 
   @organizations File.read!("priv/fake/organizations.json") |> Jason.decode!()
 
