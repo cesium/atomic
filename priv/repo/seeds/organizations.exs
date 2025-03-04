@@ -1,10 +1,11 @@
-defmodule Atomic.Repo.Seeds.Organizations do
+defmodule Atomic.Repo.Seeds.Organizations  do
   @moduledoc """
   Seeds the database with organizations.
   """
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
+  alias Atomic.Icon
 
   @organizations File.read!("priv/fake/organizations.json") |> Jason.decode!()
 
@@ -44,12 +45,31 @@ defmodule Atomic.Repo.Seeds.Organizations do
     # Seed other organizations
     @organizations
     |> Enum.each(fn organization ->
-      %{
-        name: organization["name"],
-        long_name: organization["long_name"],
-        description: organization["description"]
-      }
-      |> Organizations.create_organization()
+      case Repo.get_by(Organization, name: organization["name"]) do
+       nil ->
+        {:ok, new_org}=
+            %{
+              name: organization["name"],
+              long_name: organization["long_name"],
+              description: organization["description"]
+            }
+            |> Organizations.create_organization()
+
+          logo_path = Atomic.Icon.generate_icon(organization)
+
+          new_org
+          |> Organization.logo_changeset(%{
+          logo: %Plug.Upload{
+              path: logo_path,
+              content_type: "image/svg",
+              filename: "#{organization["name"]}.svg"
+            }
+          })
+          |> Repo.update!()
+          File.rm(logo_path)
+        _existing_org ->
+         IO.puts("Organization '#{organization["name"]}' already exists. Skipping...")
+      end
     end)
   end
 end
