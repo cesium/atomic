@@ -2,7 +2,6 @@ defmodule Atomic.Icon do
   @grid_size 5
   @cell_size 50
   def generate_icon(organization) do
-
     input = organization["name"]
     hash = :crypto.hash(:sha256, input) |> :binary.bin_to_list()
     color = Enum.take(hash, 3)
@@ -28,9 +27,11 @@ defmodule Atomic.Icon do
 
   defp draw(grid, color) do
     [r, g, b] = color
+
     header = """
     <svg width="#{@grid_size * @cell_size}" height="#{@grid_size * @cell_size}" xmlns="http://www.w3.org/2000/svg">
     """
+
     footer = "</svg>"
 
     body =
@@ -40,6 +41,7 @@ defmodule Atomic.Icon do
       |> Enum.map(fn {_val, index} ->
         x = rem(index, @grid_size) * @cell_size
         y = div(index, @grid_size) * @cell_size
+
         "<rect x='#{x}' y='#{y}' width='#{@cell_size}' height='#{@cell_size}' fill='rgb(#{r},#{g},#{b})' />"
       end)
       |> Enum.join("\n")
