@@ -1,5 +1,5 @@
 <!--Header-->
-<div class="h-32 w-full select-none">
+<div class="h-24 lg:h-32 w-full select-none">
   <%= if @partner.banner do %>
     <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@partner.banner, @partner}, :original)} />
   <% else %>
@@ -8,35 +8,33 @@
 </div>
 <.page title="">
   <!--Body-->
-  <div class="border-t-100 min-h-fit max-w-5xl select-none sm:mx-6 sm:px-0 lg:mx-0 lg:px-8">
+  <div class="border-t-100 min-h-fit max-w-5xl select-none px-4 sm:px-6 lg:px-8">
     <div class="mt-2 flex flex-col gap-2 sm:justify-center">
-      <div class="relative mb-4 flex flex-row gap-x-4">
+      <div class="relative mb-4 flex flex-col sm:flex-row gap-x-4 gap-y-4">
         <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar class="size-28" color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
-        <div class="grid grid-rows-2 gap-y-0">
-          <div class="flex items-center justify-between">
-            <h1 class="text-wrap flex-1 select-none truncate pr-4 text-xl font-bold text-gray-900 sm:text-2xl">
-              <%= @partner.name %>
-            </h1>
-          </div>
-          <div class="grid grid-rows-2">
+        <div class="lg:w-full w-auto grid grid-rows-2 gap-y-2">
+          <h1 class="text-wrap text-center lg:py-1 lg:text-left truncate font-bold text-gray-900 text-2xl">
+            <%= @partner.name %>
+          </h1>
+          <div class="grid my-0 gap-y-2 lg:gap-y-0">
             <%= if @partner.location do %>
-              <div class="text-md flex flex-row items-center gap-x-1 leading-6">
+              <div class="flex items-center">
                 <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
                 <.link class="text-sm text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
               </div>
             <% end %>
             <%= if @partner.socials do %>
-              <div class="grid grid-cols-2 grid-rows-3 lg:flex lg:flex-row lg:gap-x-4">
+              <div class="flex flex-wrap gap-2">
                 <%= if @partner.socials.website do %>
-                  <div class="flex flex-row items-center gap-x-1">
+                  <div class="flex items-center gap-x-1">
                     <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
                     <.link class="text-sm text-blue-500" href={@partner.socials.website}>Website</.link>
                   </div>
                 <% end %>
                 <%= if @partner.socials.instagram do %>
-                  <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                  <div class="flex items-center gap-x-1">
                     <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
                     <.link class="text-sm text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
                   </div>
@@ -56,17 +54,20 @@
               </div>
             <% end %>
             <%= if @has_permissions? do %>
-              <div class="absolute top-0 right-0 lg:border-orange-500">
+              <div class="absolute lg:py-4 top-0 right-0">
                 <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
-                  <%= gettext("Edit Partner") %>
+                  <span class="hidden lg:block">
+                    <%= gettext("Edit Partner") %>
+                  </span>
                 </.button>
               </div>
             <% end %>
           </div>
         </div>
       </div>
+      
       <!--Tabs-->
-      <.tabs class="scrollbar-hide mt-2 flex overflow-scroll px-4 sm:px-6 lg:px-8">
+      <.tabs class="scrollbar-hide mt-2 flex overflow-auto px-4">
         <.link patch="?tab=benefits" replace={false}>
           <.tab id="benefits-tab" active={@current_tab == "benefits"}>
             <.icon name="hero-signal" class="size-5 mr-2" />
@@ -80,26 +81,38 @@
           </.tab>
         </.link>
       </.tabs>
-      <!--Assign-Index-->
-      <div :if={@current_tab == "benefits"}>
-        <div class="px-2 py-4 text-zinc-800">
-          <span>
-            <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
+      
+      <!-- Content -->
+      <div class="mt-4">
+        <%= if @current_tab == "benefits" do %>
+          <div class="px-2 py-4 text-zinc-800">
+            <%= for phrase <- String.split(@partner.benefits, "\n") do %>
               <%= if String.length(phrase) < 300 do %>
                 <%= phrase %>
               <% else %>
                 <%= String.slice(phrase, 0..300) %>
               <% end %>
-            <% end) %>
-          </span>
-        </div>
-        <%= if @partners do %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%= if @current_tab == "about" do %>
+          <div class="px-2 py-4 text-zinc-800">
+            <%= for phrase <- String.split(@partner.description, "\n") do %>
+              <%= phrase %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%= if @partners do %>
           <div class="mt-4 flex flex-col gap-x-2 text-zinc-800">
             <div class="flex flex-row items-center gap-x-2 px-2">
               <.icon name="hero-star" class="mb-2 h-5 w-5" />
               <h2 class="mb-2 flex-1 select-none truncate py-2 text-lg font-semibold text-gray-900">Related Partners</h2>
             </div>
-            <div class="gap-4 gap-4 px-4 sm:grid sm:grid-cols-2 sm:px-6">
+            <div class="gap-4 px-4 grid lg:grid-cols-2 lg:px-6">
               <%= for partner <- @partners |> Enum.filter(fn partner -> partner.id != @partner.id end) do %>
                 <.link href={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"}>
                   <li class="flex h-full flex-row justify-between gap-x-4 rounded-lg border border-zinc-200 px-4 py-5 hover:bg-zinc-50 md:flex-row">
@@ -124,16 +137,5 @@
             </div>
           </div>
         <% end %>
-      </div>
-      <div :if={@current_tab == "about"}>
-        <div class="mt-1 px-2 py-4 text-zinc-800">
-          <span class="py-4">
-            <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
-              <%= phrase %>
-            <% end) %>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
 </.page>
+
