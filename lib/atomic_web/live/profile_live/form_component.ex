@@ -3,6 +3,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
   alias Atomic.Accounts
   alias AtomicWeb.Components.ImageUploader
+
   import AtomicWeb.Components.Forms
   import AtomicWeb.Components.{Button, Avatar}
 
@@ -19,6 +20,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
                 <.avatar name={@user.name} color={:zinc} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
               </div>
               <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
+              <.live_component module={ImageUploader} id="uploader-banner-picture" uploads={@uploads} target={@myself} />
             <% else %>
               <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
               <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
