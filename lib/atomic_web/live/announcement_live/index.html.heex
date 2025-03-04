@@ -1,47 +1,22 @@
-<.page title="Announcements">
+<.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={~p"/announcements/new"}>
-        <%= gettext("New") %>
+      <.button navigate={~p"/organizations/#{@current_organization}/announcements/new"} icon="hero-plus">
+        <%= gettext("New Announcement") %>
       </.button>
     <% end %>
   </:actions>
-  <!-- Tabs -->
-  <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.link patch="?tab=all" replace={false}>
-      <.tab active={@current_tab == "all"}>
-        <%= gettext("All") %>
-      </.tab>
-    </.link>
-
-    <.link patch="?tab=following" replace={false}>
-      <.tab active={@current_tab == "following"}>
-        <%= gettext("Following") %>
-      </.tab>
-    </.link>
-  </.tabs>
   <!-- Announcements index -->
   <%= if @empty? and @has_permissions? do %>
     <div class="mt-32">
-      <.empty_state url={~p"/announcements/new"} placeholder="announcement" />
+      <.empty_state url={~p"/organizations/#{@organization}/announcements/new"} placeholder="announcement" />
     </div>
   <% else %>
     <div class="overflow-hidden bg-white">
       <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
         <%= for announcement <- @announcements do %>
           <li id={announcement.id}>
-            <.link navigate={~p"/announcements/#{announcement}"} class="block hover:bg-zinc-50">
-              <div class="px-4 py-4 lg:px-6">
-                <div class="flex items-center justify-between">
-                  <p class="truncate text-sm font-medium text-zinc-900">
-                    <%= announcement.title %>
-                  </p>
-                </div>
-                <p class="mt-2 text-sm text-zinc-500">
-                  <%= announcement.description %>
-                </p>
-              </div>
-            </.link>
+            <.announcement_card announcement={announcement} organization={@organization} />
           </li>
         <% end %>
       </ul>
