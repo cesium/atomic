@@ -10,12 +10,12 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
   def render(assigns) do
     ~H"""
     <div class="flex min-h-screen">
-      <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div class="flex flex-1 flex-col justify-center border px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div class="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <div class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
               <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
-              <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
+              <p class="text-2xl font-semibold text-zinc-400"><%= gettext("Atomic") %></p>
             </div>
             <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900"><%= gettext("Register for an account") %></h2>
             <p class="text-sm/6 mt-2 text-gray-500">
@@ -30,6 +30,7 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
                 <.field field={@form[:name]} type="text" label="Name" required />
                 <.field field={@form[:email]} type="email" label="Email" required />
                 <.field field={@form[:password]} type="password" label="Password" required />
+                <.field field={@form[:confirm_password]} type="password" label="Confirm Password" required />
                 <div class="flex justify-between">
                   <div class="flex gap-1">
                     <.field field={@form[:terms]} type="checkbox" label="" />
