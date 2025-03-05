@@ -68,7 +68,7 @@ defmodule AtomicWeb.Auth.UserLoginLive do
         </div>
       </div>
       <div class="relative hidden w-0 flex-1 lg:block">
-        <img class="size-full absolute inset-0 object-cover" src={~p"/images/backgrounds/1.png"} alt="" />
+        <img class="size-full absolute inset-0 object-cover" src={~p"/images/backgrounds/0.png"} alt="" />
       </div>
     </div>
     """

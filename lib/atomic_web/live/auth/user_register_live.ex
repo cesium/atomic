@@ -34,7 +34,11 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
                 <div class="flex justify-between">
                   <div class="flex gap-1">
                     <.field field={@form[:terms]} type="checkbox" label="" />
-                    <p class="text-sm"><%= gettext("I agree to the terms of service and privacy policy.") %></p>
+                    <p class="text-sm"><%= gettext("I agree to the") %>
+                      <.link navigate={~p"/tos"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("terms of service") %></.link>
+                      <%= gettext("and") %>
+                      <.link navigate={~p"/privacy"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("privacy policy.") %></.link>
+                    </p>
                   </div>
                 </div>
                 <div>

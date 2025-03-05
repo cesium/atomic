@@ -11,7 +11,7 @@ defmodule AtomicWeb.Auth.Components.Pitch do
           <div class="relative lg:col-span-3">
             <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem] lg:rounded-tl-[2rem]"></div>
             <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)] lg:rounded-tl-[calc(2rem+1px)]">
-              <img class="h-80 object-cover object-left" src="https://tailwindui.com/plus-assets/img/component-images/bento-01-performance.png" alt="" />
+              <img class="h-[22rem] object-cover object-top" src={~p"/images/pitch/0.png"} alt="" />
               <div class="p-10 pt-4">
                 <h3 class="text-sm/4 text-primary-600 font-semibold"><%= gettext("Stay in the Loop") %></h3>
                 <p class="mt-2 text-lg font-medium tracking-tight text-gray-950"><%= gettext("Everything, all in the same place") %></p>
@@ -23,7 +23,7 @@ defmodule AtomicWeb.Auth.Components.Pitch do
           <div class="relative lg:col-span-3">
             <div class="absolute inset-px rounded-lg bg-white lg:rounded-tr-[2rem]"></div>
             <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] lg:rounded-tr-[calc(2rem+1px)]">
-              <img class="h-80 object-cover object-left lg:object-right" src="https://tailwindui.com/plus-assets/img/component-images/bento-01-releases.png" alt="" />
+              <img class="h-[22rem] object-cover object-left lg:object-right" src={~p"/images/pitch/1.png"} alt="" />
               <div class="p-10 pt-4">
                 <h3 class="text-sm/4 text-primary-600 font-semibold"><%= gettext("Activities made easy") %></h3>
                 <p class="mt-2 text-lg font-medium tracking-tight text-gray-950"><%= gettext("Plan, promote, and track attendance") %></p>
