@@ -12,7 +12,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
     <div class="overflow-hidden">
       <%= if length(@schedule.daily) == 0 && length(@schedule.weekly) == 0 do %>
         <div class="space-y-4 px-4 pt-4 pb-2 text-center text-zinc-400 sm:px-0">
-          <%= show_empty(assigns) %>
+          {show_empty(assigns)}
         </div>
       <% end %>
       <div :if={length(@schedule.daily) != 0} class="border-b border-zinc-200 px-4 pt-4 pb-2 sm:px-0">
@@ -26,17 +26,17 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                 <li class="space-y-3 pt-4">
                   <div class="flex justify-between">
                     <p class="text-md font-semibold hover:underline">
-                      <%= entry.title %>
+                      {entry.title}
                     </p>
                     <div class="w-[110px] bg-primary-100 text-primary-500 flex h-6 items-center justify-center space-x-1 rounded-md opacity-70">
                       <.icon name="hero-clock-solid" class="size-4" />
                       <p class="text-xs font-semibold">
-                        <%= display_time(entry.start) %> - <%= display_time(entry.finish) %>
+                        {display_time(entry.start)} - {display_time(entry.finish)}
                       </p>
                     </div>
                   </div>
                   <p class="text-justify text-sm text-zinc-700">
-                    <%= maybe_slice_string(entry.description, 100) %>
+                    {maybe_slice_string(entry.description, 100)}
                   </p>
                 </li>
               </.link>
@@ -44,13 +44,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                 <div class="flex justify-between pt-2">
                   <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
                   <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
-                    <%= entry.organization.name %>
+                    {entry.organization.name}
                   </.link>
                 </div>
               <% else %>
                 <div class="pt-2 text-right">
                   <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
-                    <%= entry.organization.name %>
+                    {entry.organization.name}
                   </.link>
                 </div>
               <% end %>
@@ -58,7 +58,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
           </ul>
         </div>
       </div>
-      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: 'pt-2', else: 'pt-4'} px-4 pb-2 sm:px-0"}>
+      <div :if={length(@schedule.weekly) != 0} class={"#{if length(@schedule.daily) != 0, do: ~c"pt-2", else: ~c"pt-4"} px-4 pb-2 sm:px-0"}>
         <p class="font-semibold text-zinc-400">
           This week
         </p>
@@ -69,17 +69,17 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                 <li class="space-y-3 pt-4">
                   <div class="flex justify-between">
                     <p class="text-md font-semibold hover:underline">
-                      <%= entry.title %>
+                      {entry.title}
                     </p>
                     <div class="w-[110px] bg-primary-100 text-primary-500 flex h-6 items-center justify-center space-x-1 rounded-md opacity-70">
                       <.icon name="hero-calendar-solid" class="size-4" />
                       <p class="text-xs font-semibold">
-                        <%= pretty_display_date(entry.start) %>
+                        {pretty_display_date(entry.start)}
                       </p>
                     </div>
                   </div>
                   <p class="text-justify text-sm text-zinc-700">
-                    <%= maybe_slice_string(entry.description, 150) %>
+                    {maybe_slice_string(entry.description, 150)}
                   </p>
                 </li>
               </.link>
@@ -87,13 +87,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
                 <div class="flex justify-between pt-2">
                   <.icon name="hero-user-group-solid" class="size-4 font-bold text-green-500" />
                   <.link navigate={~p"/organizations/#{entry.organization_id}"} class="text-xs text-zinc-400 hover:underline">
-                    <%= entry.organization.name %>
+                    {entry.organization.name}
                   </.link>
                 </div>
               <% else %>
                 <div class="pt-2 text-right">
                   <.link navigate={~p"/organizations/#{entry.organization.id}"} class="text-xs text-zinc-400 hover:underline">
-                    <%= entry.organization.name %>
+                    {entry.organization.name}
                   </.link>
                 </div>
               <% end %>
@@ -111,13 +111,13 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
   defp show_empty(assigns) when assigns.tab == "user" do
     ~H"""
     <p>
-      <%= gettext("Nothing to do in the next week.") %>
+      {gettext("Nothing to do in the next week.")}
     </p>
     <p>
-      <%= gettext("Try enrolling in some activities.") %>
+      {gettext("Try enrolling in some activities.")}
     </p>
     <.button patch={~p"/activities"} color={:white} size={:md} icon="hero-academic-cap">
-      <%= gettext("Browse activities") %>
+      {gettext("Browse activities")}
     </.button>
     """
   end
@@ -125,7 +125,7 @@ defmodule AtomicWeb.HomeLive.Components.Schedule do
   defp show_empty(assigns) when assigns.tab == "all" do
     ~H"""
     <p>
-      <%= gettext("No activities scheduled to the next week.") %>
+      {gettext("No activities scheduled to the next week.")}
     </p>
     """
   end

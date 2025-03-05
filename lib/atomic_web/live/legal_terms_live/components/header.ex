@@ -35,16 +35,16 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
           <%= for {type, title, path} <- link_pages(@page_name) do %>
             <%= case type do %>
               <% :current -> %>
-                <span class="text-lg text-zinc-400"><%= title %></span>
+                <span class="text-lg text-zinc-400">{title}</span>
               <% :link -> %>
-                <.link class="hover:text-zinc-400" navigate={"/" <> path}><%= title %></.link>
+                <.link class="hover:text-zinc-400" navigate={"/" <> path}>{title}</.link>
             <% end %>
           <% end %>
         </div>
       </div>
       <!-- Link to Home (hidden on mobile) -->
       <div class="flex place-items-center lg:pr-12">
-        <.button class="atomic-button atomic-button--white atomic-button--md hidden sm:block" patch={~p"/"}><%= gettext("Back Home") %></.button>
+        <.button class="atomic-button atomic-button--white atomic-button--md hidden sm:block" patch={~p"/"}>{gettext("Back Home")}</.button>
         <.button class="atomic-button atomic-button--md hero-home block text-zinc-400 sm:hidden" patch={~p"/"}></.button>
       </div>
     </header>

@@ -35,14 +35,14 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
           <div class="grid grid-cols-7 text-sm leading-6 text-zinc-500 sm:hidden">
             <%= for {day_of_week, day_of_week_mobile} <- @days_of_week do %>
               <.link phx-click="set-current-date" phx-value-date={day_of_week} class="flex flex-col items-center py-2">
-                <%= day_of_week_mobile %>
+                {day_of_week_mobile}
                 <span class={[
-                  "flex items-center justify-center w-8 h-8 mt-1 font-semibold",
+                  "mt-1 flex h-8 w-8 items-center justify-center font-semibold",
                   @today == day_of_week && "bg-primary-700 rounded-full text-white",
-                  @today != day_of_week && day_of_week == @current_date && "bg-zinc-900 rounded-full text-white",
+                  @today != day_of_week && day_of_week == @current_date && "rounded-full bg-zinc-900 text-white",
                   @today != day_of_week && day_of_week != @current_date && "text-zinc-900"
                 ]}>
-                  <%= day_of_week |> date_to_day() %>
+                  {day_of_week |> date_to_day()}
                 </span>
               </.link>
             <% end %>
@@ -53,13 +53,9 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
               <% day_of_week = @beginning_of_week |> Timex.add(Duration.from_days(idx)) %>
               <div id={"day-of-week-#{idx}"} class="flex h-12 items-center justify-center">
                 <span class={@today == day_of_week && "flex items-baseline"}>
-                  <%= Enum.at(@week, idx) %>
-                  <span class={[
-                    "items-center justify-center font-semibold",
-                    @today == day_of_week && "flex ml-1.5 w-8 h-8 text-white bg-primary-600 rounded-full",
-                    @today != day_of_week && "text-zinc-900"
-                  ]}>
-                    <%= day_of_week |> date_to_day() %>
+                  {Enum.at(@week, idx)}
+                  <span class={["items-center justify-center font-semibold", @today == day_of_week && "bg-primary-600 ml-1.5 flex h-8 w-8 rounded-full text-white", @today != day_of_week && "text-zinc-900"]}>
+                    {day_of_week |> date_to_day()}
                   </span>
                 </span>
               </div>
@@ -74,7 +70,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
               <div class="row-end-1 h-7"></div>
               <%= for hour <- hours() do %>
                 <div>
-                  <div class="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-zinc-400"><%= hour %></div>
+                  <div class="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-zinc-400">{hour}</div>
                 </div>
                 <div></div>
               <% end %>
@@ -118,15 +114,12 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarWeek do
             width: #{width}%;
             left: #{left}%"}>
         <.link patch={~p"/activities/#{activity}"}>
-          <div class={[
-            "group absolute inset-1 flex flex-col overflow-x-hidden rounded-md bg-primary-50 p-2 text-xs leading-5 hover:bg-primary-100 sm:overflow-y-hidden sm:hover:overflow-y-auto",
-            width != 100 && "sm:hover:z-10 sm:hover:w-max sm:max-w-[117px]"
-          ]}>
+          <div class={["group bg-primary-50 absolute inset-1 flex flex-col overflow-x-hidden rounded-md p-2 text-xs leading-5 hover:bg-primary-100 sm:overflow-y-hidden sm:hover:overflow-y-auto", width != 100 && "sm:max-w-[117px] sm:hover:z-10 sm:hover:w-max"]}>
             <p class="text-primary-500 order-1 font-semibold">
-              <%= activity.title %>
+              {activity.title}
             </p>
             <p class="text-primary-500 group-hover:text-primary-800">
-              <time datetime={activity.start}><%= Calendar.strftime(activity.start, "%Hh%M") %></time>
+              <time datetime={activity.start}>{Calendar.strftime(activity.start, "%Hh%M")}</time>
             </p>
           </div>
         </.link>

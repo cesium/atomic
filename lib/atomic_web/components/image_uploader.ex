@@ -25,7 +25,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <p class="pl-1">or drag and drop</p>
               </div>
               <p class="text-xs text-gray-500">
-                <%= extensions_to_string(@upload.accept) %> up to <%= assigns.size_file %> <%= @type %>
+                {extensions_to_string(@upload.accept)} up to {assigns.size_file} {@type}
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@ defmodule AtomicWeb.Components.ImageUploader do
           <%= for entry <- @upload.entries do %>
             <%= for err <- upload_errors(@upload, entry) do %>
               <div class="alert alert-danger relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700" role="alert">
-                <span class="block sm:inline"><%= Phoenix.Naming.humanize(err) %></span>
+                <span class="block sm:inline">{Phoenix.Naming.humanize(err)}</span>
                 <span class="absolute top-0 right-0 bottom-0 px-4 py-3">
                   <title>Close</title>
                 </span>
@@ -46,9 +46,9 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <div class="flex">
                   <figcaption>
                     <%= if String.length(entry.client_name) < 30 do %>
-                      <%= entry.client_name %>
+                      {entry.client_name}
                     <% else %>
-                      <%= String.slice(entry.client_name, 0..30) <> "... " %>
+                      {String.slice(entry.client_name, 0..30) <> "... "}
                     <% end %>
                   </figcaption>
                   <button type="button" phx-click="cancel-image" phx-target={@target} phx-value-ref={entry.ref} aria-label="cancel" class="pl-4">
