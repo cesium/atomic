@@ -77,7 +77,13 @@ defmodule Atomic.MixProject do
        depth: 1,
        override: true},
       {:tabler_icons,
-       github: "tabler/tabler-icons", sparse: "icons", app: false, compile: false, depth: 1},
+       github: "tabler/tabler-icons",
+       tag: "v3.31.0",
+       sparse: "icons",
+       app: false,
+       compile: false,
+       depth: 1,
+       override: true},
 
       # monitoring
       {:telemetry_metrics, "~> 1.0"},
