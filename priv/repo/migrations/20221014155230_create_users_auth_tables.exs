@@ -19,6 +19,7 @@ defmodule Atomic.Repo.Migrations.CreateUsersAuthTables do
       add :confirmed_at, :naive_datetime
       add :phone_number, :string
       add :profile_picture, :string
+      add :banner, :string
 
       add :current_organization_id,
           references(:organizations, type: :binary_id, on_delete: :delete_all)

@@ -33,6 +33,7 @@ defmodule Atomic.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :phone_number, :string
     field :profile_picture, Uploaders.ProfilePicture.Type
+    field :banner, Uploaders.ProfilePicture.Type
 
     belongs_to :course, Course
     belongs_to :current_organization, Organization
@@ -73,7 +74,7 @@ defmodule Atomic.Accounts.User do
 
   def picture_changeset(user, attrs) do
     user
-    |> cast_attachments(attrs, [:profile_picture])
+    |> cast_attachments(attrs, [:profile_picture, :banner])
   end
 
   @doc """

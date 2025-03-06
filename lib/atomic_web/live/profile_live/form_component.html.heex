@@ -1,61 +1,52 @@
-<div class="pt-4 px-4">
+<div class="px-4 pt-4">
   <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <div class="flex flex-col-reverse sm:flex-row items-center sm:justify-between mt-4 border-b pb-10 border-zinc-200">
-      <div class="space-y-4 w-full">
-        <h2 class="hidden sm:block text-xl pb-4 font-bold leading-7 text-zinc-900 sm:text-4xl">
-          <%= gettext("Your Profile") %>
-        </h2>
-        <div class="flex flex-col justify-center">
-          <%= label(f, :name, class: "mb-1 text-sm font-medium text-zinc-700") %>
-          <%= text_input(f, :name,
-            required: true,
-            placeholder: gettext("John Doe"),
-            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-          ) %>
-          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :name) %></div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="flex flex-col items-center pr-4">
+        <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
+        <.image_uploader
+          id="profile-picture"
+          class="w-32 aspect-square"
+          upload={@uploads.profile_picture}
+          icon="hero-user"
+          memory_unit="GB"
+          image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}
+        >
+          <:placeholder>
+            <.avatar size={:xl} name={@user.name} type={:user} />
+          </:placeholder>
+        </.image_uploader>
+        <.image_uploader
+          id="banner-picture"
+          class="w-32 aspect-square"
+          upload={@uploads.banner}
+          icon="hero-user"
+          memory_unit="GB"
+          image={Uploaders.ProfilePicture.url({@user.banner, @user}, :original, signed: true)}
+        >
+          <:placeholder>
+            <.avatar size={:xl} name={@user.name} type={:user} />
+          </:placeholder>
+        </.image_uploader>          
+      </div>
+      <div class="flex flex-col gap-6">
+        <div class="grid grid-cols-1 gap-2">
+          <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
+          <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
+          <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
+          <.field field={f[:slug]} type="text" placeholder="User Name" class="w-full" />
         </div>
-        <div class="flex flex-col justify-center">
-          <%= label(f, :email, class: "mb-1 text-sm font-medium text-zinc-700") %>
-          <%= text_input(f, :email,
-            required: true,
-            placeholder: gettext("john_doe@mail.com"),
-            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-          ) %>
-          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :email) %></div>
-        </div>
-        <div class="flex flex-col justify-center">
-          <%= label(f, :username, class: "mb-1 text-sm font-medium text-zinc-700") %>
-          <div class="flex flex-row relative w-full sm:w-96  appearance-none rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:z-10 focus-within:border-orange-400 focus-within:ring-orange-400 focus-within:outline-none sm:text-sm">
-            <span class="self-center select-none">@</span>
-            <%= text_input(f, :slug,
-              required: true,
-              spellcheck: false,
-              placeholder: gettext("john_doe"),
-              class: "pl-0 appearance-none text-zinc-900 placeholder-zinc-500 sm:text-sm border-none w-full focus:outline-none focus:ring-transparent"
-            ) %>
-          </div>
-          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :slug) %></div>
-        </div>
-        <div class="flex flex-col justify-center">
-          <%= label(f, :phone_number, class: "mb-1 text-sm font-medium text-zinc-700") %>
-          <%= text_input(f, :phone_number,
-            required: true,
-            placeholder: gettext("912345678"),
-            class: "relative w-full sm:w-96 appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:z-10 focus:border-orange-400 focus:ring-orange-400 focus:outline-none sm:text-sm"
-          ) %>
-          <div class="flex flex-col text-sm w-full sm:w-96 text-red-600"><%= error_tag(f, :phone_number) %></div>
+        <div class="grid w-full gap-x-4 gap-y-4 sm:grid-cols-1 md:grid-cols-4">
+          <.inputs_for :let={socials_form} field={f[:socials]}>
+            <.field field={socials_form[:instagram]} type="text" placeholder="Instagram" class="w-full" />
+            <.field field={socials_form[:facebook]} type="text" placeholder="Facebook" class="w-full" />
+            <.field field={socials_form[:x]} type="text" placeholder="X" class="w-full" />
+            <.field field={socials_form[:tiktok]} type="text" placeholder="TikTok" class="w-full" />
+          </.inputs_for>
         </div>
       </div>
-      <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-zinc-700") %>
-      <.live_component module={ImageUploader} icon="hero-camera" id="uploader-profile-picture_1" upload={@uploads.profile_picture} target={@myself} class="h-100px w-100px" type="MB" />
-      <.live_component module={ImageUploader} icon="hero-photo" id="uploader-profile-picture_2" upload={@uploads.image_2} target={@myself} class="h-100px w-100px" type="GB" />
     </div>
-    <div class="w-full flex flex-row-reverse mt-8">
-      <%= submit do %>
-        <div class="inline-flex px-6 py-2 text-sm font-medium text-orange-500 bg-white border-2 border-orange-500 rounded-md shadow-sm hover:bg-orange-600 hover:text-white">
-          <.icon name="hero-archive-box-solid" class="mr-2 -ml-1 w-5 h-5" /> Save
-        </div>
-      <% end %>
+    <div class="mt-8 flex w-full justify-end">
+      <.button size={:md} color={:white} icon="hero-cube">Save</.button>
     </div>
   </.form>
 </div>

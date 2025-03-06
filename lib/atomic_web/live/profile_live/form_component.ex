@@ -2,55 +2,14 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Accounts
-  alias AtomicWeb.Components.ImageUploader
 
   import AtomicWeb.Components.Forms
   import AtomicWeb.Components.{Button, Avatar}
+  import AtomicWeb.Components.ImageUploader
+
+  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 
   @impl true
-  def render(assigns) do
-    ~H"""
-    <div class="px-4 pt-4">
-      <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div class="flex flex-col items-center pr-4">
-            <%= if @user.profile_picture != nil  do %>
-              <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-              <div class="mb-4 border-4">
-                <.avatar name={@user.name} color={:zinc} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
-              </div>
-              <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
-              <.live_component module={ImageUploader} id="uploader-banner-picture" uploads={@uploads} target={@myself} />
-            <% else %>
-              <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-              <.live_component module={ImageUploader} id="uploader-profile-picture" uploads={@uploads} target={@myself} />
-            <% end %>
-          </div>
-          <div class="flex flex-col gap-6">
-            <div class="grid grid-cols-1 gap-2">
-              <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
-              <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
-              <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
-              <.field field={f[:slug]} type="text" placeholder="User Name" class="w-full" />
-            </div>
-            <div class="grid w-full gap-x-4 gap-y-4 sm:grid-cols-1 md:grid-cols-4">
-              <.inputs_for :let={socials_form} field={f[:socials]}>
-                <.field field={socials_form[:instagram]} type="text" placeholder="Instagram" class="w-full" />
-                <.field field={socials_form[:facebook]} type="text" placeholder="Facebook" class="w-full" />
-                <.field field={socials_form[:x]} type="text" placeholder="X" class="w-full" />
-                <.field field={socials_form[:tiktok]} type="text" placeholder="TikTok" class="w-full" />
-              </.inputs_for>
-            </div>
-          </div>
-        </div>
-        <div class="mt-8 flex w-full justify-end">
-          <.button size={:md} color={:white} icon="hero-cube">Save</.button>
-        </div>
-      </.form>
-    </div>
-    """
-  end
-
   def mount(socket) do
     {:ok,
      socket
@@ -59,7 +18,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
        max_entries: 1,
        max_file_size: 10_000_000
      )
-     |> allow_upload(:image_2,
+     |> allow_upload(:banner,
        accept: @extensions_whitelist,
        max_entries: 1,
        max_file_size: 100_000_000
@@ -72,10 +31,6 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
 
     {:ok,
      socket
-     |> allow_upload(:image,
-       accept: Uploaders.ProfilePicture.extension_whitelist(),
-       max_entries: 1
-     )
      |> assign(assigns)
      |> assign(:changeset, changeset)}
   end
@@ -93,7 +48,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
-    uploads = [:profile_picture, :image_2]
+    uploads = [:profile_picture, :banner]
 
     socket =
       Enum.reduce(uploads, socket, fn key, acc ->
@@ -107,7 +62,6 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     {:noreply, socket}
   end
 
-  @impl true
   def handle_event("save", %{"user" => user_params}, socket) do
     user = socket.assigns.user
 
@@ -127,16 +81,14 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         "Profile updated successfully."
       end
 
-    case Accounts.update_user(
-           user,
-           Map.put(user_params, "email", user.email),
-           &consume_image_data(socket, &1)
-         ) do
-      {:ok, _user} ->
-        {:noreply,
-         socket
-         |> put_flash(:success, flash_text)
-         |> push_navigate(to: ~p"/profile/#{user_params["slug"] || user.slug}")}
+    case Accounts.update_user(user, Map.put(user_params, "email", user.email)) do
+      {:ok, user} ->
+        case consume_image_data(socket, user) do
+          {:ok, _user} ->
+            {:noreply,
+             socket
+             |> put_flash(:success, flash_text)
+             |> push_navigate(to: ~p"/profile/#{user_params["slug"]}")}
 
           {:error, %Ecto.Changeset{} = changeset} ->
             {:noreply, assign(socket, :changeset, changeset)}
@@ -149,8 +101,8 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
       handle_image_upload(user, path, entry, :profile_picture)
     end)
 
-    consume_uploaded_entries(socket, :image_2, fn %{path: path}, entry ->
-      handle_image_upload(user, path, entry, :image_2)
+    consume_uploaded_entries(socket, :banner, fn %{path: path}, entry ->
+      handle_image_upload(user, path, entry, :banner)
     end)
 
     {:ok, user}
@@ -179,3 +131,4 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
         {:error, "An error occurred while updating the user."}
     end
   end
+end
