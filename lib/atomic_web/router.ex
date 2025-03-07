@@ -237,6 +237,6 @@ defmodule AtomicWeb.Router do
   end
 
   scope "/", AtomicWeb do
-    get "/sitemap.xml", SitemapController, :index
+    get "/sitemap.xml", Controllers.SitemapController, :index
   end
 end

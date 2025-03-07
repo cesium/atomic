@@ -18,8 +18,7 @@ defmodule AtomicWeb.HomeLive.Index do
     {:ok,
      socket
      |> stream(:posts, entries)
-     |> assign(:metadata, metadata)
-    }
+     |> assign(:metadata, metadata)}
   end
 
   @impl true
@@ -28,7 +27,7 @@ defmodule AtomicWeb.HomeLive.Index do
      socket
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor") )
+     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
      |> assign(:schedule_default, fetch_default_schedule())
      |> assign(:schedule_user, fetch_user_schedule(socket.assigns.current_user))
      |> assign(:current_tab, current_tab(socket, params))
