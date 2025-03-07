@@ -491,7 +491,7 @@ defmodule Atomic.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs \\ %{}, _after_save \\ &{:ok, &1}) do
+  def update_user(%User{} = user, attrs \\ %{}) do
     user
     |> User.changeset(attrs)
     |> Repo.update()

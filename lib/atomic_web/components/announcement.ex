@@ -19,19 +19,19 @@ defmodule AtomicWeb.Components.Announcement do
           <object>
             <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
               <p class="text-sm font-medium text-zinc-900">
-                <%= @announcement.organization.name %>
+                {@announcement.organization.name}
               </p>
             </.link>
           </object>
           <p class="text-sm text-zinc-500">
             <span class="sr-only">Published on</span>
-            <time><%= relative_datetime(@announcement.inserted_at) %></time>
+            <time>{relative_datetime(@announcement.inserted_at)}</time>
           </p>
         </div>
       </div>
-      <h2 class="mt-3 text-base font-semibold text-zinc-900"><%= @announcement.title %></h2>
+      <h2 class="mt-3 text-base font-semibold text-zinc-900">{@announcement.title}</h2>
       <div class="space-y-4 overflow-hidden break-words text-justify text-sm text-zinc-700">
-        <%= maybe_slice_string(@announcement.description, 300) %>
+        {maybe_slice_string(@announcement.description, 300)}
       </div>
       <!-- Image -->
       <%= if @announcement.image do %>
