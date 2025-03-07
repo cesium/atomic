@@ -2,7 +2,7 @@
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button patch={~p"/organizations/#{@current_organization}/departments/new"} icon="hero-plus">
-        <%= gettext("New") %>
+        {gettext("New")}
       </.button>
     <% end %>
   </:actions>

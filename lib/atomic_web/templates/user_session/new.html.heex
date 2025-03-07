@@ -1,14 +1,14 @@
 <div class="bg-hero-pattern flex h-screen w-screen flex-col items-center justify-center bg-white bg-opacity-25 bg-cover bg-center bg-no-repeat lg:bg-[length:2000px_1400px]">
   <.form :let={f} for={@conn} action={~p"/users/log_in"} as={:user} class="mx-8 mt-8 flex h-full w-full flex-col items-center justify-center space-y-6 sm:mx-0">
     <h2 class="mt-6 select-none text-center text-5xl font-bold text-zinc-900">
-      <%= gettext("Log") %><span class="text-primary-500"><%= gettext("in") %></span>
+      {gettext("Log")}<span class="text-primary-500"><%= gettext("in") %></span>
     </h2>
     <%= if @error_message do %>
       <div class="mx-4 mt-4 w-full px-4 sm:w-96 sm:px-0">
         <div class="alert alert-danger border-primary-400 flex w-full flex-row border-l-4 bg-red-100 px-4 py-4 text-sm text-red-700">
           <.icon name="hero-exclamation-circle-solid" class="mr-2 h-5 w-5 text-red-400" />
           <div>
-            <p><%= @error_message %></p>
+            <p>{@error_message}</p>
           </div>
         </div>
       </div>
@@ -16,21 +16,21 @@
 
     <div class="mx-4 mt-6 w-full flex-col items-center justify-center space-y-3 rounded-sm px-3.5 sm:mx-0 sm:w-96 sm:px-0">
       <div class="flex w-full justify-center">
-        <%= label(f, :email, class: "sr-only") %>
-        <%= email_input(f, :email,
+        {label(f, :email, class: "sr-only")}
+        {email_input(f, :email,
           required: true,
           placeholder: gettext("Email address"),
           class: "relative w-full appearance-none rounded border border-zinc-300 text-zinc-900 placeholder-zinc-500 focus:border-primary-400 focus:ring-primary-400 focus:z-10 focus:outline-none sm:text-sm"
-        ) %>
+        )}
       </div>
       <div x-data="{ hide: true }" class="flex w-full flex-row items-center justify-center rounded border border-zinc-300 placeholder-zinc-500 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:z-10 focus-within:ring-1 sm:text-sm">
-        <%= label(f, :password, class: "sr-only") %>
-        <%= password_input(f, :password,
+        {label(f, :password, class: "sr-only")}
+        {password_input(f, :password,
           required: true,
           placeholder: gettext("Password"),
           autocomplete: "current-password",
           class: "relative w-full appearance-none rounded border-0 text-zinc-900 outline-none focus:ring-0 sm:text-sm"
-        ) %>
+        )}
         <div x-show="hide" x-on:click="hide = false; document.getElementById('user_password').type = 'text';" class="w-fit cursor-pointer px-2">
           <.icon name="hero-eye-solid" class="w-5" />
         </div>
@@ -43,8 +43,8 @@
     <div class="mx-4 flex w-full flex-row justify-between sm:w-96">
       <div class="ml-4 flex flex-col space-y-2 sm:ml-0">
         <div class="flex items-center">
-          <%= checkbox(f, :remember_me, class: "size-4 text-primary-500 fill-primary-500 rounded border-zinc-300 focus:ring-primary-500") %>
-          <%= label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-zinc-900") %>
+          {checkbox(f, :remember_me, class: "size-4 fill-primary-500 text-primary-500 rounded border-zinc-300 focus:ring-primary-500")}
+          {label(f, :remember_me, gettext("Remember me"), class: "ml-2 block text-sm text-zinc-900")}
         </div>
       </div>
 
@@ -52,27 +52,27 @@
         <span>
           New here?
         </span>
-        <%= link("Register", to: ~p"/users/register", class: "text-primary-500 font-medium hover:text-primary-500 focus:outline-none") %>
+        {link("Register", to: ~p"/users/register", class: "text-primary-500 font-medium hover:text-primary-500 focus:outline-none")}
       </div>
     </div>
 
     <div class="w-full flex-col">
       <div class="mx-4 flex select-none justify-center">
-        <%= submit class: "bg-primary-500 border-primary-500 flex w-full justify-center rounded-sm border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:mx-0 sm:w-96 sm:px-0" do %>
-          <%= gettext("Log in") %>
+        <%= submit class: "border-primary-500 bg-primary-500 flex w-full justify-center rounded-sm border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:mx-0 sm:w-96 sm:px-0" do %>
+          {gettext("Log in")}
         <% end %>
       </div>
     </div>
 
     <div class="flex flex-col space-y-2">
       <div class="text-sm">
-        <%= link(gettext("Forgot your password?"), to: ~p"/users/reset_password", class: "text-primary-500 font-medium hover:text-primary-500 focus:outline-none") %>
+        {link(gettext("Forgot your password?"), to: ~p"/users/reset_password", class: "text-primary-500 font-medium hover:text-primary-500 focus:outline-none")}
       </div>
     </div>
 
     <div class="flex flex-col space-y-2">
       <div class="text-sm">
-        <%= link(gettext("< Back home"), to: ~p"/", class: "text-primary-600 font-medium hover:text-primary-500 focus:outline-none") %>
+        {link(gettext("< Back home"), to: ~p"/", class: "text-primary-600 font-medium hover:text-primary-500 focus:outline-none")}
       </div>
     </div>
   </.form>

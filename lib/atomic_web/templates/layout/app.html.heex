@@ -9,7 +9,7 @@
               <.icon name="hero-information-circle-solid" class="h-6 w-6 text-blue-400" />
             </div>
             <div class="mt-1 ml-3 w-0 flex-1 text-sm font-medium text-zinc-900">
-              <%= Phoenix.Flash.get(@flash, :info) %>
+              {Phoenix.Flash.get(@flash, :info)}
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
               <.icon name="hero-x-circle-solid" class="h-6 w-6 text-red-400" />
             </div>
             <div class="mt-1 ml-3 w-0 flex-1 text-sm font-medium text-zinc-900">
-              <%= Phoenix.Flash.get(@flash, :error) %>
+              {Phoenix.Flash.get(@flash, :error)}
             </div>
           </div>
         </div>
@@ -35,5 +35,5 @@
     </div>
   <% end %>
 
-  <%= @inner_content %>
+  {@inner_content}
 </main>

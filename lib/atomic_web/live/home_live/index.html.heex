@@ -8,7 +8,7 @@
             <div class="my-6 flex min-w-0 select-none flex-row gap-x-2">
               <%= if @is_authenticated? do %>
                 <h1 class="truncate text-2xl font-bold text-zinc-900">
-                  Welcome, <%= @current_user.name %>
+                  Welcome, {@current_user.name}
                 </h1>
               <% else %>
                 <h1 class="truncate text-2xl font-bold text-zinc-900">
@@ -25,14 +25,14 @@
         <div x-data="{ option: 'all' }" class="sticky top-10 z-10 block bg-white lg:top-0">
           <.tabs class="mx-auto max-w-5xl px-4 pt-1 sm:px-6 lg:px-8">
             <.tab id="tab-all" active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
-              <%= gettext("All") %>
+              {gettext("All")}
             </.tab>
             <.tab id="tab-following" active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
-              <%= gettext("Following") %>
+              {gettext("Following")}
             </.tab>
             <%= if length(@schedule_default.weekly) + length(@schedule_default.daily) > 0 do %>
               <.tab id="tab-schedule" active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
-                <%= gettext("Schedule") %>
+                {gettext("Schedule")}
               </.tab>
             <% end %>
           </.tabs>
@@ -92,9 +92,9 @@
             <.button color={:white} size={:xs} class="flex items-center space-x-1">
               <span>
                 <%= if @schedule == :user do %>
-                  <%= gettext("My schedule") %>
+                  {gettext("My schedule")}
                 <% else %>
-                  <%= gettext("All") %>
+                  {gettext("All")}
                 <% end %>
               </span>
               <.icon name="hero-chevron-down" class="size-4" />

@@ -1,7 +1,7 @@
 <.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if @has_permissions? do %>
-      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid"><%= gettext("Edit Announcement") %></.button>
+      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid">{gettext("Edit Announcement")}</.button>
     <% end %>
   </:actions>
   <div id={@announcement.id} class="mx-auto max-w-5xl">
@@ -12,22 +12,22 @@
         </div>
         <div>
           <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
-            <p class="text-lg font-bold text-zinc-700 sm:text-xl"><%= @announcement.organization.name %></p>
+            <p class="text-lg font-bold text-zinc-700 sm:text-xl">{@announcement.organization.name}</p>
           </.link>
           <p class="text-base text-gray-500 md:text-md">
             <span class="sr-only">Published on</span>
-            <time><%= relative_datetime(@announcement.inserted_at) %></time>
+            <time>{relative_datetime(@announcement.inserted_at)}</time>
           </p>
         </div>
       </div>
       <div class="mt-8 px-4 py-2">
         <p class="text-xl font-semibold text-zinc-900 md:text-2xl" title={@announcement.title}>
-          <%= @announcement.title %>
+          {@announcement.title}
         </p>
         <p class="mt-2 overflow-hidden break-words text-sm leading-relaxed md:text-base">
           <span class="py-4 text-zinc-800">
             <%= Enum.map(String.split(@announcement.description, "\n"), fn phrase -> %>
-              <%= phrase %>
+              {phrase}
             <% end) %>
           </span>
         </p>

@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center justify-center lg:flex-row lg:space-x-16">
     <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-0 lg:py-0">
       <h2 class="mb-6 text-center text-5xl font-extrabold text-zinc-900">
-        <span><%= gettext("Change Email") %></span>
+        <span>{gettext("Change Email")}</span>
       </h2>
       <.form :let={f} for={@email_changeset} action={~p"/profile"} id="update_email" class="mx-8 flex h-full w-full flex-col items-center justify-center sm:mx-0">
         <%= if @email_changeset.action do %>
@@ -11,31 +11,31 @@
           </div>
         <% end %>
 
-        <%= hidden_input(f, :action, value: "update_email") %>
+        {hidden_input(f, :action, value: "update_email")}
 
-        <%= label(f, :email, class: "sr-only") %>
-        <%= email_input(f, :email, placeholder: gettext("New Email"), required: true, class: "relative block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96") %>
-        <%= error_tag(f, :email) %>
+        {label(f, :email, class: "sr-only")}
+        {email_input(f, :email, placeholder: gettext("New Email"), required: true, class: "relative block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96")}
+        {error_tag(f, :email)}
 
-        <%= label(f, :current_password, for: "current_password_for_email", class: "sr-only") %>
-        <%= password_input(f, :current_password,
+        {label(f, :current_password, for: "current_password_for_email", class: "sr-only")}
+        {password_input(f, :current_password,
           placeholder: gettext("Password"),
           required: true,
           name: "current_password",
           id: "current_password_for_email",
           class: "relative mt-1 block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96"
-        ) %>
-        <%= error_tag(f, :current_password) %>
+        )}
+        {error_tag(f, :current_password)}
 
         <div>
-          <%= submit("Change Email", class: "bg-primary-500 border-primary-500 mt-6 w-64 rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm") %>
+          {submit("Change Email", class: "border-primary-500 bg-primary-500 mt-6 w-64 rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm")}
         </div>
       </.form>
     </div>
 
     <div class="flex flex-col items-center justify-center px-4 lg:px-0">
       <h2 class="mb-6 text-center text-5xl font-extrabold text-zinc-900">
-        <span><%= gettext("Change Password") %></span>
+        <span>{gettext("Change Password")}</span>
       </h2>
       <.form :let={f} for={@password_changeset} action={~p"/profile"} id="update_password" class="mx-8 flex h-full w-full flex-col items-center justify-center sm:mx-0">
         <%= if @password_changeset.action do %>
@@ -44,32 +44,32 @@
           </div>
         <% end %>
 
-        <%= hidden_input(f, :action, value: "update_password") %>
+        {hidden_input(f, :action, value: "update_password")}
 
-        <%= label(f, :password, "New password", class: "sr-only") %>
-        <%= password_input(f, :password, placeholder: gettext("New Password"), required: true, class: "relative mt-1 block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96") %>
-        <%= error_tag(f, :password) %>
+        {label(f, :password, "New password", class: "sr-only")}
+        {password_input(f, :password, placeholder: gettext("New Password"), required: true, class: "relative mt-1 block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96")}
+        {error_tag(f, :password)}
 
-        <%= label(f, :password_confirmation, "Confirm new password", class: "sr-only") %>
-        <%= password_input(f, :password_confirmation,
+        {label(f, :password_confirmation, "Confirm new password", class: "sr-only")}
+        {password_input(f, :password_confirmation,
           required: true,
           placeholder: gettext("Confirm new Password"),
           class: "relative mt-1 block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96"
-        ) %>
-        <%= error_tag(f, :password_confirmation) %>
+        )}
+        {error_tag(f, :password_confirmation)}
 
-        <%= label(f, :current_password, for: "current_password_for_password", class: "sr-only") %>
-        <%= password_input(f, :current_password,
+        {label(f, :current_password, for: "current_password_for_password", class: "sr-only")}
+        {password_input(f, :current_password,
           required: true,
           name: "current_password",
           placeholder: gettext("Current Password"),
           id: "current_password_for_password",
           class: "relative mt-1 block w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:z-10 focus:outline-none sm:text-sm lg:w-96"
-        ) %>
-        <%= error_tag(f, :current_password) %>
+        )}
+        {error_tag(f, :current_password)}
 
         <div class="mt-5 flex justify-center">
-          <%= submit("Change Password", class: "bg-primary-500 border-primary-500 mt-6 w-64 rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm") %>
+          {submit("Change Password", class: "border-primary-500 bg-primary-500 mt-6 w-64 rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm")}
         </div>
       </.form>
     </div>

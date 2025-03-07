@@ -6,15 +6,15 @@
           <div class="relative flex w-full items-center justify-between lg:flex-none">
             <span class="text-base font-semibold text-zinc-900">
               <%= if @mode == "month" do %>
-                <time datetime={@beginning_of_month}><%= Timex.format!(@beginning_of_month, "{Mshort} {YYYY}") %></time>
+                <time datetime={@beginning_of_month}>{Timex.format!(@beginning_of_month, "{Mshort} {YYYY}")}</time>
               <% else %>
                 <%= if date_to_month(@beginning_of_week) == date_to_month(@end_of_week) do %>
-                  <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %></time>
+                  <time datetime={@beginning_of_week}>{Timex.format!(@beginning_of_week, "{Mshort} {YYYY}")}</time>
                 <% else %>
                   <%= if date_to_year(@beginning_of_week) == date_to_year(@end_of_week) do %>
-                    <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
+                    <time datetime={@beginning_of_week}>{Timex.format!(@beginning_of_week, "{Mshort}")} - {Timex.format!(@end_of_week, "{Mshort} {YYYY}")}</time>
                   <% else %>
-                    <time datetime={@beginning_of_week}><%= Timex.format!(@beginning_of_week, "{Mshort} {YYYY}") %> - <%= Timex.format!(@end_of_week, "{Mshort} {YYYY}") %></time>
+                    <time datetime={@beginning_of_week}>{Timex.format!(@beginning_of_week, "{Mshort} {YYYY}")} - {Timex.format!(@end_of_week, "{Mshort} {YYYY}")}</time>
                   <% end %>
                 <% end %>
               <% end %>
@@ -26,7 +26,7 @@
                   <.icon name="hero-chevron-left-solid" class="size-3 sm:size-5" />
                 </button>
                 <button type="button" phx-click="present" class="hidden border-y border-zinc-300 px-3.5 text-sm font-semibold text-zinc-900 hover:bg-zincf-50 focus:relative md:block">
-                  <span><%= gettext("Today") %></span>
+                  <span>{gettext("Today")}</span>
                 </button>
                 <span class="bg-zincf-300 relative -mx-px h-5 w-px md:hidden"></span>
                 <button type="button" phx-click="next" class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-zinc-300 pl-1 text-zinc-400 hover:text-zinc-500 focus:relative md:w-9 md:pl-0 md:hover:bg-zincf-50">
@@ -50,9 +50,9 @@
                   <:wrapper>
                     <button class="hidden items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zincf-50 md:ml-4 md:flex">
                       <%= if @mode == "month" do %>
-                        <%= gettext("Month view") %>
+                        {gettext("Month view")}
                       <% else %>
-                        <%= gettext("Week view") %>
+                        {gettext("Week view")}
                       <% end %>
                       <span class="size-5 text-zinc-400">
                         <.icon name="hero-chevron-down-solid" />
@@ -78,6 +78,6 @@
   </div>
   <div class="mx-4 mt-3 flex gap-1 text-sm text-zinc-400 lg:mx-8">
     <.icon name="hero-information-circle" class="size-5" />
-    <p><%= gettext("See here the activities of the organizations you follow.") %></p>
+    <p>{gettext("See here the activities of the organizations you follow.")}</p>
   </div>
 </.page>

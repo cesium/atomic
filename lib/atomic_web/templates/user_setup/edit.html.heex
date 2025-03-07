@@ -1,12 +1,12 @@
 <div class="bg-hero-pattern flex h-screen w-screen flex-col items-center justify-center bg-white bg-opacity-25 bg-cover bg-center bg-no-repeat lg:bg-[length:2000px_1400px]">
   <.form :let={f} for={@changeset} action={~p"/users/setup"} class="mx-8 mt-8 flex h-full w-full flex-col items-center justify-center sm:mx-0">
     <div class="flex select-none flex-row">
-      <p class="mt-6 uppercase tracking-widest"><%= gettext("Welcome to Atomic!") %></p>
+      <p class="mt-6 uppercase tracking-widest">{gettext("Welcome to Atomic!")}</p>
       <p class="animate-wave ml-2 self-end text-2xl">👋</p>
     </div>
     <div class="mx-4 sm:w-96">
       <h2 class="mt-1 select-none text-center text-xl font-bold text-zinc-900">
-        <%= gettext("Please finish setting up your account") %>
+        {gettext("Please finish setting up your account")}
       </h2>
     </div>
     <%= if @changeset.action do %>
@@ -22,41 +22,41 @@
 
     <div class="mt-6 w-full flex-col space-y-3 rounded-md">
       <div class="mx-4 flex flex-col items-center justify-center">
-        <%= label(f, :name, class: "sr-only") %>
-        <%= text_input(f, :name,
+        {label(f, :name, class: "sr-only")}
+        {text_input(f, :name,
           required: true,
           placeholder: gettext("Name"),
           class: "relative mx-4 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:ring-primary-500 focus:z-10 focus:outline-none sm:w-96 sm:text-sm"
-        ) %>
-        <span class="mx-4 w-full text-sm text-red-600 sm:w-96"><%= error_tag(f, :name) %></span>
+        )}
+        <span class="mx-4 w-full text-sm text-red-600 sm:w-96">{error_tag(f, :name)}</span>
       </div>
       <div class="mx-4 flex flex-col items-center justify-center">
-        <%= label(f, :slug, class: "sr-only") %>
+        {label(f, :slug, class: "sr-only")}
         <div class="relative mx-4 flex w-full appearance-none flex-row rounded border border-zinc-300 px-3 text-zinc-900 placeholder-zinc-500 focus-within:border-primary-400 focus-within:ring-primary-400 focus-within:z-10 focus-within:outline-none sm:w-96 sm:text-sm">
           <span class="select-none self-center">@</span>
-          <%= text_input(f, :slug,
+          {text_input(f, :slug,
             required: true,
             placeholder: gettext("username"),
             class: "w-full appearance-none border-none pl-0 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-transparent sm:text-sm"
-          ) %>
+          )}
         </div>
-        <span class="mx-4 w-full text-sm text-red-600 sm:w-96"><%= error_tag(f, :slug) %></span>
+        <span class="mx-4 w-full text-sm text-red-600 sm:w-96">{error_tag(f, :slug)}</span>
       </div>
       <div class="mx-4 flex flex-col items-center justify-center">
-        <%= label(f, :course_id, class: "sr-only") %>
-        <%= select(f, :course_id, Enum.map(@courses, &{&1.name, &1.id}),
+        {label(f, :course_id, class: "sr-only")}
+        {select(f, :course_id, Enum.map(@courses, &{&1.name, &1.id}),
           required: true,
           placeholder: gettext("Course"),
           prompt: gettext("Select a course"),
           class: "relative mx-4 w-full appearance-none rounded border border-zinc-300 px-3 py-2 text-zinc-900 placeholder-zinc-500 focus:border-primary-500 focus:ring-primary-500 focus:z-10 focus:outline-none sm:w-96 sm:text-sm"
-        ) %>
-        <span class="mx-4 w-full text-sm text-red-600 sm:w-96"><%= error_tag(f, :course_id) %></span>
+        )}
+        <span class="mx-4 w-full text-sm text-red-600 sm:w-96">{error_tag(f, :course_id)}</span>
       </div>
     </div>
 
     <div class="mt-6 w-full flex-col">
       <div class="mx-4 flex select-none justify-center">
-        <%= submit("Next Step", class: "bg-primary-500 border-primary-500 flex w-full justify-center rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96") %>
+        {submit("Next Step", class: "border-primary-500 bg-primary-500 flex w-full justify-center rounded-md border-2 px-3.5 py-2 text-sm text-lg font-medium text-white shadow-sm sm:w-96")}
       </div>
     </div>
   </.form>

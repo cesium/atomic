@@ -9,13 +9,13 @@
               <div class="flex flex-col items-center justify-center lg:flex-row lg:items-start lg:justify-start lg:space-x-2">
                 <div x-data="{ open: false }" class="flex flex-col items-center justify-center space-y-2 lg:items-start lg:justify-start">
                   <h2 class="text-2xl font-medium text-zinc-900">
-                    <%= @organization.name %>
+                    {@organization.name}
                   </h2>
                   <p class="text-xs text-zinc-900">
-                    <%= @organization.long_name %>
+                    {@organization.long_name}
                   </p>
                   <div class="flex flex-row items-center space-x-2 text-sm">
-                    <span class="inline-flex items-center font-bold text-zinc-900"><%= @followers_count %></span>
+                    <span class="inline-flex items-center font-bold text-zinc-900">{@followers_count}</span>
                     <span class="inline-flex w-full items-center text-zinc-900">Followers</span>
                   </div>
                   <div class="flex space-x-2">
@@ -87,7 +87,7 @@
               </div>
             </div>
           </div>
-          <span class="mt-8 break-normal"><%= @organization.description %></span>
+          <span class="mt-8 break-normal">{@organization.description}</span>
         </div>
       </div>
     </div>
@@ -105,6 +105,6 @@
         <.avatar name={person.name} size={:sm} color={:light_zinc} />
       <% end %>
     </div>
-    <%= gettext("View all") %>
+    {gettext("View all")}
   </div>
 </div>

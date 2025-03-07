@@ -30,7 +30,7 @@ defmodule AtomicWeb.Components.Table do
             <tr class="leading-3" style="height: 30px;">
               <%= for col <- @col do %>
                 <td class="border-b-[1px] border-r-[1px] whitespace-nowrap p-4 text-sm text-zinc-500">
-                  <%= render_slot(col, item) %>
+                  {render_slot(col, item)}
                 </td>
               <% end %>
             </tr>
@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.Table do
         <div class="flex justify-between">
           <.link patch={build_sorting_query(@field, @meta)} class="mr-2 w-full">
             <div class="flex justify-between">
-              <span><%= @label %></span>
+              <span>{@label}</span>
               <.sorting_arrow direction={@direction} />
             </div>
           </.link>
@@ -63,18 +63,18 @@ defmodule AtomicWeb.Components.Table do
         <%= if sortable?(@field, @meta.schema) do %>
           <.link patch={build_sorting_query(@field, @meta)}>
             <div class="flex justify-between">
-              <span><%= @label %></span>
+              <span>{@label}</span>
               <.sorting_arrow direction={@direction} />
             </div>
           </.link>
         <% else %>
           <%= if filterable?(@field, @meta.schema) && should_filter(@field, @filter) do %>
             <div class="flex justify-between">
-              <span><%= @label %></span>
+              <span>{@label}</span>
               <.filter_input field={@field} meta={@meta} filter={extract_filter_type(@field, @filter)} />
             </div>
           <% else %>
-            <span><%= @label %></span>
+            <span>{@label}</span>
           <% end %>
         <% end %>
       <% end %>
@@ -104,17 +104,7 @@ defmodule AtomicWeb.Components.Table do
   defp input(assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
-      <input
-        type={@type}
-        name={@name}
-        id={@id}
-        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-        class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400"
-        ]}
-        {@rest}
-      />
+      <input type={@type} name={@name} id={@id} value={Phoenix.HTML.Form.normalize_value(@type, @value)} class={["mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6", "phx-no-feedback:border-zinc-300 phx-no-feedback:focus:border-zinc-400"]} {@rest} />
     </div>
     """
   end
