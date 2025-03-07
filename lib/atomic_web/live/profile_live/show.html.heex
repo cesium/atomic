@@ -3,7 +3,7 @@
     <%= if IO.inspect(@user) do %>
       <img src={Uploaders.ProfilePicture.url({@user.banner, @user}, :original)} class="h-64 w-full object-cover" />
     <% else %>
-    <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
+      <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
     <% end %>
   </div>
   <div class="relative px-4 pt-4">

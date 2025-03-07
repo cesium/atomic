@@ -3,30 +3,12 @@
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       <div class="flex flex-col items-center pr-4">
         <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-        <.image_uploader
-          id="profile-picture"
-          class="w-32 aspect-square"
-          upload={@uploads.profile_picture}
-          icon="hero-user"
-          memory_unit="GB"
-          image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}
-        >
+        <.image_uploader id="profile-picture" class="w-32 aspect-square" upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
           <:placeholder>
             <.avatar size={:xl} name={@user.name} type={:user} />
           </:placeholder>
         </.image_uploader>
-        <.image_uploader
-          id="banner-picture"
-          class="w-32 aspect-square"
-          upload={@uploads.banner}
-          icon="hero-user"
-          memory_unit="GB"
-          image={Uploaders.ProfilePicture.url({@user.banner, @user}, :original, signed: true)}
-        >
-          <:placeholder>
-            <.avatar size={:xl} name={@user.name} type={:user} />
-          </:placeholder>
-        </.image_uploader>          
+        <.image_uploader id="banner-picture" class="w-32 aspect-square" upload={@uploads.banner} icon="hero-user" memory_unit="GB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
       </div>
       <div class="flex flex-col gap-6">
         <div class="grid grid-cols-1 gap-2">

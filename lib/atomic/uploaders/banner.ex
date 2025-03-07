@@ -3,13 +3,12 @@ defmodule Atomic.Uploaders.Banner do
   Uploader for department banners.
   """
   use Atomic.Uploader, extensions: ~w(.jpg .jpeg .png)
-
-  alias Atomic.Organizations.Department
+  alias Atomic.Accounts.User
 
   @versions [:original]
 
-  def storage_dir(_version, {_file, %Department{} = department}) do
-    "uploads/atomic/departments/#{department.id}/banner"
+  def storage_dir(_version, {_file, %User{} = user}) do
+    "uploads/atomic/users/#{user.id}/banner"
   end
 
   def filename(version, _) do
