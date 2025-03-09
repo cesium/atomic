@@ -1,8 +1,8 @@
 defmodule Atomic.Uploaders.Banner do
   @moduledoc """
-  Uploader for department banners.
+  Uploader for user banners.
   """
-  use Atomic.Uploader, extensions: ~w(.jpg .jpeg .png)
+  use Atomic.Uploader, extensions: ~w(.jpg .jpeg .png .gif)
   alias Atomic.Accounts.User
 
   @versions [:original]

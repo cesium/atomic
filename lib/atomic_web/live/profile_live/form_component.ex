@@ -97,38 +97,29 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   defp consume_image_data(socket, user) do
-    consume_uploaded_entries(socket, :profile_picture, fn %{path: path}, entry ->
-      handle_image_upload(user, path, entry, :profile_picture)
-    end)
+    results =
+      [:profile_picture, :banner]
+      |> Enum.map(fn field ->
+        consume_uploaded_entries(socket, field, fn %{path: path}, entry ->
+          case Accounts.update_user_picture(user, %{
+            "#{field}" => %Plug.Upload{
+              content_type: entry.client_type,
+              filename: entry.client_name,
+              path: path
+            }
+          }) do
+            {:ok, updated_user} -> {:ok, updated_user}
+            {:error, _changeset} -> {:error, field}
+          end
+        end)
+      end)
+      |> List.flatten()
 
-    consume_uploaded_entries(socket, :banner, fn %{path: path}, entry ->
-      handle_image_upload(user, path, entry, :banner)
-    end)
-
-    {:ok, user}
-  end
-
-  defp handle_image_upload(user, path, entry, field) do
-    Accounts.update_user_picture(user, %{
-      "#{field}" => %Plug.Upload{
-        content_type: entry.client_type,
-        filename: entry.client_name,
-        path: path
-      }
-    })
-    |> case do
-      {:ok, user} ->
-        {:ok, user}
-
-      {:error, changeset} ->
-        if changeset.errors[field] do
-          {:postpone, "File size exceeds maximum allowed size"}
-        else
-          {:error, changeset}
-        end
-
-      {:errors, _changeset} ->
-        {:error, "An error occurred while updating the user."}
+    if Enum.any?(results, fn result -> match?({:error, _}, result) end) do
+      {:error, results}
+    else
+      {:ok, user}
     end
   end
+
 end

@@ -60,7 +60,7 @@ defmodule AtomicWeb.Components.ImageUploader do
           <%= for entry <- @upload.entries do %>
             <article class="h-full">
               <figure class="flex h-full items-center justify-center">
-                <%= if image_file?(entry) do %>
+                <%= if entry.ref do %>
                   <.live_img_preview id={"preview-#{entry.ref}"} class={[@rounded && "p-0", not @rounded && "p-4", @image_class]} entry={entry} />
                 <% else %>
                   <div class="text-lightMuted flex select-none flex-col items-center gap-2 dark:text-darkMuted">
@@ -91,10 +91,6 @@ defmodule AtomicWeb.Components.ImageUploader do
 
     assigns
     |> Map.put(:size_file, size_file)
-  end
-
-  defp image_file?(entry) do
-    entry.client_type in ["image/jpeg", "image/png", "image/gif"]
   end
 
   defp convert_size(size_in_bytes, memory_unit) do
