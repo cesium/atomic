@@ -4,6 +4,7 @@ defmodule AtomicWeb.HomeLive.Index do
 
   import AtomicWeb.Components.{Activity, Announcement, Tabs, Unauthenticated, Dropdown}
   import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
+  import AtomicWeb.Components.LegalPagesLinks
 
   alias Atomic.Activities
   alias Atomic.Feed
@@ -117,7 +118,10 @@ defmodule AtomicWeb.HomeLive.Index do
 
   defp fetch_user_schedule(user) do
     {daily, weekly} =
-      Activities.list_user_activities(user.id, preloads: [:organization], order_by: [desc: :start])
+      Activities.list_user_activities(user.id,
+        preloads: [:organization],
+        order_by: [desc: :start]
+      )
       |> Enum.reduce({[], []}, &process_activity/2)
 
     %{daily: Enum.take(daily, 3), weekly: Enum.take(weekly, 3)}

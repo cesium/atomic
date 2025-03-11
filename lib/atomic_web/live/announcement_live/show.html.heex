@@ -1,22 +1,42 @@
-<div class="py-4 px-4 sm:px-0">
-  <div class="px-4 flex flex-col gap-2 mt-6 sm:flex-row sm:items-center">
-    <div>
-      <div class="flex justify-between items-center">
-        <h4 class="text-2xl font-bold text-zinc-800">
-          <%= @announcement.title %>
-        </h4>
+<.page title="Announcements" bottom_border={true}>
+  <:actions>
+    <%= if @has_permissions? do %>
+      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid">{gettext("Edit Announcement")}</.button>
+    <% end %>
+  </:actions>
+  <div id={@announcement.id} class="mx-auto max-w-5xl">
+    <div class="mt-4 flex flex-col justify-center rounded-lg bg-white md:mt-2 lg:p-4">
+      <div class="flex items-center space-x-2 px-4 py-1">
+        <div class="flex-shrink-0">
+          <.avatar name={@announcement.organization.name} color={:light_zinc} size={:md} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
+        </div>
+        <div>
+          <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
+            <p class="text-lg font-bold text-zinc-700 sm:text-xl">{@announcement.organization.name}</p>
+          </.link>
+          <p class="text-base text-gray-500 md:text-md">
+            <span class="sr-only">Published on</span>
+            <time>{relative_datetime(@announcement.inserted_at)}</time>
+          </p>
+        </div>
       </div>
-      <p class="mt-1 text-zinc-500">
-        <%= @announcement.description %>
-      </p>
+      <div class="mt-8 px-4 py-2">
+        <p class="text-xl font-semibold text-zinc-900 md:text-2xl" title={@announcement.title}>
+          {@announcement.title}
+        </p>
+        <p class="mt-2 overflow-hidden break-words text-sm leading-relaxed md:text-base">
+          <span class="py-4 text-zinc-800">
+            <%= Enum.map(String.split(@announcement.description, "\n"), fn phrase -> %>
+              {phrase}
+            <% end) %>
+          </span>
+        </p>
+      </div>
+      <%= if @announcement.image do %>
+        <div class="mt-4 h-auto w-full overflow-hidden px-4">
+          <img class="max-h-[32rem] max-w-screen object-cover sm:max-wxl md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
+        </div>
+      <% end %>
     </div>
   </div>
-</div>
-
-<%= if @has_permissions? do %>
-  <.link patch={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} class="px-2 button">
-    <div type="button" class="inline-flex justify-center py-2 px-4 w-fit text-sm font-medium text-zinc-700 bg-white rounded-md border border-zinc-300 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-      <.icon name="hero-pencil-solid" class="mr-3 w-5 h-5 text-zinc-400" /> Edit
-    </div>
-  </.link>
-<% end %>
+</.page>

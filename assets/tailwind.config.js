@@ -15,7 +15,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.orange,
+        primary: {
+          '50': '#fef4ee',
+          '100': '#fce6d8',
+          '200': '#f8c9b0',
+          '300': '#f3a47e',
+          '400': '#ed7950',
+          '500': '#e85227',
+          '600': '#d9391d',
+          '700': '#b42a1a',
+          '800': '#90231c',
+          '900': '#74201a',
+          '950': '#3e0e0c',
+        },
         secondary: colors.sky,
         success: colors.green,
         danger: colors.red,

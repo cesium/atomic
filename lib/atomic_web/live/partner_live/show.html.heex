@@ -86,9 +86,9 @@
           <div class="px-2 py-4 text-zinc-800">
             <%= for phrase <- String.split(@partner.benefits, "\n") do %>
               <%= if String.length(phrase) < 300 do %>
-                <%= phrase %>
+                {phrase}
               <% else %>
-                <%= String.slice(phrase, 0..300) %>
+                {String.slice(phrase, 0..300)}
               <% end %>
             <% end %>
           </div>

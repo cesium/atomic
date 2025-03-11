@@ -19,9 +19,9 @@ defmodule AtomicWeb.DepartmentLive.Components.DepartmentCard do
       </div>
       <div class="px-4 py-4">
         <div class="flex">
-          <p class="text-lg font-semibold"><%= @department.name %></p>
+          <p class="text-lg font-semibold">{@department.name}</p>
           <.badge :if={@department.archived} variant={:outline} color={:warning} size={:md} class="bg-yellow-300/5 select-none rounded-xl border-yellow-400 py-1 font-normal text-yellow-400 sm:ml-auto sm:py-0">
-            <p><%= gettext("Archived") %></p>
+            <p>{gettext("Archived")}</p>
           </.badge>
         </div>
         <.avatar_group

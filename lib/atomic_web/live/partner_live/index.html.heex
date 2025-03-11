@@ -13,13 +13,13 @@
         <.tabs class="overflow-auto px-4 sm:px-6 lg:px-8">
           <.link patch="?tab=all" replace={false}>
             <.tab active={@current_tab == "all"}>
-              <%= gettext("Current Partners") %>
+              {gettext("Current Partners")}
             </.tab>
           </.link>
           <%= if @has_permissions? do %>
             <.link patch="?tab=inactive" replace={false}>
               <.tab active={@current_tab == "inactive"}>
-                <%= gettext("Inactive Partners") %>
+                {gettext("Inactive Partners")}
               </.tab>
             </.link>
           <% end %>
@@ -37,6 +37,7 @@
       <%= for partner <- @partners do %>
         <.link navigate={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"} class="block hover:bg-zinc-50">
           <.partner_card partner={partner} />
+
         </.link>
       <% end %>
     </ul>
