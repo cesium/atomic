@@ -102,20 +102,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   defp consume_image_data(socket, user) do
     results =
       [:profile_picture, :banner]
-      |> Enum.map(fn field ->
-        consume_uploaded_entries(socket, field, fn %{path: path}, entry ->
-          case Accounts.update_user_picture(user, %{
-                 "#{field}" => %Plug.Upload{
-                   content_type: entry.client_type,
-                   filename: entry.client_name,
-                   path: path
-                 }
-               }) do
-            {:ok, updated_user} -> {:ok, updated_user}
-            {:error, _changeset} -> {:error, field}
-          end
-        end)
-      end)
+      |> Enum.map(&consume_image_entry(socket, user, &1))
       |> List.flatten()
 
     if Enum.any?(results, fn result -> match?({:error, _}, result) end) do
@@ -123,5 +110,20 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
     else
       {:ok, user}
     end
+  end
+
+  defp consume_image_entry(socket, user, field) do
+    consume_uploaded_entries(socket, field, fn %{path: path}, entry ->
+      case Accounts.update_user_picture(user, %{
+             "#{field}" => %Plug.Upload{
+               content_type: entry.client_type,
+               filename: entry.client_name,
+               path: path
+             }
+           }) do
+        {:ok, updated_user} -> {:ok, updated_user}
+        {:error, _changeset} -> {:error, field}
+      end
+    end)
   end
 end
