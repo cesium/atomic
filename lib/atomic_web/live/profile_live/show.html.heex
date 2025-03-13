@@ -1,7 +1,7 @@
 <div class="relative">
   <div class="h-64 w-full border-b-2 bg-cover">
     <%= if IO.inspect(@user) do %>
-      <img src={Uploaders.ProfilePicture.url({@user.banner, @user}, :original)} class="h-64 w-full object-cover" />
+      <img src={Uploaders.Banner.url({@user.banner, @user}, :original)} class="h-64 w-full object-cover" />
     <% else %>
       <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
     <% end %>

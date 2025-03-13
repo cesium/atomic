@@ -33,7 +33,7 @@ defmodule Atomic.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :phone_number, :string
     field :profile_picture, Uploaders.ProfilePicture.Type
-    field :banner, Uploaders.ProfilePicture.Type
+    field :banner, Uploaders.Banner.Type
 
     belongs_to :course, Course
     belongs_to :current_organization, Organization
