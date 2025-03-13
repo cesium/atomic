@@ -1,71 +1,78 @@
-<div class="relative">
-  <div class="h-64 w-full border-b-2 bg-cover">
-    <%= if IO.inspect(@user) do %>
-      <img src={Uploaders.Banner.url({@user.banner, @user}, :original)} class="h-64 w-full object-cover" />
-    <% else %>
-      <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
-    <% end %>
-  </div>
-  <div class="relative px-4 pt-4">
-    <div class="flex items-start">
-      <div class="relative -mt-16 flex-shrink-0">
-        <div class="relative">
-          <.avatar name={@user.name} color={:light} class="h-36 w-36 text-4xl rounded-full border-4 border-white" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
-        </div>
-      </div>
-      <div class="flex-1 pl-6">
-        <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
-          <%= @user.name %>
-        </h2>
-
-        <div class="mt-2">
-          <%= if length(@organizations) > 0 do %>
-            <div class="mt-2">
-              <%= for organization <- @organizations do %>
-                <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
-                  <%= organization.name %> - <%= Atomic.Organizations.get_role(@user.id, organization.id) %>
-                </p>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="py-2">No organizations found.</p>
-          <% end %>
-        </div>
-        <%= if @user.socials do %>
-          <div class="mt-2">
-            <.socials entity={@user} />
+<div>
+    <div class="relative">
+          <div class="h-64 w-full">
+            <%= if IO.inspect(@user) do %>
+              <.image_uploader editable={false} id="banner-picture" class="h-64 w-full object-cover" image_class="w-full h-[290px]" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
+            <% else %>
+              <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
+            <% end %>
           </div>
-        <% end %>
-        <div class="fllex-row mt-4 flex gap-8">
-          <%= if @user.email do %>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-zinc-500">Email</dt>
-              <dd class="mt-1 text-sm text-zinc-900">
-                <a class="text-blue-400" href={"mailto:#{@user.email}"}>
-                  <%= @user.email %>
-                </a>
-              </dd>
+          <div class="relative px-4 pt-4">
+            <div class="flex items-start">
+              <div class="relative -mt-16 flex-shrink-0">
+                <div class="relative">
+                  <.image_uploader editable={false} id="profile-picture" class="w-36 border-4 border-white aspect-square" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
+                    <:placeholder>
+                      <.avatar size={:xl} name={@user.name} type={:user} />
+                    </:placeholder>
+                  </.image_uploader>
+                </div>
+              </div>
+              <div class="flex-1 pl-6">
+                <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
+                  <%= @user.name %>
+                </h2>
+                <div class="mt-2">
+                  <%= if length(@organizations) > 0 do %>
+                    <div class="mt-2">
+                      <%= for organization <- @organizations do %>
+                        <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
+                          <%= organization.name %> - <%= Atomic.Organizations.get_role(@user.id, organization.id) %>
+                        </p>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <p class="py-2">No organizations found.</p>
+                  <% end %>
+                </div>
+                <%= if @user.socials do %>
+                  <div class="mt-2">
+                    <.socials entity={@user} />
+                  </div>
+                <% end %>
+                <div class="fllex-row mt-4 flex gap-8">
+                  <%= if @user.email do %>
+                    <div class="sm:col-span-1">
+                      <dt class="text-sm font-medium text-zinc-500">Email</dt>
+                      <dd class="mt-1 text-sm text-zinc-900">
+                        <a class="text-blue-400" href={"mailto:#{@user.email}"}>
+                          <%= @user.email %>
+                        </a>
+                      </dd>
+                    </div>
+                  <% end %>
+                  <%= if @user.phone_number do %>
+                    <div class="sm:col-span-1">
+                      <dt class="text-sm font-medium text-zinc-500">Phone</dt>
+                      <dd class="mt-1 text-sm text-zinc-900">
+                        <a class="text-blue-400" href={"tel:#{@user.phone_number}"}>
+                          <%= @user.phone_number %>
+                        </a>
+                      </dd>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
             </div>
-          <% end %>
-          <%= if @user.phone_number do %>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-zinc-500">Phone</dt>
-              <dd class="mt-1 text-sm text-zinc-900">
-                <a class="text-blue-400" href={"tel:#{@user.phone_number}"}>
-                  <%= @user.phone_number %>
-                </a>
-              </dd>
-            </div>
-          <% end %>
-        </div>
-      </div>
+          </div>
     </div>
-    <%= if @is_current_user do %>
+    <div class="mt-8 flex w-full justify-end">
+      <%= if @is_current_user do %>
       <div class="w-24 flex justify-end">
         <.button patch={~p"/profile/#{@user}/edit"}>
           <%= gettext("Edit") %>
         </.button>
       </div>
     <% end %>
-  </div>
+    </div>   
 </div>

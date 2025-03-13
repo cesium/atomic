@@ -6,13 +6,14 @@ defmodule AtomicWeb.Components.ImageUploader do
   use AtomicWeb, :component
 
   attr :id, :string, default: "image-uploader"
-  attr :upload, :any, required: true
+  attr :upload, :any
   attr :class, :string, default: ""
   attr :image_class, :string, default: ""
   attr :image, :string, default: nil
   attr :icon, :string, default: "hero-photo"
   attr :preview_disabled, :boolean, default: false
   attr :rounded, :boolean, default: false
+  attr :editable, :boolean, default: true
   attr :memory_unit, :string, default: "MB"
 
   slot :placeholder, optional: true, doc: "Slot for the placeholder content."
@@ -22,11 +23,13 @@ defmodule AtomicWeb.Components.ImageUploader do
 
     ~H"""
     <div id={@id}>
+    <%= if @editable do %>
       <.live_file_input upload={@upload} class="hidden" />
+    <% end %>
       <section
         phx-drop-target={@upload.ref}
         class={[
-          "transition-colors hover:cursor-pointer hover:bg-lightShade/30 dark:hover:bg-darkShade/20 border-2 border-dashed border-lightShade dark:border-darkShade",
+          "transition-colors hover:cursor-pointer hover:bg-lightShade/30 dark:hover:bg-darkShade/20",
           @rounded && "rounded-full overflow-hidden",
           not @rounded && "rounded-xl",
           @class
@@ -37,7 +40,7 @@ defmodule AtomicWeb.Components.ImageUploader do
           <article class="h-full">
             <figure class="flex h-full items-center justify-center">
               <%= if @image do %>
-                <img class={[@rounded && "p-0", not @rounded && "p-4", @image_class]} src={@image} />
+                <img class={[@rounded && "p-0", not @rounded , @image_class]} src={@image} />
               <% else %>
                 <%= if @placeholder do %>
                   <div class="text-lightMuted flex flex-col items-center gap-2 dark:text-darkMuted">
@@ -84,7 +87,11 @@ defmodule AtomicWeb.Components.ImageUploader do
   end
 
   def update(assigns, _socket) do
-    max_size = assigns.upload.max_file_size
+    max_size = if Map.has_key?(assigns, :upload) do
+                 assigns.upload.max_file_size
+               else
+                 0
+               end
     memory_unit = assigns[:memory_unit]
 
     size_file = convert_size(max_size, memory_unit)

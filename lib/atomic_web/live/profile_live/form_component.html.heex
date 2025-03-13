@@ -1,18 +1,46 @@
-<div class="px-4 pt-4">
+<div>
   <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-      <div class="flex flex-col items-center pr-4">
-        <%= label(f, :name, "Profile Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-        <% IO.inspect(@user) %>
-        <.image_uploader id="profile-picture" class="w-32 aspect-square" upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
-          <:placeholder>
-            <.avatar size={:xl} name={@user.name} type={:user} />
-          </:placeholder>
-        </.image_uploader>
-        <%= label(f, :name, "Banner Picture", class: "mt-3 mb-1 text-sm font-medium text-gray-700") %>
-        <.image_uploader id="banner-picture" class="w-32 aspect-square" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
-      </div>
-      <div class="flex flex-col gap-6">
+    <div class="relative">
+          <div class="h-64 w-full">
+            <%= if IO.inspect(@user) do %>
+              <.image_uploader id="banner-picture" class="h-64 w-full object-cover" image_class="w-full h-[290px]" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
+            <% else %>
+              <.gradient class="h-64 w-full object-cover bg-center" seed={@user.id} />
+            <% end %>
+          </div>
+          <div class="relative px-4 pt-4">
+            <div class="flex items-start">
+              <div class="relative -mt-16 flex-shrink-0">
+                <div class="relative">
+                  <.image_uploader id="profile-picture" class="w-36 border-4 border-white aspect-square" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
+                    <:placeholder>
+                      <.avatar size={:xl} name={@user.name} type={:user} />
+                    </:placeholder>
+                  </.image_uploader>
+                </div>
+              </div>
+              <div class="flex-1 pl-6">
+                <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
+                  <%= @user.name %>
+                </h2>
+        
+                <div class="mt-2">
+                  <%= if length(@organizations) > 0 do %>
+                    <div class="mt-2">
+                      <%= for organization <- @organizations do %>
+                        <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
+                          <%= organization.name %> - <%= Atomic.Organizations.get_role(@user.id, organization.id) %>
+                        </p>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <p class="py-2">No organizations found.</p>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="flex flex-col gap-6 ml-4">
         <div class="grid grid-cols-1 gap-2">
           <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
           <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
@@ -31,6 +59,6 @@
     </div>
     <div class="mt-8 flex w-full justify-end">
       <.button size={:md} color={:white} icon="hero-cube">Save</.button>
-    </div>
+    </div>   
   </.form>
 </div>
