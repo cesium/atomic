@@ -102,12 +102,12 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
       |> Enum.map(fn field ->
         consume_uploaded_entries(socket, field, fn %{path: path}, entry ->
           case Accounts.update_user_picture(user, %{
-            "#{field}" => %Plug.Upload{
-              content_type: entry.client_type,
-              filename: entry.client_name,
-              path: path
-            }
-          }) do
+                 "#{field}" => %Plug.Upload{
+                   content_type: entry.client_type,
+                   filename: entry.client_name,
+                   path: path
+                 }
+               }) do
             {:ok, updated_user} -> {:ok, updated_user}
             {:error, _changeset} -> {:error, field}
           end
@@ -121,5 +121,4 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
       {:ok, user}
     end
   end
-
 end

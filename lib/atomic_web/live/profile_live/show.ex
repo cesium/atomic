@@ -1,7 +1,7 @@
 defmodule AtomicWeb.ProfileLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Button, Avatar, Gradient}
+  import AtomicWeb.Components.{Button, Avatar, Gradient, Socials}
 
   alias Atomic.Accounts
   alias Atomic.Organizations
