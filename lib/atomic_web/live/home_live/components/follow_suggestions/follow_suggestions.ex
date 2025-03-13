@@ -16,7 +16,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
     ~H"""
     <div class="overflow-hidden">
       <p class="text-zinc-90 font-semibold leading-6">
-        <%= title(@current_user) %>
+        {title(@current_user)}
       </p>
       <div class="flow-root">
         <ul role="list" class="divide-y divide-zinc-200">
@@ -27,7 +27,7 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions do
       </div>
       <div class="mt-2 mb-4">
         <.button patch={~p"/organizations"} color={:white} size={:md} full_width>
-          <%= gettext("View all") %>
+          {gettext("View all")}
         </.button>
       </div>
     </div>

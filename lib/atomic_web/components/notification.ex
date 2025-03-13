@@ -22,14 +22,14 @@ defmodule AtomicWeb.Components.Notification do
             <div class="ml-3 w-0 flex-1 pt-0.5">
               <%= if is_binary(@message) do %>
                 <p class="text-sm font-medium text-zinc-900">
-                  <%= live_flash(@flash, @type) %>
+                  {Phoenix.Flash.get(@flash, @type)}
                 </p>
               <% else %>
                 <p class="text-sm font-medium text-zinc-900">
-                  <%= @message.title %>
+                  {@message.title}
                 </p>
                 <p class="mt-1 text-sm text-zinc-500">
-                  <%= @message.description %>
+                  {@message.description}
                 </p>
               <% end %>
             </div>
@@ -87,7 +87,7 @@ defmodule AtomicWeb.Components.Notification do
     assigns = assign(assigns, :background_color, background_color)
 
     ~H"""
-    <div class={@background_color <> " opacity-100 h-[0.30rem] animate-progress"}></div>
+    <div class={@background_color <> " h-[0.30rem] animate-progress opacity-100"}></div>
     """
   end
 end

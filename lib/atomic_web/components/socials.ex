@@ -15,7 +15,7 @@ defmodule AtomicWeb.Components.Socials do
           <div class="flex flex-row items-center gap-x-2">
             <img src={"/images/" <> icon} class="h-5 w-5" alt={Atom.to_string(social)} />
             <.link class="capitalize text-blue-500" target="_blank" href={url_base <> social_value}>
-              <%= Atom.to_string(social) %>
+              {Atom.to_string(social)}
             </.link>
           </div>
         <% end %>

@@ -70,7 +70,7 @@
       <%= if @is_current_user do %>
       <div class="w-24 flex justify-end">
         <.button patch={~p"/profile/#{@user}/edit"}>
-          <%= gettext("Edit") %>
+          {gettext("Edit")}
         </.button>
       </div>
     <% end %>

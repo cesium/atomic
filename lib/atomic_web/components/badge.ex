@@ -51,7 +51,7 @@ defmodule AtomicWeb.Components.Badge do
       <%= if @icon && @icon_position == :left do %>
         <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
       <% end %>
-      <%= render_slot(@inner_block) || @label %>
+      {render_slot(@inner_block) || @label}
       <%= if @icon && @icon_position == :right do %>
         <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
       <% end %>
