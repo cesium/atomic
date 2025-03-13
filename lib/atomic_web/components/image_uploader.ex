@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.ImageUploader do
   attr :editable, :boolean, default: true
   attr :memory_unit, :string, default: "MB"
 
-  slot :placeholder, optional: true, doc: "Slot for the placeholder content."
+  slot :placeholder, required: false, doc: "Slot for the placeholder content."
 
   def image_uploader(assigns) do
     assigns = update(assigns, %{})
