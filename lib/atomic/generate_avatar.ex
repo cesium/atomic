@@ -1,4 +1,4 @@
-defmodule Atomic.Icon do
+defmodule Atomic.GenerateAvatar do
   @moduledoc """
   A module for generating unique, GitHub-style avatars for organizations.
 

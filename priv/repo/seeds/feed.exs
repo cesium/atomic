@@ -50,7 +50,6 @@ defmodule Atomic.Repo.Seeds.Feed do
     ]
 
     paragraph = Enum.random(activity_paragraphs)
-    paragraph
   end
 
   def announcement_description(organization) do
@@ -68,7 +67,6 @@ defmodule Atomic.Repo.Seeds.Feed do
     ]
 
     paragraph = Enum.random(announcement_paragraphs)
-    paragraph
   end
 
   def run do
