@@ -23,9 +23,9 @@ defmodule AtomicWeb.Components.ImageUploader do
 
     ~H"""
     <div id={@id}>
-    <%= if @editable do %>
-      <.live_file_input upload={@upload} class="hidden" />
-    <% end %>
+      <%= if @editable do %>
+        <.live_file_input upload={@upload} class="hidden" />
+      <% end %>
       <section
         phx-drop-target={@upload.ref}
         class={[
@@ -40,19 +40,19 @@ defmodule AtomicWeb.Components.ImageUploader do
           <article class="h-full">
             <figure class="flex h-full items-center justify-center">
               <%= if @image do %>
-                <img class={[@rounded && "p-0", not @rounded , @image_class]} src={@image} />
+                <img class={[@rounded && "p-0", not @rounded, @image_class]} src={@image} />
               <% else %>
                 <%= if @placeholder do %>
                   <div class="text-lightMuted flex flex-col items-center gap-2 dark:text-darkMuted">
-                    <%= render_slot(@placeholder) %>
+                    {render_slot(@placeholder)}
                     <p class="text-xs text-gray-500">
-                      <%= extensions_to_string(@upload.accept) %> up to <%= @size_file %> <%= @memory_unit %>
+                      {extensions_to_string(@upload.accept)} up to {@size_file} {@memory_unit}
                     </p>
                   </div>
                 <% else %>
                   <div class="text-lightMuted flex select-none flex-col items-center gap-2 dark:text-darkMuted">
                     <.icon name={@icon} class="h-12 w-12" />
-                    <p class="px-4 text-center"><%= gettext("Upload a file or drag and drop.") %></p>
+                    <p class="px-4 text-center">{gettext("Upload a file or drag and drop.")}</p>
                   </div>
                 <% end %>
               <% end %>
@@ -68,18 +68,18 @@ defmodule AtomicWeb.Components.ImageUploader do
                 <% else %>
                   <div class="text-lightMuted flex select-none flex-col items-center gap-2 dark:text-darkMuted">
                     <.icon name="hero-document" class="h-12 w-12" />
-                    <p class="px-4 text-center"><%= entry.client_name %></p>
+                    <p class="px-4 text-center">{entry.client_name}</p>
                   </div>
                 <% end %>
               </figure>
               <%= for err <- upload_errors(@upload, entry) do %>
-                <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+                <p class="alert alert-danger">{Phoenix.Naming.humanize(err)}</p>
               <% end %>
             </article>
           <% end %>
         <% end %>
         <%= for err <- upload_errors(@upload) do %>
-          <p class="alert alert-danger"><%= Phoenix.Naming.humanize(err) %></p>
+          <p class="alert alert-danger">{Phoenix.Naming.humanize(err)}</p>
         <% end %>
       </section>
     </div>
@@ -87,11 +87,13 @@ defmodule AtomicWeb.Components.ImageUploader do
   end
 
   def update(assigns, _socket) do
-    max_size = if Map.has_key?(assigns, :upload) do
-                 assigns.upload.max_file_size
-               else
-                 0
-               end
+    max_size =
+      if Map.has_key?(assigns, :upload) do
+        assigns.upload.max_file_size
+      else
+        0
+      end
+
     memory_unit = assigns[:memory_unit]
 
     size_file = convert_size(max_size, memory_unit)

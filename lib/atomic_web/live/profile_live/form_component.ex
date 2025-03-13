@@ -5,7 +5,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   alias Atomic.Organizations
 
   import AtomicWeb.Components.Forms
-  import AtomicWeb.Components.{Button, Avatar , Gradient}
+  import AtomicWeb.Components.{Button, Avatar, Gradient}
   import AtomicWeb.Components.ImageUploader
 
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
@@ -30,7 +30,6 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   def update(%{user: user} = assigns, socket) do
     changeset = Accounts.change_user(user)
     organizations = Organizations.list_user_organizations(user.id)
-
 
     {:ok,
      socket
