@@ -53,7 +53,7 @@
                             phx-click="unfollow"
                             @click.away="open = false"
                             @click="open = false"
-                            class="absolute left-0 z-10 mt-2 -mr-1 w-72 origin-top-left divide-y divide-zinc-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-0 sm:left-auto"
+                            class="absolute left-0 z-10 mt-2 -mr-1 w-72 origin-top-left divide-y divide-zinc-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:left-auto"
                             tabindex="-1"
                             role="listbox"
                             aria-labelledby="listbox-label"
@@ -81,6 +81,11 @@
                           <.icon name="hero-trash-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Delete
                         </div>
                       <% end %>
+                      <.link patch={~p"/organizations/#{@organization}/certificate"} class="button">
+                        <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                          <.icon name="hero-pencil-square-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Edit Certificate
+                        </div>
+                      </.link>
                     <% end %>
                   </div>
                 </div>

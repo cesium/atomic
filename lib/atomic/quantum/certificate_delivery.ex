@@ -65,7 +65,7 @@ defmodule Atomic.Quantum.CertificateDelivery do
 
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
-  defp generate_certificate(
+  def generate_certificate(
          %Enrollment{} = enrollment,
          %Activity{} = activity,
          %Organization{} = organization

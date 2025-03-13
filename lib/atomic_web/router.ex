@@ -58,6 +58,7 @@ defmodule AtomicWeb.Router do
 
       scope "/organizations/:organization_id" do
         live "/edit", OrganizationLive.Edit, :edit
+        live "/certificate", OrganizationLive.CertificateLive.Index, :index
 
         scope "/activities" do
           pipe_through :confirm_activity_association

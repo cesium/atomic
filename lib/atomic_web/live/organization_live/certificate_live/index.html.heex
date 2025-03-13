@@ -1,0 +1,22 @@
+<.page title="Certeficate" >
+    <:actions>
+        <h1>Boas</h1>
+    </:actions>
+
+    <.form :let={f} for={@changeset} id="announcement-form" phx-target={@organization} phx-change="validate" phx-submit="generate" class="space-y-6">
+        <div class="relative pb-16">
+          <div class="grid gap-4 xl:grid-cols-2">
+            <div class="flex flex-col">
+              <.field field={f[:title]} type="text" placeholder="Title" required class="w-full" />
+    
+              <.field field={f[:description]} type="textarea" placeholder="Description" required class="h-44 w-full resize-none overflow-auto xl:h-64" />
+            </div>
+            <div class="space-y-4">    
+              <div class="flex justify-end">
+                <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </.form>
+</.page>
