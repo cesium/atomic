@@ -1,15 +1,10 @@
 <.page title="Certeficate" >
-    <:actions>
-        <h1>Boas</h1>
-    </:actions>
-
-    <.form :let={f} for={@changeset} id="announcement-form" phx-target={@organization} phx-change="validate" phx-submit="generate" class="space-y-6">
+    <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate" class="space-y-6">
         <div class="relative pb-16">
           <div class="grid gap-4 xl:grid-cols-2">
             <div class="flex flex-col">
-              <.field field={f[:title]} type="text" placeholder="Title" required class="w-full" />
-    
-              <.field field={f[:description]} type="textarea" placeholder="Description" required class="h-44 w-full resize-none overflow-auto xl:h-64" />
+              <.field field={f[:enrollment]} type="text" placeholder="Enrollment" required class="w-full" />
+              <.field field={f[:activity]} type="textarea" placeholder="Activity" required class="h-44 w-full resize-none overflow-auto xl:h-64" />
             </div>
             <div class="space-y-4">    
               <div class="flex justify-end">
@@ -18,5 +13,5 @@
             </div>
           </div>
         </div>
-      </.form>
+    </.form>
 </.page>

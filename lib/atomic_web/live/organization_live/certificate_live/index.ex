@@ -42,17 +42,17 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
         {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
 
       {:error, reason} ->
-        {:noreply, socket |> put_flash(:error, "Erro ao gerar certificado: #{inspect(reason)}")}
+        {:noreply, socket |> put_flash(:error, "Erro ao gerar certificado: #{reason}")}
     end
   end
 
   defp list_activities(organization_id) do
     case Activities.list_activities_by_organization_id(organization_id) do
-      {:ok, {activities, meta}} ->
-        %{activities: activities, meta: meta}
+      {:ok, {activities, _meta}} ->
+        activities
 
-      {:error, flop} ->
-        %{activities: [], meta: flop}
+      {:error, _flop} ->
+        []
     end
   end
   end
