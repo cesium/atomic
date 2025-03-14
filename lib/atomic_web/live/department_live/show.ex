@@ -67,6 +67,12 @@ defmodule AtomicWeb.DepartmentLive.Show do
     |> assign(:current_page, :departments)
     |> assign(:current_view, current_view(socket, params))
     |> assign(:page_title, department.name)
+    |> assign(
+      :page_description,
+      gettext(
+        "Access information about departments, their roles, and resources, fostering collaboration and communication within the student community"
+      )
+    )
     |> assign(:organization, organization)
     |> assign(:department, department)
     |> assign(:collaborator, collaborator)

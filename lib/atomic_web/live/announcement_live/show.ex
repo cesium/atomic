@@ -18,6 +18,12 @@ defmodule AtomicWeb.AnnouncementLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, "#{announcement.title}")
+     |> assign(
+       :page_description,
+       gettext(
+         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
+       )
+     )
      |> assign(:current_page, :announcements)
      |> assign(:announcement, announcement)
      |> assign(:has_permissions?, has_permissions?(socket |> assign(:announcement, announcement)))}

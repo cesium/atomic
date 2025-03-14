@@ -13,6 +13,10 @@ defmodule AtomicWeb.UserLive.Edit do
     {:noreply,
      socket
      |> assign(:page_title, "Edit Account")
+     |> assign(
+       :page_description,
+       "Manage your profile, update personal information, and customize settings"
+     )
      |> assign(:user, socket.assigns.current_user)
      |> assign(
        :courses,

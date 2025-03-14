@@ -40,6 +40,12 @@ defmodule AtomicWeb.DepartmentLive.Edit do
      |> assign(:action, nil)
      |> assign(:current_page, :departments)
      |> assign(:page_title, gettext("New Department"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Access information about departments, their roles, and resources, fostering collaboration and communication within the student community"
+       )
+     )
      |> assign(:department, %Department{organization_id: organization_id})}
   end
 

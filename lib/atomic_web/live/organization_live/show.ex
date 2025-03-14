@@ -21,6 +21,12 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign(
+       :page_description,
+       gettext(
+         "Explore and connect with student organizations and stay informed about events and initiatives within the student nucleums"
+       )
+     )
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)

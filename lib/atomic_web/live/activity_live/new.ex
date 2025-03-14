@@ -14,6 +14,12 @@ defmodule AtomicWeb.ActivityLive.New do
     {:noreply,
      socket
      |> assign(:page_title, gettext("New Activity"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Explore and participate in activities, events, and initiatives designed to enhance student engagement and collaboration"
+       )
+     )
      |> assign(:current_page, :activities)
      |> assign(:organization_id, organization_id)}
   end

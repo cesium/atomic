@@ -20,6 +20,10 @@ defmodule AtomicWeb.PartnerLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, partner.name)
+     |> assign(
+       :page_description,
+       "Discover our partners, collaborations, and strategic alliances that support and enhance our student community"
+     )
      |> assign(:current_page, :partners)
      |> assign(:organization, organization)
      |> assign(:partner, partner)

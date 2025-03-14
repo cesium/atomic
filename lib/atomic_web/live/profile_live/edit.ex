@@ -16,6 +16,10 @@ defmodule AtomicWeb.ProfileLive.Edit do
       {:noreply,
        socket
        |> assign(:page_title, user.name)
+       |> assign(
+         :page_description,
+         "Manage your profile, update personal information, and customize settings"
+       )
        |> assign(:current_page, :profile)
        |> assign(:user, user)}
     else

@@ -31,6 +31,10 @@ defmodule AtomicWeb.PartnerLive.Edit do
     {:noreply,
      socket
      |> assign(:page_title, "New Partner")
+     |> assign(
+       :page_description,
+       "Discover our partners, collaborations, and strategic alliances that support and enhance our student community"
+     )
      |> assign(:action, nil)
      |> assign(:partner, %Partner{organization_id: socket.assigns.current_organization.id})
      |> assign(:current_page, :partners)}

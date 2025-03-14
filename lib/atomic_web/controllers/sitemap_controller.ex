@@ -3,13 +3,13 @@ defmodule AtomicWeb.Controllers.SitemapController do
 
   def index(conn, _params) do
     urls = [
-      "https://domain.com/",
-      "https://domain.com/activities",
-      "https://domain.com/organizations",
-      "https://domain.com/announcements",
-      "https://domain.com/tos",
-      "https://domain.com/privacy",
-      "https://domain.com/cookies"
+      "https://atomic.cesium.pt/",
+      "https://atomic.cesium.pt/activities",
+      "https://atomic.cesium.pt/organizations",
+      "https://atomic.cesium.pt/announcements",
+      "https://atomic.cesium.pt/tos",
+      "https://atomic.cesium.pt/privacy",
+      "https://atomic.cesium.pt/cookies"
     ]
 
     xml = """

@@ -14,5 +14,11 @@ defmodule AtomicWeb.TermsLive.Show do
      socket
      |> assign(:current_page, :terms)
      |> assign(:page_title, gettext("Terms of Service"))}
+    |> assign(
+      :page_description,
+      gettext(
+        "Review our Terms of Service to understand the rules, responsibilities, and conditions for using our platform"
+      )
+    )
   end
 end

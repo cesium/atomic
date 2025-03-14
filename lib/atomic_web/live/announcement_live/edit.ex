@@ -30,6 +30,12 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
      socket
      |> assign(:current_page, :activities)
      |> assign(:page_title, gettext("Edit Announcements"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
+       )
+     )
      |> assign(:announcement, announcement)
      |> assign(:current_organization, organization)}
   end

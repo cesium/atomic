@@ -19,7 +19,12 @@ defmodule AtomicWeb.AnnouncementLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, gettext("Announcements"))
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
+       )
+     )
      |> assign(:current_page, :announcements)
      |> assign(:organization, organization)
      |> assign(:params, params)

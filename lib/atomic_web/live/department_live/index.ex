@@ -22,7 +22,12 @@ defmodule AtomicWeb.DepartmentLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, "#{organization.name}'s #{gettext("Departments")}")
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Access information about departments, their roles, and resources, fostering collaboration and communication within the student community"
+       )
+     )
      |> assign(:current_page, :departments)
      |> assign(:organization, organization)
      |> assign(:departments, departments)

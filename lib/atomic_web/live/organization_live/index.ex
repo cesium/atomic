@@ -21,7 +21,12 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, gettext("Organizations"))
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Explore and connect with student organizations and stay informed about events and initiatives within the student nucleums"
+       )
+     )
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
      |> assign(organizations_with_flop)

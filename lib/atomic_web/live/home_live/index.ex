@@ -27,7 +27,12 @@ defmodule AtomicWeb.HomeLive.Index do
      socket
      |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
+     |> assign(
+       :page_description,
+       gettext(
+         "An intranet home page featuring a dynamic feed, integrated schedule, and user options for seamless navigation and workflow management"
+       )
+     )
      |> assign(:schedule_default, fetch_default_schedule())
      |> assign(:schedule_user, fetch_user_schedule(socket.assigns.current_user))
      |> assign(:current_tab, current_tab(socket, params))

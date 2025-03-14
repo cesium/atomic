@@ -24,7 +24,12 @@ defmodule AtomicWeb.CalendarLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, gettext("Calendar"))
-     |> assign(:page_description, gettext("Lorem ipsum jonas dolor"))
+     |> assign(
+       :page_description,
+       gettext(
+         "Stay organized with the calendar—track events, schedules, and important dates in one place"
+       )
+     )
      |> assign(:current_page, :calendar)
      |> assign(:params, params)
      |> assign(:mode, mode)

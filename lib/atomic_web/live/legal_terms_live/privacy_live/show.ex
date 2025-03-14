@@ -14,5 +14,11 @@ defmodule AtomicWeb.PrivacyLive.Show do
      socket
      |> assign(:current_page, :privacy)
      |> assign(:page_title, gettext("Privacy Policy"))}
+    |> assign(
+      :page_description,
+      gettext(
+        "Read our Privacy Policy to understand how we collect, use, and protect your personal information while ensuring data security and transparency"
+      )
+    )
   end
 end
