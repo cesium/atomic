@@ -14,7 +14,7 @@
             <div class="relative">
               <.image_uploader id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
                 <:placeholder>
-                  <.avatar size={:xl} name={@user.name} type={:user} />
+                  <.avatar size={:sm} name={@user.name} type={:user} />
                 </:placeholder>
               </.image_uploader>
             </div>

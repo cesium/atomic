@@ -1,7 +1,7 @@
 <div>
   <div class="relative">
     <div class="h-64 w-full">
-      <%= if IO.inspect(@user) do %>
+      <%= if @user.banner do %>
         <.image_uploader editable={false} id="banner-picture" class="h-64 w-full object-cover" image_class="h-[290px] w-full" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
       <% else %>
         <.gradient class="h-64 w-full bg-center object-cover" seed={@user.id} />
@@ -11,11 +11,15 @@
       <div class="flex items-start">
         <div class="relative -mt-16 flex-shrink-0">
           <div class="relative">
-            <.image_uploader editable={false} id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
-              <:placeholder>
-                <.avatar size={:xl} name={@user.name} type={:user} />
-              </:placeholder>
-            </.image_uploader>
+            <%= if @user.profile_picture do %>
+              <.image_uploader editable={false} id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
+                <:placeholder>
+                  <.avatar size={:xl} name={@user.name} type={:user} />
+                </:placeholder>
+              </.image_uploader>
+            <% else %>
+              <.avatar size={:xl} name={@user.name} type={:user} />
+            <% end %>
           </div>
         </div>
         <div class="flex-1 pl-6">

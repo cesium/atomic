@@ -46,7 +46,7 @@ defmodule AtomicWeb.Components.ImageUploader do
                   <div class="text-lightMuted flex flex-col items-center gap-2 dark:text-darkMuted">
                     {render_slot(@placeholder)}
                     <p class="text-xs text-gray-500">
-                      {extensions_to_string(@upload.accept)} up to {@size_file} {@memory_unit}
+                      {extensions_to_string(@upload.accept)}<br /> up to {@size_file} {@memory_unit}
                     </p>
                   </div>
                 <% else %>
