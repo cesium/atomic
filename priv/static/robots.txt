@@ -1,5 +1,3 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
-
 User-agent: *
 # Admin routes
 Disallow: /organizations/new
@@ -29,5 +27,5 @@ Disallow: /mailbox/
 
 Disallow: /*?*
 Allow: /
-Sitemap: https://domain.com/sitemap.xml
+Sitemap: https://atomic.cesium.pt/sitemap.xml
 Crawl-delay: 10
