@@ -13,8 +13,6 @@ defmodule Atomic.GenerateAvatar do
   @doc """
   Generates an icon for the given organization based on its name.
 
-  ## Returns
-    - The file path of the generated SVG icon.
   """
   def generate_icon(organization) do
     input = organization["name"]
