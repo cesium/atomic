@@ -14,14 +14,11 @@ defmodule Atomic.GenerateAvatar do
   Generates an icon for the given organization based on its name.
 
   """
-  def generate_icon(organization) do
-    input = organization["name"]
-    hash = :crypto.hash(:sha256, input) |> :binary.bin_to_list()
+  def generate_avatar(seed, path) do
+    hash = :crypto.hash(:sha256, seed) |> :binary.bin_to_list()
     color = Enum.take(hash, 3)
     grid = build_grid(hash)
-
     svg = draw(grid, color)
-    path = "priv/static/images/#{input}.svg"
     File.write!(path, svg)
     path
   end
