@@ -2,7 +2,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
   @moduledoc """
   Seeds the database with organizations.
   """
-  alias Atomic.Icon
+  alias Atomic.GenerateAvatar
   alias Atomic.Organizations
   alias Atomic.Organizations.Organization
   alias Atomic.Repo
@@ -55,7 +55,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
             }
             |> Organizations.create_organization()
 
-          logo_path = Atomic.Icon.generate_icon(organization)
+          logo_path = Atomic.GenerateAvatar.generate_icon(organization)
 
           new_org
           |> Organization.logo_changeset(%{
