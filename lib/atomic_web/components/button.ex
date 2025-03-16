@@ -78,7 +78,7 @@ defmodule AtomicWeb.Components.Button do
   defp render_button(assigns) do
     ~H"""
     <button class={@class} {@rest}>
-      <%= render_content(assigns) %>
+      {render_content(assigns)}
     </button>
     """
   end
@@ -86,7 +86,7 @@ defmodule AtomicWeb.Components.Button do
   defp link_button(assigns) do
     ~H"""
     <.link class={@class} {@rest}>
-      <%= render_content(assigns) %>
+      {render_content(assigns)}
     </.link>
     """
   end
@@ -96,23 +96,23 @@ defmodule AtomicWeb.Components.Button do
     <%= if (@icon || @spinner) && @icon_position == :left do %>
       <div>
         <%= if @icon do %>
-          <%= icon_content(assigns) %>
+          {icon_content(assigns)}
         <% end %>
         <%= if @spinner do %>
-          <%= spinner_content(assigns) %>
+          {spinner_content(assigns)}
         <% end %>
       </div>
     <% end %>
     <%= if Map.has_key?(assigns, :inner_block) do %>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     <% end %>
     <%= if (@icon || @spinner) && @icon_position == :right do %>
       <div>
         <%= if @icon do %>
-          <%= icon_content(assigns) %>
+          {icon_content(assigns)}
         <% end %>
         <%= if @spinner do %>
-          <%= spinner_content(assigns) %>
+          {spinner_content(assigns)}
         <% end %>
       </div>
     <% end %>

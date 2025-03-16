@@ -1,40 +1,40 @@
 <.page title="Announcements" bottom_border={true}>
   <:actions>
     <%= if @has_permissions? do %>
-      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid"><%= gettext("Edit Announcement") %></.button>
+      <.button navigate={~p"/organizations/#{@announcement.organization}/announcements/#{@announcement}/edit"} icon="hero-pencil-solid">{gettext("Edit Announcement")}</.button>
     <% end %>
   </:actions>
   <div id={@announcement.id} class="mx-auto max-w-5xl">
-    <div class="mt-4 md:mt-2 flex flex-col justify-center rounded-lg bg-white lg:p-4">
+    <div class="mt-4 flex flex-col justify-center rounded-lg bg-white md:mt-2 lg:p-4">
       <div class="flex items-center space-x-2 px-4 py-1">
         <div class="flex-shrink-0">
           <.avatar name={@announcement.organization.name} color={:light_zinc} size={:md} type={:organization} src={Uploaders.Logo.url({@announcement.organization.logo, @announcement.organization}, :original)} />
         </div>
         <div>
           <.link navigate={~p"/organizations/#{@announcement.organization.id}"} class="hover:underline focus:outline-none">
-            <p class="text-lg sm:text-xl font-bold text-zinc-700"><%= @announcement.organization.name %></p>
+            <p class="text-lg font-bold text-zinc-700 sm:text-xl">{@announcement.organization.name}</p>
           </.link>
-          <p class="text-base md:text-md text-gray-500">
+          <p class="text-base text-gray-500 md:text-md">
             <span class="sr-only">Published on</span>
-            <time><%= relative_datetime(@announcement.inserted_at) %></time>
+            <time>{relative_datetime(@announcement.inserted_at)}</time>
           </p>
         </div>
       </div>
-      <div class="px-4 py-2 mt-8">
-        <p class="text-xl md:text-2xl font-semibold text-zinc-900" title={@announcement.title}>
-          <%= @announcement.title %>
+      <div class="mt-8 px-4 py-2">
+        <p class="text-xl font-semibold text-zinc-900 md:text-2xl" title={@announcement.title}>
+          {@announcement.title}
         </p>
-        <p class="mt-2 overflow-hidden break-words text-sm md:text-base leading-relaxed">
+        <p class="mt-2 overflow-hidden break-words text-sm leading-relaxed md:text-base">
           <span class="py-4 text-zinc-800">
             <%= Enum.map(String.split(@announcement.description, "\n"), fn phrase -> %>
-              <%= phrase %>
+              {phrase}
             <% end) %>
           </span>
         </p>
       </div>
       <%= if @announcement.image do %>
-        <div class="h-auto w-full overflow-hidden mt-4 px-4">
-          <img class="max-h-[32rem] sm:max-wxl object-cover max-w-screen md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
+        <div class="mt-4 h-auto w-full overflow-hidden px-4">
+          <img class="max-h-[32rem] max-w-screen object-cover sm:max-wxl md:rounded-xl" src={Uploaders.Post.url({@announcement.image, @announcement}, :original)} alt="Announcement Image" />
         </div>
       <% end %>
     </div>

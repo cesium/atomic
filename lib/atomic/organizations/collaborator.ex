@@ -19,8 +19,10 @@ defmodule Atomic.Organizations.Collaborator do
       order_by: [:inserted_at],
       order_directions: [:desc]
     },
-    join_fields: [
-      collaborator_name: [binding: :user, field: :name, path: [:user, :name]]
+    adapter_opts: [
+      join_fields: [
+        collaborator_name: [binding: :user, field: :name, path: [:user, :name]]
+      ]
     ]
   }
 
