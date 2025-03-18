@@ -1,16 +1,20 @@
 defmodule AtomicWeb.Controllers.SitemapController do
   use AtomicWeb, :controller
 
+  @host System.get_env("PHX_HOST") || "atomic.cesium.pt"
+
   def index(conn, _params) do
-    urls = [
-      "https://atomic.cesium.pt/",
-      "https://atomic.cesium.pt/activities",
-      "https://atomic.cesium.pt/organizations",
-      "https://atomic.cesium.pt/announcements",
-      "https://atomic.cesium.pt/tos",
-      "https://atomic.cesium.pt/privacy",
-      "https://atomic.cesium.pt/cookies"
+    paths = [
+      "/",
+      "/activities",
+      "/organizations",
+      "/announcements",
+      "/tos",
+      "/privacy",
+      "/cookies"
     ]
+
+    urls = Enum.map(paths, &build_path/1)
 
     xml = """
     <?xml version="1.0" encoding="UTF-8"?>
@@ -23,4 +27,6 @@ defmodule AtomicWeb.Controllers.SitemapController do
     |> put_resp_content_type("application/xml")
     |> send_resp(200, xml)
   end
+
+  defp build_path(path), do: "https://#{@host}#{path}"
 end
