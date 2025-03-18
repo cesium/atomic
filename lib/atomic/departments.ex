@@ -439,7 +439,7 @@ defmodule Atomic.Departments do
             collaborator,
             tab: "collaborators"
           ),
-          to: get_admin_collaborators()
+          to: get_admin_collaborators(department)
         )
 
         {:ok, collaborator}
