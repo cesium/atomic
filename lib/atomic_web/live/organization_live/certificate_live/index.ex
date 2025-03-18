@@ -29,9 +29,8 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
 
   @impl true
   def handle_event("generate", _params, socket) do
-    with %{activity: activity, organization: organization} <- socket.assigns,
-         enrollment <- Activities.get_enrollment!(activity.id, user_id),
-
+    with %{activity: activity, organization: organization, enrollment: enrollment} <-
+           socket.assigns,
          {:ok, _pdf_path} <- generate_certificate(enrollment, activity, organization) do
       {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
     else
@@ -51,5 +50,4 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
     activities
     |> Enum.map(&{&1.title, &1.id})
   end
-
 end

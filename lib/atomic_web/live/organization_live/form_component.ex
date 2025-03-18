@@ -11,7 +11,6 @@ defmodule AtomicWeb.OrganizationLive.FormComponent do
   @impl true
   def update(%{organization: organization} = assigns, socket) do
     changeset = Organizations.change_organization(organization)
-    
 
     {:ok,
      socket

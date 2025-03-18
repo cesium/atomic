@@ -300,6 +300,12 @@ defmodule Atomic.Activities do
     Repo.all(Enrollment)
   end
 
+  def list_enrollments(opts) when is_list(opts) do
+    Enrollment
+    |> apply_filters(opts)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single enrollment.
 

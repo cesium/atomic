@@ -66,10 +66,10 @@ defmodule Atomic.Quantum.CertificateDelivery do
   # It uses `wkhtmltopdf` to build it from an HTML template, which
   # is rendered beforehand.
   def generate_certificate(
-         %Enrollment{} = enrollment,
-         %Activity{} = activity,
-         %Organization{} = organization
-       ) do
+        %Enrollment{} = enrollment,
+        %Activity{} = activity,
+        %Organization{} = organization
+      ) do
     # Create the string corresponding to the HTML to convert
     # to a PDF
     Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",

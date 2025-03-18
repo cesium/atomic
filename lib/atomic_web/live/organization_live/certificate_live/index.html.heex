@@ -1,17 +1,20 @@
-<.page title="Certeficate" >
-    <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate" class="space-y-6">
-        <div class="relative pb-16">
-          <div class="grid gap-4 xl:grid-cols-2">
-            <div class="flex flex-col">
-              <.field field={f[:enrollment]} type="text" placeholder="Enrollment" required class="w-full" />
-              <.field field={f[:activity]} type="select"  options={options(@activities)} placeholder="Activity" required class="h-10 w-full resize-none overflow-auto" />
-            </div>
-            <div class="space-y-4">    
-              <div class="flex justify-end">
-                <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
-              </div>
-            </div>
-          </div>
+<.page title="Certificate">
+  <:actions>
+    <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
+  </:actions>
+  <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate" class="space-y-6">
+    <div class="relative pb-16">
+      <div class="grid gap-4 xl:grid-cols-2">
+        <div class="flex flex-col">
+          <.field field={f[:Background_color]} type="switch" placeholder="Background color" required class="w-full" />
+          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
+          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
+          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
         </div>
-    </.form>
+      </div>
+      <div class="h-128 w-auto scale-50 overflow-hidden">
+        {Phoenix.View.render(AtomicWeb.CertificateView, "main.html", assigns)}
+      </div>
+    </div>
+  </.form>
 </.page>
