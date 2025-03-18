@@ -55,7 +55,7 @@
             <p
               style="font-size:16px;line-height:26px;margin:16px 0;padding:0 16px"
             >
-              Hello <strong><%= @collaborator.user.email %></strong>,
+              Hello <strong><%= @admin_name %></strong>,
             </p>
             <table
               align="center"
