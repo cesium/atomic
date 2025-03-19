@@ -3,12 +3,12 @@
     <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
   </:actions>
   <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate">
-    <div class="flex flex-col md:flex-row gap-8">
+    <div class="flex flex-col gap-8 md:flex-row">
       <div class="md:w-1/4">
-        <.field field={f[:Background_color]} type="switch" placeholder="Background color" required class="w-full mb-4" />
-        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
-        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
-        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
+        <.field field={f[:Background_color]} type="switch" placeholder="Background color" required class="mb-4 w-full" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="mb-4 w-full" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="mb-4 w-full" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="mb-4 w-full" />
       </div>
       <div class="md:scale-50  scale-[25%]">
         {Phoenix.View.render(AtomicWeb.CertificateView, "main.html", assigns)}
