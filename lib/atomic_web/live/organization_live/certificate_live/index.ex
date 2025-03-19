@@ -45,9 +45,4 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       {:error, _flop} -> []
     end
   end
-
-  defp options(activities) do
-    activities
-    |> Enum.map(&{&1.title, &1.id})
-  end
 end

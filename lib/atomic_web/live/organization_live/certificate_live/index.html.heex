@@ -2,17 +2,15 @@
   <:actions>
     <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
   </:actions>
-  <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate" class="space-y-6">
-    <div class="relative pb-16">
-      <div class="grid gap-4 xl:grid-cols-2">
-        <div class="flex flex-col">
-          <.field field={f[:Background_color]} type="switch" placeholder="Background color" required class="w-full" />
-          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
-          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
-          <.field field={f[:enrollment]} type="switch" placeholder="Background color" required class="w-full" />
-        </div>
+  <.form :let={f} for={@changeset} id="announcement-form" phx-change="validate" phx-submit="generate">
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="md:w-1/4">
+        <.field field={f[:Background_color]} type="switch" placeholder="Background color" required class="w-full mb-4" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
+        <.field field={f[:enrollment]} type="switch" placeholder="Enrollment" required class="w-full mb-4" />
       </div>
-      <div class="h-128 w-auto scale-50 overflow-hidden">
+      <div class="md:scale-50  scale-[25%]">
         {Phoenix.View.render(AtomicWeb.CertificateView, "main.html", assigns)}
       </div>
     </div>
