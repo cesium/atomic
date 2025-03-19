@@ -36,7 +36,7 @@
                 <% end %>
               </div>
             <% else %>
-              <p class="py-2">No organizations found.</p>
+              <p class="py-2">{gettext("No organizations found.")}</p>
             <% end %>
           </div>
           <%= if @user.socials do %>
@@ -47,7 +47,7 @@
           <div class="fllex-row mt-4 flex gap-8">
             <%= if @user.email do %>
               <div class="sm:col-span-1">
-                <dt class="text-sm font-medium text-zinc-500">Email</dt>
+                <dt class="text-sm font-medium text-zinc-500">{gettext("Email")}</dt>
                 <dd class="mt-1 text-sm text-zinc-900">
                   <a class="text-blue-400" href={"mailto:#{@user.email}"}>
                     {@user.email}
@@ -57,7 +57,7 @@
             <% end %>
             <%= if @user.phone_number do %>
               <div class="sm:col-span-1">
-                <dt class="text-sm font-medium text-zinc-500">Phone</dt>
+                <dt class="text-sm font-medium text-zinc-500">{gettext("Phone")}</dt>
                 <dd class="mt-1 text-sm text-zinc-900">
                   <a class="text-blue-400" href={"tel:#{@user.phone_number}"}>
                     {@user.phone_number}

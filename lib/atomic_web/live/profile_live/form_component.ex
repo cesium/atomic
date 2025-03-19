@@ -1,12 +1,9 @@
 defmodule AtomicWeb.ProfileLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Accounts
-  alias Atomic.Organizations
+  alias Atomic.{Accounts, Organizations}
 
-  import AtomicWeb.Components.Forms
-  import AtomicWeb.Components.{Button, Avatar, Gradient}
-  import AtomicWeb.Components.ImageUploader
+  import AtomicWeb.Components.{Button, Avatar, Gradient, Forms, ImageUploader}
 
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 

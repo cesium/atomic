@@ -2,7 +2,7 @@
   <.form :let={f} for={@changeset} id="profile-form" phx-target={@myself} phx-change="validate" phx-submit="save">
     <div class="relative">
       <div class="h-64 w-full">
-        <%= if IO.inspect(@user) do %>
+        <%= if @user do %>
           <.image_uploader id="banner-picture" class="h-64 w-full object-cover" image_class="h-[290px] w-full" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
         <% else %>
           <.gradient class="h-64 w-full bg-center object-cover" seed={@user.id} />
@@ -34,7 +34,7 @@
                   <% end %>
                 </div>
               <% else %>
-                <p class="py-2">No organizations found.</p>
+                <p class="py-2">{gettext("No organizations found.")}</p>
               <% end %>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <.field field={f[:name]} type="text" placeholder="Name" class="w-full" />
           <.field field={f[:phone_number]} type="text" placeholder="Phone Number" class="w-full" />
           <.field field={f[:email]} type="email" placeholder="Email" class="w-full" />
-          <.field field={f[:slug]} type="text" placeholder="User Name" class="w-full" />
+          <.field field={f[:slug]} type="text" placeholder="UserName" class="w-full" />
         </div>
         <div class="grid w-full gap-x-4 gap-y-4 sm:grid-cols-1 md:grid-cols-4">
           <.inputs_for :let={socials_form} field={f[:socials]}>
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="mt-8 flex w-full justify-end">
-      <.button size={:md} color={:white} icon="hero-cube">Save</.button>
+      <.button size={:md} color={:white}>{gettext("Save")}</.button>
     </div>
   </.form>
 </div>
