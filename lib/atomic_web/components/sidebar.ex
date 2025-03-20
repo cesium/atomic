@@ -44,11 +44,11 @@ defmodule AtomicWeb.Components.Sidebar do
           <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>
       </div>
-      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50" phx-click={hide_mobile_sidebar()}></div>
+      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50 backdrop-blur-sm" phx-click={hide_mobile_sidebar()}></div>
       <!-- Sidebar Panel -->
       <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden w-64" role="dialog" aria-modal="true">
         <div class="fixed inset-0 flex w-fit">
-          <div class="relative flex w-64 max-w-xs flex-col border-r bg-white">
+          <div class="relative flex w-72 max-w-xs flex-col rounded-r-md border-r bg-white">
             <div class="flex justify-between p-4">
               <.sidebar_header />
 
@@ -103,14 +103,17 @@ defmodule AtomicWeb.Components.Sidebar do
     <ul role="list" class="-mx-2 space-y-1">
       <%= for page <- AtomicWeb.Config.pages(@current_user, @current_organization) do %>
         <li class="select-none">
-          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-primary-500" else "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
-            <.icon name={page.icon} class={
+          <.link navigate={page.url} class={"#{if @current_page == page.key do "font-extrabold text-primary-500" else "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50 font-medium" end} group flex gap-x-3 rounded-md p-2 leading-6"}>
+            <.icon
+              name={if @current_page == page.key, do: page.icon_selected, else: page.icon}
+              class={
                 "#{if @current_page == page.key do
                   "text-primary-500"
                 else
                   "text-zinc-400 group-hover:text-primary-500"
-                end} size-6 shrink-0"
-              } />
+                end} size-7 shrink-0"
+              }
+            />
             {page.title}
           </.link>
         </li>
@@ -173,7 +176,10 @@ defmodule AtomicWeb.Components.Sidebar do
       transition:
         {"transition ease-in-out duration-300 transform", "-translate-x-full", "translate-x-0"}
     )
-    |> JS.show(to: "#sidebar-overlay")
+    |> JS.show(
+      to: "#sidebar-overlay",
+      transition: {"ease-in duration-300", "opacity-0", "opacity-100"}
+    )
     |> JS.dispatch("focus", to: "#mobile-sidebar")
   end
 
@@ -200,5 +206,12 @@ defmodule AtomicWeb.Components.Sidebar do
   end
 
   defp get_organizations(nil), do: []
-  defp get_organizations(user), do: Organizations.list_user_organizations(user.id)
+
+  defp get_organizations(user) do
+    if user.role == :master do
+      Organizations.list_organizations()
+    else
+      Organizations.list_user_organizations(user.id)
+    end
+  end
 end

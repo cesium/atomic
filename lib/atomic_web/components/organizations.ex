@@ -2,7 +2,7 @@ defmodule AtomicWeb.Components.Organizations do
   @moduledoc false
   use AtomicWeb, :live_component
 
-  import AtomicWeb.Components.Avatar
+  import AtomicWeb.Components.{Avatar, Accordion}
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -10,35 +10,61 @@ defmodule AtomicWeb.Components.Organizations do
   @impl true
   def render(assigns) do
     ~H"""
-    <ul role="list" class="-mx-2 mt-2 max-h-72 max-h-72 space-y-1 overflow-y-auto">
-      <%= for organization <- @organizations do %>
-        <li>
-          <div
-            phx-target={@myself}
-            phx-click="select-organization"
-            phx-value-organization_id={organization.id}
-            class={
+    <div id={@id}>
+      <.accordion id={"#{@id}-accordion"} class="flex-grow rounded-md border" controlled={true}>
+        <:trigger>
+          <%= if @current_organization do %>
+            <div class="group flex cursor-pointer gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-zinc-700 hover:text-primary-500">
+              <.avatar
+                class={"#{if @current_organization && @current_organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && @current_organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
+                src={Uploaders.Logo.url({@current_organization.logo, @current_organization}, :original)}
+                name={@current_organization.name}
+                size={:xs}
+                type={:organization}
+                color={:white}
+              />
+              <span class="mt-1 truncate">{@current_organization.name}</span>
+            </div>
+          <% else %>
+            <div class="group cursor-pointer gap-x-3 rounded-md p-2 text-left text-sm leading-6 text-zinc-600 hover:text-primary-500">
+              <.icon name="hero-pencil-solid" class="size-5 shrink-0 text-zinc-400 group-hover:text-primary-500" />
+              <span class="mt-1 truncate">{gettext("Pick an organization")}</span>
+            </div>
+          <% end %>
+        </:trigger>
+        <:panel>
+          <ul role="list" class="mt-2 max-h-72 space-y-0.5 overflow-y-auto overscroll-contain p-1">
+            <%= for organization <- @organizations do %>
+              <li>
+                <div
+                  phx-target={@myself}
+                  phx-click="select-organization"
+                  phx-value-organization_id={organization.id}
+                  class={
               "#{if @current_organization && organization.id == @current_organization.id do
                 "bg-zinc-50 text-primary-500"
               else
                 "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50"
               end} group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold cursor-pointer"
             }
-            type="button"
-          >
-            <.avatar
-              class={"#{if @current_organization && organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
-              src={Uploaders.Logo.url({organization.logo, organization}, :original)}
-              name={organization.name}
-              size={:xs}
-              type={:organization}
-              color={:white}
-            />
-            <span class="mt-1 truncate">{organization.name}</span>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+                  type="button"
+                >
+                  <.avatar
+                    class={"#{if @current_organization && organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
+                    src={Uploaders.Logo.url({organization.logo, organization}, :original)}
+                    name={organization.name}
+                    size={:xs}
+                    type={:organization}
+                    color={:white}
+                  />
+                  <span class="mt-1 truncate">{organization.name}</span>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </:panel>
+      </.accordion>
+    </div>
     """
   end
 
