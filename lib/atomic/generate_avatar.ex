@@ -34,6 +34,7 @@ defmodule Atomic.GenerateAvatar do
 
   defp save_svg_to_file(svg, path, opts) do
     File.write!(path, svg)
+
     case Keyword.get(opts, :return) do
       nil -> path
       :svg -> svg
