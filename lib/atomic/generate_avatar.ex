@@ -1,10 +1,6 @@
 defmodule Atomic.GenerateAvatar do
   @moduledoc """
   A module for generating unique, GitHub-style avatars for organizations.
-
-  This module takes an organization's name as input, hashes it, and then generates
-  a 5x5 grid-based icon using a mirroring pattern. The resulting icon can be saved
-  as an SVG file or returned in various formats (`:svg`, `:blob`, or `:html`) for reuse.
   """
 
   import Phoenix.HTML
@@ -14,14 +10,6 @@ defmodule Atomic.GenerateAvatar do
 
   @doc """
   Generates an icon for the given organization based on its name.
-
-  ## Options
-
-    - `:path` - If provided, saves the SVG to the given file path.
-    - `:return` - What to return:
-    - `:svg` (default if no path) — returns the raw SVG string
-    - `:blob` — returns a binary blob
-    - `:html` — returns a HTML element
   """
   def generate_avatar(seed, opts \\ []) do
     hash = :crypto.hash(:sha256, seed) |> :binary.bin_to_list()
@@ -29,24 +17,28 @@ defmodule Atomic.GenerateAvatar do
     grid = build_grid(hash)
     svg = draw(grid, color)
 
-    case opts do
-      [path: path] ->
-        File.write!(path, svg)
+    case Keyword.get(opts, :path) do
+      nil -> handle_return_option(svg, opts)
+      path -> save_svg_to_file(svg, path, opts)
+    end
+  end
 
-        case Keyword.get(opts, :return) do
-          nil -> path
-          :svg -> svg
-          :blob -> :erlang.term_to_binary(svg)
-          :html -> raw(svg)
-        end
+  defp handle_return_option(svg, opts) do
+    case Keyword.get(opts, :return, :svg) do
+      :svg -> svg
+      :blob -> :erlang.term_to_binary(svg)
+      :html -> raw(svg)
+      _ -> raise ArgumentError, "Invalid return option"
+    end
+  end
 
-      _ ->
-        case Keyword.get(opts, :return, :svg) do
-          :svg -> svg
-          :blob -> :erlang.term_to_binary(svg)
-          :html -> raw(svg)
-          _ -> raise ArgumentError, "Invalid return option without :path"
-        end
+  defp save_svg_to_file(svg, path, opts) do
+    File.write!(path, svg)
+    case Keyword.get(opts, :return) do
+      nil -> path
+      :svg -> svg
+      :blob -> :erlang.term_to_binary(svg)
+      :html -> raw(svg)
     end
   end
 
