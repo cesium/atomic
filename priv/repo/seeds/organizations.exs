@@ -58,7 +58,7 @@ defmodule Atomic.Repo.Seeds.Organizations do
           logo_path =
             Atomic.GenerateAvatar.generate_avatar(
               organization["name"],
-              "priv/static/images/#{organization["name"]}.svg"
+              path: "priv/static/images/#{organization["name"]}.svg"
             )
 
           new_org
