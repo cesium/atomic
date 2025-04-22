@@ -8,39 +8,24 @@ defmodule Atomic.GenerateAvatar do
   @grid_size 5
   @cell_size 50
 
-  @doc """
-  Generates an avatar for the given organization based on its name.
-  """
-  def generate_avatar(seed, opts \\ []) do
+  def generate_avatar(seed, output_type) do
     hash = :crypto.hash(:sha256, seed) |> :binary.bin_to_list()
     color = Enum.take(hash, 3)
     grid = build_grid(hash)
     svg = draw(grid, color)
 
-    case Keyword.get(opts, :path) do
-      nil -> handle_return_option(svg, opts)
-      path -> save_svg_to_file(svg, path, opts)
-    end
+    handle_output(svg, output_type)
   end
 
-  defp handle_avatar_output(svg, opts) do
-    case Keyword.get(opts, :return, :svg) do
-      :svg -> svg
-      :blob -> :erlang.term_to_binary(svg)
-      :html -> raw(svg)
-      _ -> raise ArgumentError, "Invalid return option"
-    end
-  end
+  defp handle_output(svg, output) when is_binary(output), do: File.write(output, svg)
 
-  defp save_svg_to_file(svg, path, opts) do
-    File.write!(path, svg)
+  defp handle_output(svg, :svg), do: svg
+  defp handle_output(svg, :blob), do: :erlang.term_to_binary(svg)
+  defp handle_output(svg, :html), do: raw(svg)
 
-    case Keyword.get(opts, :return) do
-      nil -> path
-      :svg -> svg
-      :blob -> :erlang.term_to_binary(svg)
-      :html -> raw(svg)
-    end
+  defp handle_output(_svg, invalid) do
+    raise ArgumentError,
+          "Invalid output type: #{inspect(invalid)}. Expected one of :svg, :blob, :html, or a file path string."
   end
 
   defp build_grid(hash) do
@@ -50,15 +35,9 @@ defmodule Atomic.GenerateAvatar do
     |> List.flatten()
   end
 
-  defp mirror(row) do
-    [a, b, c | _] = row
+  defp mirror([a, b, c | _]), do: [a, b, c, b, a]
+
   defp draw(grid, [r, g, b]) do
-    [a, b, c, b, a]
-  end
-
-  defp draw(grid, color) do
-    [r, g, b] = color
-
     header = """
     <svg width="#{@grid_size * @cell_size}" height="#{@grid_size * @cell_size}" xmlns="http://www.w3.org/2000/svg">
     """

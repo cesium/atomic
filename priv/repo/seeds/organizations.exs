@@ -55,10 +55,11 @@ defmodule Atomic.Repo.Seeds.Organizations do
             }
             |> Organizations.create_organization()
 
-          logo_path =
+          logo_path = "priv/static/images/#{organization["name"]}.svg"
+
             Atomic.GenerateAvatar.generate_avatar(
               organization["name"],
-              path: "priv/static/images/#{organization["name"]}.svg"
+              logo_path
             )
 
           new_org
