@@ -9,7 +9,7 @@ defmodule Atomic.GenerateAvatar do
   @cell_size 50
 
   @doc """
-  Generates an icon for the given organization based on its name.
+  Generates an avatar for the given organization based on its name.
   """
   def generate_avatar(seed, opts \\ []) do
     hash = :crypto.hash(:sha256, seed) |> :binary.bin_to_list()
