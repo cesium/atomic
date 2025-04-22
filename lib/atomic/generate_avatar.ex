@@ -23,7 +23,7 @@ defmodule Atomic.GenerateAvatar do
     end
   end
 
-  defp handle_return_option(svg, opts) do
+  defp handle_avatar_output(svg, opts) do
     case Keyword.get(opts, :return, :svg) do
       :svg -> svg
       :blob -> :erlang.term_to_binary(svg)
