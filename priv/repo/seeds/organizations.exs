@@ -57,10 +57,10 @@ defmodule Atomic.Repo.Seeds.Organizations do
 
           logo_path = "priv/static/images/#{organization["name"]}.svg"
 
-            Atomic.GenerateAvatar.generate_avatar(
-              organization["name"],
-              logo_path
-            )
+          Atomic.GenerateAvatar.generate_avatar(
+            organization["name"],
+            logo_path
+          )
 
           new_org
           |> Organization.logo_changeset(%{
