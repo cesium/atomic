@@ -52,6 +52,7 @@ defmodule Atomic.GenerateAvatar do
 
   defp mirror(row) do
     [a, b, c | _] = row
+  defp draw(grid, [r, g, b]) do
     [a, b, c, b, a]
   end
 
