@@ -40,7 +40,6 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
 
   @impl true
   def handle_event("validate", %{"organization" => organization_params}, socket) do
-    # Extract certificate options from the form params
     certificate_options = extract_certificate_options(organization_params)
 
     changeset =
@@ -59,15 +58,15 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
     if Map.has_key?(socket.assigns, :activity) and
          Map.has_key?(socket.assigns, :organization) and
          Map.has_key?(socket.assigns, :enrollment) do
-      with {:ok, _pdf_path} <-
-             generate_certificate(
-               socket.assigns.enrollment,
-               socket.assigns.activity,
-               socket.assigns.organization,
-               socket.assigns.certificate_options
-             ) do
-        {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
-      else
+      case generate_certificate(
+             socket.assigns.enrollment,
+             socket.assigns.activity,
+             socket.assigns.organization,
+             socket.assigns.certificate_options
+           ) do
+        {:ok, _pdf_path} ->
+          {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
+
         {:error, reason} ->
           {:noreply, socket |> put_flash(:error, "Erro ao gerar certificado: #{reason}")}
       end
