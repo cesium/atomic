@@ -41,7 +41,7 @@
             color: <%= Map.get(@certificate_options, :content_color, "#000000") %>;
         }
         .organization {
-            font-size: 24px;
+            font-size: <%= if Map.get(@certificate_options, :organization, true) do "30px" else "24px" end %>;
             text-align: justify;
             color: <%= Map.get(@certificate_options, :organization_color, "#000000") %>;
         }
@@ -76,7 +76,7 @@
             <%= if Map.get(@certificate_options, :organization, true) do %>
             <span class="organization">Atividade</span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
             <% else %>
-            <%= @activity.name %>, organizada pelo(a) <%= @organization.name %>.
+            Atividade, organizada pelo(a) <%= @organization.name %>.
             <% end %>
         </p>
         <% end %>

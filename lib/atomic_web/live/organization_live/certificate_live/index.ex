@@ -56,19 +56,23 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
 
   @impl true
   def handle_event("generate", _params, socket) do
-    with %{activity: activity, organization: organization, enrollment: enrollment} <-
-           socket.assigns,
-         {:ok, _pdf_path} <-
-           generate_certificate(
-             enrollment,
-             activity,
-             organization,
-             socket.assigns.certificate_options
-           ) do
-      {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
+    if Map.has_key?(socket.assigns, :activity) and
+         Map.has_key?(socket.assigns, :organization) and
+         Map.has_key?(socket.assigns, :enrollment) do
+      with {:ok, _pdf_path} <-
+             generate_certificate(
+               socket.assigns.enrollment,
+               socket.assigns.activity,
+               socket.assigns.organization,
+               socket.assigns.certificate_options
+             ) do
+        {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
+      else
+        {:error, reason} ->
+          {:noreply, socket |> put_flash(:error, "Erro ao gerar certificado: #{reason}")}
+      end
     else
-      {:error, reason} ->
-        {:noreply, socket |> put_flash(:error, "Erro ao gerar certificado: #{reason}")}
+      {:noreply, socket |> put_flash(:error, "Dados insuficientes para gerar o certificado.")}
     end
   end
 
