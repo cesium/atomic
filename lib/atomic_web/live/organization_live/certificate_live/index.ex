@@ -8,7 +8,18 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    certificate_options = %{
+      background: true,
+      title: true,
+      content: true,
+      organization: true,
+      background_color: "#ffffff",
+      title_color: "#fb923c",
+      content_color: "#000000",
+      organization_color: "#000000"
+    }
+
+    {:ok, assign(socket, certificate_options: certificate_options)}
   end
 
   @impl true
@@ -28,10 +39,32 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   end
 
   @impl true
+  def handle_event("validate", %{"organization" => organization_params}, socket) do
+    # Extract certificate options from the form params
+    certificate_options = extract_certificate_options(organization_params)
+
+    changeset =
+      socket.assigns.organization
+      |> Organizations.change_organization(organization_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply,
+     socket
+     |> assign(:changeset, changeset)
+     |> assign(:certificate_options, certificate_options)}
+  end
+
+  @impl true
   def handle_event("generate", _params, socket) do
     with %{activity: activity, organization: organization, enrollment: enrollment} <-
            socket.assigns,
-         {:ok, _pdf_path} <- generate_certificate(enrollment, activity, organization) do
+         {:ok, _pdf_path} <-
+           generate_certificate(
+             enrollment,
+             activity,
+             organization,
+             socket.assigns.certificate_options
+           ) do
       {:noreply, socket |> put_flash(:info, "Certificado gerado com sucesso!")}
     else
       {:error, reason} ->
@@ -44,5 +77,18 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       {:ok, {activities, _meta}} -> activities
       {:error, _flop} -> []
     end
+  end
+
+  defp extract_certificate_options(params) do
+    %{
+      background: Map.get(params, "Background") == "true",
+      title: Map.get(params, "title") == "true",
+      content: Map.get(params, "content") == "true",
+      organization: Map.get(params, "organization") == "true",
+      background_color: Map.get(params, "Background_color") || "#ffffff",
+      title_color: Map.get(params, "title_color") || "#fb923c",
+      content_color: Map.get(params, "content_color") || "#000000",
+      organization_color: Map.get(params, "organization_color") || "#000000"
+    }
   end
 end

@@ -96,6 +96,39 @@ defmodule Atomic.Quantum.CertificateDelivery do
     )
   end
 
+  def generate_certificate(
+        %Enrollment{} = enrollment,
+        %Activity{} = activity,
+        %Organization{} = organization,
+        certificate_options \\ %{}
+      ) do
+    # Create the string corresponding to the HTML to convert
+    # to a PDF
+    Phoenix.View.render_to_string(AtomicWeb.PDFView, "activity_certificate.html",
+      enrollment: enrollment,
+      activity: activity,
+      organization: organization,
+      certificate_options: certificate_options
+    )
+    |> PdfGenerator.generate(
+      delete_temporary: true,
+      page_size: "A4",
+      filename: "certificate_#{enrollment.id}",
+      shell_params: [
+        "--margin-top",
+        "0",
+        "--margin-left",
+        "0",
+        "--margin-right",
+        "0",
+        "--margin-bottom",
+        "0",
+        "-O",
+        "landscape"
+      ]
+    )
+  end
+
   # Builds the query to determine the activities to consider for certificate
   # delivery.
 

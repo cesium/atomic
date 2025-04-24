@@ -7,16 +7,18 @@
     <style>
         /* Inline styles */
         .container {
+            <%= if Map.get(@certificate_options, :background, true) do %>
             background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic_background.svg" %>') no-repeat center;
+            <% end %>
             text-align: center;
-            width: 1500px;
-            height: 1045px;
+            width: 900px;
+            height: 645px;
             margin: auto;
             padding: 0;
         }
         .title {
             font-size: 62px;
-            color: #fb923c;
+            color: <%= Map.get(@certificate_options, :title_color, "#fb923c") %>;
             font-weight: bolder;
             padding-top: 36px;
             margin-bottom: 120px;
@@ -25,6 +27,7 @@
             font-size: 24px;
             text-align: justify;
             padding: 32px;
+            color: <%= Map.get(@certificate_options, :content_color, "#000000") %>;
         }
         .name {
             font-size: 72px;
@@ -35,10 +38,12 @@
             display: block;
             margin-top: 32px;
             margin-bottom: 32px;
+            color: <%= Map.get(@certificate_options, :content_color, "#000000") %>;
         }
         .organization {
             font-size: 24px;
             text-align: justify;
+            color: <%= Map.get(@certificate_options, :organization_color, "#000000") %>;
         }
         .note {
             position: absolute;
@@ -57,14 +62,26 @@
 </head>
 <body>
     <div class="container">
+        <%= if Map.get(@certificate_options, :title, true) do %>
         <div class="title">Certificado de Participação</div>
+        <% end %>
+        
+        <%= if Map.get(@certificate_options, :content, true) do %>
         <p class="content">
             Para os devidos efeitos, certifica-se que
         </p>
-        <span class="name">Enrollment</span>
+        <span class="name"> enrollmen </span>
         <p class="content">
-            participou na atividade <span class="organization">Certificado da Atividade</span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
+            participou na atividade 
+            <%= if Map.get(@certificate_options, :organization, true) do %>
+            <span class="organization">Atividade</span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
+            <% else %>
+            <%= @activity.name %>, organizada pelo(a) <%= @organization.name %>.
+            <% end %>
         </p>
+        <% end %>
+
+        
         <p class="note">
             Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.
         </p>
