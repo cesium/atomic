@@ -2,6 +2,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Avatar
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -17,13 +18,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, "#{announcement.title}")
-     |> assign(
-       :page_description,
-       gettext(
-         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
-       )
-     )
+     |> assign_page_metadata(:announcement, %{announcement: announcement})
      |> assign(:current_page, :announcements)
      |> assign(:announcement, announcement)
      |> assign(:has_permissions?, has_permissions?(socket |> assign(:announcement, announcement)))}

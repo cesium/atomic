@@ -1,6 +1,8 @@
 defmodule AtomicWeb.PartnerLive.Edit do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Organizations.Partner
   alias Atomic.Partners
   alias Phoenix.LiveView.JS
@@ -20,7 +22,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
 
     {:noreply,
      socket
-     |> assign(:page_title, partner.name)
+     |> assign_page_metadata(:edit_partner, %{partner: partner})
      |> assign(:action, nil)
      |> assign(:partner, partner)
      |> assign(:current_page, :partners)}
@@ -30,11 +32,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
   def handle_params(_params, _, %{:assigns => %{:live_action => :new}} = socket) do
     {:noreply,
      socket
-     |> assign(:page_title, "New Partner")
-     |> assign(
-       :page_description,
-       "Discover our partners, collaborations, and strategic alliances that support and enhance our student community"
-     )
+     |> assign_page_metadata(:new_partner)
      |> assign(:action, nil)
      |> assign(:partner, %Partner{organization_id: socket.assigns.current_organization.id})
      |> assign(:current_page, :partners)}

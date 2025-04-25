@@ -4,6 +4,8 @@ defmodule AtomicWeb.ActivityLive.New do
 
   alias Atomic.Activities.Activity
 
+  import AtomicWeb.LiveHelpers
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, activity: %Activity{})}
@@ -13,13 +15,7 @@ defmodule AtomicWeb.ActivityLive.New do
   def handle_params(%{"organization_id" => organization_id}, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, gettext("New Activity"))
-     |> assign(
-       :page_description,
-       gettext(
-         "Explore and participate in activities, events, and initiatives designed to enhance student engagement and collaboration"
-       )
-     )
+     |> assign_page_metadata(:new_activity)
      |> assign(:current_page, :activities)
      |> assign(:organization_id, organization_id)}
   end

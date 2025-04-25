@@ -1,6 +1,8 @@
 defmodule AtomicWeb.UserLive.Edit do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Accounts
 
   @impl true
@@ -12,11 +14,7 @@ defmodule AtomicWeb.UserLive.Edit do
   def handle_params(_, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, "Edit Account")
-     |> assign(
-       :page_description,
-       "Manage your profile, update personal information, and customize settings"
-     )
+     |> assign_page_metadata(:edit_account)
      |> assign(:user, socket.assigns.current_user)
      |> assign(
        :courses,

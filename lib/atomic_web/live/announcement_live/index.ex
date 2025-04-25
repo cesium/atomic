@@ -3,6 +3,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
   import AtomicWeb.Components.{Button, Empty, Pagination}
   import AtomicWeb.AnnouncementLive.Components.AnnouncementCard
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -18,13 +19,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
     {:noreply,
      socket
-     |> assign(:page_title, gettext("Announcements"))
-     |> assign(
-       :page_description,
-       gettext(
-         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
-       )
-     )
+     |> assign_page_metadata(:announcements)
      |> assign(:current_page, :announcements)
      |> assign(:organization, organization)
      |> assign(:params, params)

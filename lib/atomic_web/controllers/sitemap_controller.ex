@@ -1,7 +1,7 @@
 defmodule AtomicWeb.Controllers.SitemapController do
   use AtomicWeb, :controller
 
-  @host System.get_env("PHX_HOST") || "atomic.cesium.pt"
+  @host System.get_env("PHX_HOST") || "localhost:4000"
 
   def index(conn, _params) do
     paths = [

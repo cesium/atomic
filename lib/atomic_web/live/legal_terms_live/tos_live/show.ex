@@ -2,6 +2,7 @@ defmodule AtomicWeb.TermsLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.LegalTermsLive.Components.{Header, MainTitle, BlackBar}
+  import AtomicWeb.LiveHelpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,13 +13,7 @@ defmodule AtomicWeb.TermsLive.Show do
   def handle_params(_params, _, socket) do
     {:noreply,
      socket
-     |> assign(:current_page, :terms)
-     |> assign(:page_title, gettext("Terms of Service"))}
-    |> assign(
-      :page_description,
-      gettext(
-        "Review our Terms of Service to understand the rules, responsibilities, and conditions for using our platform"
-      )
-    )
+     |> assign_page_metadata(:terms)
+     |> assign(:current_page, :terms)}
   end
 end

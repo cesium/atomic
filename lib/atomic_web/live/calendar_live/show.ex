@@ -6,6 +6,7 @@ defmodule AtomicWeb.CalendarLive.Show do
   import AtomicWeb.CalendarLive.Components.CalendarMonth
   import AtomicWeb.CalendarLive.Components.CalendarWeek
   import AtomicWeb.Components.Dropdown
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Activities
   alias Atomic.Organizations
@@ -23,13 +24,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, gettext("Calendar"))
-     |> assign(
-       :page_description,
-       gettext(
-         "Stay organized with the calendar—track events, schedules, and important dates in one place"
-       )
-     )
+     |> assign_page_metadata(:calendar)
      |> assign(:current_page, :calendar)
      |> assign(:params, params)
      |> assign(:mode, mode)

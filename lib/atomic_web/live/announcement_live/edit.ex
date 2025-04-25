@@ -4,6 +4,8 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
 
   alias Atomic.Organizations
 
+  import AtomicWeb.LiveHelpers
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -28,14 +30,8 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
 
     {:noreply,
      socket
+     |> assign_page_metadata(:edit_announcement)
      |> assign(:current_page, :activities)
-     |> assign(:page_title, gettext("Edit Announcements"))
-     |> assign(
-       :page_description,
-       gettext(
-         "Latest updates, important notices, and key announcements for students, ensuring seamless communication between student nucleums."
-       )
-     )
      |> assign(:announcement, announcement)
      |> assign(:current_organization, organization)}
   end

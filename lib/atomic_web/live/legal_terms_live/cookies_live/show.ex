@@ -2,6 +2,7 @@ defmodule AtomicWeb.CookiesLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.LegalTermsLive.Components.{Header, MainTitle, BlackBar}
+  import AtomicWeb.LiveHelpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,13 +13,7 @@ defmodule AtomicWeb.CookiesLive.Show do
   def handle_params(_params, _, socket) do
     {:noreply,
      socket
-     |> assign(:current_page, :cookies)
-     |> assign(:page_title, gettext("Cookie Policy"))
-     |> assign(
-       :page_description,
-       gettext(
-         "Learn how we use cookies to enhance your experience, improve functionality, and ensure a secure browsing environment."
-       )
-     )}
+     |> assign_page_metadata(:cookies)
+     |> assign(:current_page, :cookies)}
   end
 end
