@@ -13,6 +13,7 @@ defmodule AtomicWeb.CookiesLive.Show do
   def handle_params(_params, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Cookies"))
      |> assign_page_metadata(:cookies)
      |> assign(:current_page, :cookies)}
   end

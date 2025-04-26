@@ -22,8 +22,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:departments, %{organization: organization})
-     |> assign(:page_title, "#{organization.name}'s #{gettext("Departments")}")
+     |> assign(:page_title, "#{organization.name}#{gettext("'s Departments")}")
+     |> assign_page_metadata(:departments)
      |> assign(:current_page, :departments)
      |> assign(:organization, organization)
      |> assign(:departments, departments)

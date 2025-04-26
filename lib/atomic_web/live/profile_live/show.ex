@@ -24,7 +24,8 @@ defmodule AtomicWeb.ProfileLive.Show do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:user_profile, %{user: user})
+     |> assign(:page_title, user.name)
+     |> assign_page_metadata(:user_profile)
      |> assign(:current_page, :profile)
      |> assign(:user, user)
      |> assign(:organizations, organizations)

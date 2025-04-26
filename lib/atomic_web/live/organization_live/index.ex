@@ -21,6 +21,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Organizations"))
      |> assign_page_metadata(:organizations)
      |> assign(:current_page, :organizations)
      |> assign(:params, params)

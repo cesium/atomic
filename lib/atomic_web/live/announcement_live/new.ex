@@ -15,6 +15,7 @@ defmodule AtomicWeb.AnnouncementLive.New do
   def handle_params(%{"organization_id" => organization_id}, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("New Announcement"))
      |> assign_page_metadata(:new_announcement)
      |> assign(:current_page, :announcements)
      |> assign(:announcement, %Announcement{organization_id: organization_id})}

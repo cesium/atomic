@@ -17,6 +17,7 @@ defmodule AtomicWeb.ActivityLive.Edit do
 
     {:noreply,
      socket
+     |> assign(:page_title, "Edit Activity")
      |> assign_page_metadata(:edit_activity)
      |> assign(:current_page, :activities)
      |> assign(:current_organization, activity.organization)

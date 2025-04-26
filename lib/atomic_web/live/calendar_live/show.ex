@@ -24,6 +24,7 @@ defmodule AtomicWeb.CalendarLive.Show do
 
     {:noreply,
      socket
+     |> assign(:page_title, "Calendar")
      |> assign_page_metadata(:calendar)
      |> assign(:current_page, :calendar)
      |> assign(:params, params)

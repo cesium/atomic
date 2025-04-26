@@ -16,7 +16,8 @@ defmodule AtomicWeb.OrganizationLive.Edit do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:organization, organization: organization)
+     |> assign(:page_title, organization.name)
+     |> assign_page_metadata(:organization)
      |> assign(:organization, organization)
      |> assign(:current_page, :organizations)}
   end

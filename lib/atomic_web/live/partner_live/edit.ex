@@ -22,7 +22,8 @@ defmodule AtomicWeb.PartnerLive.Edit do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:edit_partner, %{partner: partner})
+     |> assign(:page_title, gettext("Edit Partner"))
+     |> assign_page_metadata(:edit_partner)
      |> assign(:action, nil)
      |> assign(:partner, partner)
      |> assign(:current_page, :partners)}
@@ -32,6 +33,7 @@ defmodule AtomicWeb.PartnerLive.Edit do
   def handle_params(_params, _, %{:assigns => %{:live_action => :new}} = socket) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("New Partner"))
      |> assign_page_metadata(:new_partner)
      |> assign(:action, nil)
      |> assign(:partner, %Partner{organization_id: socket.assigns.current_organization.id})

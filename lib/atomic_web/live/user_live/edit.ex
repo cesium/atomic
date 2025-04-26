@@ -14,6 +14,7 @@ defmodule AtomicWeb.UserLive.Edit do
   def handle_params(_, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, "Edit Account")
      |> assign_page_metadata(:edit_account)
      |> assign(:user, socket.assigns.current_user)
      |> assign(

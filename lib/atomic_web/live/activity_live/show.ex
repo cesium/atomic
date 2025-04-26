@@ -23,7 +23,8 @@ defmodule AtomicWeb.ActivityLive.Show do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:activity, %{activity: activity})
+     |> assign(:page_title, activity.title)
+     |> assign_page_metadata(:activity)
      |> assign(:current_page, :activities)
      |> assign(:activity, activity)
      |> assign(:enrolled, activity.enrolled)

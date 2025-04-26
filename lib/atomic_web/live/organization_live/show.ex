@@ -21,7 +21,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:organization, organization: organization)
+     |> assign(:page_title, organization.name)
+     |> assign_page_metadata(:organization)
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)

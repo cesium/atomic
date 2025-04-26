@@ -17,6 +17,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   def handle_params(params, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, "Activities")
      |> assign_page_metadata(:activities)
      |> assign(:current_page, :activities)
      |> assign(:current_tab, current_tab(socket, params))

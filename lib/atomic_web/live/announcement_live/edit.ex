@@ -30,6 +30,7 @@ defmodule AtomicWeb.AnnouncementLive.Edit do
 
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Edit Announcement"))
      |> assign_page_metadata(:edit_announcement)
      |> assign(:current_page, :activities)
      |> assign(:announcement, announcement)

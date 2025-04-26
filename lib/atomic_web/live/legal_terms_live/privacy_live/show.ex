@@ -13,6 +13,7 @@ defmodule AtomicWeb.PrivacyLive.Show do
   def handle_params(_params, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Privacy Policy"))
      |> assign_page_metadata(:privacy)
      |> assign(:current_page, :privacy)}
   end

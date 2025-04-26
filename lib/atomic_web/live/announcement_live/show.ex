@@ -18,7 +18,8 @@ defmodule AtomicWeb.AnnouncementLive.Show do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:announcement, %{announcement: announcement})
+     |> assign(:page_title, announcement.title)
+     |> assign_page_metadata(:announcement)
      |> assign(:current_page, :announcements)
      |> assign(:announcement, announcement)
      |> assign(:has_permissions?, has_permissions?(socket |> assign(:announcement, announcement)))}

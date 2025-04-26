@@ -19,6 +19,7 @@ defmodule AtomicWeb.AnnouncementLive.Index do
 
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Announcements"))
      |> assign_page_metadata(:announcements)
      |> assign(:current_page, :announcements)
      |> assign(:organization, organization)

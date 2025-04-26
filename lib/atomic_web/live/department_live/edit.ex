@@ -23,11 +23,11 @@ defmodule AtomicWeb.DepartmentLive.Edit do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:edit_department, %{department: department})
+     |> assign(:page_title, gettext("Edit Department"))
+     |> assign_page_metadata(:edit_department)
      |> assign(:organization_id, organization_id)
      |> assign(:action, nil)
      |> assign(:current_page, :departments)
-     |> assign(:page_title, gettext("Edit Department"))
      |> assign(:department, department)}
   end
 
@@ -39,6 +39,7 @@ defmodule AtomicWeb.DepartmentLive.Edit do
       ) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("New Department"))
      |> assign_page_metadata(:new_department)
      |> assign(:organization_id, organization_id)
      |> assign(:action, nil)

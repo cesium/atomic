@@ -26,6 +26,7 @@ defmodule AtomicWeb.HomeLive.Index do
   def handle_params(params, _, socket) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Home"))
      |> assign_page_metadata(:home)
      |> assign(:current_page, :home)
      |> assign(:schedule_default, fetch_default_schedule())

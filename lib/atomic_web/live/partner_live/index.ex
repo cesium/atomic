@@ -19,7 +19,8 @@ defmodule AtomicWeb.PartnerLive.Index do
 
     {:noreply,
      socket
-     |> assign_page_metadata(:partners, organization: organization)
+     |> assign(:page_title, "#{organization.name}#{gettext("'s Partners")}")
+     |> assign_page_metadata(:partners)
      |> assign(:current_page, :partners)
      |> assign(:params, params)
      |> assign(:current_tab, current_tab(socket, params))
