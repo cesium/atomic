@@ -1,15 +1,12 @@
 <.page title={@activity.title}>
-  <:title_wrapper :let={title}>
+  <:title_wrapper>
     <div class="grid">
-      <h1 class="select-none pb-2 text-2xl font-bold text-gray-900">
-        {title}
-      </h1>
       <span class="flex items-center gap-2">
-        <p>
+        <p class="text-sm font-semibold text-gray-900">
           {gettext("hosted by")}
         </p>
-        <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="flex items-center gap-1">
-          <.avatar class={@activity.organization.logo && "border-0"} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} name={@activity.organization.name} size={:xs} type={:organization} color={:white} />
+        <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="flex items-center gap-1 font-semibold text-gray-900 hover:underline">
+          <.avatar class={@activity.organization.logo && "border-0 size-5"} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} name={@activity.organization.name} size={:xs} type={:organization} color={:white} />
           {@activity.organization.name}
         </.link>
       </span>
