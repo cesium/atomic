@@ -78,7 +78,6 @@ defmodule AtomicWeb.ActivityLive.Show do
   end
 
   def handle_event("handle_participants_modal", _, socket) do
-    IO.inspect(socket)
     {:noreply, socket |> assign(:participants_modal, not socket.assigns.participants_modal)}
   end
 
