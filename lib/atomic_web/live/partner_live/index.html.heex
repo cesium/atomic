@@ -13,13 +13,13 @@
         <.tabs class="px-4 sm:px-6 lg:px-8">
           <.link patch="?tab=all" replace={false}>
             <.tab active={@current_tab == "all"}>
-              <%= gettext("Current Partners") %>
+              {gettext("Current Partners")}
             </.tab>
           </.link>
           <%= if @has_permissions? do %>
             <.link patch="?tab=inactive" replace={false}>
               <.tab active={@current_tab == "inactive"}>
-                <%= gettext("Inactive Partners") %>
+                {gettext("Inactive Partners")}
               </.tab>
             </.link>
           <% end %>
@@ -42,19 +42,19 @@
                 <.avatar color={:light_zinc} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:sm} />
               </div>
               <div class="flex-grow">
-                <p class="text-md font-semibold leading-6 text-zinc-900"><%= partner.name %></p>
+                <p class="text-md font-semibold leading-6 text-zinc-900">{partner.name}</p>
                 <%= if partner.location do %>
                   <div class="z-1 flex flex-row items-center gap-x-1 text-sm leading-6">
                     <.icon name="hero-map-pin" class="size-5 text-zinc-400" />
-                    <p class="text-blue-500"><%= partner.location.name %></p>
+                    <p class="text-blue-500">{partner.location.name}</p>
                   </div>
                 <% end %>
                 <p class="mt-1 overflow-hidden truncate overflow-ellipsis whitespace-normal text-xs leading-5 text-zinc-500">
                   <%= Enum.map(String.split(partner.benefits, "\n"), fn phrase -> %>
                     <%= if String.length(phrase) < 150 do %>
-                      <%= phrase %><br />
+                      {phrase}<br />
                     <% else %>
-                      <%= String.slice(phrase, 0..150) <> "..." %> <br />
+                      {String.slice(phrase, 0..150) <> "..."} <br />
                     <% end %>
                   <% end) %>
                 </p>

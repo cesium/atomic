@@ -9,11 +9,11 @@
   <div class="max-w-[1380px] mx-auto flex w-full flex-col lg:flex-row xl:px-8">
     <!-- Navbar -->
     <div class="relative sticky top-0 z-10 flex-shrink-0 bg-white lg:max-w-[400px] lg:flex lg:w-72">
-      <%= render("_live_navbar.html", assigns) %>
+      {render("_live_navbar.html", assigns)}
     </div>
     <!-- Central content -->
     <div class="content-height w-full">
-      <%= @inner_content %>
+      {@inner_content}
     </div>
   </div>
 </div>

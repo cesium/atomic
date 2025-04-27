@@ -25,6 +25,7 @@ import {LiveSocket} from "phoenix_live_view"
 import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
 import { QrScanner, InitSorting, StickyScroll, ScrollToTop } from "./hooks";
+import phxFeedbackDom from "./shims/phx_feedback_dom.js"
 
 let Hooks = {
   QrScanner: QrScanner,
@@ -37,16 +38,13 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: Hooks,
-    dom: {
+    dom:  phxFeedbackDom({
       onBeforeElUpdated(from, to) {
-        // If the element we are updating is an Alpine component...
         if (from._x_dataStack) {
-          // Then temporarily clone it (with it's data) to the "to" element.
-          // This should simulate LiveView being aware of Alpine changes.
           window.Alpine.clone(from, to);
         }
-      },
-    },
+      }
+    }),
   });
 
 // Show progress bar on live navigation and form submits

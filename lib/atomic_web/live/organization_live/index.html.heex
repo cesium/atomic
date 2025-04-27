@@ -2,7 +2,7 @@
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button navigate={~p"/organizations/new"}>
-        <%= gettext("New") %>
+        {gettext("New")}
       </.button>
     <% end %>
   </:actions>
@@ -19,13 +19,13 @@
             <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_zinc} />
             <div class="ml-4">
               <h4 class="text-lg font-medium text-zinc-900">
-                <%= organization.name %>
+                {organization.name}
               </h4>
               <p class="hidden text-xs text-zinc-900 md:block xl:hidden">
-                <%= maybe_slice_string(organization.long_name, 35) %>
+                {maybe_slice_string(organization.long_name, 35)}
               </p>
               <p class="text-xs text-zinc-900 sm:block md:hidden xl:block">
-                <%= maybe_slice_string(organization.long_name, 85) %>
+                {maybe_slice_string(organization.long_name, 85)}
               </p>
             </div>
           </div>

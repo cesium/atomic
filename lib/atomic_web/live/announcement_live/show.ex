@@ -1,6 +1,8 @@
 defmodule AtomicWeb.AnnouncementLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.Avatar
+
   alias Atomic.Accounts
   alias Atomic.Organizations
 
@@ -18,7 +20,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
      |> assign(:page_title, "#{announcement.title}")
      |> assign(:current_page, :announcements)
      |> assign(:announcement, announcement)
-     |> assign(:has_permissions?, has_permissions?(socket))}
+     |> assign(:has_permissions?, has_permissions?(socket |> assign(:announcement, announcement)))}
   end
 
   defp has_permissions?(socket) when not socket.assigns.is_authenticated?, do: false
@@ -33,7 +35,7 @@ defmodule AtomicWeb.AnnouncementLive.Show do
     Accounts.has_master_permissions?(socket.assigns.current_user.id) ||
       Accounts.has_permissions_inside_organization?(
         socket.assigns.current_user.id,
-        socket.assigns.current_organization.id
+        socket.assigns.announcement.organization.id
       )
   end
 end

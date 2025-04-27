@@ -35,9 +35,9 @@ defmodule AtomicWeb.Components.Pagination do
             <% end %>
             <%= for page <- max(1, @meta.current_page - 2)..max(min(@meta.total_pages, @meta.current_page + 2), 1) do %>
               <%= if @meta.current_page == page do %>
-                <.link patch={build_query(page, @meta, @params)} class="text-secondary inline-flex items-center px-4 pt-4 text-sm font-medium"><%= page %></.link>
+                <.link patch={build_query(page, @meta, @params)} class="text-secondary inline-flex items-center px-4 pt-4 text-sm font-medium">{page}</.link>
               <% else %>
-                <.link patch={build_query(page, @meta, @params)} class="inline-flex items-center px-4 pt-4 text-sm font-medium text-zinc-500 hover:text-zinc-700"><%= page %></.link>
+                <.link patch={build_query(page, @meta, @params)} class="inline-flex items-center px-4 pt-4 text-sm font-medium text-zinc-500 hover:text-zinc-700">{page}</.link>
               <% end %>
             <% end %>
             <%= if min(@meta.total_pages, @meta.current_page + 2) != @meta.total_pages do %>
@@ -46,7 +46,7 @@ defmodule AtomicWeb.Components.Pagination do
                   ...
                 </span>
               <% end %>
-              <.link patch={build_query(@meta.total_pages, @meta, @params)} class="inline-flex items-center px-4 pt-4 text-sm font-medium text-zinc-500 hover:text-zinc-700"><%= @meta.total_pages %></.link>
+              <.link patch={build_query(@meta.total_pages, @meta, @params)} class="inline-flex items-center px-4 pt-4 text-sm font-medium text-zinc-500 hover:text-zinc-700">{@meta.total_pages}</.link>
             <% end %>
           </div>
           <div class="-mt-px flex w-0 flex-1 justify-end">

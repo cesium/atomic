@@ -120,11 +120,11 @@ defmodule AtomicWeb.Components.Forms do
         <input type="hidden" name={@name} value="false" />
         <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["atomic-checkbox", @class, @errors != [] && @error_class]} {@rest} />
         <div class={[@required && "atomic-label--required"]}>
-          <%= @label %>
+          {@label}
         </div>
       </label>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -134,15 +134,15 @@ defmodule AtomicWeb.Components.Forms do
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
-        <%= @label %>
+        {@label}
       </.field_label>
 
-      <select id={@id} name={@name} class={["atomic-select", @class, @errors != [] && @error_class]} multiple={@multiple} required={@required} {@rest}>
-        <option :if={@prompt} value=""><%= @prompt %></option>
-        <%= HTML.Form.options_for_select(@options, @selected || @value) %>
+      <select id={@id} name={@name} class={["atomic-select", @class]} multiple={@multiple} required={@required} {@rest}>
+        <option :if={@prompt} value="">{@prompt}</option>
+        {HTML.Form.options_for_select(@options, @selected || @value)}
       </select>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -152,12 +152,12 @@ defmodule AtomicWeb.Components.Forms do
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
-        <%= @label %>
+        {@label}
       </.field_label>
 
       <textarea id={@id} name={@name} class={["atomic-text-input", @class, @errors != [] && @error_class]} rows={@rows} required={@required} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -172,15 +172,15 @@ defmodule AtomicWeb.Components.Forms do
       <label class={["atomic-switch-label", @label_class]}>
         <input type="hidden" name={@name} value="false" />
         <label class="atomic-switch">
-          <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["sr-only peer", @class, @errors != [] && @error_class]} {@rest} />
+          <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} required={@required} class={["peer sr-only", @class]} {@rest} />
 
           <span class="atomic-switch__fake-input"></span>
           <span class="atomic-switch__fake-input-bg"></span>
         </label>
-        <div><%= @label %></div>
+        <div>{@label}</div>
       </label>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -203,34 +203,28 @@ defmodule AtomicWeb.Components.Forms do
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
-        <%= @label %>
+        {@label}
       </.field_label>
 
       <input type="hidden" name={@name} value="" />
-      <div class={[
-        "atomic-checkbox-group",
-        @group_layout == "row" && "atomic-checkbox-group--row",
-        @group_layout == "col" && "atomic-checkbox-group--col",
-        @class,
-        @errors != [] && @error_class
-      ]}>
+      <div class={["atomic-checkbox-group", @group_layout == "row" && "atomic-checkbox-group--row", @group_layout == "col" && "atomic-checkbox-group--col", @class]}>
         <%= for {label, value} <- @options do %>
           <label class="atomic-checkbox-label">
             <input type="checkbox" name={@name <> "[]"} checked_value={value} unchecked_value="" value={value} checked={to_string(value) in @checked} hidden_input={false} class="atomic-checkbox" disabled={value in @disabled_options} {@rest} />
             <div>
-              <%= label %>
+              {label}
             </div>
           </label>
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
           <div class="atomic-checkbox-group--empty-message">
-            <%= @empty_message %>
+            {@empty_message}
           </div>
         <% end %>
       </div>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -242,34 +236,28 @@ defmodule AtomicWeb.Components.Forms do
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
-        <%= @label %>
+        {@label}
       </.field_label>
 
-      <div class={[
-        "atomic-radio-group",
-        @group_layout == "row" && "atomic-radio-group--row",
-        @group_layout == "col" && "atomic-radio-group--col",
-        @class,
-        @errors != [] && @error_class
-      ]}>
+      <div class={["atomic-radio-group", @group_layout == "row" && "atomic-radio-group--row", @group_layout == "col" && "atomic-radio-group--col", @class]}>
         <input type="hidden" name={@name} value="" />
         <%= for {label, value} <- @options do %>
           <label class="atomic-radio-label">
             <input type="radio" name={@name} value={value} checked={to_string(value) == to_string(@value) || to_string(value) == to_string(@checked)} class="atomic-radio" {@rest} />
             <div>
-              <%= label %>
+              {label}
             </div>
           </label>
         <% end %>
 
         <%= if @empty_message && Enum.empty?(@options) do %>
           <div class="atomic-radio-group--empty-message">
-            <%= @empty_message %>
+            {@empty_message}
           </div>
         <% end %>
       </div>
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -295,12 +283,12 @@ defmodule AtomicWeb.Components.Forms do
     ~H"""
     <.field_wrapper errors={@errors} name={@name} class={@wrapper_class} error_class={@error_class}>
       <.field_label required={@required} for={@id} class={@label_class}>
-        <%= @label %>
+        {@label}
       </.field_label>
 
       <input type={@type} name={@name} id={@id} value={Phoenix.HTML.Form.normalize_value(@type, @value)} class={@class} required={@required} {@rest} />
 
-      <.field_error :for={msg <- @errors} class={@error_label_class}><%= msg %></.field_error>
+      <.field_error :for={msg <- @errors}>{msg}</.field_error>
       <.field_help_text help_text={@help_text} />
     </.field_wrapper>
     """
@@ -315,8 +303,8 @@ defmodule AtomicWeb.Components.Forms do
 
   defp field_wrapper(assigns) do
     ~H"""
-    <div phx-feedback-for={@name} {@rest} class={[@class, "atomic-form-field-wrapper", @errors != [] && !@error_class && "atomic-form-field-wrapper--error"]}>
-      <%= render_slot(@inner_block) %>
+    <div phx-feedback-for={@name} {@rest} class={[@class, "atomic-form-field-wrapper", @errors != [] && "atomic-form-field-wrapper--error"]}>
+      {render_slot(@inner_block)}
     </div>
     """
   end
@@ -330,7 +318,7 @@ defmodule AtomicWeb.Components.Forms do
   defp field_label(assigns) do
     ~H"""
     <label for={@for} class={["atomic-label", @class, @required && "atomic-label--required"]} {@rest}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </label>
     """
   end
@@ -340,8 +328,8 @@ defmodule AtomicWeb.Components.Forms do
 
   defp field_error(assigns) do
     ~H"""
-    <p class={["atomic-form-field-error", @class]}>
-      <%= render_slot(@inner_block) %>
+    <p class="atomic-form-field-error">
+      {render_slot(@inner_block)}
     </p>
     """
   end
@@ -354,7 +342,7 @@ defmodule AtomicWeb.Components.Forms do
   def field_help_text(assigns) do
     ~H"""
     <div :if={render_slot(@inner_block) || @help_text} class={["atomic-form-help-text", @class]} {@rest}>
-      <%= render_slot(@inner_block) || @help_text %>
+      {render_slot(@inner_block) || @help_text}
     </div>
     """
   end

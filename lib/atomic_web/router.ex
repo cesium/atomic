@@ -139,6 +139,12 @@ defmodule AtomicWeb.Router do
           live "/", PartnerLive.Index, :index
           live "/:id", PartnerLive.Show, :show
         end
+
+        scope "/announcements" do
+          pipe_through :confirm_announcement_association
+          live "/", AnnouncementLive.Index, :index
+          live "/:id", AnnouncementLive.Show, :show
+        end
       end
 
       # Only masters can create organizations

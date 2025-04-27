@@ -28,11 +28,11 @@ defmodule AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion do
         </div>
         <div class="min-w-0 flex-1">
           <p class="text-sm font-medium text-zinc-900">
-            <%= @organization.name %>
+            {@organization.name}
           </p>
           <p class="text-sm text-zinc-500">
             <!-- FIXME: organization.handle -->
-            <%= ("@" <> @organization.name) |> String.downcase() |> String.replace(" ", "") %>
+            {("@" <> @organization.name) |> String.downcase() |> String.replace(" ", "")}
           </p>
         </div>
       </.link>

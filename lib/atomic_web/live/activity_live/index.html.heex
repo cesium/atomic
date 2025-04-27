@@ -2,7 +2,7 @@
   <:actions>
     <%= if @has_permissions? do %>
       <.button navigate={~p"/organizations/#{@current_organization}/activities/new"} icon="hero-plus">
-        <%= gettext("New") %>
+        {gettext("New")}
       </.button>
     <% end %>
   </:actions>
@@ -12,7 +12,7 @@
       <.link patch="?tab=organization" replace={false}>
         <.tab active={@current_tab == "organization"}>
           <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
-          <%= @current_user.current_organization.name <> gettext("'s activities") %>
+          {@current_user.current_organization.name <> gettext("'s activities")}
         </.tab>
       </.link>
     <% end %>
@@ -20,7 +20,7 @@
     <.link patch="?tab=discover" replace={false}>
       <.tab active={@current_tab == "discover"}>
         <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
-        <%= gettext("Discover") %>
+        {gettext("Discover")}
       </.tab>
     </.link>
 
@@ -28,7 +28,7 @@
       <.link patch="?tab=following" replace={false}>
         <.tab active={@current_tab == "following"}>
           <.icon name="hero-eye" class="mr-1 h-5 w-5" />
-          <%= gettext("Following") %>
+          {gettext("Following")}
         </.tab>
       </.link>
     <% end %>
@@ -37,13 +37,13 @@
       <.link patch="?tab=enrolled" replace={false}>
         <.tab active={@current_tab == "enrolled"} number={@upcoming_enrolled_count}>
           <.icon name="hero-ticket" class="mr-1 h-5 w-5" />
-          <%= gettext("Upcoming") %>
+          {gettext("Upcoming")}
         </.tab>
       </.link>
       <.link patch="?tab=past" replace={false}>
         <.tab active={@current_tab == "past"}>
           <.icon name="hero-clock" class="mr-1 h-5 w-5" />
-          <%= gettext("Past") %>
+          {gettext("Past")}
         </.tab>
       </.link>
     <% end %>
@@ -57,8 +57,8 @@
     <% else %>
       <div class="mt-32 flex w-full flex-col items-center justify-center text-zinc-600">
         <.icon class="w-24" name="hero-megaphone" />
-        <p class="pt-4"><%= gettext("No activities to show.") %></p>
-        <p><%= activities_empty_state_description(@current_tab) %></p>
+        <p class="pt-4">{gettext("No activities to show.")}</p>
+        <p>{activities_empty_state_description(@current_tab)}</p>
       </div>
     <% end %>
   <% else %>

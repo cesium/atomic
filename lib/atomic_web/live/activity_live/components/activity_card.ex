@@ -16,7 +16,7 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
           <div class="col-span-2 px-4 py-4 lg:px-6">
             <div class="flex items-center justify-between">
               <p class="text-md truncate font-medium text-zinc-900" title={@activity.title}>
-                <%= @activity.title %>
+                {@activity.title}
               </p>
             </div>
             <div class="mt-2 lg:flex lg:justify-between">
@@ -24,13 +24,13 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
                 <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                   <.icon name="hero-calendar" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
                   <%= if @activity.start do %>
-                    <%= pretty_display_date(@activity.start) %>
+                    {pretty_display_date(@activity.start)}
                   <% end %>
                 </p>
                 <%= if @activity.location do %>
                   <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
                     <.icon name="hero-map-pin" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
-                    <%= @activity.location && @activity.location.name %>
+                    {@activity.location && @activity.location.name}
                   </p>
                 <% end %>
               </div>
@@ -39,7 +39,7 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
               <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="group flex max-w-min pt-2">
                 <.icon name="hero-building-office" class="mr-1.5 h-5 w-5 text-zinc-400" />
                 <span class="text-sm text-zinc-500 focus:outline-none group-hover:underline">
-                  <%= @activity.organization.name %>
+                  {@activity.organization.name}
                 </span>
               </.link>
             </object>

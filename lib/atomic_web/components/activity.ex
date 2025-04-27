@@ -21,19 +21,19 @@ defmodule AtomicWeb.Components.Activity do
           <object>
             <.link navigate={~p"/organizations/#{@activity.organization.id}"}>
               <span class="text-sm font-medium text-zinc-900 hover:underline focus:outline-none">
-                <%= @activity.organization.name %>
+                {@activity.organization.name}
               </span>
             </.link>
           </object>
           <p class="text-sm text-zinc-500">
             <span class="sr-only">Published on</span>
-            <time><%= relative_datetime(@activity.inserted_at) %></time>
+            <time>{relative_datetime(@activity.inserted_at)}</time>
           </p>
         </div>
       </div>
-      <h2 class="mt-3 text-base font-semibold text-zinc-900"><%= @activity.title %></h2>
+      <h2 class="mt-3 text-base font-semibold text-zinc-900">{@activity.title}</h2>
       <div class="overflow-hidden break-words text-justify text-sm text-zinc-700">
-        <p><%= maybe_slice_string(@activity.description, 300) %></p>
+        <p>{maybe_slice_string(@activity.description, 300)}</p>
       </div>
       <!-- Image -->
       <%= if @activity.image do %>
@@ -48,11 +48,11 @@ defmodule AtomicWeb.Components.Activity do
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-calendar-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
               <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
-                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.start) %></span>
+                <span class="font-medium text-zinc-900">{pretty_display_date(@activity.start)}</span>
               <% else %>
-                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.start) %></span>
-                <.icon name="hero-arrow-right" class="size-4 mt-[3px]"/>
-                <span class="font-medium text-zinc-900"><%= pretty_display_date(@activity.finish) %></span>
+                <span class="font-medium text-zinc-900">{pretty_display_date(@activity.start)}</span>
+                <.icon name="hero-arrow-right" class="size-4 mt-[3px]" />
+                <span class="font-medium text-zinc-900">{pretty_display_date(@activity.finish)}</span>
               <% end %>
               <span class="sr-only">starting in</span>
             </span>
@@ -60,14 +60,14 @@ defmodule AtomicWeb.Components.Activity do
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-user-group-solid" class="size-5" />
-              <span class="font-medium text-zinc-900"><%= @activity.enrolled %> <%= if @activity.maximum_entries, do: "/" %> <%= @activity.maximum_entries %></span>
+              <span class="font-medium text-zinc-900">{@activity.enrolled} {if @activity.maximum_entries, do: "/"} {@activity.maximum_entries}</span>
               <span class="sr-only text-zinc-400">enrollments</span>
             </span>
           </span>
           <span class="inline-flex items-center text-sm">
             <span class="inline-flex space-x-2 text-zinc-400">
               <.icon name="hero-map-pin-solid" class="size-5" />
-              <span class="font-medium text-zinc-900"><%= @activity.location.name %></span>
+              <span class="font-medium text-zinc-900">{@activity.location.name}</span>
               <span class="sr-only">location</span>
             </span>
           </span>

@@ -40,14 +40,14 @@ defmodule AtomicWeb.Components.Modal do
       <div class="fixed inset-0 overflow-y-auto" aria-labelledby={"#{@id}-title"} aria-describedby={"#{@id}-description"} role="dialog" aria-modal="true" tabindex="0">
         <div class="flex min-h-full items-center justify-center">
           <div class={"#{@class} w-full max-w-3xl p-4 sm:p-6 lg:py-8"}>
-            <.focus_wrap id={"#{@id}-container"} phx-click-away={JS.exec("phx-cancel", to: "##{@id}")} class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white px-6 py-14 sm:px-8 md:px-14 shadow-lg ring-1 transition">
+            <.focus_wrap id={"#{@id}-container"} phx-click-away={JS.exec("phx-cancel", to: "##{@id}")} class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white px-6 py-14 shadow-lg ring-1 transition sm:px-8 md:px-14">
               <div class="absolute top-6 right-5">
                 <button phx-click={JS.exec("phx-cancel", to: "##{@id}")} type="button" class="-m-3 flex-none p-3 opacity-20 outline-none hover:opacity-40" aria-label={gettext("close")}>
                   <.icon name="hero-x-mark-solid" class="size-5" />
                 </button>
               </div>
               <div id={"#{@id}-content"}>
-                <%= render_slot(@inner_block) %>
+                {render_slot(@inner_block)}
               </div>
             </.focus_wrap>
           </div>

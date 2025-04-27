@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="flex w-full">
-          <div class="justify-top hidden sm:flex flex-col items-center pt-3 ">
+          <div class="justify-top hidden flex-col items-center pt-3 sm:flex">
             <div class="size-3 bg-primary-600 m-1 rounded-full" />
             <div class="flex justify-center">
               <div class="border-l-primary-600 h-[3.25rem] w-[3px] border-l border-dashed" />
@@ -49,7 +49,13 @@
         <label for="description_button" class="atomic-label atomic-label--required">
           Description
         </label>
-        <.button id="description_button" class="group atomic-button atomic-button--primary-outline flex flex-col items-start rounded-md border-gray-300 bg-white px-3 py-[10px] sm:py-2 text-gray-300 focus-within:bg-white lg:w-full" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
+        <.button
+          id="description_button"
+          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white sm:py-2 lg:w-full"
+          type="button"
+          phx-click="toggle_description_modal"
+          phx-target={@myself}
+        >
           <%= if not @has_description? do %>
             <label class="cursor-pointer text-left text-gray-500">
               Add description
@@ -74,10 +80,10 @@
 
         <div class="flex flex-col justify-center md:flex-row md:justify-start xl:justify-between">
           <.inputs_for :let={fl} field={@form[:location]}>
-            <div class="mt-3 sm:mt-4 flex flex-col gap-y-1">
+            <div class="mt-3 flex flex-col gap-y-1 sm:mt-4">
               <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
             </div>
-            <div class="-mt-2 sm:-mt-2 md:mt-4 flex flex-col gap-y-1 md:ml-8">
+            <div class="-mt-2 flex flex-col gap-y-1 sm:-mt-2 md:mt-4 md:ml-8">
               <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:address]} label="Address" placeholder="Address" required />
             </div>
           </.inputs_for>
@@ -86,10 +92,16 @@
         <label for="capacity_button" class="atomic-label atomic-label--required -mt-2">
           Capacity
         </label>
-        <.button id="capacity_button" type="button" class="group atomic-button atomic-button--primary-outline flex flex-col items-start rounded-md border-gray-300 bg-white px-3 py-[10px] sm:py-2 text-gray-300 focus-within:bg-white lg:w-full" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
+        <.button
+          id="capacity_button"
+          type="button"
+          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white sm:py-2 lg:w-full"
+          phx-click="toggle_maximum_entries_modal"
+          phx-target={@myself}
+        >
           <%= if @has_max_capacity? do %>
             <.field
-              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0 atomic-text-input"
+              class="atomic-text-input cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
               type="number"
               field={@form[:maximum_entries]}
               label="Maximum entries"
@@ -123,9 +135,9 @@
           <div class="flex justify-center lg:justify-end">
             <.button class="w-full p-4 lg:p-3" type="submit" phx-disable-with="Saving...">
               <%= if @action == :new do %>
-                <span><%= gettext("Create Activity") %></span>
+                <span>{gettext("Create Activity")}</span>
               <% else %>
-                <span><%= gettext("Save") %></span>
+                <span>{gettext("Save")}</span>
               <% end %>
             </.button>
           </div>
@@ -137,7 +149,7 @@
         <.field class="\-h-10 resize-none atomic-button atomic-button--primary-outline" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
-            <span><%= gettext("Done") %></span>
+            <span>{gettext("Done")}</span>
           </.button>
         </div>
       </div>
@@ -153,10 +165,10 @@
         </div>
         <div class="flex gap-3">
           <.button type="button" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
-            Close
+            {gettext("Close")}
           </.button>
           <.button type="button" phx-target={@myself} phx-click="remove_max_capacity">
-            Remove limit
+            {gettext("Remove limit")}
           </.button>
         </div>
       </div>
