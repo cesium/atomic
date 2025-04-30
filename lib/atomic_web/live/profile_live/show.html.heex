@@ -44,7 +44,7 @@
               <.socials entity={@user} />
             </div>
           <% end %>
-          <div class="flex-col md:flex-row mt-4 flex gap-8">
+          <div class="mt-4 flex flex-col gap-8 md:flex-row">
             <%= if @user.email do %>
               <div class="sm:col-span-1">
                 <dt class="text-sm font-medium text-zinc-500">{gettext("Email")}</dt>
@@ -72,7 +72,7 @@
   </div>
   <div class="mt-8 flex w-full justify-end">
     <%= if @is_current_user do %>
-      <div class="flex mr-6 md:mr-0 w-24 justify-end">
+      <div class="mr-6 flex w-24 justify-end md:mr-0">
         <.button patch={~p"/profile/#{@user}/edit"}>
           {gettext("Edit")}
         </.button>

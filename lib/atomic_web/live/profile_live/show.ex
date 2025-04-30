@@ -3,6 +3,7 @@ defmodule AtomicWeb.ProfileLive.Show do
 
   import AtomicWeb.Components.{Button, Avatar, Gradient, Socials}
   import AtomicWeb.Components.ImageUploader
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
