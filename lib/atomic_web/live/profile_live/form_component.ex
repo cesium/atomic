@@ -1,8 +1,9 @@
 defmodule AtomicWeb.ProfileLive.FormComponent do
   use AtomicWeb, :live_component
 
-  alias Atomic.Accounts
-  alias AtomicWeb.Components.ImageUploader
+  alias Atomic.{Accounts, Organizations}
+
+  import AtomicWeb.Components.{Button, Avatar, Gradient, Forms, ImageUploader}
 
   @extensions_whitelist ~w(.jpg .jpeg .gif .png)
 
@@ -15,7 +16,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
        max_entries: 1,
        max_file_size: 10_000_000
      )
-     |> allow_upload(:image_2,
+     |> allow_upload(:banner,
        accept: @extensions_whitelist,
        max_entries: 1,
        max_file_size: 100_000_000
@@ -25,10 +26,12 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   @impl true
   def update(%{user: user} = assigns, socket) do
     changeset = Accounts.change_user(user)
+    organizations = Organizations.list_user_organizations(user.id)
 
     {:ok,
      socket
      |> assign(assigns)
+     |> assign(:organizations, organizations)
      |> assign(:changeset, changeset)}
   end
 
@@ -45,7 +48,7 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   def handle_event("cancel-image", %{"ref" => ref}, socket) do
-    uploads = [:profile_picture, :image_2]
+    uploads = [:profile_picture, :banner]
 
     socket =
       Enum.reduce(uploads, socket, fn key, acc ->
@@ -94,38 +97,30 @@ defmodule AtomicWeb.ProfileLive.FormComponent do
   end
 
   defp consume_image_data(socket, user) do
-    consume_uploaded_entries(socket, :profile_picture, fn %{path: path}, entry ->
-      handle_image_upload(user, path, entry, :profile_picture)
-    end)
+    results =
+      [:profile_picture, :banner]
+      |> Enum.map(&consume_image_entry(socket, user, &1))
+      |> List.flatten()
 
-    consume_uploaded_entries(socket, :image_2, fn %{path: path}, entry ->
-      handle_image_upload(user, path, entry, :image_2)
-    end)
-
-    {:ok, user}
+    if Enum.any?(results, fn result -> match?({:error, _}, result) end) do
+      {:error, results}
+    else
+      {:ok, user}
+    end
   end
 
-  defp handle_image_upload(user, path, entry, field) do
-    Accounts.update_user_picture(user, %{
-      "#{field}" => %Plug.Upload{
-        content_type: entry.client_type,
-        filename: entry.client_name,
-        path: path
-      }
-    })
-    |> case do
-      {:ok, user} ->
-        {:ok, user}
-
-      {:error, changeset} ->
-        if changeset.errors[field] do
-          {:postpone, "File size exceeds maximum allowed size"}
-        else
-          {:error, changeset}
-        end
-
-      {:errors, _changeset} ->
-        {:error, "An error occurred while updating the user."}
-    end
+  defp consume_image_entry(socket, user, field) do
+    consume_uploaded_entries(socket, field, fn %{path: path}, entry ->
+      case Accounts.update_user_picture(user, %{
+             "#{field}" => %Plug.Upload{
+               content_type: entry.client_type,
+               filename: entry.client_name,
+               path: path
+             }
+           }) do
+        {:ok, updated_user} -> {:ok, updated_user}
+        {:error, _changeset} -> {:error, field}
+      end
+    end)
   end
 end

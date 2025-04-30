@@ -1,47 +1,78 @@
 <div>
-  <div class="px-4 pt-4">
-    <div class="flex items-center justify-between">
-      <div class="min-w-0 flex-1 space-y-2">
-        <div class="flex flex-row">
+  <div class="relative">
+    <div class="h-64 w-full">
+      <%= if @user.banner do %>
+        <.image_uploader editable={false} id="banner-picture" class="h-64 w-full" image_class="h-[290px] w-full object-cover" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
+      <% else %>
+        <.gradient class="h-64 w-full bg-center object-cover" seed={@user.id} />
+      <% end %>
+    </div>
+    <div class="relative px-4 pt-4">
+      <div class="flex items-start">
+        <div class="relative -mt-16 flex-shrink-0">
+          <div class="relative">
+            <%= if @user.profile_picture do %>
+              <.image_uploader editable={false} id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
+                <:placeholder>
+                  <.avatar size={:xl} name={@user.name} type={:user} />
+                </:placeholder>
+              </.image_uploader>
+            <% else %>
+              <.avatar size={:xl} name={@user.name} type={:user} />
+            <% end %>
+          </div>
+        </div>
+        <div class="flex-1 pl-6">
           <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
             {@user.name}
           </h2>
-        </div>
-        <p class="text-zinc-500">@{@user.slug}</p>
-        <div class="mb-2 grid grid-cols-1 gap-4 py-6 sm:grid-cols-2 lg:grid-cols-3">
-          <%= if @user.email do %>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-zinc-500">Email</dt>
-              <dd class="mt-1 text-sm text-zinc-900">
-                <a class="text-blue-400" href={"mailto:#{@user.email}"}>
-                  {@user.email}
-                </a>
-              </dd>
+          <div class="mt-2">
+            <%= if length(@organizations) > 0 do %>
+              <div class="mt-2">
+                <%= for organization <- @organizations do %>
+                  <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
+                    {organization.name} - {Atomic.Organizations.get_role(@user.id, organization.id)}
+                  </p>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="py-2">{gettext("No organizations found.")}</p>
+            <% end %>
+          </div>
+          <%= if @user.socials do %>
+            <div class="mt-2">
+              <.socials entity={@user} />
             </div>
           <% end %>
-          <%= if @user.phone_number do %>
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-zinc-500">Phone</dt>
-              <dd class="mt-1 text-sm text-zinc-900">
-                <a class="text-blue-400" href={"tel:#{@user.phone_number}"}>
-                  {@user.phone_number}
-                </a>
-              </dd>
-            </div>
-          <% end %>
+          <div class="mt-4 flex flex-col gap-8 md:flex-row">
+            <%= if @user.email do %>
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-zinc-500">{gettext("Email")}</dt>
+                <dd class="mt-1 text-sm text-zinc-900">
+                  <a class="text-blue-400" href={"mailto:#{@user.email}"}>
+                    {@user.email}
+                  </a>
+                </dd>
+              </div>
+            <% end %>
+            <%= if @user.phone_number do %>
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-zinc-500">{gettext("Phone")}</dt>
+                <dd class="mt-1 text-sm text-zinc-900">
+                  <a class="text-blue-400" href={"tel:#{@user.phone_number}"}>
+                    {@user.phone_number}
+                  </a>
+                </dd>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
-      <%= if !@user.profile_picture do %>
-        <.avatar class="sm:h-44 sm:w-44 sm:text-6xl" name={@user.name} size={:xl} color={:light_zinc} />
-      <% else %>
-        <.avatar name={@user.name} color={:light} class="h-36 w-36 rounded-full border-4 border-white text-4xl" type={:user} src={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original)} />
-      <% end %>
     </div>
-    <!-- Divider -->
-    <div class="mb-2 border-b border-zinc-200 py-6"></div>
-
+  </div>
+  <div class="mt-8 flex w-full justify-end">
     <%= if @is_current_user do %>
-      <div class="flex w-24 justify-end">
+      <div class="mr-6 flex w-24 justify-end md:mr-0">
         <.button patch={~p"/profile/#{@user}/edit"}>
           {gettext("Edit")}
         </.button>
