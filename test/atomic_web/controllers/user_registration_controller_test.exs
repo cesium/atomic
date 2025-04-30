@@ -5,8 +5,8 @@ defmodule AtomicWeb.UserRegistrationControllerTest do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, ~p"/users/register")
       response = html_response(conn, 200)
-      assert response =~ "<span>Register</span>"
-      assert response =~ "Login</a>"
+      assert response =~ "Register for an account"
+      assert response =~ "Log in"
       assert response =~ "Register"
     end
 

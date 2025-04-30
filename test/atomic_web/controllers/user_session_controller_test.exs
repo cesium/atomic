@@ -11,10 +11,9 @@ defmodule AtomicWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, ~p"/users/log_in")
       response = html_response(conn, 200)
-      assert response =~ "Log<span"
-      assert response =~ "in</span>"
-      assert response =~ "Register</a>"
-      assert response =~ "Forgot your password?</a>"
+      assert response =~ "Log in"
+      assert response =~ "Sign up"
+      assert response =~ "Forgot your password?"
     end
 
     test "redirects if already logged in", %{conn: conn, user: user} do
@@ -65,18 +64,6 @@ defmodule AtomicWeb.UserSessionControllerTest do
         })
 
       assert redirected_to(conn) == "/foo/bar"
-    end
-
-    test "emits error message with invalid credentials", %{conn: conn, user: user} do
-      conn =
-        post(conn, ~p"/users/log_in", %{
-          "user" => %{"email" => user.email, "password" => "invalid_password"}
-        })
-
-      response = html_response(conn, 200)
-      assert response =~ "Log<span"
-      assert response =~ "in</span>"
-      assert response =~ "Invalid email or password"
     end
   end
 

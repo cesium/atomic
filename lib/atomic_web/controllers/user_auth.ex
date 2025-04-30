@@ -185,7 +185,8 @@ defmodule AtomicWeb.UserAuth do
   def require_finished_user_setup(conn, _opts) do
     current_user = conn.assigns[:current_user]
 
-    if conn.assigns[:current_user] && not is_nil(current_user.slug) do
+    if !conn.assigns[:current_user] or
+         (conn.assigns[:current_user] && not is_nil(current_user.slug)) do
       conn
     else
       conn
