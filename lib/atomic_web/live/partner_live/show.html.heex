@@ -14,23 +14,23 @@
         <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar class="size-28" color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
-        <div class="flex flex-col gap-7 w-full">
-          <div class="flex items-start w-full">
-            <p class="flex items-center flex-1 text-wrap truncate text-center text-2xl font-bold text-gray-900 lg:py-1 sm:text-left">
+        <div class="flex w-full flex-col gap-7">
+          <div class="flex w-full items-start">
+            <p class="text-wrap flex flex-1 items-center truncate text-center text-2xl font-bold text-gray-900 sm:text-left lg:py-1">
               {@partner.name}
             </p>
 
             <%= if @has_permissions? do %>
-                <div>
-                  <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
-                    <span class="hidden lg:block">
-                      {gettext("Edit Partner")}
-                    </span>
-                  </.button>
-                </div>
+              <div>
+                <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
+                  <span class="hidden lg:block">
+                    {gettext("Edit Partner")}
+                  </span>
+                </.button>
+              </div>
             <% end %>
           </div>
-          <div class="grid w-auto gap-y-2 h-fit lg:w-full">
+          <div class="grid h-fit w-auto gap-y-2 lg:w-full">
             <div class="my-0 grid gap-y-2 lg:gap-y-0">
               <%= if @partner.location do %>
                 <div class="flex items-center">
@@ -68,9 +68,7 @@
               <% end %>
             </div>
           </div>
-
         </div>
-        
       </div>
       <!--Tabs-->
       <.tabs class="scrollbar-hide mt-2 flex overflow-auto px-4">

@@ -34,12 +34,12 @@ defmodule AtomicWeb.PartnerLive.Components.PartnerCard do
             <% end %>
           </div>
         </div>
-        <ul class="flex flex-col list-disc gap-1 px-10 pb-10">
-            <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
+        <ul class="flex list-disc flex-col gap-1 px-10 pb-10">
+          <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
             <li class="text-sm leading-5 text-zinc-500">
-              <span class="line-clamp-1"><%= phrase %></span>
+              <span class="line-clamp-1">{phrase}</span>
             </li>
-            <% end) %>
+          <% end) %>
         </ul>
       </div>
     </li>
