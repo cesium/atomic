@@ -21,9 +21,9 @@ defmodule AtomicWeb.Components.Page do
     <%= render_slot(@header) %>
 
     <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
-      <div class={"#{if @bottom_border, do: 'border-b', else: ''} min-h-[100vh] flex w-full flex-col bg-white lg:flex-row lg:border-r"}>
+      <div class="min-h-[100vh] flex w-full flex-col bg-white lg:flex-row lg:border-r">
         <main class="relative z-0 mb-10 flex-1 overflow-y-auto focus:outline-none xl:order-last">
-          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div class={["mx-auto max-w-5xl px-4 sm:px-6 lg:px-8", @bottom_border && "border-b"]}>
             <div class="my-6 flex min-w-0 flex-row items-center justify-between">
               <div class="flex flex-col">
                 <h1 class="flex-1 select-none truncate text-2xl font-bold text-zinc-900">

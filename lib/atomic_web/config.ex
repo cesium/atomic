@@ -44,6 +44,13 @@ defmodule AtomicWeb.Config do
           tabs: []
         },
         %{
+          key: :announcements,
+          title: "Announcements",
+          icon: "hero-newspaper",
+          url: ~p"/organizations/#{current_organization}/announcements",
+          tabs: []
+        },
+        %{
           key: :partners,
           title: "Partners",
           icon: "tabler-heart-handshake",
@@ -81,13 +88,6 @@ defmodule AtomicWeb.Config do
         title: "Activities",
         icon: "hero-academic-cap",
         url: ~p"/activities",
-        tabs: []
-      },
-      %{
-        key: :announcements,
-        title: "Announcements",
-        icon: "hero-newspaper",
-        url: ~p"/announcements",
         tabs: []
       },
       %{

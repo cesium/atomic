@@ -51,7 +51,7 @@
                     <.activity activity={post.activity} />
                   </.link>
                 <% else %>
-                  <.link navigate={~p"/announcements/#{post.announcement}"}>
+                  <.link navigate={~p"/organizations/#{post.announcement.organization.id}/announcements/#{post.announcement}"}>
                     <.announcement announcement={post.announcement} />
                   </.link>
                 <% end %>
