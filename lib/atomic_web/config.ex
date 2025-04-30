@@ -16,21 +16,8 @@ defmodule AtomicWeb.Config do
     if has_permissions?(current_user, current_organization) do
       admin_pages(current_organization)
     else
-      user_pages()
+      default_pages()
     end
-  end
-
-  def user_pages do
-    default_pages() ++
-      [
-        %{
-          key: :scanner,
-          title: "Scanner",
-          icon: "hero-qr-code",
-          url: ~p"/scanner",
-          tabs: []
-        }
-      ]
   end
 
   def admin_pages(current_organization) do
@@ -55,13 +42,6 @@ defmodule AtomicWeb.Config do
           title: "Partners",
           icon: "hero-user-group",
           url: ~p"/organizations/#{current_organization}/partners",
-          tabs: []
-        },
-        %{
-          key: :scanner,
-          title: "Scanner",
-          icon: "hero-qr-code",
-          url: ~p"/scanner",
           tabs: []
         }
       ]
