@@ -2,15 +2,15 @@
   <.form id="activity-form" for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
     <div class="flex flex-col justify-evenly gap-8 xl:flex-row">
       <div class="flex w-full xl:w-1/3">
-      <%= if @activity.card do %>
-        <div class="flex rounded-xl">
-          <.image_uploader id="activity-image" class="h-full items-center justify-center rounded-xl" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full object-cover rounded-xl" image={Uploaders.Post.url({@activity.card, @activity}, :original)} />
-        </div>
-      <% else %>
-        <div class="flex h-full w-full justify-center border-4 border-dashed rounded-xl border-primary-500">
-          <.image_uploader id="activity-image" class="h-full w-full" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full object-cover" />
-        </div>
-      <% end %>
+        <%= if @activity.card do %>
+          <div class="flex rounded-xl">
+            <.image_uploader id="activity-image" class="h-full items-center justify-center rounded-xl" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full rounded-xl object-cover" image={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+          </div>
+        <% else %>
+          <div class="border-primary-500 flex h-full w-full justify-center rounded-xl border-4 border-dashed">
+            <.image_uploader id="activity-image" class="h-full w-full" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full object-cover" />
+          </div>
+        <% end %>
       </div>
 
       <div class="flex flex-col">
@@ -42,13 +42,13 @@
             <div class="text-nowrap flex flex-col items-baseline justify-between gap-y-1 sm:flex-row sm:p-1 sm:pl-3">
               <span>Start</span>
               <div class="w-full sm:w-56">
-                <.field class="atomic-button atomic-button--primary-outline w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
+                <.field class="w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:start]} label_class="hidden" error_label_class="hidden" required />
               </div>
             </div>
             <div class="text-nowrap flex flex-col items-baseline justify-between gap-y-1 sm:flex-row sm:p-1 sm:pl-3">
               <span>End</span>
               <div class="w-full sm:w-56">
-                <.field class="atomic-button atomic-button--primary-outline w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
+                <.field class="w-full text-gray-900 sm:w-56" type="datetime-local" field={@form[:finish]} label_class="hidden" error_label_class="hidden" required />
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
         </label>
         <.button
           id="description_button"
-          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white sm:py-2 lg:w-full"
+          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white hover:bg-white sm:py-[8px] lg:w-full"
           type="button"
           phx-click="toggle_description_modal"
           phx-target={@myself}
@@ -81,7 +81,7 @@
               autocomplete="off"
               error_class="text-danger-600 placeholder-danger-700"
               error_label_class="text-danger-700"
-              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
+              class="atomic-button pointer-events-none cursor-pointer select-none border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
         </.button>
@@ -89,10 +89,10 @@
         <div class="flex flex-col justify-center md:flex-row md:justify-start xl:justify-between">
           <.inputs_for :let={fl} field={@form[:location]}>
             <div class="mt-3 flex flex-col gap-y-1 sm:mt-4">
-              <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
+              <.field class="text-gray-900" type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
             </div>
             <div class="-mt-2 flex flex-col gap-y-1 sm:-mt-2 md:mt-4 md:ml-8">
-              <.field class="atomic-button atomic-button--primary-outline text-gray-900" type="text" field={fl[:address]} label="Address" placeholder="Address" required />
+              <.field class="text-gray-900" type="text" field={fl[:address]} label="Address" placeholder="Address" required />
             </div>
           </.inputs_for>
         </div>
@@ -103,13 +103,13 @@
         <.button
           id="capacity_button"
           type="button"
-          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white sm:py-2 lg:w-full"
+          class="group atomic-button atomic-button--primary-outline py-[10px] flex flex-col items-start rounded-md border-gray-300 bg-white px-3 text-gray-300 focus-within:bg-white hover:bg-white sm:py-2 lg:w-full"
           phx-click="toggle_maximum_entries_modal"
           phx-target={@myself}
         >
           <%= if @has_max_capacity? do %>
             <.field
-              class="atomic-text-input cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
+              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
               type="number"
               field={@form[:maximum_entries]}
               label="Maximum entries"
@@ -154,7 +154,7 @@
     </div>
     <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)}>
       <div class="mt-4 flex-grow">
-        <.field class="\-h-10 resize-none atomic-button atomic-button--primary-outline" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
+        <.field class="\-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
             <span>{gettext("Done")}</span>
@@ -166,9 +166,9 @@
       <div class="h-full w-full">
         <div class="">
           <%= if @has_max_capacity? do %>
-            <.field class="atomic-button atomic-button--primary-outline" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+            <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
           <% else %>
-            <.field class="atomic-button atomic-button--primary-outline" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
+            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
           <% end %>
         </div>
         <div class="flex gap-3">

@@ -1,7 +1,7 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Table, Map, Pagination, ImageUploader}
+  import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Table, Map, Pagination}
 
   alias Atomic.Accounts
   alias Atomic.Activities
