@@ -1,16 +1,29 @@
 defmodule AtomicWeb.ProfileLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.Button
-  import AtomicWeb.Components.Avatar
+  import AtomicWeb.Components.{Button, Avatar, Gradient, Socials}
+  import AtomicWeb.Components.ImageUploader
   import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
 
+  @extensions_whitelist ~w(.jpg .jpeg .gif .png)
+
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok,
+     socket
+     |> allow_upload(:profile_picture,
+       accept: @extensions_whitelist,
+       max_entries: 1,
+       max_file_size: 10_000_000
+     )
+     |> allow_upload(:banner,
+       accept: @extensions_whitelist,
+       max_entries: 1,
+       max_file_size: 100_000_000
+     )}
   end
 
   @impl true
