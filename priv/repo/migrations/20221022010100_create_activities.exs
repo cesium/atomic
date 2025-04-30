@@ -14,7 +14,7 @@ defmodule Atomic.Repo.Migrations.CreateActivities do
       add :maximum_entries, :integer, null: true
       add :enrolled, :integer, default: 0, null: false
 
-      add :image, :string
+      add :card, :string
       add :location, :map
 
       add :organization_id, references(:organizations, type: :binary_id), null: false

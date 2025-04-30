@@ -45,8 +45,8 @@
   <%= if @current_view == "show" do %>
     <div class="flex w-full justify-center px-8 pb-8 sm:hidden sm:px-6">
       <div class="aspect-square w-full object-cover">
-        <%= if @activity.image do %>
-          <img class="h-full w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+        <%= if @activity.card do %>
+          <img class="h-full w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
         <% else %>
           <.gradient class="rounded-xl" seed={@activity.id} />
         <% end %>
@@ -153,8 +153,8 @@
       </div>
       <div class="col-span-2 hidden w-full object-cover sm:block">
         <!-- Activity image (desktop) -->
-        <%= if @activity.image do %>
-          <img class="max-h-fit w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+        <%= if @activity.card do %>
+          <img class="max-h-fit w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
         <% else %>
           <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
         <% end %>

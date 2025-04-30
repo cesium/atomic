@@ -46,8 +46,8 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
           </div>
           <!-- Activity image -->
           <div class="h-48 object-cover">
-            <%= if @activity.image do %>
-              <img class="h-full w-full rounded-r-lg object-cover" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+            <%= if @activity.card do %>
+              <img class="h-full w-full rounded-r-lg object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
             <% else %>
               <.gradient seed={@activity.id} class="rounded-r-lg" />
             <% end %>

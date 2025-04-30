@@ -2,7 +2,7 @@
   <.form id="activity-form" for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
     <div class="flex flex-col justify-evenly gap-8 xl:flex-row">
       <div class="w-full xl:w-1/3">
-        <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} image={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+        <.image_uploader id="activity-image" class="h-64 w-full object-cover" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-[290px] w-full object-cover" image={Uploaders.Post.url({@activity.card, @activity}, :original)} />
       </div>
 
       <div class="flex flex-col">

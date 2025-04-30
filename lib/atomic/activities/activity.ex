@@ -32,7 +32,7 @@ defmodule Atomic.Activities.Activity do
     field :maximum_entries, :integer, default: nil
     field :enrolled, :integer, default: 0
 
-    field :image, Uploaders.Post.Type
+    field :card, Uploaders.Post.Type
     embeds_one :location, Location, on_replace: :update
 
     belongs_to :organization, Organization
@@ -55,7 +55,7 @@ defmodule Atomic.Activities.Activity do
 
   def image_changeset(activity, attrs) do
     activity
-    |> cast_attachments(attrs, [:image])
+    |> cast_attachments(attrs, [:card])
   end
 
   defp validate_dates(changeset) do

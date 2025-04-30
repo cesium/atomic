@@ -36,9 +36,9 @@ defmodule AtomicWeb.Components.Activity do
         <p>{maybe_slice_string(@activity.description, 300)}</p>
       </div>
       <!-- Image -->
-      <%= if @activity.image do %>
+      <%= if @activity.card do %>
         <div class="mt-4">
-          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@activity.image, @activity}, :original)} />
+          <img class="max-w-screen max-h-[32rem] rounded-md object-cover sm:max-w-xl" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
         </div>
       <% end %>
       <!-- Footer -->
@@ -78,7 +78,7 @@ defmodule AtomicWeb.Components.Activity do
   end
 
   defp footer_margin_top_class(%Activity{} = activity) do
-    if activity.image do
+    if activity.card do
       "mt-4"
     else
       "mt-2"
