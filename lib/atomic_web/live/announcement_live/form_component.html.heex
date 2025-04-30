@@ -8,8 +8,8 @@
           <.field field={f[:description]} type="textarea" placeholder="Description" required class="h-44 w-full resize-none overflow-auto xl:h-64" />
         </div>
         <div class="space-y-4">
-          <.image_uploader id="uploader" upload={@uploads.image} class="border shadow-sm border-zinc-300 w-full aspect-square"/>
-          
+          <.image_uploader id="uploader" upload={@uploads.image} class="aspect-square w-full border border-zinc-300 shadow-sm" />
+
           <div class="flex justify-end">
             <.button size={:md} color={:white} icon="hero-cube" type="submit">{gettext("Save Changes")}</.button>
           </div>

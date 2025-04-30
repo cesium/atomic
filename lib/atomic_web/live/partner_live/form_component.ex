@@ -37,7 +37,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <p class="atomic-form-help-text pb-4">{gettext("The image of the partner (960x960px for best display)")}</p>
           </div>
           <div>
-            <.image_uploader id="uploader" upload={@uploads.image} class="border shadow-sm border-zinc-300 w-full h-32 xl:h-64" image_class="h-32 xl:h-64 object-cover"/>
+            <.image_uploader id="uploader" upload={@uploads.image} class="h-32 w-full border border-zinc-300 shadow-sm xl:h-64" image_class="h-32 object-cover xl:h-64" />
           </div>
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-zinc-900">{gettext("Internal")}</h2>
