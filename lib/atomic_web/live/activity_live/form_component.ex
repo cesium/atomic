@@ -2,9 +2,8 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias AtomicWeb.Components.ImageUploader
 
-  import AtomicWeb.Components.Forms
+  import AtomicWeb.Components.{Forms, ImageUploader}
 
   @impl true
   def update(%{activity: activity} = assigns, socket) do

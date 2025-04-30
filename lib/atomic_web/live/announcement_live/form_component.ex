@@ -2,9 +2,8 @@ defmodule AtomicWeb.AnnouncementLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Organizations
-  alias AtomicWeb.Components.ImageUploader
 
-  import AtomicWeb.Components.Forms
+  import AtomicWeb.Components.{Forms, ImageUploader}
 
   @impl true
   def mount(socket) do
