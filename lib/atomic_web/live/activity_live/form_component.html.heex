@@ -1,8 +1,16 @@
 <div class="mt-16">
   <.form id="activity-form" for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
     <div class="flex flex-col justify-evenly gap-8 xl:flex-row">
-      <div class="w-full xl:w-1/3">
-        <.image_uploader id="activity-image" class="h-64 w-full object-cover" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-[290px] w-full object-cover" image={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+      <div class="flex w-full xl:w-1/3">
+      <%= if @activity.card do %>
+        <div class="flex rounded-xl">
+          <.image_uploader id="activity-image" class="h-full items-center justify-center rounded-xl" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full object-cover rounded-xl" image={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+        </div>
+      <% else %>
+        <div class="flex h-full w-full justify-center border-4 border-dashed rounded-xl border-primary-500">
+          <.image_uploader id="activity-image" class="h-full w-full" upload={@uploads.card} icon="hero-photo" memory_unit="MB" image_class="h-full w-full object-cover" />
+        </div>
+      <% end %>
       </div>
 
       <div class="flex flex-col">

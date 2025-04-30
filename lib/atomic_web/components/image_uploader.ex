@@ -22,7 +22,7 @@ defmodule AtomicWeb.Components.ImageUploader do
     assigns = update(assigns, %{})
 
     ~H"""
-    <div id={@id}>
+    <div id={@id} class="w-full">
       <%= if @editable do %>
         <.live_file_input upload={@upload} class="hidden" />
       <% end %>
