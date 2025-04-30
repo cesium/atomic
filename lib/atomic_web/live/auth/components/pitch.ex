@@ -1,4 +1,5 @@
 defmodule AtomicWeb.Auth.Components.Pitch do
+  @moduledoc false
   use AtomicWeb, :component
 
   def pitch(assigns) do
