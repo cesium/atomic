@@ -51,12 +51,12 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
             <.link patch={~p"/activities/#{activity}"} class="group flex justify-between p-4 pr-6 focus-within:bg-zinc-50 hover:bg-zinc-50">
               <div class="flex-auto">
                 <p class="font-semibold text-zinc-900">
-                  <%= activity.title %>
+                  {activity.title}
                 </p>
                 <div class="flex flex-row items-center gap-x-2 pt-2">
                   <time datetime={activity.start} class="mt-2 flex items-center text-zinc-700">
                     <.icon name="hero-clock-solid" class="size-5 mr-2 text-zinc-400" />
-                    <%= Calendar.strftime(activity.start, "%Hh%M") %>
+                    {Calendar.strftime(activity.start, "%Hh%M")}
                   </time>
                 </div>
               </div>
@@ -139,20 +139,20 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
             "flex size-6 items-center justify-center rounded-full bg-primary-600 font-semibold text-white"
           end}"
         }>
-        <%= @text %>
+        {@text}
       </time>
       <ol class="mt-2 -space-y-1">
         <li :for={activity <- get_date_activities(@activities, @date) |> Enum.take(2)}>
           <.link patch={~p"/activities/#{activity}"} class="group flex">
             <p class="flex-auto truncate font-medium text-zinc-900 group-hover:text-primary-600">
-              <%= activity.title %>
+              {activity.title}
             </p>
-            <time datetime={activity.start} class="ml-3 hidden flex-none text-zinc-500 group-hover:text-primary-600 xl:block"><%= Calendar.strftime(activity.start, "%Hh") %></time>
+            <time datetime={activity.start} class="ml-3 hidden flex-none text-zinc-500 group-hover:text-primary-600 xl:block">{Calendar.strftime(activity.start, "%Hh")}</time>
           </.link>
         </li>
         <li :if={Enum.count(get_date_activities(@activities, @date)) > 2} class="text-zinc-500 hover:text-primary-600">
           <button type="button" phx-click="show-more" phx-value-date={@date}>
-            +<%= Enum.count(get_date_activities(@activities, @date)) - 2 %> more
+            +{Enum.count(get_date_activities(@activities, @date)) - 2} more
           </button>
         </li>
       </ol>
@@ -177,10 +177,10 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarMonth do
           @current_date != @date && @date.month != @current_date.month && "text-zinc-500"
         ]}
       >
-        <%= @text %>
+        {@text}
       </time>
       <%= if (activities = get_date_activities(@activities, @date)) != [] do %>
-        <span class="sr-only"><%= Enum.count(activities) %> events</span>
+        <span class="sr-only">{Enum.count(activities)} events</span>
         <span class="-mx-0.5 mt-auto flex flex-wrap-reverse">
           <%= for activity <- Enum.take(activities, 3) do %>
             <%= if activity do %>

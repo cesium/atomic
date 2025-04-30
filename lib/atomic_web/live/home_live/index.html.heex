@@ -1,38 +1,38 @@
 <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
-  <div class="flex flex-col w-full bg-white lg:border-r lg:flex-row">
-    <main class="relative z-0 flex-1 mb-10 xl:order-last focus:outline-none">
+  <div class="flex w-full flex-col bg-white lg:flex-row lg:border-r">
+    <main class="relative z-0 mb-10 flex-1 focus:outline-none xl:order-last">
       <article class="sticky top-0">
         <!-- Header -->
         <div class="hidden lg:block">
-          <div class="px-4 mx-auto max-w-5xl sm:px-6 lg:px-8">
-            <div class="flex flex-row my-6 min-w-0 select-none gap-x-2">
+          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div class="my-6 flex min-w-0 select-none flex-row gap-x-2">
               <%= if @is_authenticated? do %>
-                <h1 class="text-2xl font-bold text-zinc-900 truncate">
-                  Welcome, <%= @current_user.name %>
+                <h1 class="truncate text-2xl font-bold text-zinc-900">
+                  Welcome, {@current_user.name}
                 </h1>
               <% else %>
-                <h1 class="text-2xl font-bold text-zinc-900 truncate">
+                <h1 class="truncate text-2xl font-bold text-zinc-900">
                   Welcome to Atomic
                 </h1>
               <% end %>
-              <span class="text-2xl animate-wave">
+              <span class="animate-wave text-2xl">
                 👋
               </span>
             </div>
           </div>
         </div>
         <!-- Tabs -->
-        <div x-data="{ option: 'all' }" class="sticky top-10 lg:top-0 z-10 bg-white block">
-          <.tabs class="max-w-5xl mx-auto pt-1 px-4 sm:px-6 lg:px-8">
+        <div x-data="{ option: 'all' }" class="sticky top-10 z-10 block bg-white lg:top-0">
+          <.tabs class="mx-auto max-w-5xl px-4 pt-1 sm:px-6 lg:px-8">
             <.tab id="tab-all" active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
-              <%= gettext("All") %>
+              {gettext("All")}
             </.tab>
             <.tab id="tab-following" active={@current_tab == "following"} phx-click="load-following" phx-hook="ScrollToTop">
-              <%= gettext("Following") %>
+              {gettext("Following")}
             </.tab>
             <%= if length(@schedule_default.weekly) + length(@schedule_default.daily) > 0 do %>
               <.tab id="tab-schedule" active={@current_tab == "schedule"} phx-click="load-schedule" phx-hook="ScrollToTop" class="lg:hidden">
-                <%= gettext("Schedule") %>
+                {gettext("Schedule")}
               </.tab>
             <% end %>
           </.tabs>
@@ -45,7 +45,7 @@
             </div>
           <% else %>
             <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-              <li :for={{id, post} <- @streams.posts} id={id} class="py-4 px-4 mx-auto max-w-5xl border-b border-zinc-200 sm:px-6 lg:px-8">
+              <li :for={{id, post} <- @streams.posts} id={id} class="mx-auto max-w-5xl border-b border-zinc-200 px-4 py-4 sm:px-6 lg:px-8">
                 <%= if post.type == :activity do %>
                   <.link navigate={~p"/activities/#{post.activity}"}>
                     <.activity activity={post.activity} />
@@ -64,15 +64,15 @@
       </article>
     </main>
   </div>
-  <div id="scroll-panel" phx-hook="StickyScroll" class="hidden h-fit pb-6 w-full border-t border-zinc-200 sm:pr-6 lg:block lg:flex-shrink-0 lg:pb-0 lg:w-72 lg:border-t-0 xl:pr-0 sticky top-0">
+  <div id="scroll-panel" phx-hook="StickyScroll" class="sticky top-0 hidden h-fit w-full border-t border-zinc-200 pb-6 sm:pr-6 lg:block lg:w-72 lg:flex-shrink-0 lg:border-t-0 lg:pb-0 xl:pr-0">
     <!-- Organizations to follow -->
-    <section aria-labelledby="organizations-to-follow" class="border-b border-zinc-200 pl-6 pr-4 pt-6">
+    <section aria-labelledby="organizations-to-follow" class="border-b border-zinc-200 pt-6 pr-4 pl-6">
       <.follow_suggestions current_user={@current_user} organizations={@organizations} />
     </section>
     <!-- Schedule -->
-    <section aria-labelledby="schedule" class="pl-6 pr-4">
-      <div class="flex justify-between items-center pt-4">
-        <h1 class="text-xl font-bold text-zinc-90">Schedule</h1>
+    <section aria-labelledby="schedule" class="pr-4 pl-6">
+      <div class="flex items-center justify-between pt-4">
+        <h1 class="text-zinc-90 text-xl font-bold">Schedule</h1>
         <.dropdown
           :if={@current_user}
           id="schedule-dropdown"
@@ -89,12 +89,12 @@
           ]}
         >
           <:wrapper>
-            <.button color={:white} size={:xs} class="flex space-x-1 items-center">
+            <.button color={:white} size={:xs} class="flex items-center space-x-1">
               <span>
                 <%= if @schedule == :user do %>
-                  <%= gettext("My schedule") %>
+                  {gettext("My schedule")}
                 <% else %>
-                  <%= gettext("All") %>
+                  {gettext("All")}
                 <% end %>
               </span>
               <.icon name="hero-chevron-down" class="size-4" />
