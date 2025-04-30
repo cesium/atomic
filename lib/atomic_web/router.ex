@@ -90,7 +90,7 @@ defmodule AtomicWeb.Router do
   ## Normal user routes
 
   scope "/", AtomicWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_finished_user_setup]
 
     live_session :user, on_mount: [{AtomicWeb.Hooks, :current_user_state}] do
       live "/", HomeLive.Index, :index
@@ -110,8 +110,7 @@ defmodule AtomicWeb.Router do
 
       pipe_through [
         :require_authenticated_user,
-        :require_confirmed_user,
-        :require_finished_user_setup
+        :require_confirmed_user
       ]
 
       live "/profile/:slug/edit", ProfileLive.Edit, :edit
@@ -155,10 +154,10 @@ defmodule AtomicWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     scope "/users" do
-      get "/register", UserRegistrationController, :new
+      live "/register", Auth.UserRegisterLive, :new
       post "/register", UserRegistrationController, :create
 
-      get "/log_in", UserSessionController, :new
+      live "/log_in", Auth.UserLoginLive, :new
       post "/log_in", UserSessionController, :create
 
       get "/reset_password", UserResetPasswordController, :new
