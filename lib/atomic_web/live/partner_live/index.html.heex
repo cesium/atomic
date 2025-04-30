@@ -1,4 +1,4 @@
-<.page title={"#{@current_organization.name} Partners"}>
+<.page title={"#{@organization.name} Partners"}>
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button navigate={~p"/organizations/#{@current_organization}/partners/new"} icon="hero-plus">
