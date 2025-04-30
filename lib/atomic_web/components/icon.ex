@@ -2,7 +2,7 @@ defmodule AtomicWeb.Components.Icon do
   @moduledoc """
   A component for rendering icons.
 
-  An icon can either be from the [Heroicons](https://heroicons.com) or [Tabler Icons](https://tablericons.com) set.
+  An icon can either be from the [Heroicons](https://heroicons.com) or [Tabler Icons](https://tabler.io/icons) set.
   """
   use Phoenix.Component
 

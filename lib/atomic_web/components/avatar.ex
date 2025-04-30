@@ -36,7 +36,7 @@ defmodule AtomicWeb.Components.Avatar do
       :light,
       :dark
     ],
-    doc: "Avatar color."
+    doc: "Background color of the avatar."
 
   attr :class, :string, default: "", doc: "Additional classes to apply to the component."
 

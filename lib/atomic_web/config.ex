@@ -40,7 +40,7 @@ defmodule AtomicWeb.Config do
         %{
           key: :partners,
           title: "Partners",
-          icon: "hero-user-group",
+          icon: "tabler-heart-handshake",
           url: ~p"/organizations/#{current_organization}/partners",
           tabs: []
         }

@@ -47,7 +47,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
     |> Enum.map(fn department ->
       collaborators =
         department.id
-        |> Departments.list_collaborators_by_department_id(
+        |> Departments.list_department_collaborators(
           preloads: [:user],
           where: [accepted: true]
         )
@@ -62,7 +62,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
     |> Enum.map(fn department ->
       collaborators =
         department.id
-        |> Departments.list_collaborators_by_department_id(
+        |> Departments.list_department_collaborators(
           preloads: [:user],
           where: [accepted: true]
         )

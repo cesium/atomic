@@ -43,8 +43,15 @@ defmodule AtomicWeb.Components.Forms do
   """
   attr :id, :any, default: nil, doc: "The id of the input. If not provided, it will be generated."
   attr :name, :any, doc: "The name of the input. If not provided, it will be generated."
-  attr :label, :string, doc: "The label for the input. If not provided, it will be generated."
-  attr :value, :any, doc: "The value of the input. If not provided, it will be generated."
+
+  attr :label, :string,
+    doc: "The label for the input. If not provided, it will be generated.",
+    default: ""
+
+  attr :value, :any,
+    doc: "The value of the input. If not provided, it will be generated.",
+    default: ""
+
   attr :type, :string, default: "text", values: @input_types, doc: "The type of the input."
 
   attr :field, HTML.FormField,

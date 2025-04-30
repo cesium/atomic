@@ -4,8 +4,9 @@ defmodule AtomicWeb.Components.Dropdown do
   """
   use Phoenix.Component
 
-  import AtomicWeb.Components.Icon
   alias Phoenix.LiveView.JS
+
+  import AtomicWeb.Components.Icon
 
   attr :id, :string, required: true, doc: "The id of the dropdown."
 
@@ -22,7 +23,7 @@ defmodule AtomicWeb.Components.Dropdown do
 
   def dropdown(assigns) do
     ~H"""
-    <div class="relative inline-block text-left" phx-click-away={JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})}>
+    <div class="relative inline-block text-left" phx-click-away={hide(@id)}>
       <div phx-click={JS.toggle(to: "##{@id}", in: {"ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"}, out: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}, display: "block")}>
         {render_slot(@wrapper)}
       </div>
@@ -30,21 +31,7 @@ defmodule AtomicWeb.Components.Dropdown do
         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
           <%= for item <- @items do %>
             <%= if item[:patch] || item[:navigate] || item[:href] || item[:phx_click] do %>
-              <.link
-                patch={item[:patch]}
-                navigate={item[:navigate]}
-                href={item[:href]}
-                phx-click={
-                  if item[:phx_click] do
-                    JS.push(item[:phx_click]) |> JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})
-                  else
-                    JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})
-                  end
-                }
-                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
-                role="menuitem"
-                method={Map.get(item, :method, "get")}
-              >
+              <.link patch={item[:patch]} navigate={item[:navigate]} href={item[:href]} phx-click={maybe_phx_click(item, @id)} class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"} role="menuitem" method={Map.get(item, :method, "get")}>
                 <%= if item[:icon] do %>
                   <.icon name={item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
@@ -63,5 +50,33 @@ defmodule AtomicWeb.Components.Dropdown do
       </div>
     </div>
     """
+  end
+
+  defp maybe_phx_click(item, id) when is_map_key(item, :phx_click) do
+    if item[:value] do
+      JS.push(item[:phx_click], value: item[:value]) |> hide(id)
+    else
+      JS.push(item[:phx_click])
+    end
+  end
+
+  defp maybe_phx_click(_item, id), do: hide(id)
+
+  defp hide(id),
+    do:
+      JS.hide(
+        to: "##{id}",
+        transition:
+          {"ease-in duration-75", "transform opacity-100 scale-100",
+           "transform opacity-0 scale-95"}
+      )
+
+  defp hide(event, id) do
+    event
+    |> JS.hide(
+      to: "##{id}",
+      transition:
+        {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}
+    )
   end
 end

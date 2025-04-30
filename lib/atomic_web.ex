@@ -116,6 +116,11 @@ defmodule AtomicWeb do
       import Phoenix.LiveView.Helpers
       import Phoenix.Component
 
+      alias Phoenix.LiveView.JS
+
+      # Import commonly used components
+      unquote(components())
+
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 

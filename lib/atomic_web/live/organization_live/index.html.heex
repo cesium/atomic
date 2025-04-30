@@ -1,10 +1,27 @@
-<.page title="Organizations">
+<.page title={@page_title}>
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
-      <.button navigate={~p"/organizations/new"}>
-        {gettext("New")}
+      <.button navigate={~p"/organizations/new"} icon="hero-plus">
+        <%= gettext("New") %>
       </.button>
     <% end %>
+
+    <.dropdown
+      id="sort-organizations-menu"
+      orientation={:down}
+      items={[
+        %{name: gettext("Name") <> " (A-Z)", phx_click: "sort", value: %{"field" => "name"}},
+        %{name: gettext("Followers"), phx_click: "sort", value: %{"field" => "follower_count"}}
+      ]}
+    >
+      <:wrapper>
+        <button type="button" class="inline-flex items-center w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+          <.icon name="hero-bars-arrow-up" class="size-5 -ml-0.5 text-gray-500" />
+          <%= gettext("Sort") %>
+          <.icon name="hero-chevron-down" class="size-4 -mr-0.5 text-gray-500" />
+        </button>
+      </:wrapper>
+    </.dropdown>
   </:actions>
   <!-- Organization index -->
   <%= if @empty? and @has_permissions? do %>
@@ -12,26 +29,20 @@
       <.empty_state url={~p"/organizations/new"} placeholder="organization" />
     </div>
   <% else %>
-    <div class="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 sm:px-6 md:grid-cols-3 lg:px-8">
-      <%= for organization <- @organizations do %>
-        <.link navigate={~p"/organizations/#{organization.id}"}>
-          <div class="flex items-center space-x-4 rounded-lg border border-zinc-200 px-4 py-4 hover:cursor-pointer hover:bg-zinc-50">
-            <.avatar name={organization.name} src={Uploaders.Logo.url({organization.logo, organization}, :original)} type={:organization} size={:lg} color={:light_zinc} />
-            <div class="ml-4">
-              <h4 class="text-lg font-medium text-zinc-900">
-                {organization.name}
-              </h4>
-              <p class="hidden text-xs text-zinc-900 md:block xl:hidden">
-                {maybe_slice_string(organization.long_name, 35)}
-              </p>
-              <p class="text-xs text-zinc-900 sm:block md:hidden xl:block">
-                {maybe_slice_string(organization.long_name, 85)}
-              </p>
-            </div>
-          </div>
-        </.link>
-      <% end %>
+    <div class="mx-auto flex max-w-5xl flex-col px-4 sm:px-6 lg:px-8">
+      <.form id="search-form" for={@form} phx-change="search">
+        <.field phx-mounted={JS.focus()} value={@query} type="search" name="search" placeholder={"#{gettext("Search for an organization")}..."} />
+      </.form>
+
+      <ul role="list" class="space-y-6">
+        <li :for={{id, organization} <- @streams.organizations} id={id}>
+          <.link navigate={"/organizations/#{organization.id}"}>
+            <.organization_card organization={organization} current_user={@current_user} />
+          </.link>
+        </li>
+      </ul>
     </div>
-    <.pagination items={@organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
+
+    <.pagination items={@streams.organizations} meta={@meta} params={@params} class="mt-2 flex w-full items-center justify-between" />
   <% end %>
 </.page>

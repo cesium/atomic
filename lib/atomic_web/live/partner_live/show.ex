@@ -4,9 +4,8 @@ defmodule AtomicWeb.PartnerLive.Show do
   import AtomicWeb.Components.{Avatar, Socials}
   import AtomicWeb.LiveHelpers
 
-  alias Atomic.Accounts
-  alias Atomic.Organizations
-  alias Atomic.Partners
+  alias Atomic.{Accounts, Organizations, Partners}
+  alias Atomic.{Location, Socials}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -31,6 +30,9 @@ defmodule AtomicWeb.PartnerLive.Show do
      )
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
+
+  defp related_partners(current, partners),
+    do: Enum.filter(partners, fn partner -> partner.id != current.id end)
 
   defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
     do: false

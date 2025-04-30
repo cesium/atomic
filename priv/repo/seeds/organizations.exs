@@ -23,13 +23,17 @@ defmodule Atomic.Repo.Seeds.Organizations do
     # Seed CeSIUM
     %Organization{
       name: "CeSIUM",
-      long_name:
-        "CeSIUM - Centro de Estudantes de Engenharia Informática da Universidade do Minho",
+      email: "cesium@di.uminho.pt",
+      long_name: "Centro de Estudantes de Engenharia Informática da Universidade do Minho",
       description:
         "O CeSIUM é um grupo de estudantes voluntários, que tem como objetivo representar e promover o curso de Engenharia Informática 💾 na UMinho 🎓",
-      location: %{
-        name: "Departamento de Informática, Campus de Gualtar, Universidade do Minho",
-        url: "https://cesium.di.uminho.pt"
+      location: "Edifício 7, Universidade do Minho",
+      socials: %{
+        facebook: "cesiuminho",
+        instagram: "cesiuminho",
+        x: "cesiuminho",
+        linkedin: "cesiuminho",
+        website: "https://cesium.pt"
       }
     }
     |> Repo.insert!()
@@ -50,8 +54,12 @@ defmodule Atomic.Repo.Seeds.Organizations do
           {:ok, new_org} =
             %{
               name: organization["name"],
+              email: Faker.Internet.email(),
               long_name: organization["long_name"],
-              description: organization["description"]
+              description: organization["description"],
+              socials: %{
+                website: Faker.Internet.url()
+              }
             }
             |> Organizations.create_organization()
 

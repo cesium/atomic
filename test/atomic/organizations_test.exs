@@ -78,17 +78,7 @@ defmodule Atomic.OrganizationsTest do
       membership = insert(:membership, role: :admin)
 
       memberships =
-        Organizations.list_memberships(%{"organization_id" => membership.organization_id})
-        |> Enum.map(& &1.id)
-
-      assert memberships == [membership.id]
-    end
-
-    test "list_memberships/1 returns all memberships of user" do
-      membership = insert(:membership)
-
-      memberships =
-        Organizations.list_memberships(%{"user_id" => membership.user_id})
+        Organizations.list_memberships(membership.organization_id)
         |> Enum.map(& &1.id)
 
       assert memberships == [membership.id]

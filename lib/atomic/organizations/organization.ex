@@ -3,17 +3,16 @@ defmodule Atomic.Organizations.Organization do
   use Atomic.Schema
 
   alias Atomic.Accounts.User
-  alias Atomic.Location
   alias Atomic.Organizations.{Announcement, Department, Membership, Partner}
-  alias Atomic.Uploaders
+  alias Atomic.{Socials, Uploaders}
 
-  @required_fields ~w(name long_name description)a
-  @optional_fields ~w()a
+  @required_fields ~w(name email long_name description)a
+  @optional_fields ~w(location)a
 
   @derive {
     Flop.Schema,
-    filterable: [],
-    sortable: [:name],
+    filterable: [:name],
+    sortable: [:name, :follower_count],
     compound_fields: [search: [:name]],
     default_order: %{
       order_by: [:name],
@@ -23,11 +22,18 @@ defmodule Atomic.Organizations.Organization do
 
   schema "organizations" do
     field :name, :string
+    field :email, :string
     field :long_name, :string
     field :description, :string
 
     field :logo, Uploaders.Logo.Type
-    embeds_one :location, Location, on_replace: :delete
+    field :location, :string
+
+    # field used to better track the number of followers
+    # can only be updated by the system and through the memberships schema
+    field :follower_count, :integer, default: 0
+
+    embeds_one :socials, Socials, on_replace: :update
 
     has_many :departments, Department,
       on_replace: :delete_if_exists,
@@ -51,7 +57,7 @@ defmodule Atomic.Organizations.Organization do
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, @required_fields ++ @optional_fields)
-    |> cast_embed(:location, with: &Location.changeset/2)
+    |> cast_embed(:socials, with: &Socials.changeset/2)
     |> validate_required(@required_fields)
     |> unique_constraint(:name)
   end
