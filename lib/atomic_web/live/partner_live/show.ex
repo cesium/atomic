@@ -1,7 +1,8 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Gradient, Tabs}
+  import AtomicWeb.Components.{Avatar, Tabs, Gradient}
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -20,6 +21,7 @@ defmodule AtomicWeb.PartnerLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, partner.name)
+     |> assign_page_metadata(:partner)
      |> assign(:current_page, :partners)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
