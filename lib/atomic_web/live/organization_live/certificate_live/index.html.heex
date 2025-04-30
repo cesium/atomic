@@ -9,9 +9,8 @@
     <div class="w-64 flex-shrink-0">
       <h3 class="mb-4 font-bold">Display Elements</h3>
       <.field field={f[:Background]} type="switch" label="Show Background" required class="mb-4 w-full" value={@certificate_options.background} />
-      <.field field={f[:title]} type="switch" label="Show Title" required class="mb-4 w-full" value={@certificate_options.title} />
-      <.field field={f[:content]} type="switch" label="Show Content" required class="mb-4 w-full" value={@certificate_options.content} />
-      <.field field={f[:organization]} type="switch" label="Highlight Organization" required class="mb-4 w-full" value={@certificate_options.organization} />
+      <.field field={f[:title]} type="number" label="Title Size" required class="mb-4 w-full" value={@certificate_options.title} />
+      <.field field={f[:content]} type="textarea"  label="Content text" required class="mb-4 w-full" value={@certificate_options.content} />
 
       <h3 class="mt-8 mb-4 font-bold">Color Options</h3>
       <.field field={f[:Background_color]} type="color" label="Background Color" required class="mb-4 w-full" value={@certificate_options.background_color} />

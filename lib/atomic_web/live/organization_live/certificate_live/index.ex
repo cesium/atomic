@@ -10,8 +10,8 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   def mount(_params, _session, socket) do
     certificate_options = %{
       background: true,
-      title: true,
-      content: true,
+      title: 62,
+      content: "Para os devidos efeitos, certifica-se que participou na atividade",
       organization: true,
       background_color: "#ffffff",
       title_color: "#fb923c",
@@ -85,8 +85,8 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   defp extract_certificate_options(params) do
     %{
       background: Map.get(params, "Background") == "true",
-      title: Map.get(params, "title") == "true",
-      content: Map.get(params, "content") == "true",
+      title: parse_integer(Map.get(params, "title"), 62),
+      content: Map.get(params, "content") || "Para os devidos efeitos, certifica-se que participou na atividade",
       organization: Map.get(params, "organization") == "true",
       background_color: Map.get(params, "Background_color") || "#ffffff",
       title_color: Map.get(params, "title_color") || "#fb923c",
@@ -94,4 +94,13 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       organization_color: Map.get(params, "organization_color") || "#000000"
     }
   end
+
+  defp parse_integer(value, default) when is_binary(value) do
+    case Integer.parse(value) do
+      {int, _} -> int
+      :error -> default
+    end
+  end
+
+  defp parse_integer(_, default), do: default
 end

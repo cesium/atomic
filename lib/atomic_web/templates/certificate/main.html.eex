@@ -17,7 +17,7 @@
             padding: 0;
         }
         .title {
-            font-size: 62px;
+            font-size: <%= Map.get(@certificate_options, :title, 62) %>px;
             color: <%= Map.get(@certificate_options, :title_color, "#fb923c") %>;
             font-weight: bolder;
             padding-top: 36px;
@@ -62,24 +62,18 @@
 </head>
 <body>
     <div class="container">
-        <%= if Map.get(@certificate_options, :title, true) do %>
-        <div class="title">Certificado de Participação</div>
-        <% end %>
-        
-        <%= if Map.get(@certificate_options, :content, true) do %>
+        <div class="title">Certificado de Participação</div>        
         <p class="content">
-            Para os devidos efeitos, certifica-se que
+            <%= Map.get(@certificate_options, :content, "Para os devidos efeitos, certifica-se que participou na atividade") %>
         </p>
         <span class="name"> enrollmen </span>
         <p class="content">
-            participou na atividade 
             <%= if Map.get(@certificate_options, :organization, true) do %>
             <span class="organization">Atividade</span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
             <% else %>
             Atividade, organizada pelo(a) <%= @organization.name %>.
             <% end %>
         </p>
-        <% end %>
 
         
         <p class="note">
