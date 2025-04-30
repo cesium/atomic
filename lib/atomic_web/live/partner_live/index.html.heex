@@ -37,7 +37,6 @@
       <%= for partner <- @partners do %>
         <.link navigate={~p"/organizations/#{partner.organization_id}/partners/#{partner.id}"} class="block hover:bg-zinc-50">
           <.partner_card partner={partner} />
-
         </.link>
       <% end %>
     </ul>

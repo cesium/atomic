@@ -16,13 +16,13 @@
         </div>
         <div class="grid w-auto grid-rows-2 gap-y-2 lg:w-full">
           <h1 class="text-wrap truncate text-center text-2xl font-bold text-gray-900 lg:py-1 lg:text-left">
-            <%= @partner.name %>
+            {@partner.name}
           </h1>
           <div class="my-0 grid gap-y-2 lg:gap-y-0">
             <%= if @partner.location do %>
               <div class="flex items-center">
                 <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
-                <.link class="text-sm text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}><%= @partner.location.name %></.link>
+                <.link class="text-sm text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>{@partner.location.name}</.link>
               </div>
             <% end %>
             <%= if @partner.socials do %>
@@ -57,7 +57,7 @@
               <div class="absolute top-0 right-0 lg:py-4">
                 <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
                   <span class="hidden lg:block">
-                    <%= gettext("Edit Partner") %>
+                    {gettext("Edit Partner")}
                   </span>
                 </.button>
               </div>
@@ -70,13 +70,13 @@
         <.link patch="?tab=benefits" replace={false}>
           <.tab id="benefits-tab" active={@current_tab == "benefits"}>
             <.icon name="hero-signal" class="size-5 mr-2" />
-            <%= gettext("Benefits") %>
+            {gettext("Benefits")}
           </.tab>
         </.link>
         <.link patch="?tab=about" replace={false}>
           <.tab id="about-tab" active={@current_tab == "about"}>
             <.icon name="hero-information-circle" class="size-5 mr-2" />
-            <%= gettext("About") %>
+            {gettext("About")}
           </.tab>
         </.link>
       </.tabs>
@@ -97,7 +97,7 @@
         <%= if @current_tab == "about" do %>
           <div class="px-2 py-4 text-zinc-800">
             <%= for phrase <- String.split(@partner.description, "\n") do %>
-              <%= phrase %>
+              {phrase}
             <% end %>
           </div>
         <% end %>
@@ -118,15 +118,15 @@
                 <.avatar class="size-10" color={:light_zinc} name={partner.name} src={Uploaders.PartnerImage.url({partner.image, partner}, :original)} type={:company} size={:xs} />
               </div>
               <div class="flex-grow flex-col gap-y-5">
-                <h1 class="text-lg font-semibold text-zinc-800"><%= partner.name %></h1>
+                <h1 class="text-lg font-semibold text-zinc-800">{partner.name}</h1>
                 <%= if partner.location do %>
                   <div class="flex flex-row items-center gap-x-1">
                     <.icon name="hero-map-pin" class="my-1 h-4 w-4 text-zinc-400" />
-                    <span class="text-xs text-blue-500"><%= partner.location.name %></span>
+                    <span class="text-xs text-blue-500">{partner.location.name}</span>
                   </div>
                 <% end %>
                 <p class="mt-1 overflow-hidden truncate overflow-ellipsis whitespace-normal text-xs leading-5 text-zinc-500">
-                  <span class="text-md text-sm text-zinc-500"><%= partner.description %></span>
+                  <span class="text-md text-sm text-zinc-500">{partner.description}</span>
                 </p>
               </div>
             </li>
