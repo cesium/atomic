@@ -25,7 +25,15 @@ defmodule Atomic.AccountsFixtures do
 
   def extract_user_token(fun) do
     {:ok, captured_email} = fun.(&"[TOKEN]#{&1}[TOKEN]")
-    [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
+
+    body =
+      if captured_email.html_body do
+        captured_email.html_body
+      else
+        captured_email.text_body
+      end
+
+    [_, token | _] = String.split(body, "[TOKEN]")
     token
   end
 end
