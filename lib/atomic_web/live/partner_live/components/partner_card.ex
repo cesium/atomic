@@ -28,15 +28,16 @@ defmodule AtomicWeb.PartnerLive.Components.PartnerCard do
             </div>
             <%= if @partner.location do %>
               <div class="z-1 flex items-center gap-x-1 leading-6">
-                <.icon name="hero-map-pin" class="my-1 h-4 w-4 text-zinc-400" />
+                <.icon name="hero-map-pin" class="h-6 w-6 text-zinc-400" />
                 <p class="text-center text-sm text-blue-400">{@partner.location.name}</p>
               </div>
             <% end %>
           </div>
         </div>
-        <ul class="flex list-disc flex-col gap-1 px-10 pb-10">
+        <ul class="flex list-none flex-col gap-2 px-10 pb-10">
           <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-            <li class="text-sm leading-5 text-zinc-500">
+            <li class="flex items-start justify-start gap-1 text-sm leading-5 text-zinc-500">
+              <.icon name="hero-check" class="h-4 w-4 shrink-0" />
               <span class="line-clamp-1">{phrase}</span>
             </li>
           <% end) %>
