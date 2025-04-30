@@ -34,7 +34,7 @@ defmodule Atomic.Accounts.UserNotifier do
       |> subject("Confirm your Account")
       |> assign(:user, user)
       |> assign(:url, url)
-      |> render_body("user_confirmation.txt")
+      |> render_body("user_confirmation.html")
 
     case Mailer.deliver(email) do
       {:ok, _term} -> {:ok, email}
@@ -51,7 +51,7 @@ defmodule Atomic.Accounts.UserNotifier do
       |> subject("Reset Password Instructions")
       |> assign(:user, user)
       |> assign(:url, url)
-      |> render_body("user_reset_password.txt")
+      |> render_body("user_reset_password.html")
 
     case Mailer.deliver(email) do
       {:ok, _term} -> {:ok, email}
