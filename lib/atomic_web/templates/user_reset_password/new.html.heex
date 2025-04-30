@@ -1,11 +1,11 @@
 <div class="bg-hero-pattern flex h-screen w-screen flex-col items-center justify-center bg-opacity-25 bg-cover bg-center bg-no-repeat lg:bg-[length:2000px_1400px]">
-  <.form :let={f} for={%{}} as={:user} action={~p"/users/reset_password"} class="flex flex-col items-center justify-center w-full h-full mx-8 mt-8 space-y-6 sm:mx-0">
+  <.form :let={f} for={%{}} as={:user} action={~p"/users/reset_password"} class="mx-8 mt-8 flex h-full w-full flex-col items-center justify-center space-y-6 sm:mx-0">
     <div class="flex flex-col">
       <div class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
         <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
         <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
       </div>
-      <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900"><%= gettext("Recover account") %></h2>
+      <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900">{gettext("Recover account")}</h2>
     </div>
     <%= if @error_message do %>
       <div class="mx-4 mt-4 w-full px-4 sm:w-96 sm:px-0">

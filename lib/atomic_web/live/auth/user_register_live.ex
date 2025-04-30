@@ -20,12 +20,12 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
           <div>
             <div class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
               <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
-              <p class="text-2xl font-semibold text-zinc-400"><%= gettext("Atomic") %></p>
+              <p class="text-2xl font-semibold text-zinc-400">{gettext("Atomic")}</p>
             </div>
-            <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900"><%= gettext("Register for an account") %></h2>
+            <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900">{gettext("Register for an account")}</h2>
             <p class="text-sm/6 mt-2 text-gray-500">
-              <%= gettext("Already have an account?") %>
-              <.link patch={~p"/users/log_in"} class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("Log in") %></.link>
+              {gettext("Already have an account?")}
+              <.link patch={~p"/users/log_in"} class="text-primary-600 font-semibold hover:text-primary-700">{gettext("Log in")}</.link>
             </p>
           </div>
 
@@ -38,16 +38,16 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
                 <.field field={@form[:confirm_password]} type="password" label="Confirm Password" required />
                 <div class="flex justify-between">
                   <div class="flex gap-1">
-                    <.field field={@form[:terms]} type="checkbox" label="" />
-                    <p class="text-sm"><%= gettext("I agree to the") %>
-                      <.link navigate={~p"/tos"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("terms of service") %></.link>
-                      <%= gettext("and") %>
-                      <.link navigate={~p"/privacy"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("privacy policy.") %></.link></p>
+                    <.field field={@form[:terms]} type="checkbox" label="" required />
+                    <p class="text-sm">{gettext("I agree to the")}
+                      <.link navigate={~p"/tos"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700">{gettext("terms of service")}</.link>
+                      {gettext("and")}
+                      <.link navigate={~p"/privacy"} target="_blank" class="text-primary-600 font-semibold hover:text-primary-700">{gettext("privacy policy.")}</.link></p>
                   </div>
                 </div>
                 <div>
                   <.button class="mt-4 w-full sm:mt-0" size={:md}>
-                    <%= gettext("Sign up") %>
+                    {gettext("Sign up")}
                   </.button>
                 </div>
               </.form>

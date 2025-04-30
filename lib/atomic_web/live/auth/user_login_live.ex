@@ -18,10 +18,10 @@ defmodule AtomicWeb.Auth.UserLoginLive do
               <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
               <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
             </div>
-            <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900"><%= gettext("Sign in to your account") %></h2>
+            <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900">{gettext("Sign in to your account")}</h2>
             <p class="text-sm/6 mt-2 text-gray-500">
-              <%= gettext("Not a member?") %>
-              <.link patch={~p"/users/register"} class="text-primary-600 font-semibold hover:text-primary-700"><%= gettext("Sign up here") %></.link>
+              {gettext("Not a member?")}
+              <.link patch={~p"/users/register"} class="text-primary-600 font-semibold hover:text-primary-700">{gettext("Sign up here")}</.link>
             </p>
           </div>
 
@@ -35,13 +35,13 @@ defmodule AtomicWeb.Auth.UserLoginLive do
                     <.field field={@form[:remember_me]} type="checkbox" label="Remember me" />
                   </div>
                   <.link patch={~p"/users/reset_password"} class="text-primary-600 text-sm font-semibold hover:text-primary-700">
-                    <%= gettext("Forgot your password?") %>
+                    {gettext("Forgot your password?")}
                   </.link>
                 </div>
 
                 <div>
                   <.button class="w-full" size={:md}>
-                    <%= gettext("Log in") %>
+                    {gettext("Log in")}
                   </.button>
                 </div>
               </.form>
