@@ -5,6 +5,8 @@ defmodule AtomicWeb.ActivityLive.Show do
   alias Atomic.Activities
   alias Atomic.Activities.Enrollment
 
+  import AtomicWeb.LiveHelpers
+
   @impl true
   def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
@@ -21,7 +23,8 @@ defmodule AtomicWeb.ActivityLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, "#{activity.title}")
+     |> assign(:page_title, activity.title)
+     |> assign_page_metadata(:activity)
      |> assign(:current_page, :activities)
      |> assign(:activity, activity)
      |> assign(:enrolled, activity.enrolled)

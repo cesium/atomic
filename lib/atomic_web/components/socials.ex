@@ -10,7 +10,7 @@ defmodule AtomicWeb.Components.Socials do
 
     ~H"""
     <div class="grid grid-cols-2 gap-2 md:flex md:flex-row">
-      <%= for {social, icon, url_base, social_value} <- @socials_with_values do %>
+      <%= for {social, icon, url_base, social_value} <- assigns.socials_with_values do %>
         <%= if social_value do %>
           <div class="flex flex-row items-center gap-x-2">
             <img src={"/images/" <> icon} class="h-5 w-5" alt={Atom.to_string(social)} />
@@ -25,9 +25,11 @@ defmodule AtomicWeb.Components.Socials do
   end
 
   defp get_social_values(entity) do
+    socials = Map.get(entity, :socials, %{})
+
     get_socials()
     |> Enum.map(fn {social, icon, url_base} ->
-      social_value = Map.get(entity, social)
+      social_value = Map.get(socials, social)
       {social, icon, url_base, social_value}
     end)
   end

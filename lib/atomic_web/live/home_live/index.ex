@@ -5,6 +5,7 @@ defmodule AtomicWeb.HomeLive.Index do
   import AtomicWeb.Components.{Activity, Announcement, Tabs, Unauthenticated, Dropdown}
   import AtomicWeb.HomeLive.Components.{FollowSuggestions, Schedule}
   import AtomicWeb.Components.LegalPagesLinks
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Activities
   alias Atomic.Feed
@@ -25,8 +26,9 @@ defmodule AtomicWeb.HomeLive.Index do
   def handle_params(params, _, socket) do
     {:noreply,
      socket
-     |> assign(:current_page, :home)
      |> assign(:page_title, gettext("Home"))
+     |> assign_page_metadata(:home)
+     |> assign(:current_page, :home)
      |> assign(:schedule_default, fetch_default_schedule())
      |> assign(:schedule_user, fetch_user_schedule(socket.assigns.current_user))
      |> assign(:current_tab, current_tab(socket, params))
