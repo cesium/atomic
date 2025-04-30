@@ -44,12 +44,12 @@ defmodule AtomicWeb.Components.Avatar do
     ~H"""
     <span class={generate_avatar_classes(assigns)}>
       <%= if @src do %>
-        <img src={@src} class={"atomic-avatar--#{assigns.type} h-full w-full"} />
+        <img src={@src} class={"atomic-avatar--#{assigns.type} h-full w-full"} alt={assigns.name} />
       <% else %>
         <%= if @auto_generate_initials do %>
-          <%= extract_initials(@name) %>
+          {extract_initials(@name)}
         <% else %>
-          <%= @name %>
+          {@name}
         <% end %>
       <% end %>
     </span>

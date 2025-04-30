@@ -1,6 +1,8 @@
 defmodule AtomicWeb.ProfileLive.Edit do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Accounts
 
   @impl true
@@ -16,6 +18,7 @@ defmodule AtomicWeb.ProfileLive.Edit do
       {:noreply,
        socket
        |> assign(:page_title, user.name)
+       |> assign_page_metadata(:user_profile)
        |> assign(:current_page, :profile)
        |> assign(:user, user)}
     else

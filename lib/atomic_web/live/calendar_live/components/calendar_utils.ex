@@ -2,7 +2,7 @@ defmodule AtomicWeb.CalendarLive.Components.CalendarUtils do
   @moduledoc """
   Calendar utils functions to be used on all views.
   """
-  use Phoenix.HTML
+  use PhoenixHTMLHelpers
   use Timex
 
   def build_beggining_date(_timezone, "month", current_date) do

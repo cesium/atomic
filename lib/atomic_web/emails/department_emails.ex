@@ -43,15 +43,18 @@ defmodule AtomicWeb.DepartmentEmails do
       {:error, reason}
   """
   def send_collaborator_request_email(collaborator, department, collaborator_review_url,
-        to: emails
+        to: admins
       ) do
-    base_email(to: emails)
-    |> subject("[Atomic] New collaborator request for #{department.name}")
-    |> assign(:collaborator, collaborator)
-    |> assign(:department, department)
-    |> assign(:collaborator_review_url, collaborator_review_url)
-    |> render_body("collaborator_request.html")
-    |> Mailer.deliver()
+    Enum.each(admins, fn admin ->
+      base_email(to: admin.email)
+      |> subject("[Atomic] New collaborator request for #{department.name}")
+      |> assign(:admin_name, admin.name)
+      |> assign(:collaborator, collaborator)
+      |> assign(:department, department)
+      |> assign(:collaborator_review_url, collaborator_review_url)
+      |> render_body("collaborator_request.html")
+      |> Mailer.deliver()
+    end)
   end
 
   defp base_email(to: email) do

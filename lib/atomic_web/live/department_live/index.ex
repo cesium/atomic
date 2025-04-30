@@ -3,6 +3,7 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
   import AtomicWeb.Components.{Button, Empty}
   import AtomicWeb.DepartmentLive.Components.DepartmentCard
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Departments
@@ -21,7 +22,8 @@ defmodule AtomicWeb.DepartmentLive.Index do
 
     {:noreply,
      socket
-     |> assign(:page_title, "#{organization.name}'s #{gettext("Departments")}")
+     |> assign(:page_title, "#{organization.name}#{gettext("'s Departments")}")
+     |> assign_page_metadata(:departments)
      |> assign(:current_page, :departments)
      |> assign(:organization, organization)
      |> assign(:departments, departments)

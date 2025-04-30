@@ -2,6 +2,7 @@ defmodule AtomicWeb.PrivacyLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.LegalTermsLive.Components.{Header, MainTitle, BlackBar}
+  import AtomicWeb.LiveHelpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -12,7 +13,8 @@ defmodule AtomicWeb.PrivacyLive.Show do
   def handle_params(_params, _, socket) do
     {:noreply,
      socket
-     |> assign(:current_page, :privacy)
-     |> assign(:page_title, gettext("Privacy Policy"))}
+     |> assign(:page_title, gettext("Privacy Policy"))
+     |> assign_page_metadata(:privacy)
+     |> assign(:current_page, :privacy)}
   end
 end

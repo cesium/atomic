@@ -61,7 +61,7 @@ defmodule AtomicWeb.Components.Sidebar do
             <div class="flex-1 overflow-y-auto px-4 py-4">
               <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />
               <%= if Enum.count(@organizations) > 0 do %>
-                <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+                <div class="text-xs font-semibold leading-6 text-zinc-400">{gettext("Your organizations")}</div>
                 <.live_component id="mobile-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
               <% end %>
             </div>
@@ -86,7 +86,7 @@ defmodule AtomicWeb.Components.Sidebar do
         <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />
         <!-- Organizations listing -->
         <%= if Enum.count(@organizations) > 0 do %>
-          <div class="text-xs font-semibold leading-6 text-zinc-400"><%= gettext("Your organizations") %></div>
+          <div class="text-xs font-semibold leading-6 text-zinc-400">{gettext("Your organizations")}</div>
           <.live_component id="desktop-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
         <% end %>
         <!-- Sidebar -->
@@ -103,15 +103,15 @@ defmodule AtomicWeb.Components.Sidebar do
     <ul role="list" class="-mx-2 space-y-1">
       <%= for page <- AtomicWeb.Config.pages(@current_user, @current_organization) do %>
         <li class="select-none">
-          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-orange-500" else "text-zinc-700 hover:text-orange-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
+          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-primary-500" else "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
             <.icon name={page.icon} class={
                 "#{if @current_page == page.key do
-                  "text-orange-500"
+                  "text-primary-500"
                 else
-                  "text-zinc-400 group-hover:text-orange-500"
+                  "text-zinc-400 group-hover:text-primary-500"
                 end} size-6 shrink-0"
               } />
-            <%= page.title %>
+            {page.title}
           </.link>
         </li>
       <% end %>
@@ -126,7 +126,7 @@ defmodule AtomicWeb.Components.Sidebar do
         <:wrapper>
           <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
             <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_zinc} class="!text-sm" />
-            <span class="text-sm font-semibold leading-6"><%= @current_user.name %></span>
+            <span class="text-sm font-semibold leading-6">{@current_user.name}</span>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
         </:wrapper>
@@ -143,7 +143,7 @@ defmodule AtomicWeb.Components.Sidebar do
   defp sidebar_header(assigns) do
     ~H"""
     <.link navigate={~p"/"} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
-      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" alt="Atomic" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
     """

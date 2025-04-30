@@ -25,7 +25,7 @@
 
           <%= if @partner.socials do %>
             <!-- Socials and Website -->
-            <div class="flex flex-wrap gap-x-4 items-center mt-2">
+            <div class="mt-2 flex flex-wrap items-center gap-x-4">
               <!-- Website -->
               <%= if @partner.socials.website do %>
                 <div class="flex flex-row items-center gap-x-1">
@@ -50,12 +50,12 @@
           </div>
           <span class="py-4">
             <%= Enum.map(String.split(@partner.description, "\n"), fn phrase -> %>
-              <%= phrase %>
+              {phrase}
             <% end) %>
           </span>
         </div>
         <div class="px-2 py-4 text-zinc-800">
-          <div class="flex flex-row items-center gap-x-2 text-zinc-800">
+        <div class="px-2 py-4 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Benefits</h2>
           </div>

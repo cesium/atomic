@@ -17,7 +17,7 @@ defmodule AtomicWeb do
   and import those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt humans.txt)
 
   def controller do
     quote do
@@ -98,8 +98,9 @@ defmodule AtomicWeb do
 
   defp view_helpers do
     quote do
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      import Phoenix.HTML
+      import Phoenix.HTML.Form
+      use PhoenixHTMLHelpers
 
       # Import LiveView and .heex helpers (<.link>, <.form>, etc)
       import Phoenix.LiveView.Helpers

@@ -37,12 +37,12 @@ defmodule AtomicWeb.Components.Tabs do
     ~H"""
     <button class={tab_class(@active, @underline) ++ [@class]} disabled={@disabled} {@rest}>
       <%= if @number do %>
-        <%= render_slot(@inner_block) || @label %>
+        {render_slot(@inner_block) || @label}
         <span class={number_class(@active, @underline)}>
-          <%= @number %>
+          {@number}
         </span>
       <% else %>
-        <%= render_slot(@inner_block) || @label %>
+        {render_slot(@inner_block) || @label}
       <% end %>
     </button>
     """
@@ -53,7 +53,7 @@ defmodule AtomicWeb.Components.Tabs do
 
     active_classes =
       if active,
-        do: "bg-orange-100 text-orange-600",
+        do: "bg-primary-100 text-primary-600",
         else: "text-zinc-500 hover:text-zinc-600"
 
     [base_classes, active_classes]
@@ -64,7 +64,7 @@ defmodule AtomicWeb.Components.Tabs do
 
     active_classes =
       if active,
-        do: "border-orange-500 text-orange-600",
+        do: "border-primary-500 text-primary-600",
         else: "text-zinc-500 border-transparent hover:border-zinc-300 hover:text-zinc-600"
 
     underline_classes =

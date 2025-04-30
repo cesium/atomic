@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full scroll-smooth">
   <head>
+    <meta name="title" content={assigns[:page_title]} />
+    <meta name="description" content={assigns[:page_description] || "Atomic"} />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%= csrf_meta_tag() %>
-    <%= live_title_tag(assigns[:page_title] || "") %>
+    {csrf_meta_tag()}
+    <.live_title>
+      {assigns[:page_title] || "Atomic"}
+    </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
   <body class="h-full bg-white">
-    <%= @inner_content %>
+    {@inner_content}
   </body>
 </html>

@@ -11,10 +11,10 @@ defmodule AtomicWeb.Components.Page do
     default: false,
     doc: "Whether to show a bottom border after the page header."
 
-  slot :header, optional: true, doc: "Slot for content to be rendered as the page header."
+  slot :header, required: false, doc: "Slot for content to be rendered as the page header."
 
-  slot :actions, optional: true, doc: "Slot for actions to be rendered in the page header."
-  slot :inner_block, optional: true, doc: "Slot for the body content of the page."
+  slot :actions, required: false, doc: "Slot for actions to be rendered in the page header."
+  slot :inner_block, required: false, doc: "Slot for the body content of the page."
 
   def page(assigns) do
     ~H"""
@@ -38,8 +38,7 @@ defmodule AtomicWeb.Components.Page do
               </div>
             </div>
           </div>
-
-          <%= render_slot(@inner_block) %>
+          {render_slot(@inner_block)}
         </main>
       </div>
     </div>

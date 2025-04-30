@@ -1,6 +1,6 @@
 <div>
   <.form id="activity-form" for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
-    <div class="relative py-5 border-b border-zinc-200 sm:py-6">
+    <div class="relative border-b border-zinc-200 py-5 sm:py-6">
       <div class="flex flex-col gap-y-3 lg:self-end">
         <div class="w-full">
           <.field type="text" field={@form[:title]} placeholder="Choose a title" required />
@@ -14,45 +14,45 @@
       </div>
 
       <div class="flex flex-col">
-        <div class="flex pt-6 flex-col md:flex-row justify-center md:justify-start">
+        <div class="flex flex-col justify-center pt-6 md:flex-row md:justify-start">
           <div class="flex flex-col gap-y-1">
             <.field type="datetime-local" field={@form[:start]} label="Starting date" required />
           </div>
 
-          <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
+          <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
             <.field type="datetime-local" field={@form[:finish]} label="Ending date" required />
           </div>
         </div>
 
-        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
+        <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-start">
           <div class="flex flex-col gap-y-1">
             <.field type="number" field={@form[:minimum_entries]} label="Minimum entries" placeholder="Choose minimum entries" required />
           </div>
 
-          <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
+          <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
             <.field type="number" field={@form[:maximum_entries]} label="Maximum entries" placeholder="Choose maximum entries" required />
           </div>
         </div>
 
-        <div class="flex mt-4 flex-col md:flex-row justify-center md:justify-start">
+        <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-start">
           <.inputs_for :let={fl} field={@form[:location]}>
             <div class="flex flex-col gap-y-1">
               <.field type="text" field={fl[:name]} label="Location" placeholder="Choose location name" required />
             </div>
 
-            <div class="flex flex-col md:ml-8 gap-y-1 mt-4 sm:mt-0">
+            <div class="mt-4 flex flex-col gap-y-1 sm:mt-0 md:ml-8">
               <.field type="url" field={fl[:url]} label="URL" placeholder="Choose an URL" />
             </div>
           </.inputs_for>
         </div>
 
-        <div class="flex-grow mt-4">
+        <div class="mt-4 flex-grow">
           <.field type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required />
         </div>
       </div>
     </div>
 
-    <div class="flex-grow mt-4">
+    <div class="mt-4 flex-grow">
       <div class="flex justify-center lg:justify-end">
         <.button type="submit" phx-disable-with="Saving...">Save</.button>
       </div>

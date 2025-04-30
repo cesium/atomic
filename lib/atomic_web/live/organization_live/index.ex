@@ -5,6 +5,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
 
   import AtomicWeb.Components.{Dropdown, Pagination, Empty, Forms}
   import AtomicWeb.OrganizationLive.Components.OrganizationCard
+  import AtomicWeb.LiveHelpers
 
   @impl true
   def mount(_params, _session, socket) do
@@ -23,6 +24,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, gettext("Organizations"))
+     |> assign_page_metadata(:organizations)
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
      |> stream(:organizations, organizations)
