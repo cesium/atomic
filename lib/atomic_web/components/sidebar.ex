@@ -143,7 +143,7 @@ defmodule AtomicWeb.Components.Sidebar do
   defp sidebar_header(assigns) do
     ~H"""
     <.link navigate={~p"/"} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
-      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" alt="Atomic" />
       <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
     </.link>
     """

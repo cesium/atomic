@@ -1,6 +1,8 @@
 defmodule AtomicWeb.ProfileLive.Edit do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Accounts
 
   @impl true
@@ -12,10 +14,11 @@ defmodule AtomicWeb.ProfileLive.Edit do
   def handle_params(%{"slug" => user_slug}, _, socket) do
     user = Accounts.get_user_by_slug(user_slug)
 
-    if socket.assigns.current_user.slug == user_slug do
+    if socket.assigns.current_user && socket.assigns.current_user.slug == user_slug do
       {:noreply,
        socket
        |> assign(:page_title, user.name)
+       |> assign_page_metadata(:user_profile)
        |> assign(:current_page, :profile)
        |> assign(:user, user)}
     else

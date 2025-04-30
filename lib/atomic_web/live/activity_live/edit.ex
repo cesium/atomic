@@ -4,6 +4,8 @@ defmodule AtomicWeb.ActivityLive.Edit do
 
   alias Atomic.Activities
 
+  import AtomicWeb.LiveHelpers
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -15,8 +17,10 @@ defmodule AtomicWeb.ActivityLive.Edit do
 
     {:noreply,
      socket
+     |> assign(:page_title, "Edit Activity")
+     |> assign_page_metadata(:edit_activity)
      |> assign(:current_page, :activities)
-     |> assign(:page_title, gettext("Edit Activity"))
+     |> assign(:current_organization, activity.organization)
      |> assign(:activity, activity)}
   end
 end
