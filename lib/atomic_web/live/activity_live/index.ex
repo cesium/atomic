@@ -2,6 +2,7 @@ defmodule AtomicWeb.ActivityLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -16,7 +17,8 @@ defmodule AtomicWeb.ActivityLive.Index do
   def handle_params(params, _, socket) do
     {:noreply,
      socket
-     |> assign(:page_title, gettext("Activities"))
+     |> assign(:page_title, "Activities")
+     |> assign_page_metadata(:activities)
      |> assign(:current_page, :activities)
      |> assign(:current_tab, current_tab(socket, params))
      |> assign(:params, params)

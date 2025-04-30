@@ -1,6 +1,8 @@
 defmodule AtomicWeb.OrganizationLive.Edit do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Organizations
 
   @impl true
@@ -15,6 +17,7 @@ defmodule AtomicWeb.OrganizationLive.Edit do
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign_page_metadata(:organization)
      |> assign(:organization, organization)
      |> assign(:current_page, :organizations)}
   end

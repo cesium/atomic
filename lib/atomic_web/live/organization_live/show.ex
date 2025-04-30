@@ -2,6 +2,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.Avatar
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Activities
@@ -21,6 +22,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
+     |> assign_page_metadata(:organization)
      |> assign(:organization, organization)
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)
