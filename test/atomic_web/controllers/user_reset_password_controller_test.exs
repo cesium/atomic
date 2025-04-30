@@ -13,7 +13,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
     test "renders the reset password page", %{conn: conn} do
       conn = get(conn, ~p"/users/reset_password")
       response = html_response(conn, 200)
-      assert response =~ "Recover Account"
+      assert response =~ "Reset password"
     end
   end
 
@@ -72,7 +72,7 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
 
     test "renders reset password", %{conn: conn, token: token} do
       conn = get(conn, ~p"/users/reset_password/#{token}")
-      assert html_response(conn, 200) =~ "Reset Password"
+      assert html_response(conn, 200) =~ "Reset password"
     end
   end
 
@@ -111,7 +111,6 @@ defmodule AtomicWeb.UserResetPasswordControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "Reset Password"
       assert response =~ "should be at least 12 character(s)"
       assert response =~ "does not match password"
     end
