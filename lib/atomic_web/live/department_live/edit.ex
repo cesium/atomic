@@ -2,6 +2,8 @@ defmodule AtomicWeb.DepartmentLive.Edit do
   @moduledoc false
   use AtomicWeb, :live_view
 
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Departments
   alias Atomic.Organizations.Department
   alias Phoenix.LiveView.JS
@@ -21,10 +23,11 @@ defmodule AtomicWeb.DepartmentLive.Edit do
 
     {:noreply,
      socket
+     |> assign(:page_title, gettext("Edit Department"))
+     |> assign_page_metadata(:edit_department)
      |> assign(:organization_id, organization_id)
      |> assign(:action, nil)
      |> assign(:current_page, :departments)
-     |> assign(:page_title, gettext("Edit Department"))
      |> assign(:department, department)}
   end
 
@@ -36,10 +39,11 @@ defmodule AtomicWeb.DepartmentLive.Edit do
       ) do
     {:noreply,
      socket
+     |> assign(:page_title, gettext("New Department"))
+     |> assign_page_metadata(:new_department)
      |> assign(:organization_id, organization_id)
      |> assign(:action, nil)
      |> assign(:current_page, :departments)
-     |> assign(:page_title, gettext("New Department"))
      |> assign(:department, %Department{organization_id: organization_id})}
   end
 

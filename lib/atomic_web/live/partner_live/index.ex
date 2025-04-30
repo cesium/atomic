@@ -2,6 +2,8 @@ defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.LiveHelpers
+
   alias Atomic.Accounts
   alias Atomic.Organizations
   alias Atomic.Partners
@@ -17,7 +19,8 @@ defmodule AtomicWeb.PartnerLive.Index do
 
     {:noreply,
      socket
-     |> assign(:page_title, "#{organization.name}'s #{gettext("Partners")}")
+     |> assign(:page_title, "#{organization.name}#{gettext("'s Partners")}")
+     |> assign_page_metadata(:partners)
      |> assign(:current_page, :partners)
      |> assign(:params, params)
      |> assign(:current_tab, current_tab(socket, params))

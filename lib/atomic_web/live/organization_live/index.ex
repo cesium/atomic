@@ -5,6 +5,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
   import AtomicWeb.Components.Empty
   import AtomicWeb.Components.Pagination
   import AtomicWeb.Components.Button
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -21,6 +22,7 @@ defmodule AtomicWeb.OrganizationLive.Index do
     {:noreply,
      socket
      |> assign(:page_title, gettext("Organizations"))
+     |> assign_page_metadata(:organizations)
      |> assign(:current_page, :organizations)
      |> assign(:params, params)
      |> assign(organizations_with_flop)

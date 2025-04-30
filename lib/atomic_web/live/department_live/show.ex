@@ -2,6 +2,7 @@ defmodule AtomicWeb.DepartmentLive.Show do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Table, Pagination, Modal}
+  import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
   alias Atomic.Departments
@@ -29,9 +30,10 @@ defmodule AtomicWeb.DepartmentLive.Show do
       raise Ecto.NoResultsError, queryable: Atomic.Organizations.Department
     else
       socket
+      |> assign(:page_title, department.name)
+      |> assign_page_metadata(:departments)
       |> assign(:current_page, :departments)
       |> assign(:current_view, current_view(socket, params))
-      |> assign(:page_title, department.name)
       |> assign(:organization, organization)
       |> assign(:department, department)
       |> assign(:params, params)
@@ -64,9 +66,10 @@ defmodule AtomicWeb.DepartmentLive.Show do
     has_permissions = has_permissions?(socket, organization_id)
 
     socket
+    |> assign(:page_title, gettext("Edit Collaborator"))
+    |> assign_page_metadata(:edit_department)
     |> assign(:current_page, :departments)
     |> assign(:current_view, current_view(socket, params))
-    |> assign(:page_title, department.name)
     |> assign(:organization, organization)
     |> assign(:department, department)
     |> assign(:collaborator, collaborator)
