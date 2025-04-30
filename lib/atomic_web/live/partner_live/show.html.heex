@@ -14,56 +14,63 @@
         <div class="flex flex-col items-center px-2 lg:justify-none">
           <.avatar class="size-28" color={:light_zinc} name={@partner.name} src={Uploaders.PartnerImage.url({@partner.image, @partner}, :original)} type={:company} size={:xl} />
         </div>
-        <div class="grid w-auto grid-rows-2 gap-y-2 lg:w-full">
-          <h1 class="text-wrap truncate text-center text-2xl font-bold text-gray-900 lg:py-1 lg:text-left">
-            {@partner.name}
-          </h1>
-          <div class="my-0 grid gap-y-2 lg:gap-y-0">
-            <%= if @partner.location do %>
-              <div class="flex items-center">
-                <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
-                <.link class="text-sm text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>{@partner.location.name}</.link>
-              </div>
-            <% end %>
-            <%= if @partner.socials do %>
-              <div class="flex flex-wrap gap-2">
-                <%= if @partner.socials.website do %>
-                  <div class="flex items-center gap-x-1">
-                    <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
-                    <.link class="text-sm text-blue-500" href={@partner.socials.website}>Website</.link>
-                  </div>
-                <% end %>
-                <%= if @partner.socials.instagram do %>
-                  <div class="flex items-center gap-x-1">
-                    <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
-                    <.link class="text-sm text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
-                  </div>
-                <% end %>
-                <%= if @partner.socials.facebook do %>
-                  <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                    <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
-                    <.link class="text-sm text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
-                  </div>
-                <% end %>
-                <%= if @partner.socials.x do %>
-                  <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
-                    <img src="/images/x.svg" class="h-5 w-5" alt="X" />
-                    <.link class="text-sm text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
+        <div class="flex flex-col gap-7 w-full">
+          <div class="flex items-start w-full">
+            <p class="flex items-center flex-1 text-wrap truncate text-center text-2xl font-bold text-gray-900 lg:py-1 sm:text-left">
+              {@partner.name}
+            </p>
+
             <%= if @has_permissions? do %>
-              <div class="absolute top-0 right-0 lg:py-4">
-                <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
-                  <span class="hidden lg:block">
-                    {gettext("Edit Partner")}
-                  </span>
-                </.button>
-              </div>
+                <div>
+                  <.button navigate={~p"/organizations/#{@partner.organization_id}/partners/#{@partner.id}/edit"} icon="hero-pencil">
+                    <span class="hidden lg:block">
+                      {gettext("Edit Partner")}
+                    </span>
+                  </.button>
+                </div>
             <% end %>
           </div>
+          <div class="grid w-auto gap-y-2 h-fit lg:w-full">
+            <div class="my-0 grid gap-y-2 lg:gap-y-0">
+              <%= if @partner.location do %>
+                <div class="flex items-center">
+                  <.icon name="hero-map-pin" class="h-5 w-5 text-zinc-400" />
+                  <.link class="text-sm text-blue-500" href={"https://www.google.com/maps/search/?api=1&query=#{@partner.location.name}"}>{@partner.location.name}</.link>
+                </div>
+              <% end %>
+              <%= if @partner.socials do %>
+                <div class="flex flex-wrap gap-2">
+                  <%= if @partner.socials.website do %>
+                    <div class="flex items-center gap-x-1">
+                      <.icon name="hero-globe-alt" class="h-5 w-5 text-zinc-400" />
+                      <.link class="text-sm text-blue-500" href={@partner.socials.website}>Website</.link>
+                    </div>
+                  <% end %>
+                  <%= if @partner.socials.instagram do %>
+                    <div class="flex items-center gap-x-1">
+                      <img src="/images/instagram.svg" class="h-5 w-5" alt="Instagram" />
+                      <.link class="text-sm text-blue-500" href={"https://instagram.com/" <> @partner.socials.instagram}>Instagram</.link>
+                    </div>
+                  <% end %>
+                  <%= if @partner.socials.facebook do %>
+                    <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                      <img src="/images/facebook.svg" class="h-5 w-5" alt="Facebook" />
+                      <.link class="text-sm text-blue-500" href={"https://facebook.com/" <> @partner.socials.facebook}>Facebook</.link>
+                    </div>
+                  <% end %>
+                  <%= if @partner.socials.x do %>
+                    <div class="flex flex-row items-center gap-x-1 gap-y-0 sm:gap-y-2">
+                      <img src="/images/x.svg" class="h-5 w-5" alt="X" />
+                      <.link class="text-sm text-blue-500" href={"https://x.com/" <> @partner.socials.x}>X</.link>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
         </div>
+        
       </div>
       <!--Tabs-->
       <.tabs class="scrollbar-hide mt-2 flex overflow-auto px-4">
@@ -106,7 +113,7 @@
   </div>
   <%= if @partners do %>
     <div class="mt-4 flex flex-col gap-x-2 text-zinc-800">
-      <div class="flex flex-row items-center gap-x-2 px-2">
+      <div class="flex flex-row items-center gap-x-2 px-4 sm:px-6 lg:px-8">
         <.icon name="hero-star" class="mb-2 h-5 w-5" />
         <h2 class="mb-2 flex-1 select-none truncate py-2 text-lg font-semibold text-gray-900">Related Partners</h2>
       </div>

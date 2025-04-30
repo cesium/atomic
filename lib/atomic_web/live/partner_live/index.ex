@@ -2,7 +2,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   import AtomicWeb.PartnerLive.Components.PartnerCard
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.Components.{Button, Empty, Pagination, Tabs}
   import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts

@@ -34,17 +34,13 @@ defmodule AtomicWeb.PartnerLive.Components.PartnerCard do
             <% end %>
           </div>
         </div>
-        <div>
-          <p class="overflow-hidden truncate overflow-ellipsis whitespace-normal px-10 pb-10 text-xs leading-5 text-zinc-500">
+        <ul class="flex flex-col list-disc gap-1 px-10 pb-10">
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-              <%= if String.length(phrase) < 50 do %>
-                {phrase}<br />
-              <% else %>
-                {String.slice(phrase, 0..50) <> "..."} <br />
-              <% end %>
+            <li class="text-sm leading-5 text-zinc-500">
+              <span class="line-clamp-1"><%= phrase %></span>
+            </li>
             <% end) %>
-          </p>
-        </div>
+        </ul>
       </div>
     </li>
     """
