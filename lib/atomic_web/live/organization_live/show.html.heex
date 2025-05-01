@@ -1,61 +1,80 @@
-<.page title={@page_title} description="@cesium">
+<.page title={} description={}>
   <:header>
-    <div class="h-32 w-full select-none">
-      <%!-- FIXME: Add banner support --%>
-      <%!-- <%= if @organization.banner do %>
+    <%!-- <%= if @organization.banner do %>
         <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
       <% else %> --%>
-      <.gradient seed={@organization.id} class="object-cover" />
-      <%!-- <% end %> --%>
-    </div>
+    <.gradient seed={@organization.id} class="max-h-36 w-full select-none rounded-b-lg object-cover" />
+    <%!-- %> <% end %> --%>
   </:header>
 
-  <:actions>
-    <%= if @has_permissions? do %>
-      <p class="sr-only"><%= gettext("Edit") %></p>
-      <.button icon="hero-pencil-solid" color={:white} />
-    <% end %>
+  <div class="flex flex-row justify-between">
+    <div class="flex h-32 select-none justify-items-start pl-8 text-left">
+      <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} color={:light_zinc} />
 
-    <p class="sr-only"><%= gettext("Contact") %></p>
-    <.link href={"mailto:#{@organization.email}"} target="_blank">
-      <.button icon="hero-envelope-solid" color={:white} />
-    </.link>
+      <div class="flex flex-col pl-4 text-left sm:text-left">
+        <h2 class="text-2xl font-medium text-zinc-900">
+          {@organization.name}
+        </h2>
+        <h2 class="text-sm font-semibold text-zinc-500">
+          {"@" <> String.downcase(@organization.name)}
+        </h2>
+        <div class="mt-2 flex items-center gap-2 text-sm text-zinc-700">
+          <span class="font-bold">{@followers_count}</span>
+          <span>{gettext("Followers")}</span>
+        </div>
+      </div>
+    </div>
 
-    <%= if @current_user && Organizations.user_following?(@current_user.id, @organization.id) do %>
-      <%!-- TODO: Dropdown with unfollow option --%>
-      <.button icon="hero-star-solid" color={:white}><%= gettext("Following") %></.button>
-    <% else %>
-      <%!-- TODO: Follow functionality --%>
-      <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star"><%= gettext("Follow") %></.button>
-    <% end %>
-  </:actions>
+    <div class="flex flex-row gap-2 pr-8">
+      <%= if @has_permissions? do %>
+        <.link patch={~p"/organizations/#{@organization}/edit"}>
+          <.button icon="hero-pencil-solid" color={:white}>{gettext("Edit")}</.button>
+        </.link>
+        <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
+          <.button icon="hero-trash-solid" color={:white}>{gettext("Delete")}</.button>
+        <% end %>
+      <% end %>
+
+      <.link href={"mailto:#{@organization.email}"} target="_blank">
+        <.button icon="hero-envelope-solid" color={:white}>{gettext("Contact")}</.button>
+      </.link>
+
+      <%!-- TODO UNFOLLOW --%>
+
+      <%= if @current_user && @following? do %>
+        <.button icon="hero-star-solid" class="h-min" color={:white}>{gettext("Following")}</.button>
+      <% else %>
+        <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star" class="h-min">{gettext("Follow")}</.button>
+      <% end %>
+    </div>
+  </div>
 
   <.tabs class="scrollbar-hide flex overflow-scroll px-4 sm:px-6 lg:px-8">
     <.link patch="?tab=about" replace={false}>
       <.tab id="about-tab" active={@current_tab == "about"}>
         <.icon name="hero-information-circle" class="size-5 mr-2" />
-        <%= gettext("About") %>
+        {gettext("About")}
       </.tab>
     </.link>
 
-    <.link patch="?tab=posts" replace={false}>
+    <.link navigate="?tab=posts" replace={true}>
       <.tab id="posts-tab" active={@current_tab == "posts"}>
         <.icon name="hero-newspaper" class="size-5 mr-2" />
-        <%= gettext("Posts") %>
+        {gettext("Posts")}
       </.tab>
     </.link>
 
     <.link patch="?tab=departments" replace={false}>
-      <.tab id="department-tab" active={@current_tab == "departments"}>
+      <.tab id="departments-tab" active={@current_tab == "departments"}>
         <.icon name="hero-cube" class="size-5 mr-2" />
-        <%= gettext("Departments") %>
+        {gettext("Departments")}
       </.tab>
     </.link>
 
     <.link patch="?tab=partners" replace={false}>
       <.tab id="partners-tab" active={@current_tab == "partners"}>
         <.icon name="tabler-heart-handshake" class="size-5 mr-2" />
-        <%= gettext("Partners") %>
+        {gettext("Partners")}
       </.tab>
     </.link>
 
@@ -68,14 +87,34 @@
     </.link> --%>
   </.tabs>
 
-  <div class="mt-8">
-    <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
-      <.about organization={@organization} />
-    </div>
+  <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
+    <p class="mt-6 max-w-3xl text-base text-zinc-900">
+      {@organization.description}
+    </p>
+  </div>
+
+  <div :if={@current_tab == "posts"} class="px-4 sm:px-6 lg:px-8">
+    <p class="mt-6 max-w-3xl text-base text-zinc-900">
+      <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
+        <li :for={{id, post} <- @streams.posts} id={id} class="border-b border-zinc-200 py-4">
+          <%= if post.type == :activity do %>
+            <.link navigate={~p"/activities/#{post.activity}"}>
+              <.activity activity={post.activity} />
+            </.link>
+          <% else %>
+            <.link navigate={~p"/announcements/#{post.announcement}"}>
+              <.announcement announcement={post.announcement} />
+            </.link>
+          <% end %>
+        </li>
+      </ul>
+    </p>
+  </div>
 
   <div :if={@current_tab == "departments"} class="px-4 pt-4 sm:px-6 lg:px-8">
     <.departments_grid organization={@organization} />
   </div>
+</.page>
 
 <%!--  NON USED MEMBERS PAGE
   <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
@@ -92,4 +131,5 @@
       <% end %>
     </div>
     {gettext("View all")}
-  </div> --%>
+   </div> --%>
+ 

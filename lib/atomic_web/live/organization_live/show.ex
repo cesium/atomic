@@ -1,9 +1,14 @@
 defmodule AtomicWeb.OrganizationLive.Show do
   use AtomicWeb, :live_view
 
-  alias Atomic.{Accounts, Organizations, Departments, Activities}
+  alias Atomic.{Accounts, Organizations, Departments, Activities, Partners}
+  alias Atomic.Uploaders.Logo
+  alias Atomic.Feed
+  import AtomicWeb.LiveHelpers
+  import String
+  import AtomicWeb.PartnerLive.Index
 
-  import AtomicWeb.Components.{Gradient, Tabs}
+  import AtomicWeb.Components.{Avatar, Activity, Announcement, Empty, Gradient, Pagination, Tabs}
 
   import AtomicWeb.OrganizationLive.Components.{
     About,
@@ -28,18 +33,21 @@ defmodule AtomicWeb.OrganizationLive.Show do
   @impl true
   def handle_params(%{"id" => organization_id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
-    members = maybe_list_members(organization.id, params["tab"])
+    tab = current_tab(socket, params)
+    members = maybe_list_members(organization.id, tab)
     member_count = Organizations.count_memberships(organization.id)
+    partners = list_all_partners(organization_id, params)
 
     {:noreply,
      socket
      |> assign(:page_title, organization.name)
-     |> assign(:current_page, :organization)
-     |> assign(:current_tab, current_tab(socket, params))
+     |> assign(:current_page, :organizations)
+     |> assign(:current_tab, tab)
      |> assign(:organization, organization)
      |> assign(:members, members)
      |> assign(:member_count, member_count)
      |> assign(:people, Organizations.list_organizations_members(organization))
+     |> assign(:partners, partners)
      |> assign(:current_page, :organizations)
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
      |> assign(list_activities(organization_id))
@@ -111,7 +119,8 @@ defmodule AtomicWeb.OrganizationLive.Show do
   end
 
   defp maybe_put_following(socket, organization) do
-    Organizations.member_of?(socket.assigns.current_user, organization)
+    socket.assigns.current_user &&
+      Organizations.member_of?(socket.assigns.current_user, organization)
   end
 
   defp maybe_list_members(organization_id, "members"),
