@@ -24,14 +24,15 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import "../vendor/alpine.js";
 import topbar from "../vendor/topbar"
-import { QrScanner, InitSorting, StickyScroll, ScrollToTop } from "./hooks";
+import { QrScanner, InitSorting, StickyScroll, ScrollToTop, AutoFocus } from "./hooks";
 import phxFeedbackDom from "./shims/phx_feedback_dom.js"
 
 let Hooks = {
   QrScanner: QrScanner,
   InitSorting: InitSorting,
   StickyScroll: StickyScroll,
-  ScrollToTop: ScrollToTop
+  ScrollToTop: ScrollToTop,
+  AutoFocus: AutoFocus,
 };
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")

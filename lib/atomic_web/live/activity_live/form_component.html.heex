@@ -16,18 +16,7 @@
       <div class="flex flex-col">
         <div class="flex flex-col">
           <div class="w-full">
-            <.field
-              type="text"
-              field={@form[:title]}
-              label_class="hidden"
-              wrapper_class="!bg-white text-3xl"
-              autocomplete="off"
-              error_class="text-danger-600 placeholder-danger-700"
-              error_label_class="text-danger-700"
-              class="border-none focus:ring-0 shadow-none font-bold text-4xl !bg-white p-0"
-              placeholder="Activity Title"
-              required
-            />
+            <.field type="text" field={@form[:title]} label_class="hidden" wrapper_class="!bg-white text-3xl" autocomplete="off" class="border-none focus:ring-0 shadow-none font-bold text-4xl !bg-white p-0" placeholder="Activity Title" required />
           </div>
         </div>
         <div class="flex w-full">
@@ -79,8 +68,6 @@
               label_class="hidden"
               wrapper_class="m-0"
               autocomplete="off"
-              error_class="text-danger-600 placeholder-danger-700"
-              error_label_class="text-danger-700"
               class="atomic-button pointer-events-none cursor-pointer select-none border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>

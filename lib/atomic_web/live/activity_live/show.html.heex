@@ -86,7 +86,7 @@
             <div class="flex items-center gap-2">
               <.icon name="hero-user-group" class="h-5 w-5 text-gray-700" />
               <p class="font-medium">
-                {@activity.enrolled} {if @activity.maximum_entries, do: "/ #{@activity.maximum_entries}"}
+                {Enum.count(@participants)} {if @activity.maximum_entries, do: "/ #{@activity.maximum_entries}"}
               </p>
             </div>
           </.link>
@@ -162,7 +162,7 @@
           <!-- Activity participants (desktop) -->
           <div :if={@activity.enrolled > 0} class="pt-4">
             <h2 class="text-md mb-2 flex-1 select-none truncate font-semibold text-gray-900">
-              {gettext("%{enrolled} Going", enrolled: @activity.enrolled)}
+              {gettext("%{enrolled} Going", enrolled: Enum.count(@participants))}
             </h2>
             <.avatar_group
               size={:xs}
