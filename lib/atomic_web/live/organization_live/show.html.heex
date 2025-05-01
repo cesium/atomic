@@ -72,9 +72,9 @@
       <.about organization={@organization} />
     </div>
 
-    <div :if={@current_tab == "departments"} class="px-4 sm:px-6 lg:px-8">
-      <.departments_grid organization={@organization} />
-    </div>
+  <div :if={@current_tab == "departments"} class="px-4 pt-4 sm:px-6 lg:px-8">
+    <.departments_grid organization={@organization} />
+  </div>
 
     <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
       <.membership_banner organization={@organization} />
