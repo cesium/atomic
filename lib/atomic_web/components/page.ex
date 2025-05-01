@@ -18,7 +18,7 @@ defmodule AtomicWeb.Components.Page do
 
   def page(assigns) do
     ~H"""
-    <%= render_slot(@header) %>
+    {render_slot(@header)}
 
     <div class="flex min-h-full flex-col items-stretch justify-between lg:flex-row">
       <div class="min-h-[100vh] flex w-full flex-col bg-white lg:flex-row lg:border-r">
@@ -27,14 +27,14 @@ defmodule AtomicWeb.Components.Page do
             <div class="my-6 flex min-w-0 flex-row items-center justify-between">
               <div class="flex flex-col">
                 <h1 class="flex-1 select-none truncate text-2xl font-bold text-zinc-900">
-                  <%= @title %>
+                  {@title}
                 </h1>
                 <h3 :if={@description} class="flex-1 select-none truncate text-sm font-medium text-zinc-500">
-                  <%= @description %>
+                  {@description}
                 </h3>
               </div>
               <div class="flex space-x-4">
-                <%= render_slot(@actions) %>
+                {render_slot(@actions)}
               </div>
             </div>
           </div>

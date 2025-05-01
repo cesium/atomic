@@ -75,13 +75,13 @@
               color={:white}
               icon="hero-user-plus-solid"
             >
-              <%= gettext("Collaborate") %>
+              {gettext("Collaborate")}
             </.button>
           <% end %>
         <% else %>
           <%= if ! @current_collaborator.accepted do %>
             <.button color={:white} icon="hero-user-plus-solid" aria-label={gettext("You have requested to collaborate with this department. Please wait for the department owner to accept your request.")} disabled>
-              <%= gettext("Collaborate") %>
+              {gettext("Collaborate")}
             </.button>
           <% end %>
         <% end %>
@@ -103,17 +103,17 @@
   <%= if @current_view == "show" do %>
     <div class="mx-4 mt-8 grid grid-cols-3 grid-rows-1 sm:mx-6 lg:mx-8">
       <div class="col-span-3 sm:col-span-2">
-        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("Recent Activity") %></h2>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">{gettext("Recent Activity")}</h2>
         <!-- Recent activity empty state -->
         <.link class="mt-4 flex flex-col items-center justify-center" navigate={~p"/organizations/#{@organization.id}"}>
           <.avatar class="mb-4 p-1" type={:organization} color={:white} size={:lg} name={@organization.name} src={Uploaders.Logo.url({@organization.logo, @organization}, :original)} />
-          <p class="select-none text-center text-zinc-900"><%= gettext("This department doesn't have any recent activity.") %></p>
-          <p class="select-none text-center text-zinc-900"><%= gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name) %></p>
+          <p class="select-none text-center text-zinc-900">{gettext("This department doesn't have any recent activity.")}</p>
+          <p class="select-none text-center text-zinc-900">{gettext("In the meantime, check out %{organization_name}.", organization_name: @organization.name)}</p>
         </.link>
       </div>
       <!-- People -->
       <div class="hidden w-full sm:block">
-        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900"><%= gettext("People") %></h2>
+        <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">{gettext("People")}</h2>
         <div class="mb-2 flex max-w-full flex-wrap gap-1">
           <%= for collaborator <- @all_collaborators |> Enum.take(18) do %>
             <div class="h-12">
@@ -123,11 +123,11 @@
           <!-- People empty state -->
           <%= if length(@all_collaborators) == 0 do %>
             <.icon class="mx-32 text-zinc-900" name="hero-users" />
-            <p class="mb-4 select-none text-center text-zinc-900"><%= gettext("This department doesn't have any collaborators yet!") %></p>
+            <p class="mb-4 select-none text-center text-zinc-900">{gettext("This department doesn't have any collaborators yet!")}</p>
           <% end %>
         </div>
         <.link :if={length(@all_collaborators) != 0} patch={~p"/organizations/#{@organization}/departments/#{@department}?tab=collaborators"} class="text-orange-500 hover:cursor-pointer hover:underline">
-          <%= gettext("View all collaborators") %>
+          {gettext("View all collaborators")}
         </.link>
       </div>
     </div>
@@ -141,9 +141,9 @@
           <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Collaborators</h2>
           <div class="border-t border-l">
             <.table items={@collaborators} meta={@meta} filter={[]}>
-              <:col :let={collaborator} label="Name" field={:string}><%= collaborator.user.name %></:col>
-              <:col :let={collaborator} label="Email" field={:string}><%= collaborator.user.email %></:col>
-              <:col :let={collaborator} label="Phone number" field={:string}><%= collaborator.user.phone_number %></:col>
+              <:col :let={collaborator} label="Name" field={:string}>{collaborator.user.name}</:col>
+              <:col :let={collaborator} label="Email" field={:string}>{collaborator.user.email}</:col>
+              <:col :let={collaborator} label="Phone number" field={:string}>{collaborator.user.phone_number}</:col>
               <:col :let={collaborator} label="Accepted" field={:string}>
                 <input type="checkbox" disabled={true} checked={collaborator.accepted} class="mx-auto block rounded-md text-zinc-600" />
               </:col>
@@ -167,8 +167,8 @@
               <div class="flex">
                 <.avatar name={collaborator.user.name} />
                 <div class="ml-3 flex h-full flex-col self-center">
-                  <p><%= collaborator.user.name %></p>
-                  <p>@<%= collaborator.user.slug %></p>
+                  <p>{collaborator.user.name}</p>
+                  <p>@{collaborator.user.slug}</p>
                 </div>
               </div>
             </div>

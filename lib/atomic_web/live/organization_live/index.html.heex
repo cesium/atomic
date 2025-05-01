@@ -2,7 +2,7 @@
   <:actions>
     <%= if not @empty? and @has_permissions? do %>
       <.button navigate={~p"/organizations/new"} icon="hero-plus">
-        <%= gettext("New") %>
+        {gettext("New")}
       </.button>
     <% end %>
 
@@ -15,9 +15,9 @@
       ]}
     >
       <:wrapper>
-        <button type="button" class="inline-flex items-center w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+        <button type="button" class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
           <.icon name="hero-bars-arrow-up" class="size-5 -ml-0.5 text-gray-500" />
-          <%= gettext("Sort") %>
+          {gettext("Sort")}
           <.icon name="hero-chevron-down" class="size-4 -mr-0.5 text-gray-500" />
         </button>
       </:wrapper>
