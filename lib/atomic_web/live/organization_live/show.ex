@@ -33,7 +33,6 @@ defmodule AtomicWeb.OrganizationLive.Show do
      |> assign(:member_count, member_count)
      |> assign(:people, Organizations.list_organizations_members(organization))
      |> assign(:current_page, :organizations)
-     |> assign(:organization, organization)
      |> assign(:departments, Departments.list_departments_by_organization_id(organization_id))
      |> assign(list_activities(organization_id))
      |> assign(:followers_count, Organizations.count_followers(organization_id))
