@@ -13,8 +13,16 @@ defmodule AtomicWeb.OrganizationLive.Show do
   }
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(%{"id" => organization_id} = _params, _session, socket) do
+    %{entries: entries, metadata: metadata} =
+      Feed.list_organization_posts_paginated(organization_id,
+        order_by: [desc: :inserted_at, desc: :id]
+      )
+
+    {:ok,
+     socket
+     |> stream(:posts, entries)
+     |> assign(:metadata, metadata)}
   end
 
   @impl true
