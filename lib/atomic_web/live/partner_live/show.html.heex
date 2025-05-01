@@ -1,7 +1,7 @@
 <.page title={@page_title}>
   <:actions :if={@has_permissions?}>
     <.button navigate={~p"/organizations/#{@organization}/partners/#{@partner}/edit"} icon="hero-pencil">
-      <%= gettext("Edit Partner") %>
+      {gettext("Edit Partner")}
     </.button>
   </:actions>
 
@@ -15,12 +15,12 @@
         <div>
           <div class="flex items-center justify-between">
             <h1 class="text-wrap flex-1 select-none truncate text-xl font-bold text-zinc-900 sm:text-2xl">
-              <%= @partner.name %>
+              {@partner.name}
             </h1>
           </div>
           <.link :if={@partner.location} href={Location.link(@partner.location)} target="_blank" class="group flex flex-row items-center space-x-1">
             <.icon name={:map_pin} class="size-4" />
-            <p class="text-sm group-hover:underline"><%= @partner.location.name %></p>
+            <p class="text-sm group-hover:underline">{@partner.location.name}</p>
           </.link>
 
           <%= if @partner.socials do %>
@@ -55,13 +55,13 @@
           </span>
         </div>
         <div class="px-2 py-4 text-zinc-800">
-        <div class="px-2 py-4 text-zinc-800">
+          <div class="px-2 py-4 text-zinc-800">
             <.icon name="hero-signal" class="size-5 mb-2" />
             <h2 class="mb-2 flex-1 truncate text-lg font-semibold text-zinc-900">Benefits</h2>
           </div>
           <span>
             <%= Enum.map(String.split(@partner.benefits, "\n"), fn phrase -> %>
-              <%= maybe_slice_string(phrase, 300) %>
+              {maybe_slice_string(phrase, 300)}
             <% end) %>
           </span>
         </div>
