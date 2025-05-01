@@ -26,8 +26,8 @@ defmodule AtomicWeb.Components.Dropdown do
       <div phx-click={JS.toggle(to: "##{@id}", in: {"ease-out duration-100", "transform opacity-0 scale-95", "transform opacity-100 scale-100"}, out: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"}, display: "block")}>
         {render_slot(@wrapper)}
       </div>
-      <div id={@id} class={"#{if @orientation == :down, do: "top-full mt-3 origin-top-right", else: "bottom-full mb-3 origin-bottom-right"} absolute right-0 z-10 hidden w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"}>
-        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+      <div id={@id} class={"#{if @orientation == :down, do: "top-full mt-2 origin-top", else: "bottom-full mb-2 origin-bottom"} shadow-zinc-400/50 absolute right-0 z-10 hidden w-full min-w-fit rounded-md bg-white shadow-lg ring-1 ring-zinc-300"}>
+        <div class="p-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
           <%= for item <- @items do %>
             <%= if item[:patch] || item[:navigate] || item[:href] || item[:phx_click] do %>
               <.link
@@ -41,12 +41,12 @@ defmodule AtomicWeb.Components.Dropdown do
                     JS.hide(to: "##{@id}", transition: {"ease-in duration-75", "transform opacity-100 scale-100", "transform opacity-0 scale-95"})
                   end
                 }
-                class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
+                class={"#{item[:class]} flex items-center gap-x-2 rounded-sm p-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"}
                 role="menuitem"
                 method={Map.get(item, :method, "get")}
               >
                 <%= if item[:icon] do %>
-                  <.icon name={item.icon} class="size-5 ml-2 inline-block" />
+                  <.icon name={item.icon} class={"#{item[:icon_class]} size-5 inline-block"} />
                 <% end %>
                 {item.name}
               </.link>

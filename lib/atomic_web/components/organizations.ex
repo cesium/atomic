@@ -16,7 +16,7 @@ defmodule AtomicWeb.Components.Organizations do
           <%= if @current_organization do %>
             <div class="group flex cursor-pointer gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-zinc-700 hover:text-primary-500">
               <.avatar
-                class={"#{if @current_organization && @current_organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && @current_organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
+                class={"#{(@current_organization && @current_organization.id == @current_organization.id) && "text-primary-600"} border border-zinc-200 group-hover:text-primary-500"}
                 src={Uploaders.Logo.url({@current_organization.logo, @current_organization}, :original)}
                 name={@current_organization.name}
                 size={:xs}
@@ -50,7 +50,7 @@ defmodule AtomicWeb.Components.Organizations do
                   type="button"
                 >
                   <.avatar
-                    class={"#{if @current_organization && organization.id == @current_organization.id do "border-primary-600" else "border-zinc-200" end} #{(@current_organization && organization.id == @current_organization.id) && "text-primary-600"} border group-hover:border-primary-600 group-hover:text-primary-500"}
+                    class={"#{(@current_organization && organization.id == @current_organization.id) && "text-primary-600"} border border-zinc-200 group-hover:text-primary-500"}
                     src={Uploaders.Logo.url({organization.logo, organization}, :original)}
                     name={organization.name}
                     size={:xs}

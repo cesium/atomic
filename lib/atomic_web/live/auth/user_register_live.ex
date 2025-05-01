@@ -19,8 +19,7 @@ defmodule AtomicWeb.Auth.UserRegisterLive do
         <div class="mx-auto w-full max-w-sm lg:w-96">
           <div>
             <div class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
-              <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
-              <p class="text-2xl font-semibold text-zinc-400">{gettext("Atomic")}</p>
+              <img src={~p"/images/logo_atomic_extended.svg"} class="pointer-events-none h-12 w-auto" />
             </div>
             <h2 class="text-2xl/9 mt-8 font-semibold tracking-tight text-gray-900">{gettext("Register for an account")}</h2>
             <p class="text-sm/6 mt-2 text-gray-500">

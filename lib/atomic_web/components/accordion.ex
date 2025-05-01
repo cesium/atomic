@@ -47,7 +47,7 @@ defmodule AtomicWeb.Components.Accordion do
             {assigns_to_attributes(trigger, [:class, :icon_name])}
           >
             {render_slot(trigger)}
-            <.icon class="accordion-trigger-icon absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 transition-all duration-300 ease-in-out" name={trigger[:icon_name] || "hero-chevron-down"} />
+            <.icon class="accordion-trigger-icon size-5 absolute top-1/2 right-4 -translate-y-1/2 transition-all duration-300 ease-in-out" name={trigger[:icon_name] || "hero-chevron-down"} />
           </button>
         </h3>
         <div class="accordion-panel grid-rows-[0fr] grid transform transition-all duration-200 ease-in data-[expanded]:grid-rows-[1fr]" data-expanded={panel[:default_expanded]} id={panel_id(@id, idx)} role="region">
