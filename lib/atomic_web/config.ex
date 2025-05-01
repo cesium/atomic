@@ -27,6 +27,7 @@ defmodule AtomicWeb.Config do
           key: :departments,
           title: "Departments",
           icon: "hero-cube",
+          icon_selected: "hero-cube-solid",
           url: ~p"/organizations/#{current_organization}/departments",
           tabs: []
         },
@@ -34,6 +35,7 @@ defmodule AtomicWeb.Config do
           key: :announcements,
           title: "Announcements",
           icon: "hero-newspaper",
+          icon_selected: "hero-newspaper-solid",
           url: ~p"/organizations/#{current_organization}/announcements",
           tabs: []
         },
@@ -41,6 +43,7 @@ defmodule AtomicWeb.Config do
           key: :partners,
           title: "Partners",
           icon: "hero-user-group",
+          icon_selected: "hero-user-group-solid",
           url: ~p"/organizations/#{current_organization}/partners",
           tabs: []
         }
@@ -53,6 +56,7 @@ defmodule AtomicWeb.Config do
         key: :home,
         title: "Home",
         icon: "hero-home",
+        icon_selected: "hero-home-solid",
         url: ~p"/",
         tabs: []
       },
@@ -60,6 +64,7 @@ defmodule AtomicWeb.Config do
         key: :calendar,
         title: "Calendar",
         icon: "hero-calendar",
+        icon_selected: "hero-calendar-solid",
         url: ~p"/calendar",
         tabs: []
       },
@@ -67,6 +72,7 @@ defmodule AtomicWeb.Config do
         key: :activities,
         title: "Activities",
         icon: "hero-academic-cap",
+        icon_selected: "hero-academic-cap-solid",
         url: ~p"/activities",
         tabs: []
       },
@@ -74,6 +80,7 @@ defmodule AtomicWeb.Config do
         key: :organizations,
         title: "Organizations",
         icon: "tabler-affiliate",
+        icon_selected: "tabler-affiliate-filled",
         url: ~p"/organizations",
         tabs: []
       }

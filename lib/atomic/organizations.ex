@@ -19,7 +19,9 @@ defmodule Atomic.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations(params \\ %{})
+  def list_organizations do
+    Organization |> Repo.all()
+  end
 
   def list_organizations(opts) when is_list(opts) do
     Organization

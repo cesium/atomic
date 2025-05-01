@@ -4,26 +4,13 @@
       <article class="sticky top-0">
         <!-- Header -->
         <div class="hidden lg:block">
-          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div class="my-6 flex min-w-0 select-none flex-row gap-x-2">
-              <%= if @is_authenticated? do %>
-                <h1 class="truncate text-2xl font-bold text-zinc-900">
-                  Welcome, {@current_user.name}
-                </h1>
-              <% else %>
-                <h1 class="truncate text-2xl font-bold text-zinc-900">
-                  Welcome to Atomic
-                </h1>
-              <% end %>
-              <span class="animate-wave text-2xl">
-                👋
-              </span>
-            </div>
+          <div class="mx-auto w-max px-4 pt-3 sm:px-6 lg:px-8">
+            <img src={~p"/images/logo_atomic.svg"} class="h-10 w-auto fill-slate-400" />
           </div>
         </div>
         <!-- Tabs -->
         <div x-data="{ option: 'all' }" class="sticky top-10 z-10 block bg-white lg:top-0">
-          <.tabs class="mx-auto max-w-5xl px-4 pt-1 sm:px-6 lg:px-8">
+          <.tabs class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <.tab id="tab-all" active={@current_tab == "all"} phx-click="load-all" phx-hook="ScrollToTop">
               {gettext("All")}
             </.tab>
@@ -72,7 +59,7 @@
     <!-- Schedule -->
     <section aria-labelledby="schedule" class="pr-4 pl-6">
       <div class="flex items-center justify-between pt-4">
-        <h1 class="text-zinc-90 text-xl font-bold">Schedule</h1>
+        <h1 class="text-zinc-90 text-xl font-bold">{gettext("Schedule")}</h1>
         <.dropdown
           :if={@current_user}
           id="schedule-dropdown"
@@ -84,7 +71,8 @@
             },
             %{
               name: gettext("My schedule"),
-              phx_click: "show-schedule-user"
+              phx_click: "show-schedule-user",
+              class: "text-nowrap"
             }
           ]}
         >

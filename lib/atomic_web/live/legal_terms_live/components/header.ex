@@ -28,10 +28,10 @@ defmodule AtomicWeb.LegalTermsLive.Components.Header do
         <div class="flex place-items-center gap-x-4">
           <!-- Atomic Logo -->
           <.link navigate={~p"/"}>
-            <img src={~p"/images/atomic.svg"} class="h-14 w-auto" />
+            <img src={~p"/images/logo_atomic.svg"} class="h-14 w-auto" />
           </.link>
         </div>
-        <div class="flex hidden place-items-center gap-x-2 text-sm font-semibold text-zinc-300 sm:block sm:gap-x-4 sm:space-x-2 md:space-x-4">
+        <div class="flex place-items-center gap-x-2 text-sm font-semibold text-zinc-300 sm:block sm:gap-x-4 sm:space-x-2 md:space-x-4">
           <%= for {type, title, path} <- link_pages(@page_name) do %>
             <%= case type do %>
               <% :current -> %>

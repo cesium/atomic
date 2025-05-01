@@ -19,7 +19,6 @@ defmodule AtomicWeb.Components.Sidebar do
 
     ~H"""
     <div class="relative z-50 hidden" role="dialog">
-      <.sidebar_header />
       <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />
     </div>
     <!-- Navigation -->
@@ -44,14 +43,12 @@ defmodule AtomicWeb.Components.Sidebar do
           <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>
       </div>
-      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50" phx-click={hide_mobile_sidebar()}></div>
+      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50 backdrop-blur-sm" phx-click={hide_mobile_sidebar()}></div>
       <!-- Sidebar Panel -->
       <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden w-64" role="dialog" aria-modal="true">
         <div class="fixed inset-0 flex w-fit">
-          <div class="relative flex w-64 max-w-xs flex-col border-r bg-white">
+          <div class="relative flex w-72 max-w-xs flex-col rounded-r-md border-r bg-white">
             <div class="flex justify-between p-4">
-              <.sidebar_header />
-
               <button type="button" phx-click={hide_mobile_sidebar()} class="absolute top-0 right-0 p-4">
                 <span class="sr-only">Close sidebar</span>
                 <.icon name="hero-x-mark" class="size-6 text-zinc-700" />
@@ -81,18 +78,16 @@ defmodule AtomicWeb.Components.Sidebar do
 
     ~H"""
     <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
-        <.sidebar_header />
+      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white p-6">
+        <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />
         <!-- Organizations listing -->
         <%= if Enum.count(@organizations) > 0 do %>
-          <div class="text-xs font-semibold leading-6 text-zinc-400">{gettext("Your organizations")}</div>
+          <div class="text-sm font-semibold leading-6 text-zinc-500">{gettext("Your organizations")}</div>
           <.live_component id="desktop-organizations" module={AtomicWeb.Components.Organizations} current_user={@current_user} current_organization={@current_organization} organizations={@organizations} />
         <% end %>
         <!-- Sidebar -->
-        <div class="absolute bottom-0 w-full">
-          <.sidebar_dropdown current_user={@current_user} orientation={:up} />
-        </div>
+        <div class="absolute bottom-0 w-full"></div>
       </div>
     </div>
     """
@@ -100,17 +95,20 @@ defmodule AtomicWeb.Components.Sidebar do
 
   defp sidebar_list(assigns) do
     ~H"""
-    <ul role="list" class="-mx-2 space-y-1">
+    <ul role="list" class="space-y-1">
       <%= for page <- AtomicWeb.Config.pages(@current_user, @current_organization) do %>
         <li class="select-none">
-          <.link navigate={page.url} class={"#{if @current_page == page.key do "bg-zinc-50 text-primary-500" else "text-zinc-700 hover:text-primary-500 hover:bg-zinc-50" end} group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"}>
-            <.icon name={page.icon} class={
+          <.link navigate={page.url} class={"#{if @current_page == page.key do "font-extrabold text-primary-500" else "text-zinc-700 hover:text-primary-500 font-medium" end} group flex gap-x-3 rounded-md p-2 leading-6 hover:bg-zinc-50"}>
+            <.icon
+              name={if @current_page == page.key, do: page.icon_selected, else: page.icon}
+              class={
                 "#{if @current_page == page.key do
                   "text-primary-500"
                 else
                   "text-zinc-400 group-hover:text-primary-500"
-                end} size-6 shrink-0"
-              } />
+                end} size-7 shrink-0"
+              }
+            />
             {page.title}
           </.link>
         </li>
@@ -124,9 +122,14 @@ defmodule AtomicWeb.Components.Sidebar do
     <%= if @current_user do %>
       <AtomicWeb.Components.Dropdown.dropdown orientation={@orientation} items={dropdown_items(@current_user)} id="user-menu-button">
         <:wrapper>
-          <button class="flex w-full select-none flex-row items-center gap-x-2 px-4 py-3 text-sm font-semibold leading-6 text-zinc-700 lg:px-0">
-            <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_zinc} class="!text-sm" />
-            <span class="text-sm font-semibold leading-6">{@current_user.name}</span>
+          <button class="flex w-full select-none flex-row items-center justify-between gap-x-2 rounded-md p-2 leading-6 text-zinc-700 hover:bg-zinc-100">
+            <div class="flex flex-row items-center gap-x-2">
+              <AtomicWeb.Components.Avatar.avatar name={@current_user.name} src={user_image(@current_user)} size={:xs} color={:light_zinc} />
+              <div class="flex flex-col items-start">
+                <span class="text-xs font-semibold">{@current_user.name}</span>
+                <span class="text-xs text-slate-600">@{@current_user.slug}</span>
+              </div>
+            </div>
             <.icon name="hero-chevron-right-solid" class="size-5" />
           </button>
         </:wrapper>
@@ -140,26 +143,23 @@ defmodule AtomicWeb.Components.Sidebar do
     """
   end
 
-  defp sidebar_header(assigns) do
-    ~H"""
-    <.link navigate={~p"/"} class="flex h-16 shrink-0 select-none items-center gap-x-4 pt-4">
-      <img src={~p"/images/atomic.svg"} class="h-14 w-auto" alt="Atomic" />
-      <p class="text-2xl font-semibold text-zinc-400">Atomic</p>
-    </.link>
-    """
-  end
-
   defp dropdown_items(nil), do: []
   defp dropdown_items(current_user), do: authenticated_dropdown_items(current_user)
 
   defp authenticated_dropdown_items(current_user) do
     [
       %{
+        icon: "hero-user-circle",
+        icon_class: "text-zinc-500",
         name: gettext("Your profile"),
+        class: "font-semibold",
         navigate: ~p"/profile/#{current_user}"
       },
       %{
+        icon: "hero-arrow-right-start-on-rectangle",
+        icon_class: "text-zinc-500",
         name: gettext("Sign out"),
+        class: "font-semibold",
         href: ~p"/users/log_out",
         method: "delete"
       }
@@ -173,7 +173,10 @@ defmodule AtomicWeb.Components.Sidebar do
       transition:
         {"transition ease-in-out duration-300 transform", "-translate-x-full", "translate-x-0"}
     )
-    |> JS.show(to: "#sidebar-overlay")
+    |> JS.show(
+      to: "#sidebar-overlay",
+      transition: {"ease-in duration-300", "opacity-0", "opacity-100"}
+    )
     |> JS.dispatch("focus", to: "#mobile-sidebar")
   end
 
@@ -200,5 +203,12 @@ defmodule AtomicWeb.Components.Sidebar do
   end
 
   defp get_organizations(nil), do: []
-  defp get_organizations(user), do: Organizations.list_user_organizations(user.id)
+
+  defp get_organizations(user) do
+    if user.role == :master do
+      Organizations.list_organizations()
+    else
+      Organizations.list_user_organizations(user.id)
+    end
+  end
 end
