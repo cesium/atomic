@@ -2,9 +2,8 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Departments
-  alias AtomicWeb.Components.ImageUploader
 
-  import AtomicWeb.Components.Forms
+  import AtomicWeb.Components.{Forms, ImageUploader}
 
   @impl true
   def render(assigns) do
@@ -24,7 +23,7 @@ defmodule AtomicWeb.DepartmentLive.FormComponent do
             <p class="atomic-form-help-text pb-4">{gettext("The banner of the department (2055×256px for best display)")}</p>
           </div>
           <div>
-            <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+            <.image_uploader id="uploader" upload={@uploads.image} class="h-32 w-full border border-zinc-300 shadow-sm xl:h-64" image_class="h-32 w-full object-cover xl:h-64" />
           </div>
         </div>
 
