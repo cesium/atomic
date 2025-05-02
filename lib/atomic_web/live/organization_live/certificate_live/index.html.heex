@@ -1,27 +1,28 @@
 <.page title="Certificate">
   <:actions>
-    <.button size={:md} color={:white} icon="hero-cube" type="button" phx-click="generate">
-      {gettext("Generate Certificate")}
+    <.button size={:md} color={:white} icon="hero-cube" type="button" phx-click="save">
+      {gettext("Save Certificate")}
     </.button>
   </:actions>
 
   <.form :let={f} for={@changeset} id="certificate-form" phx-change="validate" class="flex flex-row items-start gap-8">
     <div class="w-64 flex-shrink-0">
       <h3 class="mb-4 font-bold">Display Elements</h3>
-      <.field field={f[:Background]} type="switch" label="Show Background" required class="mb-4 w-full" value={@certificate_options.background} />
+      <.field field={f[:background]} type="switch" label="Show Background" required class="mb-4 w-full" value={@certificate_options.background} />
       <.field field={f[:title]} type="number" label="Title Size" required class="mb-4 w-full" value={@certificate_options.title} />
-      <.field field={f[:content]} type="textarea"  label="Content text" required class="mb-4 w-full" value={@certificate_options.content} />
+      <.field field={f[:content]} type="textarea" label="Content text" required class="mb-4 w-full" value={@certificate_options.content} />
 
       <h3 class="mt-8 mb-4 font-bold">Color Options</h3>
-      <.field field={f[:Background_color]} type="color" label="Background Color" required class="mb-4 w-full" value={@certificate_options.background_color} />
+      <.field field={f[:background_color]} type="color" label="Background Color" required class="mb-4 w-full" value={@certificate_options.background_color} />
       <.field field={f[:title_color]} type="color" label="Title Color" required class="mb-4 w-full" value={@certificate_options.title_color} />
       <.field field={f[:content_color]} type="color" label="Content Color" required class="mb-4 w-full" value={@certificate_options.content_color} />
       <.field field={f[:organization_color]} type="color" label="Organization Color" required class="mb-4 w-full" value={@certificate_options.organization_color} />
-    </div>
+      
+   </div>
 
     <div class="flex-grow">
       <div class="origin-top-left scale-50 md:scale-75">
-        {Phoenix.View.render(AtomicWeb.CertificateView, "main.html", Map.put(assigns, :certificate_options, @certificate_options))}
+        {Phoenix.View.render(AtomicWeb.CertificateView, "main.html", Map.put(assigns, :certificate_options, @certificate_options) |> Map.put(:organization, @organization))}
       </div>
     </div>
   </.form>

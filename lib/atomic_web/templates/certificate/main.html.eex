@@ -66,13 +66,9 @@
         <p class="content">
             <%= Map.get(@certificate_options, :content, "Para os devidos efeitos, certifica-se que participou na atividade") %>
         </p>
-        <span class="name"> enrollmen </span>
+        <span class="name"> Nome </span>
         <p class="content">
-            <%= if Map.get(@certificate_options, :organization, true) do %>
-            <span class="organization">Atividade</span>, organizada pelo(a) <span class="organization"><%= @organization.name %></span>.
-            <% else %>
             Atividade, organizada pelo(a) <%= @organization.name %>.
-            <% end %>
         </p>
 
         

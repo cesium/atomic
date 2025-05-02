@@ -21,7 +21,7 @@ defmodule Atomic.Repo.Migrations.CreateCertificates do
     create index(:certificates, [:organization_id])
 
     alter table(:organizations) do
-      add :certificate_template, references(:certificates, type: :binary_id), null: true
+      add :certificate_template_id, references(:certificates, type: :binary_id), null: true
     end
   end
 end
