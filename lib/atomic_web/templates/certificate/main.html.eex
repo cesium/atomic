@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificado da Atividade </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        /* Inline styles */
+        .container {
+            text-align: center;
+            width: 900px;
+            height: 645px;
+            margin: auto;
+            padding: 0;
+
+            <%= if Map.get(@certificate_options, :background, true) do %>
+            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic_background.svg" %>') no-repeat center;
+            <% else %>
+            background-color: <%= Map.get(@certificate_options, :background_color, "#ffffff") %>;
+            <% end %>
+        }
+        .title {
+            font-size: <%= min(Map.get(@certificate_options, :title, 62), 68) %>px;
+            color: <%= Map.get(@certificate_options, :title_color, "#fb923c") %>;
+            font-weight: bolder;
+            padding-top: 36px;
+            margin-bottom: 120px;
+        }
+        .content {
+            font-size: 24px;
+            text-align: justify;
+            padding: 32px;
+            color: <%= Map.get(@certificate_options, :content_color, "#000000") %>;
+        }
+        .name {
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: underline;
+            width: 100%;
+            display: block;
+            margin-top: 32px;
+            margin-bottom: 32px;
+            color: <%= Map.get(@certificate_options, :content_color, "#000000") %>;
+        }
+        .organization {
+            font-size: <%= if Map.get(@certificate_options, :organization, true) do "30px" else "24px" end %>;
+            text-align: justify;
+            color: <%= Map.get(@certificate_options, :organization_color, "#000000") %>;
+        }
+        .note {
+            position: absolute;
+            bottom: 0;
+            font-size: 12px;
+            text-align: center;
+            padding-left: 24px;
+            padding-right: 24px;
+            padding-bottom: 10px;
+        }
+        .note a {
+            color: indigo;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Certificado de Participação</div>        
+        <p class="content">
+            <%= Map.get(@certificate_options, :content, "Para os devidos efeitos, certifica-se que participou na atividade") %>
+        </p>
+        <span class="name"> Nome </span>
+        <p class="content">
+            Atividade, organizada pelo(a) <%= @organization.name %>.
+        </p>
+
+        
+        <p class="note">
+            Este certificado foi gerado automaticamente pela plataforma <i>open-source</i> de gestão de núcleos <a href="https://github.com/cesium/atomic">Atomic</a>, sendo da exclusiva responsabilidade do Centro de Estudantes de Engenharia de Informática da Universidade do Minho, com a devida autorização da organização dinamizadora da atividade.
+        </p>
+    </div>
+</body>
+</html>

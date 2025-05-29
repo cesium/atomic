@@ -81,6 +81,11 @@
                           <.icon name="hero-trash-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Delete
                         </div>
                       <% end %>
+                      <.link patch={~p"/organizations/#{@organization}/certificate"} class="button">
+                        <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
+                          <.icon name="hero-pencil-square-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Edit Certificate
+                        </div>
+                      </.link>
                     <% end %>
                   </div>
                 </div>

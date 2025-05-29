@@ -1,14 +1,14 @@
 defmodule Atomic.Organizations.Organization do
   @moduledoc false
   use Atomic.Schema
-
   alias Atomic.Accounts.User
+  alias Atomic.Certificate
   alias Atomic.Location
   alias Atomic.Organizations.{Announcement, Department, Membership, Partner}
   alias Atomic.Uploaders
 
   @required_fields ~w(name long_name description)a
-  @optional_fields ~w()a
+  @optional_fields ~w(certificate_template_id)a
 
   @derive {
     Flop.Schema,
@@ -44,6 +44,8 @@ defmodule Atomic.Organizations.Organization do
       preload_order: [asc: :inserted_at]
 
     many_to_many :users, User, join_through: Membership
+
+    belongs_to :certificate_template, Certificate
 
     timestamps()
   end
