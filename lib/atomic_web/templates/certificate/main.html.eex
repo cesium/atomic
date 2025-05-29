@@ -7,17 +7,20 @@
     <style>
         /* Inline styles */
         .container {
-            <%= if Map.get(@certificate_options, :background, true) do %>
-            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic_background.svg" %>') no-repeat center;
-            <% end %>
             text-align: center;
             width: 900px;
             height: 645px;
             margin: auto;
             padding: 0;
+
+            <%= if Map.get(@certificate_options, :background, true) do %>
+            background: url('<%= AtomicWeb.Endpoint.url() <> "/images/atomic_background.svg" %>') no-repeat center;
+            <% else %>
+            background-color: <%= Map.get(@certificate_options, :background_color, "#ffffff") %>;
+            <% end %>
         }
         .title {
-            font-size: <%= Map.get(@certificate_options, :title, 62) %>px;
+            font-size: <%= min(Map.get(@certificate_options, :title, 62), 68) %>px;
             color: <%= Map.get(@certificate_options, :title_color, "#fb923c") %>;
             font-weight: bolder;
             padding-top: 36px;

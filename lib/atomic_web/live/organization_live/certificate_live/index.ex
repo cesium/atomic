@@ -14,8 +14,7 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       content: "Para os devidos efeitos, certifica-se que participou na atividade",
       background_color: "#ffffff",
       title_color: "#fb923c",
-      content_color: "#000000",
-      organization_color: "#000000"
+      content_color: "#000000"
     }
 
     {:ok, assign(socket, certificate_options: certificate_options)}
@@ -25,7 +24,6 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   def handle_params(%{"organization_id" => organization_id} = params, _url, socket) do
     activities = list_activities(organization_id)
     organization = Organizations.get_organization!(organization_id)
-    IO.inspect(organization_id, label: "Organization_id")
 
     default_options = %{
       background: true,
@@ -33,22 +31,21 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       content: "Para os devidos efeitos, certifica-se que participou na atividade",
       background_color: "#ffffff",
       title_color: "#fb923c",
-      content_color: "#000000",
-      organization_color: "#000000"
+      content_color: "#000000"
     }
 
     certificate_options = default_options
 
-    changeset = Certificate.changeset(%Certificate{}, %{
-      organization_id: organization_id,
-      background: default_options.background,
-      title: default_options.title,
-      content: default_options.content,
-      background_color: default_options.background_color,
-      title_color: default_options.title_color,
-      content_color: default_options.content_color,
-      organization_color: default_options.organization_color
-    })
+    changeset =
+      Certificate.changeset(%Certificate{}, %{
+        organization_id: organization_id,
+        background: default_options.background,
+        title: default_options.title,
+        content: default_options.content,
+        background_color: default_options.background_color,
+        title_color: default_options.title_color,
+        content_color: default_options.content_color
+      })
 
     certificate = %Certificate{}
 
@@ -70,7 +67,9 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
 
     changeset =
       (socket.assigns.certificate || %Certificate{})
-      |> Certificate.changeset(Map.put(certificate_params, "organization_id", socket.assigns.organization.id))
+      |> Certificate.changeset(
+        Map.put(certificate_params, "organization_id", socket.assigns.organization.id)
+      )
       |> Map.put(:action, :validate)
 
     {:noreply,
@@ -82,6 +81,7 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   @impl true
   def handle_event("save", _params, socket) do
     organization_id = socket.assigns.organization.id
+
     certificate_params = %{
       "organization_id" => organization_id,
       "background" => socket.assigns.certificate_options.background,
@@ -89,27 +89,30 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
       "content" => socket.assigns.certificate_options.content,
       "background_color" => socket.assigns.certificate_options.background_color,
       "title_color" => socket.assigns.certificate_options.title_color,
-      "content_color" => socket.assigns.certificate_options.content_color,
-      "organization_color" => socket.assigns.certificate_options.organization_color
+      "content_color" => socket.assigns.certificate_options.content_color
     }
 
     case %Certificate{} |> Certificate.changeset(certificate_params) |> Atomic.Repo.insert() do
       {:ok, certificate} ->
-        case Organizations.update_organization(socket.assigns.organization, %{certificate_template_id: socket.assigns.certificate.id}) |> IO.inspect() do
-          {:ok, _organization} ->
-            {:noreply, socket |> put_flash(:info, "Certificate saved and organization updated successfully!")}
+      case Organizations.update_organization(socket.assigns.organization, %{
+           certificate_template_id: socket.assigns.certificate.id
+         })
+        do
+        {:ok, _organization} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Certificate saved and organization updated successfully!")}
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            IO.inspect(changeset.errors, label: "Organization update errors")
-            {:noreply, socket |> put_flash(:error, "Certificate saved, but failed to update organization")}
-        end
+        {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply,
+         socket |> put_flash(:error, "Certificate saved, but failed to update organization")}
+      end
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset.errors, label: "Certificate errors")
-        {:noreply, socket |> assign(:changeset, changeset) |> put_flash(:error, "Error saving certificate")}
+      {:noreply,
+       socket |> assign(:changeset, changeset) |> put_flash(:error, "Error saving certificate")}
     end
-  end
-
+    end
 
   defp list_activities(organization_id) do
     case Activities.list_activities_by_organization_id(organization_id) do
@@ -122,11 +125,12 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
     %{
       background: Map.get(params, "background") == "true",
       title: parse_integer(Map.get(params, "title"), 62),
-      content: Map.get(params, "content") || "Para os devidos efeitos, certifica-se que participou na atividade",
+      content:
+        Map.get(params, "content") ||
+          "Para os devidos efeitos, certifica-se que participou na atividade",
       background_color: Map.get(params, "background_color") || "#ffffff",
       title_color: Map.get(params, "title_color") || "#fb923c",
-      content_color: Map.get(params, "content_color") || "#000000",
-      organization_color: Map.get(params, "organization_color") || "#000000"
+      content_color: Map.get(params, "content_color") || "#000000"
     }
   end
 
