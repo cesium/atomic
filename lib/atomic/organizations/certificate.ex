@@ -1,7 +1,8 @@
 defmodule Atomic.Certificate do
+  @moduledoc false
   use Atomic.Schema
 
-  alias Atomic.Organization
+  alias Atomic.Organizations.Organization
 
   @required_fields ~w(background title content background_color title_color content_color organization_color organization_id)a
 

@@ -2,8 +2,8 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
   use AtomicWeb, :live_view
 
   alias Atomic.Activities
-  alias Atomic.Organizations
   alias Atomic.Certificate
+  alias Atomic.Organizations
   import AtomicWeb.Components.Forms
 
   @impl true
@@ -93,26 +93,25 @@ defmodule AtomicWeb.OrganizationLive.CertificateLive.Index do
     }
 
     case %Certificate{} |> Certificate.changeset(certificate_params) |> Atomic.Repo.insert() do
-      {:ok, certificate} ->
-      case Organizations.update_organization(socket.assigns.organization, %{
-           certificate_template_id: socket.assigns.certificate.id
-         })
-        do
-        {:ok, _organization} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Certificate saved and organization updated successfully!")}
+      {:ok, _certificate} ->
+        case Organizations.update_organization(socket.assigns.organization, %{
+               certificate_template_id: socket.assigns.certificate.id
+             }) do
+          {:ok, _organization} ->
+            {:noreply,
+             socket
+             |> put_flash(:info, "Certificate saved and organization updated successfully!")}
 
-        {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply,
-         socket |> put_flash(:error, "Certificate saved, but failed to update organization")}
-      end
+          {:error, %Ecto.Changeset{} = _changeset} ->
+            {:noreply,
+             socket |> put_flash(:error, "Certificate saved, but failed to update organization")}
+        end
 
       {:error, %Ecto.Changeset{} = changeset} ->
-      {:noreply,
-       socket |> assign(:changeset, changeset) |> put_flash(:error, "Error saving certificate")}
+        {:noreply,
+         socket |> assign(:changeset, changeset) |> put_flash(:error, "Error saving certificate")}
     end
-    end
+  end
 
   defp list_activities(organization_id) do
     case Activities.list_activities_by_organization_id(organization_id) do
