@@ -94,10 +94,55 @@
     --%>
   </.tabs>
 
-  <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
-    <p class="mt-6 max-w-3xl text-base text-zinc-900">
-      {@organization.description}
-    </p>
+  <div :if={@current_tab == "about"} class="px-4 mt-6 sm:px-6 lg:px-8">
+    <div class="space-y-4">
+      <div>
+        <h3 class="font-semibold">Description</h3>
+        <p>
+          <%= @organization.description %>
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold">Location</h3>
+        <p><%= @organization.location || "Não disponível" %></p>
+      </div>
+
+      <div>
+        <h3 class="font-semibold">Socials</h3>
+        <div class="flex gap-4 items-center">
+          <%= if @organization.socials.website do %>
+            <a href={@organization.socials.website} target="_blank" title="Website">
+              {@organization.socials.website} 
+            </a>
+          <% end %>
+
+          <%= if @organization.socials.facebook do %>
+            <a href={"https://facebook.com/#{@organization.socials.facebook}"} target="_blank" title="Facebook">
+              {@organization.socials.facebook}
+            </a>
+          <% end %>
+
+          <%= if @organization.socials.instagram do %>
+            <a href={"https://instagram.com/#{@organization.socials.instagram}"} target="_blank" title="Instagram">
+              {@organization.socials.instagram}
+            </a>
+          <% end %>
+
+          <%= if @organization.socials.x do %>
+            <a href={"https://x.com/#{@organization.socials.x}"} target="_blank" title="X (Twitter)">
+              {@organization.socials.x}
+            </a>
+          <% end %>
+
+          <%= if @organization.socials.linkedin do %>
+            <a href={"https://linkedin.com/in/#{@organization.socials.linkedin}"} target="_blank" title="LinkedIn">
+              {@organization.socials.linkedin}
+            </a>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div :if={@current_tab == "posts"} class="px-4 sm:px-6 lg:px-8">
