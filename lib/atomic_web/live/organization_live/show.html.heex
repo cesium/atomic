@@ -1,23 +1,20 @@
 <.page title={} description={}>
   <:header>
-    <%!-- <%= if @organization.banner do %>
+    <%!-- 
+      <%= if @organization.banner do %>
         <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
-      <% else %> --%>
+      <% else %>
+    --%>
     <.gradient seed={@organization.id} class="max-h-36 w-full select-none rounded-b-lg object-cover" />
-    <%!-- %> <% end %> --%>
+    <%!-- <% end %> --%>
   </:header>
 
   <div class="flex flex-row justify-between">
     <div class="flex h-32 select-none justify-items-start pl-8 text-left">
       <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} color={:light_zinc} />
-
       <div class="flex flex-col pl-4 text-left sm:text-left">
-        <h2 class="text-2xl font-medium text-zinc-900">
-          {@organization.name}
-        </h2>
-        <h2 class="text-sm font-semibold text-zinc-500">
-          {"@" <> String.downcase(@organization.name)}
-        </h2>
+        <h2 class="text-2xl font-medium text-zinc-900">{@organization.name}</h2>
+        <h2 class="text-sm font-semibold text-zinc-500">@{String.downcase(@organization.name)}</h2>
         <div class="mt-2 flex items-center gap-2 text-sm text-zinc-700">
           <span class="font-bold">{@followers_count}</span>
           <span>{gettext("Followers")}</span>
@@ -28,23 +25,31 @@
     <div class="flex flex-row gap-2 pr-8">
       <%= if @has_permissions? do %>
         <.link patch={~p"/organizations/#{@organization}/edit"}>
-          <.button icon="hero-pencil-solid" color={:white}>{gettext("Edit")}</.button>
+          <.button icon="hero-pencil-solid" color={:white}>
+            {gettext("Edit")}
+          </.button>
         </.link>
         <%= link to: "#", phx_click: "delete", phx_value_id: @organization.id, data: [confirm: "Are you sure?"] do %>
-          <.button icon="hero-trash-solid" color={:white}>{gettext("Delete")}</.button>
+          <.button icon="hero-trash-solid" color={:white}>
+            {gettext("Delete")}
+          </.button>
         <% end %>
       <% end %>
 
       <.link href={"mailto:#{@organization.email}"} target="_blank">
-        <.button icon="hero-envelope-solid" color={:white}>{gettext("Contact")}</.button>
+        <.button icon="hero-envelope-solid" color={:white}>
+          {gettext("Contact")}
+        </.button>
       </.link>
 
-      <%!-- TODO UNFOLLOW --%>
-
       <%= if @current_user && @following? do %>
-        <.button icon="hero-star-solid" class="h-min" color={:white}>{gettext("Following")}</.button>
+        <.button icon="hero-star-solid" class="h-min" color={:white}>
+          {gettext("Following")}
+        </.button>
       <% else %>
-        <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star" class="h-min">{gettext("Follow")}</.button>
+        <.button phx-click={(!@current_user && "must-login") || "follow"} icon="hero-star" class="h-min">
+          {gettext("Follow")}
+        </.button>
       <% end %>
     </div>
   </div>
@@ -78,13 +83,14 @@
       </.tab>
     </.link>
 
-    <%!--  NON USED MEMBERS PAGE
+    <%!-- 
     <.link patch="?tab=members" replace={false}>
       <.tab id="members-tab" active={@current_tab == "members"} number={@member_count}> 
         <.icon name="hero-user-group" class="size-5 mr-2" />
-        {gettext("Members")}
+        <%= gettext("Members") %>
       </.tab>
-    </.link> --%>
+    </.link>
+    --%>
   </.tabs>
 
   <div :if={@current_tab == "about"} class="px-4 sm:px-6 lg:px-8">
@@ -94,42 +100,41 @@
   </div>
 
   <div :if={@current_tab == "posts"} class="px-4 sm:px-6 lg:px-8">
-    <p class="mt-6 max-w-3xl text-base text-zinc-900">
-      <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-        <li :for={{id, post} <- @streams.posts} id={id} class="border-b border-zinc-200 py-4">
-          <%= if post.type == :activity do %>
-            <.link navigate={~p"/activities/#{post.activity}"}>
-              <.activity activity={post.activity} />
-            </.link>
-          <% else %>
-            <.link navigate={~p"/announcements/#{post.announcement}"}>
-              <.announcement announcement={post.announcement} />
-            </.link>
-          <% end %>
-        </li>
-      </ul>
-    </p>
+    <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
+      <li :for={{id, post} <- @streams.posts} id={id} class="border-b border-zinc-200 py-4">
+        <%= if post.type == :activity do %>
+          <.link navigate={~p"/activities/#{post.activity}"}>
+            <.activity activity={post.activity} />
+          </.link>
+        <% else %>
+          <.link navigate={~p"/announcements/#{post.announcement}"}>
+            <.announcement announcement={post.announcement} />
+          </.link>
+        <% end %>
+      </li>
+    </ul>
   </div>
 
   <div :if={@current_tab == "departments"} class="px-4 pt-4 sm:px-6 lg:px-8">
     <.departments_grid organization={@organization} />
   </div>
-</.page>
 
-<%!--  NON USED MEMBERS PAGE
+  <div :if={@current_tab == "partners"} class="px-4 pt-4 sm:px-6 lg:px-8">
+    <.partners_grid organization={@organization} />
+  </div>
+
+  <%!-- Members tab (disabled) 
   <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
     <.membership_banner organization={@organization} />
     <div class="my-8 min-h-full w-full border-b" />
     <.memberships_table members={@members} />
-
-    <p class="text-md mt-10 text-zinc-900">
-      {gettext("People")}
-    </p>
+    <p class="text-md mt-10 text-zinc-900"><%= gettext("People") %></p>
     <div class="mt-4 mb-2 grid grid-cols-7 gap-6">
       <%= for person <- @people do %>
         <.avatar name={person.name} size={:sm} color={:light_zinc} />
       <% end %>
     </div>
-    {gettext("View all")}
-   </div> --%>
- 
+    <%= gettext("View all") %>
+  </div>
+  --%>
+</.page>

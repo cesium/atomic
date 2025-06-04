@@ -13,6 +13,7 @@ defmodule AtomicWeb.OrganizationLive.Show do
   import AtomicWeb.OrganizationLive.Components.{
     About,
     DepartmentsGrid,
+    PartnersGrid,
     MembershipsTable,
     MembershipBanner
   }
