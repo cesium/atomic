@@ -2,6 +2,7 @@ defmodule AtomicWeb.PartnerLive.Index do
   use AtomicWeb, :live_view
 
   import AtomicWeb.Components.{Avatar, Button, Empty, Pagination, Tabs}
+  import AtomicWeb.OrganizationLive.Components.PartnersGrid
   import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
