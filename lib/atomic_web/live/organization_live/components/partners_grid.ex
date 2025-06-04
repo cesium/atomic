@@ -41,7 +41,7 @@ defmodule AtomicWeb.OrganizationLive.Components.PartnersGrid do
         </div>
         <div>
           <h3 class="text-lg font-semibold text-zinc-900">{@partner.name}</h3>
-          <p class="text-sm text-zinc-600">  <.icon name="hero-map-pin" class="size-5 mb-1 text-zinc-400"/> {@partner.location.name}</p>
+          <p class="text-sm text-zinc-600"><.icon name="hero-map-pin" class="size-5 mb-1 text-zinc-400" /> {@partner.location.name}</p>
         </div>
       </div>
       <p class="line-clamp-3 mt-2 text-sm text-zinc-500">{@partner.description}</p>
