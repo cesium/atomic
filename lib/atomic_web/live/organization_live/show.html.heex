@@ -110,33 +110,38 @@
 
       <div>
         <h3 class="font-semibold">Socials</h3>
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-8 items-center">
           <%= if @organization.socials.website do %>
-            <a href={@organization.socials.website} target="_blank" title="Website">
-              {@organization.socials.website} 
+            <a class="flex" href={@organization.socials.website} target="_blank" title="Website">
+              <img class="size-4 mt-1 mr-1" src="/images/clip.svg">
+              {@organization.socials.website}
             </a>
           <% end %>
 
           <%= if @organization.socials.facebook do %>
-            <a href={"https://facebook.com/#{@organization.socials.facebook}"} target="_blank" title="Facebook">
+            <a class="flex" href={"https://facebook.com/#{@organization.socials.facebook}"} target="_blank" title="Facebook">
+              <img class="size-4 mt-1 mr-1" src="/images/facebook.svg">
               {@organization.socials.facebook}
             </a>
           <% end %>
 
           <%= if @organization.socials.instagram do %>
-            <a href={"https://instagram.com/#{@organization.socials.instagram}"} target="_blank" title="Instagram">
+            <a class="flex" href={"https://instagram.com/#{@organization.socials.instagram}"} target="_blank" title="Instagram">
+              <img class="size-4 mt-1 mr-1" src="/images/instagram.svg">
               {@organization.socials.instagram}
             </a>
           <% end %>
 
           <%= if @organization.socials.x do %>
-            <a href={"https://x.com/#{@organization.socials.x}"} target="_blank" title="X (Twitter)">
+            <a class="flex" href={"https://x.com/#{@organization.socials.x}"} target="_blank" title="X (Twitter)">
+              <img class="size-4 mt-1 mr-1" src="/images/x.svg">
               {@organization.socials.x}
             </a>
           <% end %>
 
           <%= if @organization.socials.linkedin do %>
-            <a href={"https://linkedin.com/in/#{@organization.socials.linkedin}"} target="_blank" title="LinkedIn">
+            <a class="flex" href={"https://linkedin.com/in/#{@organization.socials.linkedin}"} target="_blank" title="LinkedIn">
+              <img class="size-4 mt-1 mr-1" src="/images/linkedin.svg">
               {@organization.socials.linkedin}
             </a>
           <% end %>
