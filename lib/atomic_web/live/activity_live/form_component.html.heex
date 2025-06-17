@@ -54,7 +54,7 @@
           phx-target={@myself}
         >
           <%= if not @has_description? do %>
-            <label class="cursor-pointer text-left font-normal text-gray-500 py-[2px]">
+            <label class="py-[2px] cursor-pointer text-left font-normal text-gray-500">
               Add description
             </label>
           <% end %>
@@ -110,7 +110,7 @@
             />
           <% else %>
             <.field
-              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0 font-normal"
+              class="cursor-pointer border-none bg-transparent p-0 text-sm font-normal text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0"
               type="number"
               field={@form[:maximum_entries]}
               label="Maximum entries"
@@ -141,7 +141,7 @@
     </div>
     <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)} class="textarea">
       <div class="mt-4 flex-grow">
-        <.field id="description-input" class="\-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required phx-hook="AutoFocus"/>
+        <.field id="description-input" class="\-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required phx-hook="AutoFocus" />
         <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
             <span>{gettext("Done")}</span>
