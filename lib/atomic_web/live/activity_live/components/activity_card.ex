@@ -35,10 +35,10 @@ defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
                 <% end %>
               </div>
             </div>
-            <object>
+            <object class="w-2/3">
               <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="group flex max-w-min pt-2">
                 <.icon name="hero-building-office" class="mr-1.5 h-5 w-5 text-zinc-400" />
-                <span class="text-sm text-zinc-500 focus:outline-none group-hover:underline">
+                <span class="text-sm text-zinc-500 focus:outline-none group-hover:underline truncate">
                   {@activity.organization.name}
                 </span>
               </.link>
