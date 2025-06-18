@@ -66,6 +66,7 @@ defmodule AtomicWeb.Components.Modal do
     )
     |> show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.focus(to: "#input")
   end
 
   def hide_modal(js \\ %JS{}, id) do

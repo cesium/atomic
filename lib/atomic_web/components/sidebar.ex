@@ -80,7 +80,7 @@ defmodule AtomicWeb.Components.Sidebar do
     assigns = assign(assigns, :organizations, organizations)
 
     ~H"""
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-0 lg:flex lg:w-72 lg:flex-col">
       <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
         <.sidebar_header />
         <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />

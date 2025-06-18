@@ -107,6 +107,7 @@
               wrapper_class="m-0"
               error_class="text-danger-600 placeholder-danger-700"
               error_label_class="text-danger-700"
+              tabindex="-1"
             />
           <% else %>
             <.field
@@ -122,6 +123,7 @@
               wrapper_class="m-0"
               error_class="text-danger-600 placeholder-danger-700"
               error_label_class="text-danger-700"
+              tabindex="-1"
             />
           <% end %>
         </.button>
@@ -141,7 +143,7 @@
     </div>
     <.modal :if={@description_modal} id="description-modal" show on_cancel={JS.push("toggle_description_modal", target: @myself)} class="textarea">
       <div class="mt-4 flex-grow">
-        <.field id="description-input" class="\-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required phx-hook="AutoFocus" />
+        <.field id="input" class="\-h-10 resize-none" type="textarea" field={@form[:description]} label="Description" placeholder="Choose description" rows={15} required phx-hook="FocusEnd" />
         <div class="flex w-full justify-end">
           <.button class="text" type="button" phx-click="toggle_description_modal" phx-target={@myself}>
             <span>{gettext("Done")}</span>
@@ -149,20 +151,20 @@
         </div>
       </div>
     </.modal>
-    <.modal :if={@maximum_entries_modal} id="maximum_entries_modal" show on_cancel={JS.push("toggle_maximum_entries_modal", target: @myself)}>
+    <.modal :if={@maximum_entries_modal} class="inset-0" id="maximum_entries_modal" show on_cancel={JS.push("toggle_maximum_entries_modal", target: @myself)}>
       <div class="h-full w-full">
         <div class="">
           <%= if @has_max_capacity? do %>
-            <.field class="" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" />
+            <.field id="input" type="number" field={@form[:maximum_entries]} placeholder="Choose maximum entries" phx-hook="FocusEnd" />
           <% else %>
-            <.field class="" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" />
+            <.field id="input" type="number" field={@form[:maximum_entries]} value="" placeholder="∞ Unlimited" phx-hook="FocusEnd" />
           <% end %>
         </div>
         <div class="flex gap-3">
           <.button type="button" phx-click="toggle_maximum_entries_modal" phx-target={@myself}>
             {gettext("Close")}
           </.button>
-          <.button type="button" phx-target={@myself} phx-click="remove_max_capacity">
+          <.button type="button" phx-click="remove_max_capacity" phx-target={@myself}>
             {gettext("Remove limit")}
           </.button>
         </div>
