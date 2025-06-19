@@ -1,5 +1,7 @@
 <div>
-  <div class="relative">
+  <div>
+    
+<!-- Banner -->
     <div class="h-64 w-full">
       <%= if @user.banner do %>
         <.image_uploader editable={false} id="banner-picture" class="h-64 w-full" image_class="h-[290px] w-full object-cover" upload={@uploads.banner} icon="hero-photo" memory_unit="MB" image={Uploaders.Banner.url({@user.banner, @user}, :original, signed: true)} />
@@ -7,43 +9,158 @@
         <.gradient class="h-64 w-full bg-center object-cover" seed={@user.id} />
       <% end %>
     </div>
-    <div class="relative px-4 pt-4">
-      <div class="flex items-start">
-        <div class="relative -mt-16 flex-shrink-0">
-          <div class="relative">
-            <%= if @user.profile_picture do %>
-              <.image_uploader editable={false} id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
-                <:placeholder>
-                  <.avatar size={:xl} name={@user.name} type={:user} />
-                </:placeholder>
-              </.image_uploader>
-            <% else %>
-              <.avatar size={:xl} name={@user.name} type={:user} />
-            <% end %>
+    
+<!-- Avatar -->
+    <div class="-mt-16 flex px-8 md:-mt-14">
+      <div class="flex-shrink-0">
+        <div>
+          <%= if @user.profile_picture do %>
+            <.image_uploader editable={false} id="profile-picture" class="aspect-square w-36 border-4 border-white" rounded upload={@uploads.profile_picture} icon="hero-user" memory_unit="GB" image={Uploaders.ProfilePicture.url({@user.profile_picture, @user}, :original, signed: true)}>
+              <:placeholder>
+                <.avatar size={:xxl} name={@user.name} type={:user} />
+              </:placeholder>
+            </.image_uploader>
+          <% else %>
+            <.avatar size={:xxl} name={@user.name} type={:user} />
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+<!-- User Info -->
+    <div class="flex w-full flex-col items-start justify-between px-8 py-4 md:flex-row">
+      <div class="flex flex-1 flex-col items-start gap-2 overflow-hidden">
+        
+<!-- Name-->
+        <h2 class="max-w-full truncate text-3xl font-bold leading-7 text-zinc-800 md:text-4xl">
+          {@user.name}
+        </h2>
+        
+<!-- Role -->
+        <div class="w-full overflow-hidden">
+          <%= if length(@organizations) > 0 do %>
+            <div>
+              <%= for organization <- @organizations do %>
+                <p class="truncate text-lg font-semibold text-zinc-600 lg:text-sm">
+                  {organization.name} - {Atomic.Organizations.get_role(@user.id, organization.id)}
+                </p>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-zinc-600">{gettext("No organizations found.")}</p>
+          <% end %>
+        </div>
+        
+<!-- Socials -->
+        <%= if @user.socials do %>
+          <div class="mt-1 flex">
+            <.socials entity={@user} />
+          </div>
+        <% end %>
+      </div>
+      
+<!-- Edit Profile -->
+      <div class="mt-5 w-full flex-shrink-0 md:mt-0 md:w-fit">
+        <%= if @is_current_user do %>
+          <.button patch={~p"/profile/#{@user}/edit"} icon="hero-pencil-square" size={:md} full_width={true}>
+            {gettext("Edit Profile")}
+          </.button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+<!-- body -->
+
+  <div class="pt-8">
+    <div class="flex flex-col-reverse border-b border-zinc-200 xl:flex-row">
+      <div class="flex w-full items-center justify-between">
+        <.tabs class="px-4 sm:px-6 lg:px-8">
+          <.link patch="?tab=following" replace={false}>
+            <.tab active={@current_tab == "following"}>
+              {gettext("Following")}
+            </.tab>
+          </.link>
+          <.link patch="?tab=activity" replace={false}>
+            <.tab active={@current_tab == "activity"}>
+              {gettext("Activity")}
+            </.tab>
+          </.link>
+        </.tabs>
+      </div>
+    </div>
+  </div>
+
+  <%= case @current_tab do %>
+    <% "following" -> %>
+      <section class="overflow-hidden px-8 py-6">
+        <div class="mx-auto max-w-5xl">
+          <p class="text-xl font-bold text-zinc-600">{gettext("Following Organizations:")}</p>
+
+          <div class="relative w-full">
+            <div class="hide-scrollbar flex flex-row gap-3 overflow-x-auto pt-4 pb-3">
+              <%= if Enum.any?(@memberships) do %>
+                <%= for membership <- @memberships do %>
+                  <% org = membership.organization %>
+
+                  <div class="flex flex-shrink-0 items-center gap-6 rounded-lg border-2 border-zinc-200 p-4">
+                    <.link navigate={~p"/organizations/#{org}"} class="flex min-w-0 flex-1 items-center justify-start gap-3">
+                      <div class="my-auto flex-shrink-0">
+                        <.avatar name={org.name} class="!h-10 !w-10 !text-lg" color={:light_zinc} size={:xs} type={:organization} src={Uploaders.Logo.url({org.logo, org}, :original)} />
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <p class="text-sm font-medium text-zinc-900">
+                          {org.name}
+                        </p>
+                        <p class="text-sm text-zinc-500">
+                          <!-- FIXME: organization.handle -->
+                          {("@" <> org.name) |> String.downcase() |> String.replace(" ", "")}
+                        </p>
+                      </div>
+                    </.link>
+
+                    <div class="flex-shrink-0">
+                      <%= if @is_following do %>
+                        <.button phx-value-organization_id={membership.organization.id} phx-click="unfollow" color={:white} size={:xs}>
+                          <.icon name="hero-minus-solid" class="size-5 text-zinc-400" />
+                          <span>Unfollow</span>
+                        </.button>
+                      <% end %>
+                    </div>
+                  </div>
+                  
+<!-- 
+                  <div class="h-fit w-fit rounded-lg border-2 border-zinc-200 px-2">
+                    <.live_component id={org.id} module={Suggestion} organization={org} current_user={@current_user} />
+                  </div>
+                  -->
+                <% end %>
+                
+<!-- Browse more organizations card -->
+                <div class="min-w-64 flex flex-shrink-0 flex-col items-center gap-2 rounded-lg border-2 border-dashed border-zinc-200 p-4">
+                  <div>
+                    <p class="text-zinc-500">{gettext("Browse more organizations")}</p>
+                  </div>
+                  <.button patch={~p"/organizations"} color={:white} size={:xs}>
+                    {gettext("Browse Organizations")}
+                  </.button>
+                </div>
+
+                <div class="pointer-events-none absolute top-0 -right-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent"></div>
+              <% else %>
+                <p class="font-light text-zinc-500">No memberships found...</p>
+              <% end %>
+            </div>
           </div>
         </div>
-        <div class="flex-1 pl-6">
-          <h2 class="text-xl font-bold leading-7 text-zinc-900 sm:text-4xl">
-            {@user.name}
-          </h2>
-          <div class="mt-2">
-            <%= if length(@organizations) > 0 do %>
-              <div class="mt-2">
-                <%= for organization <- @organizations do %>
-                  <p class="text-lg font-semibold text-zinc-600 md:text-md lg:text-sm">
-                    {organization.name} - {Atomic.Organizations.get_role(@user.id, organization.id)}
-                  </p>
-                <% end %>
-              </div>
-            <% else %>
-              <p class="py-2">{gettext("No organizations found.")}</p>
-            <% end %>
-          </div>
-          <%= if @user.socials do %>
-            <div class="mt-2">
-              <.socials entity={@user} />
-            </div>
-          <% end %>
+      </section>
+    <% "activity" -> %>
+      <section class="px-6">
+        activity
+      </section>
+  <% end %>
+</div>
+<!--
           <div class="mt-4 flex flex-col gap-8 md:flex-row">
             <%= if @user.email do %>
               <div class="sm:col-span-1">
@@ -66,17 +183,4 @@
               </div>
             <% end %>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="mt-8 flex w-full justify-end">
-    <%= if @is_current_user do %>
-      <div class="mr-6 flex w-24 justify-end md:mr-0">
-        <.button patch={~p"/profile/#{@user}/edit"}>
-          {gettext("Edit")}
-        </.button>
-      </div>
-    <% end %>
-  </div>
-</div>
+        -->

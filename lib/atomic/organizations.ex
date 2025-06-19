@@ -279,8 +279,8 @@ defmodule Atomic.Organizations do
   def list_memberships(%{"user_id" => user_id}, preloads) do
     Membership
     |> where([a], a.user_id == ^user_id)
-    |> Repo.preload(preloads)
     |> Repo.all()
+    |> Repo.preload(preloads)
   end
 
   @doc """

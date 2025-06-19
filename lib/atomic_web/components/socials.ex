@@ -9,13 +9,13 @@ defmodule AtomicWeb.Components.Socials do
     assigns = assign(assigns, :socials_with_values, get_social_values(assigns.entity))
 
     ~H"""
-    <div class="grid grid-cols-2 gap-2 md:flex md:flex-row">
+    <div class="flex flex-wrap gap-2">
       <%= for {social, icon, url_base, social_value} <- assigns.socials_with_values do %>
         <%= if social_value do %>
           <div class="flex flex-row items-center gap-x-2">
             <img src={"/images/" <> icon} class="h-5 w-5" alt={Atom.to_string(social)} />
             <.link class="capitalize text-blue-500" target="_blank" href={url_base <> social_value}>
-              {Atom.to_string(social)}
+              {social_value}
             </.link>
           </div>
         <% end %>

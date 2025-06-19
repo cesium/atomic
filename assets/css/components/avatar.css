@@ -40,6 +40,10 @@
   @apply size-24 text-4xl;
 }
 
+.atomic-avatar--xxl {
+  @apply size-28 text-4xl;
+}
+
 /* Avatar - colors */
 
 .atomic-avatar--primary {
