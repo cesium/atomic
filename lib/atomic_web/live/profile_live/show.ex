@@ -4,6 +4,7 @@ defmodule AtomicWeb.ProfileLive.Show do
   import AtomicWeb.Components.{Button, Tabs, Avatar, Gradient, Socials}
   import AtomicWeb.Components.ImageUploader
   import AtomicWeb.LiveHelpers
+  alias AtomicWeb.HomeLive.Components.FollowSuggestions.Suggestion
 
   alias Atomic.Accounts
   alias Atomic.Organizations
@@ -37,13 +38,6 @@ defmodule AtomicWeb.ProfileLive.Show do
 
     memberships = Organizations.list_memberships(%{"user_id" => user.id}, [:organization])
 
-    is_following =
-      if Map.has_key?(socket.assigns, :current_user) do
-        Organizations.list_memberships(%{"user_id" => user.id}, [:organization]) != []
-      else
-        false
-      end
-
     {:noreply,
      socket
      |> assign(:page_title, user.name)
@@ -53,8 +47,7 @@ defmodule AtomicWeb.ProfileLive.Show do
      |> assign(:organizations, organizations)
      |> assign(:memberships, memberships)
      |> assign(:is_current_user, is_current_user)
-     |> assign(:current_tab, current_tab(socket, params))
-     |> assign(:is_following, is_following)}
+     |> assign(:current_tab, current_tab(socket, params))}
   end
 
   @impl true
@@ -69,23 +62,47 @@ defmodule AtomicWeb.ProfileLive.Show do
 
     case Organizations.delete_membership(membership) do
       {:ok, _organization} ->
-        # Reload memberships after successful unfollow
+        # Reloads memberships list after unfollowing a new one
         memberships =
           Organizations.list_memberships(%{"user_id" => socket.assigns.user.id}, [:organization])
-
-        # Handle the case when memberships might be nil or empty
-        is_following = memberships != nil && Enum.any?(memberships)
 
         {:noreply,
          socket
          |> assign(:memberships, memberships || [])
-         |> assign(:is_following, is_following)
          |> put_flash(:success, "Unfollowed " <> organization.name)}
 
       {:error, _changeset} ->
         {:noreply,
          socket
          |> put_flash(:error, "Failed to unfollow " <> organization.name)}
+    end
+  end
+
+  @impl true
+  def handle_event("follow", %{"organization_id" => organization_id}, socket) do
+    attrs = %{
+      role: :follower,
+      user_id: socket.assigns.current_user.id,
+      created_by_id: socket.assigns.current_user.id,
+      organization_id: organization_id
+    }
+
+    organization = Organizations.get_organization!(organization_id)
+
+    case Organizations.create_membership(attrs) do
+      {:ok, _organization} ->
+        # Reloads memberships list after following a new one
+        memberships =
+          Organizations.list_memberships(%{"user_id" => socket.assigns.user.id}, [:organization])
+
+        {:noreply,
+         socket
+         |> assign(:memberships, memberships || [])
+         |> put_flash(:success, "Started following " <> organization.name)
+         |> push_patch(to: ~p"/profile/#{socket.assigns.user.slug}")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 

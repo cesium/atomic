@@ -86,6 +86,11 @@
               {gettext("Activity")}
             </.tab>
           </.link>
+          <.link patch="?tab=about" replace={false}>
+            <.tab active={@current_tab == "about"}>
+              {gettext("About")}
+            </.tab>
+          </.link>
         </.tabs>
       </div>
     </div>
@@ -98,42 +103,21 @@
           <p class="text-xl font-bold text-zinc-600">{gettext("Following Organizations:")}</p>
 
           <div class="relative w-full">
-            <div class="hide-scrollbar flex flex-row gap-3 overflow-x-auto pt-4 pb-3">
+            <div class="hide-scrollbar min-h-24 flex flex-row gap-3 overflow-x-auto pt-4 pb-3">
               <%= if Enum.any?(@memberships) do %>
                 <%= for membership <- @memberships do %>
                   <% org = membership.organization %>
 
-                  <div class="flex flex-shrink-0 items-center gap-6 rounded-lg border-2 border-zinc-200 p-4">
-                    <.link navigate={~p"/organizations/#{org}"} class="flex min-w-0 flex-1 items-center justify-start gap-3">
-                      <div class="my-auto flex-shrink-0">
-                        <.avatar name={org.name} class="!h-10 !w-10 !text-lg" color={:light_zinc} size={:xs} type={:organization} src={Uploaders.Logo.url({org.logo, org}, :original)} />
-                      </div>
-                      <div class="min-w-0 flex-1">
-                        <p class="text-sm font-medium text-zinc-900">
-                          {org.name}
-                        </p>
-                        <p class="text-sm text-zinc-500">
-                          <!-- FIXME: organization.handle -->
-                          {("@" <> org.name) |> String.downcase() |> String.replace(" ", "")}
-                        </p>
-                      </div>
-                    </.link>
+                  <% is_viewer_following =
+                    if @current_user do
+                      Organizations.get_role(@current_user.id, org.id) == :follower
+                    else
+                      false
+                    end %>
 
-                    <div class="flex-shrink-0">
-                      <%= if @is_following do %>
-                        <.button phx-value-organization_id={membership.organization.id} phx-click="unfollow" color={:white} size={:xs}>
-                          <.icon name="hero-minus-solid" class="size-5 text-zinc-400" />
-                          <span>Unfollow</span>
-                        </.button>
-                      <% end %>
-                    </div>
+                  <div class="flex h-24 w-fit items-center rounded-lg border-2 border-zinc-200 px-4">
+                    <.live_component id={org.id} module={Suggestion} organization={org} current_user={@current_user} is_following={is_viewer_following} />
                   </div>
-                  
-<!-- 
-                  <div class="h-fit w-fit rounded-lg border-2 border-zinc-200 px-2">
-                    <.live_component id={org.id} module={Suggestion} organization={org} current_user={@current_user} />
-                  </div>
-                  -->
                 <% end %>
                 
 <!-- Browse more organizations card -->
@@ -155,8 +139,12 @@
         </div>
       </section>
     <% "activity" -> %>
-      <section class="px-6">
+      <section class="px-8 py-6">
         activity
+      </section>
+    <% "about" -> %>
+      <section class="px-8 py-6">
+        about
       </section>
   <% end %>
 </div>
