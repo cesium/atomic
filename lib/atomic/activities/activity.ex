@@ -5,6 +5,7 @@ defmodule Atomic.Activities.Activity do
   use Atomic.Schema
 
   alias Atomic.Activities.Enrollment
+  alias Atomic.Time
   alias Atomic.Feed.Post
   alias Atomic.Location
   alias Atomic.Organizations.Organization
@@ -59,15 +60,33 @@ defmodule Atomic.Activities.Activity do
   end
 
   defp validate_dates(changeset) do
-    start = get_change(changeset, :start)
-    finish = get_change(changeset, :finish)
+    start = get_field(changeset, :start)
+    finish = get_field(changeset, :finish)
 
-    if start && finish && Date.compare(start, finish) == :gt do
+    changeset
+    |> validate_finish_after_start(start, finish)
+    |> validate_start_in_future(start)
+  end
+
+  defp validate_finish_after_start(changeset, start, finish) when not is_nil(start) and not is_nil(finish) do
+    if NaiveDateTime.compare(start, finish) == :gt do
       add_error(changeset, :finish, gettext("must be after starting date"))
     else
       changeset
     end
   end
+
+  defp validate_finish_after_start(changeset, _start, _finish), do: changeset
+
+  defp validate_start_in_future(changeset, start) when not is_nil(start) do
+    if NaiveDateTime.compare(start, Time.lisbon_now()) == :lt do
+      add_error(changeset, :start, gettext("must be in the future"))
+    else
+      changeset
+    end
+  end
+
+  defp validate_start_in_future(changeset, _start), do: changeset
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
 
