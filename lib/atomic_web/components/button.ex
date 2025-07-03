@@ -52,7 +52,7 @@ defmodule AtomicWeb.Components.Button do
 
   attr :rest, :global,
     include:
-      ~w(csrf_token disabled download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
+      ~w(csrf_token download form href hreflang method name navigate patch referrerpolicy rel replace target type value autofocus tabindex),
     doc: "Arbitrary HTML or phx attributes."
 
   slot :inner_block, required: false, doc: "Slot for the content of the button."
@@ -121,7 +121,7 @@ defmodule AtomicWeb.Components.Button do
 
   defp icon_content(assigns) do
     ~H"""
-    <.icon name={@icon} class={"#{generate_icon_classes(assigns)}"} />
+    <.icon name={@icon <> ""} class={"#{generate_icon_classes(assigns)}"} />
     """
   end
 

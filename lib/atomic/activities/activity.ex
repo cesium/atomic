@@ -9,8 +9,8 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Location
   alias Atomic.Organizations.Organization
 
-  @required_fields ~w(title description start finish minimum_entries maximum_entries enrolled organization_id)a
-  @optional_fields ~w()a
+  @required_fields ~w(title description start finish enrolled organization_id)a
+  @optional_fields ~w(maximum_entries)a
 
   @derive {
     Flop.Schema,
@@ -29,11 +29,10 @@ defmodule Atomic.Activities.Activity do
     field :start, :naive_datetime
     field :finish, :naive_datetime
 
-    field :maximum_entries, :integer
-    field :minimum_entries, :integer
+    field :maximum_entries, :integer, default: nil
     field :enrolled, :integer, default: 0
 
-    field :image, Uploaders.Post.Type
+    field :card, Uploaders.Post.Type
     embeds_one :location, Location, on_replace: :update
 
     belongs_to :organization, Organization
@@ -50,62 +49,51 @@ defmodule Atomic.Activities.Activity do
     |> cast_embed(:location, with: &Location.changeset/2)
     |> validate_required(@required_fields)
     |> validate_dates()
-    |> validate_entries()
     |> validate_enrollments()
-    |> check_constraint(:enrolled, name: :enrolled_less_than_max)
     |> maybe_mark_for_deletion()
   end
 
   def image_changeset(activity, attrs) do
     activity
-    |> cast_attachments(attrs, [:image])
-  end
-
-  defp validate_entries(changeset) do
-    minimum_entries = get_change(changeset, :minimum_entries)
-    maximum_entries = get_change(changeset, :maximum_entries)
-
-    case {minimum_entries, maximum_entries} do
-      {nil, nil} ->
-        validate_entries_values(
-          changeset.data.minimum_entries,
-          changeset.data.maximum_entries,
-          changeset
-        )
-
-      {nil, maximum} ->
-        validate_entries_values(changeset.data.minimum_entries, maximum, changeset)
-
-      {minimum, nil} ->
-        validate_entries_values(minimum, changeset.data.maximum_entries, changeset)
-
-      {min, max} ->
-        validate_entries_values(min, max, changeset)
-    end
-  end
-
-  def validate_entries_values(min_value, max_value, changeset) do
-    if min_value > max_value do
-      add_error(
-        changeset,
-        :maximum_entries,
-        gettext("must be greater than minimum entries")
-      )
-    else
-      changeset
-    end
+    |> cast_attachments(attrs, [:card])
   end
 
   defp validate_dates(changeset) do
-    start = get_change(changeset, :start)
-    finish = get_change(changeset, :finish)
+    start = get_field(changeset, :start)
+    finish = get_field(changeset, :finish)
 
-    if start && finish && Date.compare(start, finish) == :gt do
+    is_new_record = is_nil(changeset.data.id)
+
+    if is_new_record do
+      changeset
+      |> validate_finish_after_start(start, finish)
+      |> validate_start_in_future(start)
+    else
+      changeset
+      |> validate_finish_after_start(start, finish)
+    end
+  end
+
+  defp validate_finish_after_start(changeset, start, finish)
+       when not is_nil(start) and not is_nil(finish) do
+    if NaiveDateTime.compare(start, finish) == :gt do
       add_error(changeset, :finish, gettext("must be after starting date"))
     else
       changeset
     end
   end
+
+  defp validate_finish_after_start(changeset, _start, _finish), do: changeset
+
+  defp validate_start_in_future(changeset, start) when not is_nil(start) do
+    if NaiveDateTime.compare(start, NaiveDateTime.utc_now()) in [:lt, :eq] do
+      add_error(changeset, :start, gettext("must be in the future"))
+    else
+      changeset
+    end
+  end
+
+  defp validate_start_in_future(changeset, _start), do: changeset
 
   defp maybe_mark_for_deletion(%{data: %{id: nil}} = changeset), do: changeset
 
@@ -139,6 +127,8 @@ defmodule Atomic.Activities.Activity do
         validate_enrollments_values(enrolled, maximum, changeset)
     end
   end
+
+  def validate_enrollments_values(_enrolled, nil, changeset), do: changeset
 
   def validate_enrollments_values(enrolled, maximum_entries, changeset) do
     if enrolled > maximum_entries do

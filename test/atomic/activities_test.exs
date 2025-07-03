@@ -9,7 +9,7 @@ defmodule Atomic.ActivitiesTest do
   describe "activities" do
     alias Atomic.Activities.Activity
 
-    @invalid_attrs %{description: nil, maximum_entries: nil, minimum_entries: nil, title: nil}
+    @invalid_attrs %{description: nil, maximum_entries: nil, title: nil}
 
     test "list_activities/1 returns all activities" do
       activity = insert(:activity)
@@ -32,12 +32,6 @@ defmodule Atomic.ActivitiesTest do
 
     test "create_activity_with_post/2 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(@invalid_attrs)
-    end
-
-    test "create_activity_with_post/2 with maximum_entries lower than minimum_entries" do
-      activity = params_for(:activity, maximum_entries: 1, minimum_entries: 2)
-
-      assert {:error, %Ecto.Changeset{}} = Activities.create_activity_with_post(activity)
     end
 
     test "create_activity_with_post/2 with finish date before start date" do

@@ -44,7 +44,7 @@ defmodule AtomicWeb.Components.Sidebar do
           <.sidebar_dropdown current_user={@current_user} orientation={:down} />
         </div>
       </div>
-      <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden cursor-pointer bg-black bg-opacity-50" phx-click={hide_mobile_sidebar()}></div>
+      <div id="sidebar-overlay" class="fixed inset-0 z-50 hidden cursor-pointer bg-black bg-opacity-50" phx-click={hide_mobile_sidebar()}></div>
       <!-- Sidebar Panel -->
       <div id="mobile-sidebar" class="fixed inset-0 z-50 hidden w-64" role="dialog" aria-modal="true">
         <div class="fixed inset-0 flex w-fit">
@@ -80,7 +80,7 @@ defmodule AtomicWeb.Components.Sidebar do
     assigns = assign(assigns, :organizations, organizations)
 
     ~H"""
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-0 lg:flex lg:w-72 lg:flex-col">
       <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-zinc-200 bg-white px-6 pb-4">
         <.sidebar_header />
         <.sidebar_list current_user={@current_user} current_organization={@current_organization} current_page={@current_page} />

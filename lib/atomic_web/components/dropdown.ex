@@ -46,14 +46,14 @@ defmodule AtomicWeb.Components.Dropdown do
                 method={Map.get(item, :method, "get")}
               >
                 <%= if item[:icon] do %>
-                  <.icon name={item.icon} class="size-5 ml-2 inline-block" />
+                  <.icon name={"hero-" <> item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
                 {item.name}
               </.link>
             <% else %>
               <div class={"#{item[:class]} flex items-center gap-x-2 px-4 py-2 text-sm text-zinc-700"}>
                 <%= if item[:icon] do %>
-                  <.icon name={item.icon} class="size-5 ml-2 inline-block" />
+                  <.icon name={"hero-" <> item.icon} class="size-5 ml-2 inline-block" />
                 <% end %>
                 {item.name}
               </div>

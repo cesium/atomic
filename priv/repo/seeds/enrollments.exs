@@ -18,7 +18,7 @@ defmodule Atomic.Repo.Seeds.Enrollments do
         activities = Repo.all(Activity)
 
         for user <- users do
-          for _ <- 1..Enum.random(1..2) do
+          for _ <- 1..Enum.random(2..6) do
             Activities.create_enrollment(
               Enum.random(activities).id,
               user

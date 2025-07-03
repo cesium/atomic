@@ -1,3 +1,5 @@
-<div id="atomic-edit">
-  <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} current_organization={@current_organization} return_to={~p"/activities/#{@activity}"} />
-</div>
+<.page title="Edit Activity">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <.live_component module={AtomicWeb.ActivityLive.FormComponent} id={@activity.id} title={@page_title} action={@live_action} activity={@activity} current_organization={@activity.organization} return_to={~p"/activities/#{@activity.id}"} />
+  </div>
+</.page>

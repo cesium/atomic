@@ -18,11 +18,6 @@ defmodule Atomic.Repo.Seeds.Partners do
   def seed_partners do
     organizations = Repo.all(Organization)
 
-    location = %{
-      name: Faker.Address.city(),
-      url: Faker.Internet.url()
-    }
-
     socials = %{
       instagram: Faker.Internet.slug(),
       facebook: Faker.Internet.slug(),
@@ -40,7 +35,7 @@ defmodule Atomic.Repo.Seeds.Partners do
           description: Enum.join(Faker.Lorem.paragraphs(2), "\n"),
           benefits: Enum.join(Faker.Lorem.paragraphs(5), "\n"),
           organization_id: organization.id,
-          location: location,
+          location: %{name: Faker.Company.name(), address: Faker.Address.street_address()},
           socials: socials
         })
         |> Repo.insert!()

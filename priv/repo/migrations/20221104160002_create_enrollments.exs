@@ -12,5 +12,7 @@ defmodule Atomic.Repo.Migrations.CreateEnrollments do
 
       timestamps()
     end
+
+    create unique_index(:enrollments, [:activity_id, :user_id], name: :unique_enrollments)
   end
 end

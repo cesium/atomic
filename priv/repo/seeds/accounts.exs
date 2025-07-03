@@ -4,7 +4,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
   """
   alias Atomic.Accounts
   alias Atomic.Accounts.{Course, User}
-  alias Atomic.Organizations.Organization
   alias Atomic.Repo
 
   @masters File.read!("priv/fake/masters.txt") |> String.split("\n")
@@ -23,7 +22,6 @@ defmodule Atomic.Repo.Seeds.Accounts do
 
   def seed_users(characters, role) do
     courses = Repo.all(Course)
-    organizations = Repo.all(Organization)
 
     for character <- characters do
       email = (character |> String.downcase() |> String.replace(~r/\s*/, "")) <> "@mail.pt"
@@ -39,8 +37,7 @@ defmodule Atomic.Repo.Seeds.Accounts do
         "phone_number" => phone_number,
         "password" => "password1234",
         "role" => role,
-        "course_id" => Enum.random(courses).id,
-        "current_organization_id" => Enum.random(organizations).id
+        "course_id" => Enum.random(courses).id
       }
 
       case Accounts.register_user(user) do

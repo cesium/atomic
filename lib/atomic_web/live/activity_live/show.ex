@@ -1,99 +1,150 @@
 defmodule AtomicWeb.ActivityLive.Show do
   use AtomicWeb, :live_view
 
+  import AtomicWeb.Components.{Avatar, Dropdown, Gradient, Table, Map, Pagination}
+
   alias Atomic.Accounts
   alias Atomic.Activities
   alias Atomic.Activities.Enrollment
+  alias Phoenix.LiveView.JS
 
   import AtomicWeb.LiveHelpers
 
   @impl true
   def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
-      Activities.subscribe("new_enrollment")
-      Activities.subscribe("deleted_enrollment")
+      Activities.subscribe_to_activity_update(id)
     end
 
     {:ok, socket |> assign(:id, id)}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     activity = Activities.get_activity!(id, [:organization])
 
     {:noreply,
      socket
+     |> assign(:participants_modal, false)
+     |> apply_action(socket.assigns.live_action, params)
      |> assign(:page_title, activity.title)
      |> assign_page_metadata(:activity)
      |> assign(:current_page, :activities)
+     |> assign(:params, params)
      |> assign(:activity, activity)
-     |> assign(:enrolled, activity.enrolled)
+     |> assign(list_participants_paginated(id, params))
+     |> assign(:current_view, current_view(socket, params))
      |> assign(:enrolled?, maybe_put_enrolled(socket))
+     |> assign(:enrollment_id, maybe_put_enrollment_id(socket))
      |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(id))
      |> then(fn complete_socket ->
        assign(complete_socket, :has_permissions?, has_permissions?(complete_socket))
      end)}
   end
 
+  defp apply_action(socket, :show, params) do
+    socket
+    |> assign(:current_view, current_view(socket, params))
+  end
+
+  defp apply_action(socket, :participants, params) do
+    socket
+    |> assign(:current_view, current_view(socket, params))
+  end
+
+  defp apply_action(socket, _, _) do
+    socket
+  end
+
+  defp list_participants_paginated(id, params) do
+    case Activities.list_display_participants(id, params) do
+      {:ok, {participants, meta}} ->
+        %{participants: participants, meta: meta}
+
+      {:error, flop} ->
+        %{participants: [], meta: flop}
+    end
+  end
+
   @impl true
-  def handle_event("enroll", _payload, socket) do
+  def handle_event("confirm", _payload, socket) do
+    case socket.assigns.live_action do
+      :enroll ->
+        action_enroll(socket)
+
+      :unenroll ->
+        action_unenroll(socket)
+
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
+  def handle_event("handle_participants_modal", _, socket) do
+    {:noreply, socket |> assign(:participants_modal, not socket.assigns.participants_modal)}
+  end
+
+  def action_enroll(socket) do
     case Activities.create_enrollment(socket.assigns.id, socket.assigns.current_user) do
       {:ok, %Enrollment{}} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Enrolled successufully!")
-         |> assign(:enrolled?, true)}
+         |> put_flash(:success, gettext("Enrolled successufully!"))
+         |> assign(:enrolled?, true)
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
 
-      {:error, changeset} ->
-        case is_nil(changeset.errors[:activity_id]) do
-          true -> {:noreply, socket |> put_flash(:error, "Unable to enroll")}
-          _ -> {:noreply, socket |> put_flash(:error, changeset.errors[:activity_id] |> elem(0))}
-        end
+      {:error, _changeset} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, gettext("Unable to enroll. Please try again later."))
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
     end
   end
 
-  @impl true
-  def handle_event("unenroll", _payload, socket) do
+  def action_unenroll(socket) do
     case Activities.delete_enrollment(socket.assigns.id, socket.assigns.current_user) do
-      {1, nil} ->
+      {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:success, gettext("Unenrolled successufully!"))
-         |> assign(:enrolled?, false)}
+         |> put_flash(:success, "Unenrolled successufully!")
+         |> assign(:enrolled?, false)
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
 
-      {_, nil} ->
+      {:error, _changeset} ->
         {:noreply,
          socket
-         |> put_flash(:error, gettext("Unable to unenroll. Please try again."))}
+         |> put_flash(:error, gettext("Unable to unenroll. Please try again."))
+         |> push_patch(to: ~p"/activities/#{socket.assigns.activity.id}")}
     end
   end
 
   @impl true
-  def handle_event("must-login", _payload, socket) do
+  def handle_info(updated_activity, socket) do
+    max_enrolled? = updated_activity.enrolled >= updated_activity.maximum_entries
+
     {:noreply,
      socket
-     |> put_flash(:error, gettext("You must be logged in to enroll in an activity."))
-     |> push_navigate(to: ~p"/users/log_in")}
+     |> assign(
+       :activity,
+       Map.put(updated_activity, :organization, socket.assigns.activity.organization)
+     )
+     |> assign(:enrolled?, maybe_put_enrolled(socket))
+     |> assign(:max_enrolled?, max_enrolled?)
+     |> maybe_close_modal(max_enrolled? and socket.assigns.live_action == :enroll)}
   end
 
-  @impl true
-  def handle_info({event, _changes}, socket)
-      when event in [:new_enrollment, :deleted_enrollment] do
-    {:noreply, reload(socket, action: event)}
+  defp maybe_close_modal(socket, condition) do
+    if condition do
+      push_patch(socket, to: ~p"/activities/#{socket.assigns.activity.id}")
+    else
+      socket
+    end
   end
 
-  defp reload(socket, action: :new_enrollment) do
-    socket
-    |> assign(:enrolled, socket.assigns.enrolled + 1)
-    |> assign(:enrolled?, maybe_put_enrolled(socket))
-    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
-  end
+  defp maybe_put_enrollment_id(socket) when not socket.assigns.is_authenticated?, do: nil
 
-  defp reload(socket, action: :deleted_enrollment) do
-    socket
-    |> assign(:enrolled, socket.assigns.enrolled - 1)
-    |> assign(:enrolled?, maybe_put_enrolled(socket))
-    |> assign(:max_enrolled?, Activities.verify_maximum_enrollments?(socket.assigns.id))
+  defp maybe_put_enrollment_id(socket) do
+    Activities.get_enrollment!(socket.assigns.id, socket.assigns.current_user.id)
   end
 
   defp maybe_put_enrolled(socket) when not socket.assigns.is_authenticated?, do: false
@@ -111,4 +162,53 @@ defmodule AtomicWeb.ActivityLive.Show do
         socket.assigns.activity.organization_id
       )
   end
+
+  def draw_ticket_qr_code(enrollment_id) do
+    enrollment_id = enrollment_id.id
+
+    enrollment_id
+    |> QRCodeEx.encode()
+    |> QRCodeEx.svg(color: "#111827", width: 200, background_color: :transparent)
+  end
+
+  defp generate_dropdown_items(is_enrolled, can_edit, activity, _) do
+    [%{name: gettext("Share"), navigate: "/", icon: "share"}]
+    |> append_if_true(is_enrolled, %{
+      name: gettext("Unenroll"),
+      navigate: ~p"/activities/#{activity.id}/unenroll",
+      icon: "user-minus"
+    })
+    |> append_if_true(can_edit, %{
+      name: gettext("Edit"),
+      navigate: ~p"/organizations/#{activity.organization}/activities/#{activity.id}/edit",
+      icon: "pencil"
+    })
+  end
+
+  defp append_if_true(list, true, item), do: list ++ [item]
+  defp append_if_true(list, _, _), do: list
+
+  defp display_action_goal_confirm_title(action) do
+    case action do
+      :enroll ->
+        gettext("Are you sure you want to join this activity?")
+
+      :unenroll ->
+        gettext("Are you sure you no longer want to take part in this activity?")
+    end
+  end
+
+  defp display_action_goal_confirm_description(action) do
+    case action do
+      :enroll ->
+        gettext("You can alway unenroll later if you change your mind.")
+
+      :unenroll ->
+        gettext("Beware that you will lose your spot if you unenroll.")
+    end
+  end
+
+  defp current_view(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+
+  defp current_view(_socket, _params), do: "show"
 end

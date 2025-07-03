@@ -1,0 +1,60 @@
+defmodule AtomicWeb.ActivityLive.Components.ActivityCard do
+  @moduledoc false
+  use AtomicWeb, :component
+
+  import AtomicWeb.Components.Gradient
+
+  attr :activity, :map, required: true, doc: "The activity to display."
+
+  def activity_card(assigns) do
+    ~H"""
+    <div class="flex flex-col justify-center rounded-lg border border-zinc-200 hover:bg-zinc-50">
+      <!-- TODO: Add almost full! Indicator -->
+      <.link navigate={~p"/activities/#{@activity}"}>
+        <div class="grid grid-cols-3">
+          <!-- Activity information -->
+          <div class="col-span-2 px-4 py-4 lg:px-6">
+            <div class="flex items-center justify-between">
+              <p class="text-md truncate font-medium text-zinc-900" title={@activity.title}>
+                {@activity.title}
+              </p>
+            </div>
+            <div class="mt-2 lg:flex lg:justify-between">
+              <div class="lg:flex lg:space-x-3">
+                <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                  <.icon name="hero-calendar" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+                  <%= if @activity.start do %>
+                    {pretty_display_date(@activity.start)}
+                  <% end %>
+                </p>
+                <%= if @activity.location do %>
+                  <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
+                    <.icon name="hero-map-pin" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+                    {@activity.location && @activity.location.name}
+                  </p>
+                <% end %>
+              </div>
+            </div>
+            <object class="w-2/3">
+              <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="group flex max-w-min pt-2">
+                <.icon name="hero-building-office" class="mr-1.5 h-5 w-5 text-zinc-400" />
+                <span class="truncate text-sm text-zinc-500 focus:outline-none group-hover:underline">
+                  {@activity.organization.name}
+                </span>
+              </.link>
+            </object>
+          </div>
+          <!-- Activity image -->
+          <div class="h-48 object-cover">
+            <%= if @activity.card do %>
+              <img class="h-full w-full rounded-r-lg object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+            <% else %>
+              <.gradient seed={@activity.id} class="rounded-r-lg" />
+            <% end %>
+          </div>
+        </div>
+      </.link>
+    </div>
+    """
+  end
+end

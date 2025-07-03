@@ -1,151 +1,287 @@
-<div class="my-4">
-  <div class="bg-white">
-    <div class="flex justify-between px-4 py-5 sm:px-6">
-      <div class="my-4 w-full items-center gap-x-4 lg:flex">
-        <div class="flex-1">
-          <h1 class="text-2xl font-bold text-zinc-900 sm:text-3xl">
-            {@activity.title}
-          </h1>
+<.page title={@activity.title}>
+  <:title_wrapper>
+    <div class="grid">
+      <span class="flex items-center gap-2">
+        <p class="text-sm font-semibold text-gray-900">
+          {gettext("hosted by")}
+        </p>
+        <.link navigate={~p"/organizations/#{@activity.organization.id}"} class="flex items-center gap-1 font-semibold text-gray-900 hover:underline">
+          <.avatar class={@activity.organization.logo && "border-0 size-5"} src={Uploaders.Logo.url({@activity.organization.logo, @activity.organization}, :original)} name={@activity.organization.name} size={:xs} type={:organization} color={:white} />
+          {@activity.organization.name}
+        </.link>
+      </span>
+    </div>
+  </:title_wrapper>
+  <:actions>
+    <%= if @current_view == "show" do %>
+      <!-- Actions (desktop) -->
+      <div class="hidden gap-4 sm:flex">
+        <%= if @is_authenticated? do %>
+          <.button :if={not @max_enrolled? and !@enrolled?} color={:white} icon="hero-ticket" patch={~p"/activities/#{@activity.id}/enroll"} disabled={@enrolled?}>
+            {gettext("Register")}
+          </.button>
+          <.button :if={@enrolled?} patch={~p"/activities/#{@activity.id}/ticket"} color={:white} icon="hero-ticket">
+            {gettext("Ticket")}
+          </.button>
+          <.button :if={@has_permissions?} navigate={~p"/organizations/#{@activity.organization_id}/activities/#{@activity.id}/edit"} icon="hero-pencil">
+            {gettext("Edit activity")}
+          </.button>
+        <% end %>
+      </div>
+      <!-- Actions (mobile) -->
+      <div class="block sm:hidden">
+        <.dropdown id="activity-actions-dropdown" items={generate_dropdown_items(@enrolled?, @has_permissions?, @activity, @socket)}>
+          <:wrapper>
+            <.button icon="hero-ellipsis-horizontal" color={:white} />
+          </:wrapper>
+        </.dropdown>
+      </div>
+    <% end %>
+    <%= if @current_view == "participants" do %>
+      <.button icon="hero-arrow-left-solid" color={:white} patch={~p"/activities/#{@activity.id}"} />
+    <% end %>
+  </:actions>
+  <!-- Activity image (mobile) -->
+  <%= if @current_view == "show" do %>
+    <div class="flex w-full justify-center px-8 pb-8 sm:hidden sm:px-6">
+      <div class="aspect-square w-full object-cover">
+        <%= if @activity.card do %>
+          <img class="h-full w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+        <% else %>
+          <.gradient class="rounded-xl" seed={@activity.id} />
+        <% end %>
+      </div>
+    </div>
+    <div class="mx-4 grid max-w-5xl grid-cols-5 gap-12 sm:mx-6 lg:mx-8">
+      <div class="col-span-5 flex flex-col gap-6 sm:col-span-3">
+        <div class="flex flex-row justify-between gap-16 sm:justify-normal">
+          <!-- Date -->
+          <%= if @activity.start do %>
+            <div class="flex items-center gap-2">
+              <.icon name="hero-calendar" class="h-5 w-5 text-gray-700" />
+              <!-- One day activity -->
+              <%= if Timex.to_date(@activity.start) == Timex.to_date(@activity.finish) do %>
+                <div class="flex flex-col">
+                  <p class="font-medium">
+                    {pretty_display_date(@activity.start)}
+                  </p>
+                  <p>
+                    {"#{display_time(@activity.start)} - #{display_time(@activity.finish)}"}
+                  </p>
+                </div>
+              <% else %>
+                <div class="flex flex-col">
+                  <p class="font-medium">
+                    {pretty_display_date(@activity.start)} - {pretty_display_date(@activity.finish)}
+                  </p>
+                  <p>
+                    {"#{display_time(@activity.start)} - #{display_time(@activity.finish)}"}
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <!-- Capacity -->
+          <.link phx-click="handle_participants_modal">
+            <div class="flex items-center gap-2">
+              <.icon name="hero-user-group" class="h-5 w-5 text-gray-700" />
+              <p class="font-medium">
+                {Enum.count(@participants)} {if @activity.maximum_entries, do: "/ #{@activity.maximum_entries}"}
+              </p>
+            </div>
+          </.link>
+        </div>
+        <!-- Enrollment (desktop) -->
+        <%= if @enrolled? do %>
+          <div class="hidden sm:block">
+            <div class="flex flex-row items-center gap-2">
+              <.icon name="hero-check-badge" class="h-5 w-5 text-gray-700" />
+              <div>
+                <h2 class="text-md flex-1 select-none truncate font-semibold text-gray-900">
+                  {gettext("You are going!")}
+                </h2>
+                <p>
+                  {gettext("If you can't go please unenroll")}
+                  <.link patch={~p"/activities/#{@activity.id}/unenroll/"}>
+                    <span class="text-primary-500 underline">{gettext("here")}</span>.
+                  </.link>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <!-- About -->
+        <div>
+          <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+            {gettext("About")}
+          </h2>
+          <div class="flex flex-col gap-2">
+            {text_to_html(@activity.description)}
+          </div>
+        </div>
+        <!-- Location -->
+        <div :if={@activity.location}>
+          <h2 class="mb-2 flex-1 select-none truncate text-lg font-semibold text-gray-900">
+            {gettext("Location")}
+          </h2>
+          <div class="pb-4">
+            <p>
+              {@activity.location.name}
+            </p>
+            <p class="text-sm text-gray-600">
+              {@activity.location.address}
+            </p>
+          </div>
+          <figure class="rounded-xl border">
+            <.map location={@activity.location.address} class="rounded-xl" />
+          </figure>
+        </div>
+        <!-- Action buttons (mobile) -->
+        <div class="block pt-8 sm:hidden">
+          <!-- Register button -->
+          <.button :if={not @max_enrolled? and !@enrolled?} icon="hero-ticket" size={:lg} patch={~p"/activities/#{@activity.id}/enroll/"} full_width>
+            {gettext("Register")}
+          </.button>
+          <!-- Ticket and unenroll buttons -->
+          <div :if={@enrolled?} class="grid grid-cols-3 gap-2">
+            <.button class="col-span-2" patch={~p"/activities/#{@activity.id}/ticket/"} icon="hero-ticket" size={:lg} full_width>
+              {gettext("View ticket")}
+            </.button>
+            <.button patch={~p"/activities/#{@activity.id}/unenroll/"} color={:white} icon="hero-user-minus" size={:lg} full_width></.button>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2 hidden w-full object-cover sm:block">
+        <!-- Activity image (desktop) -->
+        <%= if @activity.card do %>
+          <img class="max-h-fit w-full rounded-xl border object-cover" src={Uploaders.Post.url({@activity.card, @activity}, :original)} />
+        <% else %>
+          <.gradient class="!h-[50vh] rounded-xl border" seed={@activity.id} />
+        <% end %>
+        <div class="flex flex-col">
+          <!-- Activity participants (desktop) -->
+          <div :if={@activity.enrolled > 0} class="pt-4">
+            <h2 class="text-md mb-2 flex-1 select-none truncate font-semibold text-gray-900">
+              {gettext("%{enrolled} Going", enrolled: Enum.count(@participants))}
+            </h2>
+            <.avatar_group
+              size={:xs}
+              items={
+                @participants
+                |> Enum.take(6)
+                |> Enum.map(fn p -> %{name: p.name} end)
+                |> then(fn avatars ->
+                  if length(@participants) > 6 do
+                    Enum.concat(avatars, [%{name: "+#{length(@participants) - 6}", auto_generate_initials: false}])
+                  else
+                    avatars
+                  end
+                end)
+              }
+            />
+          </div>
+          <%= if length(@participants) == 0 do %>
+            <span class="flex justify-center pt-2 text-orange-500">{gettext("No participants on this activity")}</span>
+          <% else %>
+            <%= if @has_permissions? do %>
+              <.link patch="?tab=participants" class="text-orange-500 hover:cursor-pointer hover:underline">
+                {gettext("View all")}
+              </.link>
+            <% else %>
+              <.link phx-click="handle_participants_modal" class="text-orange-500 hover:cursor-pointer hover:underline">
+                {gettext("View all")}
+              </.link>
+            <% end %>
+          <% end %>
         </div>
       </div>
     </div>
-
-    <div class="flex flex-col border-t border-zinc-200 1.5xl:flex-row">
-      <div class="w-full px-4 py-5 sm:px-6">
-        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <div class="col-span-2 sm:col-span-1">
-            <dt class="font medium text-lg leading-6 text-zinc-900">
-              {gettext("Preview activity")}
-            </dt>
-            <dd class="mt-1 text-sm text-zinc-600">
-              {gettext("Check here every detail of this activity")}
-            </dd>
+  <% end %>
+  <%= if @current_view == "participants" do %>
+    <%= if length(@participants) != 0 do %>
+      <%= if @has_permissions? do %>
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="mb-4 flex-1 select-none truncate text-lg font-semibold text-zinc-900">Participants</h2>
+          <div class="border-t border-l">
+            <.table items={@participants} meta={@meta} filter={[]}>
+              <:col :let={participant} label="Name"><.link navigate={~p"/profile/#{participant.slug}"} class="hover:underline">{participant.name}</.link></:col>
+              <:col :let={participant} label="Email">{participant.email}</:col>
+              <:col :let={participant} label="Phone number">{participant.phone_number}</:col>
+            </.table>
           </div>
-
-          <div class={
-            if @has_permissions? do
-              "col-span-1"
-            else
-              "col-span-2"
-            end
-          }>
-            <dt class="text-sm font-medium text-zinc-500">
-              {gettext("Enrollments")}
-            </dt>
-            <dd class="mt-1 flex text-sm text-zinc-900">
-              <div class="flex w-full">
-                <.icon name="hero-users-solid" class="size-5 text-zinc-400" />
-                <div class="pl-2.5">
-                  {@enrolled} / {@activity.maximum_entries}
-                </div>
-              </div>
-            </dd>
-          </div>
-
-          <div class="col-span-2">
-            <dt class="grid grid-cols-2 items-center">
-              <div class="text-sm font-medium text-zinc-500">
-                {gettext("Date and location")}
-              </div>
-            </dt>
-            <dd class="mt-1 flex flex-col gap-x-2 gap-y-4 text-sm text-zinc-900">
-              <div class="flex flex-col gap-x-2 gap-y-2 md:flex-row">
-                <div class="flex gap-x-2">
-                  <div class="text-zinc-900x inset-y-0 my-auto flex w-full gap-y-4 text-sm">
-                    <.icon name="hero-calendar-solid" class="size-5 text-zinc-400" />
-                    <p class="block max-w-6xl pl-1.5">
-                      {display_date(@activity.start)}
-                    </p>
-                  </div>
-                </div>
-                <div class="inset-y-0 my-auto flex md:pl-3">
-                  <.icon name="hero-clock-solid" class="size-5 text-zinc-400" />
-                  <p class="block max-w-6xl pl-1.5">
-                    {display_time(@activity.start)} - {display_time(@activity.finish)}
-                  </p>
-                </div>
-                <div class="flex text-sm md:pl-3">
-                  <%= if @activity.location do %>
-                    <.icon name="hero-map-pin-solid" class="size-5 text-zinc-400" />
-                    <.link navigate={@activity.location.url} data-confirm={gettext("Are you sure?")} class="pl-1.5 text-blue-500">
-                      {@activity.location.name}
-                    </.link>
-                  <% else %>
-                    <%= if @activity.location do %>
-                      <div class="pl-1.5 text-zinc-900">
-                        {@activity.location.name}
-                      </div>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
-          </div>
-          <div class="col-span-2">
-            <dt class="text-sm font-medium text-zinc-500">
-              {gettext("Description")}
-            </dt>
-            <dd class="prose prose-slate mt-1 max-w-full text-sm text-zinc-900 prose-headings:underline prose-a:text-blue-500">
-              {@activity.description}
-            </dd>
-          </div>
-          <div class="col-span-2">
-            <%= if @enrolled? do %>
-              <dt class="text-sm font-medium text-zinc-500">
-                {gettext("Your already enrolled in the activity, below is your QRCode")}
-              </dt>
-              <dd class="mt-1 flex text-sm text-zinc-900">
-                {draw_qr_code(@activity, @current_user, @socket) |> raw}
-              </dd>
-              <dd class="mt-1 flex flex-row space-x-1 text-sm text-zinc-900">
-                <span>
-                  {gettext("If you can't go please")}
-                </span>
-                <button class="text-blue-500" phx-click="unenroll" phx-disable-with={gettext("Unenrolling...")} phx-throttle="0">
-                  {gettext("Unenroll")}
-                </button>
-              </dd>
-            <% else %>
-              <%= if not @max_enrolled? do %>
-                <div class="flex flex-col">
-                  <dt class="text-sm font-medium text-zinc-500">
-                    {gettext("You are not enrolled in this activity")}
-                  </dt>
-                  <%= if @is_authenticated? do %>
-                    <button
-                      phx-click="enroll"
-                      phx-disable-with={gettext("Enrolling...")}
-                      phx-throttle="0"
-                      class="bg-primary-500 mt-1 w-fit rounded-md px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                    >
-                      {gettext("Enroll")}
-                    </button>
-                  <% else %>
-                    <button phx-click="must-login" class="bg-primary-500 mt-1 w-fit rounded-md px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
-                      {gettext("Enroll")}
-                    </button>
-                  <% end %>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        </dl>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="flex flex-row space-x-1">
-  <%= if @has_permissions? do %>
-    <.link patch={~p"/organizations/#{@activity.organization_id}/activities/#{@activity}/edit"} class="button">
-      <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name="hero-pencil-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Edit
-      </div>
-    </.link>
-    <%= link to: "#", phx_click: "delete", phx_value_id: @activity.id, data: [confirm: "Are you sure?"] do %>
-      <div type="button" class="inline-flex w-fit justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm hover:bg-zinc-50" id="sort-menu-button" aria-expanded="false" aria-haspopup="true">
-        <.icon name="hero-trash-solid" class="mr-3 h-5 w-5 text-zinc-400" /> Delete
-      </div>
+          <.pagination items={@participants} meta={@meta} params={@params} class="flex w-full items-center justify-between border border-t-0 pt-2" />
+        </div>
+      <% else %>
+        <ul>
+          <%= for participant <- @participants do %>
+            <li>{participant.name}</li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
   <% end %>
-</div>
+</.page>
+<!-- Ticket show modal -->
+<.modal :if={@live_action in [:ticket] and @enrolled?} id="ticket-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
+  <div class="flex w-full flex-col place-items-center gap-2 text-center">
+    <p class="text-md font-semibold text-gray-900 sm:w-1/2">
+      {gettext("Show this code to the staff present at the activity to register your presence.")}
+    </p>
+    {draw_ticket_qr_code(@enrollment_id) |> raw}
+  </div>
+</.modal>
+<!-- Enrollment modal -->
+<.modal :if={@live_action in [:enroll, :unenroll]} id="action-confirm-modal" show on_cancel={JS.patch(~p"/activities/#{@activity.id}")}>
+  <div class="flex flex-col">
+    <h1 class="flex-1 select-none text-lg font-semibold text-gray-900">
+      {display_action_goal_confirm_title(@live_action)}
+    </h1>
+    <p class="mt-4">
+      {display_action_goal_confirm_description(@live_action)}
+    </p>
+    <div class="mt-8 flex flex-row">
+      <.button patch={~p"/activities/#{@activity.id}/"} class="mr-2" size={:lg} icon="hero-x-circle" color={:white} full_width>{gettext("Cancel")}</.button>
+      <.button
+        phx-click="confirm"
+        class="ml-2"
+        size={:lg}
+        icon="hero-check-circle"
+        color={
+          if @live_action == :unenroll do
+            :danger
+          else
+            :success
+          end
+        }
+        full_width
+      >
+        {gettext("Confirm")}
+      </.button>
+    </div>
+  </div>
+</.modal>
+<!-- Participants show modal -->
+<.modal :if={@participants_modal} show class="max-w-[500px]" id="participants_modal" on_cancel={JS.push("handle_participants_modal")}>
+  <div class="flex w-full justify-center">
+    <span class="flex-l text-lg font-semibold text-gray-900">{gettext("Participants")}</span>
+  </div>
+  <%= if length(@participants) != 0 do %>
+    <div class="flex w-full place-items-center justify-center">
+      <div class="align-center scrollbar-hide mt-4 grid max-h-80 w-fit grid-cols-1 gap-4 overflow-auto">
+        <%= for participant <- @participants do %>
+          <div class="flex h-10 place-items-center justify-between">
+            <div class="flex place-items-center">
+              <.avatar size={:xs} name={participant.name} type={:user} />
+              <.link navigate={~p"/profile/#{participant.slug}"} class="ml-4 hover:underline">{participant.name}</.link>
+            </div>
+            <span class="ml-2 hidden text-gray-500 sm:block">{relative_datetime(participant.enrollments |> List.first() |> Map.get(:inserted_at))}</span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="mt-4">
+      <span>{gettext("There are no participants for this activity")}</span>
+    </div>
+  <% end %>
+</.modal>

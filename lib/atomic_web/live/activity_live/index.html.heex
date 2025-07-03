@@ -3,86 +3,73 @@
 
 <.page title="Activities">
   <:actions>
-    <.button navigate={~p"/organizations/#{@organization}/activities/new"}>
-      {gettext("New")}
-    </.button>
+    <%= if @has_permissions? do %>
+      <.button navigate={~p"/organizations/#{@current_organization}/activities/new"} icon="hero-plus">
+        {gettext("New")}
+      </.button>
+    <% end %>
   </:actions>
   <!-- Tabs -->
-  <.tabs class="max-w-5-xl mx-auto px-4 sm:px-6 lg:px-8">
-    <.link patch="?tab=all" replace={false}>
-      <.tab active={@current_tab == "all"}>
-        {gettext("All")}
+  <.tabs class="scrollbar-hide max-w-5-xl mx-auto overflow-scroll px-4 sm:px-6 lg:px-8">
+    <%= if @is_authenticated? and @has_current_organization? do %>
+      <.link patch="?tab=organization" replace={false}>
+        <.tab active={@current_tab == "organization"}>
+          <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
+          {@current_user.current_organization.name <> gettext("'s activities")}
+        </.tab>
+      </.link>
+    <% end %>
+
+    <.link patch="?tab=discover" replace={false}>
+      <.tab active={@current_tab == "discover"}>
+        <.icon name="hero-globe-alt" class="mr-1 h-5 w-5" />
+        {gettext("Discover")}
       </.tab>
     </.link>
 
-    <.link patch="?tab=following" replace={false}>
-      <.tab active={@current_tab == "following"}>
-        {gettext("Following")}
-      </.tab>
-    </.link>
+    <%= if @is_authenticated? do %>
+      <.link patch="?tab=following" replace={false}>
+        <.tab active={@current_tab == "following"}>
+          <.icon name="hero-eye" class="mr-1 h-5 w-5" />
+          {gettext("Following")}
+        </.tab>
+      </.link>
+    <% end %>
 
-    <.link patch="?tab=upcoming" replace={false}>
-      <.tab active={@current_tab == "upcoming"}>
-        {gettext("Upcoming")}
-      </.tab>
-    </.link>
-
-    <.link patch="?tab=enrolled" replace={false}>
-      <.tab active={@current_tab == "enrolled"}>
-        {gettext("Enrolled")}
-      </.tab>
-    </.link>
+    <%= if @is_authenticated? do %>
+      <.link patch="?tab=enrolled" replace={false}>
+        <.tab active={@current_tab == "enrolled"} number={@upcoming_enrolled_count}>
+          <.icon name="hero-ticket" class="mr-1 h-5 w-5" />
+          {gettext("Upcoming")}
+        </.tab>
+      </.link>
+      <.link patch="?tab=past" replace={false}>
+        <.tab active={@current_tab == "past"}>
+          <.icon name="hero-clock" class="mr-1 h-5 w-5" />
+          {gettext("Past")}
+        </.tab>
+      </.link>
+    <% end %>
   </.tabs>
   <!-- Activities index -->
-  <%= if @empty? and @has_permissions? do %>
-    <div class="mt-32">
-      <.empty_state url={~p"/organizations/#{@organization}/activities/new"} placeholder="activity" />
-    </div>
+  <%= if @empty? do %>
+    <%= if @has_permissions? do %>
+      <div class="mt-32">
+        <.empty_state url={~p"/organizations/#{@current_organization}/activities/new"} placeholder="activity" />
+      </div>
+    <% else %>
+      <div class="mt-32 flex w-full flex-col items-center justify-center text-zinc-600">
+        <.icon class="w-24" name="hero-megaphone" />
+        <p class="pt-4">{gettext("No activities to show.")}</p>
+        <p>{activities_empty_state_description(@current_tab)}</p>
+      </div>
+    <% end %>
   <% else %>
     <div class="overflow-hidden bg-white">
-      <ul role="list" class="divide-y divide-zinc-200 overflow-auto">
+      <ul role="list" class="grid gap-4 overflow-auto p-4 sm:grid-cols-2">
         <%= for activity <- @activities do %>
-          <li id={activity.id}>
-            <.link navigate={~p"/activities/#{activity}"} class="block hover:bg-zinc-50">
-              <div class="px-4 py-4 lg:px-6">
-                <div class="flex items-center justify-between">
-                  <p class="truncate text-sm font-medium text-zinc-900">
-                    {activity.title}
-                  </p>
-                </div>
-                <div class="mt-2 lg:flex lg:justify-between">
-                  <div class="lg:flex lg:space-x-3">
-                    <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name="hero-users-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
-                      {Enum.count(activity.enrollments)} / {activity.maximum_entries}
-                    </p>
-                    <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name="hero-calendar-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
-                      <%= if activity.start do %>
-                        {display_date(activity.start)}
-                      <% end %>
-                    </p>
-                    <%= if activity.location do %>
-                      <p class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                        <.icon name="hero-map-pin-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
-                        {activity.location && activity.location.name}
-                      </p>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="flex flex-col-reverse lg:flex-row-reverse lg:items-center lg:justify-between">
-                  <%= if Activities.verify_maximum_enrollments?(activity.id) do %>
-                    <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name="hero-bell-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" /> Open
-                    </div>
-                  <% else %>
-                    <div class="mt-2 flex items-center text-sm text-zinc-500 lg:mt-0">
-                      <.icon name="hero-bell-solid" class="mr-1.5 h-5 w-5 flex-shrink-0 text-zinc-400" /> Closed
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </.link>
+          <li id={activity.id} class={@current_tab == "past" && "opacity-70"}>
+            <.activity_card activity={activity} />
           </li>
         <% end %>
       </ul>

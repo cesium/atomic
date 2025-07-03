@@ -105,8 +105,7 @@ defmodule Atomic.Repo.Seeds.Feed do
       description: activity_description(organization, title),
       start: build_start_date(i),
       finish: build_finish_date(i),
-      location: location,
-      minimum_entries: Enum.random(1..10),
+      location: %{name: Faker.Company.name(), address: Faker.Address.street_address()},
       maximum_entries: Enum.random(11..20),
       organization_id: organization.id,
       enrolled: Enum.random(0..10)
