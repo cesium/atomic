@@ -8,7 +8,6 @@ defmodule Atomic.Activities.Activity do
   alias Atomic.Feed.Post
   alias Atomic.Location
   alias Atomic.Organizations.Organization
-  alias Atomic.Time
 
   @required_fields ~w(title description start finish enrolled organization_id)a
   @optional_fields ~w(maximum_entries)a
@@ -87,7 +86,7 @@ defmodule Atomic.Activities.Activity do
   defp validate_finish_after_start(changeset, _start, _finish), do: changeset
 
   defp validate_start_in_future(changeset, start) when not is_nil(start) do
-    if NaiveDateTime.compare(start, Time.lisbon_now()) == :lt do
+    if NaiveDateTime.compare(start, NaiveDateTime.utc_now()) in [:lt, :eq] do
       add_error(changeset, :start, gettext("must be in the future"))
     else
       changeset

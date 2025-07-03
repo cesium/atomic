@@ -14,8 +14,8 @@ defmodule Atomic.Factories.ActivityFactory do
           description: Faker.Lorem.paragraph(),
           maximum_entries: Enum.random(11..20),
           enrolled: 0,
-          start: NaiveDateTime.utc_now(),
-          finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour),
+          start: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :minute),
+          finish: NaiveDateTime.utc_now() |> NaiveDateTime.add(2, :hour),
           organization_id: organization.id,
           post: build(:post, type: "activity")
         }
