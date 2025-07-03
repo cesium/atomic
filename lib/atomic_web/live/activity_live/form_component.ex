@@ -2,11 +2,9 @@ defmodule AtomicWeb.ActivityLive.FormComponent do
   use AtomicWeb, :live_component
 
   alias Atomic.Activities
-  alias Atomic.Time
   alias Phoenix.LiveView.JS
 
   import AtomicWeb.Components.{Forms, ImageUploader}
-
 
   @impl true
   def mount(socket) do

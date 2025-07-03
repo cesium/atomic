@@ -5,10 +5,10 @@ defmodule Atomic.Activities.Activity do
   use Atomic.Schema
 
   alias Atomic.Activities.Enrollment
-  alias Atomic.Time
   alias Atomic.Feed.Post
   alias Atomic.Location
   alias Atomic.Organizations.Organization
+  alias Atomic.Time
 
   @required_fields ~w(title description start finish enrolled organization_id)a
   @optional_fields ~w(maximum_entries)a
@@ -63,12 +63,20 @@ defmodule Atomic.Activities.Activity do
     start = get_field(changeset, :start)
     finish = get_field(changeset, :finish)
 
-    changeset
-    |> validate_finish_after_start(start, finish)
-    |> validate_start_in_future(start)
+    is_new_record = is_nil(changeset.data.id)
+
+    if is_new_record do
+      changeset
+      |> validate_finish_after_start(start, finish)
+      |> validate_start_in_future(start)
+    else
+      changeset
+      |> validate_finish_after_start(start, finish)
+    end
   end
 
-  defp validate_finish_after_start(changeset, start, finish) when not is_nil(start) and not is_nil(finish) do
+  defp validate_finish_after_start(changeset, start, finish)
+       when not is_nil(start) and not is_nil(finish) do
     if NaiveDateTime.compare(start, finish) == :gt do
       add_error(changeset, :finish, gettext("must be after starting date"))
     else

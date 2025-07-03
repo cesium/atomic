@@ -94,20 +94,20 @@
           phx-click="toggle_maximum_entries_modal"
           phx-target={@myself}
         >
-            <.field
-              class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 shadow-none focus:border-transparent focus:outline-none focus:ring-0 caret-transparent"
-              type="number"
-              field={@form[:maximum_entries]}
-              label="Maximum entries"
-              placeholder={if @has_max_capacity?, do: "Choose maximum capacity", else: "∞ Unlimited"}
-              value={if @has_max_capacity?, do: @form[:maximum_entries].value, else: ""}
-              readonly
-              required
-              label_class="hidden"
-              wrapper_class="m-0"
-              error_class="text-danger-600 placeholder-danger-700"
-              error_label_class="text-danger-700"
-            />
+          <.field
+            class="cursor-pointer border-none bg-transparent p-0 text-sm text-gray-900 caret-transparent shadow-none focus:border-transparent focus:outline-none focus:ring-0"
+            type="number"
+            field={@form[:maximum_entries]}
+            label="Maximum entries"
+            placeholder={if @has_max_capacity?, do: "Choose maximum capacity", else: "∞ Unlimited"}
+            value={if @has_max_capacity?, do: @form[:maximum_entries].value, else: ""}
+            readonly
+            required
+            label_class="hidden"
+            wrapper_class="m-0"
+            error_class="text-danger-600 placeholder-danger-700"
+            error_label_class="text-danger-700"
+          />
         </.button>
 
         <div class="mt-4 flex-grow">
