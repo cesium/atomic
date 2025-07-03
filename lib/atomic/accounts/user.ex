@@ -12,6 +12,7 @@ defmodule Atomic.Accounts.User do
   alias Atomic.Accounts.Course
   alias Atomic.Activities.Enrollment
   alias Atomic.Organizations.{Collaborator, Membership, Organization}
+  alias Atomic.Socials
 
   @required_fields ~w(email password)a
   @optional_fields ~w(name slug role confirmed_at phone_number course_id current_organization_id)a
@@ -32,12 +33,15 @@ defmodule Atomic.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :phone_number, :string
     field :profile_picture, Uploaders.ProfilePicture.Type
+    field :banner, Uploaders.Banner.Type
 
     belongs_to :course, Course
     belongs_to :current_organization, Organization
 
     has_many :enrollments, Enrollment
     has_many :collaborators, Collaborator
+
+    embeds_one :socials, Socials, on_replace: :update
 
     many_to_many :organizations, Organization, join_through: Membership
 
@@ -70,8 +74,7 @@ defmodule Atomic.Accounts.User do
 
   def picture_changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields ++ @optional_fields)
-    |> cast_attachments(attrs, [:profile_picture])
+    |> cast_attachments(attrs, [:profile_picture, :banner])
   end
 
   @doc """
@@ -83,6 +86,7 @@ defmodule Atomic.Accounts.User do
     |> validate_email()
     |> validate_slug()
     |> validate_phone_number()
+    |> cast_embed(:socials, with: &Socials.changeset/2)
   end
 
   defp validate_email(changeset) do
