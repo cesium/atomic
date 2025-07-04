@@ -4,6 +4,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
   alias Atomic.Partners
   alias AtomicWeb.Components.ImageUploader
   import AtomicWeb.Components.Forms
+  import ImageUploader
 
   @impl true
   def render(assigns) do
@@ -38,7 +39,7 @@ defmodule AtomicWeb.PartnerLive.FormComponent do
             <p class="atomic-form-help-text pb-4">{gettext("The image of the partner (960x960px for best display)")}</p>
           </div>
           <div>
-            <.live_component module={ImageUploader} id="uploader" uploads={@uploads} target={@myself} />
+            <.image_uploader id="uploader" upload={@uploads.image} class="h-32 w-full border border-zinc-300 shadow-sm xl:h-64" image_class="h-32 w-full object-cover xl:h-64" />
           </div>
         </div>
         <h2 class="mt-8 mb-2 w-full border-b pb-2 text-lg font-semibold text-zinc-900">{gettext("Internal")}</h2>
