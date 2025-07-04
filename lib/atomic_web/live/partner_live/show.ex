@@ -1,7 +1,7 @@
 defmodule AtomicWeb.PartnerLive.Show do
   use AtomicWeb, :live_view
 
-  import AtomicWeb.Components.{Avatar, Socials}
+  import AtomicWeb.Components.{Avatar, Tabs, Gradient}
   import AtomicWeb.LiveHelpers
 
   alias Atomic.Accounts
@@ -14,7 +14,7 @@ defmodule AtomicWeb.PartnerLive.Show do
   end
 
   @impl true
-  def handle_params(%{"organization_id" => organization_id, "id" => id}, _, socket) do
+  def handle_params(%{"organization_id" => organization_id, "id" => id} = params, _, socket) do
     organization = Organizations.get_organization!(organization_id)
     partner = Partners.get_partner!(id)
 
@@ -23,6 +23,7 @@ defmodule AtomicWeb.PartnerLive.Show do
      |> assign(:page_title, partner.name)
      |> assign_page_metadata(:partner)
      |> assign(:current_page, :partners)
+     |> assign(:current_tab, current_tab(socket, params))
      |> assign(:organization, organization)
      |> assign(:partner, partner)
      |> assign(
@@ -31,6 +32,9 @@ defmodule AtomicWeb.PartnerLive.Show do
      )
      |> assign(:has_permissions?, has_permissions?(socket, organization_id))}
   end
+
+  defp current_tab(_socket, params) when is_map_key(params, "tab"), do: params["tab"]
+  defp current_tab(_socket, _params), do: "benefits"
 
   defp has_permissions?(socket, _organization_id) when not socket.assigns.is_authenticated?,
     do: false
