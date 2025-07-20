@@ -2,28 +2,29 @@
   <:header>
     <%!-- 
       <%= if @organization.banner do %>
-        <img class="h-32 w-full object-cover" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
+        <img class="object-cover w-full h-32" src={Uploaders.Banner.url({@organization.banner, @organization}, :original)} />
       <% else %>
     --%>
-    <.gradient seed={@organization.id} class="max-h-36 w-full select-none rounded-b-lg object-cover" />
+    <.gradient seed={@organization.id} class="object-cover w-full rounded-b-lg select-none max-h-36" />
     <%!-- <% end %> --%>
   </:header>
 
-  <div class="flex flex-row justify-between">
-    <div class="flex h-32 select-none justify-items-start pl-8 text-left">
+  <div class="flex flex-col items-start justify-between px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+    <div class="flex flex-col items-start gap-4 text-left select-none sm:flex-row sm:items-center">
       <.avatar name={@organization.name} type={:organization} src={Logo.url({@organization.logo, @organization}, :original)} size={:xl} color={:light_zinc} />
-      <div class="flex flex-col pl-4 text-left sm:text-left">
+      <div class="flex flex-col text-left sm:text-left">
         <h2 class="text-2xl font-medium text-zinc-900">{@organization.name}</h2>
-          <a href={@organization.socials.website} target="_blank" rel="noopener noreferrer">
-            @{String.downcase(@organization.name)}
-          </a>        <div class="mt-2 flex items-center gap-2 text-sm text-zinc-700">
+        <a href={@organization.socials.website} target="_blank" rel="noopener noreferrer">
+          @{String.downcase(@organization.name)}
+        </a>
+        <div class="flex items-center gap-2 mt-2 text-sm text-zinc-700">
           <span class="font-bold">{@followers_count}</span>
           <span>{gettext("Followers")}</span>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-row gap-2 pr-8">
+    <div class="flex flex-col gap-2 mt-4 sm:flex-row sm:mt-0">
       <%= if @has_permissions? do %>
         <.link patch={~p"/organizations/#{@organization}/edit"}>
           <.button icon="hero-pencil-solid" color={:white}>
@@ -55,31 +56,31 @@
     </div>
   </div>
 
-  <.tabs class="scrollbar-hide flex overflow-scroll px-4 sm:px-6 lg:px-8">
+  <.tabs class="flex px-4 overflow-x-auto sm:px-6 lg:px-8 whitespace-nowrap scrollbar-hide">
     <.link patch="?tab=about" replace={false}>
       <.tab id="about-tab" active={@current_tab == "about"}>
-        <.icon name="hero-information-circle" class="size-5 mr-2" />
+        <.icon name="hero-information-circle" class="mr-2 size-5" />
         {gettext("About")}
       </.tab>
     </.link>
 
     <.link navigate="?tab=posts" replace={true}>
       <.tab id="posts-tab" active={@current_tab == "posts"}>
-        <.icon name="hero-newspaper" class="size-5 mr-2" />
+        <.icon name="hero-newspaper" class="mr-2 size-5" />
         {gettext("Posts")}
       </.tab>
     </.link>
 
     <.link patch="?tab=departments" replace={false}>
       <.tab id="departments-tab" active={@current_tab == "departments"}>
-        <.icon name="hero-cube" class="size-5 mr-2" />
+        <.icon name="hero-cube" class="mr-2 size-5" />
         {gettext("Departments")}
       </.tab>
     </.link>
 
     <.link patch="?tab=partners" replace={false}>
       <.tab id="partners-tab" active={@current_tab == "partners"}>
-        <.icon name="tabler-heart-handshake" class="size-5 mr-2" />
+        <.icon name="tabler-heart-handshake" class="mr-2 size-5" />
         {gettext("Partners")}
       </.tab>
     </.link>
@@ -87,7 +88,7 @@
     <%!-- 
     <.link patch="?tab=members" replace={false}>
       <.tab id="members-tab" active={@current_tab == "members"} number={@member_count}> 
-        <.icon name="hero-user-group" class="size-5 mr-2" />
+        <.icon name="hero-user-group" class="mr-2 size-5" />
         <%= gettext("Members") %>
       </.tab>
     </.link>
@@ -95,53 +96,53 @@
   </.tabs>
 
   <div :if={@current_tab == "about"} class="px-4 mt-6 sm:px-6 lg:px-8">
-    <div class="space-y-4">
+    <div class="space-y-6 text-sm sm:text-base">
       <div>
-        <h3 class="font-semibold">Description</h3>
+        <h3 class="font-semibold">{gettext("Description")}</h3>
         <p>
           <%= @organization.description %>
         </p>
       </div>
 
       <div>
-        <h3 class="font-semibold">Location</h3>
+        <h3 class="font-semibold">{gettext("Location")}</h3>
         <p><%= @organization.location || "Não disponível" %></p>
       </div>
 
       <div>
-        <h3 class="font-semibold">Socials</h3>
-        <div class="flex gap-8 items-center">
+        <h3 class="font-semibold">{gettext("Socials")}</h3>
+        <div class="flex flex-wrap items-center gap-4 sm:gap-8">
           <%= if @organization.socials.website do %>
-            <a class="flex" href={@organization.socials.website} target="_blank" title="Website">
-              <img class="size-4 mt-1 mr-1" src="/images/clip.svg">
+            <a class="flex items-center" href={@organization.socials.website} target="_blank" title="Website">
+              <img class="mt-1 mr-1 size-4" src="/images/clip.svg">
               {@organization.socials.website}
             </a>
           <% end %>
 
           <%= if @organization.socials.facebook do %>
-            <a class="flex" href={"https://facebook.com/#{@organization.socials.facebook}"} target="_blank" title="Facebook">
-              <img class="size-4 mt-1 mr-1" src="/images/facebook.svg">
+            <a class="flex items-center" href={"https://facebook.com/#{@organization.socials.facebook}"} target="_blank" title="Facebook">
+              <img class="mt-1 mr-1 size-4" src="/images/facebook.svg">
               {@organization.socials.facebook}
             </a>
           <% end %>
 
           <%= if @organization.socials.instagram do %>
-            <a class="flex" href={"https://instagram.com/#{@organization.socials.instagram}"} target="_blank" title="Instagram">
-              <img class="size-4 mt-1 mr-1" src="/images/instagram.svg">
+            <a class="flex items-center" href={"https://instagram.com/#{@organization.socials.instagram}"} target="_blank" title="Instagram">
+              <img class="mt-1 mr-1 size-4" src="/images/instagram.svg">
               {@organization.socials.instagram}
             </a>
           <% end %>
 
           <%= if @organization.socials.x do %>
-            <a class="flex" href={"https://x.com/#{@organization.socials.x}"} target="_blank" title="X (Twitter)">
-              <img class="size-4 mt-1 mr-1" src="/images/x.svg">
+            <a class="flex items-center" href={"https://x.com/#{@organization.socials.x}"} target="_blank" title="X (Twitter)">
+              <img class="mt-1 mr-1 size-4" src="/images/x.svg">
               {@organization.socials.x}
             </a>
           <% end %>
 
           <%= if @organization.socials.linkedin do %>
-            <a class="flex" href={"https://linkedin.com/in/#{@organization.socials.linkedin}"} target="_blank" title="LinkedIn">
-              <img class="size-4 mt-1 mr-1" src="/images/linkedin.svg">
+            <a class="flex items-center" href={"https://linkedin.com/in/#{@organization.socials.linkedin}"} target="_blank" title="LinkedIn">
+              <img class="mt-1 mr-1 size-4" src="/images/linkedin.svg">
               {@organization.socials.linkedin}
             </a>
           <% end %>
@@ -152,7 +153,7 @@
 
   <div :if={@current_tab == "posts"} class="px-4 sm:px-6 lg:px-8">
     <ul id="feed" role="list" phx-update="stream" phx-viewport-bottom="load-more">
-      <li :for={{id, post} <- @streams.posts} id={id} class="border-b border-zinc-200 py-4">
+      <li :for={{id, post} <- @streams.posts} id={id} class="px-2 py-4 border-b sm:px-0 border-zinc-200">
         <%= if post.type == :activity do %>
           <.link navigate={~p"/activities/#{post.activity}"}>
             <.activity activity={post.activity} />
@@ -177,10 +178,10 @@
   <%!-- Members tab (disabled) 
   <div :if={@current_tab == "members"} class="px-4 sm:px-6 lg:px-8">
     <.membership_banner organization={@organization} />
-    <div class="my-8 min-h-full w-full border-b" />
+    <div class="w-full min-h-full my-8 border-b" />
     <.memberships_table members={@members} />
-    <p class="text-md mt-10 text-zinc-900"><%= gettext("People") %></p>
-    <div class="mt-4 mb-2 grid grid-cols-7 gap-6">
+    <p class="mt-10 text-md text-zinc-900"><%= gettext("People") %></p>
+    <div class="grid grid-cols-7 gap-6 mt-4 mb-2">
       <%= for person <- @people do %>
         <.avatar name={person.name} size={:sm} color={:light_zinc} />
       <% end %>
