@@ -17,9 +17,9 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipsTable do
           <table class="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
-                <th scope="col" class="py-3 pr-3 pl-4 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0"><%= gettext("Name") %></th>
-                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"><%= gettext("Role") %></th>
-                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"><%= gettext("Joined At") %></th>
+                <th scope="col" class="py-3 pr-3 pl-4 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0">{gettext("Name")}</th>
+                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">{gettext("Role")}</th>
+                <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">{gettext("Joined At")}</th>
               </tr>
             </thead>
 
@@ -29,13 +29,13 @@ defmodule AtomicWeb.OrganizationLive.Components.MembershipsTable do
                   <div class="flex items-center">
                     <.avatar name={member.user.name} size={:sm} color={:light_zinc} class="ring-1 ring-white" />
                     <div class="ml-4">
-                      <div class="font-medium text-gray-900"><%= member.user.name %></div>
-                      <div class="mt-1 text-gray-500"><%= member.user.email %></div>
+                      <div class="font-medium text-gray-900">{member.user.name}</div>
+                      <div class="mt-1 text-gray-500">{member.user.email}</div>
                     </div>
                   </div>
                 </td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-900"><%= capitalize_first_letter(member.role) %></td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500"><%= relative_datetime(member.inserted_at) %></td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-900">{capitalize_first_letter(member.role)}</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{relative_datetime(member.inserted_at)}</td>
               </tr>
             </tbody>
           </table>

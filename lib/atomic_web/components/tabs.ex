@@ -19,7 +19,7 @@ defmodule AtomicWeb.Components.Tabs do
       ]}
       aria-label="Tabs"
     >
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </nav>
     """
   end

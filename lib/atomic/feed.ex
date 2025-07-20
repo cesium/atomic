@@ -27,6 +27,20 @@ defmodule Atomic.Feed do
     |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: @posts_limit)
   end
 
+  def list_organization_posts_paginated(organization_id, opts \\ []) do
+    Post
+    |> join(:left, [p], a in assoc(p, :activity))
+    |> join(:left, [p, a], an in assoc(p, :announcement))
+    |> where(
+      [p, a, an],
+      (not is_nil(a.id) and a.organization_id == ^organization_id) or
+        (not is_nil(an.id) and an.organization_id == ^organization_id)
+    )
+    |> apply_filters(opts)
+    |> preload(activity: :organization, announcement: :organization)
+    |> Repo.paginate(cursor_fields: [:inserted_at, :id], limit: @posts_limit)
+  end
+
   def list_next_posts_paginated(cursor_after, opts \\ []) do
     Post
     |> apply_filters(opts)
